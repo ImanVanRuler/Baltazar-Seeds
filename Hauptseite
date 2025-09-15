@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Baltazar Seeds - Hauptseite</title>
+  <!-- Google Font: Nosifer -->
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Nosifer', cursive;
+      background-color: black;
+      color: #ff0b0b;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: clamp(36px, 8vw, 80px);
+      text-transform: uppercase;
+      color: #ff0b0b;
+      text-shadow: 0 2px 4px black;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    h1::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff0b0b;
+      box-shadow:
+        -120px 10px 0 -2px #ff0b0b,
+        -60px 15px 0 -3px #b30000,
+        0px 20px 0 -2px #ff0b0b,
+        60px 10px 0 -2px #b30000,
+        120px 15px 0 -3px #ff0b0b;
+      animation: dropFall 9s infinite ease-in-out;
+    }
+
+    @keyframes dropFall {
+      0%   { transform: translateX(-50%) translateY(0); opacity: 1; }
+      50%  { transform: translateX(-50%) translateY(10px); opacity: 1; }
+      100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
+    }
+
+    p {
+      font-size: 1.5rem;
+      line-height: 1.8;
+      text-shadow: 0 1px 3px black;
+      margin-bottom: 2rem;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #ff0b0b;
+      margin-bottom: 2rem;
+    }
+
+    /* Zurück-Button */
+    .btn {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      color: #ff0b0b;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid #ff0b0b;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #ff0b0b;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Baltazar Seeds</h1>
+    <p>Beispieltext1: Willkommen auf unserer Hauptseite! Hier findest du alle wichtigen Inhalte, Bilder und Infos über unsere Produkte.</p>
+    <img src="beispielbild.jpg" alt="Beispielbild">
+
+    <!-- Button zurück zur Intro-Seite -->
+    <a href="index.html" class="btn">Zurück zur Intro-Seite</a>
+  </div>
+</body>
+</html>
