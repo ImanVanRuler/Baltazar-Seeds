@@ -3,111 +3,71 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Baltazar Seeds</title>
+  <title>Hauptseite — Baltazar Seeds</title>
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#000;--accent:#ff0b0b;--muted:#ffdcdc}
+    :root{--bg:#000;--blood:#b30000;--blood-dark:#6f0000;--accent:#ff0b0b}
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;padding:0;background:var(--bg);color:var(--accent);font-family:'Nosifer',cursive;-webkit-font-smoothing:antialiased}
+    html,body{height:100%;margin:0;padding:0;background:var(--bg);color:var(--accent);font-family:'Nosifer',cursive;overflow:hidden}
 
-    /* Hintergrundvideo - einfaches, sauberes Setup */
-    .video-bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;z-index:0;pointer-events:none}
+    /* Hintergrundvideo (einfach & direkt) */
+    .video-bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;z-index:-1;pointer-events:none}
 
-    /* Content oben drauf */
-    .wrap{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:0.6rem;padding:6vh 4vw;text-align:center}
-    h1{font-size:clamp(28px,6vw,72px);margin:0;color:var(--accent);text-transform:uppercase;text-shadow:0 2px 6px rgba(0,0,0,0.6)}
-    p.lead{margin:0;font-size:1.05rem;color:var(--muted)}
+    /* Inhalt */
+    .wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6vh 4vw}
 
-    /* kleines Logo */
-    .logo{width:100px;max-width:28%;height:auto;border:2px solid var(--accent);display:block;margin:0.6rem auto;border-radius:6px;background:rgba(0,0,0,0.15)}
-    #logoPlaceholder{display:none;width:100px;max-width:28%;height:70px;border:2px dashed rgba(255,11,11,0.35);color:var(--muted);display:flex;align-items:center;justify-content:center;margin:0.6rem auto;border-radius:6px}
+    /* Logo klein */
+    .logo{width:110px;max-width:28%;height:auto;margin-bottom:1rem;display:block}
 
-    /* unaufdringlicher Mute-Button oben rechts (kein Overlay) */
-    .mute-btn{position:fixed;top:12px;right:12px;z-index:3;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.35);border:1px solid rgba(255,11,11,0.12);cursor:pointer}
-    .mute-btn svg{width:20px;height:20px;fill:var(--accent)}
-    .mute-btn:focus{outline:3px solid rgba(255,11,11,0.18);outline-offset:2px}
+    h1{font-size:clamp(28px,6vw,80px);margin:0;color:var(--accent);text-transform:uppercase;text-shadow:0 2px 6px rgba(0,0,0,0.7)}
+    h2{font-size:clamp(20px,6vw,48px);margin:0;margin-top:.6rem;color:#ffdcdc;text-shadow:0 2px 6px rgba(0,0,0,0.6)}
 
-    @media(max-width:480px){.logo,#logoPlaceholder{width:90px}h1{font-size:clamp(20px,9vw,40px)}}
+    /* Blut-Tropfen: absolute Layer über dem Content, pointer-events:none */
+    .drops{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:hidden}
+    .drop{
+      position:absolute;top:20%;width:10px;height:18px;border-radius:50% 50% 40% 40%;background:linear-gradient(var(--blood),var(--blood-dark));box-shadow:0 6px 10px rgba(0,0,0,0.45);
+      transform:translateY(-40vh);opacity:0;
+      animation-name:fall;animation-timing-function:cubic-bezier(.15,.8,.25,1);animation-iteration-count:infinite;
+    }
+
+    @keyframes fall{
+      0%{transform:translateY(-40vh) scaleY(.9);opacity:1}
+      70%{opacity:1}
+      100%{transform:translateY(110vh) scaleY(1.15);opacity:0}
+    }
+
+    /* responsive */
+    @media (max-width:480px){.logo{width:86px}h1{font-size:clamp(22px,10vw,48px)}h2{font-size:18px}}
   </style>
 </head>
 <body>
 
-  <!-- Kein Overlay: Video läuft als Hintergrund wie auf index.html -->
-  <video id="bgVideo" class="video-bg" playsinline webkit-playsinline muted autoplay preload="auto" loop poster="poster.jpg">
+  <!-- Hintergrundvideo: intro.mp4 (im selben Ordner ablegen) -->
+  <video class="video-bg" autoplay muted loop playsinline preload="auto">
     <source src="intro.mp4" type="video/mp4">
     Dein Browser unterstützt kein HTML5-Video.
   </video>
 
-  <!-- Unaufdringlicher Mute-Toggle: Nutzer kann Ton jederzeit einschalten -->
-  <button id="muteToggle" class="mute-btn" aria-pressed="true" aria-label="Ton ein- oder ausschalten">
-    <!-- Lautsprecher mit X / ohne X wird per JS getauscht -->
-    <svg id="muteIcon" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M3 10v4h4l5 5V5L7 10H3zM16.5 12c0-1.77-.77-3.37-2-4.47v8.94c1.23-1.1 2-2.7 2-4.47z" />
-    </svg>
-  </button>
+  <div class="wrap">
+    <!-- kleines Logo -->
+    <img src="IMG_7975.PNG" alt="Baltazar Logo" class="logo" onerror="this.style.display='none'">
 
-  <main class="wrap" id="main">
-    <h1>Baltazar Seeds</h1>
-    <p class="lead">Landing page — Coming soon</p>
+    <!-- Überschriften: BALTAZAR SEEDS oben, WELCOME TO HELL darunter -->
+    <h1>BALT A ZAR SEEDS</h1>
+    <h2>WELCOME TO HELL</h2>
 
-    <!-- kleines Logo; bei Fehler wird Platzhalter gezeigt -->
-    <img id="logoImg" src="IMG_7975.png" alt="Baltazar Logo" class="logo" loading="lazy"
-         onerror="this.style.display='none';document.getElementById('logoPlaceholder').style.display='flex'">
-    <div id="logoPlaceholder">Logo nicht gefunden — prüfe Dateiname</div>
-  </main>
-
-  <script>
-    (function(){
-      const video = document.getElementById('bgVideo');
-      const muteToggle = document.getElementById('muteToggle');
-      const muteIcon = document.getElementById('muteIcon');
-
-      // Start: stumm (Browser erlauben so eher Autoplay)
-      video.muted = true;
-      video.play().catch(()=>{});
-
-      // Icon-Swap: einfache Darstellung für muting state
-      function setIconMuted(muted){
-        if(muted){
-          // lauter mit durchgestrichenes Symbol (simplifiziert)
-          muteIcon.innerHTML = '<path d="M3 10v4h4l5 5V5L7 10H3zM19 8.41L17.59 7 15 9.59 12.41 7 11 8.41 13.59 11 11 13.59 12.41 15 15 12.41 17.59 15 19 13.59 16.41 11 19 8.41z" />';
-        } else {
-          muteIcon.innerHTML = '<path d="M3 10v4h4l5 5V5L7 10H3zM16.5 12c0-1.77-.77-3.37-2-4.47v8.94c1.23-1.1 2-2.7 2-4.47z" />';
-        }
-      }
-
-      // Initial Icon
-      setIconMuted(true);
-      muteToggle.setAttribute('aria-pressed','true');
-
-      // Toggle on click
-      muteToggle.addEventListener('click', ()=>{
-        video.muted = !video.muted;
-        setIconMuted(video.muted);
-        muteToggle.setAttribute('aria-pressed', String(video.muted));
-      });
-
-      // Tastaturkürzel: M = mute toggle, Space = play/pause
-      document.addEventListener('keydown', (e)=>{
-        if(e.key === 'm' || e.key === 'M'){
-          video.muted = !video.muted;
-          setIconMuted(video.muted);
-          muteToggle.setAttribute('aria-pressed', String(video.muted));
-          return;
-        }
-        if(e.code === 'Space'){
-          const active = document.activeElement;
-          if(active && (active.tagName === 'BUTTON' || active.tagName === 'INPUT' || active.isContentEditable)) return;
-          e.preventDefault();
-          if(video.paused) video.play().catch(()=>{}); else video.pause();
-        }
-      });
-
-      // Wenn Video Fehler wirft, konsole loggen (für Debugging)
-      video.addEventListener('error', (ev)=>{ console.error('Video-Fehler', ev); });
-
-    })();
-  </script>
+    <!-- Blut-Tropfen Layer (rein visuell, ohne JS) -->
+    <div class="drops" aria-hidden="true">
+      <span class="drop" style="left:8%; animation-duration:3.4s; animation-delay:0s;"></span>
+      <span class="drop" style="left:18%; animation-duration:4.1s; animation-delay:0.8s;"></span>
+      <span class="drop" style="left:30%; animation-duration:3.8s; animation-delay:0.4s;"></span>
+      <span class="drop" style="left:44%; animation-duration:4.6s; animation-delay:1.2s;"></span>
+      <span class="drop" style="left:56%; animation-duration:3.6s; animation-delay:0.2s;"></span>
+      <span class="drop" style="left:68%; animation-duration:4.3s; animation-delay:0.9s;"></span>
+      <span class="drop" style="left:80%; animation-duration:3.9s; animation-delay:0.5s;"></span>
+      <span class="drop" style="left:90%; animation-duration:4.7s; animation-delay:1.6s;"></span>
+    </div>
+  </div>
 
 </body>
 </html>
