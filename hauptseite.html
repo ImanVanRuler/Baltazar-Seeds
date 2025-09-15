@@ -1,192 +1,150 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Baltazar Seeds</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
-  <style>
-    /* Grund */
-    html, body {
-      margin: 0;
-      padding: 0;
-      min-height: 100%;
-      font-family: 'Nosifer', cursive;
-      background: #000;
-      color: #ff0b0b;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      overflow-y: auto; /* Scrollen erlaubt */
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Baltazar Seeds</title>
+<link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#000;
+  --accent:#ff0b0b;
+  --muted-accent:#ffdcdc;
+}
+html,body{height:100%;margin:0;padding:0;background:var(--bg);color:var(--accent);font-family:'Nosifer',cursive;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
 
-    /* Hintergrund-Video (fixed, cover, zentriert) */
-    .video-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
-      z-index: 0;
-      pointer-events: none; /* Klicks gehen durch */
-    }
+/* Hintergrundvideo */
+.video-bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;z-index:0;pointer-events:none;will-change:transform,opacity;}
 
-    /* Content darüber */
-    .wrap {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-      padding: 6vh 4vw;
-      text-align: center;
-    }
+/* Content darüber */
+.wrap{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:1rem;padding:6vh 4vw;text-align:center;}
+.header{padding-top:2vh}
 
-    h1 {
-      font-size: clamp(28px, 6vw, 72px);
-      margin: 0;
-      text-transform: uppercase;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
-      color: #ff0b0b;
-    }
+h1{font-size:clamp(28px,6vw,72px);margin:0;text-transform:uppercase;text-shadow:0 2px 6px rgba(0,0,0,0.8);color:var(--accent);}
+p{margin:0;font-size:1.1rem;text-shadow:0 1px 3px rgba(0,0,0,0.6);color:var(--muted-accent);}
 
-    p {
-      margin: 0;
-      font-size: 1.1rem;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.6);
-    }
+/* Logo */
+.logo-img{max-width:260px;width:100%;height:auto;border:2px solid var(--accent);box-shadow:0 6px 20px rgba(255,0,0,0.35);background:rgba(0,0,0,0.2);display:block;margin:1rem auto}
 
-    /* Logo/Bild */
-    .logo-img {
-      max-width: 260px;   /* hier die gewünschte kleinere Darstellung */
-      width: 100%;
-      height: auto;
-      border: 2px solid #ff0b0b;
-      box-shadow: 0 6px 20px rgba(255,0,0,0.35);
-      background: rgba(0,0,0,0.2);
-    }
+/* Overlay Play */
+.play-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;background:rgba(0,0,0,0.45);backdrop-filter:blur(3px);}
+.play-overlay[hidden]{display:none}
+.play-panel{padding:2rem;background:rgba(0,0,0,0.25);border-radius:12px;text-align:center;min-width:240px}
+.play-btn{background:linear-gradient(180deg,rgba(255,11,11,1),rgba(179,0,0,1));border:0;color:#fff;font-size:1rem;padding:.9rem 1.2rem;border-radius:10px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.6);transition:transform .12s ease,opacity .12s ease}
+.play-hint{color:#ffc9c9;margin-top:.6rem;font-size:.9rem}
+.play-btn:focus{outline:3px solid rgba(255,11,11,0.5);outline-offset:4px}
 
-    /* Overlay-Play-Button (wird angezeigt bis User klickt) */
-    .play-overlay {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 4;
-      background: rgba(0,0,0,0.35);
-      -webkit-backdrop-filter: blur(3px);
-      backdrop-filter: blur(3px);
-    }
-
-    .play-btn {
-      background: linear-gradient(180deg, rgba(255,11,11,1), rgba(179,0,0,1));
-      border: none;
-      color: white;
-      font-size: 1rem;
-      padding: 0.9rem 1.2rem;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-      transition: transform .12s ease, opacity .12s ease;
-    }
-    .play-btn:active { transform: scale(.98); }
-    .play-hint { color: #ffc9c9; margin-top: .6rem; font-size: .9rem; text-align:center; }
-
-    /* Kleinere Bildschirme */
-    @media (max-width: 480px) {
-      .logo-img { max-width: 180px; }
-      h1 { font-size: clamp(20px, 9vw, 40px); }
-    }
-  </style>
+@media (max-width:480px){.logo-img{max-width:180px}h1{font-size:clamp(20px,9vw,40px)}}
+.content{max-width:1000px;margin-top:2rem;color:var(--muted-accent);line-height:1.6;padding:0 1rem}
+.footer-space{height:1200px}
+</style>
 </head>
 <body>
 
-  <!-- Hintergrundvideo: intro.mp4 (liegt im gleichen Ordner) -->
-  <video id="bgVideo" class="video-bg" playsinline preload="auto">
-    <source src="intro.mp4" type="video/mp4">
-    Dein Browser unterstützt kein HTML5-Video.
-  </video>
+<!-- Hintergrundvideo: lege die Datei mit exakt gleichem Namen in den gleichen Ordner (GitHub Pages ist case-sensitive) -->
+<video id="bgVideo" class="video-bg" playsinline webkit-playsinline muted preload="auto" poster="poster.jpg">
+  <!-- mehrere Quellen als Fallback (benenne Dateien exakt) -->
+  <source src="intro.mp4" type="video/mp4">
+  <source src="HELL.mp4" type="video/mp4">
+  <source src="intro.webm" type="video/webm">
+  Dein Browser unterstützt kein HTML5-Video.
+</video>
 
-  <!-- Overlay Play (wird erst durch Klick entfernt) -->
-  <div id="overlay" class="play-overlay" role="dialog" aria-modal="true">
-    <div style="text-align:center;">
-      <button id="playBtn" class="play-btn" aria-label="Intro mit Ton starten">Intro mit Ton starten ▶</button>
-      <div class="play-hint">Das Video läuft im Hintergrund (30-Sekunden-Loop). Browser erlauben Autoplay mit Ton oft erst nach Klick.</div>
-    </div>
+<!-- Overlay (sichtbar bis User klickt) -->
+<div id="overlay" class="play-overlay" role="dialog" aria-modal="true" aria-label="Intro starten">
+  <div class="play-panel">
+    <button id="playBtn" class="play-btn" aria-live="polite">Intro mit Ton starten ▶</button>
+    <div class="play-hint">Das Video läuft als Hintergrund (30‑Sekunden-Loop). Browser erlauben Autoplay mit Ton erst nach Klick.</div>
+    <div style="margin-top:8px;font-size:0.85rem;color:#ffdcdc;">Tastatur: M = Ton ein/aus, Leertaste = pausieren/weiter, Esc = Overlay anzeigen</div>
   </div>
+</div>
 
-  <!-- Dein sichtbarer Content -->
-  <div class="wrap">
+<main class="wrap" id="main">
+  <header class="header">
     <h1>Baltazar Seeds</h1>
     <p>Coming Soon</p>
+    <img src="IMG_7975.png" alt="Baltazar Logo" class="logo-img" loading="lazy" onerror="this.style.display='none'">
+  </header>
 
-    <!-- das kleinere Bild -->
-    <img src="IMG_7975.png" alt="Baltazar Logo" class="logo-img">
-
-    <!-- Beispieltext, damit man scrollen kann -->
-    <div style="max-width:800px; margin-top:2rem; color:#ffdcdc; line-height:1.5; padding: 0 1rem;">
-      <p>Hier ist etwas weiterer Inhalt unterhalb — scroll nach unten, um zu testen, dass Scrollen funktioniert.</p>
-      <p style="margin-top:2rem;">Mehr Inhalt... (du kannst hier beliebigen Text, Links oder Sektionen einfügen)</p>
-      <div style="height:1200px;"></div>
-    </div>
-  </div>
+  <section class="content" aria-live="polite">
+    <p>Hier ist etwas weiterer Inhalt unterhalb — scroll nach unten, um zu testen, dass Scrollen funktioniert.</p>
+    <p style="margin-top:2rem;">Mehr Inhalt... (du kannst hier beliebigen Text, Links oder Sektionen einfügen)</p>
+    <div class="footer-space" aria-hidden="true"></div>
+  </section>
+</main>
 
 <script>
-  (function () {
-    const video = document.getElementById('bgVideo');
-    const overlay = document.getElementById('overlay');
-    const playBtn = document.getElementById('playBtn');
-    const LOOP_SECONDS = 30; // Länge der Schleife in Sekunden
+(function(){
+  const video = document.getElementById('bgVideo');
+  const overlay = document.getElementById('overlay');
+  const playBtn = document.getElementById('playBtn');
+  const main = document.getElementById('main');
+  const LOOP_SECONDS = 30;
 
-    // Setze aktuelle Zeit auf 0 beim Laden (sicherer Startpunkt)
-    video.currentTime = 0;
-    video.muted = true; // wir starten stumm (Autoplay-Permits), Benutzer kann dann Sound aktivieren per Klick
+  // sicherer Start: stumm starten (muted autoplay ist erlaubt)
+  video.muted = true;
+  video.currentTime = 0;
+  video.play().catch(()=>{});
 
-    // Versuche automatisches Play (stumm) — viele Browser erlauben wenigstens das
-    video.play().catch(() => {
-      // autoplay nicht möglich — das Overlay bleibt sichtbar
-      // (Overlay ist standardmäßig sichtbar)
-    });
+  // 30s-Loop erzwingen (falls Datei länger ist)
+  video.addEventListener('timeupdate', () => {
+    if (video.currentTime >= LOOP_SECONDS - 0.05) {
+      video.currentTime = 0;
+      if (video.paused) video.play().catch(()=>{});
+    }
+  });
 
-    // Wenn das Video seine LOOP_SECONDS erreicht, spring zurück auf 0 und spiele weiter
-    video.addEventListener('timeupdate', () => {
-      // kleine Toleranz, damit es flüssiger wirkt
-      if (video.currentTime >= LOOP_SECONDS - 0.06) {
-        video.currentTime = 0;
-        // falls pausiert, spiele weiter
-        if (video.paused) video.play().catch(()=>{});
-      }
-    });
+  // Fokus auf Play-Button beim Laden
+  playBtn.focus();
 
-    // Play-Button: schaltet Ton an und startet Video mit Ton (erforderliche user gesture)
-    playBtn.addEventListener('click', async () => {
-      try {
-        video.muted = false;          // Ton an
-        video.currentTime = 0;        // sicherer Startpunkt
-        await video.play();           // User-gesture erlaubt jetzt Ton-Autoplay
-        overlay.style.display = 'none';
-      } catch (err) {
-        // Falls play() trotzdem fehlschlägt, zeige Hinweis (keine Alert-Flut)
-        console.warn('Konnte Video nicht mit Ton starten:', err);
-        // lasse Overlay stehen — Benutzer kann es nochmal versuchen
-      }
-    });
+  function hideOverlay(){
+    overlay.setAttribute('hidden','');
+    overlay.setAttribute('aria-hidden','true');
+    main.setAttribute('tabindex','-1');
+    main.focus();
+  }
+  function showOverlay(){
+    overlay.removeAttribute('hidden');
+    overlay.setAttribute('aria-hidden','false');
+    playBtn.focus();
+  }
 
-    // Optional: wenn das Video plötzlich pausiert (z.B. durch Browser-Intervention), zeig Overlay wieder
-    video.addEventListener('pause', () => {
-      // Wenn paused und nicht am Anfang (User hat evtl. manuell pausiert), zeige Overlay, um erneutes Starten zu ermöglichen.
-      if (!video.ended && !video.muted) {
-        overlay.style.display = 'flex';
-      }
-    });
+  playBtn.addEventListener('click', async () => {
+    try{
+      // Ton an und von vorne starten
+      video.muted = false;
+      video.currentTime = 0;
+      await video.play();
+      hideOverlay();
+    }catch(err){
+      console.warn('Video konnte nicht mit Ton starten:', err);
+    }
+  });
 
-    // Sicherstellen, dass Overlay sichtbar ist, bis Nutzer geklickt hat
-    // (es ist per CSS standardmäßig sichtbar — keine weitere Aktion nötig)
-  })();
+  // Tastaturkürzel: M = mute toggle, Space = play/pause, Esc = overlay
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'm' || e.key === 'M'){
+      video.muted = !video.muted; return;
+    }
+    if (e.code === 'Space'){
+      const active = document.activeElement;
+      if (active && (active.tagName === 'BUTTON' || active.tagName === 'INPUT' || active.isContentEditable)) return;
+      e.preventDefault();
+      if (video.paused) video.play().catch(()=>{}); else video.pause();
+      return;
+    }
+    if (e.key === 'Escape'){
+      showOverlay();
+    }
+  });
+
+  // wenn Video pausiert und nicht stumm ist, Overlay wieder anzeigen
+  video.addEventListener('pause', () => {
+    if (!video.muted) showOverlay();
+  });
+
+  video.addEventListener('error', (ev) => { console.error('Video Error:', ev); });
+})();
 </script>
-
 </body>
 </html>
