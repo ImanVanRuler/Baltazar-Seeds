@@ -1,1 +1,25 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Willkommen auf meiner Seite!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #0073e6;
+        }
+    </style>
+</head>
+<body>
+    <h1>Willkommen auf meiner Seite!</h1>
+    <p>Dies ist eine einfache, aber schöne Startseite.</p>
+</body>
+</html>
 
