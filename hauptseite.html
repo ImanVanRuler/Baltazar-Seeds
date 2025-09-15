@@ -1,86 +1,113 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Baltazar Seeds</title>
-<link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#000;--accent:#ff0b0b;--muted:#ffdcdc}
-html,body{height:100%;margin:0;padding:0;background:var(--bg);color:var(--accent);font-family:'Nosifer',cursive;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-.video-bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
-.wrap{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;padding:6vh 4vw;text-align:center;gap:1rem}
-h1{font-size:clamp(28px,6vw,72px);margin:0;color:var(--accent);text-transform:uppercase;text-shadow:0 2px 6px rgba(0,0,0,0.8)}
-p.lead{margin:0;font-size:1.1rem;color:var(--muted);text-shadow:0 1px 3px rgba(0,0,0,0.6)}
-.logo-img{max-width:140px;width:100%;height:auto;border:2px solid var(--accent);box-shadow:0 6px 20px rgba(255,0,0,0.35);background:rgba(0,0,0,0.2);display:block;margin:0.6rem auto}
-#logoPlaceholder{display:none;max-width:140px;width:100%;height:70px;border:2px dashed rgba(255,11,11,0.45);color:var(--muted);display:flex;align-items:center;justify-content:center;margin:0.6rem auto;font-size:0.9rem}
-.play-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;background:rgba(0,0,0,0.45);backdrop-filter:blur(3px)}
-.play-overlay[hidden]{display:none}
-.play-btn{background:linear-gradient(180deg,rgba(255,11,11,1),rgba(179,0,0,1));border:0;color:#fff;padding:.9rem 1.2rem;border-radius:10px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.6)}
-@media(max-width:480px){.logo-img,#logoPlaceholder{max-width:110px}h1{font-size:clamp(20px,9vw,40px)}}
-.content{max-width:1000px;margin-top:1.5rem;color:var(--muted);line-height:1.6;padding:0 1rem}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Baltazar Seeds</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#000;--accent:#ff0b0b;--muted:#ffdcdc}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;padding:0;background:var(--bg);color:var(--accent);font-family:'Nosifer',cursive;-webkit-font-smoothing:antialiased}
+
+    /* Hintergrundvideo - einfaches, sauberes Setup */
+    .video-bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;z-index:0;pointer-events:none}
+
+    /* Content oben drauf */
+    .wrap{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:0.6rem;padding:6vh 4vw;text-align:center}
+    h1{font-size:clamp(28px,6vw,72px);margin:0;color:var(--accent);text-transform:uppercase;text-shadow:0 2px 6px rgba(0,0,0,0.6)}
+    p.lead{margin:0;font-size:1.05rem;color:var(--muted)}
+
+    /* kleines Logo */
+    .logo{width:100px;max-width:28%;height:auto;border:2px solid var(--accent);display:block;margin:0.6rem auto;border-radius:6px;background:rgba(0,0,0,0.15)}
+    #logoPlaceholder{display:none;width:100px;max-width:28%;height:70px;border:2px dashed rgba(255,11,11,0.35);color:var(--muted);display:flex;align-items:center;justify-content:center;margin:0.6rem auto;border-radius:6px}
+
+    /* unaufdringlicher Mute-Button oben rechts (kein Overlay) */
+    .mute-btn{position:fixed;top:12px;right:12px;z-index:3;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.35);border:1px solid rgba(255,11,11,0.12);cursor:pointer}
+    .mute-btn svg{width:20px;height:20px;fill:var(--accent)}
+    .mute-btn:focus{outline:3px solid rgba(255,11,11,0.18);outline-offset:2px}
+
+    @media(max-width:480px){.logo,#logoPlaceholder{width:90px}h1{font-size:clamp(20px,9vw,40px)}}
+  </style>
 </head>
 <body>
 
-<!-- Wichtig: nur intro.mp4 als Quelle, wie du wolltest -->
-<video id="bgVideo" class="video-bg" playsinline webkit-playsinline muted preload="auto" loop>
-  <source src="intro.mp4" type="video/mp4">
-  Dein Browser unterstützt kein HTML5-Video.
-</video>
+  <!-- Kein Overlay: Video läuft als Hintergrund wie auf index.html -->
+  <video id="bgVideo" class="video-bg" playsinline webkit-playsinline muted autoplay preload="auto" loop poster="poster.jpg">
+    <source src="intro.mp4" type="video/mp4">
+    Dein Browser unterstützt kein HTML5-Video.
+  </video>
 
-<div id="overlay" class="play-overlay" role="dialog" aria-modal="true" aria-label="Intro starten">
-  <div style="text-align:center;padding:1rem;background:rgba(0,0,0,0.25);border-radius:10px">
-    <button id="playBtn" class="play-btn">Intro mit Ton starten ▶</button>
-    <div style="margin-top:8px;color:#ffdcdc;font-size:0.9rem">M = Ton, Leertaste = Play/Pause, Esc = Overlay</div>
-  </div>
-</div>
+  <!-- Unaufdringlicher Mute-Toggle: Nutzer kann Ton jederzeit einschalten -->
+  <button id="muteToggle" class="mute-btn" aria-pressed="true" aria-label="Ton ein- oder ausschalten">
+    <!-- Lautsprecher mit X / ohne X wird per JS getauscht -->
+    <svg id="muteIcon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 10v4h4l5 5V5L7 10H3zM16.5 12c0-1.77-.77-3.37-2-4.47v8.94c1.23-1.1 2-2.7 2-4.47z" />
+    </svg>
+  </button>
 
-<main class="wrap" id="main" tabindex="-1">
-  <header>
+  <main class="wrap" id="main">
     <h1>Baltazar Seeds</h1>
     <p class="lead">Landing page — Coming soon</p>
 
-    <!-- kleines Logo + Fallback falls Datei fehlt -->
-    <img id="logoImg" src="IMG_7975.png" alt="Baltazar Logo" class="logo-img" loading="lazy"
-      onerror="this.style.display='none';document.getElementById('logoPlaceholder').style.display='flex'">
-    <div id="logoPlaceholder" aria-hidden="true">Logo nicht gefunden — prüfe Dateiname</div>
-  </header>
+    <!-- kleines Logo; bei Fehler wird Platzhalter gezeigt -->
+    <img id="logoImg" src="IMG_7975.png" alt="Baltazar Logo" class="logo" loading="lazy"
+         onerror="this.style.display='none';document.getElementById('logoPlaceholder').style.display='flex'">
+    <div id="logoPlaceholder">Logo nicht gefunden — prüfe Dateiname</div>
+  </main>
 
-  <section class="content" aria-live="polite">
-    <!-- Platz für echten Content. Placeholder-Textbox entfernt wie gewünscht. -->
-    <p>Kontakt: <a href="mailto:info@baltazar.seeds" style="color:var(--accent)">info@baltazar.seeds</a></p>
-  </section>
-</main>
+  <script>
+    (function(){
+      const video = document.getElementById('bgVideo');
+      const muteToggle = document.getElementById('muteToggle');
+      const muteIcon = document.getElementById('muteIcon');
 
-<script>
-(function(){
-  const video = document.getElementById('bgVideo');
-  const overlay = document.getElementById('overlay');
-  const playBtn = document.getElementById('playBtn');
+      // Start: stumm (Browser erlauben so eher Autoplay)
+      video.muted = true;
+      video.play().catch(()=>{});
 
-  // Start stumm (muted autoplay)
-  video.muted = true;
-  video.play().catch(()=>{});
+      // Icon-Swap: einfache Darstellung für muting state
+      function setIconMuted(muted){
+        if(muted){
+          // lauter mit durchgestrichenes Symbol (simplifiziert)
+          muteIcon.innerHTML = '<path d="M3 10v4h4l5 5V5L7 10H3zM19 8.41L17.59 7 15 9.59 12.41 7 11 8.41 13.59 11 11 13.59 12.41 15 15 12.41 17.59 15 19 13.59 16.41 11 19 8.41z" />';
+        } else {
+          muteIcon.innerHTML = '<path d="M3 10v4h4l5 5V5L7 10H3zM16.5 12c0-1.77-.77-3.37-2-4.47v8.94c1.23-1.1 2-2.7 2-4.47z" />';
+        }
+      }
 
-  playBtn.addEventListener('click', async ()=>{
-    try{
-      video.muted = false;
-      video.currentTime = 0;
-      await video.play();
-      overlay.setAttribute('hidden','');
-    }catch(e){
-      console.warn('Konnte Video nicht mit Ton starten',e);
-    }
-  });
+      // Initial Icon
+      setIconMuted(true);
+      muteToggle.setAttribute('aria-pressed','true');
 
-  document.addEventListener('keydown', (e)=>{
-    if(e.key==='m'||e.key==='M'){ video.muted = !video.muted; return; }
-    if(e.code==='Space'){ const active = document.activeElement; if(active && (active.tagName==='BUTTON'||active.tagName==='INPUT'||active.isContentEditable)) return; e.preventDefault(); if(video.paused) video.play().catch(()=>{}); else video.pause(); return; }
-    if(e.key==='Escape'){ overlay.removeAttribute('hidden'); playBtn.focus(); }
-  });
+      // Toggle on click
+      muteToggle.addEventListener('click', ()=>{
+        video.muted = !video.muted;
+        setIconMuted(video.muted);
+        muteToggle.setAttribute('aria-pressed', String(video.muted));
+      });
 
-})();
-</script>
+      // Tastaturkürzel: M = mute toggle, Space = play/pause
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'm' || e.key === 'M'){
+          video.muted = !video.muted;
+          setIconMuted(video.muted);
+          muteToggle.setAttribute('aria-pressed', String(video.muted));
+          return;
+        }
+        if(e.code === 'Space'){
+          const active = document.activeElement;
+          if(active && (active.tagName === 'BUTTON' || active.tagName === 'INPUT' || active.isContentEditable)) return;
+          e.preventDefault();
+          if(video.paused) video.play().catch(()=>{}); else video.pause();
+        }
+      });
+
+      // Wenn Video Fehler wirft, konsole loggen (für Debugging)
+      video.addEventListener('error', (ev)=>{ console.error('Video-Fehler', ev); });
+
+    })();
+  </script>
+
 </body>
 </html>
