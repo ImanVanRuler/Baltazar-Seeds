@@ -6,70 +6,50 @@
 <title>Baltazar Seeds</title>
 <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#000;
-  --accent:#ff0b0b;
-  --muted-accent:#ffdcdc;
-}
-html,body{height:100%;margin:0;padding:0;background:var(--bg);color:var(--accent);font-family:'Nosifer',cursive;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
-
-/* Hintergrundvideo */
-.video-bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;z-index:0;pointer-events:none;will-change:transform,opacity;}
-
-/* Content darüber */
-.wrap{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:1rem;padding:6vh 4vw;text-align:center;}
-.header{padding-top:2vh}
-
-h1{font-size:clamp(28px,6vw,72px);margin:0;text-transform:uppercase;text-shadow:0 2px 6px rgba(0,0,0,0.8);color:var(--accent);}
-p{margin:0;font-size:1.1rem;text-shadow:0 1px 3px rgba(0,0,0,0.6);color:var(--muted-accent);}
-
-/* Logo */
-.logo-img{max-width:260px;width:100%;height:auto;border:2px solid var(--accent);box-shadow:0 6px 20px rgba(255,0,0,0.35);background:rgba(0,0,0,0.2);display:block;margin:1rem auto}
-
-/* Overlay Play */
-.play-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;background:rgba(0,0,0,0.45);backdrop-filter:blur(3px);}
+:root{--bg:#000;--accent:#ff0b0b;--muted:#ffdcdc}
+html,body{height:100%;margin:0;padding:0;background:var(--bg);color:var(--accent);font-family:'Nosifer',cursive;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.video-bg{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none}
+.wrap{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;padding:6vh 4vw;text-align:center;gap:1rem}
+h1{font-size:clamp(28px,6vw,72px);margin:0;color:var(--accent);text-transform:uppercase;text-shadow:0 2px 6px rgba(0,0,0,0.8)}
+p.lead{margin:0;font-size:1.1rem;color:var(--muted);text-shadow:0 1px 3px rgba(0,0,0,0.6)}
+.logo-img{max-width:140px;width:100%;height:auto;border:2px solid var(--accent);box-shadow:0 6px 20px rgba(255,0,0,0.35);background:rgba(0,0,0,0.2);display:block;margin:0.6rem auto}
+#logoPlaceholder{display:none;max-width:140px;width:100%;height:70px;border:2px dashed rgba(255,11,11,0.45);color:var(--muted);display:flex;align-items:center;justify-content:center;margin:0.6rem auto;font-size:0.9rem}
+.play-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:4;background:rgba(0,0,0,0.45);backdrop-filter:blur(3px)}
 .play-overlay[hidden]{display:none}
-.play-panel{padding:2rem;background:rgba(0,0,0,0.25);border-radius:12px;text-align:center;min-width:240px}
-.play-btn{background:linear-gradient(180deg,rgba(255,11,11,1),rgba(179,0,0,1));border:0;color:#fff;font-size:1rem;padding:.9rem 1.2rem;border-radius:10px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.6);transition:transform .12s ease,opacity .12s ease}
-.play-hint{color:#ffc9c9;margin-top:.6rem;font-size:.9rem}
-.play-btn:focus{outline:3px solid rgba(255,11,11,0.5);outline-offset:4px}
-
-@media (max-width:480px){.logo-img{max-width:180px}h1{font-size:clamp(20px,9vw,40px)}}
-.content{max-width:1000px;margin-top:2rem;color:var(--muted-accent);line-height:1.6;padding:0 1rem}
-.footer-space{height:1200px}
+.play-btn{background:linear-gradient(180deg,rgba(255,11,11,1),rgba(179,0,0,1));border:0;color:#fff;padding:.9rem 1.2rem;border-radius:10px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,0.6)}
+@media(max-width:480px){.logo-img,#logoPlaceholder{max-width:110px}h1{font-size:clamp(20px,9vw,40px)}}
+.content{max-width:1000px;margin-top:1.5rem;color:var(--muted);line-height:1.6;padding:0 1rem}
 </style>
 </head>
 <body>
 
-<!-- Hintergrundvideo: lege die Datei mit exakt gleichem Namen in den gleichen Ordner (GitHub Pages ist case-sensitive) -->
-<video id="bgVideo" class="video-bg" playsinline webkit-playsinline muted preload="auto" poster="poster.jpg">
-  <!-- mehrere Quellen als Fallback (benenne Dateien exakt) -->
+<!-- Wichtig: nur intro.mp4 als Quelle, wie du wolltest -->
+<video id="bgVideo" class="video-bg" playsinline webkit-playsinline muted preload="auto" loop>
   <source src="intro.mp4" type="video/mp4">
-  <source src="HELL.mp4" type="video/mp4">
-  <source src="intro.webm" type="video/webm">
   Dein Browser unterstützt kein HTML5-Video.
 </video>
 
-<!-- Overlay (sichtbar bis User klickt) -->
 <div id="overlay" class="play-overlay" role="dialog" aria-modal="true" aria-label="Intro starten">
-  <div class="play-panel">
-    <button id="playBtn" class="play-btn" aria-live="polite">Intro mit Ton starten ▶</button>
-    <div class="play-hint">Das Video läuft als Hintergrund (30‑Sekunden-Loop). Browser erlauben Autoplay mit Ton erst nach Klick.</div>
-    <div style="margin-top:8px;font-size:0.85rem;color:#ffdcdc;">Tastatur: M = Ton ein/aus, Leertaste = pausieren/weiter, Esc = Overlay anzeigen</div>
+  <div style="text-align:center;padding:1rem;background:rgba(0,0,0,0.25);border-radius:10px">
+    <button id="playBtn" class="play-btn">Intro mit Ton starten ▶</button>
+    <div style="margin-top:8px;color:#ffdcdc;font-size:0.9rem">M = Ton, Leertaste = Play/Pause, Esc = Overlay</div>
   </div>
 </div>
 
-<main class="wrap" id="main">
-  <header class="header">
+<main class="wrap" id="main" tabindex="-1">
+  <header>
     <h1>Baltazar Seeds</h1>
-    <p>Coming Soon</p>
-    <img src="IMG_7975.png" alt="Baltazar Logo" class="logo-img" loading="lazy" onerror="this.style.display='none'">
+    <p class="lead">Landing page — Coming soon</p>
+
+    <!-- kleines Logo + Fallback falls Datei fehlt -->
+    <img id="logoImg" src="IMG_7975.png" alt="Baltazar Logo" class="logo-img" loading="lazy"
+      onerror="this.style.display='none';document.getElementById('logoPlaceholder').style.display='flex'">
+    <div id="logoPlaceholder" aria-hidden="true">Logo nicht gefunden — prüfe Dateiname</div>
   </header>
 
   <section class="content" aria-live="polite">
-    <p>Hier ist etwas weiterer Inhalt unterhalb — scroll nach unten, um zu testen, dass Scrollen funktioniert.</p>
-    <p style="margin-top:2rem;">Mehr Inhalt... (du kannst hier beliebigen Text, Links oder Sektionen einfügen)</p>
-    <div class="footer-space" aria-hidden="true"></div>
+    <!-- Platz für echten Content. Placeholder-Textbox entfernt wie gewünscht. -->
+    <p>Kontakt: <a href="mailto:info@baltazar.seeds" style="color:var(--accent)">info@baltazar.seeds</a></p>
   </section>
 </main>
 
@@ -78,72 +58,28 @@ p{margin:0;font-size:1.1rem;text-shadow:0 1px 3px rgba(0,0,0,0.6);color:var(--mu
   const video = document.getElementById('bgVideo');
   const overlay = document.getElementById('overlay');
   const playBtn = document.getElementById('playBtn');
-  const main = document.getElementById('main');
-  const LOOP_SECONDS = 30;
 
-  // sicherer Start: stumm starten (muted autoplay ist erlaubt)
+  // Start stumm (muted autoplay)
   video.muted = true;
-  video.currentTime = 0;
   video.play().catch(()=>{});
 
-  // 30s-Loop erzwingen (falls Datei länger ist)
-  video.addEventListener('timeupdate', () => {
-    if (video.currentTime >= LOOP_SECONDS - 0.05) {
-      video.currentTime = 0;
-      if (video.paused) video.play().catch(()=>{});
-    }
-  });
-
-  // Fokus auf Play-Button beim Laden
-  playBtn.focus();
-
-  function hideOverlay(){
-    overlay.setAttribute('hidden','');
-    overlay.setAttribute('aria-hidden','true');
-    main.setAttribute('tabindex','-1');
-    main.focus();
-  }
-  function showOverlay(){
-    overlay.removeAttribute('hidden');
-    overlay.setAttribute('aria-hidden','false');
-    playBtn.focus();
-  }
-
-  playBtn.addEventListener('click', async () => {
+  playBtn.addEventListener('click', async ()=>{
     try{
-      // Ton an und von vorne starten
       video.muted = false;
       video.currentTime = 0;
       await video.play();
-      hideOverlay();
-    }catch(err){
-      console.warn('Video konnte nicht mit Ton starten:', err);
+      overlay.setAttribute('hidden','');
+    }catch(e){
+      console.warn('Konnte Video nicht mit Ton starten',e);
     }
   });
 
-  // Tastaturkürzel: M = mute toggle, Space = play/pause, Esc = overlay
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'm' || e.key === 'M'){
-      video.muted = !video.muted; return;
-    }
-    if (e.code === 'Space'){
-      const active = document.activeElement;
-      if (active && (active.tagName === 'BUTTON' || active.tagName === 'INPUT' || active.isContentEditable)) return;
-      e.preventDefault();
-      if (video.paused) video.play().catch(()=>{}); else video.pause();
-      return;
-    }
-    if (e.key === 'Escape'){
-      showOverlay();
-    }
+  document.addEventListener('keydown', (e)=>{
+    if(e.key==='m'||e.key==='M'){ video.muted = !video.muted; return; }
+    if(e.code==='Space'){ const active = document.activeElement; if(active && (active.tagName==='BUTTON'||active.tagName==='INPUT'||active.isContentEditable)) return; e.preventDefault(); if(video.paused) video.play().catch(()=>{}); else video.pause(); return; }
+    if(e.key==='Escape'){ overlay.removeAttribute('hidden'); playBtn.focus(); }
   });
 
-  // wenn Video pausiert und nicht stumm ist, Overlay wieder anzeigen
-  video.addEventListener('pause', () => {
-    if (!video.muted) showOverlay();
-  });
-
-  video.addEventListener('error', (ev) => { console.error('Video Error:', ev); });
 })();
 </script>
 </body>
