@@ -11,7 +11,7 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow-y: auto; /* Scrollen erlaubt */
+      overflow-y: auto;
       font-family: 'Nosifer', cursive;
       color: #ff0b0b;
       background: #000;
@@ -43,30 +43,24 @@
       display: inline-block;
     }
 
-    /* Blut-Tropfen Effekt */
-    h1::after {
-      content: "";
+    /* Blut-Tropfen Container */
+    .blood-drop {
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: -10px;
+      top: 100%;
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background: #ff0b0b;
-      box-shadow:
-        -120px 10px 0 -2px #ff0b0b,
-        -60px 15px 0 -3px #b30000,
-        0px 20px 0 -2px #ff0b0b,
-        60px 10px 0 -2px #b30000,
-        120px 15px 0 -3px #ff0b0b;
-      animation: dropFall 9s infinite ease-in-out;
+      opacity: 0;
+      animation-name: dropFall;
+      animation-timing-function: ease-in;
+      animation-iteration-count: infinite;
     }
 
     @keyframes dropFall {
-      0%   { transform: translateX(-50%) translateY(0); opacity: 1; }
-      50%  { transform: translateX(-50%) translateY(10px); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      50% { transform: translateY(20px) scale(1.2); opacity: 1; }
+      100% { transform: translateY(100px) scale(0.5); opacity: 0; }
     }
 
     p {
@@ -75,7 +69,6 @@
       margin: 0.5rem 0 1rem;
     }
 
-    /* Logo klein */
     .logo-img {
       max-width: 120px;
       width: 100%;
@@ -90,22 +83,43 @@
   </style>
 </head>
 <body>
-  <!-- Hintergrundvideo -->
   <video class="video-bg" autoplay muted loop playsinline>
     <source src="HELL.mp4" type="video/mp4">
     Dein Browser unterstützt kein HTML5-Video.
   </video>
 
-  <!-- Inhalt -->
   <div class="wrap">
     <h1>Baltazar Seeds</h1>
     <p>Coming Soon</p>
-
-<!-- kleines Logo -->
     <img src="IMG_7975.PNG" alt="Baltazar Logo" class="logo-img">
-
-    <!-- Button zur zurück zu Index -->
     <a href="index.html" class="btn">Zum Eingang</a>
+
+    <!-- Blut Tropfen -->
+    <div id="blood-container"></div>
   </div>
+
+  <script>
+    const h1 = document.querySelector('h1');
+    const container = document.getElementById('blood-container');
+
+    function createBloodDrop() {
+      const drop = document.createElement('div');
+      drop.className = 'blood-drop';
+      // Zufällige Position relativ zum Text
+      const x = Math.random() * h1.offsetWidth;
+      drop.style.left = `${h1.offsetLeft + x}px`;
+      drop.style.top = `${h1.offsetTop + h1.offsetHeight}px`;
+      drop.style.width = `${5 + Math.random()*10}px`;
+      drop.style.height = drop.style.width;
+      drop.style.animationDuration = `${1 + Math.random()*1.5}s`;
+      container.appendChild(drop);
+
+      // Tropfen nach Ende der Animation löschen
+      setTimeout(() => drop.remove(), parseFloat(drop.style.animationDuration) * 1000);
+    }
+
+    // Mehrere Tropfen kontinuierlich erzeugen
+    setInterval(createBloodDrop, 150);
+  </script>
 </body>
 </html>
