@@ -1,25 +1,155 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Willkommen auf meiner Seite!</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
-            text-align: center;
-            padding: 50px;
-        }
-        h1 {
-            color: #0073e6;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BALTAZAR SEEDS — Coming Soon</title>
+  <style>
+    /* Grund */
+    :root{--bg:#000;--blood:#ff0b0b;--blood-dark:#b30000}
+    html,body{height:100%;margin:0}
+    body{
+      background:var(--bg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: 'Oswald', Arial, sans-serif;
+      color:var(--blood);
+      overflow:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Bühne */
+    .wrap{text-align:center;padding:6vh 4vw}
+
+    /* Hauptschrift: stark, hellrot und "blut-tropf" */
+    h1.drip{
+      font-size:clamp(36px, 12vw, 120px);
+      line-height:0.9;
+      letter-spacing:0.06em;
+      margin:0 0 1rem 0;
+      color:var(--blood);
+      position:relative;
+      display:inline-block;
+      text-transform:uppercase;
+      text-shadow:
+        0 2px 0 rgba(0,0,0,0.6),
+        0 6px 18px rgba(0,0,0,0.6);
+    }
+
+    /* zusätzlicher innerer Glanz */
+    h1.drip::before{
+      content:attr(data-text);
+      position:absolute;left:0;top:0;width:100%;height:100%;
+      pointer-events:none;
+      background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0));
+      -webkit-background-clip:text; background-clip:text;
+      color:transparent;
+      mix-blend-mode:screen;
+    }
+
+    /* Tropfen-Generator: setzt viele kleine Kreise (Box-shadows) unter dem Text */
+    h1.drip::after{
+      content:'';
+      position:absolute;left:0;right:0;bottom:-6px;height:60px;
+      pointer-events:none;
+      /* drei Reihen von Tropfen mit box-shadow */
+      background:transparent;
+      filter:blur(0.6px);
+      animation:dripMove 3s infinite linear;
+    }
+
+    /* wir erzeugen die Drips mit einem pseudo-element über box-shadow */
+    .drip-drops{
+      position:relative;display:block;width:100%;height:1px;overflow:visible}
+    .drip-drops::before{
+      content:'';position:absolute;left:50%;transform:translateX(-50%);
+      width:8px;height:8px;border-radius:50%;background:var(--blood);
+      box-shadow:
+        -230px 6px 0 -2px var(--blood),
+        -190px 12px 0 -3px var(--blood-dark),
+        -150px 6px 0 -2px var(--blood),
+        -110px 18px 0 -4px var(--blood-dark),
+        -70px 8px 0 -2px var(--blood),
+        -30px 12px 0 -3px var(--blood-dark),
+         10px 6px 0 -2px var(--blood),
+         50px 14px 0 -4px var(--blood-dark),
+         90px 6px 0 -2px var(--blood),
+         130px 10px 0 -3px var(--blood-dark),
+         170px 6px 0 -2px var(--blood);
+      animation:dropFall 3.6s infinite ease-in-out;
+      opacity:0.98;
+    }
+
+    /* leichtes seitliches Tropfen-Overlay für zufälligkeit */
+    .drip-drops::after{
+      content:'';position:absolute;left:50%;transform:translateX(-50%);
+      width:6px;height:6px;border-radius:50%;background:var(--blood-dark);
+      box-shadow:
+        -210px 10px 0 -2px var(--blood-dark),
+        -170px 22px 0 -4px var(--blood),
+        -120px 8px 0 -2px var(--blood-dark),
+        -80px 20px 0 -4px var(--blood),
+        -40px 12px 0 -3px var(--blood-dark),
+         0px 8px 0 -2px var(--blood-dark),
+         40px 18px 0 -4px var(--blood),
+         80px 10px 0 -3px var(--blood-dark);
+      animation:dropFall 4.2s infinite ease-in-out reverse;
+      opacity:0.9;
+    }
+
+    /* "Blutspritzer" im Hintergrund (subtil) */
+    .bg-splatter{
+      position:absolute;inset:0;pointer-events:none;mix-blend-mode:color-burn;opacity:0.45
+    }
+    .bg-splatter::before{
+      content:'';position:absolute;left:-10%;top:5%;width:120%;height:120%;
+      background-image:radial-gradient(circle at 10% 20%, rgba(255,10,10,0.08) 0 10%, transparent 11%),
+                        radial-gradient(circle at 80% 60%, rgba(180,0,0,0.06) 0 8%, transparent 9%),
+                        radial-gradient(circle at 60% 20%, rgba(255,0,0,0.04) 0 12%, transparent 13%);
+      filter:blur(6px);
+      transform:rotate(-6deg) scale(1.05);
+      animation:slowFloat 12s infinite linear;
+    }
+
+    p.lead{
+      margin:0;font-size:clamp(14px,2.6vw,20px);opacity:0.85;color:var(--blood);
+      text-shadow:0 1px 0 rgba(0,0,0,0.6);
+    }
+
+    /* Animationen */
+    @keyframes dropFall{
+      0%{transform:translateX(-50%) translateY(0) scale(0.98);opacity:1}
+      40%{transform:translateX(-50%) translateY(6px) scale(0.98);opacity:1}
+      100%{transform:translateX(-50%) translateY(40px) scale(0.6);opacity:0}
+    }
+    @keyframes dripMove{
+      0%{transform:translateY(0)}
+      50%{transform:translateY(2px)}
+      100%{transform:translateY(0)}
+    }
+    @keyframes slowFloat{
+      0%{transform:rotate(-6deg) translateY(0)}
+      50%{transform:rotate(-4deg) translateY(8px)}
+      100%{transform:rotate(-6deg) translateY(0)}
+    }
+
+    /* Responsiveness */
+    @media (max-width:520px){
+      .drip-drops::before, .drip-drops::after{box-shadow:none;opacity:0.9}
+      h1.drip{font-size:36px}
+    }
+  </style>
 </head>
 <body>
-    <h1>Willkommen auf meiner Seite!</h1>
-    <p>Dies ist eine einfache, aber schöne Startseite.</p>
+  <div class="wrap">
+    <div class="bg-splatter" aria-hidden="true"></div>
+
+    <h1 class="drip" data-text="Baltazar Seeds">Baltazar Seeds</h1>
+    <span class="drip-drops" aria-hidden="true"></span>
+
+    <p class="lead">Coming Soon</p>
+  </div>
 </body>
 </html>
-
