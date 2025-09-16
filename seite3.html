@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baltazar Seeds – Strains Collection</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+  <style>
+    /* Grundlayout */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Nosifer', cursive;
+      background: #111;
+      color: #ff0b0b;
+      overflow-x: hidden;
+    }
+
+    /* Header / Menü */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 4vw;
+      background: rgba(0,0,0,0.85);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      text-shadow: 2px 2px 0 #000;
+    }
+
+    nav a {
+      color: #ff0b0b;
+      text-decoration: none;
+      margin-left: 2rem;
+      font-size: 1.2rem;
+      text-shadow: 1px 1px 0 #000;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: black;
+      background: #ff0b0b;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* Hero-Bereich */
+    .hero {
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+      background: url('INTRO.mp4') no-repeat center center / cover;
+      color: #ff0b0b;
+      text-shadow: 2px 2px 0 #000;
+    }
+
+    .hero h2 {
+      font-size: clamp(36px, 8vw, 72px);
+      margin-bottom: 1rem;
+    }
+
+    /* Strains Grid */
+    .strain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      padding: 2rem 4vw;
+    }
+
+    .strain-card {
+      background: rgba(0,0,0,0.7);
+      border: 2px solid #ff0b0b;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .strain-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px #ff0b0b;
+    }
+
+    .strain-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .strain-card .info {
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .strain-card .info h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.5rem;
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    .strain-card .info p {
+      margin: 0;
+      font-size: 1rem;
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: rgba(0,0,0,0.85);
+      font-size: 0.9rem;
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      color: #ff0b0b;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid #ff0b0b;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #ff0b0b;
+      color: black;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Header mit Menü -->
+  <header>
+    <h1>Baltazar Seeds</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="seite3.html">Strains</a>
+      <a href="#">Kontakt</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h2>Our Genetics Collection</h2>
+    <p>Discover the real street-tested seeds & strains. Every plant tells a story.</p>
+  </section>
+
+  <!-- Strains / Seeds Grid -->
+  <section class="strain-grid">
+    <div class="strain-card">
+      <img src="strain1.jpg" alt="Strain 1">
+      <div class="info">
+        <h3>OG Kush</h3>
+        <p>Pure indica vibes. Relax & elevate.</p>
+        <a href="#" class="btn">View Details</a>
+      </div>
+    </div>
+
+    <div class="strain-card">
+      <img src="strain2.jpg" alt="Strain 2">
+      <div class="info">
+        <h3>Sour Diesel</h3>
+        <p>High energy & creativity booster.</p>
+        <a href="#" class="btn">View Details</a>
+      </div>
+    </div>
+
+    <div class="strain-card">
+      <img src="strain3.jpg" alt="Strain 3">
+      <div class="info">
+        <h3>Blue Dream</h3>
+        <p>Perfect balance of body & mind.</p>
+        <a href="#" class="btn">View Details</a>
+      </div>
+    </div>
+
+    <div class="strain-card">
+      <img src="strain4.jpg" alt="Strain 4">
+      <div class="info">
+        <h3>White Widow</h3>
+        <p>Classic genetics, pure power.</p>
+        <a href="#" class="btn">View Details</a>
+      </div>
+    </div>
+    
+    <!-- Mehr Strains können hier hinzugefügt werden -->
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Baltazar Seeds – Real Seeds. Real Vibes. Real Legacy.
+  </footer>
+
+</body>
+</html>
