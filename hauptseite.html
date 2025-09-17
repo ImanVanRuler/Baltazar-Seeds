@@ -7,24 +7,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
 
   <style>
-    body, html {
+    /* Grundstil */
+    html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       font-family: 'Nosifer', cursive;
       background: black;
       color: #ff0b0b;
+      overflow-x: hidden;
     }
 
     /* Hintergrundvideo */
     .video-bg {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       z-index: -1;
+      opacity: 0.7;
     }
 
+    /* Wrapper */
     .wrap {
       position: relative;
       z-index: 2;
@@ -35,7 +41,7 @@
     /* H1-Schimmer */
     h1 {
       font-size: clamp(36px, 12vw, 120px);
-      margin: 0 0 1rem;
+      margin-bottom: 2rem;
       text-transform: uppercase;
       position: relative;
       display: inline-block;
@@ -44,7 +50,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: shimmer 3s infinite linear;
-      text-shadow: 0 2px 4px black;
+      text-shadow: 0 2px 6px black;
     }
 
     @keyframes shimmer {
@@ -92,9 +98,12 @@
         2px 0 0 #000,
         0 -2px 0 #000,
        -2px 0 0 #000;
+      max-width: 90%;
+      margin: 0 auto 3rem;
+      word-break: break-word;
     }
 
-    /* Jeder Buchstabe shimmer */
+    /* Jeden Buchstaben shimmer */
     p span {
       display: inline-block;
       background: linear-gradient(90deg, #ff0b0b, #fff, #ff0b0b);
@@ -113,21 +122,31 @@
     /* Buttons */
     .btn {
       display: inline-block;
-      margin-top: 3rem;
+      margin: 1rem 1rem 0 1rem;
       padding: 1rem 2rem;
       font-size: 1.5rem;
       color: #ff0b0b;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.7);
       border: 2px solid #ff0b0b;
-      border-radius: 8px;
+      border-radius: 12px;
       text-decoration: none;
+      font-weight: bold;
       transition: all 0.3s ease;
+      box-shadow: 0 0 10px #ff0b0b80;
       cursor: pointer;
     }
 
     .btn:hover {
       background: #ff0b0b;
       color: black;
+      box-shadow: 0 0 20px #ffd700;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: clamp(24px, 10vw, 80px); }
+      p { font-size: 1.2rem; }
+      .btn { font-size: 1.2rem; padding: 0.8rem 1.5rem; }
     }
   </style>
 </head>
@@ -142,10 +161,10 @@
 
     <p id="shimmer-text">
       WELCOME TO BALTAZAR SEEDS WHERE THE STREETS MEET THE GENETICS THIS AINT YOUR AVERAGE SEED SHOP BALTAZAR SEEDS AKA BADFARMES GENETICS IS ALL ABOUT REALNESS PURE PASSION MAD SCIENCE AND VIBES YOU CAN ACTUALLY FEEL BORN FROM THE MIND OF IMAN VAN RULER BETTER KNOWN IN THE SCENE AS REAL JACK JAMES WE DONT JUST DROP SEEDS WE DROP LEGACIES
-WE GRIND HARD TO BRING YOU GENETICS THAT HIT DIFFERENT EVERY STRAIN WE RELEASE IS HAND PICKED TESTED AND CRAFTED TO FLEX ON FLAVOR AROMA AND THAT NEXT LEVEL EFFECT NO GIMMICKS NO HYPE JUST AUTHENTICITY IF IT DONT GROW RIGHT IT DONT GET IN SIMPLE
-IMAN VAN RULERS VISION KEEP IT RAW KEEP IT REAL UNDER THE REAL JACK JAMES ALIAS HES BEEN FLIPPING THE SCRIPT ON OG BREEDING WHILE ALWAYS RESPECTING THE ROOTS OF THE GAME BALTAZAR SEEDS IS WHERE STREET HUSTLE MEETS BOTANICAL GENIUS WHERE EVERY PLANT TELLS A STORY AND EVERY GROWER LEVELS UP
-SO PULL UP CHECK THE LINEUP AND STEP INTO THE WORLD OF BALTAZAR SEEDS THIS AINT JUST A SHOP ITS A MOVEMENT A LIFESTYLE AND A STRAIGHT UP STATEMENT
-REAL SEEDS REAL VIBES REAL LEGACY
+      WE GRIND HARD TO BRING YOU GENETICS THAT HIT DIFFERENT EVERY STRAIN WE RELEASE IS HAND PICKED TESTED AND CRAFTED TO FLEX ON FLAVOR AROMA AND THAT NEXT LEVEL EFFECT NO GIMMICKS NO HYPE JUST AUTHENTICITY IF IT DONT GROW RIGHT IT DONT GET IN SIMPLE
+      IMAN VAN RULERS VISION KEEP IT RAW KEEP IT REAL UNDER THE REAL JACK JAMES ALIAS HES BEEN FLIPPING THE SCRIPT ON OG BREEDING WHILE ALWAYS RESPECTING THE ROOTS OF THE GAME BALTAZAR SEEDS IS WHERE STREET HUSTLE MEETS BOTANICAL GENIUS WHERE EVERY PLANT TELLS A STORY AND EVERY GROWER LEVELS UP
+      SO PULL UP CHECK THE LINEUP AND STEP INTO THE WORLD OF BALTAZAR SEEDS THIS AINT JUST A SHOP ITS A MOVEMENT A LIFESTYLE AND A STRAIGHT UP STATEMENT
+      REAL SEEDS REAL VIBES REAL LEGACY
     </p>
 
     <a href="index.html" class="btn">Back To The Entrance</a>
