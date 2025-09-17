@@ -78,10 +78,9 @@
       100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
     }
 
-    /* P-Text */
+    /* P-Text Basis */
     p {
       font-size: 1.5rem;
-      color: #ff0b0b;
       text-align: center;
       line-height: 1.6;
       text-shadow:
@@ -102,7 +101,8 @@
       background-size: 200% 100%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: shimmer-letter 3s infinite linear;
+      animation: shimmer-letter 3s linear infinite;
+      animation-delay: calc(var(--i) * 0.03s); /* gestaffelt */
     }
 
     @keyframes shimmer-letter {
@@ -156,9 +156,9 @@ REAL SEEDS REAL VIBES REAL LEGACY
   </div>
 
   <script>
-    // Jeden Buchstaben in <span> packen
+    // Jeden Buchstaben in <span> packen mit gestaffeltem Effekt
     const p = document.getElementById('shimmer-text');
-    p.innerHTML = p.textContent.replace(/\S/g, "<span>$&</span>");
+    p.innerHTML = p.textContent.replace(/\S/g, (c, i) => `<span style="--i:${i}">${c}</span>`);
   </script>
 </body>
 </html>
