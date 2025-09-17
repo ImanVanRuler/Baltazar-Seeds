@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Baltazar Seeds</title>
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
-
   <style>
-    /* Grundstil */
+    /* Grundstruktur */
+    * { box-sizing: border-box; margin:0; padding:0; }
     html, body {
-      margin: 0;
-      padding: 0;
       height: 100%;
       font-family: 'Nosifer', cursive;
       background: black;
@@ -21,35 +19,37 @@
     /* Hintergrundvideo */
     .video-bg {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top:0; left:0;
+      width:100%;
+      height:100%;
       object-fit: cover;
       z-index: -1;
-      opacity: 0.7;
+      opacity: 0.6;
     }
 
     /* Wrapper */
     .wrap {
       position: relative;
-      z-index: 2;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
       text-align: center;
-      padding: 10vh 4vw;
     }
 
-    /* H1-Schimmer */
-    h1 {
-      font-size: clamp(36px, 12vw, 120px);
-      margin-bottom: 2rem;
-      text-transform: uppercase;
-      position: relative;
+    /* H1 Buchstabenanimation */
+    h1 span {
       display: inline-block;
+      font-size: clamp(36px, 10vw, 120px);
+      text-transform: uppercase;
       background: linear-gradient(90deg, #ff0b0b, #ffd700, #ff0b0b);
-      background-size: 200% 100%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: shimmer 3s infinite linear;
+      animation: shimmer 3s linear infinite;
+      animation-delay: calc(var(--i) * 0.05s);
       text-shadow: 0 2px 6px black;
     }
 
@@ -58,37 +58,16 @@
       100% { background-position: -200% 0; }
     }
 
-    h1::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: -10px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #ff0b0b;
-      box-shadow:
-        -120px 10px 0 -2px #ff0b0b,
-        -60px 15px 0 -3px #b30000,
-        0px 20px 0 -2px #ff0b0b,
-        60px 10px 0 -2px #b30000,
-        120px 15px 0 -3px #ff0b0b;
-      animation: dropFall 9s infinite ease-in-out;
-    }
-
-    @keyframes dropFall {
-      0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-      50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
-    }
-
-    /* Paragraph */
-    p {
+    /* Paragraph Buchstabenanimation */
+    p span {
+      display: inline-block;
       font-size: 1.5rem;
       line-height: 1.6;
-      text-align: center;
-      color: #ff0b0b;
+      background: linear-gradient(90deg, #ff0b0b, #fff, #ff0b0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s linear infinite;
+      animation-delay: calc(var(--i) * 0.03s);
       text-shadow:
         2px 2px 0 #000, 
        -2px 2px 0 #000, 
@@ -98,31 +77,12 @@
         2px 0 0 #000,
         0 -2px 0 #000,
        -2px 0 0 #000;
-      max-width: 90%;
-      margin: 0 auto 3rem;
-      word-break: break-word;
-    }
-
-    /* Jeden Buchstaben shimmer */
-    p span {
-      display: inline-block;
-      background: linear-gradient(90deg, #ff0b0b, #fff, #ff0b0b);
-      background-size: 200% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shimmer-letter 3s linear infinite;
-      animation-delay: calc(var(--i) * 0.03s);
-    }
-
-    @keyframes shimmer-letter {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
     }
 
     /* Buttons */
     .btn {
       display: inline-block;
-      margin: 1rem 1rem 0 1rem;
+      margin: 1rem;
       padding: 1rem 2rem;
       font-size: 1.5rem;
       color: #ff0b0b;
@@ -131,9 +91,8 @@
       border-radius: 12px;
       text-decoration: none;
       font-weight: bold;
-      transition: all 0.3s ease;
       box-shadow: 0 0 10px #ff0b0b80;
-      cursor: pointer;
+      transition: all 0.3s ease;
     }
 
     .btn:hover {
@@ -143,28 +102,26 @@
       transform: scale(1.05);
     }
 
-    @media (max-width: 768px) {
-      h1 { font-size: clamp(24px, 10vw, 80px); }
-      p { font-size: 1.2rem; }
+    /* Responsive */
+    @media(max-width:768px){
+      h1 span { font-size: clamp(24px, 10vw, 80px); }
+      p span { font-size: 1.2rem; }
       .btn { font-size: 1.2rem; padding: 0.8rem 1.5rem; }
     }
   </style>
 </head>
 <body>
+
   <video class="video-bg" autoplay muted loop playsinline>
     <source src="INTRO.mp4" type="video/mp4">
     Dein Browser unterstützt kein HTML5-Video.
   </video>
 
   <div class="wrap">
-    <h1>Baltazar Seeds</h1>
+    <h1 id="title">Baltazar Seeds</h1>
 
     <p id="shimmer-text">
-      WELCOME TO BALTAZAR SEEDS WHERE THE STREETS MEET THE GENETICS THIS AINT YOUR AVERAGE SEED SHOP BALTAZAR SEEDS AKA BADFARMES GENETICS IS ALL ABOUT REALNESS PURE PASSION MAD SCIENCE AND VIBES YOU CAN ACTUALLY FEEL BORN FROM THE MIND OF IMAN VAN RULER BETTER KNOWN IN THE SCENE AS REAL JACK JAMES WE DONT JUST DROP SEEDS WE DROP LEGACIES
-      WE GRIND HARD TO BRING YOU GENETICS THAT HIT DIFFERENT EVERY STRAIN WE RELEASE IS HAND PICKED TESTED AND CRAFTED TO FLEX ON FLAVOR AROMA AND THAT NEXT LEVEL EFFECT NO GIMMICKS NO HYPE JUST AUTHENTICITY IF IT DONT GROW RIGHT IT DONT GET IN SIMPLE
-      IMAN VAN RULERS VISION KEEP IT RAW KEEP IT REAL UNDER THE REAL JACK JAMES ALIAS HES BEEN FLIPPING THE SCRIPT ON OG BREEDING WHILE ALWAYS RESPECTING THE ROOTS OF THE GAME BALTAZAR SEEDS IS WHERE STREET HUSTLE MEETS BOTANICAL GENIUS WHERE EVERY PLANT TELLS A STORY AND EVERY GROWER LEVELS UP
-      SO PULL UP CHECK THE LINEUP AND STEP INTO THE WORLD OF BALTAZAR SEEDS THIS AINT JUST A SHOP ITS A MOVEMENT A LIFESTYLE AND A STRAIGHT UP STATEMENT
-      REAL SEEDS REAL VIBES REAL LEGACY
+      WELCOME TO BALTAZAR SEEDS WHERE THE STREETS MEET THE GENETICS THIS AINT YOUR AVERAGE SEED SHOP BALTAZAR SEEDS AKA BADFARMES GENETICS IS ALL ABOUT REALNESS PURE PASSION MAD SCIENCE AND VIBES YOU CAN ACTUALLY FEEL BORN FROM THE MIND OF IMAN VAN RULER...
     </p>
 
     <a href="index.html" class="btn">Back To The Entrance</a>
@@ -172,9 +129,14 @@
   </div>
 
   <script>
-    // Jeden Buchstaben in ein <span> packen
-    const p = document.getElementById('shimmer-text');
-    p.innerHTML = p.textContent.replace(/\S/g, (c,i) => `<span style="--i:${i}">${c}</span>`);
+    // Funktion: jeden Buchstaben in <span>
+    function wrapLetters(id){
+      const el = document.getElementById(id);
+      el.innerHTML = el.textContent.replace(/\S/g,(c,i)=>`<span style="--i:${i}">${c}</span>`);
+    }
+
+    wrapLetters('title');
+    wrapLetters('shimmer-text');
   </script>
 </body>
 </html>
