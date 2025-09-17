@@ -161,15 +161,45 @@ Ideal for all growers seeking true street genetics.
   <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=dogecoin:DHarzA36gVyo1xf2GGzm2Lep2LM4om5gA4" alt="Dogecoin QR Code" style="margin-top:1rem;">
    <img src="DOGE.png" alt="DOGE">
 
-    <a
-  href="https://pay.coingate.com/pay/Haze"
-  rel="noopener noreferrer nofollow" target="_blank"
->
-  <img
-    alt="CoinGate Payment Button"
-    src="https://assets.coingate.com/images/buttons/checkout-with-bitcoin.png"
-  />
-</a>
+
+<head>
+  <meta charset="UTF-8">
+  <title>My Product</title>
+</head>
+<body>
+  <div class="product">
+    <h2>My Product</h2>
+    <p>Preis: 0.01 BTC</p>
+    <button id="payBtn">Now Pay</button>
+  </div>
+
+  <script>
+    const apiKey = '86c0fa1e-8a01-4c4e-8355-12d2c45b536e';
+
+    document.getElementById('payBtn').addEventListener('click', async () => {
+      const response = await fetch('https://api.commerce.coinbase.com/charges', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CC-Api-Key': apiKey,
+          'X-CC-Version': '2018-03-22'
+        },
+        body: JSON.stringify({
+          name: 'Mein Produkt',
+          description: 'Beschreibung des Produkts',
+          local_price: { amount: '0.01', currency: 'BTC' },
+          pricing_type: 'fixed_price'
+        })
+      });
+
+      const data = await response.json();
+      // öffnet den Coinbase Checkout in neuem Fenster/Tab
+      window.open(data.data.hosted_url, '_blank');
+    });
+  </script>
+</body>
+
+
 </section>
 
 
