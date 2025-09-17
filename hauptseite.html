@@ -78,7 +78,7 @@
       100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
     }
 
-    /* P-Text mit Schimmer */
+    /* P-Text */
     p {
       font-size: 1.5rem;
       color: #ff0b0b;
@@ -93,32 +93,21 @@
         2px 0 0 #000,
         0 -2px 0 #000,
        -2px 0 0 #000;
-      position: relative;
-      overflow: hidden;
     }
 
-    /* Sanfter Schimmer über dem Text */
-    p::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -150%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(
-        120deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0.5) 50%,
-        rgba(255,255,255,0) 100%
-      );
-      transform: skewX(-20deg);
-      pointer-events: none;
-      animation: shine 6s infinite;
+    /* Jeder Buchstabe shimmering */
+    p span {
+      display: inline-block;
+      background: linear-gradient(90deg, #ff0b0b, #fff, #ff0b0b);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer-letter 3s infinite linear;
     }
 
-    @keyframes shine {
-      0% { left: -150%; }
-      100% { left: 150%; }
+    @keyframes shimmer-letter {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
 
     /* Button-Stil */
@@ -153,7 +142,7 @@
   <div class="wrap">
     <h1>Baltazar Seeds</h1>
     
-    <p>
+    <p id="shimmer-text">
       WELCOME TO BALTAZAR SEEDS WHERE THE STREETS MEET THE GENETICS THIS AINT YOUR AVERAGE SEED SHOP BALTAZAR SEEDS AKA BADFARMES GENETICS IS ALL ABOUT REALNESS PURE PASSION MAD SCIENCE AND VIBES YOU CAN ACTUALLY FEEL BORN FROM THE MIND OF IMAN VAN RULER BETTER KNOWN IN THE SCENE AS REAL JACK JAMES WE DONT JUST DROP SEEDS WE DROP LEGACIES
 WE GRIND HARD TO BRING YOU GENETICS THAT HIT DIFFERENT EVERY STRAIN WE RELEASE IS HAND PICKED TESTED AND CRAFTED TO FLEX ON FLAVOR AROMA AND THAT NEXT LEVEL EFFECT NO GIMMICKS NO HYPE JUST AUTHENTICITY IF IT DONT GROW RIGHT IT DONT GET IN SIMPLE
 IMAN VAN RULERS VISION KEEP IT RAW KEEP IT REAL UNDER THE REAL JACK JAMES ALIAS HES BEEN FLIPPING THE SCRIPT ON OG BREEDING WHILE ALWAYS RESPECTING THE ROOTS OF THE GAME BALTAZAR SEEDS IS WHERE STREET HUSTLE MEETS BOTANICAL GENIUS WHERE EVERY PLANT TELLS A STORY AND EVERY GROWER LEVELS UP
@@ -165,5 +154,11 @@ REAL SEEDS REAL VIBES REAL LEGACY
     <a href="index.html" class="btn">Back To The Entrance</a>
     <a href="seite3.html" class="btn">I’m 21+ Let Me In!!</a>
   </div>
+
+  <script>
+    // Jeden Buchstaben in <span> packen
+    const p = document.getElementById('shimmer-text');
+    p.innerHTML = p.textContent.replace(/\S/g, "<span>$&</span>");
+  </script>
 </body>
 </html>
