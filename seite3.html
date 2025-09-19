@@ -7,7 +7,7 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
   <!-- Font Awesome für Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
     /* Grundlayout */
@@ -63,10 +63,6 @@
       border-radius: 4px;
     }
 
-    nav a.instagram, nav a.youtube, nav a.twitter, nav a.X {
-      font-size: 1.5rem;
-    }
-
     /* Hero-Bereich */
     .hero {
       position: relative;
@@ -102,6 +98,36 @@
 
     @keyframes fadeIn {
       to { opacity: 1; }
+    }
+
+    /* Kategorien-Filter */
+    .category-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding: 1rem 4vw;
+      background: rgba(0,0,0,0.8);
+      position: sticky;
+      top: 70px;
+      z-index: 99;
+    }
+
+    .category-bar button {
+      background: rgba(0,0,0,0.6);
+      border: 2px solid #ff0b0b;
+      color: #ff0b0b;
+      font-family: 'Nosifer', cursive;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .category-bar button:hover,
+    .category-bar button.active {
+      background: #ff0b0b;
+      color: black;
     }
 
     /* Strains Grid */
@@ -233,9 +259,9 @@
       <a href="index.html">Entrance</a>
       <a href="seite3.html">Strains</a>
       <a href="mailto:imanvanruler@freenet.de">Contact</a>
-      <a href="https://x.com/BALTAZARSEEDS" target="_blank" class="X"><i class="fa-brands fa-x-twitter"></i></a>
-      <a href="https://www.instagram.com/real_jack_james" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
+      <a href="https://x.com/BALTAZARSEEDS" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="https://www.instagram.com/real_jack_james" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.youtube.com/@IMANVANRULER" target="_blank"><i class="fab fa-youtube"></i></a>
     </nav>
   </header>
 
@@ -250,9 +276,18 @@
     </div>
   </section>
 
+  <!-- Kategorien-Reiter -->
+  <div class="category-bar">
+    <button class="active" data-category="all">Alle</button>
+    <button data-category="sativa">Sativa</button>
+    <button data-category="indica">Indica</button>
+    <button data-category="hybrid">Hybrid</button>
+    <button data-category="specials">Specials</button>
+  </div>
+
   <!-- Strains / Seeds Grid -->
   <section class="strain-grid">
-    <div class="strain-card">
+    <div class="strain-card" data-category="sativa">
       <img src="STRAIN1.JPG" alt="Baltazar Haze">
       <div class="info">
         <h3>BALTAZAR HAZE</h3>
@@ -260,7 +295,7 @@
         <a href="strain1.html" class="btn">View Details</a>
       </div>
     </div>
-    <div class="strain-card">
+    <div class="strain-card" data-category="indica">
       <img src="STRAIN2.JPG" alt="Baltazar Kush">
       <div class="info">
         <h3>BALTAZAR KUSH</h3>
@@ -268,7 +303,7 @@
         <a href="strain2.html" class="btn">View Details</a>
       </div>
     </div>
-    <div class="strain-card">
+    <div class="strain-card" data-category="hybrid">
       <img src="STRAIN3.JPG" alt="Baltazar White Widow">
       <div class="info">
         <h3>BALTAZAR WHITE WIDOW</h3>
@@ -276,7 +311,7 @@
         <a href="strain3.html" class="btn">View Details</a>
       </div>
     </div>
-    <div class="strain-card">
+    <div class="strain-card" data-category="specials">
       <img src="STRAIN4.JPG" alt="Baltazar Skunk">
       <div class="info">
         <h3>BALTAZAR SKUNK</h3>
@@ -304,7 +339,7 @@
     </div>
   </footer>
 
-  <!-- Donate Button unten rechts -->
+  <!-- Donate Button -->
   <a href="https://commerce.coinbase.com/checkout/44837643-3abd-425c-9387-5705cfd1e2ca" target="_blank" class="donate-btn">💎DONATE💎</a>
 
   <script>
@@ -312,6 +347,32 @@
     window.addEventListener('load', () => {
       document.body.classList.add('loaded');
       document.querySelector('.strain-grid').classList.add('loaded');
+
+      // Produkte mischen
+      const grid = document.querySelector('.strain-grid');
+      for (let i = grid.children.length; i >= 0; i--) {
+        grid.appendChild(grid.children[Math.random() * i | 0]);
+      }
+    });
+
+    // Kategorie-Filter
+    const buttons = document.querySelectorAll('.category-bar button');
+    const cards = document.querySelectorAll('.strain-card');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const category = btn.getAttribute('data-category');
+        cards.forEach(card => {
+          if (category === "all" || card.dataset.category === category) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
     });
   </script>
 
