@@ -6,6 +6,7 @@
   <title>Baltazar Seeds</title>
   <!-- Google Font: Nosifer -->
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+
   <style>
     body, html {
       margin: 0;
@@ -92,8 +93,21 @@
       background: #ff0b0b;
       color: black;
     }
+
+    /* Overlay für Übergang */
+    #transitionOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 999;
+      transition: opacity 1s ease;
+    }
   </style>
 </head>
+
 <body>
   <!-- Hintergrundvideo -->
   <video class="video-bg" autoplay muted loop playsinline>
@@ -107,7 +121,24 @@
     <p>BADFARMERES GENETICS</p>
 
     <!-- Button zur Hauptseite -->
-    <a href="hauptseite.html" class="btn">Let's Go</a>
+    <a href="hauptseite.html" class="btn" id="enterBtn">Let's Go</a>
   </div>
+
+  <!-- Overlay für Übergang -->
+  <div id="transitionOverlay"></div>
+
+  <script>
+    const btn = document.getElementById('enterBtn');
+    const overlay = document.getElementById('transitionOverlay');
+
+    btn.addEventListener('click', function(e) {
+      e.preventDefault(); // Verhindert sofortige Weiterleitung
+      overlay.style.opacity = 1; // Overlay einblenden
+
+      setTimeout(() => {
+        window.location.href = btn.href; // nach 1 Sekunde weiterleiten
+      }, 1000); // Dauer entspricht Transition
+    });
+  </script>
 </body>
 </html>
