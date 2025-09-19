@@ -7,7 +7,7 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
   <!-- Font Awesome für Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
     body, html {
@@ -18,9 +18,7 @@
       color: #ff0b0b;
     }
 
-    a {
-      text-decoration: none;
-    }
+    a { text-decoration: none; }
 
     /* Header */
     header {
@@ -33,20 +31,17 @@
       top: 0;
       z-index: 100;
     }
-
     header h1 {
       margin: 0;
       font-size: 2rem;
       text-shadow: 2px 2px 0 #000;
     }
-
     nav a {
       color: #ff0b0b;
       text-shadow: 1px 1px 0 #000;
       margin-left: 2rem;
       transition: 0.3s;
     }
-
     nav a:hover {
       color: black;
       background: #ff0b0b;
@@ -61,22 +56,11 @@
       padding: 0 2rem;
       text-align: center;
     }
-
-    .strain-detail img {
-      width: 100%;
-      max-height: 400px;
-      object-fit: cover;
-      border: 2px solid #ff0b0b;
-      border-radius: 12px;
-      margin-bottom: 2rem;
-    }
-
     .strain-detail h2 {
       font-size: 3rem;
       margin-bottom: 1rem;
       text-shadow: 2px 2px 0 #000;
     }
-
     .strain-detail p {
       font-size: 1.2rem;
       line-height: 1.6;
@@ -84,7 +68,62 @@
       margin-bottom: 1rem;
     }
 
-    /* Back Button */
+    /* Slideshow */
+    .slideshow-container {
+      position: relative;
+      max-width: 900px;
+      margin: auto;
+      border: 2px solid #ff0b0b;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .mySlides { display: none; }
+    .mySlides img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    /* Pfeile */
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 12px;
+      color: #ff0b0b;
+      font-weight: bold;
+      font-size: 2.2rem;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+      user-select: none;
+      text-shadow: 1px 1px 2px #000;
+      z-index: 10;
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+    .prev:hover, .next:hover {
+      background-color: #ff0b0b;
+      color: #111;
+    }
+
+    /* Punkte */
+    .dots { text-align: center; margin-top: 1rem; }
+    .dot {
+      cursor: pointer;
+      height: 12px;
+      width: 12px;
+      margin: 0 4px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: 0.3s;
+    }
+    .active, .dot:hover { background-color: #ff0b0b; }
+
+    /* Buttons */
     .btn {
       display: inline-block;
       margin-top: 2rem;
@@ -95,8 +134,8 @@
       border: 2px solid #ff0b0b;
       border-radius: 8px;
       transition: all 0.3s ease;
+      cursor: pointer;
     }
-
     .btn:hover {
       background: #ff0b0b;
       color: black;
@@ -109,60 +148,6 @@
       text-shadow: 1px 1px 0 #000;
       margin-top: 3rem;
     }
-    /* Buttons */
-    .btn {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      color: #ff0b0b;
-      background: rgba(0,0,0,0.6);
-      border: 2px solid #ff0b0b;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-    .btn:hover {
-      background: #ff0b0b;
-      color: black;
-    }
-nav a.instagram {
-  font-size: 1.5rem;
-  color: #ff0b0b;
-  margin-left: 1rem;
-  transition: 0.3s;
-}
-nav a.instagram:hover {
-  color: black;
-  background: #ff0b0b;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-}
-nav a.youtube {
-  font-size: 1.5rem;
-  color: #ff0b0b;
-  margin-left: 1rem;
-  transition: 0.3s;
-}
-nav a.youtube:hover {
-  color: black;
-  background: #ff0b0b;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-}
-nav a.twitter {
-  font-size: 1.5rem;
-  color: #ff0b0b;
-  margin-left: 1rem;
-  transition: 0.3s;
-}
-nav a.twitter:hover {
-  color: black;
-  background: #ff0b0b;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-}
   </style>
 </head>
 <body>
@@ -174,26 +159,42 @@ nav a.twitter:hover {
       <a href="index.html">Entrance</a>
       <a href="seite3.html">Strains</a>
       <a href="mailto:imanvanruler@freenet.de">Contact</a>
-      <a href="https://x.com/BALTAZARSEEDS" target="_blank" class="X">
-<i class="fa-brands fa-x-twitter"></i></a>
-<a href="https://www.instagram.com/real_jack_james" target="_blank" class="instagram">
-<i class="fab fa-instagram"></i></a>
-<a href="https://www.youtube.com/@IMANVANRULER" target="_blank" class="youtube">
-<i class="fab fa-youtube"></i></a>
+      <a href="https://x.com/BALTAZARSEEDS" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="https://www.instagram.com/real_jack_james" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
     </nav>
   </header>
 
   <!-- Strain Detail -->
   <section class="strain-detail">
-    <img src="STRAIN6.JPG" alt="BALTAZAR PURPLE NIGHTMARE">
+    <!-- Slideshow -->
+    <div class="slideshow-container">
+      <div class="mySlides fade">
+        <img src="STRAIN6.JPG" alt="BALTAZAR PURPLE NIGHTMARE">
+      </div>
+      <div class="mySlides fade">
+        <img src="STRAIN6A.JPG" alt="BALTAZAR PURPLE NIGHTMARE">
+      </div>
+
+      <!-- Pfeile -->
+      <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+      <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <!-- Punkte -->
+    <div class="dots">
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+    </div>
+
     <h2>BALTAZAR PURPLE NIGHTMARE</h2>
-    <p><strong>Genetic:</strong> Sativa-Dominant</p>
-    <p><strong>Effect:</strong> Happy Relaxed Euphoric</p>
-    <p><strong>Aroma:</strong> Pungent Skunky Sweet</p>
+    <p><strong>Genetic:</strong> Indica-Dominant</p>
+    <p><strong>Effect:</strong> Relaxed Sleepy Euphoric</p>
+    <p><strong>Aroma:</strong> Grape Berry Sweet</p>
     <p>
-      "BALTAZAR PURPLE NIGHTMARE" is a hybrid celebrated for its potent mood lifting effects.
-      It helps users feel happy relaxed & euphoric.
-      The aroma is strong and distinctive combining skunky & sweet notes.
+      "BALTAZAR PURPLE NIGHTMARE" is an indica-dominant strain known for its deeply relaxing and sleep inducing effects.
+It often brings a sense of euphoria while calming both mind and body.
+The aroma is sweet and fruity with strong notes of grape and berries.
     </p>
 
     <a href="seite3.html" class="btn">Back to the Strains</a>
@@ -260,8 +261,34 @@ nav a.twitter:hover {
   
 </section>
   <footer>
-    &copy; 2025 Baltazar Seeds - Real Vibes. Real Life. Real Seeds.
+    &copy; 2025 Baltazar Seeds - Badfarmers Genetics
   </footer>
 
+  <script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+    }
+    function showSlides(n) {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      if (n > slides.length) {slideIndex = 1}
+      if (n < 1) {slideIndex = slides.length}
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex-1].style.display = "block";
+      dots[slideIndex-1].className += " active";
+    }
+  </script>
 </body>
 </html>
