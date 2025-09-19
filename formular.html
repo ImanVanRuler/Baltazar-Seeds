@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Order form</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8">
+  <title>Order Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body { font-family: Arial, sans-serif; max-width: 760px; margin: 28px auto; padding: 0 16px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 30px;
+      max-width: 760px;
+      margin: auto;
+    }
     h1 { text-align:center; }
-    form { background:#fafafa; border:1px solid #eee; padding:20px; border-radius:8px; }
+    form {
+      background: #fff;
+      border: 1px solid #eee;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
     label { display:block; margin-top:12px; font-weight:600; }
-    input, select, textarea { width:100%; padding:10px; margin-top:6px; box-sizing:border-box; border-radius:6px; border:1px solid #ccc; }
+    input, select, textarea { width:100%; padding:10px; margin-top:6px; border-radius:6px; border:1px solid #ccc; box-sizing:border-box; }
     .row { display:flex; gap:10px; }
     .row > * { flex:1; }
-    .small { width:140px; }
-    .note { font-size:13px; color:#555; margin-top:6px; }
     .buy-btn {
       display:inline-block;
       background: linear-gradient(90deg, #FF9900, #FF6600);
@@ -28,34 +38,30 @@
       cursor:pointer;
       transition: transform 0.12s, box-shadow 0.12s;
       margin-top:14px;
+      width:100%;
     }
     .buy-btn:disabled { opacity:0.6; cursor:not-allowed; transform:none; box-shadow:none; }
     .buy-btn:hover { transform:scale(1.03); box-shadow:0 6px 18px rgba(0,0,0,0.18); }
+    .note { font-size:13px; color:#555; margin-top:6px; }
   </style>
 </head>
 <body>
-  <h1>Order form</h1>
+  <h1>Order Form</h1>
 
-  <!--
-    NOTE: form action uses FormSubmit which posts the form to your e-mail:
-    You must verify your email once (you'll get a verification mail) for it to work.
-    If you prefer another service (Formspree / EmailJS) tell me and I'll adapt the code.
-  -->
-  <form
-
+  <form id="orderForm" action="https://formsubmit.co/jackjamesoriginal@yahoo.com" method="POST">
     <!-- FormSubmit config -->
-    <input type="hidden" name="_next" value="danke.html"> <!-- relative thank-you page -->
-    <input type="hidden" name="_subject" value="New order from website">
+    <input type="hidden" name="_next" value="danke.html">
     <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_subject" value="New order from website">
     <input type="hidden" name="_template" value="table">
 
-    <!-- Product info (hidden, but also shown in readonly field) -->
+    <!-- Product Info -->
     <label for="product">Product</label>
-    <input id="product_display" name="Product" readonly>
-
-    <input type="hidden" id="product_name" name="Product Name" value="">
-    <input type="hidden" id="product_sku" name="SKU" value="">
-    <input type="hidden" id="product_price" name="Price" value="">
+    <select id="product" name="Product" required>
+      <option value="Chestnuts Pack A">🌰 Chestnuts Pack A</option>
+      <option value="Chestnuts Pack B">🌰 Chestnuts Pack B</option>
+      <option value="Other">Other</option>
+    </select>
 
     <label for="quantity">Quantity</label>
     <input id="quantity" name="Quantity" type="number" min="1" value="1" required>
@@ -113,74 +119,31 @@
     <button type="submit" id="buyButton" class="buy-btn">🌰 &nbsp; &gt; BUY HERE &lt; &nbsp; 🌰</button>
   </form>
 
-  action="https://formsubmit.co/jackjamesoriginal@yahoo.com" method="POST">
-     <input type="text" name="name" required>
-     <input type="email" name="email" required>
-     <button type="submit">Send</button>
-</form>
-
   <script>
-    // --- CONFIG: replace only if you want a different checkout ---
     const CHECKOUT_URL = "https://commerce.coinbase.com/checkout/e2aedc7b-f013-4070-9d6d-05c2a7cbd9b8";
 
-    // Prefill product fields from querystring if present:
-    function qs(key) {
-      const p = new URLSearchParams(location.search);
-      return p.get(key) || "";
-    }
-    document.addEventListener("DOMContentLoaded", () => {
-      const pname = qs("name") || qs("product") || "Your Product";
-      const sku = qs("sku") || "";
-      const price = qs("price") || "";
-
-      document.getElementById("product_display").value = pname;
-      document.getElementById("product_name").value = pname;
-      document.getElementById("product_sku").value = sku;
-      document.getElementById("product_price").value = price;
-
-      // optional: prefill quantity if provided
-      const q = qs("qty");
-      if (q) document.getElementById("quantity").value = q;
-    });
-
-    // Submit handler: open Coinbase in new tab (user click), then submit form to FormSubmit.
     document.getElementById("orderForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
-      // simple client validation (extra)
+      // Validation
       const required = [
-        {selector: '#fullname', name: 'Full name'},
-        {selector: '#email', name: 'E-mail'},
-        {selector: '#street', name: 'Street'},
-        {selector: '#city', name: 'City'},
-        {selector: '#postal', name: 'Postal code'},
-        {selector: '#country', name: 'Country'}
+        '#fullname','#email','#street','#city','#postal','#country'
       ];
-      for (const r of required) {
-        const el = document.querySelector(r.selector);
-        if (!el || !el.value.trim()) {
-          alert(r.name + " is required. Please fill it in.");
-          el && el.focus();
-          return;
-        }
+      for(const sel of required){
+        const el = document.querySelector(sel);
+        if(!el.value.trim()){ alert("Please fill all required fields"); el.focus(); return; }
       }
 
-      // Open checkout in new tab (immediately so popup blockers allow it)
-      const checkoutWindow = window.open(CHECKOUT_URL, "_blank");
-      if (!checkoutWindow) {
-        alert("Popup blocked. Please allow popups for this site or complete the checkout link manually.");
-        return;
-      }
+      // Open Coinbase checkout
+      const win = window.open(CHECKOUT_URL,"_blank");
+      if(!win){ alert("Popup blocked. Please allow popups."); return; }
 
-      // disable buy button to avoid double submits
+      // Disable button
       const btn = document.getElementById("buyButton");
-      btn.disabled = true;
-      btn.textContent = "Processing…";
+      btn.disabled=true; btn.textContent="Processing…";
 
-      // small delay so new tab opens reliably, then submit form (native submit -> posts to FormSubmit and redirects to _next)
-      setTimeout(() => {
-        e.target.submit();
-      }, 250);
+      // Submit form after short delay
+      setTimeout(()=>{ e.target.submit(); }, 250);
     });
   </script>
 </body>
