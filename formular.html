@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Kauf mit Krypto</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 500px; margin: 40px auto; text-align: center; }
+    input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 6px; }
+    label { display: block; text-align: left; margin-top: 15px; font-weight: bold; }
+    button { display:none; } /* wird ersetzt durch dein Coinbase-Button */
+  </style>
+</head>
+<body>
+  <h2>Bestellformular</h2>
+  <form id="orderForm">
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">E-Mail</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="adresse">Adresse</label>
+    <input type="text" id="adresse" name="adresse" required>
+
+    <a id="buyBtn"
+       href="#"
+       style="
+         display:inline-block;
+         background: linear-gradient(90deg, #FF9900, #FF6600);
+         color:white;
+         font-weight:bold;
+         text-decoration:none;
+         padding:15px 40px;
+         border-radius:10px;
+         font-size:18px;
+         letter-spacing:1px;
+         transition: transform 0.2s, box-shadow 0.2s;
+       "
+       onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.4)';"
+       onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+      🌰 > BUY HERE < 🌰
+    </a>
+  </form>
+
+  <script>
+    document.getElementById("buyBtn").addEventListener("click", function(e) {
+      e.preventDefault();
+
+      // Kundendaten sammeln
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const adresse = document.getElementById("adresse").value;
+
+      if (!name || !email || !adresse) {
+        alert("Bitte alle Felder ausfüllen!");
+        return;
+      }
+
+      // E-Mail vorbereiten
+      const subject = "Neue Bestellung";
+      const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0AAdresse: ${adresse}`;
+      window.location.href = `mailto:imanvanruler@freenet.de?subject=${subject}&body=${body}`;
+
+      // Weiterleitung zu Coinbase (nach kleiner Verzögerung)
+      setTimeout(() => {
+        window.open("https://commerce.coinbase.com/checkout/e2aedc7b-f013-4070-9d6d-05c2a7cbd9b8", "_blank");
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
