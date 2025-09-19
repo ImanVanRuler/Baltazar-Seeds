@@ -17,7 +17,6 @@
       --accent: #ff0b0b;
     }
 
-    /* Grundlayout */
     body, html {
       margin: 0;
       padding: 0;
@@ -27,7 +26,6 @@
       overflow-x: hidden;
     }
 
-    /* Fade-In Effekt */
     body {
       opacity: 0;
       transition: opacity 1s ease;
@@ -36,7 +34,6 @@
       opacity: 1;
     }
 
-    /* Header / Menü */
     header {
       display: flex;
       justify-content: space-between;
@@ -70,7 +67,6 @@
       border-radius: 4px;
     }
 
-    /* Hero-Bereich */
     .hero {
       position: relative;
       text-align: center;
@@ -118,7 +114,6 @@
       to { opacity: 1; }
     }
 
-    /* Kategorien-Filter */
     .category-bar {
       display: flex;
       justify-content: center;
@@ -148,7 +143,6 @@
       color: black;
     }
 
-    /* Strains Grid */
     .strain-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -202,7 +196,6 @@
       text-shadow: 1px 1px 0 #000;
     }
 
-    /* Buttons */
     .btn {
       display: inline-block;
       margin-top: 0.8rem;
@@ -221,7 +214,6 @@
       color: black;
     }
 
-    /* Footer */
     footer {
       text-align: center;
       padding: 2rem 1rem;
@@ -243,7 +235,6 @@
       border-radius: 4px;
     }
 
-    /* Donate Button */
     .donate-btn {
       position: fixed;
       bottom: 1rem;
@@ -270,151 +261,143 @@
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <h1>Baltazar Seeds</h1>
-    <nav>
-      <a href="index.html">Entrance</a>
-      <a href="seite3.html">Strains</a>
-      <a href="mailto:imanvanruler@freenet.de">Contact</a>
-      <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i></a>
-      <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
-    </nav>
-  </header>
+<header>
+  <h1>Baltazar Seeds</h1>
+  <nav>
+    <a href="index.html">Entrance</a>
+    <a href="seite3.html">Strains</a>
+    <a href="mailto:imanvanruler@freenet.de">Contact</a>
+    <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
+    <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+  </nav>
+</header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <video autoplay muted loop playsinline>
-      <source src="INTRO.mp4" type="video/mp4">
-    </video>
-    <div class="hero-text">
-      <h2>BALTAZAR SEEDS</h2>
-      <p>Discover New Genetics</p>
-    </div>
-  </section>
-
-  <!-- Kategorien-Reiter -->
-  <div class="category-bar">
-    <button class="active" data-category="all">Alle</button>
-    <button data-category="MOSTLY SATIVA">MOSTLY SATIVA</button>
-    <button data-category="MOSTLY INDICA">MOSTLY INDICA</button>
-    <button data-category="BALANCED">BALANCED</button>
-    <button data-category="SPECIAL">SPECIAL</button>
-    <button data-category="MERCH">MERCH</button>
+<section class="hero">
+  <video autoplay muted loop playsinline>
+    <source src="INTRO.mp4" type="video/mp4">
+  </video>
+  <div class="hero-text">
+    <h2>BALTAZAR SEEDS</h2>
+    <p>Discover New Genetics</p>
   </div>
+</section>
 
-  <!-- Strains Grid -->
-  <section class="strain-grid">
-    <div class="strain-card" data-category="MOSTLY SATIVA">
-      <img src="STRAIN1.JPG" alt="Baltazar Haze" loading="lazy">
-      <div class="info">
-        <h3>BALTAZAR HAZE</h3>
-        <p>Creative & Psychedelic</p>
-        <a href="strain1.html" class="btn">View Details</a>
-      </div>
+<div class="category-bar">
+  <button class="active" data-category="all">Alle</button>
+  <button data-category="MOSTLY SATIVA">MOSTLY SATIVA</button>
+  <button data-category="MOSTLY INDICA">MOSTLY INDICA</button>
+  <button data-category="BALANCED">BALANCED</button>
+  <button data-category="SPECIAL">SPECIAL</button>
+  <button data-category="MERCH">MERCH</button>
+</div>
+
+<section class="strain-grid">
+  <div class="strain-card" data-category="MOSTLY SATIVA">
+    <img src="STRAIN1.JPG" alt="Baltazar Haze" loading="lazy">
+    <div class="info">
+      <h3>BALTAZAR HAZE</h3>
+      <p>Creative & Psychedelic</p>
+      <a href="strain1.html" class="btn">View Details</a>
     </div>
-    <div class="strain-card" data-category="MOSTLY INDICA">
-      <img src="STRAIN2.JPG" alt="Baltazar Kush" loading="lazy">
-      <div class="info">
-        <h3>BALTAZAR KUSH</h3>
-        <p>Gassy & Strong</p>
-        <a href="strain2.html" class="btn">View Details</a>
-      </div>
+  </div>
+  <div class="strain-card" data-category="MOSTLY INDICA">
+    <img src="STRAIN2.JPG" alt="Baltazar Kush" loading="lazy">
+    <div class="info">
+      <h3>BALTAZAR KUSH</h3>
+      <p>Gassy & Strong</p>
+      <a href="strain2.html" class="btn">View Details</a>
     </div>
-    <div class="strain-card" data-category="BALANCED">
-      <img src="STRAIN3.JPG" alt="Baltazar White Widow" loading="lazy">
-      <div class="info">
-        <h3>BALTAZAR WHITE WIDOW</h3>
-        <p>Balanced & Sweet</p>
-        <a href="strain3.html" class="btn">View Details</a>
-      </div>
+  </div>
+  <div class="strain-card" data-category="BALANCED">
+    <img src="STRAIN3.JPG" alt="Baltazar White Widow" loading="lazy">
+    <div class="info">
+      <h3>BALTAZAR WHITE WIDOW</h3>
+      <p>Balanced & Sweet</p>
+      <a href="strain3.html" class="btn">View Details</a>
     </div>
-    <div class="strain-card" data-category="SPECIAL">
-      <img src="STRAIN4.JPG" alt="Baltazar Skunk" loading="lazy">
-      <div class="info">
-        <h3>BALTAZAR SKUNK</h3>
-        <p>Classic & Stinky</p>
-        <a href="strain4.html" class="btn">View Details</a>
-      </div>
+  </div>
+  <div class="strain-card" data-category="SPECIAL">
+    <img src="STRAIN4.JPG" alt="Baltazar Skunk" loading="lazy">
+    <div class="info">
+      <h3>BALTAZAR SKUNK</h3>
+      <p>Classic & Stinky</p>
+      <a href="strain4.html" class="btn">View Details</a>
     </div>
-    <div class="strain-card" data-category="MOSTLY SATIVA">
-      <img src="STRAIN5.JPG" alt="Baltazar Sour Diesel" loading="lazy">
-      <div class="info">
-        <h3>BALTAZAR SOUR DIESEL</h3>
-        <p>Gassy & Powerful</p>
-        <a href="strain5.html" class="btn">View Details</a>
-      </div>
+  </div>
+  <div class="strain-card" data-category="MOSTLY SATIVA">
+    <img src="STRAIN5.JPG" alt="Baltazar Sour Diesel" loading="lazy">
+    <div class="info">
+      <h3>BALTAZAR SOUR DIESEL</h3>
+      <p>Gassy & Powerful</p>
+      <a href="strain5.html" class="btn">View Details</a>
     </div>
-    <div class="strain-card" data-category="SPECIAL">
-      <img src="STRAIN6.JPG" alt="Baltazar Purple Nightmare" loading="lazy">
-      <div class="info">
-        <h3>BALTAZAR PURPLE NIGHTMARE</h3>
-        <p>Sweet & Relaxing</p>
-        <a href="strain6.html" class="btn">View Details</a>
-      </div>
-        <div class="strain-card" data-category="MERCH">
-      <img src="MERCH1.JPG" alt="Baltazar Merch" loading="lazy">
-      <div class="info">
-        <h3>BALTAZAR MERCH</h3>
-        <p>Cool & Easy</p>
-        <a href="merch1.html" class="btn">View Details</a>
-      </div>
+  </div>
+  <div class="strain-card" data-category="SPECIAL">
+    <img src="STRAIN6.JPG" alt="Baltazar Purple Nightmare" loading="lazy">
+    <div class="info">
+      <h3>BALTAZAR PURPLE NIGHTMARE</h3>
+      <p>Sweet & Relaxing</p>
+      <a href="strain6.html" class="btn">View Details</a>
     </div>
+  </div>
+  <div class="strain-card" data-category="MERCH">
+    <img src="MERCH1.JPG" alt="Baltazar Merch" loading="lazy">
+    <div class="info">
+      <h3>BALTAZAR MERCH</h3>
+      <p>Cool & Easy</p>
+      <a href="merch1.html" class="btn">View Details</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <section class="visitor-map" style="text-align:center; margin: 3rem 0;">
+    <h2>🌍 Visitors Worldwide 🌍</h2>
+    <p>Check out where our visitors are coming from!</p>
+    <script async type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=zbq285_vV4ZsI_wNWR3GBf4eyG11UvC5eDNTjYKyz-c"></script>
   </section>
 
-  <!-- Footer -->
-  <footer>
-    <section class="visitor-map" style="text-align:center; margin: 3rem 0;">
-      <h2>🌍 Visitors Worldwide 🌍</h2>
-      <p>Check out where our visitors are coming from!</p>
-      <script async type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=zbq285_vV4ZsI_wNWR3GBf4eyG11UvC5eDNTjYKyz-c"></script>
-    </section>
+  &copy; 2025 Baltazar Seeds - Badfarmes Genetics
 
-    &copy; 2025 Baltazar Seeds - Badfarmes Genetics
+  <div class="footer-socials" style="margin-top:1rem;">
+    <a href="mailto:imanvanruler@freenet.de"><i class="fas fa-envelope"></i></a>
+    <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
+    <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+  </div>
+</footer>
 
-    <div class="footer-socials" style="margin-top:1rem;">
-      <a href="mailto:imanvanruler@freenet.de"><i class="fas fa-envelope"></i></a>
-      <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i></a>
-      <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
-    </div>
-  </footer>
+<a href="https://commerce.coinbase.com/checkout/44837643-3abd-425c-9387-5705cfd1e2ca" target="_blank" class="donate-btn">💎DONATE💎</a>
 
-  <!-- Donate Button -->
-  <a href="https://commerce.coinbase.com/checkout/44837643-3abd-425c-9387-5705cfd1e2ca" target="_blank" class="donate-btn">💎DONATE💎</a>
+<script>
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+    document.querySelector('.strain-grid').classList.add('loaded');
 
-  <script>
-    // Fade-In beim Laden
-    window.addEventListener('load', () => {
-      document.body.classList.add('loaded');
-      document.querySelector('.strain-grid').classList.add('loaded');
+    // Produkte mischen
+    const grid = document.querySelector('.strain-grid');
+    const cards = Array.from(grid.children);
+    for (let i = cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      grid.appendChild(cards[j]);
+    }
+  });
 
-      // Produkte mischen (Fisher-Yates)
-      const grid = document.querySelector('.strain-grid');
-      const cards = Array.from(grid.children);
-      for (let i = cards.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        grid.appendChild(cards[j]);
-        cards.splice(j,1);
-      }
-    });
+  const buttons = document.querySelectorAll('.category-bar button');
+  const strainCards = document.querySelectorAll('.strain-card');
 
-    // Kategorie-Filter
-    const buttons = document.querySelectorAll('.category-bar button');
-    const strainCards = document.querySelectorAll('.strain-card');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
-    buttons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        buttons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const category = btn.getAttribute('data-category');
-        strainCards.forEach(card => {
-          card.style.display = (category === 'all' || card.dataset.category === category) ? 'block' : 'none';
-        });
+      const category = btn.getAttribute('data-category');
+      strainCards.forEach(card => {
+        card.style.display = (category === 'all' || card.dataset.category === category) ? 'block' : 'none';
       });
     });
-  </script>
+  });
+</script>
 </body>
 </html>
