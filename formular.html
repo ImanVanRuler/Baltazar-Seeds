@@ -87,7 +87,7 @@
 
   <h1>Order Form</h1>
 
-  <form action="https://formsubmit.co/cf8650c6fb32e89c638ad5e5b5dacab7" method="POST">
+  <form id="orderForm" action="https://formsubmit.co/cf8650c6fb32e89c638ad5e5b5dacab7" method="POST" target="_blank">
     <input type="hidden" name="_next" value="danke.html">
     <input type="hidden" name="_subject" value="New order from website">
     <input type="hidden" name="_captcha" value="false">
@@ -96,7 +96,6 @@
     <!-- Product -->
     <label for="product_display">Product</label>
     <input id="product_display" name="Product" value="10 Regular Seeds for €69.99 including shipping" readonly>
-
     <input type="hidden" id="quantity" name="Quantity" value="1">
 
     <!-- Customer info -->
@@ -147,8 +146,18 @@
 
     <p class="note">By clicking PAY HERE, you will be redirected to the Coinbase checkout in a new tab to complete payment. The order details will be emailed to us automatically.</p>
 
-    <button type="submit" id="buyButton" class="buy-btn">PAY HERE</button>
+    <button type="button" id="buyButton" class="buy-btn">PAY HERE</button>
   </form>
+
+  <script>
+    document.getElementById('buyButton').addEventListener('click', function() {
+      // Öffnet Coinbase in neuem Tab
+      window.open('https://commerce.coinbase.com/checkout/YOUR_CHECKOUT_ID', '_blank');
+
+      // Sendet die Formulardaten an Formsubmit
+      document.getElementById('orderForm').submit();
+    });
+  </script>
 
 </body>
 </html>
