@@ -13,7 +13,7 @@
       height: 100%;
       overflow: auto;
       font-family: 'Nosifer', cursive;
-      color: #ff0b0b;
+      color: #990000; /* dunkleres Rot */
     }
 
     /* Video-Hintergrund */
@@ -34,14 +34,13 @@
       transition: opacity 1s ease;
     }
 
-    /* H1-Schimmer */
     h1 {
       font-size: clamp(36px, 12vw, 120px);
       margin: 0 0 1rem;
       text-transform: uppercase;
       position: relative;
       display: inline-block;
-      background: linear-gradient(90deg, #ff0b0b, #ffd700, #ff0b0b);
+      background: linear-gradient(90deg, #990000, #ff5500, #990000);
       background-size: 200% 100%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -54,7 +53,6 @@
       100% { background-position: -200% 0; }
     }
 
-    /* Tropf-Effekt */
     h1::after {
       content: "";
       position: absolute;
@@ -64,12 +62,12 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #ff0b0b;
-      box-shadow: -120px 10px 0 -2px #ff0b0b,
-                  -60px 15px 0 -3px #b30000,
-                  0px 20px 0 -2px #ff0b0b,
-                  60px 10px 0 -2px #b30000,
-                  120px 15px 0 -3px #ff0b0b;
+      background: #990000;
+      box-shadow: -120px 10px 0 -2px #990000,
+                  -60px 15px 0 -3px #660000,
+                  0px 20px 0 -2px #990000,
+                  60px 10px 0 -2px #660000,
+                  120px 15px 0 -3px #990000;
       animation: dropFall 9s infinite ease-in-out;
     }
 
@@ -79,10 +77,9 @@
       100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
     }
 
-    /* P-Text mit Schimmer */
     p {
       font-size: 1.5rem;
-      color: #ff0b0b;
+      color: #990000;
       text-align: center;
       line-height: 1.6;
       text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000,
@@ -107,15 +104,14 @@
       100% { left: 150%; }
     }
 
-    /* Button-Stil */
     .btn {
       display: inline-block;
       margin-top: 3rem;
       padding: 1rem 2rem;
       font-size: 1.5rem;
-      color: #ff0b0b;
+      color: #990000;
       background: rgba(0,0,0,0.6);
-      border: 2px solid #ff0b0b;
+      border: 2px solid #990000;
       border-radius: 8px;
       text-decoration: none;
       transition: all 0.3s ease;
@@ -123,11 +119,11 @@
     }
 
     .btn:hover {
-      background: #ff0b0b;
+      background: #990000;
       color: black;
     }
 
-    /* Schwarzer Overlay für Fade-in */
+    /* Schwarzes Overlay für Fade-in und Fade-out */
     #fadeOverlay {
       position: fixed;
       top: 0; left: 0;
@@ -148,7 +144,7 @@
     Dein Browser unterstützt kein HTML5-Video.
   </video>
 
-  <!-- Overlay für Fade-in -->
+  <!-- Overlay für Fade -->
   <div id="fadeOverlay"></div>
 
   <!-- Inhalt -->
@@ -169,16 +165,30 @@
 
     <!-- Buttons -->
     <a href="index.html" class="btn">Back To The Entrance</a>
-    <a href="seite3.html" class="btn">I’m 21+ Let Me In!!</a>
+    <a href="seite3.html" class="btn" id="enter21">I’m 21+ Let Me In!!</a>
   </div>
 
   <script>
+    const overlay = document.getElementById('fadeOverlay');
+    const content = document.getElementById('content');
+
     // Fade-in beim Laden
     window.addEventListener('load', () => {
-      const overlay = document.getElementById('fadeOverlay');
-      const content = document.getElementById('content');
-      overlay.style.opacity = 0; // Overlay ausblenden
-      content.style.opacity = 1; // Inhalt einblenden
+      content.style.opacity = 1;
+      overlay.style.opacity = 0;
+    });
+
+    // Fade-out beim Button-Klick
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = this.href;
+        overlay.style.opacity = 1; // Schwarz wieder einblenden
+        content.style.opacity = 0;
+        setTimeout(() => {
+          window.location = target;
+        }, 1000); // 1s warten bis Overlay voll sichtbar
+      });
     });
   </script>
 
