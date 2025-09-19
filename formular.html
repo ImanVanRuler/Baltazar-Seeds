@@ -97,10 +97,15 @@
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
 
-    <!-- Product Info -->
-    <label for="product_display">Product</label>
-    <input id="product_display" name="Product" value="10 Regular Seeds for €69.99 including shipping" readonly>
-    <input type="hidden" name="Quantity" value="1">
+    <!-- Product Selection -->
+    <label for="product_select">Select Product *</label>
+    <select id="product_select" name="Product" required>
+      <option value="">-- Choose your product --</option>
+      <option value="BALTAZAR HAZE (10 Regular Seeds for €69.99 including shipping)">BALTAZAR HAZE (10 Regular Seeds for €69.99 including shipping)</option>
+      <option value="BALTAZAR KUSH (10 Regular Seeds for €69.99 including shipping)">BALTAZAR KUSH (10 Regular Seeds for €69.99 including shipping)</option>
+      <option value="BALTAZAR WHITE WIDOW (10 Regular Seeds for €69.99 including shipping)">BALTAZAR WHITE WIDOW (10 Regular Seeds for €69.99 including shipping)</option>
+      <option value="BALTAZAR SKUNK (10 Regular Seeds for €69.99 including shipping)">BALTAZAR SKUNK (10 Regular Seeds for €69.99 including shipping)</option>
+    </select>
 
     <!-- Customer Info -->
     <div class="row">
@@ -161,7 +166,7 @@
       e.preventDefault();
 
       // Validation
-      const requiredFields = ['#fullname','#email','#street','#city','#postal','#country'];
+      const requiredFields = ['#product_select','#fullname','#email','#street','#city','#postal','#country'];
       for(const sel of requiredFields){
         const el = document.querySelector(sel);
         if(!el.value.trim()){ alert(el.previousElementSibling.textContent + " is required"); el.focus(); return; }
