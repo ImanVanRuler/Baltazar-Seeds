@@ -20,6 +20,15 @@
       overflow-x: hidden;
     }
 
+    /* Fade-In Effekt */
+    body {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    body.loaded {
+      opacity: 1;
+    }
+
     /* Header / Menü */
     header {
       display: flex;
@@ -54,7 +63,6 @@
       border-radius: 4px;
     }
 
-    /* Social Icons größer */
     nav a.instagram, nav a.youtube, nav a.twitter, nav a.X {
       font-size: 1.5rem;
     }
@@ -76,6 +84,8 @@
       height: 100%;
       object-fit: cover;
       z-index: 0;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
     }
 
     .hero .hero-text {
@@ -90,12 +100,23 @@
       margin-bottom: 1rem;
     }
 
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
     /* Strains Grid */
     .strain-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 2rem;
       padding: 2rem 4vw;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .strain-grid.loaded {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .strain-card {
@@ -177,20 +198,20 @@
       border-radius: 4px;
     }
 
-    /* Donate Button */
+    /* Donate Button unten rechts */
     .donate-btn {
       position: fixed;
-      top: 1rem;
-      left: 1rem;
-      padding: 0.5rem 1rem;
-      font-size: 0.85rem;
+      bottom: 1rem;
+      right: 1rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.75rem;
       font-family: 'Nosifer', cursive;
       text-decoration: none;
       color: #fff;
       background: linear-gradient(145deg, #ff4d4d, #ff0b0b);
-      border-radius: 8px;
+      border-radius: 6px;
       border: 2px solid #ff0b0b;
-      box-shadow: 0 3px 10px rgba(255,11,11,0.5);
+      box-shadow: 0 2px 6px rgba(255,11,11,0.5);
       z-index: 9999;
       transition: all 0.3s ease, transform 0.2s ease;
       text-shadow: 1px 1px 2px black;
@@ -198,7 +219,7 @@
     .donate-btn:hover {
       background: linear-gradient(145deg, #ff0b0b, #ff4d4d);
       transform: scale(1.05);
-      box-shadow: 0 5px 15px rgba(255,11,11,0.7);
+      box-shadow: 0 4px 12px rgba(255,11,11,0.7);
     }
   </style>
 </head>
@@ -267,7 +288,6 @@
 
   <!-- Footer -->
   <footer>
-    <!-- Visitor Map -->
     <section class="visitor-map" style="text-align:center; margin: 3rem 0;">
       <h2>🌍 Visitors Worldwide 🌍</h2>
       <p>Check out where our visitors are coming from!</p>
@@ -284,8 +304,16 @@
     </div>
   </footer>
 
-  <!-- Donate Button -->
+  <!-- Donate Button unten rechts -->
   <a href="https://commerce.coinbase.com/checkout/44837643-3abd-425c-9387-5705cfd1e2ca" target="_blank" class="donate-btn">💎DONATE💎</a>
+
+  <script>
+    // Fade-In beim Laden
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+      document.querySelector('.strain-grid').classList.add('loaded');
+    });
+  </script>
 
 </body>
 </html>
