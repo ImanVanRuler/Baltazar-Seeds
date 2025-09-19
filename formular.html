@@ -2,69 +2,107 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Order form</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Order Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body { font-family: Arial, sans-serif; max-width: 760px; margin: 28px auto; padding: 0 16px; }
-    h1 { text-align:center; }
-    form { background:#fafafa; border:1px solid #eee; padding:20px; border-radius:8px; }
-    label { display:block; margin-top:12px; font-weight:600; }
-    input, select, textarea { width:100%; padding:10px; margin-top:6px; box-sizing:border-box; border-radius:6px; border:1px solid #ccc; }
-    .row { display:flex; gap:10px; }
-    .row > * { flex:1; }
-    .small { width:140px; }
-    .note { font-size:13px; color:#555; margin-top:6px; }
-    .buy-btn {
-      display:inline-block;
-      background: linear-gradient(90deg, #FF9900, #FF6600);
-      color:white;
-      font-weight:bold;
-      text-decoration:none;
-      padding:15px 40px;
-      border-radius:10px;
-      font-size:18px;
-      letter-spacing:1px;
-      border:none;
-      cursor:pointer;
-      transition: transform 0.12s, box-shadow 0.12s;
-      margin-top:14px;
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #f9f9f9, #e0e0f0);
+      min-height: 100vh;
     }
-    .buy-btn:disabled { opacity:0.6; cursor:not-allowed; transform:none; box-shadow:none; }
-    .buy-btn:hover { transform:scale(1.03); box-shadow:0 6px 18px rgba(0,0,0,0.18); }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #222;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+    }
+
+    form {
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .row > * { flex: 1; }
+
+    .note { font-size: 13px; color: #555; margin-top: 8px; }
+
+    .buy-btn {
+      display: block;
+      background: linear-gradient(90deg, #FF9900, #FF6600);
+      color: #fff;
+      font-weight: bold;
+      text-decoration: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .buy-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .buy-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
   </style>
 </head>
 <body>
-  <h1>Order form</h1>
 
-  <!--
-    NOTE: form action uses FormSubmit which posts the form to your e-mail:
-    You must verify your email once (you'll get a verification mail) for it to work.
-    If you prefer another service (Formspree / EmailJS) tell me and I'll adapt the code.
-  -->
-  <form id="orderForm"
-        action="https://formsubmit.co/cf8650c6fb32e89c638ad5e5b5dacab7"
-        method="POST">
+  <h1>Order Form</h1>
 
-    <!-- FormSubmit config -->
-    <input type="hidden" name="_next" value="danke.html"> <!-- relative thank-you page -->
+  <form action="https://formsubmit.co/cf8650c6fb32e89c638ad5e5b5dacab7" method="POST">
+    <input type="hidden" name="_next" value="danke.html">
     <input type="hidden" name="_subject" value="New order from website">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_template" value="table">
 
-    <!-- Product info (hidden, but also shown in readonly field) -->
-    <label for="product">Product</label>
-    <input id="product_display" name="Product" readonly>
+    <!-- Product -->
+    <label for="product_display">Product</label>
+    <input id="product_display" name="Product" value="10 Regular Seeds for €69.99 including shipping" readonly>
 
-    <input type="hidden" id="product_name" name="Product Name" value="">
-    <input type="hidden" id="product_sku" name="SKU" value="">
-    <input type="hidden" id="product_price" name="Price" value="">
+    <input type="hidden" id="quantity" name="Quantity" value="1">
 
-    <label for="quantity">Quantity</label>
-    <input id="quantity" name="Quantity" type="number" min="1" value="1" required>
-
+    <!-- Customer info -->
     <div class="row">
       <div>
-        <label for="fullname">Full name *</label>
+        <label for="fullname">Full Name *</label>
         <input id="fullname" name="Full Name" type="text" required>
       </div>
       <div>
@@ -79,12 +117,12 @@
         <input id="email" name="Email" type="email" required>
       </div>
       <div>
-        <label for="phone">Phone</label>
+        <label for="phone">Phone (optional)</label>
         <input id="phone" name="Phone" type="tel" placeholder="+49 151 12345678">
       </div>
     </div>
 
-    <label>Shipping address *</label>
+    <label>Shipping Address *</label>
     <input name="Shipping Street" id="street" placeholder="Street name and number" required>
     <div class="row">
       <input name="Shipping City" id="city" placeholder="City" required>
@@ -92,92 +130,25 @@
     </div>
     <div class="row">
       <input name="Shipping State/Province" id="state" placeholder="State / Province">
-      <input list="countries" name="Shipping Country" id="country" placeholder="Country" required>
+      <select name="Shipping Country" id="country" required>
+        <option value="">Select country</option>
+        <option>Germany</option>
+        <option>Austria</option>
+        <option>Switzerland</option>
+        <option>United States</option>
+        <option>United Kingdom</option>
+        <option>France</option>
+        <option>Netherlands</option>
+      </select>
     </div>
 
-    <datalist id="countries">
-      <option>Germany</option><option>Austria</option><option>Switzerland</option><option>United States</option>
-      <option>United Kingdom</option><option>France</option><option>Spain</option><option>Italy</option>
-      <option>Netherlands</option><option>Belgium</option><option>Sweden</option><option>Norway</option>
-      <option>Denmark</option><option>Finland</option><option>Poland</option><option>Czech Republic</option>
-      <option>Hungary</option><option>Romania</option><option>Greece</option><option>Turkey</option>
-      <option>India</option><option>China</option><option>Japan</option><option>South Korea</option>
-      <option>Australia</option><option>New Zealand</option><option>Canada</option><option>Brazil</option>
-      <option>Mexico</option><option>Argentina</option><option>South Africa</option><option>Nigeria</option>
-      <option>United Arab Emirates</option><option>Israel</option>
-    </datalist>
+    <label for="notes">Order Notes (optional)</label>
+    <textarea id="notes" name="Order Notes" rows="4" placeholder="Special shipping requests, gift note, color/size preferences..."></textarea>
 
-    <label for="notes">Order notes (optional)</label>
-    <textarea id="notes" name="Order Notes" rows="4" placeholder="e.g. special shipping requests, gift note, color/size preferences..."></textarea>
+    <p class="note">By clicking PAY HERE, you will be redirected to the Coinbase checkout in a new tab to complete payment. The order details will be emailed to us automatically.</p>
 
-    <p class="note">By clicking BUY, you will be redirected to the Coinbase checkout in a new tab to complete payment. The order details will be emailed to us automatically.</p>
-
-    <button type="submit" id="buyButton" class="buy-btn">🌰 &nbsp; &gt; BUY HERE &lt; &nbsp; 🌰</button>
+    <button type="submit" id="buyButton" class="buy-btn">PAY HERE</button>
   </form>
 
-  <script>
-    // --- CONFIG: replace only if you want a different checkout ---
-    const CHECKOUT_URL = "https://commerce.coinbase.com/checkout/e2aedc7b-f013-4070-9d6d-05c2a7cbd9b8";
-
-    // Prefill product fields from querystring if present:
-    function qs(key) {
-      const p = new URLSearchParams(location.search);
-      return p.get(key) || "";
-    }
-    document.addEventListener("DOMContentLoaded", () => {
-      const pname = qs("name") || qs("product") || "Your Product";
-      const sku = qs("sku") || "";
-      const price = qs("price") || "";
-
-      document.getElementById("product_display").value = pname;
-      document.getElementById("product_name").value = pname;
-      document.getElementById("product_sku").value = sku;
-      document.getElementById("product_price").value = price;
-
-      // optional: prefill quantity if provided
-      const q = qs("qty");
-      if (q) document.getElementById("quantity").value = q;
-    });
-
-    // Submit handler: open Coinbase in new tab (user click), then submit form to FormSubmit.
-    document.getElementById("orderForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      // simple client validation (extra)
-      const required = [
-        {selector: '#fullname', name: 'Full name'},
-        {selector: '#email', name: 'E-mail'},
-        {selector: '#street', name: 'Street'},
-        {selector: '#city', name: 'City'},
-        {selector: '#postal', name: 'Postal code'},
-        {selector: '#country', name: 'Country'}
-      ];
-      for (const r of required) {
-        const el = document.querySelector(r.selector);
-        if (!el || !el.value.trim()) {
-          alert(r.name + " is required. Please fill it in.");
-          el && el.focus();
-          return;
-        }
-      }
-
-      // Open checkout in new tab (immediately so popup blockers allow it)
-      const checkoutWindow = window.open(CHECKOUT_URL, "_blank");
-      if (!checkoutWindow) {
-        alert("Popup blocked. Please allow popups for this site or complete the checkout link manually.");
-        return;
-      }
-
-      // disable buy button to avoid double submits
-      const btn = document.getElementById("buyButton");
-      btn.disabled = true;
-      btn.textContent = "Processing…";
-
-      // small delay so new tab opens reliably, then submit form (native submit -> posts to FormSubmit and redirects to _next)
-      setTimeout(() => {
-        e.target.submit();
-      }, 250);
-    });
-  </script>
 </body>
 </html>
