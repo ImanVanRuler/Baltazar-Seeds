@@ -7,7 +7,7 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
   <!-- Font Awesome für Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
     /* Grundlayout */
@@ -122,6 +122,25 @@
       text-shadow: 1px 1px 0 #000;
     }
 
+    /* Social Media im Footer */
+    .footer-social {
+      margin: 1rem 0;
+    }
+
+    .footer-social a {
+      font-size: 1.5rem;
+      color: #ff0b0b;
+      margin: 0 0.5rem;
+      transition: 0.3s;
+    }
+
+    .footer-social a:hover {
+      color: black;
+      background: #ff0b0b;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
     /* Buttons */
     .btn {
       display: inline-block;
@@ -140,42 +159,6 @@
       background: #ff0b0b;
       color: black;
     }
-nav a.instagram {
-  font-size: 1.5rem;
-  color: #ff0b0b;
-  margin-left: 1rem;
-  transition: 0.3s;
-}
-nav a.instagram:hover {
-  color: black;
-  background: #ff0b0b;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-}
-nav a.youtube {
-  font-size: 1.5rem;
-  color: #ff0b0b;
-  margin-left: 1rem;
-  transition: 0.3s;
-}
-nav a.youtube:hover {
-  color: black;
-  background: #ff0b0b;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-}
-nav a.twitter {
-  font-size: 1.5rem;
-  color: #ff0b0b;
-  margin-left: 1rem;
-  transition: 0.3s;
-}
-nav a.twitter:hover {
-  color: black;
-  background: #ff0b0b;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-}
   </style>
 </head>
 
@@ -184,17 +167,14 @@ nav a.twitter:hover {
   <!-- Header mit Menü -->
   <header>
     <h1>🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</h1>
-<nav>
-<a href="index.html">Entrance</a>
-<a href="seite3.html">Strains</a>
-<a href="mailto:imanvanruler@freenet.de">Contact</a>
-<a href="https://x.com/BALTAZARSEEDS" target="_blank" class="X">
-<i class="fa-brands fa-x-twitter"></i></a>
-<a href="https://www.instagram.com/real_jack_james" target="_blank" class="instagram">
-<i class="fab fa-instagram"></i></a>
-<a href="https://www.youtube.com/@IMANVANRULER" target="_blank" class="youtube">
-<i class="fab fa-youtube"></i></a>
-</nav>
+    <nav>
+      <a href="index.html">Entrance</a>
+      <a href="seite3.html">Strains</a>
+      <a href="mailto:imanvanruler@freenet.de">Contact</a>
+      <a href="https://x.com/BALTAZARSEEDS" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="https://www.instagram.com/real_jack_james" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.youtube.com/@IMANVANRULER" target="_blank"><i class="fab fa-youtube"></i></a>
+    </nav>
   </header>
 
   <!-- Hero -->
@@ -240,51 +220,50 @@ nav a.twitter:hover {
         <a href="strain4.html" class="btn">View Details</a>
       </div>
     </div>
-    
-    <!-- Mehr Strains können hier hinzugefügt werden -->
   </section>
 
   <!-- Footer -->
   <footer>
+    <!-- Visitor Map Section -->
+    <section class="visitor-map" style="text-align:center; margin: 3rem 0;">
+      <h2>🌍 Visitors Worldwide 🌍</h2>
+      <p>Check out where our visitors are coming from!</p>
+      <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=zbq285_vV4ZsI_wNWR3GBf4eyG11UvC5eDNTjYKyz-c"></script>
+    </section>
 
-<!-- Visitor Map Section -->
-<section class="visitor-map" style="text-align:center; margin: 3rem 0;">
-  <h2>🌍 Visitors Worldwide 🌍</h2>
-  <p>Check out where our visitors are coming from!</p>
+    <!-- Social Media im Footer -->
+    <div class="footer-social">
+      <a href="https://x.com/BALTAZARSEEDS" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="https://www.instagram.com/real_jack_james" target="_blank"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.youtube.com/@IMANVANRULER" target="_blank"><i class="fab fa-youtube"></i></a>
+    </div>
 
-  <!-- ClustrMaps Globe -->
-  <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=zbq285_vV4ZsI_wNWR3GBf4eyG11UvC5eDNTjYKyz-c"></script>
-</section>
-    
     &copy; 2025 Baltazar Seeds - Real Vibes. Real Life. Real Seeds.
   </footer>
 
- <!-- Stylish Crypto Donate Button -->
-<a href="https://commerce.coinbase.com/checkout/44837643-3abd-425c-9387-5705cfd1e2ca" target="_blank"
-   style="
-      position: fixed;
-      top: 1rem;
-      left: 1rem;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      font-family: 'Nosifer', cursive;
-      text-decoration: none;
-      color: #fff;
-      background: linear-gradient(145deg, #ff4d4d, #ff0b0b);
-      border-radius: 12px;
-      border: 2px solid #ff0b0b;
-      box-shadow: 0 5px 15px rgba(255,11,11,0.5);
-      z-index: 9999;
-      transition: all 0.3s ease, transform 0.2s ease;
-      text-shadow: 1px 1px 2px black;
-   "
-   onmouseover="this.style.background='linear-gradient(145deg, #ff0b0b, #ff4d4d)'; this.style.transform='scale(1.1)'; this.style.boxShadow='0 8px 20px rgba(255,11,11,0.7)';"
-   onmouseout="this.style.background='linear-gradient(145deg, #ff4d4d, #ff0b0b)'; this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(255,11,11,0.5)';">
-   💎 Support With Crypto 💎
-</a>
+  <!-- Stylish Crypto Donate Button -->
+  <a href="https://commerce.coinbase.com/checkout/44837643-3abd-425c-9387-5705cfd1e2ca" target="_blank"
+     style="
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        font-family: 'Nosifer', cursive;
+        text-decoration: none;
+        color: #fff;
+        background: linear-gradient(145deg, #ff4d4d, #ff0b0b);
+        border-radius: 12px;
+        border: 2px solid #ff0b0b;
+        box-shadow: 0 5px 15px rgba(255,11,11,0.5);
+        z-index: 9999;
+        transition: all 0.3s ease, transform 0.2s ease;
+        text-shadow: 1px 1px 2px black;
+     "
+     onmouseover="this.style.background='linear-gradient(145deg, #ff0b0b, #ff4d4d)'; this.style.transform='scale(1.1)'; this.style.boxShadow='0 8px 20px rgba(255,11,11,0.7)';"
+     onmouseout="this.style.background='linear-gradient(145deg, #ff4d4d, #ff0b0b)'; this.style.transform='scale(1)'; this.style.boxShadow='0 5px 15px rgba(255,11,11,0.5)';">
+     💎 Support With Crypto 💎
+  </a>
 
-
-  
 </body>
-
 </html>
