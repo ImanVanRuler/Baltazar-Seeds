@@ -1,16 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Thank you</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>body{font-family:Arial,Helvetica,sans-serif;max-width:700px;margin:60px auto;text-align:center;padding:0 16px;} .box{border:1px solid #eee;padding:30px;border-radius:10px;background:#fafafa}</style>
+  <meta charset="utf-8">
+  <title>Thank You!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f0f0f5, #d6e0f0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 50px 40px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .checkmark {
+      font-size: 60px;
+      color: #FF6600;
+      margin-bottom: 20px;
+      animation: pop 0.6s ease forwards;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      color: #222;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .button {
+      display: inline-block;
+      background: linear-gradient(90deg, #FF9900, #FF6600);
+      color: #fff;
+      font-weight: bold;
+      padding: 15px 40px;
+      font-size: 18px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0);}
+      70% { transform: scale(1.2);}
+      100% { transform: scale(1);}
+    }
+  </style>
 </head>
 <body>
-  <div class="box">
-    <h1>Thank you!</h1>
-    <p>Your order request has been sent. Please complete the payment in the Coinbase tab that just opened.</p>
-    <p>If you don't see the Coinbase tab, please check your popup blocker or click the checkout link on the product page again.</p>
+  <div class="container">
+    <div class="checkmark">✔️</div>
+    <h1>Thank You!</h1>
+    <p>Your order has been successfully submitted.<br>
+       You will receive a confirmation email shortly.<br>
+       Our team will process your order and ship it as soon as possible.</p>
+    <a href="index.html" class="button">Back to Shop</a>
   </div>
 </body>
 </html>
