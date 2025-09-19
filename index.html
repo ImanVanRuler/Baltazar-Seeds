@@ -100,10 +100,14 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: black;
-      opacity: 0;
-      pointer-events: none;
+      opacity: 1; /* Start: schwarz sichtbar */
       z-index: 999;
       transition: opacity 1s ease;
+    }
+
+    #transitionOverlay.hidden {
+      opacity: 0;
+      pointer-events: none;
     }
   </style>
 </head>
@@ -131,13 +135,22 @@
     const btn = document.getElementById('enterBtn');
     const overlay = document.getElementById('transitionOverlay');
 
+    // Fade-in beim Laden
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+      }, 300); // kleine Verzögerung für sanfteren Effekt
+    });
+
+    // Fade-out beim Klick
     btn.addEventListener('click', function(e) {
-      e.preventDefault(); // Verhindert sofortige Weiterleitung
-      overlay.style.opacity = 1; // Overlay einblenden
+      e.preventDefault();
+      overlay.classList.remove('hidden'); // wieder sichtbar machen
+      overlay.style.opacity = 1;
 
       setTimeout(() => {
-        window.location.href = btn.href; // nach 1 Sekunde weiterleiten
-      }, 1000); // Dauer entspricht Transition
+        window.location.href = btn.href;
+      }, 1000);
     });
   </script>
 </body>
