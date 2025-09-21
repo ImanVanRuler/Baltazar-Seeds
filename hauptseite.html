@@ -4,146 +4,193 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Baltazar Seeds</title>
-  <!-- Google Font: Nosifer -->
+  <!-- Google Font: Nosifer (beibehalten für das thematische Horror-Feeling, aber mit Fallback) -->
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: auto;
-      font-family: 'Nosifer', cursive;
-      color: #990000; /* dunkleres Rot */
+      overflow: hidden; /* Verhindert Scrollen, da Inhalt zentriert ist */
+      font-family: 'Nosifer', cursive, sans-serif; /* Fallback für bessere Lesbarkeit */
+      color: #990000; /* Dunkleres Rot für Text */
+      background-color: #000; /* Fallback für Video-Ladezeit */
     }
 
     /* Video-Hintergrund */
     .video-bg {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
       object-fit: cover;
       z-index: -1;
+      filter: brightness(0.7); /* Leicht abdunkeln für besseren Kontrast */
     }
 
     .wrap {
       position: relative;
       z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 2rem;
       text-align: center;
-      padding: 10vh 4vw;
       opacity: 0; /* Start unsichtbar für Fade-in */
-      transition: opacity 1s ease;
+      transition: opacity 1.5s ease-in-out;
     }
 
-   h1 {
-  font-size: clamp(40px, 10vw, 100px); 
-  margin: 0 0 1rem;
-  text-transform: uppercase;
-  position: relative;
-  display: inline-block;
-  color: #000000; /* Rahmenfarbe passend zu deinem Text */
-  background: transparent;
-  -webkit-text-stroke-width: 1px; 
-  -webkit-text-stroke-color: #990000; 
-  text-shadow: 
-    1px 1px #990000,
-    -1px -1px #990000,
-    1px -1px #990000,
-    -1px 1px #990000;
-  animation: floatText 3s ease-in-out infinite alternate;
-}
-    
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
+    h1 {
+      font-size: clamp(3rem, 10vw, 6rem); /* Angepasst für bessere Skalierung */
+      margin: 0 0 1.5rem;
+      text-transform: uppercase;
+      position: relative;
+      color: transparent;
+      -webkit-text-stroke: 1px #990000; /* Für Outline-Effekt */
+      text-shadow: 0 0 10px rgba(153, 0, 0, 0.5); /* Weicherer Glow */
+      animation: floatText 4s ease-in-out infinite alternate;
     }
 
     @keyframes floatText {
       0% { transform: translateY(0); }
-      100% { transform: translateY(-10px); }
+      100% { transform: translateY(-15px); }
     }
 
     h1::after {
       content: "";
       position: absolute;
       left: 50%;
+      bottom: -15px;
       transform: translateX(-50%);
-      bottom: -10px;
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: #990000;
-      box-shadow: -120px 10px 0 -2px #990000,
-                  -60px 15px 0 -3px #660000,
-                  0px 20px 0 -2px #990000,
-                  60px 10px 0 -2px #660000,
-                  120px 15px 0 -3px #990000;
-      animation: dropFall 9s infinite ease-in-out;
+      box-shadow: 
+        -150px 15px 0 -3px #990000,
+        -75px 20px 0 -4px #660000,
+        0 25px 0 -3px #990000,
+        75px 15px 0 -3px #660000,
+        150px 20px 0 -4px #990000;
+      animation: dropFall 10s infinite ease-in-out;
     }
 
     @keyframes dropFall {
       0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-      50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
+      60% { transform: translateX(-50%) translateY(15px); opacity: 1; }
+      100% { transform: translateX(-50%) translateY(50px); opacity: 0; }
     }
 
     p {
-      font-size: 1.5rem;
+      font-size: clamp(1rem, 4vw, 1.5rem); /* Responsiv */
       color: #990000;
-      text-align: center;
-      line-height: 1.6;
-      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000,
-                   0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000;
+      line-height: 1.8;
+      text-shadow: 
+        1px 1px 2px #000, 
+        -1px -1px 2px #000, 
+        1px -1px 2px #000, 
+        -1px 1px 2px #000; /* Vereinfachter Schatten für bessere Lesbarkeit */
+      max-width: 800px;
+      margin: 1.5rem auto;
       position: relative;
       overflow: hidden;
-      max-width: 900px;
-      margin: 2rem auto;
+      animation: fadeInText 2s ease-in forwards;
+    }
+
+    @keyframes fadeInText {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
 
     p::after {
       content: '';
       position: absolute;
-      top: 0; left: -150%;
-      width: 50%; height: 100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
-      transform: skewX(-20deg);
-      pointer-events: none;
-      animation: shine 6s infinite;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shine 5s infinite linear;
     }
 
     @keyframes shine {
-      0% { left: -150%; }
-      100% { left: 150%; }
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .age-confirmation {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      color: #cc0000; /* Etwas heller für Hervorhebung */
+      text-shadow: 1px 1px 1px #000;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 3rem;
     }
 
     .btn {
       display: inline-block;
-      margin-top: 3rem;
-      padding: 1rem 2rem;
-      font-size: 1.5rem;
+      padding: 1rem 2.5rem;
+      font-size: 1.2rem;
       color: #990000;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.7); /* Etwas transparenter für Tiefe */
       border: 2px solid #990000;
-      border-radius: 8px;
+      border-radius: 50px; /* Abgerundeter für moderneres Look */
       text-decoration: none;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
       cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
     }
 
     .btn:hover {
       background: #990000;
-      color: black;
+      color: #fff; /* Weiß für besseren Kontrast */
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(153,0,0,0.6);
     }
 
     /* Schwarzes Overlay für Fade-in und Fade-out */
     #fadeOverlay {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: black;
       opacity: 1; /* Start sichtbar */
       z-index: 999;
-      transition: opacity 1s ease;
+      transition: opacity 1.5s ease-in-out;
       pointer-events: none;
+    }
+
+    /* Media Queries für bessere Responsivität */
+    @media (max-width: 768px) {
+      .buttons {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 12vw, 4rem);
+      }
+
+      p {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
@@ -159,24 +206,26 @@
   <div id="fadeOverlay"></div>
 
   <!-- Inhalt -->
-  <div class="wrap" id="content">
-    <h1>WELCOME</h1>
+  <main class="wrap" id="content">
+    <h1>Welcome</h1>
     <p>
       Baltazar Seeds is the place for passionate Cannabis Growers & Breeders.  
       Every Strain is crafted with precision, tested for Quality and designed for true Enthusiasts.  
       Real Genetics. Real Passion. Real Cannabis. It's time for a New World Life!!
-    <p>
     </p>
-      <b>By entering this Site</b><br>
-      <b>you Confirm that you are 21+</b><br>
-      <b>and understand that this Website is for</b><br>
-      <b>Cannabis Growers and Breeders.</b>
+    <p class="age-confirmation">
+      <strong>By entering this Site</strong><br>
+      <strong>you Confirm that you are 21+</strong><br>
+      <strong>and understand that this Website is for</strong><br>
+      <strong>Cannabis Growers and Breeders.</strong>
     </p>
 
     <!-- Buttons -->
-    <a href="index.html" class="btn">Back To The Entrance</a>
-    <a href="seite3.html" class="btn" id="enter21"> I Agree!! I’m 21+ Let Me In!</a>
-  </div>
+    <div class="buttons">
+      <a href="index.html" class="btn">Back To The Entrance</a>
+      <a href="seite3.html" class="btn" id="enter21">I Agree!! I’m 21+ Let Me In!</a>
+    </div>
+  </main>
 
   <script>
     const overlay = document.getElementById('fadeOverlay');
@@ -196,8 +245,8 @@
         overlay.style.opacity = 1;
         content.style.opacity = 0;
         setTimeout(() => {
-          window.location = target;
-        }, 1000);
+          window.location.href = target;
+        }, 1500); // Angepasst auf Übergangszeit
       });
     });
   </script>
