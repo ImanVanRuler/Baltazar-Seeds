@@ -5,12 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Baltazar Ultra Style Seeds</title>
 
-<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <style>
-/* ---------------- Grundlayout ---------------- */
 body, html {
   margin: 0;
   padding: 0;
@@ -103,6 +101,7 @@ header nav a:hover {
   flex-wrap: wrap;
   gap: 40px;
   padding: 40px 0;
+  z-index: 1;
 }
 
 .card-section video {
@@ -195,6 +194,30 @@ footer {
 .footer-socials a:hover {
   color: #ff0055;
 }
+
+/* ---------------- Bild-Pop-up ---------------- */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 15px;
+}
+
+.lightbox:target {
+  display: flex;
+}
 </style>
 </head>
 <body>
@@ -212,31 +235,29 @@ footer {
   </nav>
 </header>
 
-<!-- Glitch Überschrift -->
 <h1 class="glitch" data-text="BALTAZAR ULTRA STYLE SEEDS">BALTAZAR ULTRA STYLE SEEDS</h1>
 
-<!-- Card-Sektion mit Hintergrundvideo -->
 <div class="card-section">
   <video autoplay muted loop playsinline>
     <source src="logovid.mp4" type="video/mp4">
     Ihr Browser unterstützt kein Video.
   </video>
 
-  <a href="https://commerce.coinbase.com/checkout/87ec418b-dde3-4173-988f-cbea7d58fb1b" class="card-link" target="_blank">
+  <a href="#img1" class="card-link">
     <div class="card">
       <img src="F1.JPG" alt="HYPE RUNNER F1">
       <p>HYPE RUNNER F1</p>
     </div>
   </a>
 
-  <a href="https://commerce.coinbase.com/checkout/77691ecd-f6b3-45bf-830a-f2e1a48d4db6" class="card-link" target="_blank">
+  <a href="#img2" class="card-link">
     <div class="card">
       <img src="F2.JPG" alt="HAZE OG">
       <p>HAZE OG</p>
     </div>
   </a>
 
-  <a href="https://commerce.coinbase.com/checkout/d30615af-3958-40e8-bd1f-1cf9a38c1ced" class="card-link" target="_blank">
+  <a href="#img3" class="card-link">
     <div class="card">
       <img src="F3.JPG" alt="RAT OG">
       <p>RAT OG</p>
@@ -246,6 +267,17 @@ footer {
 
 <!-- Back-to-Menu Button -->
 <a href="seite3.html" class="back-button">Back To Menu</a>
+
+<!-- Lightbox Pop-ups -->
+<div id="img1" class="lightbox">
+  <a href="#"><img src="F1.JPG" alt="HYPE RUNNER F1"></a>
+</div>
+<div id="img2" class="lightbox">
+  <a href="#"><img src="F2.JPG" alt="HAZE OG"></a>
+</div>
+<div id="img3" class="lightbox">
+  <a href="#"><img src="F3.JPG" alt="RAT OG"></a>
+</div>
 
 <footer>
   <div class="footer-socials">
