@@ -19,25 +19,25 @@
   --darkred:#660000;
   --muted:#bdbdbd;
   --light:#fff;
-  --transition: 0.45s cubic-bezier(.2,.9,.2,1);
-  --glow: 0 0 16px rgba(255,11,11,0.18);
+  --transition:0.45s cubic-bezier(.2,.9,.2,1);
+  --glow:0 0 16px rgba(255,11,11,0.18);
 }
 
 /* Reset & Basics */
-html,body{
+html, body {
   height:100%; margin:0; padding:0;
-  background:linear-gradient(180deg,#0b0b0b,#111);
-  color:var(--accent);
-  font-family:"Bebas Neue", "Arial", sans-serif;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+  background: linear-gradient(180deg,#0b0b0b,#111);
+  color: var(--accent);
+  font-family: "Bebas Neue", "Arial", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   letter-spacing:0.6px;
 }
-a{color:inherit;text-decoration:none}
-img{display:block;max-width:100%;height:auto;border-radius:10px;cursor:pointer;}
+a { color:inherit; text-decoration:none; }
+img { display:block; max-width:100%; height:auto; border-radius:10px; cursor:pointer; }
 
 /* Header */
-header{
+header {
   position:sticky; top:0; z-index:120;
   display:flex; align-items:center; justify-content:space-between;
   padding:0.9rem 4vw;
@@ -45,7 +45,7 @@ header{
   backdrop-filter: blur(6px);
   box-shadow:0 6px 18px rgba(0,0,0,0.6);
 }
-header h1{
+header h1 {
   margin:0;
   font-family:"Nosifer",cursive;
   font-size:1.9rem;
@@ -57,30 +57,29 @@ header h1{
   from { text-shadow: 3px 3px 0 var(--darkred), 0 0 10px rgba(255,11,11,0.06); transform:translateZ(0);}
   to { text-shadow: 4px 4px 0 var(--darkred), 0 0 18px rgba(255,11,11,0.18); transform:translateY(-1px);}
 }
-nav{display:flex;gap:1.2rem;align-items:center}
-nav a{
+nav { display:flex; gap:1.2rem; align-items:center; }
+nav a {
   color:var(--accent); padding:0.25rem 0.5rem; border-radius:6px;
-  transition:var(--transition); font-weight:500;font-family:"Bebas Neue",sans-serif;
+  transition:var(--transition); font-weight:500;
 }
-nav a:hover{background:var(--accent); color:#111; box-shadow:var(--glow);}
+nav a:hover { background:var(--accent); color:#111; box-shadow:var(--glow); }
 
 /* Page container */
-main{max-width:1200px;margin:3rem auto;padding:0 2rem;display:grid;gap:2.5rem;}
+main {
+  max-width:1200px; margin:3rem auto; padding:0 2rem; display:grid; gap:2.5rem;
+}
 
 /* Product showcase */
-.product-showcase{
-  display:grid;
-  gap:2.5rem;
-  grid-template-columns:1fr;
-  align-items:start;
+.product-showcase {
+  display:grid; gap:2.5rem; grid-template-columns:1fr; align-items:start;
 }
 
-/* Bilder mit Lightbox */
-.slideshow-container{
+/* Slideshow & Lightbox */
+.slideshow-container {
   display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;
 }
-.slide img{
-  max-width:200px; /* kleiner darstellen */
+.slide img {
+  max-width:200px;
   border-radius:12px;
   border:2px solid rgba(255,11,11,0.9);
   box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 18px rgba(255,11,11,0.06);
@@ -88,94 +87,79 @@ main{max-width:1200px;margin:3rem auto;padding:0 2rem;display:grid;gap:2.5rem;}
   object-fit:contain;
   transition: transform 0.3s;
 }
-.slide img:hover{
-  transform:scale(1.05);
+.slide img:hover { transform:scale(1.05); }
+#lightbox-overlay {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.85); display:none;
+  justify-content:center; align-items:center; z-index:999;
 }
-
-/* Lightbox Styles */
-#lightbox-overlay{
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background:rgba(0,0,0,0.85);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:999;
-}
-#lightbox-overlay img{
-  max-width:90%;
-  max-height:90%;
-  border-radius:12px;
+#lightbox-overlay img {
+  max-width:90%; max-height:90%; border-radius:12px;
   box-shadow: 0 20px 50px rgba(0,0,0,0.8);
 }
 
-/* Product info column */
-.product-info{
+/* Product info */
+.product-info {
   padding:1.2rem 1.6rem;
   color:var(--light);
   background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.12));
   border-radius:12px;
   border:1px solid rgba(255,255,255,0.03);
   box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
-  font-family:"Bebas Neue", sans-serif;
 }
-.product-info h2{
+.product-info h2 {
   margin:0 0 1rem;
-  font-family:"Bebas Neue",sans-serif;
-  font-size:2.6rem;
-  color:var(--accent);
+  font-size:2.6rem; color:var(--accent);
   text-shadow: 3px 3px 0 var(--darkred), 0 0 12px rgba(255,11,11,0.06);
 }
-.product-info p.description{color:#f5f5f5;font-weight:300;line-height:1.8;margin-bottom:1rem}
-.product-details{list-style:none;padding:0;margin:1rem 0 0;color:var(--muted)}
-.product-details li{
-  padding-left:2.2rem;position:relative;margin-bottom:.9rem;transition:var(--transition)
+.product-info p.description { color:#f5f5f5; font-weight:300; line-height:1.8; margin-bottom:1rem; }
+.product-details { list-style:none; padding:0; margin:1rem 0 0; color:var(--muted); }
+.product-details li {
+  padding-left:2.2rem; position:relative; margin-bottom:.9rem; transition:var(--transition);
 }
-.product-details li::before{
+.product-details li::before {
   content:'\f058'; font-family:"Font Awesome 6 Free"; font-weight:900;
-  position:absolute;left:0;top:0;color:var(--gold);text-shadow:1px 1px 0 var(--darkred);
+  position:absolute; left:0; top:0; color:var(--gold); text-shadow:1px 1px 0 var(--darkred);
 }
-.product-details li:hover{
-  color:var(--light);
-  text-shadow:0 0 10px rgba(255,11,11,0.12);
-  transform:translateX(6px)
+.product-details li:hover {
+  color:var(--light); text-shadow:0 0 10px rgba(255,11,11,0.12); transform:translateX(6px);
 }
 
-/* Price summary & CTA */
-.product-summary{
-  margin-top:1.6rem;
-  padding:1rem;
-  border-radius:10px;
-  background:rgba(0,0,0,0.45);
-  font-weight:700;color:var(--accent);
-  display:inline-block;
-  box-shadow: inset 0 0 10px rgba(255,11,11,0.04);
+/* Price & CTA */
+.product-summary { margin-top:1.6rem; padding:1rem; border-radius:10px; background:rgba(0,0,0,0.45); font-weight:700;color:var(--accent); display:inline-block; box-shadow: inset 0 0 10px rgba(255,11,11,0.04); }
+.btn {
+  display:inline-block; padding:.9rem 1.6rem; border-radius:10px; border:2px solid var(--accent);
+  background:transparent; color:var(--accent); cursor:pointer; font-weight:700; letter-spacing:1px; transition:var(--transition);
 }
-.btn{
-  display:inline-block;
-  padding:.9rem 1.6rem;
-  border-radius:10px;
-  border:2px solid var(--accent);
-  background:transparent;
-  color:var(--accent);
-  cursor:pointer;
-  font-weight:700;
-  letter-spacing:1px;
-  transition:var(--transition);
-  font-family:"Bebas Neue",sans-serif;
+.btn:hover { background:var(--accent); color:#111; box-shadow:0 10px 30px rgba(255,11,11,0.12); }
+
+/* Payment section */
+.payment-section {
+  display:flex; justify-content:center; align-items:center; padding:50px 20px; background-color:#1a1a1a;
 }
-.btn:hover{
-  background:var(--accent);color:#111;box-shadow:0 10px 30px rgba(255,11,11,0.12)
+.payment-box {
+  text-align:center; max-width:600px; background:#222; padding:30px; border-radius:15px;
+  color:#fff; box-shadow:0 0 20px rgba(0,0,0,0.5);
 }
+.payment-icon { font-size:50px; color:#f39c12; margin-bottom:15px; }
+.box-title { font-size:28px; margin-bottom:15px; color:#f39c12; }
+.description, .product-summary, .wallet-text, .note { margin-bottom:20px; line-height:1.5; }
+.wallet-option { margin-bottom:25px; }
+.btn-wallet {
+  display:inline-block; padding:12px 25px; background-color:#f39c12; color:#222; font-weight:bold;
+  border-radius:8px; text-decoration:none; transition:all 0.3s ease;
+}
+.btn-wallet:hover { background-color:#e67e22; }
+.wallet-logo { width:100px; margin:20px auto; display:block; }
+.note { font-size:14px; color:#ccc; }
 
 /* Footer */
-footer{padding:2.5rem 1rem;text-align:center;color:var(--muted);margin-top:3rem;background:rgba(0,0,0,0.7)}
+footer { padding:2.5rem 1rem; text-align:center; color:var(--muted); margin-top:3rem; background:rgba(0,0,0,0.7); }
 
 /* Responsive */
 @media (max-width:980px){
-  .product-showcase{grid-template-columns:1fr;gap:1.8rem}
-  .slideshow-container{flex-direction:column;align-items:center}
+  .product-showcase { grid-template-columns:1fr; gap:1.8rem; }
+  .slideshow-container { flex-direction:column; align-items:center; }
 }
 </style>
 </head>
@@ -197,36 +181,28 @@ footer{padding:2.5rem 1rem;text-align:center;color:var(--muted);margin-top:3rem;
 <main>
   <section class="product-showcase" aria-labelledby="product-title">
     <div class="slideshow-container" role="region" aria-label="Produktbilder">
-      <div class="slide">
-        <img src="MERCH1.JPG" alt="BALTAZAR MERCH - XL Black Hoody Front">
-      </div>
-      <div class="slide">
-        <img src="MERCH1A.JPG" alt="BALTAZAR MERCH - XL Black Hoody Side">
-      </div>
+      <div class="slide"><img src="MERCH1.JPG" alt="BALTAZAR MERCH - XL Black Hoody Front"></div>
+      <div class="slide"><img src="MERCH1A.JPG" alt="BALTAZAR MERCH - XL Black Hoody Side"></div>
     </div>
 
-    <!-- Produktinfo -->
     <div class="product-info" id="product-info">
       <h2 id="product-title">XL Black Hoody with Brand Logo</h2>
       <p class="description">
-        Elevate your style with this designer hoody, featuring the iconic brand logo. Made from premium, breathable organic cotton for unmatched comfort and longevity.
+        Elevate your style with this designer hoody, featuring the iconic brand logo. Made from premium, breathable organic cotton.
       </p>
       <ul class="product-details" aria-label="Produktdetails">
-        <li>Size: XL (Tailored European fit for optimal comfort)</li>
-        <li>Material: 100% Certified Organic Cotton, sustainably sourced</li>
-        <li>Production: Expertly handcrafted in the EU with superior quality</li>
-        <li>Design: Exclusive Brand Logo – a bold symbol of innovation</li>
-        <li>Care: Machine wash at 30°C, retains color and shape</li>
+        <li>Size: XL (Tailored European fit)</li>
+        <li>Material: 100% Certified Organic Cotton</li>
+        <li>Production: Handcrafted in the EU</li>
+        <li>Design: Exclusive Brand Logo</li>
+        <li>Care: Machine wash at 30°C</li>
       </ul>
-      <div style="margin-top:1.5rem">
-        <div class="product-summary">1x XL Black Hoody — 79.99€</div>
-      </div>
-      <div style="margin-top:1.8rem">
+      <div class="product-summary">1x XL Black Hoody — 79.99€</div>
+      <div style="margin-top:1.8rem; display:flex; gap:1rem; flex-wrap:wrap;">
         <a href="seite3.html" class="btn" role="button" aria-label="Zurück zum Menü">Back to Menu</a>
-        &nbsp;&nbsp;
         <a href="formular1.html" class="btn" style="border-color:var(--gold); color:var(--gold)" role="button" aria-label="Bestellung abschließen">Order with Crypto</a>
       </div>
-      <p style="margin-top:1.6rem;color:var(--muted);font-size:.95rem">
+      <p style="margin-top:1.6rem; color:var(--muted); font-size:.95rem">
         Purchasing "BALTAZAR MERCH" empowers the brand and champions independent artistry.
       </p>
     </div>
@@ -237,99 +213,20 @@ footer{padding:2.5rem 1rem;text-align:center;color:var(--muted);margin-top:3rem;
     <img id="lightbox-img" src="" alt="Preview">
   </div>
 
-<section class="payment-section">
+  <section class="payment-section">
     <div class="payment-box">
-        <i class="fa-solid fa-bolt payment-icon"></i>
-        <h3 class="box-title">Payment with Crypto</h3>
-        <p class="description">
-            Experience a seamless, secure, and futuristic transaction. Click below to complete your purchase – modern, discreet, and efficient.
-        </p>
-        <p class="product-summary">
-            <strong>1x XL White Shirt with a Big Hemp Leaf & Waves (Made in EU) for 49.99€</strong>
-        </p>
-
-        <div class="wallet-option">
-            <p class="wallet-text">Connect MetaMask or your preferred wallet for a lightning-fast payment</p>
-            <a href="formular1a.html" class="btn btn-wallet">Complete Order</a>
-        </div>
-
-        <img src="METAMASK.png" alt="MetaMask Logo" class="wallet-logo">
-
-        <p class="note">
-            ⚠️ <strong>Important Note:</strong> Only crypto payments are accepted. Recommended: Polygon for minimal fees and maximum speed. International shipping included – discreetly and sustainably packaged.
-        </p>
+      <i class="fa-solid fa-bolt payment-icon"></i>
+      <h3 class="box-title">Payment with Crypto</h3>
+      <p class="description">Experience a seamless, secure, and futuristic transaction. Click below to complete your purchase.</p>
+      <p class="product-summary"><strong>1x XL White Shirt — 49.99€</strong></p>
+      <div class="wallet-option">
+        <p class="wallet-text">Connect MetaMask or your preferred wallet for a lightning-fast payment</p>
+        <a href="formular1a.html" class="btn-wallet">Complete Order</a>
+      </div>
+      <img src="METAMASK.png" alt="MetaMask Logo" class="wallet-logo">
+      <p class="note">⚠️ <strong>Important Note:</strong> Only crypto payments are accepted. Recommended: Polygon. International shipping included.</p>
     </div>
-</section>
-
-<style>
-.payment-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 50px 20px;
-    background-color: #1a1a1a; /* optional, Hintergrundfarbe */
-}
-
-.payment-box {
-    text-align: center;
-    max-width: 600px;
-    background: #222;
-    padding: 30px;
-    border-radius: 15px;
-    color: #fff;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    font-family: 'Arial', sans-serif; /* Schrift anpassen */
-}
-
-.payment-icon {
-    font-size: 50px;
-    color: #f39c12;
-    margin-bottom: 15px;
-}
-
-.box-title {
-    font-size: 28px;
-    margin-bottom: 15px;
-    color: #f39c12;
-}
-
-.description, .product-summary, .wallet-text, .note {
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
-
-.wallet-option {
-    margin-bottom: 25px;
-}
-
-.btn-wallet {
-    display: inline-block;
-    padding: 12px 25px;
-    background-color: #f39c12;
-    color: #222;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.btn-wallet:hover {
-    background-color: #e67e22;
-}
-
-.wallet-logo {
-    width: 100px;
-    margin: 20px auto;
-    display: block;
-}
-
-.note {
-    font-size: 14px;
-    color: #ccc;
-}
-</style>
-
-  
+  </section>
 </main>
 
 <footer>
