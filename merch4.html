@@ -5,18 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BALTAZAR MERCH - Baltazar Seeds</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-        /* Globale Stildefinitionen für eine dezente Basis */
+        /* Globale Stildefinitionen für eine dezente, elegante Basis */
         :root {
             --color-dark: #1a1a1a;
             --color-light: #f5f5f5;
-            --color-accent: #b8860b; /* Gedämpftes Gold */
+            --color-accent: #b8860b; /* Gedämpftes Gold für Akzente */
+            --color-subtle: #d4af37; /* Leichter Goldton für Hover */
             --color-gray: #777;
+            --color-muted: #a0a0a0;
             --font-serif: 'Playfair Display', serif;
             --font-sans: 'Lato', sans-serif;
+            --transition: all 0.3s ease-in-out;
         }
 
         body {
@@ -25,229 +28,342 @@
             font-family: var(--font-sans);
             background-color: var(--color-dark);
             color: var(--color-light);
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 16px;
+            overflow-x: hidden;
         }
 
         a {
             text-decoration: none;
             color: var(--color-light);
-            transition: color 0.3s ease;
+            transition: var(--transition);
         }
 
         a:hover {
-            color: var(--color-accent);
+            color: var(--color-subtle);
         }
 
-        /* Header & Navigation */
+        /* Header & Navigation mit dezenter Eleganz */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 4vw;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(5px);
+            padding: 1.5rem 5vw;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
+            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         header h1 {
             margin: 0;
             font-family: var(--font-serif);
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
             color: var(--color-accent);
+            letter-spacing: 1px;
         }
 
         nav {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         nav a {
-            font-weight: 400;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
+            font-weight: 300;
+            font-size: 1rem;
+            letter-spacing: 0.8px;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--color-accent);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
         }
 
         .social-icons {
             display: flex;
-            gap: 1.5rem;
-            margin-left: 1rem;
+            gap: 1.8rem;
+            margin-left: 1.5rem;
         }
 
         .social-icons a {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            transition: var(--transition);
         }
 
-        /* Hauptinhalts-Bereiche */
+        .social-icons a:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        /* Hauptinhalts-Bereiche mit feinen Details */
         main {
-            max-width: 1200px;
-            margin: 3rem auto;
-            padding: 0 2rem;
+            max-width: 1300px;
+            margin: 4rem auto;
+            padding: 0 3rem;
             display: flex;
             flex-direction: column;
-            gap: 4rem;
+            gap: 5rem;
         }
 
         .product-showcase {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: flex-start;
-            gap: 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
         }
 
         .image-container {
-            flex: 1 1 500px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .image-container img {
             width: 100%;
             height: auto;
-            border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            display: block;
+            transition: var(--transition);
+        }
+
+        .image-container:hover img {
+            transform: scale(1.05);
         }
 
         .product-info {
-            flex: 1 1 300px;
-            padding-top: 2rem;
+            padding: 2rem 0;
         }
 
         .product-info h2 {
             font-family: var(--font-serif);
-            font-size: 2.5rem;
+            font-size: 3rem;
+            font-style: italic;
             color: var(--color-accent);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
         }
 
-        .product-info p {
-            font-size: 1rem;
-            margin-bottom: 1rem;
+        .product-info p.description {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
             color: var(--color-light);
+            font-weight: 300;
+        }
+
+        .product-details {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+            font-size: 1rem;
+            color: var(--color-muted);
+        }
+
+        .product-details li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .product-details li::before {
+            content: '\f058'; /* Font Awesome check icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--color-accent);
         }
 
         .support-text {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--color-gray);
             font-style: italic;
+            margin-top: 2rem;
         }
 
-        /* Zahlungsbereich */
+        /* Zahlungsbereich mit eleganter Präsentation */
         .payment-section {
             display: flex;
             justify-content: center;
             align-items: center;
+            margin: 3rem 0;
         }
 
         .payment-box {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 3rem;
-            max-width: 600px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.3));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 4rem 3rem;
+            max-width: 700px;
             text-align: center;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.6);
+            box-shadow: 0 8px 35px rgba(0,0,0,0.7);
+            transition: var(--transition);
+        }
+
+        .payment-box:hover {
+            transform: translateY(-5px);
         }
 
         .payment-icon {
-            font-size: 2.5rem;
+            font-size: 3rem;
             color: var(--color-accent);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .box-title {
             font-family: var(--font-serif);
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: var(--color-light);
-            margin: 0;
+            margin: 0 0 1rem;
+            letter-spacing: 1px;
         }
 
         .product-summary {
             font-family: var(--font-serif);
             font-weight: 700;
-            font-size: 1.1rem;
-            margin: 1.5rem 0;
-            color: var(--color-accent);
+            font-size: 1.2rem;
+            margin: 2rem 0;
+            color: var(--color-subtle);
         }
 
         .wallet-option {
-            margin-top: 2rem;
+            margin-top: 2.5rem;
         }
 
         .wallet-text {
-            font-size: 0.9rem;
-            color: var(--color-gray);
-            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: var(--color-muted);
+            margin-bottom: 1rem;
         }
 
         .wallet-logo {
-            width: 80px;
-            margin-top: 1.5rem;
+            width: 100px;
+            margin-top: 2rem;
+            filter: brightness(0.9);
+            transition: var(--transition);
+        }
+
+        .wallet-logo:hover {
+            filter: brightness(1.1);
         }
 
         .note {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--color-gray);
-            margin-top: 2rem;
+            margin-top: 3rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
         }
 
-        /* Buttons */
+        /* Buttons mit dezenten Effekten */
         .btn {
             display: inline-block;
-            padding: 0.8rem 2rem;
-            border-radius: 5px;
-            font-weight: bold;
-            letter-spacing: 1px;
+            padding: 1rem 2.5rem;
+            border-radius: 6px;
+            font-weight: 400;
+            letter-spacing: 1.2px;
             text-transform: uppercase;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .btn-primary {
             background-color: transparent;
             border: 1px solid var(--color-light);
             color: var(--color-light);
+            margin-top: 2rem;
         }
 
         .btn-primary:hover {
             background-color: var(--color-light);
             color: var(--color-dark);
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
         }
 
         .btn-wallet {
             background-color: var(--color-accent);
             color: var(--color-dark);
-            padding: 1rem 3rem;
-            font-size: 1rem;
-            border-radius: 8px;
+            padding: 1.2rem 4rem;
+            font-size: 1.1rem;
+            border-radius: 10px;
             font-family: var(--font-serif);
             font-weight: 700;
         }
 
         .btn-wallet:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(184, 134, 11, 0.4);
+            background-color: var(--color-subtle);
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(184, 134, 11, 0.5);
         }
 
-        /* Footer */
+        /* Footer mit subtiler Eleganz */
         footer {
             text-align: center;
-            padding: 2rem 1rem;
-            background: rgba(0,0,0,0.6);
+            padding: 3rem 1rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
             color: var(--color-gray);
-            font-size: 0.8rem;
-            margin-top: 3rem;
+            font-size: 0.85rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Responsive Anpassungen */
-        @media (max-width: 768px) {
+        /* Responsive Anpassungen für moderne Geräte */
+        @media (max-width: 1024px) {
             .product-showcase {
-                flex-direction: column;
+                grid-template-columns: 1fr;
+                gap: 3rem;
             }
 
             .product-info {
-                padding-top: 0;
                 text-align: center;
+            }
+
+            .product-details {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 3vw;
+            }
+
+            nav {
+                gap: 1.5rem;
+            }
+
+            .social-icons {
+                gap: 1rem;
+            }
+
+            main {
+                padding: 0 2rem;
+            }
+
+            .payment-box {
+                padding: 3rem 2rem;
             }
         }
     </style>
@@ -274,15 +390,22 @@
     <main>
         <section class="product-showcase">
             <div class="image-container">
-                <img src="MERCH4.JPG" alt="BALTAZAR MERCH">
+                <img src="MERCH4.JPG" alt="BALTAZAR MERCH - XL Shirt Colorful Badfarmers">
             </div>
             <div class="product-info">
                 <h2>XL Shirt Colorful Badfarmers</h2>
                 <p class="description">
-                    Einzigartiges Design mit lebhaften Farben.
+                    Einzigartiges Design mit lebhaften, doch harmonisch abgestimmten Farben, das Eleganz und Kreativität vereint. Hergestellt aus hochwertiger, atmungsaktiver Baumwolle für maximalen Komfort.
                 </p>
+                <ul class="product-details">
+                    <li>Größe: XL (Europäische Passform)</li>
+                    <li>Material: 100% Bio-Baumwolle</li>
+                    <li>Herstellung: Made in EU</li>
+                    <li>Design: Exklusives Colorful Badfarmers Motiv</li>
+                    <li>Pflege: Maschinenwaschbar bei 30°C</li>
+                </ul>
                 <p class="support-text">
-                    Mit dem Kauf unterstützt du die Marke **Baltazar Merch**.
+                    Mit dem Kauf unterstützt du die Marke <strong>Baltazar Merch</strong> und förderst unabhängige Kreativität.
                 </p>
                 <a href="seite3.html" class="btn btn-primary">Zurück zur Übersicht</a>
             </div>
@@ -293,14 +416,14 @@
                 <i class="fa-solid fa-bolt payment-icon"></i>
                 <h3 class="box-title">Zahlung mit Krypto</h3>
                 <p>
-                    Schließe deinen Kauf ab, indem du den untenstehenden Button klickst.
+                    Schließe deinen Kauf ab, indem du den untenstehenden Button klickst. Wir bieten eine sichere und dezente Transaktionserfahrung.
                 </p>
                 <p class="product-summary">
-                    **1x XL Shirt Colorful Badfarmers (Made in EU) für 49,99€**
+                    <strong>1x XL Shirt Colorful Badfarmers (Made in EU) für 49,99€</strong>
                 </p>
 
                 <div class="wallet-option">
-                    <p class="wallet-text">Wähle MetaMask oder ein anderes Wallet</p>
+                    <p class="wallet-text">Wähle MetaMask oder ein anderes kompatibles Wallet</p>
                     <a href="formular1a.html" class="btn btn-wallet">
                         Bestellung abschließen
                     </a>
@@ -309,14 +432,14 @@
                 <img src="METAMASK.png" alt="MetaMask Logo" class="wallet-logo">
 
                 <p class="note">
-                    ⚠️ **Wichtiger Hinweis:** Es werden ausschließlich Kryptozahlungen akzeptiert. Polygon wird empfohlen. Der internationale Versand ist im Preis inbegriffen.
+                    ⚠️ <strong>Wichtiger Hinweis:</strong> Es werden ausschließlich Kryptozahlungen akzeptiert. Polygon wird empfohlen für niedrige Gebühren. Der internationale Versand ist im Preis inbegriffen und erfolgt diskret.
                 </p>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 Baltazar Seeds - Badfarmers Genetics</p>
+        <p>&copy; 2025 Baltazar Seeds - Badfarmers Genetics. Alle Rechte vorbehalten.</p>
     </footer>
 
 </body>
