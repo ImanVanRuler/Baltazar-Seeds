@@ -9,25 +9,38 @@
 <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
 
 <style>
-/* Grundstyle */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; }
+/* ---------------- Grundstyle ---------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-/* Hintergrundvideo */
+body, html {
+  height: 100%;
+  font-family: 'Nosifer', cursive;
+  overflow-x: hidden;
+  background: #000;
+}
+
+/* ---------------- Hintergrundvideo ---------------- */
 .video-bg {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   z-index: -2;
   opacity: 0.7;
 }
 
-/* Psychedelischer Farbverlauf Overlay */
+/* ---------------- Psychedelisches Farb-Overlay ---------------- */
 .gradient-overlay {
   position: fixed;
   top: 0; left: 0;
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(-45deg, #ff0000, #ffdd00, #00ff99, #5500ff);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
@@ -41,14 +54,14 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
   100% {background-position: 0% 50%;}
 }
 
-/* Glitch Überschrift */
+/* ---------------- Glitch Überschrift ---------------- */
 .glitch {
-  font-size: 4rem;
+  font-size: clamp(2rem, 6vw, 4rem);
   color: #ff0055;
   text-align: center;
   position: relative;
   margin-top: 50px;
-  animation: flicker 1s infinite;
+  animation: flicker 1.5s infinite;
 }
 
 .glitch::before,
@@ -56,17 +69,18 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
   content: attr(data-text);
   position: absolute;
   left: 0;
+  width: 100%;
 }
 
 .glitch::before {
-  animation: glitchTop 1s infinite;
-  clip: rect(0, 900px, 50%, 0);
+  animation: glitchTop 1.5s infinite;
+  clip: rect(0, 9999px, 50%, 0);
   color: #00f;
 }
 
 .glitch::after {
-  animation: glitchBottom 1s infinite;
-  clip: rect(50%, 900px, 100%, 0);
+  animation: glitchBottom 1.5s infinite;
+  clip: rect(50%, 9999px, 100%, 0);
   color: #0f0;
 }
 
@@ -93,14 +107,16 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
   100% {transform: translate(0, 0);}
 }
 
-/* 3D Hover Card mit Bildern */
+/* ---------------- Produkt Cards ---------------- */
 .card-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 60px;
+  margin: 60px auto;
   gap: 40px;
   flex-wrap: wrap;
+  max-width: 1200px;
+  padding: 0 20px;
 }
 
 .card {
@@ -109,28 +125,34 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
   width: 250px;
   border-radius: 20px;
   text-align: center;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   perspective: 1000px;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .card img {
   width: 100%;
   border-radius: 20px 20px 0 0;
   display: block;
+  transition: transform 0.3s ease;
 }
 
 .card p {
   font-size: 1.5rem;
-  padding: 20px;
+  padding: 15px 10px;
 }
 
 .card:hover {
-  transform: rotateY(15deg) rotateX(10deg) scale(1.1);
-  box-shadow: 0 0 50px #ff0055, 0 0 100px #00ff99;
+  transform: rotateY(10deg) rotateX(5deg) scale(1.05);
+  box-shadow: 0 0 40px #ff0055, 0 0 80px #00ff99;
 }
 
-/* Zurück-Button */
+.card:hover img {
+  transform: scale(1.1);
+}
+
+/* ---------------- Zurück-Button ---------------- */
 .back-button {
   position: fixed;
   top: 20px;
@@ -142,6 +164,7 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
   border-radius: 10px;
   text-decoration: none;
   transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 10;
 }
 
 .back-button:hover {
@@ -167,7 +190,7 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
 <!-- Glitch Überschrift -->
 <h1 class="glitch" data-text="BALTAZAR ULTRA STYLE SEEDS">BALTAZAR ULTRA STYLE SEEDS</h1>
 
-<!-- Produkt Cards mit Bildern -->
+<!-- Produkt Cards -->
 <div class="card-container">
   <div class="card">
     <img src="F1.JPG" alt="HYPE RUNNER F1">
@@ -182,6 +205,7 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
     <p>RAT OG</p>
   </div>
 </div>
+<a href="seite3.html" class="back-button">Back To Menu</a>
 
 </body>
 </html>
