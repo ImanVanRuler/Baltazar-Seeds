@@ -34,6 +34,7 @@ html,body{
   letter-spacing:0.6px;
 }
 a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%;height:auto;border-radius:10px;cursor:pointer;}
 
 /* Header */
 header{
@@ -74,56 +75,40 @@ main{max-width:1200px;margin:3rem auto;padding:0 2rem;display:grid;gap:2.5rem;}
   align-items:start;
 }
 
-/* Bilder als kleine Vorschaubilder */
+/* Bilder mit Lightbox */
 .slideshow-container{
-  display:flex;
-  gap:1rem;
-  flex-wrap:wrap;
-  justify-content:center;
+  display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;
 }
 .slide img{
-  width:200px;
-  height:auto;
+  max-width:200px; /* kleiner darstellen */
   border-radius:12px;
-  border:2px solid rgba(255,11,11,0.7);
-  box-shadow: 0 8px 20px rgba(255,11,11,0.2), 0 0 12px rgba(255,11,11,0.05);
-  cursor:pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border:2px solid rgba(255,11,11,0.9);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 18px rgba(255,11,11,0.06);
+  background:#000;
+  object-fit:contain;
+  transition: transform 0.3s;
 }
 .slide img:hover{
-  transform: scale(1.05);
-  box-shadow: 0 12px 28px rgba(255,11,11,0.4), 0 0 20px rgba(255,11,11,0.1);
+  transform:scale(1.05);
 }
 
-/* Modal Styles */
-.modal{
-  display:none;
+/* Lightbox Styles */
+#lightbox-overlay{
   position:fixed;
-  z-index:999;
-  left:0;
-  top:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.9);
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.85);
+  display:none;
   justify-content:center;
   align-items:center;
+  z-index:999;
 }
-.modal img{
+#lightbox-overlay img{
   max-width:90%;
   max-height:90%;
   border-radius:12px;
-  box-shadow: 0 0 40px rgba(255,11,11,0.5);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
 }
-.modal .close{
-  position:absolute;
-  top:20px;
-  right:30px;
-  font-size:2.5rem;
-  color:#fff;
-  cursor:pointer;
-  transition:color 0.3s;
-}
-.modal .close:hover{color:var(--accent);}
 
 /* Product info column */
 .product-info{
@@ -137,6 +122,7 @@ main{max-width:1200px;margin:3rem auto;padding:0 2rem;display:grid;gap:2.5rem;}
 }
 .product-info h2{
   margin:0 0 1rem;
+  font-family:"Bebas Neue",sans-serif;
   font-size:2.6rem;
   color:var(--accent);
   text-shadow: 3px 3px 0 var(--darkred), 0 0 12px rgba(255,11,11,0.06);
@@ -183,19 +169,97 @@ main{max-width:1200px;margin:3rem auto;padding:0 2rem;display:grid;gap:2.5rem;}
   background:var(--accent);color:#111;box-shadow:0 10px 30px rgba(255,11,11,0.12)
 }
 
-/* Payment section */
-.payment-section{margin-top:2.5rem;display:flex;justify-content:center}
-.payment-box{
-  width:100%;max-width:900px;border-radius:20px;padding:3.5rem 2.5rem;
-  background:linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.35));
-  border:1px solid rgba(255,255,255,0.03);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-  text-align:center;
-}
-.payment-icon{font-size:3.2rem;color:var(--gold);margin-bottom:1rem;text-shadow:2px 2px 0 var(--darkred)}
-.box-title{font-family:"Bebas Neue",sans-serif;font-size:2.4rem;margin:0 0 1rem;color:var(--accent);text-shadow:2px 2px 0 var(--darkred)}
-.wallet-logo{ width:140px; margin:2rem auto 0; display:block; filter:drop-shadow(0 6px 18px rgba(0,0,0,0.6)); }
-.note{margin-top:1.6rem;color:var(--muted);background:rgba(255,255,255,0.02);padding:1rem;border-radius:10px;font-size:.95rem}
-
 /* Footer */
-footer{padding:2.5rem 1rem;text-align:center;color:var(--muted);margin-top:3rem;background:rgba(0,0,0,
+footer{padding:2.5rem 1rem;text-align:center;color:var(--muted);margin-top:3rem;background:rgba(0,0,0,0.7)}
+
+/* Responsive */
+@media (max-width:980px){
+  .product-showcase{grid-template-columns:1fr;gap:1.8rem}
+  .slideshow-container{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Baltazar Seeds</h1>
+  <nav aria-label="Hauptnavigation">
+    <a href="index.html">Entrance</a>
+    <a href="seite3.html">Menu</a>
+    <a href="mailto:imanvanruler@freenet.de">Contact</a>
+    <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+    <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
+  </nav>
+</header>
+
+<main>
+  <section class="product-showcase" aria-labelledby="product-title">
+    <div class="slideshow-container" role="region" aria-label="Produktbilder">
+      <div class="slide">
+        <img src="MERCH1.JPG" alt="BALTAZAR MERCH - XL Black Hoody Front">
+      </div>
+      <div class="slide">
+        <img src="MERCH1A.JPG" alt="BALTAZAR MERCH - XL Black Hoody Side">
+      </div>
+    </div>
+
+    <!-- Produktinfo -->
+    <div class="product-info" id="product-info">
+      <h2 id="product-title">XL Black Hoody with Brand Logo</h2>
+      <p class="description">
+        Elevate your style with this designer hoody, featuring the iconic brand logo. Made from premium, breathable organic cotton for unmatched comfort and longevity.
+      </p>
+      <ul class="product-details" aria-label="Produktdetails">
+        <li>Size: XL (Tailored European fit for optimal comfort)</li>
+        <li>Material: 100% Certified Organic Cotton, sustainably sourced</li>
+        <li>Production: Expertly handcrafted in the EU with superior quality</li>
+        <li>Design: Exclusive Brand Logo – a bold symbol of innovation</li>
+        <li>Care: Machine wash at 30°C, retains color and shape</li>
+      </ul>
+      <div style="margin-top:1.5rem">
+        <div class="product-summary">1x XL Black Hoody — 79.99€</div>
+      </div>
+      <div style="margin-top:1.8rem">
+        <a href="seite3.html" class="btn" role="button" aria-label="Zurück zum Menü">Back to Menu</a>
+        &nbsp;&nbsp;
+        <a href="formular1.html" class="btn" style="border-color:var(--gold); color:var(--gold)" role="button" aria-label="Bestellung abschließen">Order with Crypto</a>
+      </div>
+      <p style="margin-top:1.6rem;color:var(--muted);font-size:.95rem">
+        Purchasing "BALTAZAR MERCH" empowers the brand and champions independent artistry.
+      </p>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox-overlay" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="Preview">
+  </div>
+</main>
+
+<footer>
+  &copy; 2025 Baltazar Seeds - Badfarmers Genetics. All rights reserved.
+</footer>
+
+<script>
+// Lightbox Funktion
+const slides = document.querySelectorAll('.slide img');
+const lightboxOverlay = document.getElementById('lightbox-overlay');
+const lightboxImg = document.getElementById('lightbox-img');
+
+slides.forEach(img => {
+  img.addEventListener('click', () => {
+    lightboxImg.src = img.src;
+    lightboxOverlay.style.display = 'flex';
+  });
+});
+
+function closeLightbox() {
+  lightboxOverlay.style.display = 'none';
+  lightboxImg.src = '';
+}
+</script>
+
+</body>
+</html>
