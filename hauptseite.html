@@ -7,18 +7,16 @@
   <!-- Google Font: Nosifer -->
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
   <style>
-    /* Grund-Styles */
-    html, body {
+    body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: 'Nosifer', cursive;
       overflow: auto;
-      color: #990000;
-      background: black;
+      font-family: 'Nosifer', cursive;
+      color: #990000; /* dunkleres Rot */
     }
 
-    /* Video-Hintergrund (unverändert) */
+    /* Video-Hintergrund */
     .video-bg {
       position: fixed;
       top: 0; left: 0;
@@ -27,37 +25,32 @@
       z-index: -1;
     }
 
-    /* Overlay für Fade-in/out */
-    #fadeOverlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: black;
-      opacity: 1;
-      z-index: 999;
-      transition: opacity 1s ease;
-      pointer-events: none;
-    }
-
-    /* Content über Video */
     .wrap {
       position: relative;
       z-index: 2;
       text-align: center;
-      padding: 20vh 4vw;
-      opacity: 0;
+      padding: 10vh 4vw;
+      opacity: 0; /* Start unsichtbar für Fade-in */
       transition: opacity 1s ease;
     }
 
-    /* Überschrift WELCOME mit Float-Effekt */
     h1 {
-      font-size: clamp(48px, 12vw, 120px);
+      font-size: clamp(36px, 12vw, 120px);
       margin: 0 0 1rem;
       text-transform: uppercase;
+      position: relative;
       display: inline-block;
-      color: #ff5500;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-      animation: floatText 3s ease-in-out infinite alternate;
+      background: linear-gradient(90deg, #990000, #ff5500, #990000);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s infinite linear, floatText 3s ease-in-out infinite alternate;
+      text-shadow: 0 2px 4px black;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
     }
 
     @keyframes floatText {
@@ -65,25 +58,66 @@
       100% { transform: translateY(-10px); }
     }
 
-    /* Beschreibungstext */
-    p {
-      font-size: 1.5rem;
-      color: #ffffff;
-      text-align: center;
-      line-height: 1.6;
-      max-width: 800px;
-      margin: 2rem auto;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    h1::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #990000;
+      box-shadow: -120px 10px 0 -2px #990000,
+                  -60px 15px 0 -3px #660000,
+                  0px 20px 0 -2px #990000,
+                  60px 10px 0 -2px #660000,
+                  120px 15px 0 -3px #990000;
+      animation: dropFall 9s infinite ease-in-out;
     }
 
-    /* Buttons */
+    @keyframes dropFall {
+      0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+      50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
+      100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
+    }
+
+    p {
+      font-size: 1.5rem;
+      color: #990000;
+      text-align: center;
+      line-height: 1.6;
+      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000,
+                   0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000;
+      position: relative;
+      overflow: hidden;
+      max-width: 900px;
+      margin: 2rem auto;
+    }
+
+    p::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -150%;
+      width: 50%; height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+      transform: skewX(-20deg);
+      pointer-events: none;
+      animation: shine 6s infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -150%; }
+      100% { left: 150%; }
+    }
+
     .btn {
       display: inline-block;
-      margin: 1rem 1rem 0 1rem;
+      margin-top: 3rem;
       padding: 1rem 2rem;
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       color: #990000;
-      background: rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.6);
       border: 2px solid #990000;
       border-radius: 8px;
       text-decoration: none;
@@ -96,6 +130,17 @@
       color: black;
     }
 
+    /* Schwarzes Overlay für Fade-in und Fade-out */
+    #fadeOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      opacity: 1; /* Start sichtbar */
+      z-index: 999;
+      transition: opacity 1s ease;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
