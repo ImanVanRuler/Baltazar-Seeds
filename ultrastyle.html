@@ -38,6 +38,11 @@ header nav a:hover {
   color: #ff0055;
 }
 
+/* Nur Icon für Contact oben */
+header nav a.contact-icon {
+  font-size: 1.5rem;
+}
+
 /* ---------------- Glitch Überschrift ---------------- */
 .glitch {
   font-size: clamp(2rem, 6vw, 4rem);
@@ -156,24 +161,25 @@ header nav a:hover {
   transform: scale(1.1);
 }
 
-/* ---------------- Back-to-Menu Button ---------------- */
-.back-button {
-  position: relative; /* statt fixed */
+/* ---------------- Buttons ---------------- */
+.product-button, .back-button {
   display: block;
-  margin: 40px auto 20px auto; /* zentriert unten */
-  background: rgba(255,0,85,0.8);
+  margin: 15px auto;
+  background: #ff0055;
   color: #fff;
-  padding: 15px 25px;
-  font-size: 1.2rem;
-  border-radius: 10px;
-  text-decoration: none;
+  padding: 12px 25px;
+  font-size: 1rem;
+  border-radius: 8px;
   text-align: center;
+  text-decoration: none;
   transition: transform 0.2s, box-shadow 0.2s;
+  width: 80%;
+  max-width: 220px;
 }
 
-.back-button:hover {
+.product-button:hover, .back-button:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 20px #ff0055, 0 0 40px #ffdd00;
+  box-shadow: 0 0 15px #ff0055, 0 0 25px #ffdd00;
 }
 
 /* ---------------- Footer ---------------- */
@@ -194,7 +200,7 @@ footer {
   color: #ff0055;
 }
 
-/* ---------------- Bild-Pop-up ---------------- */
+/* ---------------- Lightbox ---------------- */
 .lightbox {
   display: none;
   position: fixed;
@@ -224,9 +230,9 @@ footer {
 <header>
   <h1>Baltazar Seeds</h1>
   <nav aria-label="Hauptnavigation">
+    <a href="mailto:imanvanruler@freenet.de" class="contact-icon"><i class="fas fa-envelope"></i></a>
     <a href="index.html">Entrance</a>
     <a href="seite3.html">Menu</a>
-    <a href="mailto:imanvanruler@freenet.de">Contact</a>
     <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i></a>
     <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
     <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
@@ -242,26 +248,38 @@ footer {
     Ihr Browser unterstützt kein Video.
   </video>
 
-  <a href="#img1" class="card-link">
-    <div class="card">
-      <img src="F1.JPG" alt="HYPE RUNNER F1">
-      <p>HYPE RUNNER F1</p>
-    </div>
-  </a>
+  <!-- HYPE RUNNER F1 -->
+  <div>
+    <a href="#img1" class="card-link">
+      <div class="card">
+        <img src="F1.JPG" alt="HYPE RUNNER F1">
+        <p>HYPE RUNNER F1</p>
+      </div>
+    </a>
+    <a href="https://commerce.coinbase.com/checkout/87ec418b-dde3-4173-988f-cbea7d58fb1b" target="_blank" class="product-button">Kaufen</a>
+  </div>
 
-  <a href="#img2" class="card-link">
-    <div class="card">
-      <img src="F2.JPG" alt="HAZE OG">
-      <p>HAZE OG</p>
-    </div>
-  </a>
+  <!-- HAZE OG -->
+  <div>
+    <a href="#img2" class="card-link">
+      <div class="card">
+        <img src="F2.JPG" alt="HAZE OG">
+        <p>HAZE OG</p>
+      </div>
+    </a>
+    <a href="https://commerce.coinbase.com/checkout/77691ecd-f6b3-45bf-830a-f2e1a48d4db6" target="_blank" class="product-button">Kaufen</a>
+  </div>
 
-  <a href="#img3" class="card-link">
-    <div class="card">
-      <img src="F3.JPG" alt="RAT OG">
-      <p>RAT OG</p>
-    </div>
-  </a>
+  <!-- RAT OG -->
+  <div>
+    <a href="#img3" class="card-link">
+      <div class="card">
+        <img src="F3.JPG" alt="RAT OG">
+        <p>RAT OG</p>
+      </div>
+    </a>
+    <a href="https://commerce.coinbase.com/checkout/d30615af-3958-40e8-bd1f-1cf9a38c1ced" target="_blank" class="product-button">Kaufen</a>
+  </div>
 </div>
 
 <!-- Back-to-Menu Button -->
