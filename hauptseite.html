@@ -1,197 +1,145 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Baltazar Seeds</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome to Baltazar Seeds</title>
 <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
 <style>
-:root {
-  --red-main: #CC1111;
-  --red-shadow: #990000;
-}
+  /* Grundfarben & Variablen */
+  :root {
+    --primary-red: #cc1111;
+    --primary-dark: #330000;
+    --text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  }
 
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: auto;
-  font-family: 'Nosifer', cursive;
-  background: black;
-  color: var(--red-main);
-}
+  /* Reset & Body */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body, html {
+    height: 100%;
+    font-family: 'Nosifer', cursive;
+    color: var(--primary-red);
+    overflow-x: hidden;
+    background: black;
+  }
 
-.video-bg {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-}
+  /* Video-Hintergrund */
+  .video-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
 
-.wrap {
-  text-align: center;
-  padding: 10vh 4vw;
-  opacity: 0;
-  transition: opacity 1s ease;
-}
+  /* Overlay für Lesbarkeit */
+  .overlay {
+    position: fixed;
+    top:0; left:0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 0;
+  }
 
-h1 {
-  font-size: clamp(36px, 8vw, 80px);
-  margin: 0 0 1rem;
-  text-transform: uppercase;
-  display: inline-block;
-  background: linear-gradient(90deg, var(--red-main), #FF5500, var(--red-main));
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 3s infinite linear;
-  text-shadow: 0 2px 4px black;
-}
+  /* Hauptinhalt */
+  .content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0 2rem;
+    text-align: center;
+  }
 
-@keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
+  /* Überschrift */
+  h1 {
+    font-size: clamp(48px, 8vw, 90px);
+    background: linear-gradient(90deg, var(--primary-red), #ff5500, var(--primary-red));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: var(--text-shadow);
+    margin-bottom: 1rem;
+    animation: float 3s ease-in-out infinite;
+  }
 
-h1::after, h1::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: -10px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--red-main);
-  box-shadow: 
-    -120px 10px 0 -2px var(--red-main),
-    -60px 15px 0 -3px var(--red-shadow),
-    0px 20px 0 -2px var(--red-main),
-    60px 10px 0 -2px var(--red-shadow),
-    120px 15px 0 -3px var(--red-main);
-  animation: dropFall 8s infinite ease-in-out;
-}
+  @keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
 
-h1::before { animation-delay: 4s; }
+  /* Untertitel / Text */
+  p {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: var(--primary-red);
+    text-shadow: var(--text-shadow);
+    max-width: 800px;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
 
-@keyframes dropFall {
-  0% { transform: translateX(-50%) translateY(0) scale(0.5); opacity: 0.8; }
-  50% { transform: translateX(-50%) translateY(12px) scale(0.8); opacity: 0.9; }
-  100% { transform: translateX(-50%) translateY(40px) scale(0.4); opacity: 0; }
-}
+  /* Buttons */
+  .btn {
+    padding: 1rem 2rem;
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    border: 2px solid var(--primary-red);
+    border-radius: 8px;
+    background: rgba(0,0,0,0.6);
+    color: var(--primary-red);
+    text-decoration: none;
+    margin: 0.5rem;
+    transition: all 0.3s ease;
+  }
 
-p {
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  color: var(--red-main);
-  text-align: center;
-  line-height: 1.6;
-  text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000,
-               0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000;
-  position: relative;
-  overflow: hidden;
-}
+  .btn:hover {
+    background: var(--primary-red);
+    color: black;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  }
 
-p::after {
-  content: '';
-  position: absolute;
-  top: 0; left: -150%;
-  width: 50%; height: 100%;
-  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
-  transform: skewX(-20deg);
-  pointer-events: none;
-  animation: shine 6s infinite;
-}
-
-@keyframes shine {
-  0% { left: -150%; }
-  100% { left: 150%; }
-}
-
-.btn {
-  display: inline-block;
-  margin-top: 3rem;
-  margin-right: 1rem;
-  padding: 1rem 2rem;
-  font-size: clamp(1rem, 2.5vw, 1.5rem);
-  color: var(--red-main);
-  background: rgba(0,0,0,0.6);
-  border: 2px solid var(--red-main);
-  border-radius: 8px;
-  text-decoration: none;
-  transition: all 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background: var(--red-main);
-  color: black;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-}
-
-#fadeOverlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: black;
-  opacity: 1;
-  pointer-events: none;
-  z-index: 999;
-  transition: opacity 1s ease;
-}
+  /* Footer / kleiner Hinweis */
+  footer {
+    position: absolute;
+    bottom: 1rem;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    width: 100%;
+  }
 </style>
 </head>
 <body>
 
-<video class="video-bg" autoplay muted loop playsinline poster="fallback.jpg">
-  <source src="INTRO.mp4" type="video/mp4">
-  Dein Browser unterstützt kein HTML5-Video.
-</video>
+  <!-- Hintergrundvideo -->
+  <video class="video-bg" autoplay muted loop playsinline>
+    <source src="INTRO.mp4" type="video/mp4">
+    Dein Browser unterstützt kein HTML5-Video.
+  </video>
 
-<div id="fadeOverlay"></div>
+  <!-- Dunkler Overlay für bessere Lesbarkeit -->
+  <div class="overlay"></div>
 
-<div class="wrap" id="content">
-  <h1>WELCOME LEGENDS</h1>
-  <p>
-    WELCOME TO BALTAZAR SEEDS WHERE THE STREETS MEET THE GENETICS<br>
-    THIS AIN’T YOUR AVERAGE SEED SHOP.<br><br>
-    BALTAZAR SEEDS AKA BADFARMERS GENETICS IS ALL ABOUT REALNESS, PURE PASSION, MAD SCIENCE AND VIBES YOU CAN FEEL.<br>
-    BORN FROM THE MIND OF IMAN VAN RULER<br>
-    BETTER KNOWN AS REAL JACK JAMES<br>
-    WE DON’T JUST DROP SEEDS, WE DROP LEGACIES.<br><br>
-    EVERY STRAIN IS HAND PICKED, TESTED AND CRAFTED TO FLEX ON FLAVOR, AROMA AND NEXT-LEVEL EFFECT. NO GIMMICKS, NO HYPE — JUST AUTHENTICITY.<br>
-    IF IT DON’T GROW RIGHT, IT DON’T GET IN.<br><br>
-    BALTAZAR SEEDS IS WHERE STREET HUSTLE MEETS BOTANICAL GENIUS. EVERY PLANT TELLS A STORY, EVERY GROWER LEVELS UP. THIS AIN’T JUST A SHOP<br>
-    IT’S A MOVEMENT. REAL SEEDS. REAL VIBES. REAL LEGACY.
-  </p>
+  <!-- Hauptinhalt -->
+  <div class="content">
+    <h1>WELCOME LEGENDS</h1>
+    <p>
+      Step into the world of Baltazar Seeds, where street culture meets next-level genetics. 
+      Every seed tells a story. Every plant is a legacy. Pure passion, real vibes, unmatched quality.
+    </p>
+    <div>
+      <a href="index.html" class="btn">Back to Entrance</a>
+      <a href="seite3.html" class="btn">I’m 21+ Let Me In!</a>
+    </div>
+  </div>
 
-  <a href="index.html" class="btn">Back To The Entrance</a>
-  <a href="seite3.html" class="btn" id="enter21">I’m 21+ Let Me In!!</a>
-</div>
-
-<script>
-const overlay = document.getElementById('fadeOverlay');
-const content = document.getElementById('content');
-
-window.addEventListener('load', () => {
-  content.style.opacity = 1;
-  overlay.style.opacity = 0;
-});
-
-document.querySelectorAll('.btn').forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    e.preventDefault();
-    const target = this.href;
-    overlay.style.opacity = 1;
-    content.style.opacity = 0;
-    setTimeout(() => {
-      window.location = target;
-    }, 1000);
-  });
-});
-</script>
+  <footer>
+    © 2025 Baltazar Seeds. All rights reserved.
+  </footer>
 
 </body>
 </html>
