@@ -5,15 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Baltazar Ultra Style Seeds</title>
 
+<!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
 <style>
+/* ---------------- Grundlayout ---------------- */
 body, html {
   margin: 0;
   padding: 0;
   font-family: 'Nosifer', cursive;
   background: #000;
   overflow-x: hidden;
+  color: #fff;
+}
+
+/* ---------------- Header ---------------- */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+
+header nav a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+header nav a:hover {
+  color: #ff0055;
 }
 
 /* ---------------- Glitch Überschrift ---------------- */
@@ -21,7 +45,7 @@ body, html {
   font-size: clamp(2rem, 6vw, 4rem);
   color: #ff0055;
   text-align: center;
-  margin-top: 50px;
+  margin: 50px 0;
   position: relative;
   animation: flicker 1.5s infinite;
 }
@@ -32,6 +56,7 @@ body, html {
   position: absolute;
   left: 0;
   width: 100%;
+  overflow: hidden;
 }
 
 .glitch::before {
@@ -69,17 +94,15 @@ body, html {
   100% {transform: translate(0, 0);}
 }
 
-/* ---------------- Card-Container mit Hintergrundvideo ---------------- */
+/* ---------------- Card-Container ---------------- */
 .card-section {
   position: relative;
-  margin: 60px 0;
+  margin: 60px 20px;
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
   gap: 40px;
-  padding: 40px 20px;
-  z-index: 1;
+  padding: 40px 0;
 }
 
 .card-section video {
@@ -91,6 +114,7 @@ body, html {
   object-fit: cover;
   opacity: 0.6;
   z-index: -1;
+  pointer-events: none;
 }
 
 /* ---------------- Produkt Cards ---------------- */
@@ -153,10 +177,28 @@ body, html {
   transform: translateX(-50%) scale(1.1);
   box-shadow: 0 0 20px #ff0055, 0 0 40px #ffdd00;
 }
+
+/* ---------------- Footer ---------------- */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 40px;
+}
+
+.footer-socials a {
+  color: #fff;
+  margin: 0 10px;
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+
+.footer-socials a:hover {
+  color: #ff0055;
+}
 </style>
 </head>
-
 <body>
+
 <header>
   <h1>Baltazar Seeds</h1>
   <nav aria-label="Hauptnavigation">
@@ -169,6 +211,7 @@ body, html {
     <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
   </nav>
 </header>
+
 <!-- Glitch Überschrift -->
 <h1 class="glitch" data-text="BALTAZAR ULTRA STYLE SEEDS">BALTAZAR ULTRA STYLE SEEDS</h1>
 
@@ -204,18 +247,15 @@ body, html {
 <!-- Back-to-Menu Button -->
 <a href="seite3.html" class="back-button">Back To Menu</a>
 
-</body>
-
-  <footer>
-  
-    <div class="footer-socials" style="margin-top:1rem;">
+<footer>
+  <div class="footer-socials">
     <a href="mailto:imanvanruler@freenet.de"><i class="fas fa-envelope"></i></a>
     <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
     <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
     <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
     <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
   </div>
-    
-  </footer>
-  
+</footer>
+
+</body>
 </html>
