@@ -4,16 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Baltazar Seeds</title>
-  <!-- Google Font: Nosifer -->
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
   <style>
-    body, html {
+    /* Grund-Styles */
+    html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      overflow: auto;
       font-family: 'Nosifer', cursive;
-      color: #990000; /* dunkleres Rot */
+      color: #990000;
+      overflow: auto;
+      background: black;
     }
 
     /* Video-Hintergrund */
@@ -25,92 +26,60 @@
       z-index: -1;
     }
 
+    /* Overlay für Fade-in/out */
+    #fadeOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
+      opacity: 1;
+      z-index: 999;
+      transition: opacity 1s ease;
+      pointer-events: none;
+    }
+
+    /* Content */
     .wrap {
       position: relative;
       z-index: 2;
       text-align: center;
-      padding: 10vh 4vw;
-      opacity: 0; /* Start unsichtbar für Fade-in */
+      padding: 20vh 4vw;
+      opacity: 0;
       transition: opacity 1s ease;
     }
 
     h1 {
-      font-size: clamp(36px, 12vw, 120px);
+      font-size: clamp(48px, 12vw, 120px);
       margin: 0 0 1rem;
       text-transform: uppercase;
-      position: relative;
       display: inline-block;
-      background: linear-gradient(90deg, #990000, #ff5500, #990000);
-      background-size: 200% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shimmer 3s infinite linear;
-      text-shadow: 0 2px 4px black;
+      color: #ff5500;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+      animation: floatText 3s ease-in-out infinite alternate;
     }
 
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
-    h1::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: -10px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #990000;
-      box-shadow: -120px 10px 0 -2px #990000,
-                  -60px 15px 0 -3px #660000,
-                  0px 20px 0 -2px #990000,
-                  60px 10px 0 -2px #660000,
-                  120px 15px 0 -3px #990000;
-      animation: dropFall 9s infinite ease-in-out;
-    }
-
-    @keyframes dropFall {
-      0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-      50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
+    @keyframes floatText {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
     }
 
     p {
       font-size: 1.5rem;
-      color: #990000;
+      color: #ffffff;
       text-align: center;
       line-height: 1.6;
-      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000,
-                   0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000;
-      position: relative;
-      overflow: hidden;
-    }
-
-    p::after {
-      content: '';
-      position: absolute;
-      top: 0; left: -150%;
-      width: 50%; height: 100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
-      transform: skewX(-20deg);
-      pointer-events: none;
-      animation: shine 6s infinite;
-    }
-
-    @keyframes shine {
-      0% { left: -150%; }
-      100% { left: 150%; }
+      max-width: 800px;
+      margin: 2rem auto;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
     }
 
     .btn {
       display: inline-block;
-      margin-top: 3rem;
+      margin: 1rem 1rem 0 1rem;
       padding: 1rem 2rem;
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       color: #990000;
-      background: rgba(0,0,0,0.6);
+      background: rgba(255,255,255,0.1);
       border: 2px solid #990000;
       border-radius: 8px;
       text-decoration: none;
@@ -123,17 +92,6 @@
       color: black;
     }
 
-    /* Schwarzes Overlay für Fade-in und Fade-out */
-    #fadeOverlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: black;
-      opacity: 1; /* Start sichtbar */
-      z-index: 999;
-      transition: opacity 1s ease;
-      pointer-events: none;
-    }
   </style>
 </head>
 <body>
@@ -149,18 +107,11 @@
 
   <!-- Inhalt -->
   <div class="wrap" id="content">
-    <h1>Baltazar Seeds</h1>
+    <h1>WELCOME</h1>
     <p>
-      WELCOME TO BALTAZAR SEEDS WHERE THE STREETS MEET THE GENETICS<br>
-      THIS AIN’T YOUR AVERAGE SEED SHOP.<br><br>
-      BALTAZAR SEEDS AKA BADFARMERS GENETICS IS ALL ABOUT REALNESS, PURE PASSION, MAD SCIENCE AND VIBES YOU CAN FEEL.<br>
-      BORN FROM THE MIND OF IMAN VAN RULER<br>
-      BETTER KNOWN AS REAL JACK JAMES<br>
-      WE DON’T JUST DROP SEEDS, WE DROP LEGACIES.<br><br>
-      EVERY STRAIN IS HAND PICKED, TESTED AND CRAFTED TO FLEX ON FLAVOR, AROMA AND NEXT-LEVEL EFFECT. NO GIMMICKS, NO HYPE — JUST AUTHENTICITY.<br>
-      IF IT DON’T GROW RIGHT, IT DON’T GET IN.<br><br>
-      BALTAZAR SEEDS IS WHERE STREET HUSTLE MEETS BOTANICAL GENIUS. EVERY PLANT TELLS A STORY, EVERY GROWER LEVELS UP. THIS AIN’T JUST A SHOP<br>
-      IT’S A MOVEMENT. REAL SEEDS. REAL VIBES. REAL LEGACY.
+      Baltazar Seeds is the place for passionate Cannabis Growers & Breeders.  
+      Every Strain is crafted with precision, tested for Quality and designed for true Enthusiasts.  
+      Real Genetics. Real Passion. Real Cannabis. It's time for a New World Life!!
     </p>
 
     <!-- Buttons -->
@@ -183,11 +134,11 @@
       btn.addEventListener('click', function(e) {
         e.preventDefault();
         const target = this.href;
-        overlay.style.opacity = 1; // Schwarz wieder einblenden
+        overlay.style.opacity = 1;
         content.style.opacity = 0;
         setTimeout(() => {
           window.location = target;
-        }, 1000); // 1s warten bis Overlay voll sichtbar
+        }, 1000);
       });
     });
   </script>
