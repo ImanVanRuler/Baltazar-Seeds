@@ -93,7 +93,7 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
   100% {transform: translate(0, 0);}
 }
 
-/* 3D Hover Card */
+/* 3D Hover Card mit Bildern */
 .card-container {
   display: flex;
   justify-content: center;
@@ -106,16 +106,27 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
 .card {
   background: rgba(0,0,0,0.7);
   color: #fff;
-  padding: 50px 60px;
+  width: 250px;
   border-radius: 20px;
-  font-size: 2rem;
   text-align: center;
-  transition: transform 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
   perspective: 1000px;
+  overflow: hidden;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 20px 20px 0 0;
+  display: block;
+}
+
+.card p {
+  font-size: 1.5rem;
+  padding: 20px;
 }
 
 .card:hover {
-  transform: rotateY(20deg) rotateX(10deg) scale(1.1);
+  transform: rotateY(15deg) rotateX(10deg) scale(1.1);
   box-shadow: 0 0 50px #ff0055, 0 0 100px #00ff99;
 }
 </style>
@@ -125,7 +136,7 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
 
 <!-- Hintergrundvideo -->
 <video class="video-bg" autoplay muted loop>
-  <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4">
+  <source src="logovid.mp4" type="video/mp4">
 </video>
 
 <!-- Farbverlauf Overlay -->
@@ -134,11 +145,20 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
 <!-- Glitch Überschrift -->
 <h1 class="glitch" data-text="Baltazar Seeds">Baltazar Seeds</h1>
 
-<!-- Produkt Cards -->
+<!-- Produkt Cards mit Bildern -->
 <div class="card-container">
-  <div class="card">Produkt 1</div>
-  <div class="card">Produkt 2</div>
-  <div class="card">Produkt 3</div>
+  <div class="card">
+    <img src="F1.JPG" alt="Produkt 1">
+    <p>Produkt 1</p>
+  </div>
+  <div class="card">
+    <img src="F2.JPG" alt="Produkt 2">
+    <p>Produkt 2</p>
+  </div>
+  <div class="card">
+    <img src="F3.JPG" alt="Produkt 3">
+    <p>Produkt 3</p>
+  </div>
 </div>
 
 </body>
