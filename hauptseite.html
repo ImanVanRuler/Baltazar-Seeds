@@ -1,212 +1,209 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Baltazar Seeds</title>
-  <!-- Google Font: Nosifer -->
-  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --red-main: #CC1111;
-      --red-shadow: #990000;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Baltazar Seeds</title>
+<link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red-main: #CC1111;
+  --red-shadow: #990000;
+}
 
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: auto;
-      font-family: 'Nosifer', cursive;
-      color: var(--red-main);
-      background: black;
-    }
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: auto;
+  font-family: 'Nosifer', cursive;
+  color: var(--red-main);
+  background: black;
+}
 
-    .video-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
+.video-bg {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
 
-    .wrap {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 10vh 4vw;
-      opacity: 0;
-      transition: opacity 1s ease;
-    }
+.wrap {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 10vh 4vw;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
 
-    h1 {
-      font-size: clamp(36px, 12vw, 120px);
-      margin: 0 0 1rem;
-      text-transform: uppercase;
-      position: relative;
-      display: inline-block;
-      color: var(--red-main);
-      background: linear-gradient(90deg, var(--red-main), #FF5500, var(--red-main));
-      background-size: 200% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: var(--red-main);
-      animation: shimmer 3s infinite linear, pulseGlow 2s infinite alternate;
-      text-shadow: 0 2px 4px black;
-    }
+h1 {
+  font-size: clamp(36px, 8vw, 80px);
+  margin: 0 0 1rem;
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(90deg, var(--red-main), #FF5500, var(--red-main));
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* unbedingt transparent für Video sichtbar */
+  animation: shimmer 3s infinite linear, pulseGlow 2s infinite alternate;
+  text-shadow: 0 2px 4px black;
+}
 
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
+/* Shimmer + Glow Animation */
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 
-    @keyframes pulseGlow {
-      0%, 100% { text-shadow: 0 0 5px #990000, 0 0 10px #AA0000; }
-      50% { text-shadow: 0 0 15px #FF5500, 0 0 30px #FF3300; }
-    }
+@keyframes pulseGlow {
+  0%,100% { text-shadow: 0 0 5px #990000, 0 0 10px #AA0000; }
+  50% { text-shadow: 0 0 15px #FF5500, 0 0 30px #FF3300; }
+}
 
-    /* Subtile Tropfen */
-    h1::after, h1::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: -10px;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--red-main);
-      box-shadow: 
-        -120px 10px 0 -2px var(--red-main),
-        -60px 15px 0 -3px var(--red-shadow),
-        0px 20px 0 -2px var(--red-main),
-        60px 10px 0 -2px var(--red-shadow),
-        120px 15px 0 -3px var(--red-main);
-      animation: dropFall 8s infinite ease-in-out;
-    }
+/* Tropfenanimation */
+h1::after, h1::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red-main);
+  box-shadow: 
+    -120px 10px 0 -2px var(--red-main),
+    -60px 15px 0 -3px var(--red-shadow),
+    0px 20px 0 -2px var(--red-main),
+    60px 10px 0 -2px var(--red-shadow),
+    120px 15px 0 -3px var(--red-main);
+  animation: dropFall 8s infinite ease-in-out;
+}
 
-    h1::before {
-      animation-delay: 4s;
-    }
+h1::before { animation-delay: 4s; }
 
-    @keyframes dropFall {
-      0% { transform: translateX(-50%) translateY(0) scale(0.5); opacity: 0.8; }
-      50% { transform: translateX(-50%) translateY(12px) scale(0.8); opacity: 0.9; }
-      100% { transform: translateX(-50%) translateY(40px) scale(0.4); opacity: 0; }
-    }
+@keyframes dropFall {
+  0% { transform: translateX(-50%) translateY(0) scale(0.5); opacity: 0.8; }
+  50% { transform: translateX(-50%) translateY(12px) scale(0.8); opacity: 0.9; }
+  100% { transform: translateX(-50%) translateY(40px) scale(0.4); opacity: 0; }
+}
 
-    p {
-      font-size: clamp(1rem, 2vw, 1.5rem);
-      color: var(--red-main);
-      text-align: center;
-      line-height: 1.6;
-      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000,
-                   0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000;
-      position: relative;
-      overflow: hidden;
-    }
+p {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: var(--red-main);
+  text-align: center;
+  line-height: 1.6;
+  text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000,
+               0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000;
+  position: relative;
+  overflow: hidden;
+}
 
-    p::after {
-      content: '';
-      position: absolute;
-      top: 0; left: -150%;
-      width: 50%; height: 100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
-      transform: skewX(-20deg);
-      pointer-events: none;
-      animation: shine 6s infinite;
-    }
+p::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -150%;
+  width: 50%; height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+  transform: skewX(-20deg);
+  pointer-events: none;
+  animation: shine 6s infinite;
+}
 
-    @keyframes shine {
-      0% { left: -150%; }
-      100% { left: 150%; }
-    }
+@keyframes shine {
+  0% { left: -150%; }
+  100% { left: 150%; }
+}
 
-    .btn {
-      display: inline-block;
-      margin-top: 3rem;
-      margin-right: 1rem;
-      padding: 1rem 2rem;
-      font-size: clamp(1rem, 2.5vw, 1.5rem);
-      color: var(--red-main);
-      background: rgba(0,0,0,0.6);
-      border: 2px solid var(--red-main);
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      cursor: pointer;
-    }
+.btn {
+  display: inline-block;
+  margin-top: 3rem;
+  margin-right: 1rem;
+  padding: 1rem 2rem;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  color: var(--red-main);
+  background: rgba(0,0,0,0.6);
+  border: 2px solid var(--red-main);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
 
-    .btn:hover {
-      background: var(--red-main);
-      color: black;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    }
+.btn:hover {
+  background: var(--red-main);
+  color: black;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
 
-    #fadeOverlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: black;
-      opacity: 1;
-      visibility: visible;
-      z-index: 999;
-      transition: opacity 1s ease, visibility 1s ease;
-      pointer-events: none;
-    }
-  </style>
+#fadeOverlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: black;
+  opacity: 1;
+  visibility: visible;
+  z-index: 999;
+  transition: opacity 1s ease, visibility 1s ease;
+  pointer-events: none;
+}
+</style>
 </head>
 <body>
 
-  <video class="video-bg" autoplay muted loop playsinline poster="fallback.jpg">
-    <source src="INTRO.mp4" type="video/mp4">
-    Dein Browser unterstützt kein HTML5-Video.
-  </video>
+<video class="video-bg" autoplay muted loop playsinline poster="fallback.jpg">
+  <source src="INTRO.mp4" type="video/mp4">
+  Dein Browser unterstützt kein HTML5-Video.
+</video>
 
-  <div id="fadeOverlay"></div>
+<div id="fadeOverlay"></div>
 
-  <div class="wrap" id="content">
-    <h1>WELCOME LEGENDS</h1>
-    <p>
-      WELCOME TO BALTAZAR SEEDS WHERE THE STREETS MEET THE GENETICS<br>
-      THIS AIN’T YOUR AVERAGE SEED SHOP.<br><br>
-      BALTAZAR SEEDS AKA BADFARMERS GENETICS IS ALL ABOUT REALNESS, PURE PASSION, MAD SCIENCE AND VIBES YOU CAN FEEL.<br>
-      BORN FROM THE MIND OF IMAN VAN RULER<br>
-      BETTER KNOWN AS REAL JACK JAMES<br>
-      WE DON’T JUST DROP SEEDS, WE DROP LEGACIES.<br><br>
-      EVERY STRAIN IS HAND PICKED, TESTED AND CRAFTED TO FLEX ON FLAVOR, AROMA AND NEXT-LEVEL EFFECT. NO GIMMICKS, NO HYPE — JUST AUTHENTICITY.<br>
-      IF IT DON’T GROW RIGHT, IT DON’T GET IN.<br><br>
-      BALTAZAR SEEDS IS WHERE STREET HUSTLE MEETS BOTANICAL GENIUS. EVERY PLANT TELLS A STORY, EVERY GROWER LEVELS UP. THIS AIN’T JUST A SHOP<br>
-      IT’S A MOVEMENT. REAL SEEDS. REAL VIBES. REAL LEGACY.
-    </p>
+<div class="wrap" id="content">
+  <h1>WELCOME LEGENDS</h1>
+  <p>
+    WELCOME TO BALTAZAR SEEDS WHERE THE STREETS MEET THE GENETICS<br>
+    THIS AIN’T YOUR AVERAGE SEED SHOP.<br><br>
+    BALTAZAR SEEDS AKA BADFARMERS GENETICS IS ALL ABOUT REALNESS, PURE PASSION, MAD SCIENCE AND VIBES YOU CAN FEEL.<br>
+    BORN FROM THE MIND OF IMAN VAN RULER<br>
+    BETTER KNOWN AS REAL JACK JAMES<br>
+    WE DON’T JUST DROP SEEDS, WE DROP LEGACIES.<br><br>
+    EVERY STRAIN IS HAND PICKED, TESTED AND CRAFTED TO FLEX ON FLAVOR, AROMA AND NEXT-LEVEL EFFECT. NO GIMMICKS, NO HYPE — JUST AUTHENTICITY.<br>
+    IF IT DON’T GROW RIGHT, IT DON’T GET IN.<br><br>
+    BALTAZAR SEEDS IS WHERE STREET HUSTLE MEETS BOTANICAL GENIUS. EVERY PLANT TELLS A STORY, EVERY GROWER LEVELS UP. THIS AIN’T JUST A SHOP<br>
+    IT’S A MOVEMENT. REAL SEEDS. REAL VIBES. REAL LEGACY.
+  </p>
 
-    <a href="index.html" class="btn">Back To The Entrance</a>
-    <a href="seite3.html" class="btn" id="enter21">I’m 21+ Let Me In!!</a>
-  </div>
+  <a href="index.html" class="btn">Back To The Entrance</a>
+  <a href="seite3.html" class="btn" id="enter21">I’m 21+ Let Me In!!</a>
+</div>
 
-  <script>
-    const overlay = document.getElementById('fadeOverlay');
-    const content = document.getElementById('content');
+<script>
+const overlay = document.getElementById('fadeOverlay');
+const content = document.getElementById('content');
 
-    window.addEventListener('load', () => {
-      content.style.opacity = 1;
-      overlay.style.opacity = 0;
-      overlay.style.visibility = 'hidden';
-    });
+window.addEventListener('load', () => {
+  content.style.opacity = 1;
+  overlay.style.opacity = 0;
+  overlay.style.visibility = 'hidden';
+});
 
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = this.href;
-        overlay.style.visibility = 'visible';
-        overlay.style.opacity = 1;
-        content.style.opacity = 0;
-        setTimeout(() => {
-          window.location = target;
-        }, 1000);
-      });
-    });
-  </script>
+document.querySelectorAll('.btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = this.href;
+    overlay.style.visibility = 'visible';
+    overlay.style.opacity = 1;
+    content.style.opacity = 0;
+    setTimeout(() => {
+      window.location = target;
+    }, 1000);
+  });
+});
+</script>
 
 </body>
 </html>
