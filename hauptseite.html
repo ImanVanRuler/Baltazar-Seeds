@@ -45,16 +45,38 @@
       -webkit-text-stroke-width: 2px; 
       -webkit-text-stroke-color: #ff0000; /* roter Rahmen */
       text-shadow: 
-        1px 1px #ff0000,
-        -1px -1px #ff0000,
-        1px -1px #ff0000,
-        -1px 1px #ff0000;
-      animation: floatText 3s ease-in-out infinite alternate;
+        0 0 5px #ff0000,
+        0 0 10px #ff0000,
+        0 0 20px #ff0000;
+      animation: floatText 3s ease-in-out infinite alternate,
+                 glowPulse 2s infinite ease-in-out;
     }
     
     @keyframes floatText {
       0% { transform: translateY(0); }
       100% { transform: translateY(-10px); }
+    }
+
+    @keyframes glowPulse {
+      0% {
+        text-shadow: 
+          0 0 5px #ff0000,
+          0 0 10px #ff0000,
+          0 0 20px #ff0000;
+      }
+      50% {
+        text-shadow: 
+          0 0 10px #ff0000,
+          0 0 20px #ff3333,
+          0 0 40px #ff0000,
+          0 0 60px #ff3333;
+      }
+      100% {
+        text-shadow: 
+          0 0 5px #ff0000,
+          0 0 10px #ff0000,
+          0 0 20px #ff0000;
+      }
     }
 
     h1::after {
@@ -165,11 +187,11 @@
       <b>By entering this Site</b><br>
       <b>you Confirm that you are 21+</b><br>
       <b>and understand that this Website is for</b><br>
-      <b>Cannabis Growers and Breeders.</b>
+      <b>Cannabis Growers and Breeders</b>
     </p>
 
     <!-- Buttons -->
-    <a href="index.html" class="btn">Back To The Entrance</a>
+    <a href="https://www.disneylandparis.com/de-de" class="btn">Go to Disneyland</a>
     <a href="seite3.html" class="btn" id="enter21"> I Agree!! I’m 21+ Let Me In!</a>
   </div>
 
