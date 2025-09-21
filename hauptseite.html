@@ -7,13 +7,18 @@
   <!-- Google Font: Nosifer -->
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --red-main: #AA0000;
+      --red-shadow: #770000;
+    }
+
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
       overflow: auto;
       font-family: 'Nosifer', cursive;
-      color: #990000; /* dunkleres Rot */
+      color: var(--red-main);
     }
 
     /* Video-Hintergrund */
@@ -40,7 +45,7 @@
       text-transform: uppercase;
       position: relative;
       display: inline-block;
-      background: linear-gradient(90deg, #990000, #ff5500, #990000);
+      background: linear-gradient(90deg, var(--red-main), #FF5500, var(--red-main));
       background-size: 200% 100%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -53,7 +58,8 @@
       100% { background-position: -200% 0; }
     }
 
-    h1::after {
+    /* Tropfen-Effekt dynamischer */
+    h1::after, h1::before {
       content: "";
       position: absolute;
       left: 50%;
@@ -62,24 +68,29 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #990000;
-      box-shadow: -120px 10px 0 -2px #990000,
-                  -60px 15px 0 -3px #660000,
-                  0px 20px 0 -2px #990000,
-                  60px 10px 0 -2px #660000,
-                  120px 15px 0 -3px #990000;
+      background: var(--red-main);
+      box-shadow: 
+        -120px 10px 0 -2px var(--red-main),
+        -60px 15px 0 -3px var(--red-shadow),
+        0px 20px 0 -2px var(--red-main),
+        60px 10px 0 -2px var(--red-shadow),
+        120px 15px 0 -3px var(--red-main);
       animation: dropFall 9s infinite ease-in-out;
+    }
+
+    h1::before {
+      animation-delay: 4s;
     }
 
     @keyframes dropFall {
       0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-      50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
+      50% { transform: translateX(-50%) translateY(12px); opacity: 1; }
+      100% { transform: translateX(-50%) translateY(45px); opacity: 0; }
     }
 
     p {
-      font-size: 1.5rem;
-      color: #990000;
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      color: var(--red-main);
       text-align: center;
       line-height: 1.6;
       text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000,
@@ -107,47 +118,47 @@
     .btn {
       display: inline-block;
       margin-top: 3rem;
+      margin-right: 1rem;
       padding: 1rem 2rem;
-      font-size: 1.5rem;
-      color: #990000;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--red-main);
       background: rgba(0,0,0,0.6);
-      border: 2px solid #990000;
+      border: 2px solid var(--red-main);
       border-radius: 8px;
       text-decoration: none;
-      transition: all 0.3s ease;
+      transition: all 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
       cursor: pointer;
     }
 
     .btn:hover {
-      background: #990000;
+      background: var(--red-main);
       color: black;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
 
-    /* Schwarzes Overlay für Fade-in und Fade-out */
     #fadeOverlay {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: black;
-      opacity: 1; /* Start sichtbar */
+      opacity: 1;
+      visibility: visible;
       z-index: 999;
-      transition: opacity 1s ease;
+      transition: opacity 1s ease, visibility 1s ease;
       pointer-events: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- Hintergrundvideo -->
-  <video class="video-bg" autoplay muted loop playsinline>
+  <video class="video-bg" autoplay muted loop playsinline poster="fallback.jpg">
     <source src="INTRO.mp4" type="video/mp4">
     Dein Browser unterstützt kein HTML5-Video.
   </video>
 
-  <!-- Overlay für Fade -->
   <div id="fadeOverlay"></div>
 
-  <!-- Inhalt -->
   <div class="wrap" id="content">
     <h1>Baltazar Seeds</h1>
     <p>
@@ -163,7 +174,6 @@
       IT’S A MOVEMENT. REAL SEEDS. REAL VIBES. REAL LEGACY.
     </p>
 
-    <!-- Buttons -->
     <a href="index.html" class="btn">Back To The Entrance</a>
     <a href="seite3.html" class="btn" id="enter21">I’m 21+ Let Me In!!</a>
   </div>
@@ -172,22 +182,22 @@
     const overlay = document.getElementById('fadeOverlay');
     const content = document.getElementById('content');
 
-    // Fade-in beim Laden
     window.addEventListener('load', () => {
       content.style.opacity = 1;
       overlay.style.opacity = 0;
+      overlay.style.visibility = 'hidden';
     });
 
-    // Fade-out beim Button-Klick
     document.querySelectorAll('.btn').forEach(btn => {
       btn.addEventListener('click', function(e) {
         e.preventDefault();
         const target = this.href;
-        overlay.style.opacity = 1; // Schwarz wieder einblenden
+        overlay.style.visibility = 'visible';
+        overlay.style.opacity = 1;
         content.style.opacity = 0;
         setTimeout(() => {
           window.location = target;
-        }, 1000); // 1s warten bis Overlay voll sichtbar
+        }, 1000);
       });
     });
   </script>
