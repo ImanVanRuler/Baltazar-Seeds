@@ -8,8 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
   <style>
     :root {
-      --red-main: #AA0000;
-      --red-shadow: #770000;
+      --red-main: #CC1111;
+      --red-shadow: #990000;
     }
 
     body, html {
@@ -19,9 +19,9 @@
       overflow: auto;
       font-family: 'Nosifer', cursive;
       color: var(--red-main);
+      background: black;
     }
 
-    /* Video-Hintergrund */
     .video-bg {
       position: fixed;
       top: 0; left: 0;
@@ -35,7 +35,7 @@
       z-index: 2;
       text-align: center;
       padding: 10vh 4vw;
-      opacity: 0; /* Start unsichtbar für Fade-in */
+      opacity: 0;
       transition: opacity 1s ease;
     }
 
@@ -45,11 +45,12 @@
       text-transform: uppercase;
       position: relative;
       display: inline-block;
+      color: var(--red-main);
       background: linear-gradient(90deg, var(--red-main), #FF5500, var(--red-main));
       background-size: 200% 100%;
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shimmer 3s infinite linear;
+      -webkit-text-fill-color: var(--red-main);
+      animation: shimmer 3s infinite linear, pulseGlow 2s infinite alternate, jitter 0.5s infinite;
       text-shadow: 0 2px 4px black;
     }
 
@@ -58,7 +59,19 @@
       100% { background-position: -200% 0; }
     }
 
-    /* Tropfen-Effekt dynamischer */
+    @keyframes pulseGlow {
+      0%, 100% { text-shadow: 0 0 5px #990000, 0 0 10px #AA0000; }
+      50% { text-shadow: 0 0 20px #FF5500, 0 0 40px #FF3300; }
+    }
+
+    @keyframes jitter {
+      0% { transform: translate(0,0) rotate(0deg); }
+      25% { transform: translate(-2px,1px) rotate(-1deg); }
+      50% { transform: translate(1px,-2px) rotate(1deg); }
+      75% { transform: translate(-1px,2px) rotate(-1deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
+    }
+
     h1::after, h1::before {
       content: "";
       position: absolute;
@@ -83,9 +96,9 @@
     }
 
     @keyframes dropFall {
-      0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-      50% { transform: translateX(-50%) translateY(12px); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(45px); opacity: 0; }
+      0% { transform: translateX(-50%) translateY(0) scale(0.5); opacity: 0.8; }
+      50% { transform: translateX(-50%) translateY(15px) scale(1); opacity: 1; }
+      100% { transform: translateX(-50%) translateY(45px) scale(0.3); opacity: 0; }
     }
 
     p {
@@ -160,7 +173,7 @@
   <div id="fadeOverlay"></div>
 
   <div class="wrap" id="content">
-    <h1>Baltazar Seeds</h1>
+    <h1>WELCOME LEGENDS</h1>
     <p>
       WELCOME TO BALTAZAR SEEDS WHERE THE STREETS MEET THE GENETICS<br>
       THIS AIN’T YOUR AVERAGE SEED SHOP.<br><br>
