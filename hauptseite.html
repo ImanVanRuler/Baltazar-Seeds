@@ -35,24 +35,24 @@
     }
 
    h1 {
-  font-size: clamp(40px, 10vw, 100px);
+  font-size: clamp(40px, 10vw, 100px); /* etwas kleinere Überschrift */
   margin: 0 0 1rem;
   text-transform: uppercase;
   position: relative;
   display: inline-block;
-  color: transparent; /* Text innen durchsichtig */
+  color: #cc3333; /* Rahmenfarbe passend zu deinem Text */
+  background: transparent;
+  -webkit-text-fill-color: transparent; /* Innen transparent, falls Stroke funktioniert */
+  -webkit-text-stroke-width: 1px; /* optional leichter Rahmen */
+  -webkit-text-stroke-color: #cc3333; /* Rahmenfarbe */
   text-shadow: 
-    2px 0 #cc3333,
-    -2px 0 #cc3333,
-    0 2px #cc3333,
-    0 -2px #cc3333,
     1px 1px #cc3333,
     -1px -1px #cc3333,
     1px -1px #cc3333,
-    -1px 1px #cc3333; /* simuliert einen Umriss */
+    -1px 1px #cc3333; /* stabiler Umriss für Browser, wo Stroke nicht richtig funktioniert */
   animation: floatText 3s ease-in-out infinite alternate;
 }
-
+    
     @keyframes shimmer {
       0% { background-position: 200% 0; }
       100% { background-position: -200% 0; }
@@ -166,18 +166,17 @@
       Baltazar Seeds is the place for passionate Cannabis Growers & Breeders.  
       Every Strain is crafted with precision, tested for Quality and designed for true Enthusiasts.  
       Real Genetics. Real Passion. Real Cannabis. It's time for a New World Life!!
-    <p></p>
-    
-      By entering this Site<p></p>
-      you Confirm that you are 21+<p></p>
-      and understand that this Website is for<p></p>
-      Cannabis Growers and Breeders.<p></p>
-
+    <p>
+    </p>
+      By entering this Site<b>
+      you Confirm that you are 21+<b>
+      and understand that this Website is for<b>
+      Cannabis Growers and Breeders.<b>
     </p>
 
     <!-- Buttons -->
     <a href="index.html" class="btn">Back To The Entrance</a>
-    <a href="seite3.html" class="btn" id="enter21">I’m 21+ Let Me In!!</a>
+    <a href="seite3.html" class="btn" id="enter21"> I Agree!! I’m 21+ Let Me In!</a>
   </div>
 
   <script>
