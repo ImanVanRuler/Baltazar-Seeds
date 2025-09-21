@@ -237,31 +237,98 @@ footer{padding:2.5rem 1rem;text-align:center;color:var(--muted);margin-top:3rem;
     <img id="lightbox-img" src="" alt="Preview">
   </div>
 
- <section class="payment-section">
-            <div class="payment-box">
-                <i class="fa-solid fa-bolt payment-icon"></i>
-                <h3 class="box-title">Payment with Crypto</h3>
-                <p>
-                    Experience a seamless, secure, and futuristic transaction. Click below to complete your purchase – modern, discreet, and efficient.
-                </p>
-                <p class="product-summary">
-                    <strong>1x XL White Shirt with a Big Hemp Leaf & Waves (Made in EU) for 49.99€</strong>
-                </p>
+<section class="payment-section">
+    <div class="payment-box">
+        <i class="fa-solid fa-bolt payment-icon"></i>
+        <h3 class="box-title">Payment with Crypto</h3>
+        <p class="description">
+            Experience a seamless, secure, and futuristic transaction. Click below to complete your purchase – modern, discreet, and efficient.
+        </p>
+        <p class="product-summary">
+            <strong>1x XL White Shirt with a Big Hemp Leaf & Waves (Made in EU) for 49.99€</strong>
+        </p>
 
-                <div class="wallet-option">
-                    <p class="wallet-text">Connect MetaMask or your preferred wallet for a lightning-fast payment</p>
-                    <a href="formular1a.html" class="btn btn-wallet">
-                        Complete Order
-                    </a>
-                </div>
+        <div class="wallet-option">
+            <p class="wallet-text">Connect MetaMask or your preferred wallet for a lightning-fast payment</p>
+            <a href="formular1a.html" class="btn btn-wallet">Complete Order</a>
+        </div>
 
-                <img src="METAMASK.png" alt="MetaMask Logo" class="wallet-logo">
+        <img src="METAMASK.png" alt="MetaMask Logo" class="wallet-logo">
 
-                <p class="note">
-                    ⚠️ <strong>Important Note:</strong> Only crypto payments are accepted. Recommended: Polygon for minimal fees and maximum speed. International shipping included – discreetly and sustainably packaged.
-                </p>
-            </div>
-        </section>
+        <p class="note">
+            ⚠️ <strong>Important Note:</strong> Only crypto payments are accepted. Recommended: Polygon for minimal fees and maximum speed. International shipping included – discreetly and sustainably packaged.
+        </p>
+    </div>
+</section>
+
+<style>
+.payment-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    background-color: #1a1a1a; /* optional, Hintergrundfarbe */
+}
+
+.payment-box {
+    text-align: center;
+    max-width: 600px;
+    background: #222;
+    padding: 30px;
+    border-radius: 15px;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    font-family: 'Arial', sans-serif; /* Schrift anpassen */
+}
+
+.payment-icon {
+    font-size: 50px;
+    color: #f39c12;
+    margin-bottom: 15px;
+}
+
+.box-title {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #f39c12;
+}
+
+.description, .product-summary, .wallet-text, .note {
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.wallet-option {
+    margin-bottom: 25px;
+}
+
+.btn-wallet {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #f39c12;
+    color: #222;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-wallet:hover {
+    background-color: #e67e22;
+}
+
+.wallet-logo {
+    width: 100px;
+    margin: 20px auto;
+    display: block;
+}
+
+.note {
+    font-size: 14px;
+    color: #ccc;
+}
+</style>
+
   
 </main>
 
