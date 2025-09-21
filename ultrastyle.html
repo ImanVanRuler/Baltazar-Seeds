@@ -116,6 +116,8 @@ body, html {
   flex-wrap: wrap;
   max-width: 1200px;
   padding: 0 20px;
+  z-index: 1;
+  position: relative;
 }
 
 .card {
@@ -177,8 +179,9 @@ body, html {
 <body>
 
 <!-- Hintergrundvideo -->
-<video class="video-bg" autoplay muted loop>
+<video class="video-bg" autoplay muted loop playsinline>
   <source src="logovid.mp4" type="video/mp4">
+  Ihr Browser unterstützt kein Video-Tag.
 </video>
 
 <!-- Farbverlauf Overlay -->
