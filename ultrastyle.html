@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Baltazar Seeds - Ultra Style</title>
+<title>Baltazar Ultra Style Seeds</title>
 
 <!-- Google Fonts: Nosifer -->
 <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
@@ -43,7 +43,7 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
 
 /* Glitch Überschrift */
 .glitch {
-  font-size: 6rem;
+  font-size: 4rem;
   color: #ff0055;
   text-align: center;
   position: relative;
@@ -98,7 +98,7 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 80px;
+  margin-top: 60px;
   gap: 40px;
   flex-wrap: wrap;
 }
@@ -129,10 +129,32 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
   transform: rotateY(15deg) rotateX(10deg) scale(1.1);
   box-shadow: 0 0 50px #ff0055, 0 0 100px #00ff99;
 }
+
+/* Zurück-Button */
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(255,0,85,0.8);
+  color: #fff;
+  padding: 15px 25px;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.back-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #ff0055, 0 0 40px #ffdd00;
+}
 </style>
 </head>
 
 <body>
+
+<!-- Zurück-Button -->
+<a href="#" class="back-button">Zurück</a>
 
 <!-- Hintergrundvideo -->
 <video class="video-bg" autoplay muted loop>
@@ -143,21 +165,21 @@ body, html { height: 100%; font-family: 'Nosifer', cursive; overflow-x: hidden; 
 <div class="gradient-overlay"></div>
 
 <!-- Glitch Überschrift -->
-<h1 class="glitch" data-text="Baltazar Seeds">Baltazar Seeds</h1>
+<h1 class="glitch" data-text="BALTAZAR ULTRA STYLE SEEDS">BALTAZAR ULTRA STYLE SEEDS</h1>
 
 <!-- Produkt Cards mit Bildern -->
 <div class="card-container">
   <div class="card">
-    <img src="F1.JPG" alt="Produkt 1">
-    <p>Produkt 1</p>
+    <img src="F1.JPG" alt="HYPE RUNNER F1">
+    <p>HYPE RUNNER F1</p>
   </div>
   <div class="card">
-    <img src="F2.JPG" alt="Produkt 2">
-    <p>Produkt 2</p>
+    <img src="F2.JPG" alt="HAZE OG">
+    <p>HAZE OG</p>
   </div>
   <div class="card">
-    <img src="F3.JPG" alt="Produkt 3">
-    <p>Produkt 3</p>
+    <img src="F3.JPG" alt="RAT OG">
+    <p>RAT OG</p>
   </div>
 </div>
 
