@@ -19,6 +19,7 @@
   --transition:0.45s cubic-bezier(.2,.9,.2,1);
   --glow:0 0 16px rgba(199,154,0,0.18);
 }
+
 /* Reset & Basics */
 html, body {
   height:100%;
@@ -58,9 +59,7 @@ header h1 {
   from { text-shadow: 3px 3px 0 var(--darkred), 0 0 10px rgba(199,154,0,0.06); transform:translateZ(0);}
   to { text-shadow: 4px 4px 0 var(--darkred), 0 0 18px rgba(199,154,0,0.18); transform:translateY(-1px);}
 }
-nav {
-  display:flex; gap:1.2rem; align-items:center;
-}
+nav { display:flex; gap:1.2rem; align-items:center; }
 nav a {
   color:var(--accent);
   padding:0.25rem 0.5rem;
@@ -80,23 +79,19 @@ main { max-width:1200px; margin:3rem auto; padding:0 2rem; display:grid; gap:2.5
 /* Product showcase */
 .product-showcase { display:flex; gap:2.5rem; flex-wrap:wrap; align-items:flex-start; }
 
-/* Image & Lightbox */
-.image-container {
-  position:relative;
-  overflow:hidden;
+/* Slideshow & Lightbox */
+.slide { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }
+.slide img {
+  max-width:200px;
   border-radius:12px;
-  flex:1 1 400px;
+  border:2px solid rgba(199,154,0,0.9);
   box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 18px rgba(199,154,0,0.06);
   background:#000;
-}
-.image-container img {
-  width:100%;
   object-fit:contain;
   transition: transform 0.3s;
 }
-.image-container:hover img {
-  transform:scale(1.05);
-}
+.slide img:hover { transform:scale(1.05); }
+
 #lightbox-overlay {
   position:fixed;
   top:0; left:0;
@@ -110,7 +105,7 @@ main { max-width:1200px; margin:3rem auto; padding:0 2rem; display:grid; gap:2.5
 #lightbox-overlay img {
   max-width:90%; max-height:90%;
   border-radius:12px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  box-shadow:0 20px 50px rgba(0,0,0,0.8);
 }
 
 /* Product info */
@@ -130,26 +125,67 @@ main { max-width:1200px; margin:3rem auto; padding:0 2rem; display:grid; gap:2.5
   text-shadow: 3px 3px 0 var(--darkred), 0 0 12px rgba(199,154,0,0.06);
 }
 .product-info p.description {
-  color:#f5f5f5; font-weight:300; line-height:1.8; margin-bottom:1rem;
+  color:#f5f5f5;
+  font-weight:300;
+  line-height:1.8;
+  margin-bottom:1rem;
 }
-.product-details { list-style:none; padding:0; margin:1rem 0 0; color:var(--muted); }
+.product-details {
+  list-style:none;
+  padding:0;
+  margin:1rem 0 0;
+  color:var(--muted);
+}
 .product-details li {
-  padding-left:2.2rem; position:relative; margin-bottom:.9rem; transition:var(--transition);
+  padding-left:2.2rem;
+  position:relative;
+  margin-bottom:.9rem;
+  transition:var(--transition);
 }
 .product-details li::before {
-  content:'\f058'; font-family:"Font Awesome 6 Free"; font-weight:900; position:absolute; left:0; top:0; color:var(--gold); text-shadow:1px 1px 0 var(--darkred);
+  content:'\f058';
+  font-family:"Font Awesome 6 Free";
+  font-weight:900;
+  position:absolute;
+  left:0;
+  top:0;
+  color:var(--gold);
+  text-shadow:1px 1px 0 var(--darkred);
 }
 .product-details li:hover {
-  color:var(--light); text-shadow:0 0 10px rgba(199,154,0,0.12); transform:translateX(6px);
+  color:var(--light);
+  text-shadow:0 0 10px rgba(199,154,0,0.12);
+  transform:translateX(6px);
 }
+
+/* Price & CTA */
 .product-summary {
   margin-top:1.6rem;
   padding:1rem;
   border-radius:10px;
   background:rgba(0,0,0,0.45);
-  font-weight:700; color:var(--accent);
+  font-weight:700;
+  color:var(--accent);
   display:inline-block;
   box-shadow: inset 0 0 10px rgba(199,154,0,0.04);
+}
+.btn {
+  display:inline-block;
+  padding:.9rem 1.6rem;
+  border-radius:10px;
+  border:2px solid var(--accent);
+  background:transparent;
+  color:var(--accent);
+  cursor:pointer;
+  font-weight:700;
+  letter-spacing:1px;
+  transition:var(--transition);
+  text-decoration:none;
+}
+.btn:hover {
+  background:var(--accent);
+  color:#111;
+  box-shadow:0 10px 30px rgba(199,154,0,0.12);
 }
 
 /* Payment Box */
@@ -213,13 +249,14 @@ footer {
   <a href="https://soundcloud.com/jackjames-2" target="_blank"><i class="fab fa-soundcloud"></i></a>
 </nav>
 </header>
+
 <main>
-<section class="product-showcase">
-  <div class="image-container">
+<section class="product-showcase" aria-labelledby="product-title">
+  <div class="slide">
     <img src="MERCH3.JPG" alt="XL Shirt Little Hemp Waves">
   </div>
   <div class="product-info">
-    <h2>XL Shirt Little Hemp Waves</h2>
+    <h2 id="product-title">XL Shirt Little Hemp Waves</h2>
     <p class="description">Mini Hemp Leafs & Mini Waves in a Geometric Style, premium organic cotton, ultimate comfort.</p>
     <ul class="product-details">
       <li>Size: XL (Optimized European fit)</li>
@@ -229,12 +266,15 @@ footer {
       <li>Care: Machine washable at 30°C</li>
     </ul>
     <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start; margin-top:1.6rem;">
-      <p style="flex:1; color:var(--muted); font-size:.95rem; margin:0;"> Support the brand and foster independent creativity with this merch. </p>
+      <p style="flex:1; color:var(--muted); font-size:.95rem; margin:0;">
+        Support the brand and foster independent creativity with this merch.
+      </p>
       <div style="flex:1; display:flex; gap:1rem; flex-wrap:wrap;">
-        <a href="seite3.html" class="btn-wallet">Back to Menu</a>
+        <a href="seite3.html" class="btn btn-wallet">Back to Menu</a>
       </div>
     </div>
   </div>
+
   <div class="payment-box">
     <i class="fa-solid fa-bolt payment-icon"></i>
     <h3 class="box-title">Payment with Crypto</h3>
@@ -246,11 +286,13 @@ footer {
   </div>
 </section>
 </main>
+
 <footer>
 &copy; 2025 Baltazar Seeds - Badfarmers Genetics. All rights reserved.
 </footer>
+
 <script>
-const slides = document.querySelectorAll('.image-container img');
+const slides = document.querySelectorAll('.slide img');
 const overlay = document.createElement('div');
 overlay.id = 'lightbox-overlay';
 overlay.innerHTML = '<img src="" alt="Product Lightbox">';
