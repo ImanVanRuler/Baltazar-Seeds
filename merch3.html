@@ -1,154 +1,191 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>BALTAZAR MERCH - Baltazar Seeds</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BALTAZAR MERCH - Zweiter Code</title>
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
 
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      font-family: 'Bebas Neue', sans-serif;
+      background-color: #111;
+      color: #eee;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
 
-<style>
-:root{
-  --bg:#0f0f10;
-  --accent:#c79a00;
-  --gold:#d4af37;
-  --darkred:#8B0000;
-  --muted:#bbb;
-  --light:#fff;
-  --transition:0.45s cubic-bezier(.2,.9,.2,1);
-  --glow:0 0 16px rgba(199,154,0,0.18);
-}
+    h1 {
+      font-family: 'Nosifer', cursive;
+      font-size: 3em;
+      color: #fff;
+      margin: 20px 0;
+      text-shadow: 2px 2px 5px #000;
+    }
 
-/* Reset & Basics */
-html, body {margin:0; padding:0; font-family:"Bebas Neue", "Arial", sans-serif; background:linear-gradient(180deg,#0b0b0b,#111); color:var(--accent);}
-a{text-decoration:none; color:inherit;}
-img{display:block; max-width:100%; height:auto; border-radius:10px; cursor:pointer;}
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
 
-/* Header */
-header {position:sticky; top:0; z-index:120; display:flex; align-items:center; justify-content:space-between; padding:0.9rem 4vw; background:rgba(0,0,0,0.82); backdrop-filter: blur(6px); box-shadow:0 6px 18px rgba(0,0,0,0.6);}
-header h1 {margin:0; font-family:"Nosifer",cursive; font-size:1.9rem; color:var(--accent); text-shadow:3px 3px 0 var(--darkred),0 0 10px rgba(199,154,0,0.08);}
-nav{display:flex; gap:1.2rem; align-items:center;}
-nav a{color:var(--accent); padding:0.25rem 0.5rem; border-radius:6px; transition:var(--transition); font-weight:500;}
-nav a:hover{background:var(--accent); color:#111; box-shadow:var(--glow);}
+    .item {
+      background-color: #222;
+      border-radius: 12px;
+      padding: 15px;
+      width: 280px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
 
-/* Page container */
-main{max-width:1200px; margin:3rem auto; padding:0 2rem; display:grid; gap:2.5rem;}
+    .item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+    }
 
-/* Product showcase */
-.product-showcase{display:flex; gap:2.5rem; flex-wrap:wrap; align-items:flex-start;}
+    .item img {
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
 
-/* Image & Lightbox */
-.image-container{position:relative; overflow:hidden; border-radius:16px; flex:1 1 400px; box-shadow:0 12px 40px rgba(0,0,0,0.6),0 0 18px rgba(199,154,0,0.06);}
-.image-container img{width:100%; transition: transform 0.3s;}
-.image-container:hover img{transform:scale(1.05);}
-#lightbox-overlay{position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:none; justify-content:center; align-items:center; z-index:999;}
-#lightbox-overlay img{max-width:90%; max-height:90%; border-radius:12px; box-shadow:0 20px 50px rgba(0,0,0,0.8);}
+    .item img:hover {
+      transform: scale(1.05);
+    }
 
-/* Product info */
-.product-info{flex:1 1 400px; padding:1.2rem 1.6rem; color:var(--light); background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.12)); border-radius:12px; border:1px solid rgba(255,255,255,0.03); box-shadow: inset 0 0 20px rgba(255,255,255,0.02);}
-.product-info h2{margin:0 0 1rem; font-size:2.6rem; color:var(--accent); text-shadow:3px 3px 0 var(--darkred),0 0 12px rgba(199,154,0,0.06);}
-.product-info p.description{color:#f5f5f5; font-weight:300; line-height:1.8; margin-bottom:1rem;}
-.product-details{list-style:none; padding:0; margin:1rem 0 0; color:var(--muted);}
-.product-details li{padding-left:2.2rem; position:relative; margin-bottom:.9rem; transition:var(--transition);}
-.product-details li::before{content:'\f058'; font-family:"Font Awesome 6 Free"; font-weight:900; position:absolute; left:0; top:0; color:var(--gold); text-shadow:1px 1px 0 var(--darkred);}
-.product-details li:hover{color:var(--light); text-shadow:0 0 10px rgba(199,154,0,0.12); transform:translateX(6px);}
-.product-summary{margin-top:1.6rem; padding:1rem; border-radius:10px; background:rgba(0,0,0,0.45); font-weight:700;color:var(--accent); display:inline-block; box-shadow: inset 0 0 10px rgba(199,154,0,0.04);}
+    .item h2 {
+      font-size: 1.5em;
+      margin: 10px 0;
+      color: #fff;
+    }
 
-/* Payment Box */
-.payment-box{flex:1 1 300px; text-align:center; background:#222; padding:30px; border-radius:15px; color:#fff; box-shadow:0 0 20px rgba(0,0,0,0.5); min-width:280px;}
-.payment-icon{font-size:50px; color:var(--accent); margin-bottom:15px;}
-.box-title{font-size:28px; margin-bottom:15px; color:var(--accent);}
-.description,.product-summary,.wallet-text,.note{margin-bottom:20px; line-height:1.5;}
-.wallet-option{margin-bottom:25px;}
-.btn-wallet{display:inline-block; padding:12px 25px; background-color:var(--accent); color:#222; font-weight:bold; border-radius:8px; text-decoration:none; transition:all 0.3s ease;}
-.btn-wallet:hover{background-color:#d4af37;}
-.wallet-logo{width:100px; margin:20px auto; display:block;}
-.note{font-size:14px; color:#ccc;}
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
 
-/* Footer */
-footer{padding:2.5rem 1rem; text-align:center; color:var(--muted); margin-top:3rem; background:rgba(0,0,0,0.7);}
+    .btn {
+      display: inline-block;
+      padding: 12px;
+      border-radius: 8px;
+      background-color: #333;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1.1em;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+      transition: background 0.3s, transform 0.2s;
+    }
 
-/* Responsive */
-@media (max-width:980px){.product-showcase{flex-direction:column;} .payment-box{margin-top:1.8rem;}}
-</style>
+    .btn:hover {
+      background-color: #555;
+      transform: scale(1.05);
+    }
+
+    /* Einheitliche Buttons, kein Gold */
+    .btn.payment {
+      background-color: #333;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+    }
+
+    .lightbox-content {
+      margin: 5% auto;
+      display: block;
+      width: 80%;
+      max-width: 700px;
+      border-radius: 10px;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 45px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #bbb;
+    }
+
+    footer {
+      margin: 30px 0;
+      font-size: 0.9em;
+      color: #777;
+    }
+  </style>
 </head>
 <body>
+  <h1>BALTAZAR MERCH</h1>
 
-<header>
-  <h1>Baltazar Seeds</h1>
-  <nav aria-label="Hauptnavigation">
-    <a href="index.html">Entrance</a>
-    <a href="seite3.html">Menu</a>
-    <a href="mailto:imanvanruler@freenet.de">Contact</a>
-    <a href="https://x.com/BALTAZARSEEDS" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
-    <a href="https://www.instagram.com/real_jack_james" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a href="https://www.youtube.com/@IMANVANRULER" target="_blank"><i class="fab fa-youtube"></i></a>
-    <a href="https://soundcloud.com/jackjames-2" target="_blank"><i class="fab fa-soundcloud"></i></a>
-  </nav>
-</header>
-
-<main>
-  <section class="product-showcase">
-    <div class="image-container">
-      <img src="MERCH3.JPG" alt="XL Shirt Little Hemp Waves">
-    </div>
-
-    <div class="product-info">
-      <h2>XL Shirt Little Hemp Waves</h2>
-      <p class="description">Mini Hemp Leafs & Mini Waves in a Geometric Style, premium organic cotton, ultimate comfort.</p>
-      <ul class="product-details">
-        <li>Size: XL (Optimized European fit)</li>
-        <li>Material: 100% Certified Organic Cotton</li>
-        <li>Production: Handcrafted in the EU</li>
-        <li>Design: Exclusive Little Hemp Waves motif</li>
-        <li>Care: Machine washable at 30°C</li>
-      </ul>
-      <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start; margin-top:1.6rem;">
-        <p style="flex:1; color:var(--muted); font-size:.95rem; margin:0;">
-          Support the brand and foster independent creativity with this merch.
-        </p>
-        <div style="flex:1; display:flex; gap:1rem; flex-wrap:wrap;">
-          <a href="seite3.html" class="btn-wallet">Back to Menu</a>
-        </div>
+  <div class="gallery">
+    <div class="item">
+      <img src="bilder/produkt1.jpg" alt="Produkt 1" onclick="openLightbox(this)">
+      <h2>Produkt 1</h2>
+      <div class="button-container">
+        <a href="formular1.html" class="btn">Details</a>
+        <a href="https://commerce.coinbase.com/checkout/xxxx1" class="btn payment">Buy with Crypto</a>
       </div>
     </div>
 
-    <div class="payment-box">
-      <i class="fa-solid fa-bolt payment-icon"></i>
-      <h3 class="box-title">Payment with Crypto</h3>
-      <p class="wallet-text">Connect MetaMask or your preferred wallet for a lightning-fast payment</p>
-      <p class="product-summary"><strong>1x XL Shirt Little Hemp Waves — 49.99€</strong></p>
-      <a href="formular1a.html" class="btn-wallet">Complete Order</a>
-      <img src="METAMASK.png" alt="MetaMask Logo" class="wallet-logo">
-      <p class="note">⚠️ Important: Only crypto payments. Recommended: Polygon. Discreet shipping included.</p>
+    <div class="item">
+      <img src="bilder/produkt2.jpg" alt="Produkt 2" onclick="openLightbox(this)">
+      <h2>Produkt 2</h2>
+      <div class="button-container">
+        <a href="formular2.html" class="btn">Details</a>
+        <a href="https://commerce.coinbase.com/checkout/xxxx2" class="btn payment">Buy with Crypto</a>
+      </div>
     </div>
-  </section>
-</main>
 
-<footer>
-  &copy; 2025 Baltazar Seeds - Badfarmers Genetics. All rights reserved.
-</footer>
+    <div class="item">
+      <img src="bilder/produkt3.jpg" alt="Produkt 3" onclick="openLightbox(this)">
+      <h2>Produkt 3</h2>
+      <div class="button-container">
+        <a href="formular3.html" class="btn">Details</a>
+        <a href="https://commerce.coinbase.com/checkout/xxxx3" class="btn payment">Buy with Crypto</a>
+      </div>
+    </div>
+  </div>
 
-<script>
-const slides = document.querySelectorAll('.image-container img');
-const overlay = document.createElement('div');
-overlay.id = 'lightbox-overlay';
-overlay.innerHTML = '<img src="" alt="Product Lightbox">';
-document.body.appendChild(overlay);
-const overlayImg = overlay.querySelector('img');
+  <div id="lightbox" class="lightbox">
+    <span class="close" onclick="closeLightbox()">&times;</span>
+    <img class="lightbox-content" id="lightbox-img">
+  </div>
 
-slides.forEach(img => {
-  img.addEventListener('click', () => {
-    overlayImg.src = img.src;
-    overlay.style.display = 'flex';
-  });
-});
-overlay.addEventListener('click', () => overlay.style.display = 'none');
-</script>
+  <footer>
+    &copy; 2025 Baltazar Merch. All rights reserved.
+  </footer>
 
+  <script>
+    function openLightbox(img) {
+      document.getElementById("lightbox").style.display = "block";
+      document.getElementById("lightbox-img").src = img.src;
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightbox").style.display = "none";
+    }
+  </script>
 </body>
 </html>
