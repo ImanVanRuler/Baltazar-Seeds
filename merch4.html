@@ -5,117 +5,101 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BALTAZAR MERCH - Baltazar Seeds</title>
 
+<!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>
-:root {
-    --color-dark: #0f0f0f;
-    --color-light: #f0f0f0;
-    --color-accent: #c79a00;
-    --color-subtle: #e6b800;
-    --color-gray: #888;
-    --color-muted: #bbb;
-    --color-dark-red: #8B0000;
-    --font-serif: 'Nosifer', serif;
-    --font-sans: 'Lato', sans-serif;
-    --transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-    --shadow-neumorphic: 8px 8px 16px rgba(0,0,0,0.6), -8px -8px 16px rgba(255,255,255,0.05);
+:root{
+    --bg:#0f0f10;
+    --accent:#c79a00;
+    --gold:#d4af37;
+    --darkred:#8B0000;
+    --muted:#bbb;
+    --light:#fff;
+    --transition:0.45s cubic-bezier(.2,.9,.2,1);
+    --glow:0 0 16px rgba(199,154,0,0.18);
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: var(--font-sans);
-    background: linear-gradient(to bottom, var(--color-dark), #000);
-    color: var(--color-light);
-    line-height: 1.8;
-    font-size: 16px;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
+/* Reset & Basics */
+html, body {
+    height:100%;
+    margin:0;
+    padding:0;
+    background: linear-gradient(180deg,#0b0b0b,#111);
+    color: var(--accent);
+    font-family: "Bebas Neue", "Arial", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing:0.6px;
 }
 
-a { text-decoration: none; color: var(--color-light); transition: var(--transition);}
-a:hover { color: var(--color-subtle); text-shadow: 0 0 10px var(--color-accent);}
+a { color:inherit; text-decoration:none; transition:var(--transition);}
+a:hover { color:#111; background:var(--accent); box-shadow:var(--glow);}
 
+/* Header */
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 5vw;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0.7));
-    backdrop-filter: blur(15px);
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 100;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    position:sticky;
+    top:0;
+    z-index:120;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0.9rem 4vw;
+    background:rgba(0,0,0,0.82);
+    backdrop-filter: blur(6px);
+    box-shadow:0 6px 18px rgba(0,0,0,0.6);
 }
 
 header h1 {
-    margin: 0;
-    font-family: var(--font-serif);
-    font-size: 2rem;
-    color: var(--color-accent);
-    text-shadow: 2px 2px 0 var(--color-dark-red);
+    margin:0;
+    font-family:"Nosifer",cursive;
+    font-size:1.9rem;
+    color:var(--accent);
+    text-shadow: 3px 3px 0 var(--darkred), 0 0 10px rgba(199,154,0,0.08);
+    animation: headerPulse 3s infinite alternate;
 }
 
-nav { display: flex; align-items: center; gap: 2.5rem;}
-nav a { font-weight: 300; font-size: 1.1rem; color: var(--color-accent); text-shadow: 1px 1px 0 var(--color-dark-red);}
-nav a:hover { color: var(--color-subtle); }
-
-main { max-width: 1400px; margin: 5rem auto 0; padding: 0 4rem; display: flex; flex-direction: column; gap: 4rem;}
-
-/* Container für Produkt + Payment nebeneinander */
-.product-container {
-    display: flex;
-    gap: 4rem;
-    flex-wrap: wrap;
+@keyframes headerPulse{
+    from { text-shadow: 3px 3px 0 var(--darkred), 0 0 10px rgba(199,154,0,0.06); transform:translateZ(0);}
+    to { text-shadow: 4px 4px 0 var(--darkred), 0 0 18px rgba(199,154,0,0.18); transform:translateY(-1px);}
 }
 
-.product-showcase {
-    flex: 1 1 500px;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
+nav { display:flex; gap:1.2rem; align-items:center; }
+nav a { color:var(--accent); padding:0.25rem 0.5rem; border-radius:6px; font-weight:500;}
+nav a:hover { background:var(--accent); color:#111; box-shadow:var(--glow);}
 
-.image-container { border-radius: 16px; overflow: hidden; cursor: pointer; }
-.image-container img { width: 100%; height: auto; transition: var(--transition); }
-.image-container:hover img { transform: scale(1.05); }
+/* Page container */
+main { max-width:1200px; margin:3rem auto; padding:0 2rem; display:grid; gap:2.5rem; }
 
-.product-info h2 { font-family: var(--font-serif); font-size: 2.5rem; color: var(--color-accent); margin-bottom: 1rem; text-align: center;}
-.product-info p.description { font-size: 1.1rem; color: var(--color-light); margin-bottom: 1rem;}
-.product-details { list-style: none; padding: 0; color: var(--color-muted);}
-.product-details li { margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative;}
-.product-details li::before { content:'\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left:0; color: var(--color-accent); }
+/* Product container */
+.product-container { display:flex; gap:2.5rem; flex-wrap:wrap; align-items:flex-start; }
+.product-showcase { flex:1 1 400px; display:flex; flex-direction:column; gap:2rem; }
 
-.payment-section {
-    flex: 0 0 400px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
+.image-container img { max-width:100%; border-radius:12px; border:2px solid rgba(199,154,0,0.9); box-shadow:0 12px 40px rgba(0,0,0,0.6),0 0 18px rgba(199,154,0,0.06); background:#000; object-fit:contain; transition: transform 0.3s;}
+.image-container img:hover { transform:scale(1.05); }
 
-.payment-box {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.4));
-    border-radius: 20px;
-    padding: 3rem 2rem;
-    box-shadow: var(--shadow-neumorphic);
-    text-align: center;
-}
+.product-info h2 { font-family:"Nosifer",cursive; font-size:2.6rem; color:var(--accent); margin-bottom:1rem; text-shadow: 3px 3px 0 var(--darkred),0 0 12px rgba(199,154,0,0.06); text-align:center;}
+.product-info p.description { color:#f5f5f5; font-weight:300; line-height:1.8; margin-bottom:1rem;}
+.product-details { list-style:none; padding:0; margin:0; color:var(--muted);}
+.product-details li { padding-left:2.2rem; position:relative; margin-bottom:.9rem; transition:var(--transition);}
+.product-details li::before { content:'\f058'; font-family:"Font Awesome 6 Free"; font-weight:900; position:absolute; left:0; top:0; color:var(--gold); text-shadow:1px 1px 0 var(--darkred);}
+.product-details li:hover { color:var(--light); text-shadow:0 0 10px rgba(199,154,0,0.12); transform:translateX(6px); }
 
-.payment-icon { font-size: 3rem; color: var(--color-accent); margin-bottom: 1.5rem; }
+/* Payment Box */
+.payment-section { flex:1 1 300px; text-align:center; }
+.payment-box { background:#222; padding:30px; border-radius:15px; color:#fff; box-shadow:0 0 20px rgba(0,0,0,0.5); min-width:280px; }
+.payment-icon { font-size:50px; color:var(--accent); margin-bottom:15px; }
+.btn-wallet { display:inline-block; padding:12px 25px; background-color:var(--accent); color:#222; font-weight:bold; border-radius:8px; text-decoration:none; transition:all 0.3s ease;}
+.btn-wallet:hover { background-color:#d4af37; }
 
-.btn-primary { display: inline-block; padding: 1rem 2rem; border: 1px solid var(--color-light); color: var(--color-accent); margin-top: 1.5rem;}
-.btn-wallet { display: inline-block; padding: 1rem 2.5rem; background: linear-gradient(to right, var(--color-accent), var(--color-subtle)); color: var(--color-dark); border-radius: 10px; margin-top: 1rem;}
+/* Footer */
+footer { padding:2.5rem 1rem; text-align:center; color:var(--muted); margin-top:3rem; background:rgba(0,0,0,0.7); }
 
-footer { text-align: center; padding: 4rem 1rem; background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.7)); color: var(--color-gray); font-size: 0.9rem; margin-top: 2rem; }
-
-@media (max-width: 1024px) {
-    .product-container { flex-direction: column; }
-    .payment-section { justify-content: center; }
+/* Responsive */
+@media (max-width:980px){
+    .product-container { flex-direction:column; }
+    .payment-section { margin-top:1.8rem; }
 }
 </style>
 </head>
@@ -146,7 +130,7 @@ footer { text-align: center; padding: 4rem 1rem; background: linear-gradient(to 
                     <li>Design: Exclusive Colorful Badfarmers motif</li>
                     <li>Care: Machine washable 30°C</li>
                 </ul>
-                <a href="seite3.html" class="btn btn-primary">Back to Overview</a>
+                <a href="seite3.html" class="btn btn-wallet">Back to Overview</a>
             </div>
         </div>
 
@@ -155,7 +139,7 @@ footer { text-align: center; padding: 4rem 1rem; background: linear-gradient(to 
                 <i class="fa-solid fa-bolt payment-icon"></i>
                 <h3 class="box-title">Payment with Crypto</h3>
                 <p><strong>1x XL Shirt Colorful Badfarmers – 49.99€</strong></p>
-                <a href="formular1a.html" class="btn btn-wallet">Complete Order</a>
+                <a href="formular1a.html" class="btn-wallet">Complete Order</a>
             </div>
         </section>
     </div>
