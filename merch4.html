@@ -62,24 +62,30 @@ nav a:hover { background:var(--accent); color:#111; box-shadow:var(--glow); }
 /* Main Layout */
 main { max-width:1200px; margin:3rem auto; padding:0 2rem; display:flex; gap:2rem; flex-wrap:wrap; justify-content:center; }
 
-/* Product Info Box */
-.product-info {
-  flex:1 1 500px;
-  padding:1.5rem;
-  color:var(--light);
-  background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.12));
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.03);
+/* Produkt Container */
+.product-container { display:flex; gap:2rem; flex-wrap:wrap; justify-content:center; }
+
+/* Produkt Info */
+.product-showcase { flex:1 1 500px; display:flex; flex-direction:column; gap:1.5rem; }
+.image-container { border-radius:16px; overflow:hidden; cursor:pointer; }
+.image-container img { width:100%; height:auto; transition: transform 0.3s; }
+.image-container img:hover { transform:scale(1.05); }
+
+.product-info { 
+  flex:1; padding:1.5rem; 
+  color:var(--light); 
+  background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.12)); 
+  border-radius:12px; border:1px solid rgba(255,255,255,0.03);
   box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
 }
-.product-info h2 { margin:0 0 1rem; font-size:2.6rem; color:var(--accent);
+.product-info h2 { margin:0 0 1rem; font-size:2.5rem; color:var(--accent);
   text-shadow: 3px 3px 0 var(--darkred), 0 0 12px rgba(199,154,0,0.06);}
 .product-info p.description { color:#f5f5f5; font-weight:300; line-height:1.8; margin-bottom:1rem;}
 .product-details { list-style:none; padding:0; margin:1rem 0 0; color:var(--muted);}
 .product-details li { padding-left:2.2rem; position:relative; margin-bottom:.9rem; transition:var(--transition);}
-.product-details li::before { content:'\f058'; font-family:"Font Awesome 6 Free"; font-weight:900;
-  position:absolute; left:0; top:0; color:var(--gold); text-shadow:1px 1px 0 var(--darkred);}
+.product-details li::before { content:'\f058'; font-family:"Font Awesome 6 Free"; font-weight:900; position:absolute; left:0; top:0; color:var(--gold); text-shadow:1px 1px 0 var(--darkred);}
 .product-details li:hover { color:var(--light); text-shadow:0 0 10px rgba(199,154,0,0.12); transform:translateX(6px); }
+
 .product-summary { margin-top:1rem; padding:1rem; border-radius:10px; background:rgba(0,0,0,0.45); font-weight:700;color:var(--accent); display:inline-block; box-shadow: inset 0 0 10px rgba(199,154,0,0.04); }
 
 /* Buttons */
@@ -91,8 +97,8 @@ main { max-width:1200px; margin:3rem auto; padding:0 2rem; display:flex; gap:2re
 .btn:hover, .btn-wallet:hover { background:var(--accent); color:#111; box-shadow:0 10px 30px rgba(199,154,0,0.12); }
 
 /* Payment Box */
+.payment-section, .payment-box { flex:1 1 400px; }
 .payment-box {
-  flex:1 1 300px;
   text-align:center;
   background:#222;
   padding:30px;
@@ -122,46 +128,40 @@ main { max-width:1200px; margin:3rem auto; padding:0 2rem; display:flex; gap:2re
 <header>
   <h1>Baltazar Seeds</h1>
   <nav>
-    <a href="index.html">Entrance</a>
-    <a href="seite3.html">Menu</a>
+    <a href="index.html">Home</a>
+    <a href="seite3.html">Products</a>
     <a href="mailto:imanvanruler@freenet.de">Contact</a>
-    <a href="https://x.com/BALTAZARSEEDS" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
-    <a href="https://www.instagram.com/real_jack_james" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a href="https://www.youtube.com/@IMANVANRULER" target="_blank"><i class="fab fa-youtube"></i></a>
-    <a href="https://soundcloud.com/jackjames-2" target="_blank"><i class="fab fa-soundcloud"></i></a>
   </nav>
 </header>
 
 <main>
-  <div class="product-info">
-    <h2>XL White Shirt with a Big Hemp Leaf & Waves</h2>
-    <div class="slideshow-container">
-      <div class="slide"><img src="MERCH2.JPG" alt="XL White Shirt Front"></div>
+  <div class="product-container">
+    <div class="product-showcase">
+      <div class="image-container">
+        <img src="MERCH4.JPG" alt="BALTAZAR MERCH - XL Shirt Colorful Badfarmers">
+      </div>
+      <div class="product-info">
+        <h2>XL Shirt Colorful Badfarmers</h2>
+        <p class="description">A masterpiece of design: Vibrant colors harmoniously combined with modern elegance and creativity. Crafted from premium, breathable organic cotton for ultimate comfort and durability.</p>
+        <ul class="product-details">
+          <li>Size: XL (Optimized European fit)</li>
+          <li>Material: 100% Organic Cotton</li>
+          <li>Production: Handcrafted in EU</li>
+          <li>Design: Exclusive Colorful Badfarmers motif</li>
+          <li>Care: Machine washable 30°C</li>
+        </ul>
+        <a href="seite3.html" class="btn">Back to Overview</a>
+      </div>
     </div>
-    <p class="description">
-      Cool & Creative design featuring a big hemp leaf and waves. Crafted from premium, breathable organic cotton for ultimate comfort and durability.
-    </p>
-    <ul class="product-details">
-      <li>Size: XL (Optimized European fit for perfect seating)</li>
-      <li>Material: 100% Certified Organic Cotton, environmentally friendly produced</li>
-      <li>Production: Handcrafted in the EU with the highest quality standards</li>
-      <li>Design: Exclusive Big Hemp Leaf & Waves motif – a statement of creativity</li>
-      <li>Care: Machine washable at 30°C, colorfast and shape-retaining</li>
-    </ul>
-    <div class="product-summary">1X XL White Shirt with a Big Hemp Leaf & Waves for 49.99€</div>
-    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem;">
-      <a href="formular1a.html" class="btn-wallet">Buy with Crypto</a>
-      <a href="seite3.html" class="btn">Back to Menu</a>
-    </div>
-  </div>
 
-  <div class="payment-box">
-    <i class="fa-solid fa-bolt payment-icon"></i>
-    <h3 class="box-title">Payment with Crypto</h3>
-    <p class="wallet-text">Connect MetaMask or your preferred wallet for a lightning-fast payment</p>
-    <a href="formular1a.html" class="btn-wallet">Complete Order</a>
-    <img src="METAMASK.png" alt="MetaMask Logo" class="wallet-logo">
-    <p class="note">⚠️ Important Note: Only crypto payments accepted. Recommended: Polygon. Discreet international shipping included.</p>
+    <section class="payment-section">
+      <div class="payment-box">
+        <i class="fa-solid fa-bolt payment-icon"></i>
+        <h3 class="box-title">Payment with Crypto</h3>
+        <p><strong>1x XL Shirt Colorful Badfarmers – 49.99€</strong></p>
+        <a href="formular1a.html" class="btn-wallet">Complete Order</a>
+      </div>
+    </section>
   </div>
 </main>
 
@@ -170,7 +170,7 @@ main { max-width:1200px; margin:3rem auto; padding:0 2rem; display:flex; gap:2re
 </footer>
 
 <script>
-const slides = document.querySelectorAll('.slide img');
+const slides = document.querySelectorAll('.image-container img');
 const overlay = document.createElement('div');
 overlay.id = 'lightbox-overlay';
 overlay.innerHTML = '<img src="" alt="Product Lightbox">';
