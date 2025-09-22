@@ -7,6 +7,7 @@
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
+<!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <style>
@@ -76,9 +77,11 @@ main { max-width:1200px; margin:3rem auto; padding:0 2rem; display:grid; gap:2.5
 .product-container { display:flex; gap:2.5rem; flex-wrap:wrap; align-items:flex-start; }
 .product-showcase { flex:1 1 400px; display:flex; flex-direction:column; gap:2rem; }
 
-.image-container img { max-width:100%; border-radius:12px; border:2px solid rgba(199,154,0,0.9); box-shadow:0 12px 40px rgba(0,0,0,0.6),0 0 18px rgba(199,154,0,0.06); background:#000; object-fit:contain; transition: transform 0.3s;}
+/* Product images */
+.image-container img { max-width:100%; border-radius:12px; border:2px solid rgba(199,154,0,0.9); box-shadow:0 12px 40px rgba(0,0,0,0.6),0 0 18px rgba(199,154,0,0.06); background:#000; object-fit:contain; transition: transform 0.3s; cursor:pointer;}
 .image-container img:hover { transform:scale(1.05); }
 
+/* Product info */
 .product-info h2 { font-family:"Nosifer",cursive; font-size:2.6rem; color:var(--accent); margin-bottom:1rem; text-shadow: 3px 3px 0 var(--darkred),0 0 12px rgba(199,154,0,0.06); text-align:center;}
 .product-info p.description { color:#f5f5f5; font-weight:300; line-height:1.8; margin-bottom:1rem;}
 .product-details { list-style:none; padding:0; margin:0; color:var(--muted);}
@@ -90,11 +93,16 @@ main { max-width:1200px; margin:3rem auto; padding:0 2rem; display:grid; gap:2.5
 .payment-section { flex:1 1 300px; text-align:center; }
 .payment-box { background:#222; padding:30px; border-radius:15px; color:#fff; box-shadow:0 0 20px rgba(0,0,0,0.5); min-width:280px; }
 .payment-icon { font-size:50px; color:var(--accent); margin-bottom:15px; }
+.box-title { font-size:28px; margin-bottom:15px; color:var(--accent); }
 .btn-wallet { display:inline-block; padding:12px 25px; background-color:var(--accent); color:#222; font-weight:bold; border-radius:8px; text-decoration:none; transition:all 0.3s ease;}
 .btn-wallet:hover { background-color:#d4af37; }
 
 /* Footer */
 footer { padding:2.5rem 1rem; text-align:center; color:var(--muted); margin-top:3rem; background:rgba(0,0,0,0.7); }
+
+/* Lightbox */
+#lightbox-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:none; justify-content:center; align-items:center; z-index:999; }
+#lightbox-overlay img { max-width:90%; max-height:90%; border-radius:12px; box-shadow:0 20px 50px rgba(0,0,0,0.8); }
 
 /* Responsive */
 @media (max-width:980px){
@@ -148,6 +156,26 @@ footer { padding:2.5rem 1rem; text-align:center; color:var(--muted); margin-top:
 <footer>
     <p>&copy; 2025 Baltazar Seeds - Badfarmers Genetics. All rights reserved.</p>
 </footer>
+
+<!-- Lightbox Script -->
+<div id="lightbox-overlay">
+    <img src="" alt="Product Lightbox">
+</div>
+
+<script>
+const slides = document.querySelectorAll('.image-container img');
+const overlay = document.getElementById('lightbox-overlay');
+const overlayImg = overlay.querySelector('img');
+
+slides.forEach(img => {
+    img.addEventListener('click', () => {
+        overlayImg.src = img.src;
+        overlay.style.display = 'flex';
+    });
+});
+
+overlay.addEventListener('click', () => overlay.style.display = 'none');
+</script>
 
 </body>
 </html>
