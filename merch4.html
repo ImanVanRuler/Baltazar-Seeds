@@ -39,97 +39,105 @@ img { display:block; max-width:100%; height:auto; border-radius:10px; cursor:poi
 /* Header */
 header {
   position:sticky; top:0; z-index:120;
-  display:flex; justify-content:space-between; align-items:center;
+  display:flex; align-items:center; justify-content:space-between;
   padding:0.9rem 4vw;
   background:rgba(0,0,0,0.82);
   backdrop-filter: blur(6px);
   box-shadow:0 6px 18px rgba(0,0,0,0.6);
 }
 header h1 {
-  margin:0; font-family:"Nosifer",cursive; font-size:1.9rem;
+  margin:0;
+  font-family:"Nosifer",cursive;
+  font-size:1.9rem;
   color:var(--accent);
   text-shadow: 3px 3px 0 var(--darkred), 0 0 10px rgba(199,154,0,0.08);
   animation: headerPulse 3s infinite alternate;
 }
 @keyframes headerPulse{
-  from { text-shadow: 3px 3px 0 var(--darkred),0 0 10px rgba(199,154,0,0.06); }
-  to { text-shadow: 4px 4px 0 var(--darkred),0 0 18px rgba(199,154,0,0.18); }
+  from { text-shadow: 3px 3px 0 var(--darkred), 0 0 10px rgba(199,154,0,0.06); transform:translateZ(0);}
+  to { text-shadow: 4px 4px 0 var(--darkred), 0 0 18px rgba(199,154,0,0.18); transform:translateY(-1px);}
 }
 nav { display:flex; gap:1.2rem; align-items:center; }
-nav a { color:var(--accent); padding:0.25rem 0.5rem; border-radius:6px; transition:var(--transition); font-weight:500;}
+nav a {
+  color:var(--accent); padding:0.25rem 0.5rem; border-radius:6px;
+  transition:var(--transition); font-weight:500;
+}
 nav a:hover { background:var(--accent); color:#111; box-shadow:var(--glow); }
 
-/* Main Layout */
-main { max-width:1200px; margin:3rem auto; padding:0 2rem; }
-
-/* Produkt Container: Bild + Info + Payment nebeneinander */
-.product-container {
-  display:flex;
-  gap:2.5rem;
-  align-items:flex-start;
-  justify-content:space-between;
-  flex-wrap:nowrap;
+/* Page container */
+main {
+  max-width:1200px; margin:3rem auto; padding:0 2rem; display:grid; gap:2.5rem;
 }
 
-/* Produkt Showcase (Bild + Info) */
+/* Product showcase */
 .product-showcase {
-  display:flex;
-  gap:1.5rem;
+  display:flex; gap:2.5rem; flex-wrap:wrap;
   align-items:flex-start;
-  flex:1 1 auto;
-  min-width:0; /* wichtig für flex overflow */
 }
 
-/* Kleines Vorschaubild (Thumbnail) */
-.image-container {
-  flex: 0 0 200px;      /* FIX: Thumbnail-Breite wie im ersten Code */
-  max-width:200px;
-  border-radius:16px;
-  overflow:hidden;
-  cursor:pointer;
+/* Slideshow & Lightbox */
+.slideshow-container {
+  display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;
 }
-.image-container img {
-  width:100%;
-  height:auto;
+.slide img {
+  max-width:200px;
+  border-radius:12px;
   border:2px solid rgba(199,154,0,0.9);
-  box-shadow:0 12px 40px rgba(0,0,0,0.6),0 0 18px rgba(199,154,0,0.06);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 18px rgba(199,154,0,0.06);
   background:#000;
   object-fit:contain;
   transition: transform 0.3s;
 }
-.image-container img:hover { transform:scale(1.05); }
+.slide img:hover { transform:scale(1.05); }
+#lightbox-overlay {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.85); display:none;
+  justify-content:center; align-items:center; z-index:999;
+}
+#lightbox-overlay img {
+  max-width:90%; max-height:90%; border-radius:12px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
 
-/* Produkt Info */
+/* Product info */
 .product-info {
-  flex:1 1 1px; /* wächst, nimmt verbleibenden Raum */
-  padding:1.5rem;
+  flex:1 1 400px;
+  padding:1.2rem 1.6rem;
   color:var(--light);
   background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.12));
-  border-radius:12px; border:1px solid rgba(255,255,255,0.03);
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.03);
   box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
-  min-width:0; /* damit text nicht overflowt */
 }
-.product-info h2 { margin:0 0 1rem; font-size:2.5rem; color:var(--accent);
-  text-shadow: 3px 3px 0 var(--darkred), 0 0 12px rgba(199,154,0,0.06);}
-.product-info p.description { color:#f5f5f5; font-weight:300; line-height:1.8; margin-bottom:1rem;}
-.product-details { list-style:none; padding:0; margin:1rem 0 0; color:var(--muted);}
-.product-details li { padding-left:2.2rem; position:relative; margin-bottom:.9rem; transition:var(--transition);}
-.product-details li::before { content:'\f058'; font-family:"Font Awesome 6 Free"; font-weight:900; position:absolute; left:0; top:0; color:var(--gold); text-shadow:1px 1px 0 var(--darkred);}
-.product-details li:hover { color:var(--light); text-shadow:0 0 10px rgba(199,154,0,0.12); transform:translateX(6px); }
+.product-info h2 {
+  margin:0 0 1rem;
+  font-size:2.6rem; color:var(--accent);
+  text-shadow: 3px 3px 0 var(--darkred), 0 0 12px rgba(199,154,0,0.06);
+}
+.product-info p.description { color:#f5f5f5; font-weight:300; line-height:1.8; margin-bottom:1rem; }
+.product-details { list-style:none; padding:0; margin:1rem 0 0; color:var(--muted); }
+.product-details li {
+  padding-left:2.2rem; position:relative; margin-bottom:.9rem; transition:var(--transition);
+}
+.product-details li::before {
+  content:'\f058'; font-family:"Font Awesome 6 Free"; font-weight:900;
+  position:absolute; left:0; top:0; color:var(--gold); text-shadow:1px 1px 0 var(--darkred);
+}
+.product-details li:hover {
+  color:var(--light); text-shadow:0 0 10px rgba(199,154,0,0.12); transform:translateX(6px);
+}
 
-.product-summary { margin-top:1rem; padding:1rem; border-radius:10px; background:rgba(0,0,0,0.45); font-weight:700;color:var(--accent); display:inline-block; box-shadow: inset 0 0 10px rgba(199,154,0,0.04); }
-
-/* Buttons */
-.btn, .btn-wallet {
+/* Price & CTA */
+.product-summary { margin-top:1.6rem; padding:1rem; border-radius:10px; background:rgba(0,0,0,0.45); font-weight:700;color:var(--accent); display:inline-block; box-shadow: inset 0 0 10px rgba(199,154,0,0.04); }
+.btn {
   display:inline-block; padding:.9rem 1.6rem; border-radius:10px; border:2px solid var(--accent);
   background:transparent; color:var(--accent); cursor:pointer; font-weight:700; letter-spacing:1px; transition:var(--transition);
-  text-align:center;
 }
-.btn:hover, .btn-wallet:hover { background:var(--accent); color:#111; box-shadow:0 10px 30px rgba(199,154,0,0.12); }
+.btn:hover { background:var(--accent); color:#111; box-shadow:0 10px 30px rgba(199,154,0,0.12); }
 
-/* Payment Box (rechts) - fixe Breite, bleibt neben Produktinfo */
-.payment-section { flex:0 0 320px; }
+/* Payment Box rechts neben Beschreibung */
 .payment-box {
+  flex:1 1 300px;
   text-align:center;
   background:#222;
   padding:30px;
@@ -140,20 +148,24 @@ main { max-width:1200px; margin:3rem auto; padding:0 2rem; }
 }
 .payment-icon { font-size:50px; color:var(--accent); margin-bottom:15px; }
 .box-title { font-size:28px; margin-bottom:15px; color:var(--accent); }
+.description, .product-summary, .wallet-text, .note { margin-bottom:20px; line-height:1.5; }
+.wallet-option { margin-bottom:25px; }
+.btn-wallet {
+  display:inline-block; padding:12px 25px; background-color:var(--accent); color:#222; font-weight:bold;
+  border-radius:8px; text-decoration:none; transition:all 0.3s ease;
+}
+.btn-wallet:hover { background-color:#d4af37; }
 .wallet-logo { width:100px; margin:20px auto; display:block; }
-.note { font-size:14px; color:#ccc; margin-top:15px; }
+.note { font-size:14px; color:#ccc; }
 
-/* Lightbox */
-#lightbox-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:none; justify-content:center; align-items:center; z-index:999;}
-#lightbox-overlay img { max-width:90%; max-height:90%; border-radius:12px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+/* Footer */
+footer { padding:2.5rem 1rem; text-align:center; color:var(--muted); margin-top:3rem; background:rgba(0,0,0,0.7); }
 
-/* Responsive: unter 980px stapeln */
+/* Responsive */
 @media (max-width:980px){
-  .product-container { flex-direction:column; gap:1.5rem; }
   .product-showcase { flex-direction:column; }
-  .image-container { flex:0 0 auto; max-width:420px; width:100%; }
-  .payment-section { flex:1 1 auto; }
-  main { padding:0 1rem; }
+  .slideshow-container { justify-content:center; }
+  .payment-box { margin-top:1.8rem; }
 }
 </style>
 </head>
@@ -161,9 +173,9 @@ main { max-width:1200px; margin:3rem auto; padding:0 2rem; }
 
 <header>
   <h1>Baltazar Seeds</h1>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="seite3.html">Products</a>
+  <nav aria-label="Hauptnavigation">
+    <a href="index.html">Entrance</a>
+    <a href="seite3.html">Menu</a>
     <a href="mailto:imanvanruler@freenet.de">Contact</a>
     <a href="https://x.com/BALTAZARSEEDS" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
     <a href="https://www.instagram.com/real_jack_james" target="_blank"><i class="fab fa-instagram"></i></a>
@@ -173,38 +185,46 @@ main { max-width:1200px; margin:3rem auto; padding:0 2rem; }
 </header>
 
 <main>
-    <section class="product-showcase" aria-labelledby="product-title">
+  <section class="product-showcase" aria-labelledby="product-title">
     <div class="product-info" id="product-info">
-        <h2 id="product-title">XL Shirt Colorful Badfarmers</h2>
-         <div class="slideshow-container" role="region" aria-label="Produktbilder">
-        <div class="slide"><img src="MERCH4.JPG" alt="XL Shirt Colorful Badfarmers"></div>
-        <p class="description">A masterpiece of design: Vibrant colors harmoniously combined with modern elegance and creativity. Crafted from premium, breathable organic cotton for ultimate comfort and durability.</p>
-        <ul class="product-details">
+      <h2 id="product-title">XL Shirt Colorful Badfarmers</h2>
+      <div class="slideshow-container" role="region" aria-label="Produktbilder">
+        <div class="slide"><img src="MERCH4.JPG" alt="XL White Shirt Front"></div>
+      </div>
+      <p class="description">
+        A masterpiece of design: Vibrant colors harmoniously combined with modern elegance and creativity. Crafted from premium, breathable organic cotton for ultimate comfort and durability.
+      </p>
+      <ul class="product-details" aria-label="Produktdetails">
           <li>Size: XL (Optimized European fit)</li>
           <li>Material: 100% Organic Cotton</li>
           <li>Production: Handcrafted in EU</li>
           <li>Design: Exclusive Colorful Badfarmers motif</li>
           <li>Care: Machine washable 30°C</li>
-        </ul>
+      </ul>
+      <div class="product-summary">1X XL Shirt Colorful Badfarmers for 49.99€</div>
 
-        <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start; margin-top:1.6rem;">
-          <a href="seite3.html" class="btn">Back to Overview</a>
-          <a href="formular1a.html" class="btn-wallet">Buy with Crypto</a>
+      <!-- Absatz und Buttons nebeneinander -->
+      <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start; margin-top:1.6rem;">
+        <p style="flex:1; color:var(--muted); font-size:.95rem; margin:0;">
+          Purchasing "BALTAZAR MERCH" empowers the brand and champions independent artistry.
+        </p>
+        <div style="flex:1; display:flex; gap:1rem; flex-wrap:wrap;">
+          <a href="formular1a.html" class="btn btn-wallet">Buy with Crypto</a>
+          <a href="seite3.html" class="btn">Back to Menu</a>
         </div>
       </div>
     </div>
 
-    <section class="payment-section">
-      <div class="payment-box">
-        <i class="fa-solid fa-bolt payment-icon"></i>
-        <h3 class="box-title">Payment with Crypto</h3>
-        <p><strong>1x XL Shirt Colorful Badfarmers – 49.99€</strong></p>
-        <a href="formular1a.html" class="btn-wallet">Complete Order</a>
-        <img src="METAMASK.png" alt="MetaMask Logo" class="wallet-logo">
-        <p class="note">⚠️ Important Note: Only crypto payments accepted. Recommended: Polygon. Discreet international shipping included.</p>
-      </div>
-    </section>
-  </div>
+    <!-- Payment Box rechts -->
+    <div class="payment-box">
+      <i class="fa-solid fa-bolt payment-icon"></i>
+      <h3 class="box-title">Payment with Crypto</h3>
+      <p class="wallet-text">Connect MetaMask or your preferred wallet for a lightning-fast payment</p>
+      <a href="formular1a.html" class="btn-wallet">Complete Order</a>
+      <img src="METAMASK.png" alt="MetaMask Logo" class="wallet-logo">
+      <p class="note">⚠️ Important Note: Only crypto payments accepted. Recommended: Polygon. Discreet international shipping included.</p>
+    </div>
+  </section>
 </main>
 
 <footer>
@@ -212,7 +232,7 @@ main { max-width:1200px; margin:3rem auto; padding:0 2rem; }
 </footer>
 
 <script>
-const slides = document.querySelectorAll('.image-container img');
+const slides = document.querySelectorAll('.slide img');
 const overlay = document.createElement('div');
 overlay.id = 'lightbox-overlay';
 overlay.innerHTML = '<img src="" alt="Product Lightbox">';
