@@ -30,13 +30,13 @@ header {
   top: 0;
   background: rgba(0,0,0,0.8);
   z-index: 10;
-  box-shadow: 0 0 20px #ff0055;
+  box-shadow: 0 0 20px #660000; /* dunkleres Rot */
 }
 
 header h1 {
   font-size: clamp(2rem, 5vw, 3rem);
-  color: #ff0055;
-  text-shadow: 0 0 10px #ff0055, 0 0 20px #00ff99;
+  color: #660000; /* dunkelrot */
+  text-shadow: 0 0 5px #330000; /* schärferer Effekt */
   margin: 0;
 }
 
@@ -47,7 +47,7 @@ header nav {
 }
 
 header nav a {
-  color: #fff;
+  color: #660000; /* dunkelrot */
   text-decoration: none;
   margin: 0 15px;
   font-size: 1.2rem;
@@ -55,7 +55,7 @@ header nav a {
 }
 
 header nav a:hover {
-  color: #ff0055;
+  color: #ff3333; /* helleres Rot beim Hover */
   transform: scale(1.2);
 }
 
@@ -67,12 +67,12 @@ header nav a.contact-icon {
 /* ---------------- Glitch Überschrift ---------------- */
 .glitch {
   font-size: clamp(3rem, 8vw, 6rem);
-  color: #ff0055;
+  color: #660000; /* dunkelrot */
   text-align: center;
   margin: 60px 0;
   position: relative;
   animation: flicker 1s infinite alternate;
-  text-shadow: 0 0 15px #ff0055, 0 0 30px #00ff99, 0 0 45px #ffdd00;
+  text-shadow: 0 0 10px #330000; /* schärferer Glow */
 }
 
 .glitch::before,
