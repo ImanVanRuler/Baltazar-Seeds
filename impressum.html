@@ -1,180 +1,192 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Imprint & Contact — Baltazar Seeds</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
-    :root {
-      --bg-dark: #111;
-      --text-light: #ff0b0b;
-      --card-bg: rgba(0,0,0,0.75);
-      --accent: #ff0b0b;
-      --input-bg: #222;
-      --input-border: #555;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Imprint & Contact — Baltazar Seeds</title>
+<link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+  :root {
+    --bg-dark: #111;
+    --text-light: #ff0b0b;
+    --card-bg: rgba(0,0,0,0.75);
+    --accent: #ff0b0b;
+    --input-bg: #222;
+    --input-border: #555;
+  }
 
-    * {
-      box-sizing: border-box;
-    }
+  * {
+    box-sizing: border-box;
+  }
 
-    body, html {
-      margin: 0;
-      padding: 0;
-      font-family: 'Bebas Neue', sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-light);
-      overflow-x: hidden;
-    }
+  html {
+    scroll-behavior: smooth;
+  }
 
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Bebas Neue', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    overflow-x: hidden;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 4vw;
+    background: rgba(0,0,0,0.9);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  }
+
+  header h1 {
+    margin: 0;
+    font-family: 'Nosifer', cursive;
+    font-size: 2rem;
+    text-shadow: 2px 2px 0 #000;
+  }
+
+  nav a {
+    color: var(--accent);
+    text-decoration: none;
+    margin-left: 1rem;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 0 #000;
+    transition: all 0.3s ease;
+  }
+
+  nav a:hover, nav a:focus {
+    color: black;
+    background: var(--accent);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    outline: none;
+  }
+
+  .container {
+    max-width: 980px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+
+  .card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+  }
+
+  h1,h2,h3 {
+    margin: 0 0 1rem;
+    color: var(--accent);
+  }
+
+  p,label {
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid var(--input-border);
+    background: var(--input-bg);
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    outline: none;
+  }
+
+  .btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    color: var(--accent);
+    background: rgba(0,0,0,0.6);
+    border: 2px solid var(--accent);
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn:hover, .btn:focus {
+    background: var(--accent);
+    color: black;
+    outline: none;
+  }
+
+  footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: rgba(0,0,0,0.9);
+    font-size: 0.9rem;
+    text-shadow: 1px 1px 0 #000;
+    color: #aaa;
+    border-top: 2px solid var(--accent);
+  }
+
+  .trust-links {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .trust-links a {
+    color: var(--accent);
+    text-decoration: none;
+    margin: 0 0.5rem;
+    transition: all 0.3s;
+  }
+
+  .trust-links a:hover, .trust-links a:focus {
+    color: black;
+    background: var(--accent);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    outline: none;
+  }
+
+  @media (max-width: 600px) {
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 4vw;
-      background: rgba(0,0,0,0.85);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      flex-direction: column;
+      align-items: flex-start;
     }
-
-    header h1 {
-      margin: 0;
-      font-family: 'Nosifer', cursive;
-      font-size: 2rem;
-      text-shadow: 2px 2px 0 #000;
-    }
-
     nav a {
-      color: var(--accent);
-      text-decoration: none;
-      margin-left: 1rem;
-      font-size: 1.2rem;
-      text-shadow: 1px 1px 0 #000;
-      transition: 0.3s;
+      margin-left: 0;
+      margin-top: 0.5rem;
     }
-
-    nav a:hover, nav a:focus {
-      color: black;
-      background: var(--accent);
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      outline: none;
-    }
-
-    .container {
-      max-width: 980px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-
-    .card {
-      background: var(--card-bg);
-      padding: 2rem;
-      border-radius: 12px;
-      margin-bottom: 2rem;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
-    }
-
-    h1, h2, h3 {
-      margin: 0 0 1rem;
-      color: var(--accent);
-    }
-
-    p, label {
-      color: var(--text-light);
-      line-height: 1.6;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 6px;
-      border-radius: 8px;
-      border: 1px solid var(--input-border);
-      background: var(--input-bg);
-      color: #fff;
-      font-family: inherit;
-      font-size: 1rem;
-      transition: border-color 0.3s;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--accent);
-      outline: none;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      color: var(--accent);
-      background: rgba(0,0,0,0.6);
-      border: 2px solid var(--accent);
-      border-radius: 6px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover, .btn:focus {
-      background: var(--accent);
-      color: black;
-      outline: none;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      background: rgba(0,0,0,0.85);
-      font-size: 0.9rem;
-      text-shadow: 1px 1px 0 #000;
-      color: #aaa;
-    }
-
-    .trust-links {
-      text-align: center;
-      margin-top: 1rem;
-    }
-
-    .trust-links a {
-      color: var(--accent);
-      text-decoration: none;
-      margin: 0 0.5rem;
-      transition: all 0.3s;
-    }
-
-    .trust-links a:hover, .trust-links a:focus {
-      color: black;
-      background: var(--accent);
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      outline: none;
-    }
-
-    @media (max-width: 600px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      nav a {
-        margin-left: 0;
-        margin-top: 0.5rem;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
 
 <header>
   <h1>Baltazar Seeds</h1>
   <nav aria-label="Main Navigation">
-    <a href="index.html">Entrance</a>
-    <a href="seite3.html">Menu</a>
-    <a href="impressum.html">Imprint & Contact</a>
+    <a href="#imprint">Imprint</a>
+    <a href="#contact">Contact</a>
+    <a href="#trust">Policies</a>
   </nav>
 </header>
 
@@ -224,19 +236,19 @@
     <h2>Trust & Policies</h2>
 
     <h3 id="terms">Terms & Conditions (AGB)</h3>
-    <p>By placing an order, you agree to our Terms & Conditions. Orders are only for legal, personal use where permitted by law.</p>
+    <p>By placing an order, you agree to our Terms & Conditions. Orders are only for legal, personal use where permitted by law. Any misuse or illegal use of our products is strictly prohibited.</p>
 
     <h3 id="privacy">Privacy Policy</h3>
-    <p>We respect your privacy. Your data is processed only for order fulfillment and not shared with third parties.</p>
+    <p>We respect your privacy. Your data is processed exclusively for order fulfillment and will never be shared with third parties. All communication is encrypted via HTTPS.</p>
 
     <h3 id="shipping">Shipping & Delivery Times</h3>
-    <p>Orders are processed within 3–7 business days. Delivery times depend on your location.</p>
+    <p>Orders are processed within 3–7 business days. Shipping times may vary depending on the destination and customs regulations. We provide tracking information for all shipments where possible.</p>
 
     <h3 id="refund">Refund Policy</h3>
-    <p>Due to the nature of our products, refunds are only granted if the item is damaged or lost in transit. Otherwise, all sales are final.</p>
+    <p>Refunds are granted only in case of damaged goods or loss during transit. Please report any issues within 7 days of delivery. All other sales are final.</p>
 
     <h3 id="disclaimer">Legal Disclaimer</h3>
-    <p>Products are intended for use in accordance with local laws. Always comply with national regulations. The owner is not responsible for misuse.</p>
+    <p>Our products are intended for use according to local laws. The owner assumes no responsibility for illegal use. Ensure compliance with all regulations in your jurisdiction before purchase or use.</p>
   </section>
 
 </main>
