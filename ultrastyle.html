@@ -334,7 +334,6 @@ footer {
   </div>
 </div>
 
-<!-- Back-to-Menu Button -->
 <div class="button-container">
   <a href="seite3.html" class="back-button">Back To Menu</a>
 </div>
@@ -353,13 +352,12 @@ footer {
 // Fade-In beim Laden
 window.addEventListener('load', () => {
   document.body.style.opacity = '1';
-  document.querySelector('.fade-overlay').style.opacity = '0';
-  setTimeout(() => {
-    document.querySelector('.fade-overlay').remove();
-  }, 1500);
+  const overlay = document.querySelector('.fade-overlay');
+  overlay.style.opacity = '0';
+  setTimeout(() => overlay.remove(), 1500);
 });
 
-// Optional: Fade-Out beim Klick auf interne Links
+// Fade-Out bei internen Links
 document.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', e => {
     const href = link.getAttribute('href');
