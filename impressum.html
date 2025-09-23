@@ -1,57 +1,185 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Imprint & Contact — Baltazar Seeds</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    :root{--bg:#111;--text:#ff0b0b;--card:#1a1a1a;--accent:#ff0b0b;}
-    body{font-family:'Bebas Neue',sans-serif;margin:0;padding:0;background:var(--bg);color:var(--text);}
-    header{background:rgba(0,0,0,0.85);padding:1rem 4vw;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;}
-    header h1{margin:0;font-family:'Nosifer',cursive;font-size:2rem;text-shadow:2px 2px 0 #000;}
-    nav a{color:var(--accent);text-decoration:none;margin-left:1rem;font-size:1.2rem;text-shadow:1px 1px 0 #000;transition:0.3s;}
-    nav a:hover{color:black;background:var(--accent);padding:0.2rem 0.5rem;border-radius:4px;}
-    .container{max-width:980px;margin:2rem auto;padding:0 1rem;}
-    .card{background:var(--card);padding:2rem;border-radius:12px;margin-bottom:2rem;box-shadow:0 6px 18px rgba(0,0,0,0.5);}
-    h1,h2{margin:0 0 1rem;color:var(--accent);}
-    p,a{color:var(--text);}
-    a:hover{color:black;background:var(--accent);padding:0.1rem 0.3rem;border-radius:4px;text-decoration:none;}
-    .note{font-size:13px;color:#aaa;margin-top:0.5rem;}
-    footer{padding:2rem;text-align:center;color:#aaa;font-size:13px;background:rgba(0,0,0,0.85);}
+    :root {
+      --bg-dark: #111;
+      --text-light: #ff0b0b;
+      --card-bg: rgba(0,0,0,0.7);
+      --accent: #ff0b0b;
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Bebas Neue', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 4vw;
+      background: rgba(0,0,0,0.85);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header h1 {
+      margin: 0;
+      font-family: 'Nosifer', cursive;
+      font-size: 2rem;
+      text-shadow: 2px 2px 0 #000;
+    }
+
+    nav a {
+      color: var(--accent);
+      text-decoration: none;
+      margin-left: 1rem;
+      font-size: 1.2rem;
+      text-shadow: 1px 1px 0 #000;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: black;
+      background: var(--accent);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+    }
+
+    h1,h2 {
+      margin: 0 0 1rem;
+      color: var(--accent);
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+      color: var(--text-light);
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      background: #222;
+      color: #fff;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      color: var(--accent);
+      background: rgba(0,0,0,0.6);
+      border: 2px solid var(--accent);
+      border-radius: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: var(--accent);
+      color: black;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: rgba(0,0,0,0.85);
+      font-size: 0.9rem;
+      text-shadow: 1px 1px 0 #000;
+      color: #aaa;
+    }
+
   </style>
 </head>
 <body>
-  <header>
-    <h1>Baltazar Seeds</h1>
-    <nav>
-      <a href="index.html">Entrance</a>
-      <a href="seite3.html">Menu</a>
-      <a href="impressum.html">Imprint & Contact</a>
-    </nav>
-  </header>
 
-  <main class="container">
-    <section class="card">
-      <h1>Imprint & Contact</h1>
+<header>
+  <h1>Baltazar Seeds</h1>
+  <nav>
+    <a href="index.html">Entrance</a>
+    <a href="seite3.html">Menu</a>
+    <a href="impressum.html">Imprint & Contact</a>
+  </nav>
+</header>
 
-      <h2>Owner</h2>
-      <p><strong>Name:</strong> Iman Van Ruler</p>
-      <p><strong>Address:</strong> Zamenhofstraat 150, Unit 113, 1022 AG Amsterdam, Netherlands</p>
-      <p><strong>Phone:</strong> +31 853018258</p>
-      <p><strong>Email:</strong> <a href="mailto:imanvanruler@freenet.de">imanvanruler@freenet.de</a></p>
+<main class="container">
 
-      <h2>Legal Notice</h2>
-      <p>This is a private, community-driven project. It is not yet a formally registered business. With enough support and demand, all necessary legal measures (e.g., business registration, tax obligations) will be taken.</p>
-      <p><strong>Disclaimer:</strong> We do not guarantee the completeness or correctness of the information. Use at your own risk.</p>
+  <section class="card">
+    <h1>Imprint & Contact</h1>
 
-      <h2>Privacy</h2>
-      <p>A privacy policy will be added here.</p>
-    </section>
-  </main>
+    <h2>Owner</h2>
+    <p><strong>Name:</strong> Iman Van Ruler</p>
+    <p><strong>Address:</strong> Zamenhofstraat 150, Unit 113, 1022 AG Amsterdam, Netherlands</p>
+    <p><strong>Phone:</strong> +31 853018258</p>
+    <p><strong>Email:</strong> <a href="mailto:imanvanruler@freenet.de">imanvanruler@freenet.de</a></p>
 
-  <footer>
-    &copy; 2025 Baltazar Seeds — Badfarmers Genetics
-  </footer>
+    <h2>Legal Notice</h2>
+    <p>This is a private, community-driven project. It is not yet a formally registered business. With enough support and demand, all necessary legal measures (e.g., business registration, tax obligations) will be taken.</p>
+    <p><strong>Disclaimer:</strong> We do not guarantee the completeness or correctness of the information. Use at your own risk.</p>
+
+  </section>
+
+  <section class="card">
+    <h2>Contact Form</h2>
+    <form action="https://formsubmit.co/cf8650c6fb32e89c638ad5e5b5dacab7" method="POST">
+      <input type="hidden" name="_next" value="https://imanvanruler.github.io/Baltazar-Seeds/danke.html">
+      <input type="hidden" name="_subject" value="Message from Baltazar Seeds website">
+      <input type="hidden" name="_captcha" value="false">
+
+      <label for="name">Full Name *</label>
+      <input type="text" id="name" name="Name" required>
+
+      <label for="email">Email *</label>
+      <input type="email" id="email" name="Email" required>
+
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" name="Phone" placeholder="+31 853018258">
+
+      <label for="message">Message *</label>
+      <textarea id="message" name="Message" rows="5" required></textarea>
+
+      <button type="submit" class="btn">Send</button>
+    </form>
+  </section>
+
+</main>
+
+<footer>
+  &copy; 2025 Baltazar Seeds — Badfarmers Genetics
+</footer>
+
 </body>
 </html>
