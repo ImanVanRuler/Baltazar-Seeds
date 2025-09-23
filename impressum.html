@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Impressum & Kontakt — Baltazar Seeds</title>
+  <meta name="description" content="Impressum und Kontakt von Baltazar Seeds — Inhaber: Iman Van Ruler.">
+  <style>
+    :root{--bg:#f7f7f9;--card:#ffffff;--muted:#6b7280;--accent:#0b72b9}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5;margin:0;background:var(--bg);color:#111}
+    header{background:linear-gradient(90deg,#0b72b9 0%,#0b9bd6 100%);color:#fff;padding:1rem}
+    .container{max-width:980px;margin:1rem auto;padding:0 1rem}
+    h1,h2{margin:0 0 .5rem}
+    .card{background:var(--card);padding:1rem;border-radius:10px;box-shadow:0 6px 18px rgba(11,22,40,0.06);margin-bottom:1rem}
+    p{margin:.5rem 0}
+    a{color:var(--accent);text-decoration:underline}
+    .contact-form label{display:block;font-weight:600;margin:.75rem 0 .25rem}
+    .contact-form input,.contact-form textarea{width:100%;padding:.6rem;border:1px solid #d1d5db;border-radius:6px;font-size:14px}
+    .contact-form button{margin-top:.75rem;padding:.6rem 1rem;border:0;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer}
+    footer{padding:1rem;text-align:center;color:var(--muted);font-size:13px}
+    .note{font-size:13px;color:var(--muted);margin-top:.5rem}
+    @media (max-width:600px){header{padding:.75rem}.container{margin:.5rem}} 
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <strong>Baltazar Seeds</strong>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="impressum" class="card" aria-labelledby="impressum-title">
+      <h1 id="impressum-title">Impressum</h1>
+
+      <p><strong>Inhaber:</strong><br>Iman Van Ruler</p>
+
+      <p><strong>Adresse:</strong><br>
+      Zamenhofstraat 150, Unit 113<br>
+      1022 AG Amsterdam<br>
+      Niederlande</p>
+
+      <p><strong>E‑Mail:</strong> <a href="mailto:kontakt@imanvanruler.com">kontakt@imanvanruler.com</a> <span class="note">(Bitte durch deine echte Mailadresse ersetzen)</span></p>
+
+      <p><strong>Telefon:</strong> +31 — (optional eintragen)</p>
+
+      <p><strong>Verantwortlich für journalistisch-redaktionelle Inhalte:</strong><br>
+      Iman Van Ruler</p>
+
+      <p><strong>Umsatzsteuer-Identifikationsnummer:</strong> — (falls vorhanden, hier eintragen)</p>
+    </section>
+
+    <section id="kontakt" class="card" aria-labelledby="kontakt-title">
+      <h2 id="kontakt-title">Kontakt</h2>
+
+      <p>Du kannst uns per E‑Mail erreichen: <a href="mailto:kontakt@imanvanruler.com">kontakt@imanvanruler.com</a></p>
+
+      <form class="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
+        <label for="name">Name</label>
+        <input id="name" name="name" required>
+
+        <label for="email">E‑Mail</label>
+        <input id="email" name="_replyto" type="email" required>
+
+        <label for="message">Nachricht</label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+
+        <button type="submit">Nachricht senden</button>
+
+        <p class="note">Hinweis: Das Formular ist als Platzhalter konfiguriert. Ersetze das <code>action</code>-Attribut mit deinem Formspree-Endpoint, Netlify Forms oder einem eigenen Server-Endpoint. Alternativ entferne das Formular und verwende die Mailto-Adresse oben.</p>
+      </form>
+    </section>
+
+    <section id="rechtliches" class="card" aria-labelledby="recht-title">
+      <h2 id="recht-title">Weitere Hinweise</h2>
+
+      <p><strong>Haftung:</strong> Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Gewähr für die Aktualität, Korrektheit und Vollständigkeit der bereitgestellten Informationen.</p>
+
+      <p><strong>Externe Links:</strong> Für Inhalte externer Links sind ausschließlich deren Betreiber verantwortlich. Wir übernehmen dafür keine Haftung.</p>
+
+      <p><a href="datenschutz.html">Datenschutzerklärung</a> (Platzhalter: bitte anlegen)</p>
+    </section>
+
+  </main>
+
+  <footer>
+    &copy; 2025 Baltazar Seeds — Alle Rechte vorbehalten
+  </footer>
+
+  <!--
+    NAVIGATIONS-SNIPPET (einfach in dein Hauptmenü einfügen, z.B. in header/navigation):
+
+    <li><a href="impressum_kontakt.html">Impressum & Kontakt</a></li>
+
+    (Ersetze den Dateinamen, falls du die Datei anders nennst, z.B. impressum.html)
+  -->
+
+</body>
+</html>
