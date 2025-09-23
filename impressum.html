@@ -10,8 +10,14 @@
     :root {
       --bg-dark: #111;
       --text-light: #ff0b0b;
-      --card-bg: rgba(0,0,0,0.7);
+      --card-bg: rgba(0,0,0,0.75);
       --accent: #ff0b0b;
+      --input-bg: #222;
+      --input-border: #555;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body, html {
@@ -50,11 +56,12 @@
       transition: 0.3s;
     }
 
-    nav a:hover {
+    nav a:hover, nav a:focus {
       color: black;
       background: var(--accent);
       padding: 0.2rem 0.5rem;
       border-radius: 4px;
+      outline: none;
     }
 
     .container {
@@ -71,13 +78,14 @@
       box-shadow: 0 6px 18px rgba(0,0,0,0.5);
     }
 
-    h1,h2,h3 {
+    h1, h2, h3 {
       margin: 0 0 1rem;
       color: var(--accent);
     }
 
-    p,label {
+    p, label {
       color: var(--text-light);
+      line-height: 1.6;
     }
 
     input, select, textarea {
@@ -85,10 +93,17 @@
       padding: 12px;
       margin-top: 6px;
       border-radius: 8px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-      background: #222;
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
       color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      outline: none;
     }
 
     .btn {
@@ -105,9 +120,10 @@
       transition: all 0.3s ease;
     }
 
-    .btn:hover {
+    .btn:hover, .btn:focus {
       background: var(--accent);
       color: black;
+      outline: none;
     }
 
     footer {
@@ -121,27 +137,41 @@
 
     .trust-links {
       text-align: center;
-      margin: 2rem 0 0 0;
+      margin-top: 1rem;
     }
+
     .trust-links a {
       color: var(--accent);
       text-decoration: none;
       margin: 0 0.5rem;
+      transition: all 0.3s;
     }
-    .trust-links a:hover {
+
+    .trust-links a:hover, .trust-links a:focus {
       color: black;
       background: var(--accent);
       padding: 0.2rem 0.5rem;
       border-radius: 4px;
+      outline: none;
     }
 
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav a {
+        margin-left: 0;
+        margin-top: 0.5rem;
+      }
+    }
   </style>
 </head>
 <body>
 
 <header>
   <h1>Baltazar Seeds</h1>
-  <nav>
+  <nav aria-label="Main Navigation">
     <a href="index.html">Entrance</a>
     <a href="seite3.html">Menu</a>
     <a href="impressum.html">Imprint & Contact</a>
@@ -151,7 +181,7 @@
 <main class="container">
 
   <!-- Imprint & Contact -->
-  <section class="card">
+  <section class="card" id="imprint">
     <h1>Imprint & Contact</h1>
 
     <h2>Owner</h2>
@@ -166,7 +196,7 @@
   </section>
 
   <!-- Contact Form -->
-  <section class="card">
+  <section class="card" id="contact">
     <h2>Contact Form</h2>
     <form action="https://formsubmit.co/cf8650c6fb32e89c638ad5e5b5dacab7" method="POST">
       <input type="hidden" name="_next" value="https://imanvanruler.github.io/Baltazar-Seeds/danke.html">
@@ -190,27 +220,27 @@
   </section>
 
   <!-- Trust Section -->
-  <section class="card">
+  <section class="card" id="trust">
     <h2>Trust & Policies</h2>
-    <h3>Terms & Conditions (AGB)</h3>
+
+    <h3 id="terms">Terms & Conditions (AGB)</h3>
     <p>By placing an order, you agree to our Terms & Conditions. Orders are only for legal, personal use where permitted by law.</p>
 
-    <h3>Privacy Policy</h3>
+    <h3 id="privacy">Privacy Policy</h3>
     <p>We respect your privacy. Your data is processed only for order fulfillment and not shared with third parties.</p>
 
-    <h3>Shipping & Delivery Times</h3>
+    <h3 id="shipping">Shipping & Delivery Times</h3>
     <p>Orders are processed within 3–7 business days. Delivery times depend on your location.</p>
 
-    <h3>Refund Policy</h3>
+    <h3 id="refund">Refund Policy</h3>
     <p>Due to the nature of our products, refunds are only granted if the item is damaged or lost in transit. Otherwise, all sales are final.</p>
 
-    <h3>Legal Disclaimer</h3>
+    <h3 id="disclaimer">Legal Disclaimer</h3>
     <p>Products are intended for use in accordance with local laws. Always comply with national regulations. The owner is not responsible for misuse.</p>
   </section>
 
 </main>
 
-<!-- Footer -->
 <footer>
   &copy; 2025 Baltazar Seeds — Badfarmers Genetics
   <div class="trust-links">
