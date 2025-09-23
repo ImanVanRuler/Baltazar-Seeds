@@ -17,6 +17,21 @@ body, html {
   background: #000;
   overflow-x: hidden;
   color: #fff;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+/* Overlay für Fade-In Effekt */
+.fade-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 9999;
+  pointer-events: none;
+  transition: opacity 1.5s ease-in-out;
 }
 
 /* ---------------- Header ---------------- */
@@ -207,23 +222,24 @@ header nav a.contact-icon {
   transform: scale(1.15);
   filter: brightness(1.2) saturate(1.5);
 }
+
 /* ---------------- Back to Menu Button ---------------- */
 .button-container {
   display: flex;
-  justify-content: center;   /* zentriert horizontal */
-  margin-top: 30px;          /* Abstand nach oben */
+  justify-content: center;
+  margin-top: 30px;
 }
 
 .back-button {
   display: inline-block;     
-  padding: 12px 30px;        /* kompakte Größe */
+  padding: 12px 30px;
   background: #222;
   color: #fff;
   border: 3px solid #660000;
   border-radius: 12px;
   font-size: 1.1rem;
   font-weight: bold;
-  text-decoration: none;     /* kein Unterstrich */
+  text-decoration: none;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -236,6 +252,7 @@ header nav a.contact-icon {
   transform: scale(1.1);
   box-shadow: 0 0 30px rgba(255,51,51,0.8);
 }
+
 /* ---------------- Footer ---------------- */
 footer {
   text-align: center;
@@ -262,6 +279,8 @@ footer {
 </style>
 </head>
 <body>
+
+<div class="fade-overlay"></div>
 
 <header>
   <h1>Baltazar Ultra Style Seeds</h1>
@@ -329,6 +348,29 @@ footer {
     <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
   </div>
 </footer>
+
+<script>
+// Fade-In beim Laden
+window.addEventListener('load', () => {
+  document.body.style.opacity = '1';
+  document.querySelector('.fade-overlay').style.opacity = '0';
+  setTimeout(() => {
+    document.querySelector('.fade-overlay').remove();
+  }, 1500);
+});
+
+// Optional: Fade-Out beim Klick auf interne Links
+document.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', e => {
+    const href = link.getAttribute('href');
+    if(href && !href.startsWith('#') && !href.startsWith('http')) {
+      e.preventDefault();
+      document.body.style.opacity = '0';
+      setTimeout(() => { window.location = href; }, 1000);
+    }
+  });
+});
+</script>
 
 </body>
 </html>
