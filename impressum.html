@@ -3,108 +3,55 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Impressum & Kontakt — Baltazar Seeds</title>
-  <meta name="description" content="Impressum und Kontakt von Baltazar Seeds — Inhaber: Iman Van Ruler.">
+  <title>Imprint & Contact — Baltazar Seeds</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#f7f7f9;--card:#ffffff;--muted:#6b7280;--accent:#0b72b9}
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.5;margin:0;background:var(--bg);color:#111}
-    header{background:linear-gradient(90deg,#0b72b9 0%,#0b9bd6 100%);color:#fff;padding:1rem}
-    .container{max-width:980px;margin:1rem auto;padding:0 1rem}
-    h1,h2{margin:0 0 .5rem}
-    .card{background:var(--card);padding:1rem;border-radius:10px;box-shadow:0 6px 18px rgba(11,22,40,0.06);margin-bottom:1rem}
-    p{margin:.5rem 0}
-    a{color:var(--accent);text-decoration:underline}
-    .contact-form label{display:block;font-weight:600;margin:.75rem 0 .25rem}
-    .contact-form input,.contact-form textarea{width:100%;padding:.6rem;border:1px solid #d1d5db;border-radius:6px;font-size:14px}
-    .contact-form button{margin-top:.75rem;padding:.6rem 1rem;border:0;border-radius:8px;background:var(--accent);color:#fff;cursor:pointer}
-    footer{padding:1rem;text-align:center;color:var(--muted);font-size:13px}
-    .note{font-size:13px;color:var(--muted);margin-top:.5rem}
-    @media (max-width:600px){header{padding:.75rem}.container{margin:.5rem}} 
+    :root{--bg:#111;--text:#ff0b0b;--card:#1a1a1a;--accent:#ff0b0b;}
+    body{font-family:'Bebas Neue',sans-serif;margin:0;padding:0;background:var(--bg);color:var(--text);}
+    header{background:rgba(0,0,0,0.85);padding:1rem 4vw;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center;}
+    header h1{margin:0;font-family:'Nosifer',cursive;font-size:2rem;text-shadow:2px 2px 0 #000;}
+    nav a{color:var(--accent);text-decoration:none;margin-left:1rem;font-size:1.2rem;text-shadow:1px 1px 0 #000;transition:0.3s;}
+    nav a:hover{color:black;background:var(--accent);padding:0.2rem 0.5rem;border-radius:4px;}
+    .container{max-width:980px;margin:2rem auto;padding:0 1rem;}
+    .card{background:var(--card);padding:2rem;border-radius:12px;margin-bottom:2rem;box-shadow:0 6px 18px rgba(0,0,0,0.5);}
+    h1,h2{margin:0 0 1rem;color:var(--accent);}
+    p,a{color:var(--text);}
+    a:hover{color:black;background:var(--accent);padding:0.1rem 0.3rem;border-radius:4px;text-decoration:none;}
+    .note{font-size:13px;color:#aaa;margin-top:0.5rem;}
+    footer{padding:2rem;text-align:center;color:#aaa;font-size:13px;background:rgba(0,0,0,0.85);}
   </style>
 </head>
 <body>
   <header>
-    <div class="container">
-      <strong>Baltazar Seeds</strong>
-    </div>
+    <h1>Baltazar Seeds</h1>
+    <nav>
+      <a href="index.html">Entrance</a>
+      <a href="seite3.html">Menu</a>
+      <a href="impressum.html">Imprint & Contact</a>
+    </nav>
   </header>
 
   <main class="container">
+    <section class="card">
+      <h1>Imprint & Contact</h1>
 
-    <section id="impressum" class="card" aria-labelledby="impressum-title">
-      <h1 id="impressum-title">Impressum</h1>
+      <h2>Owner</h2>
+      <p><strong>Name:</strong> Iman Van Ruler</p>
+      <p><strong>Address:</strong> Zamenhofstraat 150, Unit 113, 1022 AG Amsterdam, Netherlands</p>
+      <p><strong>Phone:</strong> +31 853018258</p>
+      <p><strong>Email:</strong> <a href="mailto:imanvanruler@freenet.de">imanvanruler@freenet.de</a></p>
 
-      <p><strong>Inhaber:</strong><br>Iman Van Ruler</p>
+      <h2>Legal Notice</h2>
+      <p>This is a private, community-driven project. It is not yet a formally registered business. With enough support and demand, all necessary legal measures (e.g., business registration, tax obligations) will be taken.</p>
+      <p><strong>Disclaimer:</strong> We do not guarantee the completeness or correctness of the information. Use at your own risk.</p>
 
-      <p><strong>Adresse:</strong><br>
-      Zamenhofstraat 150, Unit 113<br>
-      1022 AG Amsterdam<br>
-      Niederlande</p>
-
-      <p><strong>E‑Mail:</strong> <a href="mailto:imanvanruler@freenet.de">imanvanruler@freenet.de</a></p>
-
-      <p><strong>Telefon:</strong> +31 — (optional eintragen)</p>
-
-      <p><strong>Verantwortlich für journalistisch-redaktionelle Inhalte:</strong><br>
-      Iman Van Ruler</p>
-
-      <p><strong>Umsatzsteuer-Identifikationsnummer:</strong> — (falls vorhanden, hier eintragen)</p>
+      <h2>Privacy</h2>
+      <p>A privacy policy will be added here.</p>
     </section>
-
-    <section id="kontakt" class="card" aria-labelledby="kontakt-title">
-      <h2 id="kontakt-title">Kontakt</h2>
-
-      <p>Du kannst uns per E‑Mail erreichen: <a href="mailto:imanvanruler@freenet.de">imanvanruler@freenet.de</a></p>
-
-      <form class="contact-form" action="https://formspree.io/f/your-form-id" method="POST">
-        <label for="name">Name</label>
-        <input id="name" name="name" required>
-
-        <label for="email">E‑Mail</label>
-        <input id="email" name="_replyto" type="email" required>
-
-        <label for="message">Nachricht</label>
-        <textarea id="message" name="message" rows="6" required></textarea>
-
-        <button type="submit">Nachricht senden</button>
-
-        <p class="note">Hinweis: Das Formular ist als Platzhalter konfiguriert. Ersetze das <code>action</code>-Attribut mit deinem Formspree-Endpoint, Netlify Forms oder einem eigenen Server-Endpoint. Alternativ entferne das Formular und verwende die Mailto-Adresse oben.</p>
-      </form>
-    </section>
-
-    <section id="rechtliches" class="card" aria-labelledby="recht-title">
-      <h2 id="recht-title">Weitere Hinweise</h2>
-
-      <p><strong>Haftung:</strong> Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Gewähr für die Aktualität, Korrektheit und Vollständigkeit der bereitgestellten Informationen.</p>
-
-      <p><strong>Externe Links:</strong> Für Inhalte externer Links sind ausschließlich deren Betreiber verantwortlich. Wir übernehmen dafür keine Haftung.</p>
-
-      <p><a href="datenschutz.html">Datenschutzerklärung</a> (Platzhalter: bitte anlegen)</p>
-    </section>
-
-    <section id="projektstatus" class="card" aria-labelledby="projektstatus-title">
-      <h2 id="projektstatus-title">Rechtlicher Hinweis / Projektstatus</h2>
-
-      <p><strong>Privates Projekt:</strong> Baltazar Seeds ist derzeit ein privates, gemeinschaftlich getragenes Projekt. Es handelt sich nicht um ein offiziell registriertes Unternehmen im klassischen Sinn.</p>
-
-      <p><strong>Entwicklung:</strong> Sollten Nachfrage und Unterstützung durch die Community wachsen, werden alle erforderlichen rechtlichen Schritte (z. B. Gewerbeanmeldung, steuerliche Registrierung) zeitnah unternommen.</p>
-
-      <p><strong>Steuerlicher Hinweis:</strong> Momentan besteht keine Umsatzsteuer-Identifikationsnummer. Im Fall einer Umwandlung in ein geschäftliches Projekt werden sämtliche steuerlichen Pflichten erfüllt.</p>
-    </section>
-
   </main>
 
   <footer>
-    &copy; 2025 Baltazar Seeds — Alle Rechte vorbehalten
+    &copy; 2025 Baltazar Seeds — Badfarmers Genetics
   </footer>
-
-  <!--
-    NAVIGATIONS-SNIPPET (einfach in dein Hauptmenü einfügen, z.B. in header/navigation):
-
-    <li><a href="impressum_kontakt.html">Impressum & Kontakt</a></li>
-
-    (Ersetze den Dateinamen, falls du die Datei anders nennst, z.B. impressum.html)
-  -->
-
 </body>
 </html>
