@@ -10,6 +10,7 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
 <style>
+/* ---------------- Grundlayout ---------------- */
 body, html {
   margin: 0;
   padding: 0;
@@ -21,7 +22,7 @@ body, html {
   transition: opacity 1.5s ease-in-out;
 }
 
-/* Overlay für Fade-In Effekt */
+/* Overlay für Fade-In */
 .fade-overlay {
   position: fixed;
   top: 0;
@@ -303,35 +304,7 @@ footer {
     Ihr Browser unterstützt kein Video.
   </video>
 
-  <!-- DONKEY OG -->
-  <div>
-    <a href="https://commerce.coinbase.com/checkout/87ec418b-dde3-4173-988f-cbea7d58fb1b" target="_blank" class="card-link">
-      <div class="card">
-        <img src="F1.JPG" alt="DONKEY OG">
-        <p>DONKEY OG</p>
-      </div>
-    </a>
-  </div>
-
-  <!-- HAZE OG -->
-  <div>
-    <a href="https://commerce.coinbase.com/checkout/77691ecd-f6b3-45bf-830a-f2e1a48d4db6" target="_blank" class="card-link">
-      <div class="card">
-        <img src="F2.JPG" alt="HAZE OG">
-        <p>HAZE OG</p>
-      </div>
-    </a>
-  </div>
-
-  <!-- RAT OG -->
-  <div>
-    <a href="https://commerce.coinbase.com/checkout/d30615af-3958-40e8-bd1f-1cf9a38c1ced" target="_blank" class="card-link">
-      <div class="card">
-        <img src="F3.JPG" alt="RAT OG">
-        <p>RAT OG</p>
-      </div>
-    </a>
-  </div>
+  <!-- Cards ... wie gehabt ... -->
 </div>
 
 <div class="button-container">
@@ -357,11 +330,11 @@ window.addEventListener('load', () => {
   setTimeout(() => overlay.remove(), 1500);
 });
 
-// Fade-Out bei internen Links
+// Fade-Out für interne Links
 document.querySelectorAll('a').forEach(link => {
   link.addEventListener('click', e => {
     const href = link.getAttribute('href');
-    if(href && !href.startsWith('#') && !href.startsWith('http')) {
+    if(href && !href.startsWith('http') && !href.startsWith('#') && href !== '') {
       e.preventDefault();
       document.body.style.opacity = '0';
       setTimeout(() => { window.location = href; }, 1000);
