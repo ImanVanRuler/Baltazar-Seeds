@@ -71,15 +71,12 @@
       box-shadow: 0 6px 18px rgba(0,0,0,0.5);
     }
 
-    h1,h2 {
+    h1,h2,h3 {
       margin: 0 0 1rem;
       color: var(--accent);
     }
 
-    label {
-      display: block;
-      margin-top: 12px;
-      font-weight: 600;
+    p,label {
       color: var(--text-light);
     }
 
@@ -122,6 +119,22 @@
       color: #aaa;
     }
 
+    .trust-links {
+      text-align: center;
+      margin: 2rem 0 0 0;
+    }
+    .trust-links a {
+      color: var(--accent);
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+    .trust-links a:hover {
+      color: black;
+      background: var(--accent);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
   </style>
 </head>
 <body>
@@ -137,6 +150,7 @@
 
 <main class="container">
 
+  <!-- Imprint & Contact -->
   <section class="card">
     <h1>Imprint & Contact</h1>
 
@@ -149,9 +163,9 @@
     <h2>Legal Notice</h2>
     <p>This is a private, community-driven project. It is not yet a formally registered business. With enough support and demand, all necessary legal measures (e.g., business registration, tax obligations) will be taken.</p>
     <p><strong>Disclaimer:</strong> We do not guarantee the completeness or correctness of the information. Use at your own risk.</p>
-
   </section>
 
+  <!-- Contact Form -->
   <section class="card">
     <h2>Contact Form</h2>
     <form action="https://formsubmit.co/cf8650c6fb32e89c638ad5e5b5dacab7" method="POST">
@@ -175,10 +189,37 @@
     </form>
   </section>
 
+  <!-- Trust Section -->
+  <section class="card">
+    <h2>Trust & Policies</h2>
+    <h3>Terms & Conditions (AGB)</h3>
+    <p>By placing an order, you agree to our Terms & Conditions. Orders are only for legal, personal use where permitted by law.</p>
+
+    <h3>Privacy Policy</h3>
+    <p>We respect your privacy. Your data is processed only for order fulfillment and not shared with third parties.</p>
+
+    <h3>Shipping & Delivery Times</h3>
+    <p>Orders are processed within 3–7 business days. Delivery times depend on your location.</p>
+
+    <h3>Refund Policy</h3>
+    <p>Due to the nature of our products, refunds are only granted if the item is damaged or lost in transit. Otherwise, all sales are final.</p>
+
+    <h3>Legal Disclaimer</h3>
+    <p>Products are intended for use in accordance with local laws. Always comply with national regulations. The owner is not responsible for misuse.</p>
+  </section>
+
 </main>
 
+<!-- Footer -->
 <footer>
   &copy; 2025 Baltazar Seeds — Badfarmers Genetics
+  <div class="trust-links">
+    <a href="#terms">AGB</a> | 
+    <a href="#privacy">Privacy</a> | 
+    <a href="#shipping">Shipping</a> | 
+    <a href="#refund">Refund</a> | 
+    <a href="#disclaimer">Disclaimer</a>
+  </div>
 </footer>
 
 </body>
