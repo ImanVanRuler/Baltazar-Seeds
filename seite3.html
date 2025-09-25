@@ -259,25 +259,25 @@
     }
 
    .hero h2 {
-  font-family: 'Nosifer', cursive;
-  font-size: clamp(48px, 8vw, 96px);
-  margin-bottom: 0.5rem;
-  color: #8b0000; /* Dunkelrot */
-  text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff;
-  animation: purpleGlow 3s ease-in-out infinite;
-}
-    
-@keyframes purpleGlow {
-  0% {
-    text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff;
-  }
-  50% {
-    text-shadow: 0 0 15px #b266ff, 0 0 25px #a64dff, 0 0 35px #d9b3ff;
-  }
-  100% {
-    text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff;
-  }
-}
+      font-family: 'Nosifer', cursive;
+      font-size: clamp(48px, 8vw, 96px);
+      margin-bottom: 0.5rem;
+      color: #8b0000; /* Dunkelrot */
+      text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff;
+      animation: purpleGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes purpleGlow {
+      0% {
+        text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff;
+      }
+      50% {
+        text-shadow: 0 0 15px #b266ff, 0 0 25px #a64dff, 0 0 35px #d9b3ff;
+      }
+      100% {
+        text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff;
+      }
+    }
 
   </style>
 </head>
@@ -314,11 +314,20 @@
   <button data-category="SPECIAL">SPECIAL</button>
   <button data-category="GROWING">GROWING</button>
   <button data-category="MERCH">MERCH</button>
-    <button data-category="ULTRA STYLE">ULTRA STYLE</button>
+  <button data-category="ULTRA STYLE">ULTRA STYLE</button>
+
+  <!-- Sort dropdown -->
+  <select id="sortSelect" style="margin-left:1rem; padding:0.4rem; border-radius:6px; border:2px solid var(--accent); background:black; color:var(--accent); font-family:'Bebas Neue',sans-serif;">
+    <option value="name">Sort by Name (A-Z)</option>
+    <option value="price">Sort by Price</option>
+    <option value="popularity">Sort by Popularity</option>
+    <option value="random">Random</option>
+  </select>
 </div>
 
 <section class="strain-grid">
-  <div class="strain-card" data-category="MOSTLY SATIVA">
+  <!-- Beispielprodukte mit data-price und data-popularity -->
+  <div class="strain-card" data-category="MOSTLY SATIVA" data-price="30" data-popularity="120">
     <img src="STRAIN1.JPG" alt="Baltazar Haze" loading="lazy">
     <div class="info">
       <h3>BALTAZAR HAZE</h3>
@@ -326,7 +335,7 @@
       <a href="strain1.html" class="btn">View Details</a>
     </div>
   </div>
-  <div class="strain-card" data-category="MOSTLY INDICA">
+  <div class="strain-card" data-category="MOSTLY INDICA" data-price="25" data-popularity="95">
     <img src="STRAIN2.JPG" alt="Baltazar Kush" loading="lazy">
     <div class="info">
       <h3>BALTAZAR KUSH</h3>
@@ -334,7 +343,7 @@
       <a href="strain2.html" class="btn">View Details</a>
     </div>
   </div>
-  <div class="strain-card" data-category="BALANCED">
+  <div class="strain-card" data-category="BALANCED" data-price="28" data-popularity="110">
     <img src="STRAIN3.JPG" alt="Baltazar White Widow" loading="lazy">
     <div class="info">
       <h3>BALTAZAR WHITE WIDOW</h3>
@@ -342,7 +351,7 @@
       <a href="strain3.html" class="btn">View Details</a>
     </div>
   </div>
-  <div class="strain-card" data-category="SPECIAL">
+  <div class="strain-card" data-category="SPECIAL" data-price="22" data-popularity="80">
     <img src="STRAIN4.JPG" alt="Baltazar Skunk" loading="lazy">
     <div class="info">
       <h3>BALTAZAR SKUNK</h3>
@@ -350,7 +359,7 @@
       <a href="strain4.html" class="btn">View Details</a>
     </div>
   </div>
-  <div class="strain-card" data-category="MOSTLY SATIVA">
+  <div class="strain-card" data-category="MOSTLY SATIVA" data-price="35" data-popularity="130">
     <img src="STRAIN5.JPG" alt="Baltazar Sour Diesel" loading="lazy">
     <div class="info">
       <h3>BALTAZAR SOUR DIESEL</h3>
@@ -358,7 +367,7 @@
       <a href="strain5.html" class="btn">View Details</a>
     </div>
   </div>
-  <div class="strain-card" data-category="SPECIAL">
+  <div class="strain-card" data-category="SPECIAL" data-price="40" data-popularity="140">
     <img src="STRAIN6.JPG" alt="Baltazar Purple Nightmare" loading="lazy">
     <div class="info">
       <h3>BALTAZAR PURPLE NIGHTMARE</h3>
@@ -366,67 +375,63 @@
       <a href="strain6.html" class="btn">View Details</a>
     </div>
   </div>
-  <div class="strain-card" data-category="MERCH">
+  <div class="strain-card" data-category="MERCH" data-price="15" data-popularity="60">
     <img src="MERCH1.JPG" alt="Baltazar Merch" loading="lazy">
     <div class="info">
       <h3>Black</h3>
       <p>Hoody</p>
       <a href="merch1.html" class="btn">View Details</a>
     </div>
-     </div>
-      <div class="strain-card" data-category="MERCH">
+  </div>
+  <div class="strain-card" data-category="MERCH" data-price="12" data-popularity="55">
     <img src="MERCH2.JPG" alt="Baltazar Merch" loading="lazy">
     <div class="info">
       <h3>Big Wave Hemp Leaf</h3>
       <p>Shirt</p>
       <a href="merch2.html" class="btn">View Details</a>
     </div>
-    </div>
-        <div class="strain-card" data-category="MERCH">
+  </div>
+  <div class="strain-card" data-category="MERCH" data-price="10" data-popularity="50">
     <img src="MERCH3.JPG" alt="Baltazar Merch" loading="lazy">
     <div class="info">
       <h3>Little Hemp Waves</h3>
       <p>Shirt</p>
       <a href="merch3.html" class="btn">View Details</a>
     </div>
- </div>
-  <div class="strain-card" data-category="MERCH">
+  </div>
+  <div class="strain-card" data-category="MERCH" data-price="18" data-popularity="70">
     <img src="MERCH4.JPG" alt="Baltazar Merch" loading="lazy">
     <div class="info">
       <h3>Colorful Badfarmers</h3>
       <p>Shirt</p>
       <a href="merch4.html" class="btn">View Details</a>
     </div>
-     </div>
-  <div class="strain-card" data-category="GROWING">
+  </div>
+  <div class="strain-card" data-category="GROWING" data-price="45" data-popularity="90">
     <img src="GROW1.JPG" alt="Baltazar Growing" loading="lazy">
     <div class="info">
       <h3>Homebox</h3>
       <p>Ambient Q120+</p>
       <a href="grow1.html" class="btn">View Details</a>
-    </div>    
+    </div>
   </div>
-  <div class="strain-card" data-category="ULTRA STYLE">
+  <div class="strain-card" data-category="ULTRA STYLE" data-price="50" data-popularity="100">
     <img src="ULTRASTYLE.JPG" alt="Baltazar Ultra" loading="lazy">
     <div class="info">
       <h3>ULTRA STYLE</h3>
       <p>BADFARMERS GENETICS</p>
       <a href="ultrastyle.html" class="btn">View Details</a>
     </div>
-  </div> 
- <div class="strain-card" data-category="GROWING">
+  </div>
+  <div class="strain-card" data-category="GROWING" data-price="38" data-popularity="85">
     <img src="M1.JPG" alt="LUMii Black 600W Digital Ballast" loading="lazy">
     <div class="info">
       <h3>LUMii Black</h3>
       <p>600W Digital Ballast</p>
       <a href="grow2.html" class="btn">View Details</a>
-    </div>    
-    
+    </div>
   </div>
 </section>
-
-
-  
 
 <footer>
   <section class="visitor-map" style="text-align:center; margin: 3rem 0;">
@@ -453,7 +458,7 @@
     document.body.classList.add('loaded');
     document.querySelector('.strain-grid').classList.add('loaded');
 
-    // Produkte mischen
+    // Zu Beginn zufällig mischen
     const grid = document.querySelector('.strain-grid');
     const cards = Array.from(grid.children);
     for (let i = cards.length - 1; i > 0; i--) {
@@ -464,7 +469,9 @@
 
   const buttons = document.querySelectorAll('.category-bar button');
   const strainCards = document.querySelectorAll('.strain-card');
+  const grid = document.querySelector('.strain-grid');
 
+  // Filter nach Kategorie
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
       buttons.forEach(b => b.classList.remove('active'));
@@ -474,8 +481,53 @@
       strainCards.forEach(card => {
         card.style.display = (category === 'all' || card.dataset.category === category) ? 'block' : 'none';
       });
+
+      // Optional: Wenn ein Sortierwert ausgewählt ist, nach Filter neu sortieren
+      const sortSel = document.getElementById('sortSelect').value;
+      sortCards(sortSel);
     });
   });
+
+  // Sortierfunktion als separate Funktion
+  function sortCards(mode) {
+    // Wir holen alle sichtbaren Cards (display != none)
+    const visible = Array.from(grid.querySelectorAll('.strain-card')).filter(c => c.style.display !== "none");
+    let sorted;
+
+    if (mode === "name") {
+      sorted = visible.sort((a, b) => {
+        return a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent);
+      });
+    } else if (mode === "price") {
+      sorted = visible.sort((a, b) => {
+        return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+      });
+    } else if (mode === "popularity") {
+      sorted = visible.sort((a, b) => {
+        return parseFloat(b.dataset.popularity) - parseFloat(a.dataset.popularity);
+      });
+    } else if (mode === "random") {
+      // shuffle sichtbar
+      sorted = visible.slice(); // kopieren
+      for (let i = sorted.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [sorted[i], sorted[j]] = [sorted[j], sorted[i]];
+      }
+    } else {
+      // fallback: keine Änderung
+      sorted = visible;
+    }
+
+    // Anhängen in neuer Reihenfolge
+    sorted.forEach(card => grid.appendChild(card));
+  }
+
+  // Eventlistener für Dropdown
+  document.getElementById('sortSelect').addEventListener('change', (e) => {
+    const mode = e.target.value;
+    sortCards(mode);
+  });
 </script>
+
 </body>
 </html>
