@@ -3,35 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cannabis Grow Experience</title>
+<title>Cannabis Grow Experience & Bot Scan</title>
+<link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
+
 <style>
-  /* Basic style */
+  /* Body & Background */
   body {
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
     font-family: 'Courier New', monospace;
+    color: white;
     background: linear-gradient(270deg, #00ff00, #ff00ff, #00ffff);
     background-size: 600% 600%;
     animation: gradientBG 20s ease infinite;
-    color: white;
+    overflow-x: hidden;
     text-align: center;
   }
-
   @keyframes gradientBG {
     0%{background-position:0% 50%}
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
   }
 
-  /* Glitch title */
+  /* Glitch Title */
   h1 {
+    font-family: 'Nosifer', cursive;
     font-size: 4rem;
-    margin-top: 10vh;
+    margin-top: 8vh;
     position: relative;
     animation: glitch 1s infinite;
   }
-
   @keyframes glitch {
     0% {text-shadow: 2px 2px #0f0, -2px -2px #0ff;}
     25% {text-shadow: -2px 2px #0ff, 2px -2px #0f0;}
@@ -42,7 +43,7 @@
 
   /* Buttons */
   .button {
-    margin-top: 5vh;
+    margin-top: 3vh;
     padding: 1rem 2rem;
     font-size: 1.2rem;
     border: 2px solid white;
@@ -50,116 +51,82 @@
     background: transparent;
     cursor: pointer;
     transition: 0.3s;
+    font-family: 'Bebas Neue', sans-serif;
   }
-
   .button:hover {
     background: white;
     color: black;
     transform: rotate(5deg) scale(1.1);
   }
 
-  /* Floating leaves */
+  /* Fun-Facts Box */
+  #fact {
+    margin-top: 2vh;
+    font-size: 1.4rem;
+    min-height: 60px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+
+  /* Floating Leaves */
   .leaf {
     position: absolute;
     width: 60px;
     height: 60px;
     background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Cannabis_leaf_icon.svg/1024px-Cannabis_leaf_icon.svg.png') no-repeat center center;
     background-size: contain;
-    opacity: 0.3;
-    animation: float 10s ease-in-out infinite;
+    opacity: 0.35;
+    animation: float 12s ease-in-out infinite;
+    cursor: pointer;
   }
-
   @keyframes float {
     0%, 100% {transform: translateY(0) rotate(0deg);}
     50% {transform: translateY(-300px) rotate(180deg);}
   }
 
-  /* Fun-Facts box */
-  #fact {
-    margin-top: 5vh;
-    font-size: 1.5rem;
-    min-height: 50px;
-  }
-
-</style>
-</head>
-<body>
-
-<h1>Grow Your Green 🌱</h1>
-
-<button class="button" onclick="showFact()">Tips & Fun Facts</button>
-<div id="fact"></div>
-
-<!-- Floating leaves -->
-<div class="leaf" style="left:5%; animation-delay:0s;"></div>
-<div class="leaf" style="left:20%; animation-delay:2s;"></div>
-<div class="leaf" style="left:35%; animation-delay:4s;"></div>
-<div class="leaf" style="left:50%; animation-delay:1s;"></div>
-<div class="leaf" style="left:65%; animation-delay:3s;"></div>
-<div class="leaf" style="left:80%; animation-delay:5s;"></div>
-<div class="leaf" style="left:90%; animation-delay:2s;"></div>
-
-<script>
-  // Array of fun facts & tips about cannabis growing
-  const facts = [
-    "Cannabis loves lots of light – 16 hours a day is ideal in the growth phase.",
-    "Proper humidity helps healthy leaves and strong plants.",
-    "Fast growth in young plants means a stronger harvest later.",
-    "Avoid overfeeding – less is often more.",
-    "Trichomes contain valuable cannabinoids – patience pays off!",
-    "Small mistakes make the grow more exciting – every grow is an adventure."
-  ];
-
-  function showFact() {
-    const fact = facts[Math.floor(Math.random() * facts.length)];
-    document.getElementById('fact').innerText = fact;
-  }
-
-  // Interactive leaves: shake on click
-  document.querySelectorAll('.leaf').forEach(leaf => {
-    leaf.addEventListener('click', () => {
-      leaf.style.transform = "translateY(-50px) rotate(30deg)";
-      setTimeout(() => leaf.style.transform = "", 500);
-    });
-  });
-</script>
-</body>
-
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulierter Bot-Scan</title>
-<style>
-  body {
-    font-family: 'Courier New', monospace;
-    background-color: #0d0d0d;
-    color: #f0f0f0;
+  /* Bot Scan Widget */
+  #botScanWidget {
+    margin: 5vh auto;
     padding: 20px;
+    max-width: 700px;
+    border-radius: 12px;
+    background-color: rgba(0,0,0,0.7);
+    border: 2px solid #00ff99;
+    color: #f0f0f0;
+    font-family: 'Courier New', monospace;
+    box-shadow: 0 0 20px rgba(0,255,153,0.5);
+    position: relative;
+    z-index: 1;
   }
-  h1 {
-    text-align: center;
+  #botScanWidget h2 {
     color: #00ff99;
+    margin-bottom: 15px;
   }
-  #scanButton {
+  #startScanBtn {
     display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    font-size: 16px;
+    margin: 0 auto 15px auto;
+    padding: 10px 25px;
+    font-size: 1rem;
     background-color: #00ff99;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    transition: 0.3s;
   }
-  #scanButton:hover {
+  #startScanBtn:hover {
     background-color: #00cc77;
   }
-  #scanResults {
-    margin-top: 30px;
+  #scanOutput {
+    max-height: 300px;
+    overflow-y: auto;
+    text-align: left;
   }
   .site {
-    margin: 5px 0;
     padding: 5px 10px;
-    border-left: 5px solid #555;
+    border-left: 4px solid #555;
+    margin-bottom: 5px;
     transition: all 0.3s ease;
   }
   .safe {
@@ -170,89 +137,103 @@
     border-color: #ff3300;
     color: #ff3300;
     font-weight: bold;
-  }
-  .highlight {
     animation: blink 0.6s infinite alternate;
   }
-  @keyframes blink {
-    from {opacity: 1;}
-    to {opacity: 0.3;}
-  }
-</style>
+  @keyframes blink { from {opacity:1;} to {opacity:0.3;} }
 
+</style>
 </head>
-  
-<!-- Bot Scan Simulation Widget -->
-<div id="botScanWidget" style="margin-top:50px; border:2px solid #00ff99; padding:20px; border-radius:10px; background-color:#111; max-width:600px; font-family:'Courier New', monospace; color:#f0f0f0;">
-  <h2 style="text-align:center; color:#00ff99;">Simulated Bot Scan</h2>
-  <button id="startScanBtn" style="display:block; margin:10px auto; padding:8px 20px; font-size:16px; background-color:#00ff99; border:none; cursor:pointer; border-radius:5px;">Start Scan</button>
-  <div id="scanOutput" style="margin-top:15px; max-height:300px; overflow-y:auto;"></div>
-</div>
+
+<body>
+
+  <h1>Grow Your Green 🌱</h1>
+
+  <button class="button" onclick="showFact()">Tips & Fun Facts</button>
+  <div id="fact"></div>
+
+  <!-- Floating leaves -->
+  <div class="leaf" style="left:5%; animation-delay:0s;"></div>
+  <div class="leaf" style="left:20%; animation-delay:2s;"></div>
+  <div class="leaf" style="left:35%; animation-delay:4s;"></div>
+  <div class="leaf" style="left:50%; animation-delay:1s;"></div>
+  <div class="leaf" style="left:65%; animation-delay:3s;"></div>
+  <div class="leaf" style="left:80%; animation-delay:5s;"></div>
+  <div class="leaf" style="left:90%; animation-delay:2s;"></div>
+
+  <!-- Bot Scan Widget -->
+  <div id="botScanWidget">
+    <h2>Simulated Bot Scan</h2>
+    <button id="startScanBtn">Start Scan</button>
+    <div id="scanOutput"></div>
+  </div>
 
 <script>
-const dummySites = [
-  {name: "shop1.example.com", status: "vulnerable", type: "SQL Injection"},
-  {name: "blog.example.net", status: "safe", type: "Check Passed"},
-  {name: "shop2.example.com", status: "vulnerable", type: "Open Port"},
-  {name: "forum.example.org", status: "safe", type: "Check Passed"},
-  {name: "demo-site.example.com", status: "vulnerable", type: "XSS Vulnerability"},
-  {name: "shop3.example.com", status: "safe", type: "Check Passed"}
-];
-
-const outputDiv = document.getElementById('scanOutput');
-const scanBtn = document.getElementById('startScanBtn');
-
-function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
-
-async function runScan() {
-  scanBtn.disabled = true;
-  outputDiv.innerHTML = '';
-
-  for (let i = 0; i < dummySites.length; i++) {
-    const site = dummySites[i];
-    const row = document.createElement('div');
-    row.style.padding = "5px 10px";
-    row.style.borderLeft = "4px solid #555";
-    row.textContent = `Scanning ${site.name} ...`;
-    outputDiv.appendChild(row);
-    row.scrollIntoView({behavior:"smooth"});
-    await delay(800 + Math.random() * 400); // random delay for realism
-
-    // Show result
-    if (site.status === "vulnerable") {
-      row.textContent = `${site.name} ... ⚠ Vulnerable (${site.type})`;
-      row.style.color = "#ff3300";
-      row.style.fontWeight = "bold";
-      row.style.borderLeftColor = "#ff3300";
-      row.style.animation = "blink 0.6s infinite alternate";
-    } else {
-      row.textContent = `${site.name} ... ✅ Safe (${site.type})`;
-      row.style.color = "#00ff99";
-      row.style.borderLeftColor = "#00ff99";
-    }
-
-    await delay(500);
+  // Fun Facts
+  const facts = [
+    "Cannabis loves lots of light – 16 hours a day is ideal in the growth phase.",
+    "Proper humidity helps healthy leaves and strong plants.",
+    "Fast growth in young plants means a stronger harvest later.",
+    "Avoid overfeeding – less is often more.",
+    "Trichomes contain valuable cannabinoids – patience pays off!",
+    "Small mistakes make the grow more exciting – every grow is an adventure."
+  ];
+  function showFact() {
+    const fact = facts[Math.floor(Math.random() * facts.length)];
+    document.getElementById('fact').innerText = fact;
   }
 
-  const endMsg = document.createElement('div');
-  endMsg.textContent = "Scan complete! ⚡";
-  endMsg.style.marginTop = "10px";
-  endMsg.style.color = "#00ff99";
-  endMsg.style.fontWeight = "bold";
-  outputDiv.appendChild(endMsg);
+  // Floating leaves interactivity
+  document.querySelectorAll('.leaf').forEach(leaf => {
+    leaf.addEventListener('click', () => {
+      leaf.style.transform = "translateY(-50px) rotate(30deg)";
+      setTimeout(() => leaf.style.transform = "", 500);
+    });
+  });
 
-  scanBtn.disabled = false;
-}
+  // Bot Scan Simulation
+  const dummySites = [
+    {name: "shop1.example.com", status: "vulnerable", type: "SQL Injection"},
+    {name: "blog.example.net", status: "safe", type: "Check Passed"},
+    {name: "shop2.example.com", status: "vulnerable", type: "Open Port"},
+    {name: "forum.example.org", status: "safe", type: "Check Passed"},
+    {name: "demo-site.example.com", status: "vulnerable", type: "XSS Vulnerability"},
+    {name: "shop3.example.com", status: "safe", type: "Check Passed"}
+  ];
+  const outputDiv = document.getElementById('scanOutput');
+  const scanBtn = document.getElementById('startScanBtn');
+  function delay(ms){ return new Promise(resolve => setTimeout(resolve, ms)); }
 
-// Add blink animation via JS since we're embedding
-const style = document.createElement('style');
-style.innerHTML = `
-@keyframes blink { from {opacity:1;} to {opacity:0.3;} }
-`;
-document.head.appendChild(style);
+  async function runScan(){
+    scanBtn.disabled = true;
+    outputDiv.innerHTML = '';
+    for(let site of dummySites){
+      const row = document.createElement('div');
+      row.className = 'site';
+      row.textContent = `Scanning ${site.name} ...`;
+      outputDiv.appendChild(row);
+      row.scrollIntoView({behavior:"smooth"});
+      await delay(800 + Math.random()*400);
 
-scanBtn.addEventListener('click', runScan);
+      if(site.status==="vulnerable"){
+        row.textContent = `${site.name} ... ⚠ Vulnerable (${site.type})`;
+        row.classList.add('vulnerable');
+      } else {
+        row.textContent = `${site.name} ... ✅ Safe (${site.type})`;
+        row.classList.add('safe');
+      }
+      await delay(500);
+    }
+    const endMsg = document.createElement('div');
+    endMsg.textContent = "Scan complete! ⚡";
+    endMsg.style.marginTop="10px";
+    endMsg.style.color="#00ff99";
+    endMsg.style.fontWeight="bold";
+    outputDiv.appendChild(endMsg);
+    scanBtn.disabled=false;
+  }
+
+  scanBtn.addEventListener('click', runScan);
 </script>
 
-  
+</body>
 </html>
