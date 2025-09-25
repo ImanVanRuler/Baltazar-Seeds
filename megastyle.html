@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cannabis Grow Experience</title>
+<style>
+  /* Basic style */
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(270deg, #00ff00, #ff00ff, #00ffff);
+    background-size: 600% 600%;
+    animation: gradientBG 20s ease infinite;
+    color: white;
+    text-align: center;
+  }
+
+  @keyframes gradientBG {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
+
+  /* Glitch title */
+  h1 {
+    font-size: 4rem;
+    margin-top: 10vh;
+    position: relative;
+    animation: glitch 1s infinite;
+  }
+
+  @keyframes glitch {
+    0% {text-shadow: 2px 2px #0f0, -2px -2px #0ff;}
+    25% {text-shadow: -2px 2px #0ff, 2px -2px #0f0;}
+    50% {text-shadow: 2px -2px #0f0, -2px 2px #0ff;}
+    75% {text-shadow: -2px -2px #0ff, 2px 2px #0f0;}
+    100% {text-shadow: 2px 2px #0f0, -2px -2px #0ff;}
+  }
+
+  /* Buttons */
+  .button {
+    margin-top: 5vh;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    border: 2px solid white;
+    color: white;
+    background: transparent;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .button:hover {
+    background: white;
+    color: black;
+    transform: rotate(5deg) scale(1.1);
+  }
+
+  /* Floating leaves */
+  .leaf {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Cannabis_leaf_icon.svg/1024px-Cannabis_leaf_icon.svg.png') no-repeat center center;
+    background-size: contain;
+    opacity: 0.3;
+    animation: float 10s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {transform: translateY(0) rotate(0deg);}
+    50% {transform: translateY(-300px) rotate(180deg);}
+  }
+
+  /* Fun-Facts box */
+  #fact {
+    margin-top: 5vh;
+    font-size: 1.5rem;
+    min-height: 50px;
+  }
+
+</style>
+</head>
+<body>
+
+<h1>Grow Your Green 🌱</h1>
+
+<button class="button" onclick="showFact()">Tips & Fun Facts</button>
+<div id="fact"></div>
+
+<!-- Floating leaves -->
+<div class="leaf" style="left:5%; animation-delay:0s;"></div>
+<div class="leaf" style="left:20%; animation-delay:2s;"></div>
+<div class="leaf" style="left:35%; animation-delay:4s;"></div>
+<div class="leaf" style="left:50%; animation-delay:1s;"></div>
+<div class="leaf" style="left:65%; animation-delay:3s;"></div>
+<div class="leaf" style="left:80%; animation-delay:5s;"></div>
+<div class="leaf" style="left:90%; animation-delay:2s;"></div>
+
+<script>
+  // Array of fun facts & tips about cannabis growing
+  const facts = [
+    "Cannabis loves lots of light – 18 hours a day is ideal in the growth phase.",
+    "Proper humidity helps healthy leaves and strong plants.",
+    "Fast growth in young plants means a stronger harvest later.",
+    "Avoid overfeeding – less is often more.",
+    "Trichomes contain valuable cannabinoids – patience pays off!",
+    "Small mistakes make the grow more exciting – every grow is an adventure."
+  ];
+
+  function showFact() {
+    const fact = facts[Math.floor(Math.random() * facts.length)];
+    document.getElementById('fact').innerText = fact;
+  }
+
+  // Interactive leaves: shake on click
+  document.querySelectorAll('.leaf').forEach(leaf => {
+    leaf.addEventListener('click', () => {
+      leaf.style.transform = "translateY(-50px) rotate(30deg)";
+      setTimeout(() => leaf.style.transform = "", 500);
+    });
+  });
+</script>
+
+</body>
+</html>
