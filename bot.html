@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulierter Bot-Scan</title>
+<style>
+  body {
+    font-family: 'Courier New', monospace;
+    background-color: #0d0d0d;
+    color: #f0f0f0;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    color: #00ff99;
+  }
+  #scanButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #00ff99;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  #scanButton:hover {
+    background-color: #00cc77;
+  }
+  #scanResults {
+    margin-top: 30px;
+  }
+  .site {
+    margin: 5px 0;
+    padding: 5px 10px;
+    border-left: 5px solid #555;
+    transition: all 0.3s ease;
+  }
+  .safe {
+    border-color: #00ff99;
+    color: #00ff99;
+  }
+  .vulnerable {
+    border-color: #ff3300;
+    color: #ff3300;
+    font-weight: bold;
+  }
+  .highlight {
+    animation: blink 0.6s infinite alternate;
+  }
+  @keyframes blink {
+    from {opacity: 1;}
+    to {opacity: 0.3;}
+  }
+</style>
+</head>
+<body>
+  <h1>Simulierter Bot-Scan</h1>
+  <button id="scanButton">Scan starten</button>
+  <div id="scanResults"></div>
+
+<script>
+const sites = [
+  {name: "shop1.example.com", status: "vulnerable"},
+  {name: "blog.example.net", status: "safe"},
+  {name: "shop2.example.com", status: "vulnerable"},
+  {name: "forum.example.org", status: "safe"},
+  {name: "demo-site.example.com", status: "vulnerable"},
+  {name: "shop3.example.com", status: "safe"}
+];
+
+const scanResults = document.getElementById('scanResults');
+const scanButton = document.getElementById('scanButton');
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function startScan() {
+  scanButton.disabled = true;
+  scanResults.innerHTML = '';
+  
+  for(let i = 0; i < sites.length; i++) {
+    const site = sites[i];
+    const div = document.createElement('div');
+    div.classList.add('site');
+    div.textContent = `Scanning ${site.name} ...`;
+    scanResults.appendChild(div);
+    div.scrollIntoView({behavior: "smooth"});
+    
+    // kleine Pause für realistische Animation
+    await sleep(1000);
+    
+    // Status anzeigen
+    div.textContent = `${site.name} ... ${site.status === "vulnerable" ? "⚠ Vulnerable!" : "✅ Safe"}`;
+    div.classList.add(site.status);
+    if(site.status === "vulnerable") {
+      div.classList.add("highlight");
+    }
+    
+    await sleep(800);
+  }
+  
+  const finalMessage = document.createElement('div');
+  finalMessage.style.marginTop = "20px";
+  finalMessage.style.color = "#00ff99";
+  finalMessage.style.fontWeight = "bold";
+  finalMessage.textContent = "Scan abgeschlossen! ⚡";
+  scanResults.appendChild(finalMessage);
+  
+  scanButton.disabled = false;
+}
+
+scanButton.addEventListener('click', startScan);
+</script>
+</body>
+</html>
