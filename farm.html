@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Farming Game Deluxe</title>
+<title>Cannabis Strain Farming Game</title>
 <style>
   body { 
     margin:0; 
@@ -54,7 +54,7 @@
     box-shadow:0 0 15px #00ff7f;
     text-align:left;
     border:1px solid #00ff7f;
-    min-width:150px;
+    min-width:180px;
   }
   #side {
     display:flex;
@@ -63,6 +63,14 @@
     align-items:stretch;
     flex-wrap:wrap;
     justify-content:center;
+  }
+  #strainLog {
+    margin-top:10px;
+    font-size:0.9rem;
+    line-height:1.3rem;
+    color:#ccc;
+    max-height:150px;
+    overflow-y:auto;
   }
   /* Balti-Karte */
   #baltiCard {
@@ -106,7 +114,7 @@
 </head>
 <body>
 
-<h1>🌱 Mini Farming Game Deluxe</h1>
+<h1>🌿 Cannabis Strain Farming Game</h1>
 <canvas id="farmCanvas" width="400" height="400"></canvas>
 <div>
   <button id="plantBtn">🌱 Pflanzen</button>
@@ -118,6 +126,7 @@
     <p><b>Level:</b> <span id="level">1</span></p>
     <p><b>XP:</b> <span id="xp">0</span></p>
     <p><b>Geerntet:</b> <span id="harvested">0</span></p>
+    <div id="strainLog"><b>📝 Strain Log:</b><br></div>
   </div>
   <div id="baltiCard">
     <img src="BALTI.JPG" alt="Farmer Balti">
@@ -137,11 +146,21 @@ const CELL_SIZE = canvas.width / GRID_SIZE;
 
 let farm = Array(GRID_SIZE).fill().map(()=>Array(GRID_SIZE).fill(null));
 
+/* Verschiedene Cannabis Strains */
+const strains = [
+  {name:"OG Kush", color:"limegreen", growRate:2, xp:7},
+  {name:"Sour Diesel", color:"yellowgreen", growRate:3, xp:5},
+  {name:"Amnesia Haze", color:"mediumseagreen", growRate:1.5, xp:10},
+  {name:"White Widow", color:"palegreen", growRate:2.5, xp:6},
+  {name:"Gelato", color:"springgreen", growRate:2, xp:8}
+];
+
 class Plant {
-  constructor() {
+  constructor(strain) {
+    this.strain = strain;
     this.growth = 0; // 0–100
   }
-  grow() { if(this.growth<100)this.growth+=2; }
+  grow() { if(this.growth<100)this.growth+=this.strain.growRate; }
   isReady() { return this.growth>=100; }
 }
 
@@ -153,11 +172,17 @@ function updateStats(){
   document.getElementById('harvested').innerText = harvested;
 }
 
+function addStrainLog(msg){
+  const log = document.getElementById('strainLog');
+  log.innerHTML += msg+"<br>";
+  log.scrollTop = log.scrollHeight;
+}
+
 function levelUpCheck(){
-  if(xp >= level*20){
+  if(xp >= level*30){
     xp=0;
     level++;
-    alert("🎉 Level Up! Du bist jetzt Level "+level+"!");
+    alert("🔥 High Level Up! Du bist jetzt Grower Level "+level+"!");
   }
 }
 
@@ -172,8 +197,7 @@ function drawFarm() {
       const plant = farm[i][j];
       if(plant){
         if(plant.growth<100){
-          const green = Math.min(255, Math.floor(plant.growth * 2.55));
-          ctx.fillStyle = `rgb(0,${green},0)`;
+          ctx.fillStyle = plant.strain.color;
         } else {
           ctx.fillStyle = "gold"; // reif
         }
@@ -187,8 +211,10 @@ document.getElementById('plantBtn').onclick = ()=>{
   let planted=false;
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
-      if(!farm[i][j] && Math.random()<0.3){
-        farm[i][j] = new Plant();
+      if(!farm[i][j] && Math.random()<0.25){
+        const strain = strains[Math.floor(Math.random()*strains.length)];
+        farm[i][j] = new Plant(strain);
+        addStrainLog("🌱 "+strain.name+" gepflanzt");
         planted=true;
       }
     }
@@ -202,9 +228,11 @@ document.getElementById('harvestBtn').onclick = ()=>{
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
       if(farm[i][j] && farm[i][j].isReady()){
+        const strain = farm[i][j].strain;
         farm[i][j] = null;
-        xp+=5;
+        xp+=strain.xp;
         harvested++;
+        addStrainLog("🌾 "+strain.name+" geerntet (+ "+strain.xp+" XP)");
         any=true;
       }
     }
