@@ -168,10 +168,10 @@ let strains = [
   {name: "Purple Haze", color: "#A020F0", growRate: 9, xp: 8, coins: 6, unlocked: false, unlockLevel: 5}
 ];
 const upgrades = [
-  {id: "growthBoost", name: "Wachstums-Boost", desc: "+20% Grow-Rate", cost: 50, level: 0, maxLevel: 3, effect: () => growthMultiplier += 0.2},
-  {id: "xpBoost", name: "XP-Boost", desc: "+10% XP pro Ernte", cost: 75, level: 0, maxLevel: 3, effect: () => xpMultiplier += 0.1},
-  {id: "coinBoost", name: "Münz-Boost", desc: "+15% Münzen pro Ernte", cost: 60, level: 0, maxLevel: 3, effect: () => coinMultiplier += 0.15},
-  {id: "autoPlant", name: "Auto-Pflanzer", desc: "Pflanzt automatisch leere Felder (langsam)", cost: 100, level: 0, maxLevel: 1, effect: () => autoPlantUnlocked = true}
+  {id: "growthBoost", name: "Wachstums-Boost", desc: "+20% Grow-Rate", cost: 30, level: 0, maxLevel: 3, effect: () => growthMultiplier += 0.2},
+  {id: "xpBoost", name: "XP-Boost", desc: "+10% XP pro Ernte", cost: 50, level: 0, maxLevel: 3, effect: () => xpMultiplier += 0.1},
+  {id: "coinBoost", name: "Münz-Boost", desc: "+15% Münzen pro Ernte", cost: 40, level: 0, maxLevel: 3, effect: () => coinMultiplier += 0.15},
+  {id: "autoPlant", name: "Auto-Pflanzer", desc: "Pflanzt automatisch leere Felder (langsam)", cost: 80, level: 0, maxLevel: 1, effect: () => autoPlantUnlocked = true}
 ];
 const achievements = [
   {id: "firstHarvest", name: "Erste Ernte", desc: "Ernte deine erste Pflanze", unlocked: false, condition: () => harvested >= 1},
@@ -182,12 +182,12 @@ const achievements = [
 const canvas = document.getElementById('farmCanvas');
 const ctx = canvas.getContext('2d');
 const farm = Array.from({length: GRID_SIZE}, () => Array(GRID_SIZE).fill(null));
-let xp = 0, level = 1, harvested = 0, coins = 0;
+let xp = 0, level = 1, harvested = 0, coins = 100; // Start mit 100 Münzen für Test
 let growthMultiplier = 1, xpMultiplier = 1, coinMultiplier = 1, autoPlantUnlocked = false;
 let lastAutoPlant = 0;
 
 // -------------------
-// Classes (erweitert um Particles für Ernte-Effekte)
+// Classes
 // -------------------
 class Plant {
   constructor(strain) {
@@ -228,7 +228,7 @@ class Spark {
 }
 
 // -------------------
-// Helpers (erweitert um Save/Load, Shop-Render)
+// Helpers
 // -------------------
 function shadeColor(hex, percent) {
   const num = parseInt(hex.slice(1), 16);
@@ -248,6 +248,7 @@ function updateStats() {
   document.getElementById('coins').textContent = coins;
   const pct = Math.min(100, Math.round((xp / xpThresholdForLevel(level)) * 100));
   document.getElementById('xpFill').style.width = pct + '%';
+  renderShop(); // Neu: Shop nach Stats-Update rendern
 }
 function xpThresholdForLevel(l) { return 40 + l * 20; }
 function showToast(msg, ms = 1500) {
@@ -262,7 +263,7 @@ function playSound(id) {
   if (a) { a.currentTime = 0; a.play().catch(() => {}); }
 }
 function saveGame() {
-  const saveData = { xp, level, harvested, coins, upgrades: upgrades.map(u => u.level), achievements: achievements.map(a => a.unlocked), farm: farm.map(row => row.map(p => p ? {strain: strains.findIndex(s => s.name === p.strain.name), growth: p.growth} : null)) };
+  const saveData = { xp, level, harvested, coins, upgrades: upgrades.map(u => ({level: u.level, cost: u.cost})), achievements: achievements.map(a => a.unlocked), farm: farm.map(row => row.map(p => p ? {strain: strains.findIndex(s => s.name === p.strain.name), growth: p.growth} : null)) };
   localStorage.setItem('miniFarmingSave', JSON.stringify(saveData));
 }
 function loadGame() {
@@ -270,15 +271,17 @@ function loadGame() {
   if (save) {
     const data = JSON.parse(save);
     xp = data.xp; level = data.level; harvested = data.harvested; coins = data.coins;
-    upgrades.forEach((u, i) => u.level = data.upgrades[i]);
+    upgrades.forEach((u, i) => { u.level = data.upgrades[i].level; u.cost = data.upgrades[i].cost; });
     achievements.forEach((a, i) => a.unlocked = data.achievements[i]);
     farm.forEach((row, r) => row.forEach((_, c) => { const p = data.farm[r][c]; farm[r][c] = p ? new Plant(strains[p.strain]) : null; if (p) farm[r][c].growth = p.growth; }));
     applyUpgrades();
     unlockStrains();
-    updateStats();
-    renderShop();
-    renderAchievements();
+  } else {
+    coins = 100; // Fallback für neuen Start
   }
+  updateStats();
+  renderShop();
+  renderAchievements();
 }
 function applyUpgrades() {
   growthMultiplier = 1; xpMultiplier = 1; coinMultiplier = 1; autoPlantUnlocked = false;
@@ -295,7 +298,7 @@ function checkAchievements() {
       newUnlock = true;
       addLog(`🏆 Achievement unlocked: ${a.name}`);
       showToast(`Achievement: ${a.name}!`, 2000);
-      coins += 20; // Bonus-Münzen für Achievements
+      coins += 20;
     }
   });
   if (newUnlock) renderAchievements();
@@ -310,19 +313,24 @@ function renderShop() {
     const buyBtn = document.createElement('button');
     buyBtn.className = 'btn';
     buyBtn.textContent = 'Kaufen';
-    buyBtn.disabled = coins < u.cost || u.level >= u.maxLevel;
+    const isDisabled = coins < u.cost || u.level >= u.maxLevel;
+    buyBtn.disabled = isDisabled;
+    if (isDisabled) console.log(`Shop Debug: ${u.name} disabled - Coins: ${coins}, Cost: ${u.cost}, Level: ${u.level}/${u.maxLevel}`);
     buyBtn.onclick = () => {
+      console.log(`Shop Debug: Versuch, ${u.name} zu kaufen - Coins: ${coins}, Cost: ${u.cost}`);
       if (coins >= u.cost && u.level < u.maxLevel) {
         coins -= u.cost;
         u.level++;
-        u.cost = Math.round(u.cost * 1.5); // Preis steigt
+        u.cost = Math.round(u.cost * 1.5);
         u.effect();
         addLog(`🛒 Upgrade gekauft: ${u.name} (Lvl ${u.level})`);
         showToast(`Upgrade: ${u.name}!`);
         updateStats();
-        renderShop();
         checkAchievements();
         saveGame();
+        console.log(`Shop Debug: Kauf erfolgreich - Neue Coins: ${coins}`);
+      } else {
+        console.log(`Shop Debug: Kauf fehlgeschlagen`);
       }
     };
     item.appendChild(buyBtn);
@@ -341,10 +349,10 @@ function renderAchievements() {
 }
 
 // -------------------
-// Canvas Draw (verbessert mit Skalierung und Ernte-Partikeln)
+// Canvas Draw
 // -------------------
 function draw() {
-  const w = canvas.width, h = canvas.height; // Nutze canvas.width statt clientWidth für Pixel-Perfektion
+  const w = canvas.width, h = canvas.height;
   ctx.clearRect(0, 0, w, h);
   const cell = w / GRID_SIZE;
   for (let r = 0; r < GRID_SIZE; r++) {
@@ -424,7 +432,7 @@ function drawLeaf(ctx, lx, ly, sz, color, progress, idx) {
 }
 
 // -------------------
-// Game Loop (erweitert um Auto-Plant)
+// Game Loop
 // -------------------
 let last = performance.now();
 function frame(now) {
@@ -436,8 +444,8 @@ function frame(now) {
       if (p) p.grow(dt);
     }
   }
-  if (autoPlantUnlocked && now - lastAutoPlant > 5000) { // Alle 5 Sekunden versuchen
-    plantRandom(true); // Leise Modus
+  if (autoPlantUnlocked && now - lastAutoPlant > 5000) {
+    plantRandom(true);
     lastAutoPlant = now;
   }
   draw();
@@ -446,7 +454,7 @@ function frame(now) {
 requestAnimationFrame(frame);
 
 // -------------------
-// Gameplay functions (erweitert um Münzen, Unlocks)
+// Gameplay functions
 // -------------------
 function getUnlockedStrains() {
   return strains.filter(s => s.unlocked);
@@ -532,7 +540,7 @@ function checkLevelUp() {
 }
 
 // -------------------
-// Input (erweitert um Canvas-Skalierung)
+// Input
 // -------------------
 canvas.addEventListener('click', (ev) => {
   const rect = canvas.getBoundingClientRect();
@@ -584,11 +592,8 @@ document.getElementById('fillBtn').addEventListener('click', () => { fillAllEmpt
 
 // Init
 loadGame();
-renderShop();
-renderAchievements();
-updateStats();
 plantRandom();
-setInterval(saveGame, 30000); // Auto-Save alle 30 Sek.
+setInterval(saveGame, 30000); // Auto-Save
 </script>
 </body>
 </html>
