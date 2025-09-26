@@ -1,299 +1,504 @@
-<!DOCTYPE html>
-<html lang="de">
+<!doctype html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Farming Game Deluxe</title>
-<style>
-  body { 
-    margin:0; 
-    font-family: 'Trebuchet MS', sans-serif; 
-    background: radial-gradient(circle at top, #222 0%, #111 100%); 
-    color:#fff; 
-    display:flex; 
-    flex-direction:column; 
-    align-items:center; 
-    justify-content:flex-start; 
-    min-height:100vh; 
-  }
-  h1 {
-    margin: 20px 0;
-    font-size:2.2rem;
-    color:#8fff8f;
-    text-shadow:0 0 12px #00ff7f, 0 0 25px #00ff7f;
-  }
-  canvas {
-    border:2px solid #00ff7f;
-    background:#2d2d2d;
-    margin-bottom:20px;
-    box-shadow:0 0 20px #00ff7f, inset 0 0 15px #003300;
-    border-radius:12px;
-  }
-  button {
-    padding:12px 28px;
-    margin:8px;
-    background:linear-gradient(#00ff7f,#00994c);
-    color:#000;
-    border:none;
-    cursor:pointer;
-    font-weight:bold;
-    border-radius:12px;
-    font-size:1rem;
-    box-shadow:0 0 12px #00ff7f;
-    transition: transform 0.15s, box-shadow 0.2s;
-  }
-  button:hover {
-    transform:scale(1.07);
-    box-shadow:0 0 18px #00ffaa;
-  }
-  #stats {
-    flex:1;
-    background:#111;
-    padding:15px 25px;
-    border-radius:12px;
-    box-shadow:0 0 15px #00ff7f;
-    text-align:left;
-    border:1px solid #00ff7f;
-    min-width:180px;
-  }
-  #side {
-    display:flex;
-    margin-top:25px;
-    gap:25px;
-    align-items:stretch;
-    flex-wrap:wrap;
-    justify-content:center;
-  }
-  #strainLog {
-    margin-top:10px;
-    font-size:0.9rem;
-    line-height:1.3rem;
-    color:#ccc;
-    max-height:150px;
-    overflow-y:auto;
-  }
-  /* Balti-Karte */
-  #baltiCard {
-    position:relative;
-    background:linear-gradient(145deg,#1a1a1a,#292929);
-    border:2px solid #00ff7f;
-    padding:15px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 0 20px #00ff7f, inset 0 0 10px #003300;
-    width:180px;
-  }
-  #baltiCard::before {
-    content:"Farmer Karte";
-    position:absolute;
-    top:-14px;
-    left:50%;
-    transform:translateX(-50%);
-    background:#00ff7f;
-    color:#000;
-    font-weight:bold;
-    font-size:0.8rem;
-    padding:2px 10px;
-    border-radius:8px;
-    box-shadow:0 0 10px #00ff7f;
-  }
-  #baltiCard img {
-    width:100%;
-    border-radius:15px;
-    display:block;
-    margin:0 auto 12px auto;
-    box-shadow:0 0 12px #00ff7f;
-  }
-  #baltiCard p {
-    margin:0;
-    font-weight:bold;
-    color:#8fff8f;
-    text-shadow:0 0 8px #00ff7f;
-  }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mini Farming Game Deluxe</title>
+  <style>
+    :root{
+      --accent:#00ff7f;
+      --bg1:#0f1112;
+      --bg2:#121212;
+      --card:#161616;
+      --muted:#bfc9bd;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: 'Trebuchet MS', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: radial-gradient(circle at 20% 10%, #16201a 0%, #080808 60%);
+      color:#e9fff0;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:28px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .container{
+      width:980px;
+      max-width:95vw;
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap:22px;
+      align-items:start;
+    }
+
+    header{grid-column:1/-1; text-align:center}
+    h1{
+      margin:0 0 10px 0;
+      font-size:1.9rem;
+      color:var(--accent);
+      text-shadow:0 0 12px rgba(0,255,127,0.12);
+    }
+    .sub{color:var(--muted); margin-bottom:12px}
+
+    .panel{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:14px;
+      border-radius:var(--radius);
+      border:1px solid rgba(0,255,127,0.08);
+      box-shadow:0 6px 30px rgba(0,0,0,0.6), inset 0 0 30px rgba(0,255,127,0.02);
+    }
+
+    #canvasWrap{display:flex;flex-direction:column;gap:10px;align-items:center}
+    canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient(180deg,#1b1b1b,#0d0d0d); box-shadow:0 0 30px rgba(0,255,127,0.06); display:block}
+
+    .controls{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .btn{cursor:pointer; border:none; padding:10px 16px; border-radius:12px; background:linear-gradient(#00ff7f,#008a4a); color:#002; font-weight:700; box-shadow:0 6px 20px rgba(0,255,127,0.08); transition:transform .12s}
+    .btn:active{transform:translateY(2px)}
+
+    #infoRow{display:flex; gap:10px; width:100%; margin-top:6px; align-items:center}
+    .statBox{flex:1; padding:10px; background:var(--card); border-radius:10px; text-align:left}
+    .statTitle{font-size:0.85rem; color:var(--muted)}
+    .statValue{font-weight:700; font-size:1.05rem}
+
+    #side{display:flex; flex-direction:column; gap:14px}
+    #stats{min-height:160px}
+    #strainLog{max-height:220px; overflow:auto; font-size:0.92rem; color:var(--muted); padding:8px; background:var(--glass); border-radius:10px}
+
+    #breederCard{display:flex; flex-direction:column; align-items:center; gap:10px; padding:12px}
+    #breederCard img{width:100%; border-radius:10px; display:block}
+    #breederCard p{margin:0; font-weight:700; color:var(--muted)}
+
+    .xpBar{height:12px; background:rgba(255,255,255,0.04); border-radius:999px; overflow:hidden}
+    .xpFill{height:100%; width:0%; background:linear-gradient(90deg,var(--accent), #8affb8); transition:width 300ms ease}
+
+    .toast{position:fixed; left:50%; transform:translateX(-50%); bottom:28px; background:#09110a; padding:10px 16px; border-radius:999px; border:1px solid rgba(0,255,127,0.08); box-shadow:0 8px 30px rgba(0,0,0,0.6); display:none}
+
+    .backLink{display:inline-block; margin-top:12px; color:var(--muted); text-decoration:none}
+
+    @media (max-width:900px){
+      .container{grid-template-columns:1fr;}
+      canvas{width:100%; height:60vh}
+    }
+  </style>
 </head>
 <body>
-<h1>🌿 Mini Farming Game Deluxe 🌿</h1>
-<canvas id="farmCanvas" width="400" height="400"></canvas>
-<div>
-  <button id="plantBtn">🌱 Plants</button>
-  <button id="harvestBtn">🌾 Harvest</button>
-</div>
-<div id="side">
-  <div id="stats">
-    <p><b>Level:</b> <span id="level">1</span></p>
-    <p><b>XP:</b> <span id="xp">0</span></p>
-    <p><b>Harvest:</b> <span id="harvested">0</span></p>
-    <div id="strainLog"><b>📝 Strain Log:</b><br></div>
+  <div class="container">
+    <header>
+      <h1>🌿 Mini Farming Game Deluxe</h1>
+      <div class="sub">Plant seeds, watch them grow with smoother animations and harvest for XP. Click cells to plant manually or use the buttons.</div>
+    </header>
+
+    <main class="panel" id="canvasWrap">
+      <canvas id="farmCanvas" width="560" height="560" aria-label="Farm canvas"></canvas>
+
+      <div class="controls">
+        <button class="btn" id="plantBtn">🌱 Plant seeds (random)</button>
+        <button class="btn" id="harvestBtn">🌾 Harvest ready plants</button>
+        <button class="btn" id="fillBtn">🔁 Fill empty (fast)</button>
+        <div style="flex:1"></div>
+        <a class="backLink" href="seite3.html">◀ Back to Menu</a>
+      </div>
+
+      <div id="infoRow">
+        <div class="statBox">
+          <div class="statTitle">Level</div>
+          <div class="statValue" id="level">1</div>
+        </div>
+        <div class="statBox">
+          <div class="statTitle">XP</div>
+          <div class="statValue" id="xp">0</div>
+          <div class="xpBar" style="margin-top:8px"><div id="xpFill" class="xpFill"></div></div>
+        </div>
+        <div class="statBox">
+          <div class="statTitle">Harvested</div>
+          <div class="statValue" id="harvested">0</div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="panel" id="side">
+      <div id="stats">
+        <strong>📝 Strain Log</strong>
+        <div id="strainLog"></div>
+      </div>
+
+      <div id="breederCard" class="panel">
+        <img src="BALTI.JPG" alt="Breeder image" />
+        <p>👨‍🌾 Power to the grower</p>
+      </div>
+
+      <div class="panel">
+        <strong>How to play</strong>
+        <ul style="padding-left:18px; margin:8px 0 0 0; color:var(--muted)">
+          <li>Click on a cell to plant a seed there.</li>
+          <li>Use <em>Plant seeds</em> to randomly plant seeds across empty cells.</li>
+          <li>Plants grow over time. Harvest when a plant is golden.</li>
+        </ul>
+      </div>
+    </aside>
   </div>
-  <div id="YOU ARE THE BREEDER">
-    <img src="BALTI.JPG" alt="You Are The Breeder">
-    <p>👨‍🌾 Power To The Grower 👨‍🌾</p>
-  </div>
-</div>
 
-<audio id="plantSound" src="plant.mp3"></audio>
-<audio id="harvestSound" src="harvest.mp3"></audio>
+  <div class="toast" id="toast"></div>
 
-<script>
-const canvas = document.getElementById('farmCanvas');
-const ctx = canvas.getContext('2d');
-const GRID_SIZE = 5;
-const CELL_SIZE = canvas.width / GRID_SIZE;
+  <audio id="plantSound" src="plant.mp3" preload="auto"></audio>
+  <audio id="harvestSound" src="harvest.mp3" preload="auto"></audio>
 
-let farm = Array(GRID_SIZE).fill().map(()=>Array(GRID_SIZE).fill(null));
+  <script>
+  // -------------------
+  // Game configuration
+  // -------------------
+  const GRID_SIZE = 5;
+  const strains = [
+    {name: "Sticky Buns", color: "#8EE28E", growRate: 6, xp: 12},
+    {name: "Pink Berry Pop", color: "#E6F39B", growRate: 8, xp: 9},
+    {name: "Boom Boom Berry", color: "#6FD08A", growRate: 4.5, xp: 15},
+    {name: "White Rhino", color: "#DFF7D6", growRate: 7, xp: 10},
+    {name: "Sunset Sherbet", color: "#7CE08A", growRate: 6.5, xp: 13},
+    {name: "Blueberry", color: "#9EE58D", growRate: 8, xp: 9},
+    {name: "G13 Haze", color: "#CFF6D8", growRate: 7.2, xp: 11},
+    {name: "Cream Caramel", color: "#AEE7A8", growRate: 6.1, xp: 12}
+  ];
 
-/* Cannabis Strains */
-const strains = [
-  {name:"Sticky Buns", color:"limegreen", growRate:2, xp:7},
-  {name:"Pink Berry Pop", color:"yellowgreen", growRate:3, xp:5},
-  {name:"Boom Boom Berry", color:"mediumseagreen", growRate:1.5, xp:10},
-  {name:"White Rhino", color:"palegreen", growRate:2.5, xp:6},
-  {name:"Sunset Sherbet", color:"springgreen", growRate:2, xp:8},
-  {name:"Rainbow Sherbet", color:"deepgreen", growRate:2, xp:7},
-  {name:"Blueberry", color:"yellowgreen", growRate:3, xp:5},
-  {name:"Euforia", color:"mediumseagreen", growRate:1.5, xp:10},
-  {name:"G13 Haze", color:"palegreen", growRate:2.5, xp:6},
-  {name:"Cream Caramel", color:"springgreen", growRate:2, xp:8},
-  {name:"Bubble Gum", color:"palegreen", growRate:2.5, xp:6},
-  {name:"Serious Kush", color:"springgreen", growRate:2, xp:8}
-];
+  // -------------------
+  // Canvas setup
+  // -------------------
+  const canvas = document.getElementById('farmCanvas');
+  const ctx = canvas.getContext('2d');
 
-class Plant {
-  constructor(strain) {
-    this.strain = strain;
-    this.growth = 0; // 0–100
+  // DPI scaling for crisp drawing
+  function resizeCanvas() {
+    const rect = canvas.getBoundingClientRect();
+    const DPR = window.devicePixelRatio || 1;
+    canvas.width = Math.max(300, Math.floor(rect.width * DPR));
+    canvas.height = Math.max(300, Math.floor(rect.height * DPR));
+    ctx.setTransform(DPR,0,0,DPR,0,0); // scale drawing to CSS pixels
   }
-  grow() { if(this.growth<100)this.growth+=this.strain.growRate; }
-  isReady() { return this.growth>=100; }
-}
+  // initial resize
+  resizeCanvas();
+  window.addEventListener('resize', () => { resizeCanvas(); draw(); });
 
-let xp=0, level=1, harvested=0;
+  const CELL_SIZE = () => canvas.clientWidth / GRID_SIZE;
 
-function updateStats(){
-  document.getElementById('xp').innerText = xp;
-  document.getElementById('level').innerText = level;
-  document.getElementById('harvested').innerText = harvested;
-}
+  // -------------------
+  // State
+  // -------------------
+  const farm = Array.from({length:GRID_SIZE}, ()=> Array.from({length:GRID_SIZE}, ()=> null));
 
-function addStrainLog(msg){
-  const log = document.getElementById('strainLog');
-  log.innerHTML += msg+"<br>";
-  log.scrollTop = log.scrollHeight;
-}
-
-function levelUpCheck(){
-  if(xp >= level*710){
-    xp=0;
-    level++;
-    alert("🔥 High Level Up! Now you are Grower Level "+level+"!");
+  class Plant {
+    constructor(strain){
+      this.strain = strain;
+      this.growth = 0; // 0..100
+      this.seedTime = performance.now();
+      this.particles = [];
+      this.sway = Math.random()*Math.PI*2;
+    }
+    grow(dt){
+      if(this.growth < 100){
+        // dt in ms, growRate is roughly units per second
+        this.growth = Math.min(100, this.growth + this.strain.growRate * (dt/1000));
+      } else {
+        // emit gentle particles when ready
+        if(Math.random()<0.06) this.particles.push(new Spark());
+      }
+      this.particles.forEach(p => p.update(dt));
+      this.particles = this.particles.filter(p => !p.dead);
+    }
+    isReady(){ return this.growth >= 100; }
   }
-}
 
-function drawFarm() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+  // simple particle for sparkle
+  class Spark {
+    constructor(){
+      this.x = 0; this.y = 0; this.vx = (Math.random()-0.5)*0.6; this.vy = -Math.random()*0.8 - 0.2; this.life = 700 + Math.random()*700; this.age = 0; this.size = 1 + Math.random()*2; this.dead=false;
+    }
+    init(x,y){ this.x=x; this.y=y; }
+    update(dt){ this.age += dt; if(this.age>this.life) this.dead=true; this.vy += 0.001*dt; this.x += this.vx*dt*0.06; this.y += this.vy*dt*0.06; }
+    draw(ctx){ const alpha = 1 - (this.age/this.life); ctx.globalAlpha = alpha; ctx.fillRect(this.x,this.y,this.size,this.size); ctx.globalAlpha=1; }
+  }
 
-  for(let i=0;i<GRID_SIZE;i++){
-    for(let j=0;j<GRID_SIZE;j++){
-      ctx.strokeStyle = '#00ff7f';
-      ctx.strokeRect(j*CELL_SIZE, i*CELL_SIZE, CELL_SIZE, CELL_SIZE);
+  // -------------------
+  // Gameplay vars
+  // -------------------
+  let xp = 0, level = 1, harvested = 0;
+  const logEl = document.getElementById('strainLog');
+  const xpEl = document.getElementById('xp');
+  const levelEl = document.getElementById('level');
+  const harvestedEl = document.getElementById('harvested');
+  const xpFill = document.getElementById('xpFill');
 
-      const plant = farm[i][j];
-      if(plant){
-        let x = j*CELL_SIZE + CELL_SIZE/2;
-        let y = i*CELL_SIZE + CELL_SIZE/2;
-        let progress = plant.growth/100;
+  function addLog(text){
+    const time = new Date().toLocaleTimeString();
+    logEl.innerHTML = `<div style="margin-bottom:6px"><small style='color:var(--muted)'>[${time}]</small> &nbsp; ${text}</div>` + logEl.innerHTML;
+  }
 
-        if(progress < 0.3){ 
-          // Keimling
-          ctx.fillStyle = plant.strain.color;
-          ctx.beginPath();
-          ctx.arc(x, y, 4 + 6*progress, 0, Math.PI*2);
-          ctx.fill();
-        } 
-        else if(progress < 0.7){ 
-          // kleiner Busch
-          ctx.fillStyle = plant.strain.color;
-          ctx.beginPath();
-          ctx.arc(x, y, 8 + 10*progress, 0, Math.PI*2);
-          ctx.fill();
-          ctx.beginPath();
-          ctx.arc(x-8, y, 4+progress*4, 0, Math.PI*2);
-          ctx.arc(x+8, y, 4+progress*4, 0, Math.PI*2);
-          ctx.fill();
-        } 
-        else {
-          // Fast reif
-          ctx.fillStyle = plant.strain.color;
-          ctx.beginPath();
-          ctx.arc(x, y, 12 + 10*progress, 0, Math.PI*2);
-          ctx.fill();
-          ctx.beginPath();
-          ctx.arc(x-10, y, 6+progress*6, 0, Math.PI*2);
-          ctx.arc(x+10, y, 6+progress*6, 0, Math.PI*2);
-          ctx.fill();
-          if(plant.isReady()){
-            ctx.fillStyle = "gold";
-            ctx.beginPath();
-            ctx.arc(x, y-12, 5, 0, Math.PI*2);
-            ctx.fill();
-          }
+  function updateStats(){
+    xpEl.textContent = xp;
+    levelEl.textContent = level;
+    harvestedEl.textContent = harvested;
+    const threshold = xpThresholdForLevel(level);
+    const pct = Math.max(0, Math.min(100, Math.round((xp/threshold)*100)));
+    xpFill.style.width = pct + '%';
+  }
+  function xpThresholdForLevel(l){ return 40 + l*20; }
+
+  function showToast(msg, ms=1500){ const t = document.getElementById('toast'); t.textContent = msg; t.style.display='block'; clearTimeout(t._timer); t._timer = setTimeout(()=>{ t.style.display='none'; }, ms); }
+
+  // -------------------
+  // Drawing helpers
+  // -------------------
+  function draw(){
+    const w = canvas.clientWidth; const h = canvas.clientHeight;
+    ctx.clearRect(0,0,w,h);
+
+    // draw a subtle grid background
+    ctx.save();
+    ctx.fillStyle = 'rgba(0,0,0,0.18)';
+    ctx.fillRect(0,0,w,h);
+    ctx.restore();
+
+    const cell = CELL_SIZE();
+
+    for(let row=0; row<GRID_SIZE; row++){
+      for(let col=0; col<GRID_SIZE; col++){
+        const x = col*cell; const y = row*cell;
+        // soil tile
+        ctx.fillStyle = 'rgba(10,10,10,0.6)';
+        roundRect(ctx, x+6, y+6, cell-12, cell-12, 8);
+        ctx.fill();
+
+        // border
+        ctx.strokeStyle = 'rgba(0,255,127,0.06)';
+        ctx.lineWidth = 1;
+        roundRect(ctx, x+6, y+6, cell-12, cell-12, 8);
+        ctx.stroke();
+
+        // draw plant if present
+        const plant = farm[row][col];
+        if(plant){
+          const cx = x + cell/2; const cy = y + cell/2 + 8;
+          drawPlant(ctx, plant, cx, cy, cell*0.38);
         }
       }
     }
   }
-}
 
-document.getElementById('plantBtn').onclick = ()=>{
-  let planted=false;
-  for(let i=0;i<GRID_SIZE;i++){
-    for(let j=0;j<GRID_SIZE;j++){
-      if(!farm[i][j] && Math.random()<0.25){
+  function roundRect(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+
+  function drawPlant(ctx, plant, cx, cy, size){
+    const progress = plant.growth/100;
+    const t = performance.now()/1000;
+    const sway = Math.sin(t + plant.sway) * 3 * (1-progress);
+
+    // stem
+    ctx.save();
+    ctx.translate(cx, cy+size*0.25);
+    ctx.rotate(sway*0.02);
+    ctx.strokeStyle = '#2c6a3a';
+    ctx.lineWidth = Math.max(1, 2*progress);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.quadraticCurveTo(0 - size*0.05, -size*0.25 - progress*size*0.75, 0, -size*1.0);
+    ctx.stroke();
+
+    // leaves: draw several leaves around the top
+    const leafCount = 4 + Math.floor(progress*4);
+    for(let i=0;i<leafCount;i++){
+      const angle = (i/leafCount) * Math.PI*2 + (1-progress)*0.8;
+      drawLeaf(ctx, Math.cos(angle)*size*0.35, -size*0.8 + Math.sin(angle)*size*0.06, size*0.48*progress, plant.strain.color, progress, i);
+    }
+
+    // flower / bud when nearly ready
+    if(progress > 0.85){
+      const budSize = 6 + (progress-0.85)*40;
+      ctx.beginPath();
+      const grad = ctx.createRadialGradient(0, -size*1.0, budSize*0.2, 0, -size*1.0, budSize);
+      grad.addColorStop(0, 'gold');
+      grad.addColorStop(1, plant.strain.color);
+      ctx.fillStyle = grad;
+      ctx.arc(0, -size*1.0, budSize, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    // particles
+    ctx.fillStyle = 'rgba(255,255,200,0.9)';
+    plant.particles.forEach(p => { p.draw(ctx); });
+
+    ctx.restore();
+  }
+
+  function drawLeaf(ctx, lx, ly, sz, color, progress, idx){
+    ctx.save();
+    ctx.translate(lx, ly);
+    ctx.rotate(Math.sin(idx + performance.now()/800)*0.14*(1-progress));
+
+    // leaf shape
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(sz*0.4, -sz*0.2, sz*0.8, -sz*0.6, sz, -sz*0.9);
+    ctx.bezierCurveTo(sz*0.6, -sz*0.6, sz*0.2, -sz*0.2, 0, 0);
+    const g = ctx.createLinearGradient(0, -sz, 0, sz*0.6);
+    g.addColorStop(0, color);
+    g.addColorStop(1, shadeColor(color, -20));
+    ctx.fillStyle = g;
+    ctx.fill();
+
+    // small highlight
+    ctx.globalAlpha = 0.14;
+    ctx.beginPath(); ctx.ellipse(sz*0.2, -sz*0.35, sz*0.25, sz*0.12, -0.6, 0, Math.PI*2); ctx.fill();
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  }
+
+  // utility to darken hex color
+  function shadeColor(hex, percent) {
+    // hex like #RRGGBB
+    const num = parseInt(hex.slice(1),16);
+    const r = Math.max(0, Math.min(255, (num>>16) + Math.round(255*percent/100)));
+    const g = Math.max(0, Math.min(255, ((num>>8)&0x00FF) + Math.round(255*percent/100)));
+    const b = Math.max(0, Math.min(255, (num&0x0000FF) + Math.round(255*percent/100)));
+    return '#' + ( (1<<24) + (r<<16) + (g<<8) + b ).toString(16).slice(1);
+  }
+
+  // -------------------
+  // Game loop
+  // -------------------
+  let last = performance.now();
+  function frame(now){
+    const dt = Math.min(60, now - last);
+    last = now;
+
+    // grow all plants
+    for(let r=0;r<GRID_SIZE;r++){
+      for(let c=0;c<GRID_SIZE;c++){
+        const p = farm[r][c]; if(p) p.grow(dt);
+      }
+    }
+
+    draw();
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  // -------------------
+  // Input & logic
+  // -------------------
+  function playSound(id){
+    const a = document.getElementById(id);
+    if(!a) return;
+    a.currentTime = 0;
+    a.play().catch(()=>{});
+  }
+
+  function plantRandom(){
+    let planted = false;
+    for(let r=0;r<GRID_SIZE;r++){
+      for(let c=0;c<GRID_SIZE;c++){
+        if(!farm[r][c] && Math.random() < 0.28){
+          const strain = strains[Math.floor(Math.random()*strains.length)];
+          farm[r][c] = new Plant(strain);
+          addLog(`🌱 Planted ${strain.name}`);
+          planted = true;
+        }
+      }
+    }
+    if(planted){ playSound('plantSound'); showToast('Seeds planted'); }
+    return planted;
+  }
+
+  function fillAllEmpty(){
+    let any=false;
+    for(let r=0;r<GRID_SIZE;r++){
+      for(let c=0;c<GRID_SIZE;c++){
+        if(!farm[r][c]){ farm[r][c] = new Plant(strains[Math.floor(Math.random()*strains.length)]); any=true; }
+      }
+    }
+    if(any){ playSound('plantSound'); addLog('🔁 Filled all empty cells with seeds'); showToast('Filled grid'); }
+  }
+
+  function harvestReady(){
+    let any=false;
+    for(let r=0;r<GRID_SIZE;r++){
+      for(let c=0;c<GRID_SIZE;c++){
+        const p = farm[r][c];
+        if(p && p.isReady()){
+          const xpGain = p.strain.xp;
+          xp += xpGain;
+          harvested++;
+          addLog(`🌾 Harvested ${p.strain.name} (+${xpGain} XP)`);
+          farm[r][c] = null;
+          any = true;
+        }
+      }
+    }
+    if(any){ playSound('harvestSound'); checkLevelUp(); updateStats(); showToast('Harvested!'); }
+    else { showToast('No plants ready yet', 1000); }
+  }
+
+  function checkLevelUp(){
+    const threshold = xpThresholdForLevel(level);
+    while(xp >= threshold){
+      xp -= threshold;
+      level++;
+      addLog(`🔥 LEVEL UP! You reached level ${level}`);
+      showToast(`LEVEL UP! ${level}`);
+    }
+  }
+
+  // -------------------
+  // Canvas click planting
+  // -------------------
+  canvas.addEventListener('click', (ev)=>{
+    const rect = canvas.getBoundingClientRect();
+    const cssX = ev.clientX - rect.left; const cssY = ev.clientY - rect.top;
+    const cell = CELL_SIZE();
+    const col = Math.floor(cssX / cell); const row = Math.floor(cssY / cell);
+    if(row>=0 && row<GRID_SIZE && col>=0 && col<GRID_SIZE){
+      if(!farm[row][col]){
         const strain = strains[Math.floor(Math.random()*strains.length)];
-        farm[i][j] = new Plant(strain);
-        addStrainLog("🌱 "+strain.name+" gepflanzt");
-        planted=true;
+        farm[row][col] = new Plant(strain);
+        addLog(`🌱 Planted ${strain.name} (manual)`);
+        playSound('plantSound');
+        showToast('Seed planted');
+      } else {
+        // if plant present, try immediate harvest if ready
+        if(farm[row][col].isReady()){
+          const p = farm[row][col]; xp += p.strain.xp; harvested++; addLog(`🌾 Harvested ${p.strain.name} (+${p.strain.xp} XP)`); farm[row][col] = null; playSound('harvestSound'); checkLevelUp(); updateStats(); showToast('Harvested');
+        } else {
+          showToast('Plant not ready yet');
+        }
       }
     }
-  }
-  if(planted) document.getElementById('plantSound').play();
-  drawFarm();
-}
+  });
 
-document.getElementById('harvestBtn').onclick = ()=>{
-  let any=false;
-  for(let i=0;i<GRID_SIZE;i++){
-    for(let j=0;j<GRID_SIZE;j++){
-      if(farm[i][j] && farm[i][j].isReady()){
-        const strain = farm[i][j].strain;
-        farm[i][j] = null;
-        xp+=strain.xp;
-        harvested++;
-        addStrainLog("🌾 "+strain.name+" geerntet (+ "+strain.xp+" XP)");
-        any=true;
-      }
-    }
-  }
-  if(any) {
-    document.getElementById('harvestSound').play();
-    levelUpCheck();
-  }
-  updateStats();
-  drawFarm();
-}
+  // buttons
+  document.getElementById('plantBtn').addEventListener('click', ()=>{ if(plantRandom()) updateStats(); else showToast('No space to plant'); });
+  document.getElementById('harvestBtn').addEventListener('click', ()=>{ harvestReady(); });
+  document.getElementById('fillBtn').addEventListener('click', ()=>{ fillAllEmpty(); updateStats(); });
 
-setInterval(()=>{
-  for(let i=0;i<GRID_SIZE;i++){
-    for(let j=0;j<GRID_SIZE;j++){
-      if(farm[i][j]) farm[i][j].grow();
-    }
-  }
-  drawFarm();
-}, 500);
+  // update stats on interval
+  setInterval(updateStats, 600);
 
-updateStats();
-drawFarm();
-</script>
+  // initial seed placement
+  plantRandom(); updateStats();
+
+  // -------------------
+  // Helpers
+  // -------------------
+  function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+  
+  // expose draw for resize
+  window.drawFarm = draw;
+  
+  // small polyfill for initial drawing
+  function init(){ draw(); }
+  init();
+  </script>
 </body>
-  <a href="seite3.html" class="back-button">Back To Menu</a>
 </html>
