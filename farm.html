@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Farming Simulator</title>
+<title>Mini Farming Simulator Ultra</title>
 <style>
   body { 
     margin:0; 
-    font-family: 'Arial', sans-serif; 
-    background: #121212; 
-    color: #fff; 
+    font-family:'Arial',sans-serif; 
+    background:#121212; 
+    color:#fff; 
     display:flex; 
     flex-direction:column; 
     align-items:center; 
@@ -24,10 +24,10 @@
     border-radius:10px;
   }
   .buttons { margin-bottom:20px; }
-  button {
+  button{
     padding:10px 20px;
     margin:5px;
-    background: linear-gradient(45deg, #0f0, #0a0);
+    background:linear-gradient(45deg,#0f0,#0a0);
     color:#000;
     border:none;
     cursor:pointer;
@@ -36,10 +36,10 @@
     box-shadow:0 0 10px #0f0;
     transition: transform 0.1s, box-shadow 0.1s;
   }
-  button:hover { transform:scale(1.1); box-shadow:0 0 20px #0f0;}
-  .stats { margin-top:10px; }
-  .stat { margin:5px 0; }
-  .back-button {
+  button:hover{ transform:scale(1.1); box-shadow:0 0 20px #0f0;}
+  .stats{ margin-top:10px; }
+  .stat{ margin:5px 0; }
+  .back-button{
     display:inline-block; 
     padding:10px 20px; 
     background:#0f0; 
@@ -50,11 +50,12 @@
     border:none; 
     margin-top:10px;
   }
+  #balti-img{ margin-top:20px; max-width:200px; border:2px solid #0f0; border-radius:10px;}
 </style>
 </head>
 <body>
 
-<h1>Mini Farming Simulator</h1>
+<h1>Mini Farming Simulator Ultra</h1>
 <canvas id="farmCanvas" width="400" height="400"></canvas>
 
 <div class="buttons">
@@ -70,97 +71,110 @@
   <div class="stat">XP: <span id="xp">0</span>/100</div>
 </div>
 
+<img id="balti-img" src="BALTI.JPG" alt="Balti Bild">
+
+<a href="seite3.html" class="back-button">Back To Menu</a>
+
 <script>
+// Canvas Setup
 const canvas = document.getElementById('farmCanvas');
 const ctx = canvas.getContext('2d');
-
 const GRID_SIZE = 5;
 const CELL_SIZE = canvas.width / GRID_SIZE;
 
 let farm = Array(GRID_SIZE).fill().map(()=>Array(GRID_SIZE).fill(null));
-let stats = {planted:0, ready:0, harvested:0, xp:0, level:1};
+let stats={planted:0, ready:0, harvested:0, xp:0, level:1};
 
-class Plant {
-  constructor() { this.growth = 0; }
-  grow() { 
-    if(this.growth<100){
-      this.growth += Math.random()*5; // flüssiges Wachstum
-      if(this.growth>100) this.growth=100;
-    }
-  }
-  isReady() { return this.growth>=100; }
+// Sounds
+const plantSound = new Audio('https://freesound.org/data/previews/82/82921_1022651-lq.mp3');
+const harvestSound = new Audio('https://freesound.org/data/previews/17/17864_1022651-lq.mp3');
+const levelUpSound = new Audio('https://freesound.org/data/previews/331/331912_3248244-lq.mp3');
+
+class Plant{
+  constructor(){ this.growth=0; }
+  grow(){ if(this.growth<100){ this.growth+=Math.random()*5; if(this.growth>100)this.growth=100; }}
+  isReady(){ return this.growth>=100; }
 }
 
-// Zeichnet das Grid und Pflanzen
-function drawFarm() {
+// Draw Farm
+function drawFarm(rain=false){
   ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  let readyCount = 0;
-  let plantedCount = 0;
+  let readyCount=0, plantedCount=0;
 
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
-      ctx.strokeStyle = '#0f0';
-      ctx.lineWidth = 2;
+      ctx.strokeStyle='#0f0';
+      ctx.lineWidth=2;
       ctx.strokeRect(j*CELL_SIZE, i*CELL_SIZE, CELL_SIZE, CELL_SIZE);
-
-      const plant = farm[i][j];
+      
+      const plant=farm[i][j];
       if(plant){
         plantedCount++;
         if(plant.isReady()) readyCount++;
-        const green = Math.floor(plant.growth*2.55);
-        ctx.fillStyle = `rgb(${255-green},${green},0)`;
+        const green=Math.floor(plant.growth*2.55);
+        ctx.fillStyle=`rgb(${255-green},${green},0)`;
         ctx.fillRect(j*CELL_SIZE+5, i*CELL_SIZE+5, CELL_SIZE-10, CELL_SIZE-10);
+        if(rain){
+          ctx.fillStyle='rgba(0,255,255,0.2)';
+          ctx.fillRect(j*CELL_SIZE+5, i*CELL_SIZE+5, CELL_SIZE-10, CELL_SIZE-10);
+        }
       }
     }
   }
 
-  stats.planted = plantedCount;
-  stats.ready = readyCount;
+  stats.planted=plantedCount;
+  stats.ready=readyCount;
 
-  document.getElementById('planted').innerText = stats.planted;
-  document.getElementById('ready').innerText = stats.ready;
-  document.getElementById('harvested').innerText = stats.harvested;
-  document.getElementById('level').innerText = stats.level;
-  document.getElementById('xp').innerText = stats.xp;
+  document.getElementById('planted').innerText=stats.planted;
+  document.getElementById('ready').innerText=stats.ready;
+  document.getElementById('harvested').innerText=stats.harvested;
+  document.getElementById('level').innerText=stats.level;
+  document.getElementById('xp').innerText=stats.xp;
 }
 
+// XP & Level
 function addXP(amount){
-  stats.xp += amount;
+  stats.xp+=amount;
   while(stats.xp>=100){
-    stats.xp -= 100;
+    stats.xp-=100;
     stats.level++;
+    // Level Up Animation
+    ctx.fillStyle='rgba(0,255,0,0.5)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    levelUpSound.play();
   }
 }
 
-document.getElementById('plantBtn').onclick = ()=>{
+// Button Events
+document.getElementById('plantBtn').onclick=()=>{
+  plantSound.play();
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
-      if(!farm[i][j] && Math.random()<0.4){ // 40% Chance
-        farm[i][j] = new Plant();
+      if(!farm[i][j] && Math.random()<0.4){
+        farm[i][j]=new Plant();
       }
     }
   }
   drawFarm();
 }
 
-document.getElementById('harvestBtn').onclick = ()=>{
+document.getElementById('harvestBtn').onclick=()=>{
+  harvestSound.play();
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
       if(farm[i][j] && farm[i][j].isReady()){
-        farm[i][j] = null;
+        farm[i][j]=null;
         stats.harvested++;
-        addXP(20 + Math.floor(Math.random()*10)); // Zufällige XP pro Ernte
+        addXP(20+Math.floor(Math.random()*10));
       }
     }
   }
   drawFarm();
 }
 
-// Pflanzen wachsen lassen + Zufallsevents
+// Growth + Rain Event
 setInterval(()=>{
-  // Regen-Event: 10% Chance, alle Pflanzen wachsen schneller
-  const rain = Math.random()<0.1;
+  const rain=Math.random()<0.1;
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
       if(farm[i][j]){
@@ -169,11 +183,10 @@ setInterval(()=>{
       }
     }
   }
-  drawFarm();
-}, 500);
+  drawFarm(rain);
+},500);
 
 drawFarm();
 </script>
-<a href="seite3.html" class="back-button">Back To Menu</a>
 </body>
 </html>
