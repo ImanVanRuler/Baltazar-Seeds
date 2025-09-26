@@ -3,231 +3,202 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Farming Simulator Ultra+Particles</title>
+<title>Mini Farming Game Deluxe</title>
 <style>
   body { 
     margin:0; 
-    font-family:'Arial',sans-serif; 
-    background:#121212; 
+    font-family:sans-serif; 
+    background:#1b1b1b; 
     color:#fff; 
     display:flex; 
     flex-direction:column; 
     align-items:center; 
     justify-content:flex-start; 
-    padding:20px;
+    min-height:100vh;
   }
-  h1 { margin-bottom:10px; color:#0f0; text-shadow:0 0 10px #0f0;}
+  h1 {
+    margin: 15px 0;
+    font-size:2rem;
+    color:#8fff8f;
+    text-shadow:0 0 8px #0f0;
+  }
   canvas { 
     border:2px solid #0f0; 
-    background:#1a1a1a; 
-    margin-bottom:20px; 
-    border-radius:10px;
+    background:#2d2d2d; 
+    margin-bottom:15px; 
+    box-shadow:0 0 15px #0f0;
   }
-  .buttons { margin-bottom:20px; }
-  button{
-    padding:10px 20px;
+  button {
+    padding:10px 25px;
     margin:5px;
-    background:linear-gradient(45deg,#0f0,#0a0);
+    background:linear-gradient(#0f0,#0b0);
     color:#000;
     border:none;
     cursor:pointer;
     font-weight:bold;
-    border-radius:8px;
+    border-radius:10px;
+    font-size:1rem;
     box-shadow:0 0 10px #0f0;
-    transition: transform 0.1s, box-shadow 0.1s;
+    transition: transform 0.1s;
   }
-  button:hover{ transform:scale(1.1); box-shadow:0 0 20px #0f0;}
-  .stats{ margin-top:10px; }
-  .stat{ margin:5px 0; }
-  .back-button{
-    display:inline-block; 
-    padding:10px 20px; 
-    background:#0f0; 
-    color:#000; 
-    text-decoration:none; 
-    border-radius:8px; 
-    font-weight:bold; 
-    border:none; 
-    margin-top:10px;
+  button:hover {
+    transform:scale(1.05);
   }
-  #balti-img{ margin-top:20px; max-width:200px; border:2px solid #0f0; border-radius:10px;}
+  #stats {
+    margin-top:15px;
+    background:#111;
+    padding:10px 20px;
+    border-radius:10px;
+    box-shadow:0 0 10px #0f0;
+    text-align:left;
+  }
+  #side {
+    display:flex;
+    margin-top:20px;
+    gap:20px;
+    align-items:flex-start;
+  }
+  #baltiCard {
+    background:#222;
+    border:2px solid #0f0;
+    padding:10px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 0 15px #0f0;
+  }
+  #baltiCard img {
+    width:120px;
+    border-radius:10px;
+    display:block;
+    margin:0 auto 10px auto;
+  }
 </style>
 </head>
 <body>
 
-<h1>Mini Farming Simulator Ultra+Particles</h1>
+<h1>🌱 Mini Farming Game Deluxe</h1>
 <canvas id="farmCanvas" width="400" height="400"></canvas>
-
-<div class="buttons">
+<div>
   <button id="plantBtn">🌱 Pflanzen</button>
-  <button id="harvestBtn">🌿 Ernten</button>
+  <button id="harvestBtn">🌾 Ernten</button>
 </div>
 
-<div class="stats">
-  <div class="stat">Pflanzen gepflanzt: <span id="planted">0</span></div>
-  <div class="stat">Bereit zum Ernten: <span id="ready">0</span></div>
-  <div class="stat">Ernte gesamt: <span id="harvested">0</span></div>
-  <div class="stat">Level: <span id="level">1</span></div>
-  <div class="stat">XP: <span id="xp">0</span>/100</div>
+<div id="side">
+  <div id="stats">
+    <p><b>Level:</b> <span id="level">1</span></p>
+    <p><b>XP:</b> <span id="xp">0</span></p>
+    <p><b>Geerntet:</b> <span id="harvested">0</span></p>
+  </div>
+  <div id="baltiCard">
+    <img src="BALTI.JPG" alt="Farmer Balti">
+    <p>👨‍🌾 Farmer Balti</p>
+  </div>
 </div>
 
-<img id="balti-img" src="BALTI.JPG" alt="Balti Bild">
-
-<a href="seite3.html" class="back-button">Back To Menu</a>
+<audio id="plantSound" src="plant.mp3"></audio>
+<audio id="harvestSound" src="harvest.mp3"></audio>
 
 <script>
-// Canvas Setup
 const canvas = document.getElementById('farmCanvas');
 const ctx = canvas.getContext('2d');
+
 const GRID_SIZE = 5;
 const CELL_SIZE = canvas.width / GRID_SIZE;
 
 let farm = Array(GRID_SIZE).fill().map(()=>Array(GRID_SIZE).fill(null));
-let stats={planted:0, ready:0, harvested:0, xp:0, level:1};
 
-// Partikel System
-let particles = [];
-class Particle{
-  constructor(x,y){
-    this.x = x + Math.random()*CELL_SIZE*0.5;
-    this.y = y + Math.random()*CELL_SIZE*0.5;
-    this.size = 2 + Math.random()*3;
-    this.speedY = -1 - Math.random()*1;
-    this.alpha = 1;
+class Plant {
+  constructor() {
+    this.growth = 0; // 0–100
   }
-  update(){
-    this.y += this.speedY;
-    this.alpha -= 0.02;
-  }
-  draw(){
-    ctx.fillStyle = `rgba(0,255,0,${this.alpha})`;
-    ctx.beginPath();
-    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
-    ctx.fill();
+  grow() { if(this.growth<100)this.growth+=2; }
+  isReady() { return this.growth>=100; }
+}
+
+let xp=0, level=1, harvested=0;
+
+function updateStats(){
+  document.getElementById('xp').innerText = xp;
+  document.getElementById('level').innerText = level;
+  document.getElementById('harvested').innerText = harvested;
+}
+
+function levelUpCheck(){
+  if(xp >= level*20){
+    xp=0;
+    level++;
+    alert("🎉 Level Up! Du bist jetzt Level "+level+"!");
   }
 }
 
-// Sounds
-const plantSound = new Audio('https://freesound.org/data/previews/82/82921_1022651-lq.mp3');
-const harvestSound = new Audio('https://freesound.org/data/previews/17/17864_1022651-lq.mp3');
-const levelUpSound = new Audio('https://freesound.org/data/previews/331/331912_3248244-lq.mp3');
-
-class Plant{
-  constructor(){ this.growth=0; }
-  grow(){ 
-    if(this.growth<100){ 
-      const old=this.growth;
-      this.growth+=Math.random()*5; 
-      if(this.growth>100)this.growth=100;
-      if(this.growth>old){
-        // Erzeuge Partikel
-        particles.push(new Particle(this.col*CELL_SIZE,this.row*CELL_SIZE));
-      }
-    }
-  }
-  isReady(){ return this.growth>=100; }
-}
-
-// Draw Farm
-function drawFarm(rain=false){
+function drawFarm() {
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  let readyCount=0, plantedCount=0;
 
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
-      ctx.strokeStyle='#0f0';
-      ctx.lineWidth=2;
+      ctx.strokeStyle = '#0f0';
       ctx.strokeRect(j*CELL_SIZE, i*CELL_SIZE, CELL_SIZE, CELL_SIZE);
-      
-      const plant=farm[i][j];
+
+      const plant = farm[i][j];
       if(plant){
-        plantedCount++;
-        if(plant.isReady()) readyCount++;
-        const green=Math.floor(plant.growth*2.55);
-        ctx.fillStyle=`rgb(${255-green},${green},0)`;
-        ctx.fillRect(j*CELL_SIZE+5, i*CELL_SIZE+5, CELL_SIZE-10, CELL_SIZE-10);
-        if(rain){
-          ctx.fillStyle='rgba(0,255,255,0.2)';
-          ctx.fillRect(j*CELL_SIZE+5, i*CELL_SIZE+5, CELL_SIZE-10, CELL_SIZE-10);
+        if(plant.growth<100){
+          const green = Math.min(255, Math.floor(plant.growth * 2.55));
+          ctx.fillStyle = `rgb(0,${green},0)`;
+        } else {
+          ctx.fillStyle = "gold"; // reif
         }
+        ctx.fillRect(j*CELL_SIZE+5, i*CELL_SIZE+5, CELL_SIZE-10, CELL_SIZE-10);
       }
     }
   }
-
-  // Draw Particles
-  for(let i=particles.length-1;i>=0;i--){
-    particles[i].update();
-    particles[i].draw();
-    if(particles[i].alpha<=0) particles.splice(i,1);
-  }
-
-  stats.planted=plantedCount;
-  stats.ready=readyCount;
-
-  document.getElementById('planted').innerText=stats.planted;
-  document.getElementById('ready').innerText=stats.ready;
-  document.getElementById('harvested').innerText=stats.harvested;
-  document.getElementById('level').innerText=stats.level;
-  document.getElementById('xp').innerText=stats.xp;
 }
 
-// XP & Level
-function addXP(amount){
-  stats.xp+=amount;
-  while(stats.xp>=100){
-    stats.xp-=100;
-    stats.level++;
-    // Level Up Animation
-    ctx.fillStyle='rgba(0,255,0,0.5)';
-    ctx.fillRect(0,0,canvas.width,canvas.height);
-    levelUpSound.play();
-  }
-}
-
-// Button Events
-document.getElementById('plantBtn').onclick=()=>{
-  plantSound.play();
+document.getElementById('plantBtn').onclick = ()=>{
+  let planted=false;
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
-      if(!farm[i][j] && Math.random()<0.4){
-        const p=new Plant();
-        p.row=i; p.col=j;
-        farm[i][j]=p;
+      if(!farm[i][j] && Math.random()<0.3){
+        farm[i][j] = new Plant();
+        planted=true;
       }
     }
   }
+  if(planted) document.getElementById('plantSound').play();
   drawFarm();
 }
 
-document.getElementById('harvestBtn').onclick=()=>{
-  harvestSound.play();
+document.getElementById('harvestBtn').onclick = ()=>{
+  let any=false;
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
       if(farm[i][j] && farm[i][j].isReady()){
-        farm[i][j]=null;
-        stats.harvested++;
-        addXP(20+Math.floor(Math.random()*10));
+        farm[i][j] = null;
+        xp+=5;
+        harvested++;
+        any=true;
       }
     }
   }
+  if(any) {
+    document.getElementById('harvestSound').play();
+    levelUpCheck();
+  }
+  updateStats();
   drawFarm();
 }
 
-// Growth + Rain Event
 setInterval(()=>{
-  const rain=Math.random()<0.1;
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
-      if(farm[i][j]){
-        farm[i][j].grow();
-        if(rain) farm[i][j].grow();
-      }
+      if(farm[i][j]) farm[i][j].grow();
     }
   }
-  drawFarm(rain);
-},500);
+  drawFarm();
+}, 500);
 
+updateStats();
 drawFarm();
 </script>
+
 </body>
 </html>
