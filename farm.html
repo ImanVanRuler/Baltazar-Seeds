@@ -7,8 +7,8 @@
 <style>
   body { 
     margin:0; 
-    font-family:sans-serif; 
-    background:#1b1b1b; 
+    font-family: 'Trebuchet MS', sans-serif; 
+    background: radial-gradient(circle at top, #222 0%, #111 100%); 
     color:#fff; 
     display:flex; 
     flex-direction:column; 
@@ -17,60 +17,90 @@
     min-height:100vh;
   }
   h1 {
-    margin: 15px 0;
-    font-size:2rem;
+    margin: 20px 0;
+    font-size:2.2rem;
     color:#8fff8f;
-    text-shadow:0 0 8px #0f0;
+    text-shadow:0 0 12px #00ff7f, 0 0 25px #00ff7f;
   }
   canvas { 
-    border:2px solid #0f0; 
+    border:2px solid #00ff7f; 
     background:#2d2d2d; 
-    margin-bottom:15px; 
-    box-shadow:0 0 15px #0f0;
+    margin-bottom:20px; 
+    box-shadow:0 0 20px #00ff7f, inset 0 0 15px #003300;
+    border-radius:12px;
   }
   button {
-    padding:10px 25px;
-    margin:5px;
-    background:linear-gradient(#0f0,#0b0);
+    padding:12px 28px;
+    margin:8px;
+    background:linear-gradient(#00ff7f,#00994c);
     color:#000;
     border:none;
     cursor:pointer;
     font-weight:bold;
-    border-radius:10px;
+    border-radius:12px;
     font-size:1rem;
-    box-shadow:0 0 10px #0f0;
-    transition: transform 0.1s;
+    box-shadow:0 0 12px #00ff7f;
+    transition: transform 0.15s, box-shadow 0.2s;
   }
   button:hover {
-    transform:scale(1.05);
+    transform:scale(1.07);
+    box-shadow:0 0 18px #00ffaa;
   }
   #stats {
-    margin-top:15px;
+    flex:1;
     background:#111;
-    padding:10px 20px;
-    border-radius:10px;
-    box-shadow:0 0 10px #0f0;
+    padding:15px 25px;
+    border-radius:12px;
+    box-shadow:0 0 15px #00ff7f;
     text-align:left;
+    border:1px solid #00ff7f;
+    min-width:150px;
   }
   #side {
     display:flex;
-    margin-top:20px;
-    gap:20px;
-    align-items:flex-start;
+    margin-top:25px;
+    gap:25px;
+    align-items:stretch;
+    flex-wrap:wrap;
+    justify-content:center;
   }
+  /* Balti-Karte */
   #baltiCard {
-    background:#222;
-    border:2px solid #0f0;
-    padding:10px;
-    border-radius:15px;
+    position:relative;
+    background:linear-gradient(145deg,#1a1a1a,#292929);
+    border:2px solid #00ff7f;
+    padding:15px;
+    border-radius:20px;
     text-align:center;
-    box-shadow:0 0 15px #0f0;
+    box-shadow:0 0 20px #00ff7f, inset 0 0 10px #003300;
+    width:180px;
+  }
+  #baltiCard::before {
+    content:"Farmer Karte";
+    position:absolute;
+    top:-14px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#00ff7f;
+    color:#000;
+    font-weight:bold;
+    font-size:0.8rem;
+    padding:2px 10px;
+    border-radius:8px;
+    box-shadow:0 0 10px #00ff7f;
   }
   #baltiCard img {
-    width:120px;
-    border-radius:10px;
+    width:100%;
+    border-radius:15px;
     display:block;
-    margin:0 auto 10px auto;
+    margin:0 auto 12px auto;
+    box-shadow:0 0 12px #00ff7f;
+  }
+  #baltiCard p {
+    margin:0;
+    font-weight:bold;
+    color:#8fff8f;
+    text-shadow:0 0 8px #00ff7f;
   }
 </style>
 </head>
@@ -136,7 +166,7 @@ function drawFarm() {
 
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
-      ctx.strokeStyle = '#0f0';
+      ctx.strokeStyle = '#00ff7f';
       ctx.strokeRect(j*CELL_SIZE, i*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 
       const plant = farm[i][j];
