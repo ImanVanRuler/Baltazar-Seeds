@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🌿 Mini Farming Game Deluxe+ with Shop</title>
+<title>Mini Farming Game Deluxe</title>
 <style>
 :root{
   --accent:#00ff7f;
@@ -13,17 +13,20 @@
   --muted:#bfc9bd;
   --glass: rgba(255,255,255,0.03);
   --radius:14px;
-  --coin:#ffd700;
 }
 *{box-sizing:border-box}
+html,body{height:100%;}
 body{
   margin:0;
-  font-family: 'Trebuchet MS', system-ui;
-  background: url('BALTI.JPG') center/cover no-repeat, radial-gradient(circle at 20% 10%, #16201a 0%, #080808 70%);
+  font-family: 'Trebuchet MS', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: url('BALTI.JPG') center/cover no-repeat, radial-gradient(circle at 20% 10%, #16201a 0%, #080808 60%);
   color:#e9fff0;
   display:flex;
+  align-items:flex-start;
   justify-content:center;
   padding:28px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 .container{
   width:980px;
@@ -31,226 +34,215 @@ body{
   display:grid;
   grid-template-columns: 1fr 320px;
   gap:22px;
+  align-items:start;
 }
-header{text-align:center; grid-column:1/-1;}
-h1{margin:0; font-size:2rem; color:var(--accent); text-shadow:0 0 12px rgba(0,255,127,.3);}
+header{grid-column:1/-1; text-align:center}
+h1{
+  margin:0 0 10px 0;
+  font-size:1.9rem;
+  color:var(--accent);
+  text-shadow:0 0 12px rgba(0,255,127,0.12);
+}
 .sub{color:var(--muted); margin-bottom:12px}
 .panel{
   background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
   padding:14px;
   border-radius:var(--radius);
   border:1px solid rgba(0,255,127,0.08);
-  box-shadow:0 6px 30px rgba(0,0,0,.6), inset 0 0 30px rgba(0,255,127,0.02);
+  box-shadow:0 6px 30px rgba(0,0,0,0.6), inset 0 0 30px rgba(0,255,127,0.02);
 }
-canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient(180deg,#1b1b1b,#0d0d0d);}
-.controls{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
-.btn{
-  cursor:pointer;
-  border:none;
-  padding:10px 16px;
-  border-radius:12px;
-  font-weight:700;
-  color:#002;
-  background:linear-gradient(145deg,#00ff7f,#00995a);
-  box-shadow:0 6px 20px rgba(0,255,127,0.2);
-  transition:transform .15s, box-shadow .2s;
-}
-.btn:hover{box-shadow:0 8px 30px rgba(0,255,127,0.3);}
+#canvasWrap{display:flex;flex-direction:column;gap:10px;align-items:center}
+canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient(180deg,#1b1b1b,#0d0d0d); box-shadow:0 0 30px rgba(0,255,127,0.06); display:block}
+.controls{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.btn{cursor:pointer; border:none; padding:10px 16px; border-radius:12px; background:linear-gradient(#00ff7f,#008a4a); color:#002; font-weight:700; box-shadow:0 6px 20px rgba(0,255,127,0.08); transition:transform .12s}
 .btn:active{transform:translateY(2px)}
-#infoRow{display:flex; gap:10px; margin-top:10px}
-.statBox{flex:1; padding:10px; background:var(--card); border-radius:10px; text-align:center}
-.statTitle{font-size:0.8rem; color:var(--muted)}
-.statValue{font-weight:700; font-size:1.1rem}
-.xpBar{height:12px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden}
-.xpFill{height:100%; width:0%; background:linear-gradient(90deg,var(--accent), #8affb8); transition:width .3s}
-#strainLog{max-height:180px; overflow:auto; font-size:0.9rem; color:var(--muted); background:var(--glass); border-radius:10px; padding:8px}
-.toast, .achievement{position:fixed; left:50%; transform:translateX(-50%);
-  background:#111; color:#fff; padding:10px 16px;
-  border-radius:999px; border:1px solid rgba(0,255,127,0.08);
-  box-shadow:0 8px 30px rgba(0,0,0,.6);
-  display:none; z-index:9999;}
-.toast{bottom:28px;}
-.achievement{top:40px; background:#222; border:1px solid var(--coin);}
-.coinIcon{color:var(--coin); font-weight:bold; animation:spin 2s linear infinite;}
-@keyframes spin{from{transform:rotate(0);}to{transform:rotate(360deg);}}
-.shopItem{margin-top:10px; padding:10px; background:var(--card); border-radius:10px; display:flex; justify-content:space-between; align-items:center;}
-.shopItem button{padding:6px 10px; font-size:0.9rem;}
-@media(max-width:900px){.container{grid-template-columns:1fr;} canvas{width:100%; height:60vh}}
+#infoRow{display:flex; gap:10px; width:100%; margin-top:6px; align-items:center}
+.statBox{flex:1; padding:10px; background:var(--card); border-radius:10px; text-align:left}
+.statTitle{font-size:0.85rem; color:var(--muted)}
+.statValue{font-weight:700; font-size:1.05rem}
+#side{display:flex; flex-direction:column; gap:14px}
+#stats{min-height:160px}
+#strainLog{max-height:220px; overflow:auto; font-size:0.92rem; color:var(--muted); padding:8px; background:var(--glass); border-radius:10px}
+#breederCard{display:flex; flex-direction:column; align-items:center; gap:10px; padding:12px}
+#breederCard img{width:100%; border-radius:10px; display:block}
+#breederCard p{margin:0; font-weight:700; color:var(--muted)}
+.xpBar{height:12px; background:rgba(255,255,255,0.04); border-radius:999px; overflow:hidden}
+.xpFill{height:100%; width:0%; background:linear-gradient(90deg,var(--accent), #8affb8); transition:width 300ms ease}
+.toast{position:fixed; left:50%; transform:translateX(-50%); bottom:28px; background:#09110a; padding:10px 16px; border-radius:999px; border:1px solid rgba(0,255,127,0.08); box-shadow:0 8px 30px rgba(0,0,0,0.6); display:none}
+.backLink{display:inline-block; margin-top:12px; color:var(--muted); text-decoration:none}
+@media (max-width:900px){
+  .container{grid-template-columns:1fr;}
+  canvas{width:100%; height:60vh}
+}
 </style>
 </head>
 <body>
 <div class="container">
 <header>
-  <h1>🌱 Mini Farming Game Deluxe+ Shop</h1>
-  <div class="sub">👉 Plant. Grow. Harvest. Spend coins wisely!</div>
+  <h1>🌿 Mini Farming Game Deluxe</h1>
+  <div class="sub">Plant seeds, watch them grow with smooth animations and harvest for XP!</div>
 </header>
 
 <main class="panel" id="canvasWrap">
-  <canvas id="farmCanvas" width="560" height="560"></canvas>
+  <canvas id="farmCanvas" width="560" height="560" aria-label="Farm canvas"></canvas>
   <div class="controls">
-    <button class="btn" id="plantBtn">🌱 Plant seeds</button>
-    <button class="btn" id="harvestBtn">🌾 Harvest</button>
-    <button class="btn" id="fillBtn">🔁 Fill all</button>
+    <button class="btn" id="plantBtn">🌱 Plant seeds (random)</button>
+    <button class="btn" id="harvestBtn">🌾 Harvest ready plants</button>
+    <button class="btn" id="fillBtn">🔁 Fill empty (fast)</button>
+    <div style="flex:1"></div>
+    <a class="backLink" href="seite3.html">◀ Back to Menu</a>
   </div>
-
   <div id="infoRow">
-    <div class="statBox"><div class="statTitle">Level</div><div class="statValue" id="level">1</div></div>
-    <div class="statBox"><div class="statTitle">XP</div><div class="statValue" id="xp">0</div><div class="xpBar"><div id="xpFill" class="xpFill"></div></div></div>
-    <div class="statBox"><div class="statTitle">Harvested</div><div class="statValue" id="harvested">0</div></div>
-    <div class="statBox"><div class="statTitle">Coins</div><div class="statValue"><span class="coinIcon">💰</span> <span id="coins">0</span></div></div>
+    <div class="statBox">
+      <div class="statTitle">Level</div>
+      <div class="statValue" id="level">1</div>
+    </div>
+    <div class="statBox">
+      <div class="statTitle">XP</div>
+      <div class="statValue" id="xp">0</div>
+      <div class="xpBar" style="margin-top:8px"><div id="xpFill" class="xpFill"></div></div>
+    </div>
+    <div class="statBox">
+      <div class="statTitle">Harvested</div>
+      <div class="statValue" id="harvested">0</div>
+    </div>
   </div>
 </main>
 
-<aside class="panel">
-  <strong>📝 Strain Log</strong>
-  <div id="strainLog"></div>
+<aside class="panel" id="side">
+  <div id="stats">
+    <strong>📝 Strain Log</strong>
+    <div id="strainLog"></div>
+  </div>
 
-  <strong style="margin-top:10px; display:block;">🛒 Shop</strong>
-  <div class="shopItem">
-    <span>Fertilizer (+50% growth speed)</span>
-    <button onclick="buyItem('fertilizer',10)">💰 10 Coins</button>
+  <div id="breederCard" class="panel">
+    <img src="BALTI.JPG" alt="Breeder image" />
+    <p>👨‍🌾 Power to the Grower</p>
+  </div>
+
+  <div class="panel">
+    <strong>How to play</strong>
+    <ul style="padding-left:18px; margin:8px 0 0 0; color:var(--muted)">
+      <li>Click on a cell to plant a seed there.</li>
+      <li>Use "Plant seeds" to randomly plant seeds across empty cells.</li>
+      <li>Plants grow over time. Harvest when golden.</li>
+    </ul>
   </div>
 </aside>
 </div>
 
 <div class="toast" id="toast"></div>
-<div class="achievement" id="achievement"></div>
+
+<audio id="plantSound" src="plant.mp3" preload="auto"></audio>
+<audio id="harvestSound" src="harvest.mp3" preload="auto"></audio>
 
 <script>
-// Config
-const GRID_SIZE=5;
-const strains=[
-  {name:"Sticky Buns",color:"#8EE28E",growRate:6,xp:12},
-  {name:"Pink Berry Pop",color:"#E6F39B",growRate:8,xp:9},
-  {name:"Boom Boom Berry",color:"#6FD08A",growRate:4.5,xp:15},
-  {name:"White Rhino",color:"#DFF7D6",growRate:7,xp:10}
+// -------------------
+// Config & State
+// -------------------
+const GRID_SIZE = 5;
+const strains = [
+  {name: "Sticky Buns", color: "#8EE28E", growRate: 6, xp: 12},
+  {name: "Pink Berry Pop", color: "#E6F39B", growRate: 8, xp: 9},
+  {name: "Boom Boom Berry", color: "#6FD08A", growRate: 4.5, xp: 15},
+  {name: "White Rhino", color: "#DFF7D6", growRate: 7, xp: 10}
 ];
+const canvas = document.getElementById('farmCanvas');
+const ctx = canvas.getContext('2d');
+const farm = Array.from({length:GRID_SIZE}, ()=> Array.from({length:GRID_SIZE}, ()=> null));
+let xp=0, level=1, harvested=0;
 
-const canvas=document.getElementById("farmCanvas");
-const ctx=canvas.getContext("2d");
-const CELL_SIZE=()=>canvas.clientWidth/GRID_SIZE;
-
-let farm=Array.from({length:GRID_SIZE},()=>Array.from({length:GRID_SIZE},()=>null));
-let xp=0,level=1,harvested=0,coins=0;
-let fertilizerActive=false;
-
-const logEl=document.getElementById("strainLog");
-const xpEl=document.getElementById("xp");
-const levelEl=document.getElementById("level");
-const harvestedEl=document.getElementById("harvested");
-const coinsEl=document.getElementById("coins");
-const xpFill=document.getElementById("xpFill");
-
-class Plant{
-  constructor(strain){this.strain=strain;this.growth=0;}
+// -------------------
+// Classes
+// -------------------
+class Plant {
+  constructor(strain){
+    this.strain = strain;
+    this.growth = 0;
+    this.particles = [];
+    this.sway = Math.random()*Math.PI*2;
+  }
   grow(dt){
-    let speed=this.strain.growRate;
-    if(fertilizerActive) speed*=1.5;
-    this.growth=Math.min(100,this.growth+speed*(dt/1000));
+    if(this.growth <100){ this.growth = Math.min(100, this.growth + this.strain.growRate*(dt/1000)); }
+    else if(Math.random()<0.06) this.particles.push(new Spark());
+    this.particles.forEach(p=>p.update(dt));
+    this.particles=this.particles.filter(p=>!p.dead);
   }
-  isReady(){return this.growth>=100;}
+  isReady(){ return this.growth>=100; }
+}
+class Spark {
+  constructor(){ this.x=0; this.y=0; this.vx=(Math.random()-0.5)*0.6; this.vy=-Math.random()*0.8-0.2; this.life=700+Math.random()*700; this.age=0; this.size=1+Math.random()*2; this.dead=false; }
+  init(x,y){ this.x=x; this.y=y; }
+  update(dt){ this.age+=dt; if(this.age>this.life) this.dead=true; this.vy+=0.001*dt; this.x+=this.vx*dt*0.06; this.y+=this.vy*dt*0.06; }
+  draw(ctx){ ctx.globalAlpha = 1-(this.age/this.life); ctx.fillStyle='rgba(255,255,200,0.9)'; ctx.fillRect(this.x,this.y,this.size,this.size); ctx.globalAlpha=1; }
 }
 
+// -------------------
+// Helpers
+// -------------------
+function shadeColor(hex,percent){const num=parseInt(hex.slice(1),16);const r=Math.max(0,Math.min(255,(num>>16)+Math.round(255*percent/100)));const g=Math.max(0,Math.min(255,((num>>8)&0x00FF)+Math.round(255*percent/100)));const b=Math.max(0,Math.min(255,(num&0x0000FF)+Math.round(255*percent/100)));return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);}
+function addLog(text){const time=new Date().toLocaleTimeString(); document.getElementById('strainLog').innerHTML=`<div style="margin-bottom:6px"><small style='color:var(--muted)'>[${time}]</small> ${text}</div>`+document.getElementById('strainLog').innerHTML;}
+function updateStats(){ document.getElementById('xp').textContent=xp; document.getElementById('level').textContent=level; document.getElementById('harvested').textContent=harvested; const pct=Math.min(100, Math.round((xp/xpThresholdForLevel(level))*100)); document.getElementById('xpFill').style.width=pct+'%'; }
+function xpThresholdForLevel(l){ return 40+l*20; }
+function showToast(msg,ms=1500){ const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; clearTimeout(t._timer); t._timer=setTimeout(()=>{t.style.display='none'},ms);}
+function playSound(id){const a=document.getElementById(id);if(a){a.currentTime=0;a.play().catch(()=>{});}}
+
+// -------------------
+// Canvas Draw
+// -------------------
 function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  const cell=CELL_SIZE();
-  for(let r=0;r<GRID_SIZE;r++){
-    for(let c=0;c<GRID_SIZE;c++){
-      const x=c*cell,y=r*cell;
-      ctx.fillStyle="#111";ctx.fillRect(x+4,y+4,cell-8,cell-8);
-      const p=farm[r][c];
-      if(p){
-        ctx.fillStyle=p.isReady()?"gold":p.strain.color;
-        ctx.beginPath();
-        ctx.arc(x+cell/2,y+cell/2,cell/4,0,Math.PI*2);
-        ctx.fill();
-      }
-    }
-  }
+  const w=canvas.clientWidth,h=canvas.clientHeight;ctx.clearRect(0,0,w,h);
+  const cell=w/GRID_SIZE;
+  for(let r=0;r<GRID_SIZE;r++){for(let c=0;c<GRID_SIZE;c++){
+    const x=c*cell,y=r*cell;
+    ctx.fillStyle='rgba(10,10,10,0.6)'; roundRect(ctx,x+6,y+6,cell-12,cell-12,8); ctx.fill();
+    ctx.strokeStyle='rgba(0,255,127,0.06)'; ctx.lineWidth=1; roundRect(ctx,x+6,y+6,cell-12,cell-12,8); ctx.stroke();
+    const plant=farm[r][c]; if(plant) drawPlant(ctx,plant,x+cell/2,y+cell/2+8,cell*0.38);
+  }}
 }
-
-function updateStats(){
-  xpEl.textContent=xp; levelEl.textContent=level;
-  harvestedEl.textContent=harvested; coinsEl.textContent=coins;
-  const pct=Math.min(100,(xp/xpThresholdForLevel(level))*100);
-  xpFill.style.width=pct+"%";
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function drawPlant(ctx,plant,cx,cy,size){
+  const progress=plant.growth/100;
+  const t=performance.now()/1000;
+  const sway=Math.sin(t+plant.sway)*3*(1-progress);
+  ctx.save(); ctx.translate(cx,cy+size*0.25); ctx.rotate(sway*0.02);
+  ctx.strokeStyle='#2c6a3a'; ctx.lineWidth=Math.max(1,2*progress); ctx.beginPath();
+  ctx.moveTo(0,0); ctx.quadraticCurveTo(0-size*0.05,-size*0.25-progress*size*0.75,0,-size*1.0); ctx.stroke();
+  const leafCount=4+Math.floor(progress*4);
+  for(let i=0;i<leafCount;i++){ const angle=(i/leafCount)*Math.PI*2+(1-progress)*0.8; drawLeaf(ctx,Math.cos(angle)*size*0.35,-size*0.8+Math.sin(angle)*size*0.06,size*0.48*progress,plant.strain.color,progress,i);}
+  if(progress>0.85){ const budSize=6+(progress-0.85)*40; const grad=ctx.createRadialGradient(0,-size*1.0,budSize*0.2,0,-size*1.0,budSize); grad.addColorStop(0,'gold'); grad.addColorStop(1,plant.strain.color); ctx.fillStyle=grad; ctx.beginPath(); ctx.arc(0,-size*1.0,budSize,0,Math.PI*2); ctx.fill();}
+  plant.particles.forEach(p=>p.draw(ctx)); ctx.restore();
 }
-function xpThresholdForLevel(l){return 40+l*20;}
+function drawLeaf(ctx,lx,ly,sz,color,progress,idx){ctx.save();ctx.translate(lx,ly);ctx.rotate(Math.sin(idx+performance.now()/800)*0.14*(1-progress));ctx.beginPath();ctx.moveTo(0,0);ctx.bezierCurveTo(sz*0.4,-sz*0.2,sz*0.8,-sz*0.6,sz,-sz*0.9);ctx.bezierCurveTo(sz*0.6,-sz*0.6,sz*0.2,-sz*0.2,0,0);const g=ctx.createLinearGradient(0,-sz,0,sz*0.6);g.addColorStop(0,color);g.addColorStop(1,shadeColor(color,-20));ctx.fillStyle=g;ctx.fill();ctx.globalAlpha=0.14;ctx.beginPath();ctx.ellipse(sz*0.2,-sz*0.35,sz*0.25,sz*0.12,-0.6,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;ctx.restore();}
 
-function addLog(msg){const t=new Date().toLocaleTimeString(); logEl.innerHTML=`<div>[${t}] ${msg}</div>`+logEl.innerHTML;}
-function showToast(msg){const t=document.getElementById("toast"); t.textContent=msg; t.style.display="block"; setTimeout(()=>t.style.display="none",1500);}
-function showAchievement(msg){const a=document.getElementById("achievement"); a.textContent="🏆 "+msg; a.style.display="block"; setTimeout(()=>a.style.display="none",2000);}
-
-function checkLevelUp(){
-  const threshold=xpThresholdForLevel(level);
-  while(xp>=threshold){
-    xp-=threshold;
-    level++;
-    coins+=10;
-    addLog(`LEVEL UP ${level}! +10 💰`);
-    showAchievement(`Level ${level}! +10 Coins`);
-  }
-}
-
-function plantRandom(){
-  for(let r=0;r<GRID_SIZE;r++)
-    for(let c=0;c<GRID_SIZE;c++)
-      if(!farm[r][c]&&Math.random()<0.25){
-        farm[r][c]=new Plant(strains[Math.floor(Math.random()*strains.length)]);
-        addLog("🌱 Seed planted");
-      }
-  draw();updateStats();
-}
-
-function harvest(){
-  let any=false;
-  for(let r=0;r<GRID_SIZE;r++)
-    for(let c=0;c<GRID_SIZE;c++){
-      const p=farm[r][c];
-      if(p&&p.isReady()){
-        xp+=p.strain.xp; coins+=5; harvested++;
-        addLog(`🌾 Harvested ${p.strain.name} +${p.strain.xp} XP +5💰`);
-        farm[r][c]=null;
-        any=true;
-      }
-    }
-  if(any){checkLevelUp();showToast("Harvested!");}else showToast("Nothing ready");
-  draw();updateStats();
-}
-
-// Shop system
-function buyItem(item, cost){
-  if(coins<cost){showToast("Not enough coins!"); return;}
-  coins-=cost;
-  if(item==="fertilizer"){
-    fertilizerActive=true;
-    addLog("💚 Fertilizer applied! Growth boosted 50% for next harvest.");
-    showAchievement("Fertilizer Active!");
-    setTimeout(()=>{fertilizerActive=false; addLog("Fertilizer effect worn off.");},30000); // lasts 30s
-  }
-  updateStats();
-}
-
-// Loop
+// -------------------
+// Game Loop
+// -------------------
 let last=performance.now();
-function loop(now){
-  const dt=now-last;last=now;
-  for(let r=0;r<GRID_SIZE;r++)for(let c=0;c<GRID_SIZE;c++)if(farm[r][c])farm[r][c].grow(dt);
-  draw();requestAnimationFrame(loop);
+function frame(now){
+  const dt=Math.min(60,now-last); last=now;
+  for(let r=0;r<GRID_SIZE;r++){for(let c=0;c<GRID_SIZE;c++){const p=farm[r][c]; if(p)p.grow(dt);}}
+  draw(); requestAnimationFrame(frame);
 }
-requestAnimationFrame(loop);
+requestAnimationFrame(frame);
 
-// Buttons
-document.getElementById("plantBtn").onclick=plantRandom;
-document.getElementById("harvestBtn").onclick=harvest;
-document.getElementById("fillBtn").onclick=()=>{
-  for(let r=0;r<GRID_SIZE;r++)for(let c=0;c<GRID_SIZE;c++)if(!farm[r][c])
-    farm[r][c]=new Plant(strains[Math.floor(Math.random()*strains.length)]);
-  addLog("Filled grid");draw();
-};
+// -------------------
+// Gameplay functions
+// -------------------
+function plantRandom(){let planted=false;for(let r=0;r<GRID_SIZE;r++){for(let c=0;c<GRID_SIZE;c++){if(!farm[r][c]&&Math.random()<0.28){const s=strains[Math.floor(Math.random()*strains.length)];farm[r][c]=new Plant(s);addLog(`🌱 Planted ${s.name}`);planted=true;}}} if(planted){playSound('plantSound'); showToast('Seeds planted');} return planted;}
+function fillAllEmpty(){let any=false;for(let r=0;r<GRID_SIZE;r++){for(let c=0;c<GRID_SIZE;c++){if(!farm[r][c]){farm[r][c]=new Plant(strains[Math.floor(Math.random()*strains.length)]); any=true;}}} if(any){playSound('plantSound'); addLog('🔁 Filled all empty cells'); showToast('Filled grid');}}
+function harvestReady(){let any=false;for(let r=0;r<GRID_SIZE;r++){for(let c=0;c<GRID_SIZE;c++){const p=farm[r][c];if(p&&p.isReady()){xp+=p.strain.xp;harvested++;addLog(`🌾 Harvested ${p.strain.name} (+${p.strain.xp} XP)`); farm[r][c]=null; any=true;}}} if(any){playSound('harvestSound'); checkLevelUp(); updateStats(); showToast('Harvested!');} else showToast('No plants ready yet',1000);}
+function checkLevelUp(){let threshold=xpThresholdForLevel(level);while(xp>=threshold){xp-=threshold; level++; addLog(`🔥 LEVEL UP! You reached level ${level}`); showToast(`LEVEL UP! ${level}`); threshold=xpThresholdForLevel(level); }}
 
-// Start
-plantRandom();updateStats();
+// -------------------
+// Input
+// -------------------
+canvas.addEventListener('click',(ev)=>{const rect=canvas.getBoundingClientRect();const cssX=ev.clientX-rect.left;const cssY=ev.clientY-rect.top;const cell=canvas.clientWidth/GRID_SIZE;const col=Math.floor(cssX/cell);const row=Math.floor(cssY/cell);if(row>=0&&row<GRID_SIZE&&col>=0&&col<GRID_SIZE){if(!farm[row][col]){const s=strains[Math.floor(Math.random()*strains.length)];farm[row][col]=new Plant(s);addLog(`🌱 Planted ${s.name} (manual)`);playSound('plantSound');showToast('Seed planted');} else{if(farm[row][col].isReady()){const p=farm[row][col];xp+=p.strain.xp;harvested++;addLog(`🌾 Harvested ${p.strain.name} (+${p.strain.xp} XP)`);farm[row][col]=null;playSound('harvestSound');checkLevelUp();updateStats();showToast('Harvested');}else{showToast('Plant not ready yet');}}}});
+document.getElementById('plantBtn').addEventListener('click',()=>{if(plantRandom())updateStats();else showToast('No space to plant');});
+document.getElementById('harvestBtn').addEventListener('click',()=>{harvestReady();});
+document.getElementById('fillBtn').addEventListener('click',()=>{fillAllEmpty();updateStats();});
+
+updateStats(); plantRandom();
 </script>
 </body>
 </html>
