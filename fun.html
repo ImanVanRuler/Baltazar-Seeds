@@ -1,365 +1,339 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Baltazar Seeds Ultra Scan</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Baltazar Ultra Style Seeds</title>
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
-<!-- Font Awesome -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
 
-<style>
-  body, html {
-    margin: 0;
-    padding: 0;
-    font-family: 'Bebas Neue', cursive;
-    background: #000;
-    color: #fff;
-    overflow-x: hidden;
-  }
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
-  /* ----------- Intro Video ----------- */
-  #introVideoContainer {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #000;
-    z-index: 9999;
-  }
-  #introVideo {
-    max-width: 100%;
-    max-height: 100%;
-  }
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Bebas Neue', cursive;
+      background: #000;
+      overflow-x: hidden;
+      color: #fff;
+    }
 
-  /* ----------- Main Content (hidden first) ----------- */
-  #mainContent {
-    display: none; /* wird erst nach Video eingeblendet */
-  }
+    /* ---------- Intro Overlay ---------- */
+    #introVideoContainer {
+      position: fixed;
+      inset: 0; /* top:0; right:0; bottom:0; left:0; */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.95);
+      z-index: 9999;
+      transition: opacity 0.35s ease;
+    }
+    #introVideoContainer.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    #introVideo {
+      max-width: 92vw;
+      max-height: 82vh;
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
+    #skipIntro {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: rgba(34,34,34,0.9);
+      color: #fff;
+      border: 2px solid #660000;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    }
+    #skipIntro:hover { transform: scale(1.03); }
 
-  /* ---------------- Header ---------------- */
-  header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 0;
-    position: sticky;
-    top: 0;
-    background: rgba(0,0,0,0.8);
-    z-index: 10;
-    box-shadow: 0 0 20px #006600;
-  }
-  header h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    color: #00ff99;
-    margin: 0;
-    text-shadow: 0 0 10px #003300;
-  }
+    /* ---------------- Header ---------------- */
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 10;
+      box-shadow: 0 0 20px #660000;
+    }
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: #660000;
+      text-shadow: 0 0 5px #330000;
+      margin: 0;
+    }
 
-  /* ---------------- Glitch Title ---------------- */
-  .glitch {
-    font-size: clamp(3rem, 8vw, 5rem);
-    color: #00ff99;
-    text-align: center;
-    margin: 40px 0;
-    position: relative;
-    animation: flicker 1s infinite alternate;
-    text-shadow: 0 0 10px #00aa55;
-  }
-  .glitch::before, .glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-  }
-  .glitch::before {
-    animation: glitchTop 2s infinite linear alternate-reverse;
-    clip: rect(0, 9999px, 50%, 0);
-    color: #00ffff;
-    left: 2px;
-  }
-  .glitch::after {
-    animation: glitchBottom 1.5s infinite linear alternate-reverse;
-    clip: rect(50%, 9999px, 100%, 0);
-    color: #ff00ff;
-    left: -2px;
-  }
-  @keyframes flicker {
-    0%,18%,22%,25%,53%,57%,100%{opacity:1;}
-    20%,24%,55%{opacity:0.1;}
-  }
-  @keyframes glitchTop {
-    0%{transform:translate(0,0);opacity:1;}
-    20%{transform:translate(-5px,2px);opacity:0.8;}
-    40%{transform:translate(5px,-2px);opacity:0.6;}
-    60%{transform:translate(-3px,3px);opacity:0.4;}
-    80%{transform:translate(3px,-3px);opacity:0.8;}
-    100%{transform:translate(0,0);opacity:1;}
-  }
-  @keyframes glitchBottom {
-    0%{transform:translate(0,0);opacity:1;}
-    20%{transform:translate(5px,-2px);opacity:0.8;}
-    40%{transform:translate(-5px,2px);opacity:0.6;}
-    60%{transform:translate(3px,-3px);opacity:0.4;}
-    80%{transform:translate(-3px,3px);opacity:0.8;}
-    100%{transform:translate(0,0);opacity:1;}
-  }
+    header nav {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+    header nav a {
+      color: #660000;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 1.2rem;
+      transition: color 0.3s, transform 0.3s;
+    }
+    header nav a:hover {
+      color: #ff3333;
+      transform: scale(1.2);
+    }
+    header nav a.contact-icon { font-size: 1.8rem; }
 
-  /* ---------------- Card Section ---------------- */
-  .card-section {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 50px;
-    margin: 50px 20px;
-    padding: 50px 0;
-    z-index: 1;
-    overflow: hidden;
-  }
-  .card-section video {
-    position: absolute;
-    top:0; left:0;
-    width:100%; height:100%;
-    object-fit:cover;
-    opacity:0.5;
-    z-index:-1;
-    pointer-events:none;
-    filter: brightness(0.6) contrast(1.2);
-  }
+    /* ---------------- Glitch Überschrift ---------------- */
+    .glitch {
+      font-size: clamp(3rem, 8vw, 6rem);
+      color: #660000;
+      text-align: center;
+      margin: 60px 0;
+      position: relative;
+      animation: flicker 1s infinite alternate;
+      text-shadow: 0 0 10px #330000;
+    }
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      text-shadow: none;
+    }
+    .glitch::before { animation: glitchTop 2s infinite linear alternate-reverse; clip: rect(0, 9999px, 50%, 0); color: #00f; left: 2px; }
+    .glitch::after  { animation: glitchBottom 1.5s infinite linear alternate-reverse; clip: rect(50%, 9999px, 100%, 0); color: #0f0; left: -2px; }
+    @keyframes flicker { 0%,18%,22%,25%,53%,57%,100% { opacity: 1; } 20%,24%,55% { opacity: 0.1; } }
+    @keyframes glitchTop { 0%{transform:translate(0,0)}20%{transform:translate(-5px,2px)}40%{transform:translate(5px,-2px)}60%{transform:translate(-3px,3px)}80%{transform:translate(3px,-3px)}100%{transform:translate(0,0)}}
+    @keyframes glitchBottom { 0%{transform:translate(0,0)}20%{transform:translate(5px,-2px)}40%{transform:translate(-5px,2px)}60%{transform:translate(3px,-3px)}80%{transform:translate(-3px,3px)}100%{transform:translate(0,0)}}
 
-  .card {
-    background: rgba(0,0,0,0.8);
-    color: #fff;
-    width: 320px;
-    border-radius: 20px;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    overflow: hidden;
-    box-shadow: 0 0 10px rgba(0,255,153,0.5);
-    position: relative;
-    padding: 20px;
-  }
+    /* ---------------- Card-Container ---------------- */
+    .card-section {
+      position: relative;
+      margin: 80px 30px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 50px;
+      padding: 60px 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .card-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,0,85,0.3) 0%, transparent 70%);
+      animation: pulse 5s infinite;
+      z-index: -2;
+    }
+    @keyframes pulse { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 0.2; } 100% { transform: scale(1); opacity: 0.5; } }
 
-  .card h2 {
-    margin-bottom: 15px;
-    color: #00ff99;
-    text-transform: uppercase;
-    font-size: 1.5rem;
-  }
+    .card-section video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.7;
+      z-index: -1;
+      pointer-events: none;
+      filter: brightness(0.8) contrast(1.2);
+    }
 
-  .card button {
-    padding: 10px 25px;
-    font-size: 1rem;
-    background-color: #00ff99;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-family: 'Bebas Neue', cursive;
-    margin-bottom: 15px;
-    transition: 0.3s;
-  }
-  .card button:hover {
-    background-color: #00cc77;
-  }
+    /* ---------------- Produkt Cards ---------------- */
+    .card-link { text-decoration: none; color: inherit; display: block; }
+    .card {
+      background: rgba(0,0,0,0.8);
+      color: #fff;
+      width: 280px;
+      border-radius: 25px;
+      text-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      perspective: 1200px;
+      overflow: hidden;
+      cursor: pointer;
+      z-index: 2;
+      box-shadow: 0 0 10px rgba(255,0,85,0.5);
+    }
+    .card img { width: 100%; border-radius: 25px 25px 0 0; display: block; transition: transform 0.4s ease, filter 0.4s ease; }
+    .card p { font-size: 1.8rem; padding: 20px 15px; text-shadow: 0 0 5px #ff0055; }
+    .card:hover { transform: rotateY(15deg) rotateX(10deg) scale(1.1); box-shadow: 0 0 50px #ff0055, 0 0 100px #00ff99, 0 0 150px #ffdd00; }
+    .card:hover img { transform: scale(1.15); filter: brightness(1.2) saturate(1.5); }
 
-  #scanOutput, #fact {
-    max-height: 250px;
-    overflow-y: auto;
-    text-align: left;
-    font-family: 'Courier New', monospace;
-    padding: 10px;
-  }
+    /* ---------------- Back to Menu Button ---------------- */
+    .button-container { display:flex; justify-content:center; margin-top:30px; }
+    .back-button {
+      display: inline-block; padding: 12px 30px; background: #222; color: #fff;
+      border: 3px solid #660000; border-radius: 12px; font-size: 1.1rem; font-weight: bold;
+      text-decoration: none; text-align: center; cursor: pointer; transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(102,0,0,0.6);
+    }
+    .back-button:hover { background: #660000; color: #fff; transform: scale(1.1); box-shadow: 0 0 30px rgba(255,51,51,0.8); }
 
-  .site { padding: 5px 10px; border-left: 4px solid #555; margin-bottom:5px; transition: all 0.3s; font-weight:bold;}
-  .legendary { color:#00ff99; border-left:5px solid #00ff99; text-shadow:0 0 10px #00ff99; animation: blink 0.6s infinite alternate; }
-  .negative { color:#ff3300; border-left:5px solid #ff3300; text-shadow:0 0 10px #ff3300; animation: blink 0.6s infinite alternate; }
-  @keyframes blink { from {opacity:1;} to {opacity:0.3;} }
+    /* ---------------- Footer ---------------- */
+    footer { text-align:center; padding:20px 0; margin-top:40px; background: rgba(0,0,0,0.9); box-shadow: 0 -5px 15px #660000; }
+    .footer-socials a { color: #660000; margin: 0 10px; font-size:1.5rem; line-height:1; display:inline-flex; align-items:center; text-decoration:none; }
+    .footer-socials a:hover { color: #ff3333; transform: rotate(360deg) scale(1.2); }
 
-  /* ---------------- Floating Leaves ---------------- */
-  .leaf {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Cannabis_leaf_icon.svg/1024px-Cannabis_leaf_icon.svg.png') no-repeat center center;
-    background-size: contain;
-    opacity:0.35;
-    animation: float 12s ease-in-out infinite;
-    cursor:pointer;
-    transition: transform 0.3s ease;
-  }
-  @keyframes float {
-    0%,100%{transform:translateY(0) rotate(0deg);}
-    50%{transform:translateY(-300px) rotate(180deg);}
-  }
-
-  /* ---------------- Back Button ---------------- */
-  .back-button {
-    display: inline-block;
-    padding: 12px 30px;
-    background: #222;
-    color: #fff;
-    border: 3px solid #00ff99;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 20px auto;
-    display:block;
-    box-shadow: 0 0 20px rgba(0,255,153,0.6);
-  }
-  .back-button:hover {
-    background: #00ff99;
-    color:#000;
-    transform: scale(1.1);
-    box-shadow: 0 0 30px rgba(0,255,153,0.8);
-  }
-</style>
+    /* mainContent hidden until intro fertig */
+    #mainContent { display: none; }
+  </style>
 </head>
+
 <body>
 
-<!-- Intro Video -->
-<div id="introVideoContainer">
-  <video id="introVideo" autoplay muted loop>
-    <source src="dein-intro-video.mp4" type="video/mp4">
-    Dein Browser unterstützt das Video-Tag nicht.
-  </video>
-</div>
-
-<!-- Haupt-Inhalt -->
-<div id="mainContent">
-
-<header>
-  <h1>Baltazar Seeds Ultra Scan</h1>
-</header>
-
-<h1 class="glitch" data-text="🌱 BALTZAR ULTRA SCAN 🌱">🌱 BALTZAR ULTRA SCAN 🌱</h1>
-
-<div class="card-section">
-  <!-- Video Background -->
-  <video autoplay muted loop playsinline>
-    <source src="logovid.mp4" type="video/mp4">
-    Ihr Browser unterstützt kein Video.
-  </video>
-
-  <!-- Ultra Scan Widget -->
-  <div class="card">
-    <h2>🔥 Bot Scan 🔥</h2>
-    <button id="startScanBtn">Start Scan</button>
-    <div id="scanOutput"></div>
+  <!-- ========== INTRO OVERLAY ==========
+       Änderung: Video zentriert im Overlay; nach 'ended' wird die Seite gezeigt.
+       Datei: ersetze "intro.mp4" mit deinem Intro-Dateinamen.
+  -->
+  <div id="introVideoContainer" role="dialog" aria-label="Intro Video">
+    <video id="introVideo" autoplay muted playsinline>
+      <source src="intro.mp4" type="video/mp4">
+      Dein Browser unterstützt das Video-Tag nicht.
+    </video>
+    <button id="skipIntro" aria-label="Intro überspringen">Skip Intro ✕</button>
   </div>
 
-  <!-- Fun Facts Widget -->
-  <div class="card">
-    <h2>💡 Tips & Fun Facts 💡</h2>
-    <button id="showFactBtn">Show Tip</button>
-    <div id="fact"></div>
-  </div>
+  <!-- ========== MAIN CONTENT (wird nach Intro sichtbar) ==========
+       Hier ist der bestehende Seiteninhalt — ich habe ihn in #mainContent
+       gepackt, damit das Intro overlay das Layout nicht "kaputt" macht.
+  -->
+  <div id="mainContent">
+    <header>
+      <h1>Baltazar Ultra Style Seeds</h1>
+      <nav aria-label="Hauptnavigation">
+        <a href="index.html">Entrance</a>
+        <a href="seite3.html">Menu</a>
+        <a href="mailto:imanvanruler@freenet.de" class="contact-icon"><i class="fas fa-envelope"></i></a>
+        <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+        <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
+      </nav>
+    </header>
 
-  <!-- Floating Leaves -->
-  <div class="leaf" style="left:5%; animation-delay:0s;"></div>
-  <div class="leaf" style="left:25%; animation-delay:2s;"></div>
-  <div class="leaf" style="left:45%; animation-delay:4s;"></div>
-  <div class="leaf" style="left:65%; animation-delay:1s;"></div>
-  <div class="leaf" style="left:85%; animation-delay:3s;"></div>
-</div>
+    <h1 class="glitch" data-text="BALTAZAR ULTRA STYLE SEEDS">BALTAZAR ULTRA STYLE SEEDS</h1>
 
-<a href="seite3.html" class="back-button">Back To Menu</a>
+    <div class="card-section">
+      <video autoplay muted loop playsinline>
+        <source src="logovid.mp4" type="video/mp4">
+        Ihr Browser unterstützt kein Video.
+      </video>
 
-</div> <!-- Ende mainContent -->
+      <!-- DONKEY OG -->
+      <div>
+        <a href="https://commerce.coinbase.com/checkout/87ec418b-dde3-4173-988f-cbea7d58fb1b" target="_blank" class="card-link">
+          <div class="card">
+            <img src="F1.JPG" alt="DONKEY OG">
+            <p>DONKEY OG</p>
+          </div>
+        </a>
+      </div>
 
-<script>
-  // Intro Video -> nach 5 Sekunden Hauptinhalt anzeigen
-  const intro = document.getElementById("introVideoContainer");
-  const main = document.getElementById("mainContent");
-  setTimeout(()=>{
-    intro.style.display="none";
-    main.style.display="block";
-  },5000); // nach 5 Sekunden
+      <!-- HAZE OG -->
+      <div>
+        <a href="https://commerce.coinbase.com/checkout/77691ecd-f6b3-45bf-830a-f2e1a48d4db6" target="_blank" class="card-link">
+          <div class="card">
+            <img src="F2.JPG" alt="HAZE OG">
+            <p>HAZE OG</p>
+          </div>
+        </a>
+      </div>
 
-  // Floating leaf interactivity
-  document.querySelectorAll('.leaf').forEach(leaf=>{
-    leaf.addEventListener('click',()=>{
-      leaf.style.transform="translateY(-50px) rotate(30deg)";
-      setTimeout(()=>leaf.style.transform="",500);
-    });
-  });
+      <!-- RAT OG -->
+      <div>
+        <a href="https://commerce.coinbase.com/checkout/d30615af-3958-40e8-bd1f-1cf9a38c1ced" target="_blank" class="card-link">
+          <div class="card">
+            <img src="F3.JPG" alt="RAT OG">
+            <p>RAT OG</p>
+          </div>
+        </a>
+      </div>
+    </div>
 
-  // Ultra Scan Data
-  const ultraSites = [
-    {name:"Baltazar-Seeds Shop", status:"legendary", type:"Invincible Security"},
-    {name:"Payment Gateway", status:"legendary", type:"Fort Knox Mode"},
-    {name:"Customer Data", status:"legendary", type:"Encrypted to Mars"},
-    {name:"Banks", status:"negative", type:"Not Playing With Us"},
-    {name:"Secret Seed Vault", status:"legendary", type:"Alien-Proof"},
-    {name:"Government Inspectors", status:"negative", type:"Denied Access"}
-  ];
-  const outputDiv = document.getElementById('scanOutput');
-  const scanBtn = document.getElementById('startScanBtn');
+    <!-- Back-to-Menu Button -->
+    <div class="button-container">
+      <a href="seite3.html" class="back-button">Back To Menu</a>
+    </div>
 
-  function delay(ms){ return new Promise(resolve=>setTimeout(resolve,ms)); }
+    <footer>
+      <div class="footer-socials">
+        <a href="mailto:imanvanruler@freenet.de" class="contact-icon"><i class="fas fa-envelope"></i></a>
+        <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+        <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
+      </div>
+    </footer>
+  </div> <!-- #mainContent Ende -->
 
-  async function runUltraScan(){
-    scanBtn.disabled=true;
-    outputDiv.innerHTML='';
-    for(let site of ultraSites){
-      const row=document.createElement('div');
-      row.className='site';
-      row.textContent=`Scanning ${site.name} ... 🔍`;
-      row.style.color="#00ffff";
-      outputDiv.appendChild(row);
-      row.scrollIntoView({behavior:"smooth"});
-      await delay(600 + Math.random()*300);
+  <script>
+    // Elemente
+    const introContainer = document.getElementById('introVideoContainer');
+    const introVideo = document.getElementById('introVideo');
+    const skipBtn = document.getElementById('skipIntro');
+    const mainContent = document.getElementById('mainContent');
 
-      row.textContent=`${site.name} ... ${site.type.toUpperCase()}! 🌟`;
-      row.classList.add(site.status);
+    // Main initial hidden (CSS setzt display:none). Falls JS früher ausgeführt:
+    mainContent.style.display = 'none';
 
-      document.querySelectorAll('.leaf').forEach(leaf=>{
-        leaf.style.transform=`translateY(-${Math.random()*50}px) rotate(${Math.random()*360}deg)`;
-        setTimeout(()=>leaf.style.transform="",600);
-      });
-
-      await delay(400);
+    // Zeige Hauptseite (schöner Übergang)
+    function showMainContent() {
+      introContainer.classList.add('hidden');
+      setTimeout(() => {
+        introContainer.style.display = 'none';
+        mainContent.style.display = 'block';
+      }, 360); // entspricht CSS transition
     }
-    const endMsg=document.createElement('div');
-    endMsg.textContent="🎉 Bot Scan Complete! Baltazar Seeds is LEGENDARY! 🚀";
-    endMsg.style.marginTop="10px";
-    endMsg.style.color="#ff00ff";
-    endMsg.style.fontSize="1.3rem";
-    endMsg.style.fontWeight="bold";
-    endMsg.style.textShadow="0 0 15px #ff00ff,0 0 25px #ff00ff";
-    outputDiv.appendChild(endMsg);
-    scanBtn.disabled=false;
-  }
-  if(scanBtn){
-    scanBtn.addEventListener('click',runUltraScan);
-  }
 
-  // Fun Facts / Tips
-  const facts=[
-    "Cannabis loves lots of light – 16 hours a day is ideal in the growth phase.",
-    "Proper humidity helps healthy leaves and strong plants.",
-    "Fast growth in young plants means a stronger harvest later.",
-    "Avoid overfeeding – less is often more.",
-    "Trichomes contain valuable cannabinoids – patience pays off!",
-    "Small mistakes make the grow more exciting – every grow is an adventure."
-  ];
-  const factBtn=document.getElementById('showFactBtn');
-  if(factBtn){
-    factBtn.addEventListener('click',()=>{
-      const fact=facts[Math.floor(Math.random()*facts.length)];
-      document.getElementById('fact').innerText=fact;
+    // Wenn Intro zu Ende ist -> Hauptseite zeigen
+    introVideo.addEventListener('ended', () => {
+      // Standard: nach einem kompletten Abspielvorgang einblenden
+      showMainContent();
     });
-  }
-</script>
 
+    // Skip-Button sofort Intro überspringen
+    skipBtn.addEventListener('click', () => {
+      try { introVideo.pause(); } catch(e){}
+      showMainContent();
+    });
+
+    /* ================= Hinweise / Optionen =================
+
+    1) Endlosschleife (Intro wiederholt sich unendlich, Hauptseite bleibt verdeckt):
+       - Entferne oder kommentiere den 'introVideo.addEventListener("ended", ...)' Block oben,
+       - und füge im <video> tag das Attribut "loop" hinzu:
+         <video id="introVideo" autoplay muted playsinline loop> ...
+
+    2) Intro z.B. 2x abspielen, dann Hauptseite zeigen:
+       - belasse 'loop' im Tag, benutze stattdessen einen Zähler:
+         let loops = 0;
+         introVideo.addEventListener('ended', () => {
+           loops++;
+           if (loops >= 2) showMainContent();
+         });
+
+    3) Seite neu laden, wenn das Intro zu Ende ist:
+       - ersetze showMainContent() in 'ended' handler mit: location.reload();
+
+    4) Wichtig: Browser-Autoplay-Policy -> Video MUSS 'muted' haben, damit Autoplay zuverlässig funktioniert.
+
+    ======================================================= */
+  </script>
 </body>
 </html>
