@@ -248,9 +248,88 @@ body {
   <h1 class="glitch" data-text="🌱 BALTAZAR FUN 🌱">🌱 BALTAZAR FUN 🌱</h1>
 
   <!-- Video Section -->
-  <div class="video-section">
-    <iframe src="logovid.mp4?autoplay=1&mute=1&loop=1&playlist=OO5ZjvvQUoE&controls=1&modestbranding=1&rel=0" allowfullscreen></iframe>
-  </div>
+<!-- Video Section oben mit kleinem Browser-Spiel -->
+<div class="video-section">
+  <canvas id="snakeGame" width="800" height="450" style="border-radius:10px; background:#111;"></canvas>
+</div>
+
+<script>
+  // ---------------- Snake Game ----------------
+  const canvas = document.getElementById('snakeGame');
+  const ctx = canvas.getContext('2d');
+
+  const grid = 20;
+  let count = 0;
+  let snake = [{x: 8*grid, y: 8*grid}];
+  let direction = {x: 0, y: 0};
+  let apple = {x: Math.floor(Math.random()*canvas.width/grid)*grid, y: Math.floor(Math.random()*canvas.height/grid)*grid};
+  let score = 0;
+
+  function gameLoop() {
+    requestAnimationFrame(gameLoop);
+    if (++count < 4) return;
+    count = 0;
+
+    ctx.fillStyle = "#111";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    // Move snake
+    let head = {...snake[0]};
+    head.x += direction.x * grid;
+    head.y += direction.y * grid;
+
+    // Wrap around edges
+    if(head.x >= canvas.width) head.x = 0;
+    if(head.x < 0) head.x = canvas.width - grid;
+    if(head.y >= canvas.height) head.y = 0;
+    if(head.y < 0) head.y = canvas.height - grid;
+
+    // Check collision
+    for(let segment of snake){
+      if(segment.x === head.x && segment.y === head.y){
+        snake = [{x: 8*grid, y: 8*grid}];
+        direction = {x:0,y:0};
+        score = 0;
+      }
+    }
+
+    snake.unshift(head);
+
+    // Eat apple
+    if(head.x === apple.x && head.y === apple.y){
+      score++;
+      apple.x = Math.floor(Math.random()*canvas.width/grid)*grid;
+      apple.y = Math.floor(Math.random()*canvas.height/grid)*grid;
+    } else {
+      snake.pop();
+    }
+
+    // Draw apple
+    ctx.fillStyle = "#ff3333";
+    ctx.fillRect(apple.x, apple.y, grid-2, grid-2);
+
+    // Draw snake
+    ctx.fillStyle = "#00ff99";
+    snake.forEach((segment, index)=>{
+      ctx.fillRect(segment.x, segment.y, grid-2, grid-2);
+    });
+
+    // Draw score
+    ctx.fillStyle = "#00ff99";
+    ctx.font = "20px 'Bebas Neue', cursive";
+    ctx.fillText("Score: "+score, 10, 25);
+  }
+
+  document.addEventListener('keydown', e=>{
+    if(e.key === "ArrowUp" && direction.y === 0){ direction = {x:0, y:-1}; }
+    if(e.key === "ArrowDown" && direction.y === 0){ direction = {x:0, y:1}; }
+    if(e.key === "ArrowLeft" && direction.x === 0){ direction = {x:-1, y:0}; }
+    if(e.key === "ArrowRight" && direction.x === 0){ direction = {x:1, y:0}; }
+  });
+
+  requestAnimationFrame(gameLoop);
+</script>
+
 
   <!-- Card Section -->
   <div class="card-section">
