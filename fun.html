@@ -6,8 +6,8 @@
 <title>Baltazar Seeds Ultra Scan</title>
 <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&family=Press+Start+2P&display=swap" rel="stylesheet">
 <style>
-  /* Video Background */
-  body, html {
+  /* Grund-Setup */
+  html, body {
     margin: 0;
     padding: 0;
     height: 100%;
@@ -15,7 +15,10 @@
     overflow-x: hidden;
     color: white;
     text-align: center;
+    position: relative;
   }
+
+  /* Video Hintergrund */
   #bgVideo {
     position: fixed;
     top: 0; left: 0;
@@ -40,7 +43,7 @@
     z-index: 10;
   }
 
-  /* Title */
+  /* Titel */
   h1 {
     font-family: 'Nosifer', cursive;
     font-size: 3rem;
@@ -56,7 +59,7 @@
     100% {text-shadow: 2px 2px #0f0, -2px -2px #0ff;}
   }
 
-  /* Floating leaves */
+  /* Schwebende Blätter */
   .leaf {
     position: absolute;
     width: 60px;
