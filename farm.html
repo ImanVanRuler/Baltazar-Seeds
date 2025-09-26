@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -70,13 +70,14 @@ canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient
 #breederCard p{margin:0; font-weight:700; color:var(--muted)}
 .xpBar{height:12px; background:rgba(255,255,255,0.04); border-radius:999px; overflow:hidden}
 .xpFill{height:100%; width:0%; background:linear-gradient(90deg,var(--accent), #8affb8); transition:width 300ms ease}
-.toast{position:fixed; left:50%; transform:translateX(-50%); bottom:28px; background:#09110a; padding:10px 16px; border-radius:999px; border:1px solid rgba(0,255,127,0.08); box-shadow:0 8px 30px rgba(0,0,0,0.6); display:none}
+.toast{position:fixed; left:50%; transform:translateX(-50%); bottom:28px; background:#09110a; padding:10px 16px; border-radius:999px; border:1px solid rgba(0,255,127,0.08); box-shadow:0 8px 30px rgba(0,0,0,0.6); display:none; z-index:99}
 .backLink{display:inline-block; margin-top:12px; color:var(--muted); text-decoration:none}
 #shopPanel .shopItem{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:8px; background:var(--card); border-radius:10px;}
 #shopPanel .shopItem button{padding:6px 12px; font-size:0.9rem;}
 #achievements ul{list-style:none; padding:0; color:var(--muted);}
 #achievements li{margin-bottom:6px; display:flex; align-items:center; gap:6px;}
 #achievements li.unlocked{color:var(--accent);}
+#confettiCanvas{position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:100;}
 @media (max-width:900px){
   .container{grid-template-columns:1fr;}
   canvas{width:100%; height:60vh}
@@ -84,20 +85,21 @@ canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient
 </style>
 </head>
 <body>
+<canvas id="confettiCanvas"></canvas>
 <div class="container">
 <header>
   <h1>🌿 Mini Farming Game Deluxe</h1>
-  <div class="sub">Pflanze Samen, sieh sie wachsen und ernte für XP und Belohnungen!</div>
+  <div class="sub">Plant seeds, watch them grow, harvest XP & earn rewards!</div>
 </header>
 
 <main class="panel" id="canvasWrap">
   <canvas id="farmCanvas" width="560" height="560" aria-label="Farm canvas"></canvas>
   <div class="controls">
-    <button class="btn" id="plantBtn">🌱 Samen pflanzen (zufällig)</button>
-    <button class="btn" id="harvestBtn">🌾 Reife Pflanzen ernten</button>
-    <button class="btn" id="fillBtn">🔁 Leere Felder füllen</button>
-    <div style="flex:1"></div>
-    <a class="backLink" href="seite3.html">◀ Zurück zum Menü</a>
+    <button class="btn" id="plantBtn">🌱 Plant Random Seed</button>
+    <button class="btn" id="harvestBtn">🌾 Harvest Ready Plants</button>
+    <button class="btn" id="fillBtn">🔁 Fill Empty Cells</button>
+    <button class="btn" id="newStartBtn">🆕 New Start</button>
+    <a class="backLink" href="seite3.html">◀ Back to Home</a>
   </div>
   <div id="infoRow">
     <div class="statBox">
@@ -110,11 +112,11 @@ canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient
       <div class="xpBar" style="margin-top:8px"><div id="xpFill" class="xpFill"></div></div>
     </div>
     <div class="statBox">
-      <div class="statTitle">Geerntet</div>
+      <div class="statTitle">Harvested</div>
       <div class="statValue" id="harvested">0</div>
     </div>
     <div class="statBox">
-      <div class="statTitle">Münzen</div>
+      <div class="statTitle">Coins</div>
       <div class="statValue" id="coins">0</div>
     </div>
   </div>
@@ -127,7 +129,7 @@ canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient
   </div>
 
   <div id="shopPanel" class="panel">
-    <strong>🏪 Shop (Belohnungen)</strong>
+    <strong>🏪 Shop (Rewards)</strong>
     <div id="shopItems"></div>
   </div>
 
@@ -137,12 +139,12 @@ canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient
   </div>
 
   <div class="panel">
-    <strong>So spielst du</strong>
+    <strong>How to Play</strong>
     <ul style="padding-left:18px; margin:8px 0 0 0; color:var(--muted)">
-      <li>Klicke auf ein Feld, um einen Samen zu pflanzen.</li>
-      <li>Nutze "Samen pflanzen" für zufällige Platzierung.</li>
-      <li>Pflanzen wachsen mit der Zeit. Ernte, wenn golden.</li>
-      <li>Ernte Münzen und kaufe Upgrades im Shop!</li>
+      <li>Click a cell to plant a seed manually.</li>
+      <li>Use "Plant Random Seed" for spontaneous planting.</li>
+      <li>Watch plants grow over time. Harvest when golden!</li>
+      <li>Earn coins and buy upgrades in the shop!</li>
     </ul>
   </div>
 </aside>
@@ -152,7 +154,7 @@ canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient
 
 <audio id="plantSound" src="plant.mp3" preload="auto"></audio>
 <audio id="harvestSound" src="harvest.mp3" preload="auto"></audio>
-<audio id="levelUpSound" src="levelup.mp3" preload="auto"></audio> <!-- Füge eine levelup.mp3 hinzu, falls verfügbar -->
+<audio id="levelUpSound" src="levelup.mp3" preload="auto"></audio>
 
 <script>
 // -------------------
@@ -168,432 +170,129 @@ let strains = [
   {name: "Purple Haze", color: "#A020F0", growRate: 9, xp: 8, coins: 6, unlocked: false, unlockLevel: 5}
 ];
 const upgrades = [
-  {id: "growthBoost", name: "Wachstums-Boost", desc: "+20% Grow-Rate", cost: 30, level: 0, maxLevel: 3, effect: () => growthMultiplier += 0.2},
-  {id: "xpBoost", name: "XP-Boost", desc: "+10% XP pro Ernte", cost: 50, level: 0, maxLevel: 3, effect: () => xpMultiplier += 0.1},
-  {id: "coinBoost", name: "Münz-Boost", desc: "+15% Münzen pro Ernte", cost: 40, level: 0, maxLevel: 3, effect: () => coinMultiplier += 0.15},
-  {id: "autoPlant", name: "Auto-Pflanzer", desc: "Pflanzt automatisch leere Felder (langsam)", cost: 80, level: 0, maxLevel: 1, effect: () => autoPlantUnlocked = true}
+  {id: "growthBoost", name: "Growth Boost", desc: "+20% Grow Rate", cost: 30, level: 0, maxLevel: 3, effect: () => growthMultiplier += 0.2},
+  {id: "xpBoost", name: "XP Boost", desc: "+10% XP per Harvest", cost: 50, level: 0, maxLevel: 3, effect: () => xpMultiplier += 0.1},
+  {id: "coinBoost", name: "Coin Boost", desc: "+15% Coins per Harvest", cost: 40, level: 0, maxLevel: 3, effect: () => coinMultiplier += 0.15},
+  {id: "autoPlant", name: "Auto Planter", desc: "Automatically plants empty cells slowly", cost: 80, level: 0, maxLevel: 1, effect: () => autoPlantUnlocked = true}
 ];
 const achievements = [
-  {id: "firstHarvest", name: "Erste Ernte", desc: "Ernte deine erste Pflanze", unlocked: false, condition: () => harvested >= 1},
-  {id: "level5", name: "Level 5 erreicht", desc: "Erreiche Level 5", unlocked: false, condition: () => level >= 5},
-  {id: "harvest100", name: "100 Ernten", desc: "Ernte 100 Pflanzen", unlocked: false, condition: () => harvested >= 100},
-  {id: "allUpgrades", name: "Meister-Upgrader", desc: "Kaufe alle Upgrades max.", unlocked: false, condition: () => upgrades.every(u => u.level >= u.maxLevel)}
+  {id: "firstHarvest", name: "First Harvest", desc: "Harvest your first plant", unlocked: false, condition: () => harvested >= 1},
+  {id: "level5", name: "Level 5 Achieved", desc: "Reach Level 5", unlocked: false, condition: () => level >= 5},
+  {id: "harvest100", name: "100 Harvests", desc: "Harvest 100 plants", unlocked: false, condition: () => harvested >= 100},
+  {id: "allUpgrades", name: "Master Upgrader", desc: "Buy all upgrades maxed", unlocked: false, condition: () => upgrades.every(u => u.level >= u.maxLevel)}
 ];
 const canvas = document.getElementById('farmCanvas');
 const ctx = canvas.getContext('2d');
-const farm = Array.from({length: GRID_SIZE}, () => Array(GRID_SIZE).fill(null));
-let xp = 0, level = 1, harvested = 0, coins = 100; // Start mit 100 Münzen für Test
+const confettiCanvas = document.getElementById('confettiCanvas');
+const confettiCtx = confettiCanvas.getContext('2d');
+let farm = Array.from({length: GRID_SIZE}, () => Array(GRID_SIZE).fill(null));
+let xp = 0, level = 1, harvested = 0, coins = 100;
 let growthMultiplier = 1, xpMultiplier = 1, coinMultiplier = 1, autoPlantUnlocked = false;
 let lastAutoPlant = 0;
+let confettiParticles = [];
 
 // -------------------
 // Classes
 // -------------------
-class Plant {
-  constructor(strain) {
-    this.strain = strain;
-    this.growth = 0;
-    this.particles = [];
-    this.sway = Math.random() * Math.PI * 2;
-  }
-  grow(dt) {
-    if (this.growth < 100) {
-      this.growth = Math.min(100, this.growth + this.strain.growRate * growthMultiplier * (dt / 1000));
-    } else if (Math.random() < 0.06) {
-      this.particles.push(new Spark());
+class Plant {constructor(strain){this.strain=strain;this.growth=0;this.particles=[];this.sway=Math.random()*Math.PI*2;} grow(dt){if(this.growth<100){this.growth=Math.min(100,this.growth+this.strain.growRate*growthMultiplier*(dt/1000));}else if(Math.random()<0.06){this.particles.push(new Spark());}this.particles.forEach(p=>p.update(dt));this.particles=this.particles.filter(p=>!p.dead);} isReady(){return this.growth>=100;}}
+class Spark{constructor(){this.x=0;this.y=0;this.vx=(Math.random()-0.5)*0.6;this.vy=-Math.random()*0.8-0.2;this.life=700+Math.random()*700;this.age=0;this.dead=false;} update(dt){this.x+=this.vx*dt;this.y+=this.vy*dt;this.age+=dt;if(this.age>=this.life)this.dead=true;}}
+
+// -------------------
+// Drawing
+// -------------------
+function drawFarm(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  const cellSize = canvas.width/GRID_SIZE;
+  for(let y=0;y<GRID_SIZE;y++){
+    for(let x=0;x<GRID_SIZE;x++){
+      let plant = farm[y][x];
+      ctx.strokeStyle="#333";
+      ctx.strokeRect(x*cellSize,y*cellSize,cellSize,cellSize);
+      if(plant){
+        let h = cellSize*(plant.growth/100);
+        ctx.fillStyle = plant.strain.color;
+        ctx.fillRect(x*cellSize,y*cellSize+cellSize-h,cellSize,h);
+      }
     }
-    this.particles.forEach(p => p.update(dt));
-    this.particles = this.particles.filter(p => !p.dead);
   }
-  isReady() { return this.growth >= 100; }
 }
-class Spark {
-  constructor() {
-    this.x = 0; this.y = 0; this.vx = (Math.random() - 0.5) * 0.6; this.vy = -Math.random() * 0.8 - 0.2;
-    this.life = 700 + Math.random() * 700; this.age = 0; this.size = 1 + Math.random() * 2; this.dead = false;
-  }
-  update(dt) {
-    this.age += dt;
-    if (this.age > this.life) this.dead = true;
-    this.vy += 0.001 * dt;
-    this.x += this.vx * dt * 0.06;
-    this.y += this.vy * dt * 0.06;
-  }
-  draw(ctx) {
-    ctx.globalAlpha = 1 - (this.age / this.life);
-    ctx.fillStyle = 'rgba(255,255,200,0.9)';
-    ctx.fillRect(this.x, this.y, this.size, this.size);
-    ctx.globalAlpha = 1;
-  }
+function drawConfetti(){
+  confettiCtx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+  confettiParticles.forEach(p=>{
+    confettiCtx.fillStyle=p.color;
+    confettiCtx.fillRect(p.x,p.y,p.size,p.size);
+    p.y += p.vy; p.x += p.vx; p.vy += 0.03; if(p.y>confettiCanvas.height){p.y=-10;}
+  });
+  confettiParticles = confettiParticles.filter(p=>p.age-- >0);
 }
 
 // -------------------
-// Helpers
+// Game Logic
 // -------------------
-function shadeColor(hex, percent) {
-  const num = parseInt(hex.slice(1), 16);
-  const r = Math.max(0, Math.min(255, (num >> 16) + Math.round(255 * percent / 100)));
-  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + Math.round(255 * percent / 100)));
-  const b = Math.max(0, Math.min(255, (num & 0x0000FF) + Math.round(255 * percent / 100)));
-  return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-}
-function addLog(text) {
-  const time = new Date().toLocaleTimeString();
-  document.getElementById('strainLog').innerHTML = `<div style="margin-bottom:6px"><small style='color:var(--muted)'>[${time}]</small> ${text}</div>` + document.getElementById('strainLog').innerHTML;
-}
-function updateStats() {
-  document.getElementById('xp').textContent = xp;
-  document.getElementById('level').textContent = level;
-  document.getElementById('harvested').textContent = harvested;
-  document.getElementById('coins').textContent = coins;
-  const pct = Math.min(100, Math.round((xp / xpThresholdForLevel(level)) * 100));
-  document.getElementById('xpFill').style.width = pct + '%';
-  renderShop(); // Neu: Shop nach Stats-Update rendern
-}
-function xpThresholdForLevel(l) { return 40 + l * 20; }
-function showToast(msg, ms = 1500) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.display = 'block';
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => { t.style.display = 'none' }, ms);
-}
-function playSound(id) {
-  const a = document.getElementById(id);
-  if (a) { a.currentTime = 0; a.play().catch(() => {}); }
-}
-function saveGame() {
-  const saveData = { xp, level, harvested, coins, upgrades: upgrades.map(u => ({level: u.level, cost: u.cost})), achievements: achievements.map(a => a.unlocked), farm: farm.map(row => row.map(p => p ? {strain: strains.findIndex(s => s.name === p.strain.name), growth: p.growth} : null)) };
-  localStorage.setItem('miniFarmingSave', JSON.stringify(saveData));
-}
-function loadGame() {
-  const save = localStorage.getItem('miniFarmingSave');
-  if (save) {
-    const data = JSON.parse(save);
-    xp = data.xp; level = data.level; harvested = data.harvested; coins = data.coins;
-    upgrades.forEach((u, i) => { u.level = data.upgrades[i].level; u.cost = data.upgrades[i].cost; });
-    achievements.forEach((a, i) => a.unlocked = data.achievements[i]);
-    farm.forEach((row, r) => row.forEach((_, c) => { const p = data.farm[r][c]; farm[r][c] = p ? new Plant(strains[p.strain]) : null; if (p) farm[r][c].growth = p.growth; }));
-    applyUpgrades();
-    unlockStrains();
-  } else {
-    coins = 100; // Fallback für neuen Start
-  }
-  updateStats();
-  renderShop();
-  renderAchievements();
-}
-function applyUpgrades() {
-  growthMultiplier = 1; xpMultiplier = 1; coinMultiplier = 1; autoPlantUnlocked = false;
-  upgrades.forEach(u => { for (let i = 0; i < u.level; i++) u.effect(); });
-}
-function unlockStrains() {
-  strains.forEach(s => { if (s.unlockLevel && level >= s.unlockLevel) s.unlocked = true; });
-}
-function checkAchievements() {
-  let newUnlock = false;
-  achievements.forEach(a => {
-    if (!a.unlocked && a.condition()) {
-      a.unlocked = true;
-      newUnlock = true;
-      addLog(`🏆 Achievement unlocked: ${a.name}`);
-      showToast(`Achievement: ${a.name}!`, 2000);
-      coins += 20;
-    }
-  });
-  if (newUnlock) renderAchievements();
-}
-function renderShop() {
-  const shopItems = document.getElementById('shopItems');
-  shopItems.innerHTML = '';
-  upgrades.forEach(u => {
-    const item = document.createElement('div');
-    item.className = 'shopItem';
-    item.innerHTML = `<div>${u.name} (Lvl ${u.level}/${u.maxLevel})<br><small>${u.desc} - Kostet ${u.cost} Münzen</small></div>`;
-    const buyBtn = document.createElement('button');
-    buyBtn.className = 'btn';
-    buyBtn.textContent = 'Kaufen';
-    const isDisabled = coins < u.cost || u.level >= u.maxLevel;
-    buyBtn.disabled = isDisabled;
-    if (isDisabled) console.log(`Shop Debug: ${u.name} disabled - Coins: ${coins}, Cost: ${u.cost}, Level: ${u.level}/${u.maxLevel}`);
-    buyBtn.onclick = () => {
-      console.log(`Shop Debug: Versuch, ${u.name} zu kaufen - Coins: ${coins}, Cost: ${u.cost}`);
-      if (coins >= u.cost && u.level < u.maxLevel) {
-        coins -= u.cost;
-        u.level++;
-        u.cost = Math.round(u.cost * 1.5);
-        u.effect();
-        addLog(`🛒 Upgrade gekauft: ${u.name} (Lvl ${u.level})`);
-        showToast(`Upgrade: ${u.name}!`);
-        updateStats();
-        checkAchievements();
-        saveGame();
-        console.log(`Shop Debug: Kauf erfolgreich - Neue Coins: ${coins}`);
-      } else {
-        console.log(`Shop Debug: Kauf fehlgeschlagen`);
-      }
+function plantRandom(){let emptyCells=[];for(let y=0;y<GRID_SIZE;y++)for(let x=0;x<GRID_SIZE;x++)if(!farm[y][x])emptyCells.push([x,y]);if(emptyCells.length===0)return;let [x,y]=emptyCells[Math.floor(Math.random()*emptyCells.length)];let available = strains.filter(s=>s.unlocked);let strain = available[Math.floor(Math.random()*available.length)];farm[y][x]=new Plant(strain);showToast(`Planted ${strain.name}!`);}
+function harvest(){for(let y=0;y<GRID_SIZE;y++){for(let x=0;x<GRID_SIZE;x++){let p=farm[y][x];if(p&&p.isReady()){xp+=p.strain.xp*xpMultiplier;coins+=p.strain.coins*coinMultiplier;harvested++;showToast(`Harvested ${p.strain.name}! +${p.strain.xp} XP`);farm[y][x]=null;}}} updateUI(); checkAchievements(); }
+function updateUI(){document.getElementById('xp').textContent=Math.floor(xp); document.getElementById('level').textContent=level; document.getElementById('harvested').textContent=harvested; document.getElementById('coins').textContent=Math.floor(coins); let xpFill = document.getElementById('xpFill'); xpFill.style.width=Math.min(100,(xp/levelThreshold())*100)+'%';}
+function levelThreshold(){return 100 + level*25;}
+function checkLevel(){while(xp>=levelThreshold()){xp-=levelThreshold();level++; showToast(`Level Up! You reached Level ${level}!`); unlockStrains(); playSound('levelUpSound'); updateUI(); }}
+function unlockStrains(){strains.forEach(s=>{if(!s.unlocked && s.unlockLevel<=level){s.unlocked=true; showToast(`New Strain Unlocked: ${s.name}!`); playConfetti();}});}
+function checkAchievements(){achievements.forEach(a=>{if(!a.unlocked && a.condition()){a.unlocked=true; addAchievement(a.name); playConfetti();}});}
+function addAchievement(name){const li=document.createElement('li'); li.textContent=name; li.classList.add('unlocked'); document.getElementById('achievementList').appendChild(li);}
+function showToast(msg){const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; setTimeout(()=>{t.style.display='none'},2200);}
+function playSound(id){let s=document.getElementById(id); if(s)s.play();}
+function playConfetti(){for(let i=0;i<60;i++){confettiParticles.push({x:Math.random()*confettiCanvas.width,y:Math.random()*confettiCanvas.height, vx:(Math.random()-0.5)*3, vy:Math.random()*-3-1, size:4+Math.random()*4, color:`hsl(${Math.random()*360},70%,60%)`, age:100+Math.random()*50});}}
+
+// -------------------
+// Shop
+// -------------------
+function renderShop(){
+  const container=document.getElementById('shopItems');
+  container.innerHTML='';
+  upgrades.forEach(u=>{
+    const div=document.createElement('div');
+    div.classList.add('shopItem');
+    div.innerHTML=`<div><strong>${u.name}</strong><br><small>${u.desc} (Lv ${u.level})</small></div><button ${coins<u.cost?'disabled':''}>Buy ${u.cost} 💰</button>`;
+    div.querySelector('button').onclick=()=>{
+      if(coins>=u.cost && u.level<u.maxLevel){coins-=u.cost; u.level++; u.effect(); renderShop(); updateUI(); showToast(`${u.name} Upgraded!`);}
     };
-    item.appendChild(buyBtn);
-    shopItems.appendChild(item);
-  });
-}
-function renderAchievements() {
-  const list = document.getElementById('achievementList');
-  list.innerHTML = '';
-  achievements.forEach(a => {
-    const li = document.createElement('li');
-    li.className = a.unlocked ? 'unlocked' : '';
-    li.innerHTML = `${a.unlocked ? '✅' : '🔒'} ${a.name} - ${a.desc}`;
-    list.appendChild(li);
+    container.appendChild(div);
   });
 }
 
 // -------------------
-// Canvas Draw
+// Auto Plant
 // -------------------
-function draw() {
-  const w = canvas.width, h = canvas.height;
-  ctx.clearRect(0, 0, w, h);
-  const cell = w / GRID_SIZE;
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      const x = c * cell, y = r * cell;
-      ctx.fillStyle = 'rgba(10,10,10,0.6)';
-      roundRect(ctx, x + 6, y + 6, cell - 12, cell - 12, 8);
-      ctx.fill();
-      ctx.strokeStyle = 'rgba(0,255,127,0.06)';
-      ctx.lineWidth = 1;
-      roundRect(ctx, x + 6, y + 6, cell - 12, cell - 12, 8);
-      ctx.stroke();
-      const plant = farm[r][c];
-      if (plant) drawPlant(ctx, plant, x + cell / 2, y + cell / 2 + 8, cell * 0.38);
-    }
-  }
-}
-function roundRect(ctx, x, y, w, h, r) {
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.arcTo(x + w, y, x + w, y + h, r);
-  ctx.arcTo(x + w, y + h, x, y + h, r);
-  ctx.arcTo(x, y + h, x, y, r);
-  ctx.arcTo(x, y, x + w, y, r);
-  ctx.closePath();
-}
-function drawPlant(ctx, plant, cx, cy, size) {
-  const progress = plant.growth / 100;
-  const t = performance.now() / 1000;
-  const sway = Math.sin(t + plant.sway) * 3 * (1 - progress);
-  ctx.save();
-  ctx.translate(cx, cy + size * 0.25);
-  ctx.rotate(sway * 0.02);
-  ctx.strokeStyle = '#2c6a3a';
-  ctx.lineWidth = Math.max(1, 2 * progress);
-  ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.quadraticCurveTo(0 - size * 0.05, -size * 0.25 - progress * size * 0.75, 0, -size * 1.0);
-  ctx.stroke();
-  const leafCount = 4 + Math.floor(progress * 4);
-  for (let i = 0; i < leafCount; i++) {
-    const angle = (i / leafCount) * Math.PI * 2 + (1 - progress) * 0.8;
-    drawLeaf(ctx, Math.cos(angle) * size * 0.35, -size * 0.8 + Math.sin(angle) * size * 0.06, size * 0.48 * progress, plant.strain.color, progress, i);
-  }
-  if (progress > 0.85) {
-    const budSize = 6 + (progress - 0.85) * 40;
-    const grad = ctx.createRadialGradient(0, -size * 1.0, budSize * 0.2, 0, -size * 1.0, budSize);
-    grad.addColorStop(0, 'gold');
-    grad.addColorStop(1, plant.strain.color);
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(0, -size * 1.0, budSize, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  plant.particles.forEach(p => p.draw(ctx));
-  ctx.restore();
-}
-function drawLeaf(ctx, lx, ly, sz, color, progress, idx) {
-  ctx.save();
-  ctx.translate(lx, ly);
-  ctx.rotate(Math.sin(idx + performance.now() / 800) * 0.14 * (1 - progress));
-  ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.bezierCurveTo(sz * 0.4, -sz * 0.2, sz * 0.8, -sz * 0.6, sz, -sz * 0.9);
-  ctx.bezierCurveTo(sz * 0.6, -sz * 0.6, sz * 0.2, -sz * 0.2, 0, 0);
-  const g = ctx.createLinearGradient(0, -sz, 0, sz * 0.6);
-  g.addColorStop(0, color);
-  g.addColorStop(1, shadeColor(color, -20));
-  ctx.fillStyle = g;
-  ctx.fill();
-  ctx.globalAlpha = 0.14;
-  ctx.beginPath();
-  ctx.ellipse(sz * 0.2, -sz * 0.35, sz * 0.25, sz * 0.12, -0.6, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.globalAlpha = 1;
-  ctx.restore();
-}
+function autoPlant(dt){if(!autoPlantUnlocked)return; lastAutoPlant+=dt; if(lastAutoPlant>4000){plantRandom(); lastAutoPlant=0;}}
 
 // -------------------
-// Game Loop
+// Event Listeners
 // -------------------
-let last = performance.now();
-function frame(now) {
-  const dt = Math.min(60, now - last);
-  last = now;
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      const p = farm[r][c];
-      if (p) p.grow(dt);
-    }
-  }
-  if (autoPlantUnlocked && now - lastAutoPlant > 5000) {
-    plantRandom(true);
-    lastAutoPlant = now;
-  }
-  draw();
-  requestAnimationFrame(frame);
-}
-requestAnimationFrame(frame);
+document.getElementById('plantBtn').onclick=plantRandom;
+document.getElementById('harvestBtn').onclick=harvest;
+document.getElementById('fillBtn').onclick=()=>{for(let y=0;y<GRID_SIZE;y++)for(let x=0;x<GRID_SIZE;x++)if(!farm[y][x])plantRandom();};
+document.getElementById('newStartBtn').onclick=()=>{xp=0;level=1;harvested=0;coins=100;farm=Array.from({length: GRID_SIZE}, ()=>Array(GRID_SIZE).fill(null)); updateUI(); showToast("New Game Started!");};
 
 // -------------------
-// Gameplay functions
+// Canvas Click Planting
 // -------------------
-function getUnlockedStrains() {
-  return strains.filter(s => s.unlocked);
-}
-function plantRandom(silent = false) {
-  let planted = false;
-  const availableStrains = getUnlockedStrains();
-  if (availableStrains.length === 0) return false;
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      if (!farm[r][c] && Math.random() < 0.28) {
-        const s = availableStrains[Math.floor(Math.random() * availableStrains.length)];
-        farm[r][c] = new Plant(s);
-        if (!silent) addLog(`🌱 Gepflanzt: ${s.name}`);
-        planted = true;
-      }
-    }
-  }
-  if (planted && !silent) {
-    playSound('plantSound');
-    showToast('Samen gepflanzt');
-  }
-  return planted;
-}
-function fillAllEmpty() {
-  let any = false;
-  const availableStrains = getUnlockedStrains();
-  if (availableStrains.length === 0) return;
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      if (!farm[r][c]) {
-        const s = availableStrains[Math.floor(Math.random() * availableStrains.length)];
-        farm[r][c] = new Plant(s);
-        any = true;
-      }
-    }
-  }
-  if (any) {
-    playSound('plantSound');
-    addLog('🔁 Alle leeren Felder gefüllt');
-    showToast('Grid gefüllt');
-  }
-}
-function harvestReady() {
-  let any = false;
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      const p = farm[r][c];
-      if (p && p.isReady()) {
-        const gainedXP = Math.round(p.strain.xp * xpMultiplier);
-        const gainedCoins = Math.round(p.strain.coins * coinMultiplier);
-        xp += gainedXP;
-        coins += gainedCoins;
-        harvested++;
-        addLog(`🌾 Geerntet: ${p.strain.name} (+${gainedXP} XP, +${gainedCoins} Münzen)`);
-        farm[r][c] = null;
-        any = true;
-      }
-    }
-  }
-  if (any) {
-    playSound('harvestSound');
-    checkLevelUp();
-    checkAchievements();
-    updateStats();
-    showToast('Geerntet!');
-    saveGame();
-  } else {
-    showToast('Keine Pflanzen reif', 1000);
-  }
-}
-function checkLevelUp() {
-  let threshold = xpThresholdForLevel(level);
-  while (xp >= threshold) {
-    xp -= threshold;
-    level++;
-    unlockStrains();
-    addLog(`🔥 LEVEL UP! Level ${level} erreicht`);
-    showToast(`LEVEL UP! ${level}`);
-    playSound('levelUpSound');
-    threshold = xpThresholdForLevel(level);
-  }
-}
-
-// -------------------
-// Input
-// -------------------
-canvas.addEventListener('click', (ev) => {
+canvas.addEventListener('click',(e)=>{
   const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-  const cssX = (ev.clientX - rect.left) * scaleX;
-  const cssY = (ev.clientY - rect.top) * scaleY;
-  const cell = canvas.width / GRID_SIZE;
-  const col = Math.floor(cssX / cell);
-  const row = Math.floor(cssY / cell);
-  if (row >= 0 && row < GRID_SIZE && col >= 0 && col < GRID_SIZE) {
-    if (!farm[row][col]) {
-      const availableStrains = getUnlockedStrains();
-      if (availableStrains.length === 0) return showToast('Keine Strains verfügbar');
-      const s = availableStrains[Math.floor(Math.random() * availableStrains.length)];
-      farm[row][col] = new Plant(s);
-      addLog(`🌱 Gepflanzt: ${s.name} (manuell)`);
-      playSound('plantSound');
-      showToast('Samen gepflanzt');
-    } else {
-      if (farm[row][col].isReady()) {
-        const p = farm[row][col];
-        const gainedXP = Math.round(p.strain.xp * xpMultiplier);
-        const gainedCoins = Math.round(p.strain.coins * coinMultiplier);
-        xp += gainedXP;
-        coins += gainedCoins;
-        harvested++;
-        addLog(`🌾 Geerntet: ${p.strain.name} (+${gainedXP} XP, +${gainedCoins} Münzen)`);
-        farm[row][col] = null;
-        playSound('harvestSound');
-        checkLevelUp();
-        checkAchievements();
-        updateStats();
-        showToast('Geerntet');
-        saveGame();
-      } else {
-        showToast('Pflanze nicht reif');
-      }
-    }
-  }
+  const x = Math.floor((e.clientX-rect.left)/(rect.width/GRID_SIZE));
+  const y = Math.floor((e.clientY-rect.top)/(rect.height/GRID_SIZE));
+  if(!farm[y][x]){let available=strains.filter(s=>s.unlocked);farm[y][x]=new Plant(available[Math.floor(Math.random()*available.length)]); showToast(`Planted manually!`);}
 });
-document.getElementById('plantBtn').addEventListener('click', () => {
-  if (plantRandom()) updateStats();
-  else showToast('Kein Platz zum Pflanzen');
-  saveGame();
-});
-document.getElementById('harvestBtn').addEventListener('click', () => { harvestReady(); });
-document.getElementById('fillBtn').addEventListener('click', () => { fillAllEmpty(); updateStats(); saveGame(); });
 
-// Init
-loadGame();
-plantRandom();
-setInterval(saveGame, 30000); // Auto-Save
+// -------------------
+// Main Loop
+// -------------------
+let lastTime=performance.now();
+function loop(t){
+  const dt = t-lastTime; lastTime=t;
+  farm.flat().filter(p=>p).forEach(p=>p.grow(dt));
+  drawFarm(); drawConfetti();
+  autoPlant(dt); checkLevel();
+  requestAnimationFrame(loop);
+}
+updateUI(); renderShop(); requestAnimationFrame(loop);
 </script>
 </body>
 </html>
