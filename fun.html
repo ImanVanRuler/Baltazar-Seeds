@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Baltazar Seeds Fun</title>
+  <title>Baltazar Seeds</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -242,10 +242,10 @@ body {
 </head>
 <body>
   <header>
-    <h1>Baltazar Seeds Fun</h1>
+    <h1>CHILL CORNER</h1>
   </header>
 
-  <h1 class="glitch" data-text="🌱 BALTAZAR FUN 🌱">🌱 BALTAZAR FUN 🌱</h1>
+  <h1 class="glitch" data-text="🌱 CHILL CORNER 🌱">🌱 CHILL CORNER 🌱</h1>
 
   <!-- Video Section -->
 <!-- Video Section oben mit kleinem Browser-Spiel -->
@@ -331,6 +331,89 @@ body {
 </script>
 
 
+<h1>Mini Farming Game</h1>
+<canvas id="farmCanvas" width="400" height="400"></canvas>
+<div>
+  <button id="plantBtn">Pflanzen</button>
+  <button id="harvestBtn">Ernten</button>
+</div>
+
+<script>
+const canvas = document.getElementById('farmCanvas');
+const ctx = canvas.getContext('2d');
+
+const GRID_SIZE = 5; // 5x5 Felder
+const CELL_SIZE = canvas.width / GRID_SIZE;
+
+let farm = Array(GRID_SIZE).fill().map(()=>Array(GRID_SIZE).fill(null));
+
+class Plant {
+  constructor() {
+    this.growth = 0; // 0–100%
+  }
+  grow() { if(this.growth<100)this.growth+=10; }
+  isReady() { return this.growth>=100; }
+}
+
+// Zeichnet das Grid und Pflanzen
+function drawFarm() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  for(let i=0;i<GRID_SIZE;i++){
+    for(let j=0;j<GRID_SIZE;j++){
+      ctx.strokeStyle = '#0f0';
+      ctx.strokeRect(j*CELL_SIZE, i*CELL_SIZE, CELL_SIZE, CELL_SIZE);
+
+      const plant = farm[i][j];
+      if(plant){
+        const green = Math.floor(plant.growth * 2.55);
+        ctx.fillStyle = `rgb(0,${green},0)`;
+        ctx.fillRect(j*CELL_SIZE+5, i*CELL_SIZE+5, CELL_SIZE-10, CELL_SIZE-10);
+      }
+    }
+  }
+}
+
+// Pflanzen zufällig pflanzen
+document.getElementById('plantBtn').onclick = ()=>{
+  for(let i=0;i<GRID_SIZE;i++){
+    for(let j=0;j<GRID_SIZE;j++){
+      if(!farm[i][j] && Math.random()<0.3){
+        farm[i][j] = new Plant();
+      }
+    }
+  }
+  drawFarm();
+}
+
+// Ernten: Pflanzen die fertig sind zurücksetzen
+document.getElementById('harvestBtn').onclick = ()=>{
+  for(let i=0;i<GRID_SIZE;i++){
+    for(let j=0;j<GRID_SIZE;j++){
+      if(farm[i][j] && farm[i][j].isReady()){
+        farm[i][j] = null;
+      }
+    }
+  }
+  drawFarm();
+}
+
+// Pflanzen wachsen lassen alle 1s
+setInterval(()=>{
+  for(let i=0;i<GRID_SIZE;i++){
+    for(let j=0;j<GRID_SIZE;j++){
+      if(farm[i][j]) farm[i][j].grow();
+    }
+  }
+  drawFarm();
+}, 1000);
+
+drawFarm();
+</script>
+
+</body>
+</div>
+  
   <!-- Card Section -->
   <div class="card-section">
     <video autoplay muted loop playsinline>
