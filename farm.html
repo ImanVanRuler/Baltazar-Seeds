@@ -3,58 +3,83 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Farming Game</title>
+<title>Mini Farming Game Deluxe</title>
 <style>
   body { 
     margin:0; 
-    font-family:sans-serif; 
-    background:#222; 
-    color:#fff; 
+    font-family: 'Arial', sans-serif; 
+    background: #121212; 
+    color: #fff; 
     display:flex; 
     flex-direction:column; 
     align-items:center; 
-    justify-content:center; 
-    height:100vh;
+    justify-content:flex-start; 
+    padding:20px;
   }
+  h1 { margin-bottom:10px; color:#0f0; text-shadow: 0 0 10px #0f0;}
   canvas { 
     border:2px solid #0f0; 
-    background:#333; 
+    background: #1a1a1a; 
     margin-bottom:20px; 
+    border-radius:10px;
   }
+  .buttons { margin-bottom:20px; }
   button {
     padding:10px 20px;
     margin:5px;
-    background:#0f0;
+    background: linear-gradient(45deg, #0f0, #0a0);
     color:#000;
     border:none;
     cursor:pointer;
     font-weight:bold;
-    border-radius:5px;
+    border-radius:8px;
+    box-shadow: 0 0 10px #0f0;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  button:hover { transform: scale(1.1); box-shadow: 0 0 20px #0f0;}
+  .stats { margin-top:10px; }
+  .stat { margin:5px 0; }
+  .back-button {
+    display: inline-block; 
+    padding: 10px 20px; 
+    background: #0f0; 
+    color: #000; 
+    text-decoration: none; 
+    border-radius: 8px; 
+    font-weight:bold; 
+    border: none; 
+    margin-top: 10px;
   }
 </style>
 </head>
 <body>
 
-<h1>Mini Farming Game</h1>
+<h1>Mini Farming Game Deluxe</h1>
 <canvas id="farmCanvas" width="400" height="400"></canvas>
-<div>
-  <button id="plantBtn">Pflanzen</button>
-  <button id="harvestBtn">Ernten</button>
+
+<div class="buttons">
+  <button id="plantBtn">🌱 Pflanzen</button>
+  <button id="harvestBtn">🌿 Ernten</button>
+</div>
+
+<div class="stats">
+  <div class="stat">Pflanzen gepflanzt: <span id="planted">0</span></div>
+  <div class="stat">Bereit zum Ernten: <span id="ready">0</span></div>
+  <div class="stat">Ernte gesamt: <span id="harvested">0</span></div>
 </div>
 
 <script>
 const canvas = document.getElementById('farmCanvas');
 const ctx = canvas.getContext('2d');
 
-const GRID_SIZE = 5; // 5x5 Felder
+const GRID_SIZE = 5;
 const CELL_SIZE = canvas.width / GRID_SIZE;
 
 let farm = Array(GRID_SIZE).fill().map(()=>Array(GRID_SIZE).fill(null));
+let stats = {planted:0, ready:0, harvested:0};
 
 class Plant {
-  constructor() {
-    this.growth = 0; // 0–100%
-  }
+  constructor() { this.growth = 0; }
   grow() { if(this.growth<100)this.growth+=10; }
   isReady() { return this.growth>=100; }
 }
@@ -63,6 +88,9 @@ class Plant {
 function drawFarm() {
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
+  let readyCount = 0;
+  let plantedCount = 0;
+
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
       ctx.strokeStyle = '#0f0';
@@ -70,15 +98,21 @@ function drawFarm() {
 
       const plant = farm[i][j];
       if(plant){
+        plantedCount++;
+        if(plant.isReady()) readyCount++;
         const green = Math.floor(plant.growth * 2.55);
-        ctx.fillStyle = `rgb(0,${green},0)`;
+        ctx.fillStyle = `rgb(${255-green},${green},0)`;
         ctx.fillRect(j*CELL_SIZE+5, i*CELL_SIZE+5, CELL_SIZE-10, CELL_SIZE-10);
       }
     }
   }
+
+  stats.planted = plantedCount;
+  stats.ready = readyCount;
+  document.getElementById('planted').innerText = stats.planted;
+  document.getElementById('ready').innerText = stats.ready;
 }
 
-// Pflanzen zufällig pflanzen
 document.getElementById('plantBtn').onclick = ()=>{
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
@@ -90,19 +124,20 @@ document.getElementById('plantBtn').onclick = ()=>{
   drawFarm();
 }
 
-// Ernten: Pflanzen die fertig sind zurücksetzen
 document.getElementById('harvestBtn').onclick = ()=>{
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
       if(farm[i][j] && farm[i][j].isReady()){
         farm[i][j] = null;
+        stats.harvested++;
       }
     }
   }
+  document.getElementById('harvested').innerText = stats.harvested;
   drawFarm();
 }
 
-// Pflanzen wachsen lassen alle 1s
+// Pflanzen wachsen lassen
 setInterval(()=>{
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
