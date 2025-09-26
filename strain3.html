@@ -4,25 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BALTAZAR WHITE WIDOW - Baltazar Seeds</title>
+  <meta name="description" content="Buy Baltazar White Widow seeds online – 10 regular seeds for 69,99€, crypto payment accepted.">
+
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
-  <!-- Font Awesome für Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <style>
+    /* --- Grundlegendes --- */
+    * {
+      box-sizing: border-box;
+    }
     body, html {
       margin: 0;
       padding: 0;
-      font-family: 'Nosifer', cursive;
+      font-family: Arial, sans-serif;
       background: #111;
-      color: #ff0b0b;
+      color: #fff5f5;
     }
-
     a {
       text-decoration: none;
+      color: inherit;
     }
 
-    /* Header */
+    /* --- Header --- */
     header {
       display: flex;
       justify-content: space-between;
@@ -33,35 +37,44 @@
       top: 0;
       z-index: 100;
     }
-
     header h1 {
       margin: 0;
+      font-family: 'Nosifer', cursive;
       font-size: 2rem;
+      color: #ff0b0b;
       text-shadow: 2px 2px 0 #000;
     }
-
     nav a {
-      color: #ff0b0b;
-      text-shadow: 1px 1px 0 #000;
-      margin-left: 2rem;
-      transition: 0.3s;
-    }
-
-    nav a:hover {
-      color: black;
-      background: #ff0b0b;
+      margin-left: 1rem;
+      display: inline-flex;
+      align-items: center;
       padding: 0.2rem 0.5rem;
       border-radius: 4px;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      background: #ff0b0b;
+      color: black;
     }
 
-    /* Strain Detail */
+    /* --- Social Icons --- */
+    .social-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: #ff0b0b;
+      transition: fill 0.3s;
+    }
+    .social-icon:hover svg {
+      fill: black;
+    }
+
+    /* --- Strain Detail --- */
     .strain-detail {
       max-width: 900px;
       margin: 3rem auto;
       padding: 0 2rem;
       text-align: center;
     }
-
     .strain-detail img {
       width: 100%;
       max-height: 400px;
@@ -70,99 +83,101 @@
       border-radius: 12px;
       margin-bottom: 2rem;
     }
-
     .strain-detail h2 {
+      font-family: 'Nosifer', cursive;
       font-size: 3rem;
       margin-bottom: 1rem;
       text-shadow: 2px 2px 0 #000;
+      color: #ff0b0b;
     }
-
     .strain-detail p {
       font-size: 1.2rem;
       line-height: 1.6;
-      text-shadow: 1px 1px 0 #000;
       margin-bottom: 1rem;
     }
 
-    /* Back Button */
-    .btn {
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 0.8rem 1.5rem;
-      font-size: 1rem;
-      color: #ff0b0b;
-      background: rgba(0,0,0,0.6);
-      border: 2px solid #ff0b0b;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-
-    .btn:hover {
-      background: #ff0b0b;
-      color: black;
-    }
-
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      background: rgba(0,0,0,0.85);
-      text-shadow: 1px 1px 0 #000;
-      margin-top: 3rem;
-    }
-    /* Buttons */
-    .btn {
+    /* --- Buttons --- */
+    .btn, .crypto-btn {
       display: inline-block;
       margin-top: 1rem;
       padding: 0.8rem 1.5rem;
       font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn {
       color: #ff0b0b;
       background: rgba(0,0,0,0.6);
       border: 2px solid #ff0b0b;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      cursor: pointer;
     }
     .btn:hover {
       background: #ff0b0b;
       color: black;
     }
-nav a.instagram {
-  font-size: 1.5rem;
-  color: #ff0b0b;
-  margin-left: 1rem;
-  transition: 0.3s;
-}
-nav a.instagram:hover {
-  color: black;
-  background: #ff0b0b;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-}
-nav a.youtube {
-  font-size: 1.5rem;
-  color: #ff0b0b;
-  margin-left: 1rem;
-  transition: 0.3s;
-}
-nav a.youtube:hover {
-  color: black;
-  background: #ff0b0b;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-}
-nav a.twitter {
-  font-size: 1.5rem;
-  color: #ff0b0b;
-  margin-left: 1rem;
-  transition: 0.3s;
-}
-nav a.twitter:hover {
-  color: black;
-  background: #ff0b0b;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-}
+    .crypto-btn {
+      background: linear-gradient(90deg, #FF9900, #FF6600);
+      color: white;
+      border: none;
+      letter-spacing: 1px;
+    }
+    .crypto-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    }
+
+    /* --- Crypto Payment Section --- */
+    #crypto-payment {
+      text-align: center;
+      margin: 3rem auto;
+      padding: 2rem;
+      max-width: 700px;
+      border: 2px solid #ff0b0b;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.7);
+      color: #ff0b0b;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    }
+    #crypto-payment h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      text-shadow: 1px 1px 0 #000;
+    }
+    #crypto-payment p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 1px 1px 0 #000;
+    }
+    #crypto-payment h3 {
+      margin: 1rem 0;
+      font-size: 1.4rem;
+      color: #fff;
+      text-shadow: 1px 1px 2px #000;
+    }
+    #crypto-payment img {
+      width: 120px;
+      margin: 1.5rem auto;
+      display: block;
+    }
+
+    /* --- Footer --- */
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: rgba(0,0,0,0.85);
+      margin-top: 3rem;
+      text-shadow: 1px 1px 0 #000;
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 600px) {
+      .strain-detail h2 { font-size: 2.2rem; }
+      #crypto-payment h2 { font-size: 1.6rem; }
+      .crypto-btn { padding: 0.6rem 1rem; font-size: 16px; }
+    }
+
   </style>
 </head>
 <body>
@@ -174,10 +189,31 @@ nav a.twitter:hover {
       <a href="index.html">Entrance</a>
       <a href="seite3.html">Menu</a>
       <a href="mailto:imanvanruler@freenet.de">Contact</a>
-      <a href="https://x.com/BALTAZARSEEDS" target="_blank" class="X"><i class="fa-brands fa-x-twitter"></i></a>
-      <a href="https://www.instagram.com/real_jack_james" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
-      <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
+
+      <!-- Social Icons als SVG -->
+      <a href="https://x.com/BALTAZARSEEDS" target="_blank" class="social-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path fill="#ff0b0b" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-46.719 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.974-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c14.182 7.883 30.355 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.882-2.599-15.764-2.599-23.645 0-57.828 46.782-104.934 104.934-104.934 30.355 0 57.828 12.67 77.034 33.137 24.037-4.548 46.782-13.645 67.05-25.34-7.883 24.607-24.607 45.34-46.456 58.29 21.366-2.273 41.834-8.122 60.665-16.243-14.292 21.045-32.161 39.452-52.628 54.253z"/>
+        </svg>
+      </a>
+
+      <a href="https://www.instagram.com/real_jack_james" target="_blank" class="social-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+          <path fill="#ff0b0b" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9S160.5 370.9 224.1 370.9 339 319.6 339 256 287.7 141 224.1 141zm0 189.6c-41.3 0-74.7-33.4-74.7-74.7S182.8 181.2 224.1 181.2s74.7 33.4 74.7 74.7-33.4 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.9-26.9 26.9s-26.9-12-26.9-26.9 12-26.9 26.9-26.9 26.9 12 26.9 26.9zM398.8 80c-7.8-18.6-23-33.7-41.6-41.6C330.6 32 224 32 224 32s-106.6 0-133.2 6.4c-18.6 7.8-33.7 23-41.6 41.6C32 149.4 32 256 32 256s0 106.6 6.4 133.2c7.8 18.6 23 33.7 41.6 41.6C117.4 480 224 480 224 480s106.6 0 133.2-6.4c18.6-7.8 33.7-23 41.6-41.6 6.4-26.6 6.4-133.2 6.4-133.2s0-106.6-6.4-133.2zM224 338c-45.8 0-82.9-37.1-82.9-82.9S178.2 172.2 224 172.2 306.9 209.3 306.9 255.1 269.8 338 224 338z"/>
+        </svg>
+      </a>
+
+      <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" class="social-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+          <path fill="#ff0b0b" d="M549.655 124.083c-6.281-23.652-24.8-42.182-48.452-48.452C456.187 64 288 64 288 64S119.813 64 74.797 75.631c-23.652 6.281-42.172 24.8-48.452 48.452C16 169.093 16 256 16 256s0 86.907 10.345 131.917c6.281 23.652 24.8 42.172 48.452 48.452C119.813 448 288 448 288 448s168.187 0 213.203-11.631c23.652-6.281 42.172-24.8 48.452-48.452C560 342.907 560 256 560 256s0-86.907-10.345-131.917zM232 334V178l142 78-142 78z"/>
+        </svg>
+      </a>
+
+      <a href="https://soundcloud.com/jackjames-2" target="_blank" class="social-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+          <path fill="#ff0b0b" d="M576 256c0-69.3-56.7-126-126-126-6.1 0-12.1 .5-18 .9C420.5 81.3 343.4 32 256 32 147.2 32 56 123.2 56 232c0 0 0 4.7 .1 6.9C23.1 245.7 0 270.7 0 300c0 35.3 28.7 64 64 64h416c53 0 96-43 96-96z"/>
+        </svg>
+      </a>
     </nav>
   </header>
 
@@ -193,70 +229,28 @@ nav a.twitter:hover {
       It often sparks creativity while keeping the mind clear and focused.
       The aroma is earthy and woody with a sharp intense undertone.
     </p>
-
     <a href="seite3.html" class="btn">Back to Menu</a>
   </section>
-  
-<section style="
-  text-align:center; 
-  margin:3rem auto; 
-  padding:2rem; 
-  max-width:700px; 
-  border: 2px solid #ff0b0b; 
-  border-radius:12px; 
-  background: rgba(0,0,0,0.7); 
-  color:#ff0b0b; 
-  font-family: Arial, sans-serif;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-">
-  
-<h2 style="text-shadow: 1px 1px 0 #000; font-size:2rem; margin-bottom:1rem;">
-    ⚡ Pay with Crypto ! ⚡
-  </h2>
-  
-  <p style="text-shadow: 1px 1px 0 #000; font-size:1.1rem; margin-bottom:1.5rem;">
-    Finish your purchase by clicking the button below
-  </p>
 
-  <h3 style="margin:1rem 0; font-size:1.4rem; color:#fff; text-shadow: 1px 1px 2px #000;">
-    (10 REGULAR SEEDS FOR 69,99€)
-  </h3>
+  <!-- Crypto Payment Section -->
+  <section id="crypto-payment">
+    <h2>⚡ Pay with Crypto ! ⚡</h2>
+    <p>Finish your purchase by clicking the button below</p>
+    <h3>(10 REGULAR SEEDS FOR 69,99€)</h3>
 
-  <div class="product" style="margin:2rem 0;">
-    <h3 style="margin-bottom:1rem; font-size:1.3rem;">
-      Choose MetaMask or another Wallet
-    </h3>
-    
-   <a href="formular.html"
-   style="
-     display:inline-block;
-     background: linear-gradient(90deg, #FF9900, #FF6600);
-     color:white;
-     font-weight:bold;
-     text-decoration:none;
-     padding:15px 40px;
-     border-radius:10px;
-     font-size:18px;
-     letter-spacing:1px;
-     transition: transform 0.2s, box-shadow 0.2s;
-   "
-   onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.4)';"
-   onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
-   Complete Order
-</a>
+    <a href="formular.html" class="crypto-btn">Complete Order</a>
 
-  </div>
+    <img src="METAMASK.png" alt="MetaMask">
 
-  <img src="METAMASK.png" alt="MetaMask" style="width:120px; margin:1.5rem auto; display:block;">
+    <p style="font-size:0.95rem; line-height:1.6; margin-top:2rem; color:#ffdede;">
+      ⚠️ <b>Important:</b> Only crypto payments are accepted to the wallet redirected by clicking the buy button.  
+      Please check all details carefully beforehand! You can choose from several cryptocurrencies.  
+      <b>Polygon is recommended and preferred.</b>  
+      ✅ International shipping included in the price ✈️🌐
+    </p>
+  </section>
 
-  <p style="font-size:0.95rem; line-height:1.6; margin-top:2rem; color:#ffdede; text-shadow: 1px 1px 2px #000;">
-    ⚠️ <b>Important:</b> Only crypto payments are accepted to the wallet redirected by clicking the buy button.  
-    Please check all details carefully beforehand! You can choose from several cryptocurrencies.  
-    <b>Polygon is recommended and preferred.</b>  
-    ✅ International shipping included in the price ✈️🌐
-  </p>
-  
-</section>
+  <!-- Footer -->
   <footer>
     &copy; 2025 Baltazar Seeds - Real Vibes. Real Life. Real Seeds.
   </footer>
