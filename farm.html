@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cannabis Strain Farming Game</title>
+<title>Mini Farming Game Deluxe</title>
 <style>
   body { 
     margin:0; 
@@ -113,22 +113,22 @@
 </style>
 </head>
 <body>
-<h1>🌿 Cannabis Strain Farming Game</h1>
+<h1>🌿 Mini Farming Game Deluxe 🌿</h1>
 <canvas id="farmCanvas" width="400" height="400"></canvas>
 <div>
-  <button id="plantBtn">🌱 Pflanzen</button>
-  <button id="harvestBtn">🌾 Ernten</button>
+  <button id="plantBtn">🌱 Plants</button>
+  <button id="harvestBtn">🌾 Harvest</button>
 </div>
 <div id="side">
   <div id="stats">
     <p><b>Level:</b> <span id="level">1</span></p>
     <p><b>XP:</b> <span id="xp">0</span></p>
-    <p><b>Geerntet:</b> <span id="harvested">0</span></p>
+    <p><b>Harvest:</b> <span id="harvested">0</span></p>
     <div id="strainLog"><b>📝 Strain Log:</b><br></div>
   </div>
-  <div id="baltiCard">
-    <img src="BALTI.JPG" alt="Farmer Balti">
-    <p>👨‍🌾 Farmer Balti</p>
+  <div id="YOU ARE THE BREEDER">
+    <img src="BALTI.JPG" alt="You Are The Breeder">
+    <p>👨‍🌾 Power To The Grower 👨‍🌾</p>
   </div>
 </div>
 
@@ -145,11 +145,18 @@ let farm = Array(GRID_SIZE).fill().map(()=>Array(GRID_SIZE).fill(null));
 
 /* Cannabis Strains */
 const strains = [
-  {name:"OG Kush", color:"limegreen", growRate:2, xp:7},
-  {name:"Sour Diesel", color:"yellowgreen", growRate:3, xp:5},
-  {name:"Amnesia Haze", color:"mediumseagreen", growRate:1.5, xp:10},
-  {name:"White Widow", color:"palegreen", growRate:2.5, xp:6},
-  {name:"Gelato", color:"springgreen", growRate:2, xp:8}
+  {name:"Sticky Buns", color:"limegreen", growRate:2, xp:7},
+  {name:"Pink Berry Pop", color:"yellowgreen", growRate:3, xp:5},
+  {name:"Boom Boom Berry", color:"mediumseagreen", growRate:1.5, xp:10},
+  {name:"White Rhino", color:"palegreen", growRate:2.5, xp:6},
+  {name:"Sunset Sherbet", color:"springgreen", growRate:2, xp:8},
+  {name:"Rainbow Sherbet", color:"deepgreen", growRate:2, xp:7},
+  {name:"Blueberry", color:"yellowgreen", growRate:3, xp:5},
+  {name:"Euforia", color:"mediumseagreen", growRate:1.5, xp:10},
+  {name:"G13 Haze", color:"palegreen", growRate:2.5, xp:6},
+  {name:"Cream Caramel", color:"springgreen", growRate:2, xp:8},
+  {name:"Bubble Gum", color:"palegreen", growRate:2.5, xp:6},
+  {name:"Serious Kush", color:"springgreen", growRate:2, xp:8}
 ];
 
 class Plant {
@@ -176,10 +183,10 @@ function addStrainLog(msg){
 }
 
 function levelUpCheck(){
-  if(xp >= level*30){
+  if(xp >= level*710){
     xp=0;
     level++;
-    alert("🔥 High Level Up! Du bist jetzt Grower Level "+level+"!");
+    alert("🔥 High Level Up! Now you are Grower Level "+level+"!");
   }
 }
 
@@ -288,4 +295,5 @@ updateStats();
 drawFarm();
 </script>
 </body>
+  <a href="seite3.html" class="back-button">Back To Menu</a>
 </html>
