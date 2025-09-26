@@ -11,7 +11,6 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
 <style>
-  /* ---------------- Body & Fonts ---------------- */
   body, html {
     margin: 0;
     padding: 0;
@@ -19,6 +18,27 @@
     background: #000;
     color: #fff;
     overflow-x: hidden;
+  }
+
+  /* ----------- Intro Video ----------- */
+  #introVideoContainer {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    z-index: 9999;
+  }
+  #introVideo {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  /* ----------- Main Content (hidden first) ----------- */
+  #mainContent {
+    display: none; /* wird erst nach Video eingeblendet */
   }
 
   /* ---------------- Header ---------------- */
@@ -113,7 +133,6 @@
     filter: brightness(0.6) contrast(1.2);
   }
 
-  /* ---------------- Scan Widget & Fun Facts ---------------- */
   .card {
     background: rgba(0,0,0,0.8);
     color: #fff;
@@ -207,6 +226,17 @@
 </head>
 <body>
 
+<!-- Intro Video -->
+<div id="introVideoContainer">
+  <video id="introVideo" autoplay muted loop>
+    <source src="dein-intro-video.mp4" type="video/mp4">
+    Dein Browser unterstützt das Video-Tag nicht.
+  </video>
+</div>
+
+<!-- Haupt-Inhalt -->
+<div id="mainContent">
+
 <header>
   <h1>Baltazar Seeds Ultra Scan</h1>
 </header>
@@ -244,7 +274,17 @@
 
 <a href="seite3.html" class="back-button">Back To Menu</a>
 
+</div> <!-- Ende mainContent -->
+
 <script>
+  // Intro Video -> nach 5 Sekunden Hauptinhalt anzeigen
+  const intro = document.getElementById("introVideoContainer");
+  const main = document.getElementById("mainContent");
+  setTimeout(()=>{
+    intro.style.display="none";
+    main.style.display="block";
+  },5000); // nach 5 Sekunden
+
   // Floating leaf interactivity
   document.querySelectorAll('.leaf').forEach(leaf=>{
     leaf.addEventListener('click',()=>{
@@ -282,7 +322,6 @@
       row.textContent=`${site.name} ... ${site.type.toUpperCase()}! 🌟`;
       row.classList.add(site.status);
 
-      // Leaves dance
       document.querySelectorAll('.leaf').forEach(leaf=>{
         leaf.style.transform=`translateY(-${Math.random()*50}px) rotate(${Math.random()*360}deg)`;
         setTimeout(()=>leaf.style.transform="",600);
@@ -300,7 +339,9 @@
     outputDiv.appendChild(endMsg);
     scanBtn.disabled=false;
   }
-  scanBtn.addEventListener('click',runUltraScan);
+  if(scanBtn){
+    scanBtn.addEventListener('click',runUltraScan);
+  }
 
   // Fun Facts / Tips
   const facts=[
@@ -311,10 +352,13 @@
     "Trichomes contain valuable cannabinoids – patience pays off!",
     "Small mistakes make the grow more exciting – every grow is an adventure."
   ];
-  document.getElementById('showFactBtn').addEventListener('click',()=>{
-    const fact=facts[Math.floor(Math.random()*facts.length)];
-    document.getElementById('fact').innerText=fact;
-  });
+  const factBtn=document.getElementById('showFactBtn');
+  if(factBtn){
+    factBtn.addEventListener('click',()=>{
+      const fact=facts[Math.floor(Math.random()*facts.length)];
+      document.getElementById('fact').innerText=fact;
+    });
+  }
 </script>
 
 </body>
