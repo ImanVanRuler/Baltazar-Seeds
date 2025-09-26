@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Farming Simulator Ultra</title>
+<title>Mini Farming Simulator Ultra+Particles</title>
 <style>
   body { 
     margin:0; 
@@ -55,7 +55,7 @@
 </head>
 <body>
 
-<h1>Mini Farming Simulator Ultra</h1>
+<h1>Mini Farming Simulator Ultra+Particles</h1>
 <canvas id="farmCanvas" width="400" height="400"></canvas>
 
 <div class="buttons">
@@ -85,6 +85,28 @@ const CELL_SIZE = canvas.width / GRID_SIZE;
 let farm = Array(GRID_SIZE).fill().map(()=>Array(GRID_SIZE).fill(null));
 let stats={planted:0, ready:0, harvested:0, xp:0, level:1};
 
+// Partikel System
+let particles = [];
+class Particle{
+  constructor(x,y){
+    this.x = x + Math.random()*CELL_SIZE*0.5;
+    this.y = y + Math.random()*CELL_SIZE*0.5;
+    this.size = 2 + Math.random()*3;
+    this.speedY = -1 - Math.random()*1;
+    this.alpha = 1;
+  }
+  update(){
+    this.y += this.speedY;
+    this.alpha -= 0.02;
+  }
+  draw(){
+    ctx.fillStyle = `rgba(0,255,0,${this.alpha})`;
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+    ctx.fill();
+  }
+}
+
 // Sounds
 const plantSound = new Audio('https://freesound.org/data/previews/82/82921_1022651-lq.mp3');
 const harvestSound = new Audio('https://freesound.org/data/previews/17/17864_1022651-lq.mp3');
@@ -92,7 +114,17 @@ const levelUpSound = new Audio('https://freesound.org/data/previews/331/331912_3
 
 class Plant{
   constructor(){ this.growth=0; }
-  grow(){ if(this.growth<100){ this.growth+=Math.random()*5; if(this.growth>100)this.growth=100; }}
+  grow(){ 
+    if(this.growth<100){ 
+      const old=this.growth;
+      this.growth+=Math.random()*5; 
+      if(this.growth>100)this.growth=100;
+      if(this.growth>old){
+        // Erzeuge Partikel
+        particles.push(new Particle(this.col*CELL_SIZE,this.row*CELL_SIZE));
+      }
+    }
+  }
   isReady(){ return this.growth>=100; }
 }
 
@@ -120,6 +152,13 @@ function drawFarm(rain=false){
         }
       }
     }
+  }
+
+  // Draw Particles
+  for(let i=particles.length-1;i>=0;i--){
+    particles[i].update();
+    particles[i].draw();
+    if(particles[i].alpha<=0) particles.splice(i,1);
   }
 
   stats.planted=plantedCount;
@@ -151,7 +190,9 @@ document.getElementById('plantBtn').onclick=()=>{
   for(let i=0;i<GRID_SIZE;i++){
     for(let j=0;j<GRID_SIZE;j++){
       if(!farm[i][j] && Math.random()<0.4){
-        farm[i][j]=new Plant();
+        const p=new Plant();
+        p.row=i; p.col=j;
+        farm[i][j]=p;
       }
     }
   }
