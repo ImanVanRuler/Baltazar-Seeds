@@ -109,6 +109,7 @@
       padding: 50px 0;
       z-index: 1;
       overflow: hidden;
+      min-height: 600px; /* Verbessert: Sicherstellt, dass das Hintergrundvideo Platz hat */
     }
 
     .card-section video {
@@ -239,6 +240,44 @@
       transform: scale(1.1);
       box-shadow: 0 0 30px rgba(0,255,153,0.8);
     }
+
+    /* ---------------- Video Modal Popup ---------------- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+      padding-top: 50px;
+    }
+
+    .modal-content {
+      margin: auto;
+      display: block;
+      width: 80%;
+      max-width: 800px;
+      border-radius: 10px;
+    }
+
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #bbb;
+    }
   </style>
 </head>
 
@@ -250,23 +289,24 @@
   <h1 class="glitch" data-text="🌱 BALTZAR ULTRA SCAN 🌱">🌱 BALTZAR ULTRA SCAN 🌱</h1>
 
   <div class="card-section">
-    <!-- Video Background -->
+    <!-- Hintergrundvideo (unverändert) -->
     <video autoplay muted loop playsinline>
       <source src="logovid.mp4" type="video/mp4">
-      Ihr Browser unterstützt kein Video.
+      Ihr Browser unterstützt das Video-Tag nicht. Bitte aktualisieren Sie Ihren Browser.
     </video>
 
     <!-- Ultra Scan Widget -->
     <div class="card">
       <h2>🔥 Bot Scan 🔥</h2>
-      <button id="startScanBtn">Start Scan</button>
+      <button id="startScanBtn" aria-label="Scan starten">Start Scan</button>
+      <button id="playVideoBtn" aria-label="Video abspielen">Play Video</button>
       <div id="scanOutput"></div>
     </div>
 
     <!-- Fun Facts Widget -->
     <div class="card">
       <h2>💡 Tips & Fun Facts 💡</h2>
-      <button id="showFactBtn">Show Tip</button>
+      <button id="showFactBtn" aria-label="Tipp anzeigen">Show Tip</button>
       <div id="fact"></div>
     </div>
 
@@ -279,6 +319,15 @@
   </div>
 
   <a href="seite3.html" class="back-button">Back To Menu</a>
+
+  <!-- Video Modal Popup -->
+  <div id="videoModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="videoModalLabel">
+    <span class="close" aria-label="Modal schließen">&times;</span>
+    <video id="popupVideo" class="modal-content" controls>
+      <source src="logovid.mp4" type="video/mp4"> <!-- Ersetze durch dein gewünschtes Video, falls anders -->
+      Ihr Browser unterstützt das Video-Tag nicht.
+    </video>
+  </div>
 
   <script>
     // Floating leaf interactivity
@@ -355,6 +404,28 @@
     document.getElementById('showFactBtn').addEventListener('click', () => {
       const fact = facts[Math.floor(Math.random()*facts.length)];
       document.getElementById('fact').innerText = fact;
+    });
+
+    // Video Modal Logic
+    const modal = document.getElementById("videoModal");
+    const popupVideo = document.getElementById("popupVideo");
+    const closeSpan = document.querySelector(".close");
+
+    document.getElementById("playVideoBtn").addEventListener("click", () => {
+      modal.style.display = "block";
+      popupVideo.play();
+    });
+
+    closeSpan.addEventListener("click", () => {
+      modal.style.display = "none";
+      popupVideo.pause();
+    });
+
+    window.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
+        popupVideo.pause();
+      }
     });
   </script>
 </body>
