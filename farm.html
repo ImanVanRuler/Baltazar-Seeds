@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -81,23 +81,25 @@ canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient
   .container{grid-template-columns:1fr;}
   canvas{width:100%; height:60vh}
 }
+#confettiCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; }
 </style>
 </head>
 <body>
 <div class="container">
 <header>
-  <h1>🌿 Mini Farming Game Deluxe</h1>
-  <div class="sub">Pflanze Samen, sieh sie wachsen und ernte für XP und Belohnungen!</div>
+  <h1>🌿 Epic Mini Farming Empire</h1>
+  <div class="sub">Unleash seeds, watch them thrive, and harvest epic rewards for ultimate glory!</div>
 </header>
 
 <main class="panel" id="canvasWrap">
   <canvas id="farmCanvas" width="560" height="560" aria-label="Farm canvas"></canvas>
   <div class="controls">
-    <button class="btn" id="plantBtn">🌱 Samen pflanzen (zufällig)</button>
-    <button class="btn" id="harvestBtn">🌾 Reife Pflanzen ernten</button>
-    <button class="btn" id="fillBtn">🔁 Leere Felder füllen</button>
+    <button class="btn" id="plantBtn">🌱 Unleash Random Seed</button>
+    <button class="btn" id="harvestBtn">🌾 Harvest Mature Beasts</button>
+    <button class="btn" id="fillBtn">🔁 Dominate Empty Plots</button>
     <div style="flex:1"></div>
-    <a class="backLink" href="seite3.html">◀ Zurück zum Menü</a>
+    <button class="btn" id="newStartBtn">🚀 New Empire Start</button>
+    <a class="backLink" href="seite3.html">◀ Back to Home Base</a>
   </div>
   <div id="infoRow">
     <div class="statBox">
@@ -110,11 +112,11 @@ canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient
       <div class="xpBar" style="margin-top:8px"><div id="xpFill" class="xpFill"></div></div>
     </div>
     <div class="statBox">
-      <div class="statTitle">Geerntet</div>
+      <div class="statTitle">Harvested</div>
       <div class="statValue" id="harvested">0</div>
     </div>
     <div class="statBox">
-      <div class="statTitle">Münzen</div>
+      <div class="statTitle">Coins</div>
       <div class="statValue" id="coins">0</div>
     </div>
   </div>
@@ -122,27 +124,27 @@ canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient
 
 <aside class="panel" id="side">
   <div id="stats">
-    <strong>📝 Strain Log</strong>
+    <strong>📝 Legendary Strain Chronicles</strong>
     <div id="strainLog"></div>
   </div>
 
   <div id="shopPanel" class="panel">
-    <strong>🏪 Shop (Belohnungen)</strong>
+    <strong>🏪 Ultimate Reward Vault</strong>
     <div id="shopItems"></div>
   </div>
 
   <div id="achievements" class="panel">
-    <strong>🏆 Achievements</strong>
+    <strong>🏆 Epic Achievements</strong>
     <ul id="achievementList"></ul>
   </div>
 
   <div class="panel">
-    <strong>So spielst du</strong>
+    <strong>Master the Realm</strong>
     <ul style="padding-left:18px; margin:8px 0 0 0; color:var(--muted)">
-      <li>Klicke auf ein Feld, um einen Samen zu pflanzen.</li>
-      <li>Nutze "Samen pflanzen" für zufällige Platzierung.</li>
-      <li>Pflanzen wachsen mit der Zeit. Ernte, wenn golden.</li>
-      <li>Ernte Münzen und kaufe Upgrades im Shop!</li>
+      <li>Click a plot to deploy a mighty seed.</li>
+      <li>Use "Unleash Random Seed" for chaotic placement.</li>
+      <li>Crops evolve over time. Harvest when they glow golden.</li>
+      <li>Reap coins and dominate upgrades in the Vault!</li>
     </ul>
   </div>
 </aside>
@@ -150,9 +152,11 @@ canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient
 
 <div class="toast" id="toast"></div>
 
+<canvas id="confettiCanvas"></canvas>
+
 <audio id="plantSound" src="plant.mp3" preload="auto"></audio>
 <audio id="harvestSound" src="harvest.mp3" preload="auto"></audio>
-<audio id="levelUpSound" src="levelup.mp3" preload="auto"></audio> <!-- Füge eine levelup.mp3 hinzu, falls verfügbar -->
+<audio id="levelUpSound" src="levelup.mp3" preload="auto"></audio> <!-- Add a levelup.mp3 if available -->
 
 <script>
 // -------------------
@@ -168,23 +172,24 @@ let strains = [
   {name: "Purple Haze", color: "#A020F0", growRate: 9, xp: 8, coins: 6, unlocked: false, unlockLevel: 5}
 ];
 const upgrades = [
-  {id: "growthBoost", name: "Wachstums-Boost", desc: "+20% Grow-Rate", cost: 30, level: 0, maxLevel: 3, effect: () => growthMultiplier += 0.2},
-  {id: "xpBoost", name: "XP-Boost", desc: "+10% XP pro Ernte", cost: 50, level: 0, maxLevel: 3, effect: () => xpMultiplier += 0.1},
-  {id: "coinBoost", name: "Münz-Boost", desc: "+15% Münzen pro Ernte", cost: 40, level: 0, maxLevel: 3, effect: () => coinMultiplier += 0.15},
-  {id: "autoPlant", name: "Auto-Pflanzer", desc: "Pflanzt automatisch leere Felder (langsam)", cost: 80, level: 0, maxLevel: 1, effect: () => autoPlantUnlocked = true}
+  {id: "growthBoost", name: "Growth Accelerator", desc: "+20% Epic Grow Speed", cost: 30, level: 0, maxLevel: 3, effect: () => growthMultiplier += 0.2},
+  {id: "xpBoost", name: "XP Surge", desc: "+10% XP Explosion per Harvest", cost: 50, level: 0, maxLevel: 3, effect: () => xpMultiplier += 0.1},
+  {id: "coinBoost", name: "Coin Storm", desc: "+15% Coin Rain per Harvest", cost: 40, level: 0, maxLevel: 3, effect: () => coinMultiplier += 0.15},
+  {id: "autoPlant", name: "Auto-Deployer", desc: "Automatically conquers empty plots (slowly)", cost: 80, level: 0, maxLevel: 1, effect: () => autoPlantUnlocked = true}
 ];
 const achievements = [
-  {id: "firstHarvest", name: "Erste Ernte", desc: "Ernte deine erste Pflanze", unlocked: false, condition: () => harvested >= 1},
-  {id: "level5", name: "Level 5 erreicht", desc: "Erreiche Level 5", unlocked: false, condition: () => level >= 5},
-  {id: "harvest100", name: "100 Ernten", desc: "Ernte 100 Pflanzen", unlocked: false, condition: () => harvested >= 100},
-  {id: "allUpgrades", name: "Meister-Upgrader", desc: "Kaufe alle Upgrades max.", unlocked: false, condition: () => upgrades.every(u => u.level >= u.maxLevel)}
+  {id: "firstHarvest", name: "First Conquest", desc: "Harvest your inaugural beast", unlocked: false, condition: () => harvested >= 1},
+  {id: "level5", name: "Level 5 Dominance", desc: "Ascend to Level 5", unlocked: false, condition: () => level >= 5},
+  {id: "harvest100", name: "100 Harvests of Fury", desc: "Reap 100 mighty plants", unlocked: false, condition: () => harvested >= 100},
+  {id: "allUpgrades", name: "Upgrade Overlord", desc: "Max out all upgrades", unlocked: false, condition: () => upgrades.every(u => u.level >= u.maxLevel)}
 ];
 const canvas = document.getElementById('farmCanvas');
 const ctx = canvas.getContext('2d');
 const farm = Array.from({length: GRID_SIZE}, () => Array(GRID_SIZE).fill(null));
-let xp = 0, level = 1, harvested = 0, coins = 100; // Start mit 100 Münzen für Test
+let xp = 0, level = 1, harvested = 0, coins = 100; // Start with 100 coins for testing
 let growthMultiplier = 1, xpMultiplier = 1, coinMultiplier = 1, autoPlantUnlocked = false;
 let lastAutoPlant = 0;
+const backgrounds = ['BALTI.JPG', 'BALTI1.JPG', 'BALTI2.JPG', 'BALTI3.JPG', 'BALTI4.JPG'];
 
 // -------------------
 // Classes
@@ -227,6 +232,35 @@ class Spark {
   }
 }
 
+// Confetti Class
+class Confetti {
+  constructor() {
+    this.x = Math.random() * window.innerWidth;
+    this.y = -Math.random() * 100;
+    this.size = Math.random() * 10 + 5;
+    this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+    this.speed = Math.random() * 5 + 2;
+    this.rotation = Math.random() * 360;
+    this.rotationSpeed = Math.random() * 10 - 5;
+  }
+  update() {
+    this.y += this.speed;
+    this.rotation += this.rotationSpeed;
+    if (this.y > window.innerHeight + this.size) {
+      this.y = -this.size;
+      this.x = Math.random() * window.innerWidth;
+    }
+  }
+  draw(ctx) {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.rotation * Math.PI / 180);
+    ctx.fillStyle = this.color;
+    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+    ctx.restore();
+  }
+}
+
 // -------------------
 // Helpers
 // -------------------
@@ -248,7 +282,7 @@ function updateStats() {
   document.getElementById('coins').textContent = coins;
   const pct = Math.min(100, Math.round((xp / xpThresholdForLevel(level)) * 100));
   document.getElementById('xpFill').style.width = pct + '%';
-  renderShop(); // Neu: Shop nach Stats-Update rendern
+  renderShop(); // Update shop after stats
 }
 function xpThresholdForLevel(l) { return 40 + l * 20; }
 function showToast(msg, ms = 1500) {
@@ -276,8 +310,9 @@ function loadGame() {
     farm.forEach((row, r) => row.forEach((_, c) => { const p = data.farm[r][c]; farm[r][c] = p ? new Plant(strains[p.strain]) : null; if (p) farm[r][c].growth = p.growth; }));
     applyUpgrades();
     unlockStrains();
+    updateBackground();
   } else {
-    coins = 100; // Fallback für neuen Start
+    coins = 100; // Fallback for new game
   }
   updateStats();
   renderShop();
@@ -296,9 +331,10 @@ function checkAchievements() {
     if (!a.unlocked && a.condition()) {
       a.unlocked = true;
       newUnlock = true;
-      addLog(`🏆 Achievement unlocked: ${a.name}`);
-      showToast(`Achievement: ${a.name}!`, 2000);
+      addLog(`🏆 Epic Achievement Unlocked: ${a.name}`);
+      showToast(`Epic Win: ${a.name}!`, 2000);
       coins += 20;
+      rainConfetti();
     }
   });
   if (newUnlock) renderAchievements();
@@ -309,28 +345,23 @@ function renderShop() {
   upgrades.forEach(u => {
     const item = document.createElement('div');
     item.className = 'shopItem';
-    item.innerHTML = `<div>${u.name} (Lvl ${u.level}/${u.maxLevel})<br><small>${u.desc} - Kostet ${u.cost} Münzen</small></div>`;
+    item.innerHTML = `<div>${u.name} (Lvl ${u.level}/${u.maxLevel})<br><small>${u.desc} - Costs ${u.cost} Coins</small></div>`;
     const buyBtn = document.createElement('button');
     buyBtn.className = 'btn';
-    buyBtn.textContent = 'Kaufen';
+    buyBtn.textContent = 'Acquire';
     const isDisabled = coins < u.cost || u.level >= u.maxLevel;
     buyBtn.disabled = isDisabled;
-    if (isDisabled) console.log(`Shop Debug: ${u.name} disabled - Coins: ${coins}, Cost: ${u.cost}, Level: ${u.level}/${u.maxLevel}`);
     buyBtn.onclick = () => {
-      console.log(`Shop Debug: Versuch, ${u.name} zu kaufen - Coins: ${coins}, Cost: ${u.cost}`);
       if (coins >= u.cost && u.level < u.maxLevel) {
         coins -= u.cost;
         u.level++;
         u.cost = Math.round(u.cost * 1.5);
         u.effect();
-        addLog(`🛒 Upgrade gekauft: ${u.name} (Lvl ${u.level})`);
-        showToast(`Upgrade: ${u.name}!`);
+        addLog(`🛒 Power Acquired: ${u.name} (Lvl ${u.level})`);
+        showToast(`Power Up: ${u.name}!`);
         updateStats();
         checkAchievements();
         saveGame();
-        console.log(`Shop Debug: Kauf erfolgreich - Neue Coins: ${coins}`);
-      } else {
-        console.log(`Shop Debug: Kauf fehlgeschlagen`);
       }
     };
     item.appendChild(buyBtn);
@@ -346,6 +377,34 @@ function renderAchievements() {
     li.innerHTML = `${a.unlocked ? '✅' : '🔒'} ${a.name} - ${a.desc}`;
     list.appendChild(li);
   });
+}
+function updateBackground() {
+  let bgIndex = 0;
+  if (level >= 25) bgIndex = 4;
+  else if (level >= 20) bgIndex = 3;
+  else if (level >= 15) bgIndex = 2;
+  else if (level >= 10) bgIndex = 1;
+  else if (level >= 5) bgIndex = 0; // BALTI.JPG is default, but per request, at 5 it's BALTI1? Wait, request: at 5: BALTI.JPG? No:
+  // Request: at Lvl. 5: BALTI.JPG, 10: BALTI1.JPG, 15:2,20:3,25:4
+  // But default is BALTI.JPG, so at 5 change to BALTI.JPG? That doesn't make sense, probably typo.
+  // Original: "jeweils zu: BALTI.JPG; BALTI1.JPG; BALTI2.JPG; BALTI3.JPG; BALTI4.JPG"
+  // For levels 5,10,15,20,25
+  // So level 5: BALTI.JPG, but default is already BALTI.JPG, perhaps start with something else? No, probably level 1-4: BALTI.JPG, 5: BALTI1, but request says BALTI for 5.
+  // Wait, "Lvl. 5; 10; 15; 20 und lvl 25 soll das Hintergrund geändert werden jeweils zu: BALTI.JPG; BALTI1.JPG; BALTI2.JPG; BALTI3.JPG; BALTI4.JPG"
+  // So level 5: BALTI.JPG, 10: BALTI1, etc.
+  // But default is BALTI.JPG, so at level 5 it changes to BALTI.JPG (same), at 10 to BALTI1, etc.
+  // Perhaps it's a list starting from 5 = BALTI, but to make sense, maybe shift.
+  // I'll implement as is: level milestones [5,10,15,20,25] to backgrounds [0,1,2,3,4]
+  // But for level <5, use BALTI.JPG as default.
+  // For level >=5 and <10 use BALTI.JPG, >=10<15 BALTI1, etc.
+  let bgFile;
+  if (level >= 25) bgFile = 'BALTI4.JPG';
+  else if (level >= 20) bgFile = 'BALTI3.JPG';
+  else if (level >= 15) bgFile = 'BALTI2.JPG';
+  else if (level >= 10) bgFile = 'BALTI1.JPG';
+  else if (level >= 5) bgFile = 'BALTI.JPG';
+  else bgFile = 'BALTI.JPG'; // Default
+  document.body.style.background = `url('${bgFile}') center/cover no-repeat, radial-gradient(circle at 20% 10%, #16201a 0%, #080808 60%)`;
 }
 
 // -------------------
@@ -431,6 +490,36 @@ function drawLeaf(ctx, lx, ly, sz, color, progress, idx) {
   ctx.restore();
 }
 
+// Confetti Setup
+const confettiCanvas = document.getElementById('confettiCanvas');
+const confettiCtx = confettiCanvas.getContext('2d');
+confettiCanvas.width = window.innerWidth;
+confettiCanvas.height = window.innerHeight;
+let confettis = [];
+let confettiAnimation;
+function rainConfetti(duration = 3000) {
+  confettis = Array.from({length: 200}, () => new Confetti());
+  const startTime = performance.now();
+  function animateConfetti(now) {
+    if (now - startTime > duration) {
+      confettis = [];
+      cancelAnimationFrame(confettiAnimation);
+      return;
+    }
+    confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    confettis.forEach(c => {
+      c.update();
+      c.draw(confettiCtx);
+    });
+    confettiAnimation = requestAnimationFrame(animateConfetti);
+  }
+  animateConfetti(performance.now());
+}
+window.addEventListener('resize', () => {
+  confettiCanvas.width = window.innerWidth;
+  confettiCanvas.height = window.innerHeight;
+});
+
 // -------------------
 // Game Loop
 // -------------------
@@ -468,14 +557,14 @@ function plantRandom(silent = false) {
       if (!farm[r][c] && Math.random() < 0.28) {
         const s = availableStrains[Math.floor(Math.random() * availableStrains.length)];
         farm[r][c] = new Plant(s);
-        if (!silent) addLog(`🌱 Gepflanzt: ${s.name}`);
+        if (!silent) addLog(`🌱 Deployed: ${s.name}`);
         planted = true;
       }
     }
   }
   if (planted && !silent) {
     playSound('plantSound');
-    showToast('Samen gepflanzt');
+    showToast('Seeds Unleashed');
   }
   return planted;
 }
@@ -494,8 +583,8 @@ function fillAllEmpty() {
   }
   if (any) {
     playSound('plantSound');
-    addLog('🔁 Alle leeren Felder gefüllt');
-    showToast('Grid gefüllt');
+    addLog('🔁 Conquered All Empty Plots');
+    showToast('Grid Dominated');
   }
 }
 function harvestReady() {
@@ -509,7 +598,7 @@ function harvestReady() {
         xp += gainedXP;
         coins += gainedCoins;
         harvested++;
-        addLog(`🌾 Geerntet: ${p.strain.name} (+${gainedXP} XP, +${gainedCoins} Münzen)`);
+        addLog(`🌾 Conquered: ${p.strain.name} (+${gainedXP} XP, +${gainedCoins} Coins)`);
         farm[r][c] = null;
         any = true;
       }
@@ -520,22 +609,34 @@ function harvestReady() {
     checkLevelUp();
     checkAchievements();
     updateStats();
-    showToast('Geerntet!');
+    showToast('Harvest Triumph!');
     saveGame();
   } else {
-    showToast('Keine Pflanzen reif', 1000);
+    showToast('No Beasts Ready', 1000);
   }
 }
 function checkLevelUp() {
   let threshold = xpThresholdForLevel(level);
+  let leveledUp = false;
   while (xp >= threshold) {
     xp -= threshold;
     level++;
+    leveledUp = true;
     unlockStrains();
-    addLog(`🔥 LEVEL UP! Level ${level} erreicht`);
-    showToast(`LEVEL UP! ${level}`);
+    addLog(`🔥 ASCENSION! Level ${level} Achieved`);
+    showToast(`ASCENSION! Level ${level}`);
     playSound('levelUpSound');
     threshold = xpThresholdForLevel(level);
+  }
+  if (leveledUp) {
+    updateBackground();
+    checkAchievements();
+  }
+}
+function resetGame() {
+  if (confirm('Are you sure? This will wipe out your empire and start fresh!')) {
+    localStorage.removeItem('miniFarmingSave');
+    location.reload();
   }
 }
 
@@ -554,12 +655,12 @@ canvas.addEventListener('click', (ev) => {
   if (row >= 0 && row < GRID_SIZE && col >= 0 && col < GRID_SIZE) {
     if (!farm[row][col]) {
       const availableStrains = getUnlockedStrains();
-      if (availableStrains.length === 0) return showToast('Keine Strains verfügbar');
+      if (availableStrains.length === 0) return showToast('No Strains Available');
       const s = availableStrains[Math.floor(Math.random() * availableStrains.length)];
       farm[row][col] = new Plant(s);
-      addLog(`🌱 Gepflanzt: ${s.name} (manuell)`);
+      addLog(`🌱 Deployed: ${s.name} (Manual)`);
       playSound('plantSound');
-      showToast('Samen gepflanzt');
+      showToast('Seed Deployed');
     } else {
       if (farm[row][col].isReady()) {
         const p = farm[row][col];
@@ -568,27 +669,28 @@ canvas.addEventListener('click', (ev) => {
         xp += gainedXP;
         coins += gainedCoins;
         harvested++;
-        addLog(`🌾 Geerntet: ${p.strain.name} (+${gainedXP} XP, +${gainedCoins} Münzen)`);
+        addLog(`🌾 Conquered: ${p.strain.name} (+${gainedXP} XP, +${gainedCoins} Coins)`);
         farm[row][col] = null;
         playSound('harvestSound');
         checkLevelUp();
         checkAchievements();
         updateStats();
-        showToast('Geerntet');
+        showToast('Conquered');
         saveGame();
       } else {
-        showToast('Pflanze nicht reif');
+        showToast('Beast Not Ready');
       }
     }
   }
 });
 document.getElementById('plantBtn').addEventListener('click', () => {
   if (plantRandom()) updateStats();
-  else showToast('Kein Platz zum Pflanzen');
+  else showToast('No Space to Deploy');
   saveGame();
 });
 document.getElementById('harvestBtn').addEventListener('click', () => { harvestReady(); });
 document.getElementById('fillBtn').addEventListener('click', () => { fillAllEmpty(); updateStats(); saveGame(); });
+document.getElementById('newStartBtn').addEventListener('click', resetGame);
 
 // Init
 loadGame();
