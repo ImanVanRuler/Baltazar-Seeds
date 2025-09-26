@@ -358,4 +358,33 @@
     });
   </script>
 </body>
+
+<div><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Startseite</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center; /* horizontal zentrieren */
+      align-items: center;     /* vertikal zentrieren */
+      height: 100vh;           /* ganze Höhe */
+      background: #000;        /* schwarzer Hintergrund */
+    }
+
+    video {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <video autoplay muted loop>
+    <source src="dein-video.mp4" type="video/mp4">
+    Dein Browser unterstützt das Video-Tag nicht.
+  </video>
+</body></div>
+  
 </html>
