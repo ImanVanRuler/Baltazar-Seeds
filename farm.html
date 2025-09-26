@@ -1,262 +1,99 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cannabis Strain Farming Game</title>
-<style>
-  body { 
-    margin:0; 
-    font-family: 'Trebuchet MS', sans-serif; 
-    background: radial-gradient(circle at top, #222 0%, #111 100%); 
-    color:#fff; 
-    display:flex; 
-    flex-direction:column; 
-    align-items:center; 
-    justify-content:flex-start; 
-    min-height:100vh;
-  }
-  h1 {
-    margin: 20px 0;
-    font-size:2.2rem;
-    color:#8fff8f;
-    text-shadow:0 0 12px #00ff7f, 0 0 25px #00ff7f;
-  }
-  canvas { 
-    border:2px solid #00ff7f; 
-    background:#2d2d2d; 
-    margin-bottom:20px; 
-    box-shadow:0 0 20px #00ff7f, inset 0 0 15px #003300;
-    border-radius:12px;
-  }
-  button {
-    padding:12px 28px;
-    margin:8px;
-    background:linear-gradient(#00ff7f,#00994c);
-    color:#000;
-    border:none;
-    cursor:pointer;
-    font-weight:bold;
-    border-radius:12px;
-    font-size:1rem;
-    box-shadow:0 0 12px #00ff7f;
-    transition: transform 0.15s, box-shadow 0.2s;
-  }
-  button:hover {
-    transform:scale(1.07);
-    box-shadow:0 0 18px #00ffaa;
-  }
-  #stats {
-    flex:1;
-    background:#111;
-    padding:15px 25px;
-    border-radius:12px;
-    box-shadow:0 0 15px #00ff7f;
-    text-align:left;
-    border:1px solid #00ff7f;
-    min-width:180px;
-  }
-  #side {
-    display:flex;
-    margin-top:25px;
-    gap:25px;
-    align-items:stretch;
-    flex-wrap:wrap;
-    justify-content:center;
-  }
-  #strainLog {
-    margin-top:10px;
-    font-size:0.9rem;
-    line-height:1.3rem;
-    color:#ccc;
-    max-height:150px;
-    overflow-y:auto;
-  }
-  /* Balti-Karte */
-  #baltiCard {
-    position:relative;
-    background:linear-gradient(145deg,#1a1a1a,#292929);
-    border:2px solid #00ff7f;
-    padding:15px;
-    border-radius:20px;
-    text-align:center;
-    box-shadow:0 0 20px #00ff7f, inset 0 0 10px #003300;
-    width:180px;
-  }
-  #baltiCard::before {
-    content:"Farmer Karte";
-    position:absolute;
-    top:-14px;
-    left:50%;
-    transform:translateX(-50%);
-    background:#00ff7f;
-    color:#000;
-    font-weight:bold;
-    font-size:0.8rem;
-    padding:2px 10px;
-    border-radius:8px;
-    box-shadow:0 0 10px #00ff7f;
-  }
-  #baltiCard img {
-    width:100%;
-    border-radius:15px;
-    display:block;
-    margin:0 auto 12px auto;
-    box-shadow:0 0 12px #00ff7f;
-  }
-  #baltiCard p {
-    margin:0;
-    font-weight:bold;
-    color:#8fff8f;
-    text-shadow:0 0 8px #00ff7f;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strain Farming Game</title>
+  <style>
+    body { 
+      margin:0; 
+      font-family: 'Trebuchet MS', sans-serif; 
+      color:#fff; 
+      display:flex; 
+      flex-direction:column; 
+      align-items:center; 
+      justify-content:flex-start; 
+      min-height:100vh;
+      overflow:hidden;
+      /* animierter Farbverlauf */
+      background: linear-gradient(-45deg, #0d1f0d, #1a472a, #0d1f1f, #2e0854);
+      background-size: 400% 400%;
+      animation: gradientMove 15s ease infinite;
+    }
+    @keyframes gradientMove {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
+    }
+
+    /* Spielcontainer */
+    .game {
+      background: rgba(0,0,0,0.6);
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 40px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+      z-index: 2;
+    }
+
+    button {
+      background: #228b22;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #32cd32;
+    }
+
+    /* fallende Blätter */
+    .leaf {
+      position: fixed;
+      top: -50px;
+      font-size: 1.8rem;
+      opacity: 0.8;
+      animation: fall linear forwards;
+      z-index: 1;
+      pointer-events: none;
+    }
+    @keyframes fall {
+      0% {transform: translateY(-50px) rotate(0deg);}
+      100% {transform: translateY(110vh) rotate(360deg);}
+    }
+  </style>
 </head>
 <body>
-
-<h1>🌿 Cannabis Strain Farming Game</h1>
-<canvas id="farmCanvas" width="400" height="400"></canvas>
-<div>
-  <button id="plantBtn">🌱 Pflanzen</button>
-  <button id="harvestBtn">🌾 Ernten</button>
-</div>
-
-<div id="side">
-  <div id="stats">
-    <p><b>Level:</b> <span id="level">1</span></p>
-    <p><b>XP:</b> <span id="xp">0</span></p>
-    <p><b>Geerntet:</b> <span id="harvested">0</span></p>
-    <div id="strainLog"><b>📝 Strain Log:</b><br></div>
+  <div class="game">
+    <h1>🌱 Strain Farming Game 🌱</h1>
+    <p id="info">Baue deine eigenen Cannabis Strains an!</p>
+    <button onclick="growStrain()">🌿 Pflanze setzen</button>
+    <p id="harvest">Geerntet: 0</p>
   </div>
-  <div id="baltiCard">
-    <img src="BALTI.JPG" alt="Farmer Balti">
-    <p>👨‍🌾 Farmer Balti</p>
-  </div>
-</div>
 
-<audio id="plantSound" src="plant.mp3"></audio>
-<audio id="harvestSound" src="harvest.mp3"></audio>
+  <script>
+    let harvest = 0;
 
-<script>
-const canvas = document.getElementById('farmCanvas');
-const ctx = canvas.getContext('2d');
-
-const GRID_SIZE = 5;
-const CELL_SIZE = canvas.width / GRID_SIZE;
-
-let farm = Array(GRID_SIZE).fill().map(()=>Array(GRID_SIZE).fill(null));
-
-/* Verschiedene Cannabis Strains */
-const strains = [
-  {name:"OG Kush", color:"limegreen", growRate:2, xp:7},
-  {name:"Sour Diesel", color:"yellowgreen", growRate:3, xp:5},
-  {name:"Amnesia Haze", color:"mediumseagreen", growRate:1.5, xp:10},
-  {name:"White Widow", color:"palegreen", growRate:2.5, xp:6},
-  {name:"Gelato", color:"springgreen", growRate:2, xp:8}
-];
-
-class Plant {
-  constructor(strain) {
-    this.strain = strain;
-    this.growth = 0; // 0–100
-  }
-  grow() { if(this.growth<100)this.growth+=this.strain.growRate; }
-  isReady() { return this.growth>=100; }
-}
-
-let xp=0, level=1, harvested=0;
-
-function updateStats(){
-  document.getElementById('xp').innerText = xp;
-  document.getElementById('level').innerText = level;
-  document.getElementById('harvested').innerText = harvested;
-}
-
-function addStrainLog(msg){
-  const log = document.getElementById('strainLog');
-  log.innerHTML += msg+"<br>";
-  log.scrollTop = log.scrollHeight;
-}
-
-function levelUpCheck(){
-  if(xp >= level*30){
-    xp=0;
-    level++;
-    alert("🔥 High Level Up! Du bist jetzt Grower Level "+level+"!");
-  }
-}
-
-function drawFarm() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  for(let i=0;i<GRID_SIZE;i++){
-    for(let j=0;j<GRID_SIZE;j++){
-      ctx.strokeStyle = '#00ff7f';
-      ctx.strokeRect(j*CELL_SIZE, i*CELL_SIZE, CELL_SIZE, CELL_SIZE);
-
-      const plant = farm[i][j];
-      if(plant){
-        if(plant.growth<100){
-          ctx.fillStyle = plant.strain.color;
-        } else {
-          ctx.fillStyle = "gold"; // reif
-        }
-        ctx.fillRect(j*CELL_SIZE+5, i*CELL_SIZE+5, CELL_SIZE-10, CELL_SIZE-10);
-      }
+    function growStrain() {
+      harvest++;
+      document.getElementById("harvest").innerText = "Geerntet: " + harvest;
     }
-  }
-}
 
-document.getElementById('plantBtn').onclick = ()=>{
-  let planted=false;
-  for(let i=0;i<GRID_SIZE;i++){
-    for(let j=0;j<GRID_SIZE;j++){
-      if(!farm[i][j] && Math.random()<0.25){
-        const strain = strains[Math.floor(Math.random()*strains.length)];
-        farm[i][j] = new Plant(strain);
-        addStrainLog("🌱 "+strain.name+" gepflanzt");
-        planted=true;
-      }
+    // zufällige Blätter einfügen
+    function createLeaf(){
+      const leaf = document.createElement("div");
+      leaf.classList.add("leaf");
+      leaf.innerHTML = "🍁"; // Kann auch durch 🌿 ersetzt werden
+      leaf.style.left = Math.random()*100+"vw";
+      leaf.style.animationDuration = (5+Math.random()*5)+"s";
+      document.body.appendChild(leaf);
+      setTimeout(()=>leaf.remove(),10000);
     }
-  }
-  if(planted) document.getElementById('plantSound').play();
-  drawFarm();
-}
-
-document.getElementById('harvestBtn').onclick = ()=>{
-  let any=false;
-  for(let i=0;i<GRID_SIZE;i++){
-    for(let j=0;j<GRID_SIZE;j++){
-      if(farm[i][j] && farm[i][j].isReady()){
-        const strain = farm[i][j].strain;
-        farm[i][j] = null;
-        xp+=strain.xp;
-        harvested++;
-        addStrainLog("🌾 "+strain.name+" geerntet (+ "+strain.xp+" XP)");
-        any=true;
-      }
-    }
-  }
-  if(any) {
-    document.getElementById('harvestSound').play();
-    levelUpCheck();
-  }
-  updateStats();
-  drawFarm();
-}
-
-setInterval(()=>{
-  for(let i=0;i<GRID_SIZE;i++){
-    for(let j=0;j<GRID_SIZE;j++){
-      if(farm[i][j]) farm[i][j].grow();
-    }
-  }
-  drawFarm();
-}, 500);
-
-updateStats();
-drawFarm();
-</script>
-
+    setInterval(createLeaf, 1200);
+  </script>
 </body>
 </html>
