@@ -214,28 +214,28 @@
 
     /* ---------------- Back Button ---------------- */
     .back-button {
-      display: inline-block;
-      padding: 12px 30px;
-      background: #222;
-      color: #fff;
-      border: 3px solid #00ff99;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      text-decoration: none;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin: 20px auto;
-      display:block;
-      box-shadow: 0 0 20px rgba(0,255,153,0.6);
-    }
-    .back-button:hover {
-      background: #00ff99;
-      color:#000;
-      transform: scale(1.1);
-      box-shadow: 0 0 30px rgba(0,255,153,0.8);
-    }
+  display: block; /* damit margin: 0 auto funktioniert */
+  padding: 12px 30px;
+  background: #222;
+  color: #fff;
+  border: 3px solid #00ff99;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 20px auto; /* zentriert horizontal */
+  box-shadow: 0 0 20px rgba(0,255,153,0.6);
+}
+
+.back-button:hover {
+  background: #00ff99;
+  color:#000;
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(0,255,153,0.8);
+}
   </style>
 </head>
 <body>
