@@ -1,271 +1,309 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Baltazar Seeds Ultra Scan</title>
-<link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+
 <style>
-  /* Grund-Setup */
-  html, body {
+  /* ---------------- Body & Fonts ---------------- */
+  body, html {
     margin: 0;
     padding: 0;
-    height: 100%;
-    font-family: 'Courier New', monospace;
+    font-family: 'Bebas Neue', cursive;
+    background: #000;
+    color: #fff;
     overflow-x: hidden;
-    color: white;
-    text-align: center;
-    position: relative;
   }
 
-  /* Video Hintergrund */
-  #bgVideo {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    filter: brightness(0.4);
-  }
-
-  /* Header */
+  /* ---------------- Header ---------------- */
   header {
-    background: rgba(0,0,0,0.7);
-    padding: 15px 0;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem;
-    color: #00ff99;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
     position: sticky;
     top: 0;
+    background: rgba(0,0,0,0.8);
     z-index: 10;
+    box-shadow: 0 0 20px #006600;
+  }
+  header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: #00ff99;
+    margin: 0;
+    text-shadow: 0 0 10px #003300;
   }
 
-  /* Titel */
-  h1 {
-    font-family: 'Nosifer', cursive;
-    font-size: 3rem;
-    margin-top: 2vh;
-    animation: glitch 1s infinite;
-    text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99;
+  /* ---------------- Glitch Title ---------------- */
+  .glitch {
+    font-size: clamp(3rem, 8vw, 5rem);
+    color: #00ff99;
+    text-align: center;
+    margin: 40px 0;
+    position: relative;
+    animation: flicker 1s infinite alternate;
+    text-shadow: 0 0 10px #00aa55;
   }
-  @keyframes glitch {
-    0% {text-shadow: 2px 2px #0f0, -2px -2px #0ff;}
-    25% {text-shadow: -2px 2px #0ff, 2px -2px #0f0;}
-    50% {text-shadow: 2px -2px #0f0, -2px 2px #0ff;}
-    75% {text-shadow: -2px -2px #0ff, 2px 2px #0f0;}
-    100% {text-shadow: 2px 2px #0f0, -2px -2px #0ff;}
+  .glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+  .glitch::before {
+    animation: glitchTop 2s infinite linear alternate-reverse;
+    clip: rect(0, 9999px, 50%, 0);
+    color: #00ffff;
+    left: 2px;
+  }
+  .glitch::after {
+    animation: glitchBottom 1.5s infinite linear alternate-reverse;
+    clip: rect(50%, 9999px, 100%, 0);
+    color: #ff00ff;
+    left: -2px;
+  }
+  @keyframes flicker {
+    0%,18%,22%,25%,53%,57%,100%{opacity:1;}
+    20%,24%,55%{opacity:0.1;}
+  }
+  @keyframes glitchTop {
+    0%{transform:translate(0,0);opacity:1;}
+    20%{transform:translate(-5px,2px);opacity:0.8;}
+    40%{transform:translate(5px,-2px);opacity:0.6;}
+    60%{transform:translate(-3px,3px);opacity:0.4;}
+    80%{transform:translate(3px,-3px);opacity:0.8;}
+    100%{transform:translate(0,0);opacity:1;}
+  }
+  @keyframes glitchBottom {
+    0%{transform:translate(0,0);opacity:1;}
+    20%{transform:translate(5px,-2px);opacity:0.8;}
+    40%{transform:translate(-5px,2px);opacity:0.6;}
+    60%{transform:translate(3px,-3px);opacity:0.4;}
+    80%{transform:translate(-3px,3px);opacity:0.8;}
+    100%{transform:translate(0,0);opacity:1;}
   }
 
-  /* Schwebende Blätter */
+  /* ---------------- Card Section ---------------- */
+  .card-section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+    margin: 50px 20px;
+    padding: 50px 0;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .card-section video {
+    position: absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    opacity:0.5;
+    z-index:-1;
+    pointer-events:none;
+    filter: brightness(0.6) contrast(1.2);
+  }
+
+  /* ---------------- Scan Widget & Fun Facts ---------------- */
+  .card {
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    width: 320px;
+    border-radius: 20px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,255,153,0.5);
+    position: relative;
+    padding: 20px;
+  }
+
+  .card h2 {
+    margin-bottom: 15px;
+    color: #00ff99;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+  }
+
+  .card button {
+    padding: 10px 25px;
+    font-size: 1rem;
+    background-color: #00ff99;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Bebas Neue', cursive;
+    margin-bottom: 15px;
+    transition: 0.3s;
+  }
+  .card button:hover {
+    background-color: #00cc77;
+  }
+
+  #scanOutput, #fact {
+    max-height: 250px;
+    overflow-y: auto;
+    text-align: left;
+    font-family: 'Courier New', monospace;
+    padding: 10px;
+  }
+
+  .site { padding: 5px 10px; border-left: 4px solid #555; margin-bottom:5px; transition: all 0.3s; font-weight:bold;}
+  .legendary { color:#00ff99; border-left:5px solid #00ff99; text-shadow:0 0 10px #00ff99; animation: blink 0.6s infinite alternate; }
+  .negative { color:#ff3300; border-left:5px solid #ff3300; text-shadow:0 0 10px #ff3300; animation: blink 0.6s infinite alternate; }
+  @keyframes blink { from {opacity:1;} to {opacity:0.3;} }
+
+  /* ---------------- Floating Leaves ---------------- */
   .leaf {
     position: absolute;
     width: 60px;
     height: 60px;
     background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Cannabis_leaf_icon.svg/1024px-Cannabis_leaf_icon.svg.png') no-repeat center center;
     background-size: contain;
-    opacity: 0.35;
+    opacity:0.35;
     animation: float 12s ease-in-out infinite;
-    cursor: pointer;
+    cursor:pointer;
     transition: transform 0.3s ease;
   }
   @keyframes float {
-    0%,100% {transform: translateY(0) rotate(0deg);}
-    50% {transform: translateY(-300px) rotate(180deg);}
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-300px) rotate(180deg);}
   }
 
-  /* Ultra Scan Widget */
-  #botScanWidget {
-    margin: 5vh auto;
-    padding: 25px;
-    max-width: 750px;
-    border-radius: 12px;
-    background-color: rgba(0,0,0,0.75);
-    border: 2px solid #00ff99;
-    color: #f0f0f0;
-    font-family: 'Press Start 2P', monospace;
-    box-shadow: 0 0 25px rgba(0,255,153,0.7);
-    position: relative;
-    z-index: 1;
-  }
-  #botScanWidget h2 {
-    color: #00ff99;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-  }
-  #startScanBtn {
-    display: block;
-    margin: 0 auto 20px auto;
+  /* ---------------- Back Button ---------------- */
+  .back-button {
+    display: inline-block;
     padding: 12px 30px;
-    font-size: 1rem;
-    font-family: 'Bebas Neue', sans-serif;
-    background-color: #00ff99;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.3s;
-    box-shadow: 0 0 15px #00ff99;
-  }
-  #startScanBtn:hover {
-    background-color: #00cc77;
-    box-shadow: 0 0 25px #00ff99;
-  }
-  #scanOutput { max-height: 350px; overflow-y: auto; text-align: left; font-size: 0.9rem; }
-
-  .site { padding: 6px 12px; border-left: 4px solid #555; margin-bottom: 6px; transition: all 0.3s ease; font-weight: bold; }
-  .legendary { color: #00ff99; font-size: 1.1rem; border-left: 5px solid #00ff99; text-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99; animation: blink 0.6s infinite alternate; }
-  .negative { color: #ff3300; font-size: 1.1rem; border-left: 5px solid #ff3300; text-shadow: 0 0 10px #ff3300, 0 0 20px #ff3300; animation: blink 0.6s infinite alternate; }
-  @keyframes blink { from {opacity:1;} to {opacity:0.3;} }
-
-  /* Fun Facts / Tips */
-  #factBox {
-    margin: 5vh auto;
-    padding: 25px;
-    max-width: 750px;
-    border-radius: 12px;
-    background-color: rgba(0,0,0,0.6);
-    border: 2px solid #ffcc00;
+    background: #222;
     color: #fff;
+    border: 3px solid #00ff99;
+    border-radius: 12px;
     font-size: 1.1rem;
-    text-align: left;
-    box-shadow: 0 0 20px rgba(255,204,0,0.6);
-  }
-  #showFactBtn {
-    margin: 1vh auto;
-    display: block;
-    padding: 10px 25px;
-    font-size: 1rem;
-    font-family: 'Bebas Neue', sans-serif;
-    background-color: #ffcc00;
-    border: none;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
     cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.3s;
-    box-shadow: 0 0 15px #ffcc00;
+    transition: all 0.3s ease;
+    margin: 20px auto;
+    display:block;
+    box-shadow: 0 0 20px rgba(0,255,153,0.6);
   }
-  #showFactBtn:hover { background-color: #e6b800; box-shadow: 0 0 25px #ffcc00; }
-
-  /* Back to Menu */
-  #backBtn {
-    margin: 3vh auto 5vh auto;
-    display: block;
-    padding: 12px 30px;
-    font-size: 1rem;
-    font-family: 'Bebas Neue', sans-serif;
-    background-color: #00ffff;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.3s;
-    box-shadow: 0 0 15px #00ffff;
+  .back-button:hover {
+    background: #00ff99;
+    color:#000;
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(0,255,153,0.8);
   }
-  #backBtn:hover { background-color: #00ccff; box-shadow: 0 0 25px #00ffff; }
 </style>
 </head>
 <body>
 
-<!-- Background Video -->
-<video autoplay muted loop id="bgVideo">
-  <source src="https://cdn.pixabay.com/vimeo/659326993/Green_Wavy_Pattern_720p.mp4" type="video/mp4">
-  Your browser does not support HTML5 video.
-</video>
+<header>
+  <h1>Baltazar Seeds Ultra Scan</h1>
+</header>
 
-<header>BaltazarSeeds.com</header>
+<h1 class="glitch" data-text="🌱 BALTZAR ULTRA SCAN 🌱">🌱 BALTZAR ULTRA SCAN 🌱</h1>
 
-<h1>🌱 Baltazar Seeds Ultra Scan 🌱</h1>
+<div class="card-section">
+  <!-- Video Background -->
+  <video autoplay muted loop playsinline>
+    <source src="logovid.mp4" type="video/mp4">
+    Ihr Browser unterstützt kein Video.
+  </video>
 
-<!-- Floating leaves -->
-<div class="leaf" style="left:5%; animation-delay:0s;"></div>
-<div class="leaf" style="left:20%; animation-delay:2s;"></div>
-<div class="leaf" style="left:35%; animation-delay:4s;"></div>
-<div class="leaf" style="left:50%; animation-delay:1s;"></div>
-<div class="leaf" style="left:65%; animation-delay:3s;"></div>
-<div class="leaf" style="left:80%; animation-delay:5s;"></div>
-<div class="leaf" style="left:90%; animation-delay:2s;"></div>
+  <!-- Ultra Scan Widget -->
+  <div class="card">
+    <h2>🔥 Bot Scan 🔥</h2>
+    <button id="startScanBtn">Start Scan</button>
+    <div id="scanOutput"></div>
+  </div>
 
-<!-- Ultra Scan Widget -->
-<div id="botScanWidget">
-  <h2>🔥 Baltazar Shop Ultra Scan 🔥</h2>
-  <button id="startScanBtn">Start Bot Scan</button>
-  <div id="scanOutput"></div>
+  <!-- Fun Facts Widget -->
+  <div class="card">
+    <h2>💡 Tips & Fun Facts 💡</h2>
+    <button id="showFactBtn">Show Tip</button>
+    <div id="fact"></div>
+  </div>
+
+  <!-- Floating Leaves -->
+  <div class="leaf" style="left:5%; animation-delay:0s;"></div>
+  <div class="leaf" style="left:25%; animation-delay:2s;"></div>
+  <div class="leaf" style="left:45%; animation-delay:4s;"></div>
+  <div class="leaf" style="left:65%; animation-delay:1s;"></div>
+  <div class="leaf" style="left:85%; animation-delay:3s;"></div>
 </div>
 
-<!-- Fun Facts / Tips -->
-<div id="factBox">
-  <button id="showFactBtn">Show Tips & Fun Facts</button>
-  <div id="fact"></div>
-</div>
-
-<!-- Back to Menu -->
-<button id="backBtn" onclick="window.location.href='seite3.html'">Back to Menu</button>
+<a href="seite3.html" class="back-button">Back To Menu</a>
 
 <script>
   // Floating leaf interactivity
-  document.querySelectorAll('.leaf').forEach(leaf => {
-    leaf.addEventListener('click', () => {
-      leaf.style.transform = "translateY(-50px) rotate(30deg)";
-      setTimeout(() => leaf.style.transform = "", 500);
+  document.querySelectorAll('.leaf').forEach(leaf=>{
+    leaf.addEventListener('click',()=>{
+      leaf.style.transform="translateY(-50px) rotate(30deg)";
+      setTimeout(()=>leaf.style.transform="",500);
     });
   });
 
-  // Ultra Scan data
+  // Ultra Scan Data
   const ultraSites = [
-    {name: "Baltazar-Seeds Shop", status: "legendary", type: "Invincible Security"},
-    {name: "Payment Gateway", status: "legendary", type: "Fort Knox Mode"},
-    {name: "Customer Data", status: "legendary", type: "Encrypted to Mars"},
-    {name: "Banks", status: "negative", type: "Not Playing With Us"},
-    {name: "Secret Seed Vault", status: "legendary", type: "Alien-Proof"},
-    {name: "Government Inspectors", status: "negative", type: "Denied Access"},
+    {name:"Baltazar-Seeds Shop", status:"legendary", type:"Invincible Security"},
+    {name:"Payment Gateway", status:"legendary", type:"Fort Knox Mode"},
+    {name:"Customer Data", status:"legendary", type:"Encrypted to Mars"},
+    {name:"Banks", status:"negative", type:"Not Playing With Us"},
+    {name:"Secret Seed Vault", status:"legendary", type:"Alien-Proof"},
+    {name:"Government Inspectors", status:"negative", type:"Denied Access"}
   ];
+  const outputDiv = document.getElementById('scanOutput');
+  const scanBtn = document.getElementById('startScanBtn');
 
-  const outputDiv2 = document.getElementById('scanOutput');
-  const scanBtn2 = document.getElementById('startScanBtn');
-
-  function delay(ms){ return new Promise(resolve => setTimeout(resolve, ms)); }
+  function delay(ms){ return new Promise(resolve=>setTimeout(resolve,ms)); }
 
   async function runUltraScan(){
-    scanBtn2.disabled = true;
-    outputDiv2.innerHTML = '';
-    
+    scanBtn.disabled=true;
+    outputDiv.innerHTML='';
     for(let site of ultraSites){
-      const row = document.createElement('div');
-      row.className = 'site';
-      row.textContent = `Scanning ${site.name} ... 🔍`;
-      row.style.color = "#00ffff";
-      outputDiv2.appendChild(row);
+      const row=document.createElement('div');
+      row.className='site';
+      row.textContent=`Scanning ${site.name} ... 🔍`;
+      row.style.color="#00ffff";
+      outputDiv.appendChild(row);
       row.scrollIntoView({behavior:"smooth"});
       await delay(600 + Math.random()*300);
 
-      row.textContent = `${site.name} ... ${site.type.toUpperCase()}! 🌟`;
+      row.textContent=`${site.name} ... ${site.type.toUpperCase()}! 🌟`;
       row.classList.add(site.status);
 
-      // Make leaves "dance"
-      document.querySelectorAll('.leaf').forEach(leaf => {
-        leaf.style.transform = `translateY(-${Math.random()*50}px) rotate(${Math.random()*360}deg)`;
-        setTimeout(() => leaf.style.transform = "", 600);
+      // Leaves dance
+      document.querySelectorAll('.leaf').forEach(leaf=>{
+        leaf.style.transform=`translateY(-${Math.random()*50}px) rotate(${Math.random()*360}deg)`;
+        setTimeout(()=>leaf.style.transform="",600);
       });
 
       await delay(400);
     }
-
-    const endMsg = document.createElement('div');
-    endMsg.textContent = "🎉 Bot Scan Complete! Baltazar Seeds is LEGENDARY! 🚀";
+    const endMsg=document.createElement('div');
+    endMsg.textContent="🎉 Bot Scan Complete! Baltazar Seeds is LEGENDARY! 🚀";
     endMsg.style.marginTop="10px";
     endMsg.style.color="#ff00ff";
     endMsg.style.fontSize="1.3rem";
     endMsg.style.fontWeight="bold";
-    endMsg.style.textShadow="0 0 15px #ff00ff, 0 0 25px #ff00ff";
-    outputDiv2.appendChild(endMsg);
-
-    scanBtn2.disabled=false;
+    endMsg.style.textShadow="0 0 15px #ff00ff,0 0 25px #ff00ff";
+    outputDiv.appendChild(endMsg);
+    scanBtn.disabled=false;
   }
-
-  scanBtn2.addEventListener('click', runUltraScan);
+  scanBtn.addEventListener('click',runUltraScan);
 
   // Fun Facts / Tips
-  const facts = [
+  const facts=[
     "Cannabis loves lots of light – 16 hours a day is ideal in the growth phase.",
     "Proper humidity helps healthy leaves and strong plants.",
     "Fast growth in young plants means a stronger harvest later.",
@@ -273,10 +311,9 @@
     "Trichomes contain valuable cannabinoids – patience pays off!",
     "Small mistakes make the grow more exciting – every grow is an adventure."
   ];
-
-  document.getElementById('showFactBtn').addEventListener('click', () => {
-    const fact = facts[Math.floor(Math.random() * facts.length)];
-    document.getElementById('fact').innerText = fact;
+  document.getElementById('showFactBtn').addEventListener('click',()=>{
+    const fact=facts[Math.floor(Math.random()*facts.length)];
+    document.getElementById('fact').innerText=fact;
   });
 </script>
 
