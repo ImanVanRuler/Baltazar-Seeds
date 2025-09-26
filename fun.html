@@ -321,10 +321,10 @@ body {
   }
 
   document.addEventListener('keydown', e=>{
-    if(e.key === "ArrowUp" && direction.y === 0){ direction = {x:0, y:-1}; }
-    if(e.key === "ArrowDown" && direction.y === 0){ direction = {x:0, y:1}; }
-    if(e.key === "ArrowLeft" && direction.x === 0){ direction = {x:-1, y:0}; }
-    if(e.key === "ArrowRight" && direction.x === 0){ direction = {x:1, y:0}; }
+    if(e.key === "w" && direction.y === 0){ direction = {x:0, y:-1}; }
+    if(e.key === "s" && direction.y === 0){ direction = {x:0, y:1}; }
+    if(e.key === "a" && direction.x === 0){ direction = {x:-1, y:0}; }
+    if(e.key === "d" && direction.x === 0){ direction = {x:1, y:0}; }
   });
 
   requestAnimationFrame(gameLoop);
