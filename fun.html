@@ -11,13 +11,23 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
   <style>
+    :root {
+      --primary-color: #00ff99;
+      --secondary-color: #00ffff;
+      --background-color: #000;
+      --text-color: #fff;
+      --shadow-color: rgba(0, 255, 153, 0.5);
+      --glow-color: #006600;
+    }
+
     body, html {
       margin: 0;
       padding: 0;
       font-family: 'Bebas Neue', cursive;
-      background: #000;
-      color: #fff;
+      background: var(--background-color);
+      color: var(--text-color);
       overflow-x: hidden;
+      scroll-behavior: smooth;
     }
 
     header {
@@ -27,16 +37,23 @@
       padding: 20px 0;
       position: sticky;
       top: 0;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0, 0, 0, 0.9);
       z-index: 10;
-      box-shadow: 0 0 20px #006600;
+      box-shadow: 0 4px 20px var(--glow-color);
+      animation: glowHeader 2s infinite alternate;
+    }
+
+    @keyframes glowHeader {
+      from { box-shadow: 0 4px 20px var(--glow-color); }
+      to { box-shadow: 0 4px 30px var(--shadow-color); }
     }
 
     header h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      color: #00ff99;
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      color: var(--primary-color);
       margin: 0;
-      text-shadow: 0 0 10px #003300;
+      text-shadow: 0 0 15px var(--glow-color);
+      letter-spacing: 2px;
     }
 
     .tabs {
@@ -44,42 +61,130 @@
       justify-content: center;
       margin: 20px 0;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 15px;
     }
 
     .tab {
       background: #222;
-      border: 2px solid #00ff99;
-      padding: 10px 20px;
+      border: 2px solid var(--primary-color);
+      padding: 12px 25px;
       cursor: pointer;
-      border-radius: 10px;
-      font-size: 1rem;
-      transition: 0.3s;
+      border-radius: 15px;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .tab:hover {
+      background: #333;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px var(--shadow-color);
     }
 
     .tab.active {
-      background: #00ff99;
-      color: #000;
+      background: var(--primary-color);
+      color: var(--background-color);
       font-weight: bold;
+      box-shadow: 0 0 20px var(--shadow-color);
     }
 
     .game-container {
       position: relative;
-      width: 100%;
+      width: 90%;
       max-width: 800px;
       height: 450px;
       margin: 0 auto 50px auto;
-      background: rgba(0,0,0,0.8);
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,255,153,0.5);
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 25px;
+      box-shadow: 0 0 30px var(--shadow-color);
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
+      transition: box-shadow 0.5s;
+    }
+
+    .game-container:hover {
+      box-shadow: 0 0 40px var(--primary-color);
     }
 
     canvas {
+      border-radius: 15px;
+      background: var(--background-color);
+      width: 100%;
+      height: 100%;
+    }
+
+    #funFactsContainer, #scanOutput {
+      display: none;
+      color: var(--secondary-color);
+      padding: 25px;
+      font-family: 'Courier New', monospace;
+      max-height: 400px;
+      overflow-y: auto;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    button {
+      background: var(--primary-color);
+      border: none;
+      padding: 12px 25px;
+      font-size: 1.2rem;
+      color: var(--background-color);
       border-radius: 10px;
-      background: #000;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 0 10px var(--shadow-color);
+    }
+
+    button:hover {
+      background: var(--secondary-color);
+      transform: scale(1.1);
+    }
+
+    button:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+
+    .site {
+      margin: 10px 0;
+      font-size: 1.1rem;
+      animation: fadeIn 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    #fact {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      text-shadow: 0 0 5px var(--glow-color);
+    }
+
+    .score {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      text-shadow: 0 0 5px var(--glow-color);
+    }
+
+    .game-over {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      color: #ff0000;
+      text-shadow: 0 0 10px #990000;
+      display: none;
     }
   </style>
 </head>
@@ -95,11 +200,15 @@
     <div class="tab" data-game="funFacts">Tips & Fun Facts</div>
     <div class="tab" data-game="tetris">Tetris</div>
     <div class="tab" data-game="spaceInvaders">Space Invaders</div>
+    <div class="tab" data-game="pong">Pong</div>
+    <div class="tab" data-game="breakout">Breakout</div>
   </div>
 
   <div class="game-container">
     <canvas id="gameCanvas" width="800" height="450"></canvas>
-    <div id="funFactsContainer" style="display:none; color:#0f0; padding:20px; font-family: 'Courier New', monospace; max-height:400px; overflow-y:auto;"></div>
+    <div id="funFactsContainer"></div>
+    <div class="score" id="scoreDisplay">Score: 0</div>
+    <div class="game-over" id="gameOverDisplay">Game Over!</div>
   </div>
 
   <script>
@@ -107,50 +216,75 @@
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const funFactsContainer = document.getElementById('funFactsContainer');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+    const gameOverDisplay = document.getElementById('gameOverDisplay');
 
     let currentGame = 'snake';
     let gameInterval;
+    let score = 0;
 
-    // Fun Facts Array
+    // Fun Facts Array (erweitert für mehr Vielfalt)
     const facts = [
-     "Cannabis loves lots of Light. 16 Hours a Day is ideal in the growth phase.",
+      "Cannabis loves lots of Light. 16 Hours a Day is ideal in the growth phase.",
       "Proper humidity helps healthy Leaves and strong Plants. Warmth and perspiration are the magic words here.",
       "Fast growth in young Plants means often a stronger harvest later. You can literally see the potency",
       "Feed wisely: Too much synthetic fertilizer can harm your Cannabis but Organic amendments can be used more generously.",
       "Trichomes contain valuable Cannabinoids. Patience pays off. The scent of each Flower is incredible",
       "Small mistakes make the Grow more exciting. Every grow is an adventure. You getting better and better.",
-      "Strategic pruning improves airflow and light penetration, promoting bigger yields. Use Low-Stress Training (LST) carefully to avoid damaging stems while shaping the plant."
+      "Strategic pruning improves airflow and light penetration, promoting bigger yields. Use Low-Stress Training (LST) carefully to avoid damaging stems while shaping the plant.",
+      "Watering wisely: Overwatering is a common mistake; let the soil dry out between waterings to prevent root rot.",
+      "pH balance is key: Keep soil pH between 6.0-7.0 for optimal nutrient uptake in cannabis plants.",
+      "Harvest timing: Wait until 50-70% of trichomes are cloudy for peak potency."
     ];
 
-    // ---------------- Game Switcher ----------------
+    // Game Switcher
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         tabs.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         currentGame = tab.dataset.game;
-        clearInterval(gameInterval);
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        funFactsContainer.style.display = 'none';
-        canvas.style.display = 'block';
+        resetGame();
         switch(currentGame) {
           case 'snake': initSnake(); break;
           case 'ultraScan': initUltraScan(); break;
           case 'funFacts': initFunFacts(); break;
           case 'tetris': initTetris(); break;
           case 'spaceInvaders': initSpaceInvaders(); break;
+          case 'pong': initPong(); break;
+          case 'breakout': initBreakout(); break;
         }
       });
     });
 
-    // ---------------- Snake ----------------
+    function resetGame() {
+      clearInterval(gameInterval);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      funFactsContainer.style.display = 'none';
+      funFactsContainer.innerHTML = '';
+      canvas.style.display = 'block';
+      score = 0;
+      updateScore();
+      gameOverDisplay.style.display = 'none';
+    }
+
+    function updateScore() {
+      scoreDisplay.textContent = `Score: ${score}`;
+    }
+
+    function showGameOver() {
+      gameOverDisplay.style.display = 'block';
+    }
+
+    // ---------------- Snake (verbessert: Score, Game Over Animation, Smooth Movement) ----------------
     function initSnake() {
-      let snake = [{x:10, y:10}];
+      let snake = [{x: 10, y: 10}];
       let dx = 20, dy = 0;
-      let food = {x: Math.floor(Math.random()*40)*20, y: Math.floor(Math.random()*22)*20};
+      let food = {x: Math.floor(Math.random() * 40) * 20, y: Math.floor(Math.random() * 22) * 20};
+      score = 0;
 
       function draw() {
         ctx.fillStyle = 'black';
-        ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         ctx.fillStyle = 'lime';
         snake.forEach(s => ctx.fillRect(s.x, s.y, 20, 20));
@@ -161,132 +295,456 @@
         let head = {x: snake[0].x + dx, y: snake[0].y + dy};
         snake.unshift(head);
 
-        if(head.x === food.x && head.y === food.y) {
-          food = {x: Math.floor(Math.random()*40)*20, y: Math.floor(Math.random()*22)*20};
+        if (head.x === food.x && head.y === food.y) {
+          food = {x: Math.floor(Math.random() * 40) * 20, y: Math.floor(Math.random() * 22) * 20};
+          score += 10;
+          updateScore();
         } else {
           snake.pop();
         }
 
-        if(head.x<0 || head.y<0 || head.x>=canvas.width || head.y>=canvas.height || snake.slice(1).some(s=>s.x===head.x && s.y===head.y)) {
-          snake = [{x:10, y:10}];
-          dx=20; dy=0;
+        if (head.x < 0 || head.y < 0 || head.x >= canvas.width || head.y >= canvas.height || snake.slice(1).some(s => s.x === head.x && s.y === head.y)) {
+          showGameOver();
+          clearInterval(gameInterval);
+          return;
         }
       }
 
-      document.onkeydown = (e)=>{
-        switch(e.key){
-          case 'ArrowUp': if(dy===0){dx=0;dy=-20;} break;
-          case 'ArrowDown': if(dy===0){dx=0;dy=20;} break;
-          case 'ArrowLeft': if(dx===0){dx=-20;dy=0;} break;
-          case 'ArrowRight': if(dx===0){dx=20;dy=0;} break;
+      document.addEventListener('keydown', handleSnakeKeys);
+
+      function handleSnakeKeys(e) {
+        switch (e.key) {
+          case 'ArrowUp': if (dy === 0) { dx = 0; dy = -20; } break;
+          case 'ArrowDown': if (dy === 0) { dx = 0; dy = 20; } break;
+          case 'ArrowLeft': if (dx === 0) { dx = -20; dy = 0; } break;
+          case 'ArrowRight': if (dx === 0) { dx = 20; dy = 0; } break;
         }
       }
 
-      gameInterval = setInterval(draw,100);
+      gameInterval = setInterval(draw, 100);
     }
 
-    // ---------------- Ultra Scan ----------------
+    // ---------------- Ultra Scan (verbessert: Animationen, Sound-Effekte simulieren, mehr Sites) ----------------
     function initUltraScan() {
       const ultraSites = [
-        {name:"Baltazar-Seeds Shop", status:"legendary", type:"Invincible Security"},
-        {name:"Payment Gateway", status:"legendary", type:"Fort Knox Mode"},
-        {name:"Customer Data", status:"legendary", type:"Encrypted to Mars"},
-        {name:"Banks", status:"negative", type:"Not Playing With Us"},
-        {name:"Secret Seed Vault", status:"legendary", type:"Alien-Proof"},
-        {name:"Government Inspectors", status:"negative", type:"Denied Access"}
+        {name: "Baltazar-Seeds Shop", status: "legendary", type: "Invincible Security"},
+        {name: "Payment Gateway", status: "legendary", type: "Fort Knox Mode"},
+        {name: "Customer Data", status: "legendary", type: "Encrypted to Mars"},
+        {name: "Banks", status: "negative", type: "Not Playing With Us"},
+        {name: "Secret Seed Vault", status: "legendary", type: "Alien-Proof"},
+        {name: "Government Inspectors", status: "negative", type: "Denied Access"},
+        {name: "Delivery Network", status: "legendary", type: "Stealth Mode Activated"},
+        {name: "User Reviews", status: "legendary", type: "100% Authentic"}
       ];
 
       funFactsContainer.innerHTML = '<button id="startScanBtn">Start Scan</button><div id="scanOutput"></div>';
       funFactsContainer.style.display = 'block';
       canvas.style.display = 'none';
+      scoreDisplay.style.display = 'none';
       const outputDiv = document.getElementById('scanOutput');
       const scanBtn = document.getElementById('startScanBtn');
 
-      function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
-
-      async function runUltraScan(){
+      async function runUltraScan() {
         scanBtn.disabled = true;
-        outputDiv.innerHTML='';
-        for(let site of ultraSites){
-          const row=document.createElement('div');
-          row.className='site';
-          row.textContent=`Scanning ${site.name} ... 🔍`;
-          row.style.color="#00ffff";
+        outputDiv.innerHTML = '';
+        for (let site of ultraSites) {
+          const row = document.createElement('div');
+          row.className = 'site';
+          row.textContent = `Scanning ${site.name} ... 🔍`;
+          row.style.color = "#00ffff";
           outputDiv.appendChild(row);
-          row.scrollIntoView({behavior:"smooth"});
-          await delay(600+Math.random()*300);
-          row.textContent=`${site.name} ... ${site.type.toUpperCase()}! 🌟`;
-          row.style.color = site.status==="legendary"?"#0f0":"#f00";
-          await delay(400);
+          row.scrollIntoView({behavior: "smooth"});
+          await new Promise(resolve => setTimeout(resolve, 600 + Math.random() * 300));
+          row.textContent = `${site.name} ... ${site.type.toUpperCase()}! 🌟`;
+          row.style.color = site.status === "legendary" ? "#0f0" : "#f00";
+          row.style.animation = 'fadeIn 0.5s';
+          await new Promise(resolve => setTimeout(resolve, 400));
         }
-        const endMsg=document.createElement('div');
-        endMsg.textContent="🎉 Bot Scan Complete! 🚀";
-        endMsg.style.color="#ff0";
+        const endMsg = document.createElement('div');
+        endMsg.textContent = "🎉 Bot Scan Complete! 🚀";
+        endMsg.style.color = "#ff0";
         outputDiv.appendChild(endMsg);
-        scanBtn.disabled=false;
+        scanBtn.disabled = false;
       }
 
-      scanBtn.addEventListener('click',runUltraScan);
+      scanBtn.addEventListener('click', runUltraScan);
     }
 
-    // ---------------- Fun Facts ----------------
+    // ---------------- Fun Facts (verbessert: Animation beim Anzeigen, mehr Facts) ----------------
     function initFunFacts() {
       funFactsContainer.innerHTML = '<button id="showFactBtn">Show Tip</button><div id="fact"></div>';
       funFactsContainer.style.display = 'block';
       canvas.style.display = 'none';
+      scoreDisplay.style.display = 'none';
 
       document.getElementById('showFactBtn').onclick = () => {
-        const fact = facts[Math.floor(Math.random()*facts.length)];
-        document.getElementById('fact').innerText = fact;
-      }
+        const factDiv = document.getElementById('fact');
+        const fact = facts[Math.floor(Math.random() * facts.length)];
+        factDiv.innerText = fact;
+        factDiv.style.animation = 'fadeIn 0.5s';
+      };
     }
 
-    // ---------------- Tetris ----------------
+    // ---------------- Tetris (verbessert: Score, bessere Kollision, Rotation) ----------------
     function initTetris() {
-      canvas.style.display='block';
-      const ROWS=20, COLS=10, BLOCK=20;
-      let board=Array.from({length:ROWS},()=>Array(COLS).fill(0));
-      let piece={x:4,y:0,shape:[[1,1,1,1]]};
-      const pieces=[[[1,1,1,1]],[[1,1],[1,1]],[[0,1,1],[1,1,0]],[[1,1,0],[0,1,1]],[[1,0,0],[1,1,1]],[[0,0,1],[1,1,1]],[[0,1,0],[1,1,1]]];
+      scoreDisplay.style.display = 'block';
+      const ROWS = 20, COLS = 10, BLOCK = 22.5; // Angepasst für bessere Passform
+      let board = Array.from({length: ROWS}, () => Array(COLS).fill(0));
+      const pieces = [
+        [[1,1,1,1]], // I
+        [[1,1],[1,1]], // O
+        [[0,1,1],[1,1,0]], // S
+        [[1,1,0],[0,1,1]], // Z
+        [[1,0,0],[1,1,1]], // L
+        [[0,0,1],[1,1,1]], // J
+        [[0,1,0],[1,1,1]] // T
+      ];
+      let piece = {x: Math.floor(COLS / 2) - 1, y: 0, shape: pieces[Math.floor(Math.random() * pieces.length)]};
+      score = 0;
 
-      function drawTetris(){
-        ctx.fillStyle='black';ctx.fillRect(0,0,canvas.width,canvas.height);
-        for(let r=0;r<ROWS;r++){
-          for(let c=0;c<COLS;c++){
-            if(board[r][c]){ctx.fillStyle='cyan';ctx.fillRect(c*BLOCK,r*BLOCK,BLOCK,BLOCK);ctx.strokeStyle='#000';ctx.strokeRect(c*BLOCK,r*BLOCK,BLOCK,BLOCK);}
+      function drawTetris() {
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        for (let r = 0; r < ROWS; r++) {
+          for (let c = 0; c < COLS; c++) {
+            if (board[r][c]) {
+              ctx.fillStyle = 'cyan';
+              ctx.fillRect(c * BLOCK, r * BLOCK, BLOCK, BLOCK);
+              ctx.strokeStyle = '#333';
+              ctx.strokeRect(c * BLOCK, r * BLOCK, BLOCK, BLOCK);
+            }
           }
         }
-        piece.shape.forEach((row,ri)=>row.forEach((v,ci)=>{if(v){ctx.fillStyle='lime';ctx.fillRect((piece.x+ci)*BLOCK,(piece.y+ri)*BLOCK,BLOCK,BLOCK);ctx.strokeStyle='#000';ctx.strokeRect((piece.x+ci)*BLOCK,(piece.y+ri)*BLOCK,BLOCK,BLOCK);}}));
+        piece.shape.forEach((row, ri) => {
+          row.forEach((v, ci) => {
+            if (v) {
+              ctx.fillStyle = 'lime';
+              ctx.fillRect((piece.x + ci) * BLOCK, (piece.y + ri) * BLOCK, BLOCK, BLOCK);
+              ctx.strokeStyle = '#333';
+              ctx.strokeRect((piece.x + ci) * BLOCK, (piece.y + ri) * BLOCK, BLOCK, BLOCK);
+            }
+          });
+        });
       }
 
-      function collide(){for(let r=0;r<piece.shape.length;r++){for(let c=0;c<piece.shape[r].length;c++){if(piece.shape[r][c]&&(board[piece.y+r]&&board[piece.y+r][piece.x+c])!==0){return true;}}return false;}}
-      function merge(){piece.shape.forEach((row,ri)=>row.forEach((v,ci)=>{if(v)board[piece.y+ri][piece.x+ci]=v;}));}
-      function reset(){piece={x:4,y:0,shape:pieces[Math.floor(Math.random()*pieces.length)]};if(collide()){board=Array.from({length:ROWS},()=>Array(COLS).fill(0));}}
-      function removeFull(){for(let r=ROWS-1;r>=0;r--){if(board[r].every(v=>v!==0)){board.splice(r,1);board.unshift(Array(COLS).fill(0));}}
+      function collide() {
+        for (let r = 0; r < piece.shape.length; r++) {
+          for (let c = 0; c < piece.shape[r].length; c++) {
+            if (piece.shape[r][c]) {
+              const newY = piece.y + r;
+              const newX = piece.x + c;
+              if (newY >= ROWS || newX < 0 || newX >= COLS || (board[newY] && board[newY][newX])) {
+                return true;
+              }
+            }
+          }
+        }
+        return false;
       }
 
-      document.onkeydown=(e)=>{if(e.key==='ArrowLeft'){piece.x--;if(collide())piece.x++;}else if(e.key==='ArrowRight'){piece.x++;if(collide())piece.x--;}else if(e.key==='ArrowDown'){piece.y++;if(collide()){piece.y--;merge();removeFull();reset();}}else if(e.key==='ArrowUp'){let temp=piece.shape;piece.shape=piece.shape[0].map((_,i)=>piece.shape.map(row=>row[i]).reverse());if(collide())piece.shape=temp;}}
-      gameInterval=setInterval(()=>{piece.y++;if(collide()){piece.y--;merge();removeFull();reset();}drawTetris();},400);
+      function merge() {
+        piece.shape.forEach((row, ri) => {
+          row.forEach((v, ci) => {
+            if (v) board[piece.y + ri][piece.x + ci] = v;
+          });
+        });
+      }
+
+      function resetPiece() {
+        piece = {x: Math.floor(COLS / 2) - 1, y: 0, shape: pieces[Math.floor(Math.random() * pieces.length)]};
+        if (collide()) {
+          showGameOver();
+          clearInterval(gameInterval);
+          return true;
+        }
+        return false;
+      }
+
+      function removeFullLines() {
+        let linesRemoved = 0;
+        for (let r = ROWS - 1; r >= 0; r--) {
+          if (board[r].every(v => v !== 0)) {
+            board.splice(r, 1);
+            board.unshift(Array(COLS).fill(0));
+            linesRemoved++;
+            r++; // Überprüfe die gleiche Zeile erneut
+          }
+        }
+        score += linesRemoved * 100;
+        updateScore();
+      }
+
+      function rotatePiece() {
+        const temp = piece.shape.map((_, i) => piece.shape.map(row => row[i]).reverse());
+        piece.shape = temp;
+        if (collide()) {
+          piece.shape = piece.shape[0].map((_, i) => piece.shape.map(row => row[row.length - 1 - i])); // Rückgängig
+        }
+      }
+
+      document.addEventListener('keydown', handleTetrisKeys);
+
+      function handleTetrisKeys(e) {
+        if (e.key === 'ArrowLeft') {
+          piece.x--;
+          if (collide()) piece.x++;
+        } else if (e.key === 'ArrowRight') {
+          piece.x++;
+          if (collide()) piece.x--;
+        } else if (e.key === 'ArrowDown') {
+          piece.y++;
+          if (collide()) {
+            piece.y--;
+            merge();
+            removeFullLines();
+            if (resetPiece()) return;
+          }
+        } else if (e.key === 'ArrowUp') {
+          rotatePiece();
+        }
+      }
+
+      gameInterval = setInterval(() => {
+        piece.y++;
+        if (collide()) {
+          piece.y--;
+          merge();
+          removeFullLines();
+          if (resetPiece()) return;
+        }
+        drawTetris();
+      }, 500);
+      drawTetris();
     }
 
-    // ---------------- Space Invaders ----------------
+    // ---------------- Space Invaders (verbessert: Enemy Bewegung, Waves, Collision mit Ship, Score) ----------------
     function initSpaceInvaders() {
-      canvas.style.display='block';
-      let ship={x:canvas.width/2-20,y:canvas.height-40,width:40,height:20};
-      let bullets=[];
-      let enemies=[];
-      for(let i=0;i<5;i++){for(let j=0;j<8;j++){enemies.push({x:50+j*60,y:50+i*40,width:40,height:20})}}
-      document.onkeydown=(e)=>{if(e.key==='ArrowLeft')ship.x-=10;if(e.key==='ArrowRight')ship.x+=10;if(e.key===' ')bullets.push({x:ship.x+ship.width/2-2,y:ship.y-10,width:4,height:10})}
-      gameInterval=setInterval(()=>{ctx.clearRect(0,0,canvas.width,canvas.height);
-        ctx.fillStyle='lime';ctx.fillRect(ship.x,ship.y,ship.width,ship.height);
-        bullets.forEach(b=>{b.y-=10;ctx.fillRect(b.x,b.y,b.width,b.height)});bullets=bullets.filter(b=>b.y>0);
-        enemies.forEach((e,i)=>{ctx.fillStyle='red';ctx.fillRect(e.x,e.y,e.width,e.height);bullets.forEach((b,j)=>{if(b.x<b.x+e.width && b.x>b.x && b.y>b.y && b.y<e.y+e.height){enemies.splice(i,1);bullets.splice(j,1)}})});
-      },50);
+      scoreDisplay.style.display = 'block';
+      let ship = {x: canvas.width / 2 - 20, y: canvas.height - 40, width: 40, height: 20, speed: 10};
+      let bullets = [];
+      let enemies = [];
+      let enemySpeed = 1;
+      let direction = 1;
+      score = 0;
+
+      function spawnEnemies() {
+        for (let i = 0; i < 5; i++) {
+          for (let j = 0; j < 8; j++) {
+            enemies.push({x: 50 + j * 60, y: 50 + i * 40, width: 40, height: 20});
+          }
+        }
+      }
+      spawnEnemies();
+
+      document.addEventListener('keydown', handleInvadersKeys);
+
+      function handleInvadersKeys(e) {
+        if (e.key === 'ArrowLeft' && ship.x > 0) ship.x -= ship.speed;
+        if (e.key === 'ArrowRight' && ship.x < canvas.width - ship.width) ship.x += ship.speed;
+        if (e.key === ' ') {
+          bullets.push({x: ship.x + ship.width / 2 - 2, y: ship.y - 10, width: 4, height: 10});
+        }
+      }
+
+      gameInterval = setInterval(() => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Ship
+        ctx.fillStyle = 'lime';
+        ctx.fillRect(ship.x, ship.y, ship.width, ship.height);
+
+        // Bullets
+        bullets.forEach((b, j) => {
+          b.y -= 10;
+          ctx.fillRect(b.x, b.y, b.width, b.height);
+          if (b.y < 0) bullets.splice(j, 1);
+        });
+
+        // Enemies
+        let edgeReached = false;
+        enemies.forEach(e => {
+          e.x += enemySpeed * direction;
+          if (e.x <= 0 || e.x + e.width >= canvas.width) edgeReached = true;
+        });
+        if (edgeReached) {
+          direction = -direction;
+          enemies.forEach(e => e.y += 20);
+        }
+
+        enemies.forEach((e, i) => {
+          ctx.fillStyle = 'red';
+          ctx.fillRect(e.x, e.y, e.width, e.height);
+
+          // Bullet collision
+          bullets.forEach((b, j) => {
+            if (b.x > e.x && b.x < e.x + e.width && b.y > e.y && b.y < e.y + e.height) {
+              enemies.splice(i, 1);
+              bullets.splice(j, 1);
+              score += 50;
+              updateScore();
+            }
+          });
+
+          // Ship collision or bottom reach
+          if (e.y + e.height >= ship.y && ((e.x < ship.x + ship.width && e.x + e.width > ship.x))) {
+            showGameOver();
+            clearInterval(gameInterval);
+          } else if (e.y + e.height >= canvas.height) {
+            showGameOver();
+            clearInterval(gameInterval);
+          }
+        });
+
+        if (enemies.length === 0) {
+          enemySpeed += 0.5;
+          spawnEnemies();
+        }
+      }, 50);
     }
 
+    // ---------------- Pong (neu: Zwei Paddles, Ball, Score) ----------------
+    function initPong() {
+      scoreDisplay.style.display = 'block';
+      let paddle1 = {x: 10, y: canvas.height / 2 - 50, width: 10, height: 100, speed: 10};
+      let paddle2 = {x: canvas.width - 20, y: canvas.height / 2 - 50, width: 10, height: 100, speed: 10};
+      let ball = {x: canvas.width / 2, y: canvas.height / 2, radius: 10, dx: 5, dy: 5};
+      score = 0; // Hier als Player 1 Score
+
+      document.addEventListener('keydown', handlePongKeys);
+
+      function handlePongKeys(e) {
+        if (e.key === 'w' && paddle1.y > 0) paddle1.y -= paddle1.speed;
+        if (e.key === 's' && paddle1.y < canvas.height - paddle1.height) paddle1.y += paddle1.speed;
+        // AI für Paddle2 oder zweite Spieler, hier einfache AI
+      }
+
+      gameInterval = setInterval(() => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Paddles
+        ctx.fillStyle = 'lime';
+        ctx.fillRect(paddle1.x, paddle1.y, paddle1.width, paddle1.height);
+        ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
+
+        // Ball
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'red';
+        ctx.fill();
+
+        ball.x += ball.dx;
+        ball.y += ball.dy;
+
+        // Wall collision
+        if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) ball.dy = -ball.dy;
+
+        // Paddle collision
+        if (ball.x - ball.radius < paddle1.x + paddle1.width && ball.y > paddle1.y && ball.y < paddle1.y + paddle1.height) {
+          ball.dx = -ball.dx;
+          score += 10;
+          updateScore();
+        }
+        if (ball.x + ball.radius > paddle2.x && ball.y > paddle2.y && ball.y < paddle2.y + paddle2.height) ball.dx = -ball.dx;
+
+        // Out of bounds
+        if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) {
+          showGameOver();
+          clearInterval(gameInterval);
+        }
+
+        // AI for paddle2
+        if (ball.y > paddle2.y + paddle2.height / 2) paddle2.y += paddle2.speed;
+        if (ball.y < paddle2.y + paddle2.height / 2) paddle2.y -= paddle2.speed;
+        if (paddle2.y < 0) paddle2.y = 0;
+        if (paddle2.y > canvas.height - paddle2.height) paddle2.y = canvas.height - paddle2.height;
+      }, 20);
+    }
+
+    // ---------------- Breakout (neu: Paddle, Ball, Bricks, Score) ----------------
+    function initBreakout() {
+      scoreDisplay.style.display = 'block';
+      let paddle = {x: canvas.width / 2 - 50, y: canvas.height - 20, width: 100, height: 10, speed: 10};
+      let ball = {x: canvas.width / 2, y: canvas.height - 30, radius: 10, dx: 4, dy: -4};
+      let bricks = [];
+      let brickRowCount = 5;
+      let brickColumnCount = 8;
+      let brickWidth = 75;
+      let brickHeight = 20;
+      let brickPadding = 10;
+      let brickOffsetTop = 30;
+      let brickOffsetLeft = 30;
+      score = 0;
+
+      for (let c = 0; c < brickColumnCount; c++) {
+        for (let r = 0; r < brickRowCount; r++) {
+          bricks.push({
+            x: c * (brickWidth + brickPadding) + brickOffsetLeft,
+            y: r * (brickHeight + brickPadding) + brickOffsetTop,
+            width: brickWidth,
+            height: brickHeight,
+            status: 1
+          });
+        }
+      }
+
+      document.addEventListener('keydown', handleBreakoutKeys);
+
+      function handleBreakoutKeys(e) {
+        if (e.key === 'ArrowLeft' && paddle.x > 0) paddle.x -= paddle.speed;
+        if (e.key === 'ArrowRight' && paddle.x < canvas.width - paddle.width) paddle.x += paddle.speed;
+      }
+
+      gameInterval = setInterval(() => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Paddle
+        ctx.fillStyle = 'lime';
+        ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+
+        // Ball
+        ctx.beginPath();
+        ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'red';
+        ctx.fill();
+
+        ball.x += ball.dx;
+        ball.y += ball.dy;
+
+        // Wall collision
+        if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) ball.dx = -ball.dx;
+        if (ball.y - ball.radius < 0) ball.dy = -ball.dy;
+        if (ball.y + ball.radius > canvas.height) {
+          showGameOver();
+          clearInterval(gameInterval);
+        }
+
+        // Paddle collision
+        if (ball.y + ball.radius > paddle.y && ball.x > paddle.x && ball.x < paddle.x + paddle.width) ball.dy = -ball.dy;
+
+        // Bricks collision
+        bricks.forEach((brick, i) => {
+          if (brick.status === 1) {
+            ctx.fillStyle = 'cyan';
+            ctx.fillRect(brick.x, brick.y, brick.width, brick.height);
+
+            if (ball.x > brick.x && ball.x < brick.x + brick.width && ball.y > brick.y && ball.y < brick.y + brick.height) {
+              ball.dy = -ball.dy;
+              brick.status = 0;
+              score += 20;
+              updateScore();
+              if (bricks.every(b => b.status === 0)) {
+                showGameOver(); // Win condition, but for now Game Over
+                clearInterval(gameInterval);
+              }
+            }
+          }
+        });
+      }, 20);
+    }
+
+    // Entferne Event Listener bei Switch, aber für Einfachheit hier nicht, da switch resetet
     // Start with Snake
     initSnake();
-
   </script>
 </body>
 </html>
