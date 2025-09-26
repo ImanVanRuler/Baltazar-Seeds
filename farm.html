@@ -15,7 +15,6 @@
       justify-content:flex-start; 
       min-height:100vh;
       overflow:hidden;
-      /* animierter Farbverlauf */
       background: linear-gradient(-45deg, #0d1f0d, #1a472a, #0d1f1f, #2e0854);
       background-size: 400% 400%;
       animation: gradientMove 15s ease infinite;
@@ -26,7 +25,6 @@
       100% {background-position:0% 50%;}
     }
 
-    /* Spielcontainer */
     .game {
       background: rgba(0,0,0,0.6);
       border-radius: 15px;
@@ -49,6 +47,23 @@
     }
     button:hover {
       background: #32cd32;
+    }
+
+    /* Pflanze */
+    .strain {
+      position: absolute;
+      bottom: 20px;
+      font-size: 1.5rem;
+      opacity: 0;
+      transform: scale(0.2);
+      animation: grow 3s forwards;
+    }
+
+    @keyframes grow {
+      0%   {opacity: 0; transform: scale(0.2) translateY(40px);}
+      40%  {opacity: 1; transform: scale(1) translateY(0);}
+      70%  {opacity: 1; transform: scale(1.2) translateY(-10px);}
+      100% {opacity: 0; transform: scale(0.5) translateY(60px);}
     }
 
     /* fallende Blätter */
@@ -79,15 +94,26 @@
     let harvest = 0;
 
     function growStrain() {
-      harvest++;
-      document.getElementById("harvest").innerText = "Geerntet: " + harvest;
+      // Pflanze erstellen
+      const plant = document.createElement("div");
+      plant.classList.add("strain");
+      plant.innerHTML = "🌿";
+      plant.style.left = (50 + (Math.random()*200 - 100)) + "px"; // etwas Variation
+      document.querySelector(".game").appendChild(plant);
+
+      // Nach Ablauf der Animation ernten
+      setTimeout(() => {
+        plant.remove();
+        harvest++;
+        document.getElementById("harvest").innerText = "Geerntet: " + harvest;
+      }, 3000);
     }
 
     // zufällige Blätter einfügen
     function createLeaf(){
       const leaf = document.createElement("div");
       leaf.classList.add("leaf");
-      leaf.innerHTML = "🍁"; // Kann auch durch 🌿 ersetzt werden
+      leaf.innerHTML = "🍁";
       leaf.style.left = Math.random()*100+"vw";
       leaf.style.animationDuration = (5+Math.random()*5)+"s";
       document.body.appendChild(leaf);
