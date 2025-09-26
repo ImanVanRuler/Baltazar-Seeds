@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Baltazar Seeds Fun</title>
+  <title>Baltazar Seeds Fun Games</title>
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -11,7 +11,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
 
   <style>
-    /* ---------------- Body & Fonts ---------------- */
     body, html {
       margin: 0;
       padding: 0;
@@ -21,7 +20,6 @@
       overflow-x: hidden;
     }
 
-    /* ---------------- Header ---------------- */
     header {
       display: flex;
       flex-direction: column;
@@ -41,418 +39,254 @@
       text-shadow: 0 0 10px #003300;
     }
 
-    /* ---------------- Glitch Title ---------------- */
-    .glitch {
-      font-size: clamp(3rem, 8vw, 5rem);
-      color: #00ff99;
-      text-align: center;
-      margin: 40px 0;
-      position: relative;
-      animation: flicker 1s infinite alternate;
-      text-shadow: 0 0 10px #00aa55;
-    }
-
-    .glitch::before,
-    .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      left: 0;
-      width: 100%;
-      overflow: hidden;
-    }
-
-    .glitch::before {
-      animation: glitchTop 2s infinite linear alternate-reverse;
-      clip: rect(0, 9999px, 50%, 0);
-      color: #00ffff;
-      left: 2px;
-    }
-
-    .glitch::after {
-      animation: glitchBottom 1.5s infinite linear alternate-reverse;
-      clip: rect(50%, 9999px, 100%, 0);
-      color: #ff00ff;
-      left: -2px;
-    }
-
-    @keyframes flicker {
-      0%,18%,22%,25%,53%,57%,100%{opacity:1;}
-      20%,24%,55%{opacity:0.1;}
-    }
-
-    @keyframes glitchTop {
-      0%{transform:translate(0,0);opacity:1;}
-      20%{transform:translate(-5px,2px);opacity:0.8;}
-      40%{transform:translate(5px,-2px);opacity:0.6;}
-      60%{transform:translate(-3px,3px);opacity:0.4;}
-      80%{transform:translate(3px,-3px);opacity:0.8;}
-      100%{transform:translate(0,0);opacity:1;}
-    }
-
-    @keyframes glitchBottom {
-      0%{transform:translate(0,0);opacity:1;}
-      20%{transform:translate(5px,-2px);opacity:0.8;}
-      40%{transform:translate(-5px,2px);opacity:0.6;}
-      60%{transform:translate(3px,-3px);opacity:0.4;}
-      80%{transform:translate(-3px,3px);opacity:0.8;}
-      100%{transform:translate(0,0);opacity:1;}
-    }
-
-    /* ---------------- Video Section (Snake Game) ---------------- */
-    .video-section {
-      position: relative;
-      width: 100%;
-      max-width: 800px;
-      margin: 0 auto 50px auto;
-      padding: 20px;
-      background: rgba(0,0,0,0.8);
-      border-radius: 20px;
-      box-shadow: 0 0 20px rgba(0,255,153,0.5);
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    /* ---------------- Card Section (unter dem Spiel) ---------------- */
-    .card-section {
-      position: relative;
+    .tabs {
       display: flex;
       justify-content: center;
+      margin: 20px 0;
       flex-wrap: wrap;
-      gap: 50px;
-      margin: 0 20px;
-      padding: 50px 0;
-      z-index: 1;
-      overflow: hidden;
-      min-height: 600px;
+      gap: 10px;
     }
 
-    .card-section video {
-      position: absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      opacity:0.5;
-      z-index:-1;
-      pointer-events:none;
-      filter: brightness(0.6) contrast(1.2);
-    }
-
-    /* ---------------- Scan Widget & Fun Facts ---------------- */
-    .card {
-      background: rgba(0,0,0,0.8);
-      color: #fff;
-      width: 320px;
-      border-radius: 20px;
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0,255,153,0.5);
-      position: relative;
-      padding: 20px;
-    }
-
-    .card h2 {
-      margin-bottom: 15px;
-      color: #00ff99;
-      text-transform: uppercase;
-      font-size: 1.5rem;
-    }
-
-    .card button {
-      padding: 10px 25px;
-      font-size: 1rem;
-      background-color: #00ff99;
-      border: none;
-      border-radius: 8px;
+    .tab {
+      background: #222;
+      border: 2px solid #00ff99;
+      padding: 10px 20px;
       cursor: pointer;
-      font-family: 'Bebas Neue', cursive;
-      margin-bottom: 15px;
+      border-radius: 10px;
+      font-size: 1rem;
       transition: 0.3s;
     }
 
-    .card button:hover {
-      background-color: #00cc77;
-    }
-
-    #scanOutput, #fact {
-      max-height: 250px;
-      overflow-y: auto;
-      text-align: left;
-      font-family: 'Courier New', monospace;
-      padding: 10px;
-    }
-
-    .site {
-      padding: 5px 10px;
-      border-left: 4px solid #555;
-      margin-bottom:5px;
-      transition: all 0.3s;
-      font-weight:bold;
-    }
-
-    .legendary {
-      color:#00ff99;
-      border-left:5px solid #00ff99;
-      text-shadow:0 0 10px #00ff99;
-      animation: blink 0.6s infinite alternate;
-    }
-
-    .negative {
-      color:#ff3300;
-      border-left:5px solid #ff3300;
-      text-shadow:0 0 10px #ff3300;
-      animation: blink 0.6s infinite alternate;
-    }
-
-    @keyframes blink {
-      from {opacity:1;}
-      to {opacity:0.3;}
-    }
-
-    /* ---------------- Floating Leaves ---------------- */
-    .leaf {
-      position: absolute;
-      width: 60px;
-      height: 60px;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Cannabis_leaf_icon.svg/1024px-Cannabis_leaf_icon.svg.png') no-repeat center center;
-      background-size: contain;
-      opacity:0.35;
-      animation: float 12s ease-in-out infinite;
-      cursor:pointer;
-      transition: transform 0.3s ease;
-    }
-
-    @keyframes float {
-      0%,100%{transform:translateY(0) rotate(0deg);}
-      50%{transform:translateY(-300px) rotate(180deg);}
-    }
-
-    /* ---------------- Back Button ---------------- */
-    .back-button {
-      display: inline-block;
-      padding: 12px 30px;
-      background: #222;
-      color: #fff;
-      border: 3px solid #00ff99;
-      border-radius: 12px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      text-decoration: none;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin: 20px auto;
-      display:block;
-      box-shadow: 0 0 20px rgba(0,255,153,0.6);
-    }
-
-    .back-button:hover {
+    .tab.active {
       background: #00ff99;
-      color:#000;
-      transform: scale(1.1);
-      box-shadow: 0 0 30px rgba(0,255,153,0.8);
+      color: #000;
+      font-weight: bold;
+    }
+
+    .game-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      height: 450px;
+      margin: 0 auto 50px auto;
+      background: rgba(0,0,0,0.8);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,255,153,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    canvas {
+      border-radius: 10px;
+      background: #000;
     }
   </style>
 </head>
 
 <body>
   <header>
-    <h1>Baltazar Seeds Fun</h1>
+    <h1>Baltazar Seeds Fun Games</h1>
   </header>
 
-  <h1 class="glitch" data-text="🌱 BALTAZAR FUN 🌱">🌱 BALTAZAR FUN 🌱</h1>
-
-  <!-- Video Section oben mit Snake-Spiel -->
-  <div class="video-section">
-    <canvas id="snakeGame" width="800" height="450" style="border-radius:10px; background:#111;"></canvas>
+  <div class="tabs">
+    <div class="tab active" data-game="snake">Snake</div>
+    <div class="tab" data-game="ultraScan">Bot Scan</div>
+    <div class="tab" data-game="funFacts">Tips & Fun Facts</div>
+    <div class="tab" data-game="tetris">Tetris</div>
+    <div class="tab" data-game="spaceInvaders">Space Invaders</div>
   </div>
 
-  <!-- Card Section unter dem Spiel -->
-  <div class="card-section">
-    <!-- Hintergrundvideo -->
-    <video autoplay muted loop playsinline>
-      <source src="logovid.mp4" type="video/mp4">
-      Ihr Browser unterstützt das Video-Tag nicht. Bitte aktualisieren Sie Ihren Browser.
-    </video>
-
-    <!-- Ultra Scan Widget -->
-    <div class="card">
-      <h2>🔥 Bot Scan 🔥</h2>
-      <button id="startScanBtn" aria-label="Scan starten">Start Scan</button>
-      <div id="scanOutput"></div>
-    </div>
-
-    <!-- Fun Facts Widget -->
-    <div class="card">
-      <h2>💡 Tips & Fun Facts 💡</h2>
-      <button id="showFactBtn" aria-label="Tipp anzeigen">Show Tip</button>
-      <div id="fact"></div>
-    </div>
-
-    <!-- Floating Leaves -->
-    <div class="leaf" style="left:5%; animation-delay:0s;"></div>
-    <div class="leaf" style="left:25%; animation-delay:2s;"></div>
-    <div class="leaf" style="left:45%; animation-delay:4s;"></div>
-    <div class="leaf" style="left:65%; animation-delay:1s;"></div>
-    <div class="leaf" style="left:85%; animation-delay:3s;"></div>
+  <div class="game-container">
+    <canvas id="gameCanvas" width="800" height="450"></canvas>
+    <div id="funFactsContainer" style="display:none; color:#0f0; padding:20px; font-family: 'Courier New', monospace; max-height:400px; overflow-y:auto;"></div>
   </div>
-
-  <a href="seite3.html" class="back-button">Back To Menu</a>
 
   <script>
-    // ---------------- Snake Game ----------------
-    const canvas = document.getElementById('snakeGame');
+    const tabs = document.querySelectorAll('.tab');
+    const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
+    const funFactsContainer = document.getElementById('funFactsContainer');
 
-    const grid = 20;
-    let count = 0;
-    let snake = [{x: 8*grid, y: 8*grid}];
-    let direction = {x: 0, y: 0};
-    let apple = {x: Math.floor(Math.random()*canvas.width/grid)*grid, y: Math.floor(Math.random()*canvas.height/grid)*grid};
-    let score = 0;
+    let currentGame = 'snake';
+    let gameInterval;
 
-    function gameLoop() {
-      requestAnimationFrame(gameLoop);
-      if (++count < 4) return;
-      count = 0;
+    // Fun Facts Array
+    const facts = [
+      "Cannabis loves lots of Light. 16 Hours a Day is ideal in the growth phase.",
+      "Proper humidity helps healthy Leaves and strong Plants.",
+      "Fast growth in young Plants means often a stronger harvest later.",
+      "Feed wisely: Organic amendments can be used more generously.",
+      "Trichomes contain valuable Cannabinoids. Patience pays off.",
+      "Small mistakes make the Grow more exciting.",
+      "Strategic pruning improves airflow and light penetration."
+    ];
 
-      ctx.fillStyle = "#111";
-      ctx.fillRect(0,0,canvas.width,canvas.height);
+    // ---------------- Game Switcher ----------------
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentGame = tab.dataset.game;
+        clearInterval(gameInterval);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        funFactsContainer.style.display = 'none';
+        canvas.style.display = 'block';
+        switch(currentGame) {
+          case 'snake': initSnake(); break;
+          case 'ultraScan': initUltraScan(); break;
+          case 'funFacts': initFunFacts(); break;
+          case 'tetris': initTetris(); break;
+          case 'spaceInvaders': initSpaceInvaders(); break;
+        }
+      });
+    });
 
-      // Move snake
-      let head = {...snake[0]};
-      head.x += direction.x * grid;
-      head.y += direction.y * grid;
+    // ---------------- Snake ----------------
+    function initSnake() {
+      let snake = [{x:10, y:10}];
+      let dx = 20, dy = 0;
+      let food = {x: Math.floor(Math.random()*40)*20, y: Math.floor(Math.random()*22)*20};
 
-      // Wrap around edges
-      if(head.x >= canvas.width) head.x = 0;
-      if(head.x < 0) head.x = canvas.width - grid;
-      if(head.y >= canvas.height) head.y = 0;
-      if(head.y < 0) head.y = canvas.height - grid;
+      function draw() {
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0,0,canvas.width,canvas.height);
 
-      // Check collision
-      for(let segment of snake){
-        if(segment.x === head.x && segment.y === head.y){
-          snake = [{x: 8*grid, y: 8*grid}];
-          direction = {x:0,y:0};
-          score = 0;
+        ctx.fillStyle = 'lime';
+        snake.forEach(s => ctx.fillRect(s.x, s.y, 20, 20));
+
+        ctx.fillStyle = 'red';
+        ctx.fillRect(food.x, food.y, 20, 20);
+
+        let head = {x: snake[0].x + dx, y: snake[0].y + dy};
+        snake.unshift(head);
+
+        if(head.x === food.x && head.y === food.y) {
+          food = {x: Math.floor(Math.random()*40)*20, y: Math.floor(Math.random()*22)*20};
+        } else {
+          snake.pop();
+        }
+
+        if(head.x<0 || head.y<0 || head.x>=canvas.width || head.y>=canvas.height || snake.slice(1).some(s=>s.x===head.x && s.y===head.y)) {
+          snake = [{x:10, y:10}];
+          dx=20; dy=0;
         }
       }
 
-      snake.unshift(head);
-
-      // Eat apple
-      if(head.x === apple.x && head.y === apple.y){
-        score++;
-        apple.x = Math.floor(Math.random()*canvas.width/grid)*grid;
-        apple.y = Math.floor(Math.random()*canvas.height/grid)*grid;
-      } else {
-        snake.pop();
+      document.onkeydown = (e)=>{
+        switch(e.key){
+          case 'ArrowUp': if(dy===0){dx=0;dy=-20;} break;
+          case 'ArrowDown': if(dy===0){dx=0;dy=20;} break;
+          case 'ArrowLeft': if(dx===0){dx=-20;dy=0;} break;
+          case 'ArrowRight': if(dx===0){dx=20;dy=0;} break;
+        }
       }
 
-      // Draw apple
-      ctx.fillStyle = "#ff3333";
-      ctx.fillRect(apple.x, apple.y, grid-2, grid-2);
-
-      // Draw snake
-      ctx.fillStyle = "#00ff99";
-      snake.forEach((segment, index)=>{
-        ctx.fillRect(segment.x, segment.y, grid-2, grid-2);
-      });
-
-      // Draw score
-      ctx.fillStyle = "#00ff99";
-      ctx.font = "20px 'Bebas Neue', cursive";
-      ctx.fillText("Score: "+score, 10, 25);
+      gameInterval = setInterval(draw,100);
     }
 
-    document.addEventListener('keydown', e=>{
-      if(e.key === "ArrowUp" && direction.y === 0){ direction = {x:0, y:-1}; }
-      if(e.key === "ArrowDown" && direction.y === 0){ direction = {x:0, y:1}; }
-      if(e.key === "ArrowLeft" && direction.x === 0){ direction = {x:-1, y:0}; }
-      if(e.key === "ArrowRight" && direction.x === 0){ direction = {x:1, y:0}; }
-    });
+    // ---------------- Ultra Scan ----------------
+    function initUltraScan() {
+      const ultraSites = [
+        {name:"Baltazar-Seeds Shop", status:"legendary", type:"Invincible Security"},
+        {name:"Payment Gateway", status:"legendary", type:"Fort Knox Mode"},
+        {name:"Customer Data", status:"legendary", type:"Encrypted to Mars"},
+        {name:"Banks", status:"negative", type:"Not Playing With Us"},
+        {name:"Secret Seed Vault", status:"legendary", type:"Alien-Proof"},
+        {name:"Government Inspectors", status:"negative", type:"Denied Access"}
+      ];
 
-    requestAnimationFrame(gameLoop);
+      funFactsContainer.innerHTML = '<button id="startScanBtn">Start Scan</button><div id="scanOutput"></div>';
+      funFactsContainer.style.display = 'block';
+      canvas.style.display = 'none';
+      const outputDiv = document.getElementById('scanOutput');
+      const scanBtn = document.getElementById('startScanBtn');
 
-    // ---------------- Floating leaf interactivity ----------------
-    document.querySelectorAll('.leaf').forEach(leaf => {
-      leaf.addEventListener('click', () => {
-        leaf.style.transform = "translateY(-50px) rotate(30deg)";
-        setTimeout(() => leaf.style.transform = "", 500);
-      });
-    });
+      function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
 
-    // ---------------- Ultra Scan Data ----------------
-    const ultraSites = [
-      {name:"Baltazar-Seeds Shop", status:"legendary", type:"Invincible Security"},
-      {name:"Payment Gateway", status:"legendary", type:"Fort Knox Mode"},
-      {name:"Customer Data", status:"legendary", type:"Encrypted to Mars"},
-      {name:"Banks", status:"negative", type:"Not Playing With Us"},
-      {name:"Secret Seed Vault", status:"legendary", type:"Alien-Proof"},
-      {name:"Government Inspectors", status:"negative", type:"Denied Access"}
-    ];
-
-    const outputDiv = document.getElementById('scanOutput');
-    const scanBtn = document.getElementById('startScanBtn');
-
-    function delay(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    async function runUltraScan() {
-      scanBtn.disabled = true;
-      outputDiv.innerHTML = '';
-      for (let site of ultraSites) {
-        const row = document.createElement('div');
-        row.className = 'site';
-        row.textContent = `Scanning ${site.name} ... 🔍`;
-        row.style.color = "#00ffff";
-        outputDiv.appendChild(row);
-        row.scrollIntoView({behavior:"smooth"});
-        await delay(600 + Math.random() * 300);
-        row.textContent = `${site.name} ... ${site.type.toUpperCase()}! 🌟`;
-        row.classList.add(site.status);
-
-        // Leaves dance
-        document.querySelectorAll('.leaf').forEach(leaf => {
-          leaf.style.transform = `translateY(-${Math.random()*50}px) rotate(${Math.random()*360}deg)`;
-          setTimeout(() => leaf.style.transform = "", 600);
-        });
-
-        await delay(400);
+      async function runUltraScan(){
+        scanBtn.disabled = true;
+        outputDiv.innerHTML='';
+        for(let site of ultraSites){
+          const row=document.createElement('div');
+          row.className='site';
+          row.textContent=`Scanning ${site.name} ... 🔍`;
+          row.style.color="#00ffff";
+          outputDiv.appendChild(row);
+          row.scrollIntoView({behavior:"smooth"});
+          await delay(600+Math.random()*300);
+          row.textContent=`${site.name} ... ${site.type.toUpperCase()}! 🌟`;
+          row.style.color = site.status==="legendary"?"#0f0":"#f00";
+          await delay(400);
+        }
+        const endMsg=document.createElement('div');
+        endMsg.textContent="🎉 Bot Scan Complete! 🚀";
+        endMsg.style.color="#ff0";
+        outputDiv.appendChild(endMsg);
+        scanBtn.disabled=false;
       }
 
-      const endMsg = document.createElement('div');
-      endMsg.textContent = "🎉 Bot Scan Complete! Baltazar Seeds is Cream de la cream!! 🚀";
-      endMsg.style.marginTop = "10px";
-      endMsg.style.color = "#ff00ff";
-      endMsg.style.fontSize = "1.3rem";
-      endMsg.style.fontWeight = "bold";
-      endMsg.style.textShadow = "0 0 15px #ff00ff,0 0 25px #ff00ff";
-      outputDiv.appendChild(endMsg);
-      scanBtn.disabled = false;
+      scanBtn.addEventListener('click',runUltraScan);
     }
 
-    scanBtn.addEventListener('click', runUltraScan);
+    // ---------------- Fun Facts ----------------
+    function initFunFacts() {
+      funFactsContainer.innerHTML = '<button id="showFactBtn">Show Tip</button><div id="fact"></div>';
+      funFactsContainer.style.display = 'block';
+      canvas.style.display = 'none';
 
-    // ---------------- Fun Facts / Tips ----------------
-    const facts = [
-      "Cannabis loves lots of Light. 16 Hours a Day is ideal in the growth phase.",
-      "Proper humidity helps healthy Leaves and strong Plants. Warmth and perspiration are the magic words here.",
-      "Fast growth in young Plants means often a stronger harvest later. You can literally see the potency",
-      "Feed wisely: Too much synthetic fertilizer can harm your Cannabis but Organic amendments can be used more generously.",
-      "Trichomes contain valuable Cannabinoids. Patience pays off. The scent of each Flower is incredible",
-      "Small mistakes make the Grow more exciting. Every grow is an adventure. You getting better and better.",
-      "Strategic pruning improves airflow and light penetration, promoting bigger yields. Use Low-Stress Training (LST) carefully to avoid damaging stems while shaping the plant."
-    ];
+      document.getElementById('showFactBtn').onclick = () => {
+        const fact = facts[Math.floor(Math.random()*facts.length)];
+        document.getElementById('fact').innerText = fact;
+      }
+    }
 
-    document.getElementById('showFactBtn').addEventListener('click', () => {
-      const fact = facts[Math.floor(Math.random()*facts.length)];
-      document.getElementById('fact').innerText = fact;
-    });
+    // ---------------- Tetris ----------------
+    function initTetris() {
+      canvas.style.display='block';
+      const ROWS=20, COLS=10, BLOCK=20;
+      let board=Array.from({length:ROWS},()=>Array(COLS).fill(0));
+      let piece={x:4,y:0,shape:[[1,1,1,1]]};
+      const pieces=[[[1,1,1,1]],[[1,1],[1,1]],[[0,1,1],[1,1,0]],[[1,1,0],[0,1,1]],[[1,0,0],[1,1,1]],[[0,0,1],[1,1,1]],[[0,1,0],[1,1,1]]];
+
+      function drawTetris(){
+        ctx.fillStyle='black';ctx.fillRect(0,0,canvas.width,canvas.height);
+        for(let r=0;r<ROWS;r++){
+          for(let c=0;c<COLS;c++){
+            if(board[r][c]){ctx.fillStyle='cyan';ctx.fillRect(c*BLOCK,r*BLOCK,BLOCK,BLOCK);ctx.strokeStyle='#000';ctx.strokeRect(c*BLOCK,r*BLOCK,BLOCK,BLOCK);}
+          }
+        }
+        piece.shape.forEach((row,ri)=>row.forEach((v,ci)=>{if(v){ctx.fillStyle='lime';ctx.fillRect((piece.x+ci)*BLOCK,(piece.y+ri)*BLOCK,BLOCK,BLOCK);ctx.strokeStyle='#000';ctx.strokeRect((piece.x+ci)*BLOCK,(piece.y+ri)*BLOCK,BLOCK,BLOCK);}}));
+      }
+
+      function collide(){for(let r=0;r<piece.shape.length;r++){for(let c=0;c<piece.shape[r].length;c++){if(piece.shape[r][c]&&(board[piece.y+r]&&board[piece.y+r][piece.x+c])!==0){return true;}}return false;}}
+      function merge(){piece.shape.forEach((row,ri)=>row.forEach((v,ci)=>{if(v)board[piece.y+ri][piece.x+ci]=v;}));}
+      function reset(){piece={x:4,y:0,shape:pieces[Math.floor(Math.random()*pieces.length)]};if(collide()){board=Array.from({length:ROWS},()=>Array(COLS).fill(0));}}
+      function removeFull(){for(let r=ROWS-1;r>=0;r--){if(board[r].every(v=>v!==0)){board.splice(r,1);board.unshift(Array(COLS).fill(0));}}
+      }
+
+      document.onkeydown=(e)=>{if(e.key==='ArrowLeft'){piece.x--;if(collide())piece.x++;}else if(e.key==='ArrowRight'){piece.x++;if(collide())piece.x--;}else if(e.key==='ArrowDown'){piece.y++;if(collide()){piece.y--;merge();removeFull();reset();}}else if(e.key==='ArrowUp'){let temp=piece.shape;piece.shape=piece.shape[0].map((_,i)=>piece.shape.map(row=>row[i]).reverse());if(collide())piece.shape=temp;}}
+      gameInterval=setInterval(()=>{piece.y++;if(collide()){piece.y--;merge();removeFull();reset();}drawTetris();},400);
+    }
+
+    // ---------------- Space Invaders ----------------
+    function initSpaceInvaders() {
+      canvas.style.display='block';
+      let ship={x:canvas.width/2-20,y:canvas.height-40,width:40,height:20};
+      let bullets=[];
+      let enemies=[];
+      for(let i=0;i<5;i++){for(let j=0;j<8;j++){enemies.push({x:50+j*60,y:50+i*40,width:40,height:20})}}
+      document.onkeydown=(e)=>{if(e.key==='ArrowLeft')ship.x-=10;if(e.key==='ArrowRight')ship.x+=10;if(e.key===' ')bullets.push({x:ship.x+ship.width/2-2,y:ship.y-10,width:4,height:10})}
+      gameInterval=setInterval(()=>{ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle='lime';ctx.fillRect(ship.x,ship.y,ship.width,ship.height);
+        bullets.forEach(b=>{b.y-=10;ctx.fillRect(b.x,b.y,b.width,b.height)});bullets=bullets.filter(b=>b.y>0);
+        enemies.forEach((e,i)=>{ctx.fillStyle='red';ctx.fillRect(e.x,e.y,e.width,e.height);bullets.forEach((b,j)=>{if(b.x<b.x+e.width && b.x>b.x && b.y>b.y && b.y<e.y+e.height){enemies.splice(i,1);bullets.splice(j,1)}})});
+      },50);
+    }
+
+    // Start with Snake
+    initSnake();
+
   </script>
 </body>
 </html>
