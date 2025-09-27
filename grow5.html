@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BALTAZAR GROWING - Baltazar Seeds</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+  <!-- Font Awesome für Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Nosifer', cursive;
+      background: #111;
+      color: #ff0b0b;
+    }
+
+    a { text-decoration: none; }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 4vw;
+      background: rgba(0,0,0,0.85);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      text-shadow: 2px 2px 0 #000;
+    }
+    nav a {
+      color: #ff0b0b;
+      text-shadow: 1px 1px 0 #000;
+      margin-left: 2rem;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: black;
+      background: #ff0b0b;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    /* Strain Detail */
+    .strain-detail {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 0 2rem;
+      text-align: center;
+    }
+    .strain-detail h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 0 #000;
+    }
+    .strain-detail p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      text-shadow: 1px 1px 0 #000;
+      margin-bottom: 1rem;
+    }
+
+    /* Slideshow */
+    .slideshow-container {
+      position: relative;
+      max-width: 900px;
+      margin: auto;
+      border: 2px solid #ff0b0b;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .mySlides { display: none; }
+    .mySlides img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    /* Pfeile */
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      padding: 12px;
+      color: #ff0b0b;
+      font-weight: bold;
+      font-size: 2.2rem;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+      user-select: none;
+      text-shadow: 1px 1px 2px #000;
+      z-index: 10;
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+    .prev:hover, .next:hover {
+      background-color: #ff0b0b;
+      color: #111;
+    }
+
+    /* Punkte */
+    .dots { text-align: center; margin-top: 1rem; }
+    .dot {
+      cursor: pointer;
+      height: 12px;
+      width: 12px;
+      margin: 0 4px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: 0.3s;
+    }
+    .active, .dot:hover { background-color: #ff0b0b; }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      color: #ff0b0b;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid #ff0b0b;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #ff0b0b;
+      color: black;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: rgba(0,0,0,0.85);
+      text-shadow: 1px 1px 0 #000;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Baltazar Seeds</h1>
+    <nav>
+      <a href="index.html">Entrance</a>
+      <a href="seite3.html">Menu</a>
+      <a href="mailto:imanvanruler@freenet.de">Contact</a>
+      <a href="https://x.com/BALTAZARSEEDS" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="https://www.instagram.com/real_jack_james" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
+      <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
+    </nav>
+  </header>
+
+  <!-- Strain Detail -->
+  <section class="strain-detail">
+    <!-- Slideshow -->
+    <div class="slideshow-container">
+      <div class="mySlides fade">
+        <img src="GROW3.JPG" alt="BALTAZAR GROW">
+      </div>
+
+    <h2>VIPARSPECTRA P2000 250W Full Spectrum LED Grow Light</h2>
+    <p></p>
+    <p>
+ Elevate your indoor growing with the VIPARSPECTRA P2000, a high-performance 250W full spectrum LED grow light designed for
+      both novice and professional cultivators. Engineered to deliver optimal light intensity,
+      this lamp ensures robust plant growth from seedling to flowering stages.
+   </p><p>
+Key Features:
+Full Spectrum Light: Provides a balanced spectrum of 380–780nm, promoting photosynthesis and healthy growth across all stages.
+High Efficiency: Consumes 250W while delivering impressive PPFD for maximum yield potential.
+Advanced LED Technology: Uses high-quality LEDs for uniform coverage and energy-efficient performance.
+Durable & Reliable: Built with a solid aluminum heat sink and quiet cooling fans to maintain optimal temperature and extend lifespan.
+Versatile Application: Ideal for growing vegetables, herbs, and flowering plants in indoor gardens, tents, or greenhouses.
+    </p>
+    <p>
+    Why Choose VIPARSPECTRA P2000:
+Experience faster growth, denser yields, and healthier plants
+      with a grow light trusted by indoor gardeners worldwide.
+      Whether you’re cultivating herbs, flowers, or vegetables,
+      the P2000 provides the perfect light spectrum to thrive.
+    </p>
+
+    <a href="seite3.html" class="btn">Back to Menu</a>
+  </section>
+  
+<section style="
+  text-align:center; 
+  margin:3rem auto; 
+  padding:2rem; 
+  max-width:700px; 
+  border: 2px solid #ff0b0b; 
+  border-radius:12px; 
+  background: rgba(0,0,0,0.7); 
+  color:#ff0b0b; 
+  font-family: Arial, sans-serif;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+">
+  
+ <h2 style="text-shadow: 1px 1px 0 #000; font-size:2rem; margin-bottom:1rem;">
+    ⚡ Pay with Crypto ! ⚡
+  </h2>
+  
+  <p style="text-shadow: 1px 1px 0 #000; font-size:1.1rem; margin-bottom:1.5rem;">
+    Finish your purchase by clicking the button below
+  </p>
+
+  <h3 style="margin:1rem 0; font-size:1.4rem; color:#fff; text-shadow: 1px 1px 2px #000;">
+    (1x Grow Light VIPARSPECTRA P2000 250WATT For 169,00€)
+  </h3>
+
+  <div class="product" style="margin:2rem 0;">
+    <h3 style="margin-bottom:1rem; font-size:1.3rem;">
+      Choose MetaMask or another Wallet
+    </h3>
+    
+   <a href="formular4.html"
+   style="
+     display:inline-block;
+     background: linear-gradient(90deg, #FF9900, #FF6600);
+     color:white;
+     font-weight:bold;
+     text-decoration:none;
+     padding:15px 40px;
+     border-radius:10px;
+     font-size:18px;
+     letter-spacing:1px;
+     transition: transform 0.2s, box-shadow 0.2s;
+   "
+   onmouseover="this.style.transform='scale(1.08)'; this.style.boxShadow='0 6px 18px rgba(0,0,0,0.4)';"
+   onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+   Complete Order
+</a>
+
+  </div>
+
+  <img src="METAMASK.png" alt="MetaMask" style="width:120px; margin:1.5rem auto; display:block;">
+
+  <p style="font-size:0.95rem; line-height:1.6; margin-top:2rem; color:#ffdede; text-shadow: 1px 1px 2px #000;">
+    ⚠️ <b>Important:</b> Only crypto payments are accepted to the wallet redirected by clicking the buy button.  
+    Please check all details carefully beforehand! You can choose from several cryptocurrencies.  
+    <b>Polygon is recommended and preferred.</b>  
+    ✅ International shipping included in the price ✈️🌐
+  </p>
+  
+</section>
+  <footer>
+    &copy; 2025 Baltazar Seeds - Badfarmers Genetics
+  </footer>
+
+  <script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+    }
+    function showSlides(n) {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      if (n > slides.length) {slideIndex = 1}
+      if (n < 1) {slideIndex = slides.length}
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex-1].style.display = "block";
+      dots[slideIndex-1].className += " active";
+    }
+  </script>
+</body>
+</html>
