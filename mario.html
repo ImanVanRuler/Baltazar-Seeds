@@ -1,222 +1,297 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>Simple Mario Clone</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simple Mario‑Style Platformer (verbessert)</title>
   <style>
-    body { margin:0; background:#222; display:flex; justify-content:center; align-items:center; height:100vh; }
-    canvas { background:#5c94fc; image-rendering: pixelated; }
-    #info { position: absolute; top:10px; left:10px; color:white; font-family: sans-serif; }
+    html,body{height:100%;margin:0;background:#0b1220;display:flex;align-items:center;justify-content:center;font-family:system-ui,Arial;color:#e6eef8}
+    #wrap{width:820px;text-align:center}
+    canvas{display:block;margin:8px auto;background:linear-gradient(#87ceeb,#6fb3e6);border-radius:8px;image-rendering:pixelated}
+    .info{font-size:13px;opacity:0.9}
+    .hint{margin-top:6px;font-size:13px;color:#dfeffb}
   </style>
 </head>
 <body>
-  <div id="info">Steuerung: ← → bewegen, ↑ oder Leertaste springen</div>
-  <canvas id="game" width="800" height="480"></canvas>
-  <script>
-    const canvas = document.getElementById("game");
-    const ctx = canvas.getContext("2d");
-    const W = canvas.width, H = canvas.height;
-    const TILE = 32;
-    const MAP_W = 60, MAP_H = 15;
+  <div id="wrap">
+    <canvas id="game" width="800" height="450" tabindex="0"></canvas>
+    <div class="info">Steuerung: ← → bewegen, ↑ oder Leertaste springen. Klick auf das Canvas, falls die Tasten nicht reagieren.</div>
+    <div class="hint">Ich habe den Code überarbeitet: stabilere Kollisionen, keine Reloads bei Respawn, bessere Kameraführung.</div>
+  </div>
 
-    // Level als ASCII Map – S = Startpunkt
-    const levelRaw = [
-      '............................................................................',
-      '............................................................................',
-      '............................................................................',
-      '............................................................................',
-      '............................................................................',
-      '............................................................................',
-      '............................................................................',
-      '.........................?..................................................',
-      '.............E..............................................................',
-      '.................#####......................................................',
-      '............................................................................',
-      '.....S......................................................................',
-      '###############################..................############################',
-      '###############################..................############################',
-      '###############################..................############################'
-    ];
+<script>
+/* ---------------------------------------------
+   Simple Mario‑Style Platformer — improved
+   Single HTML file — copy & paste into index.html
+   ---------------------------------------------*/
 
-    let level = levelRaw.map(r => r.split(''));
+// canvas + DPR handling
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const CSS_W = 800, CSS_H = 450;
+const DPR = Math.min(window.devicePixelRatio || 1, 2);
+canvas.width = Math.floor(CSS_W * DPR);
+canvas.height = Math.floor(CSS_H * DPR);
+canvas.style.width = CSS_W + 'px';
+canvas.style.height = CSS_H + 'px';
+ctx.setTransform(DPR,0,0,DPR,0,0);
 
-    // Startposition (wird in spawnEntities durch S überschrieben)
-    let startPos = { x: 40, y: H - TILE*3 };
+// world
+const W = CSS_W, H = CSS_H, TILE = 32;
+const levelRaw = [
+  '................................................................................',
+  '................................................................................',
+  '................................................................................',
+  '................................................................................',
+  '........................?.......................................................',
+  '..................#######......................................................',
+  '..............?...................................??...........................',
+  '......#########......................#####...................#########........',
+  '............................E...........................................G.....',
+  '##############################......##############################..##########'
+];
+const MAP_W = levelRaw[0].length;
+const MAP_H = levelRaw.length;
+const level = levelRaw.map(r => r.split(''));
 
-    // Player
-    let player = {
-      x: startPos.x,
-      y: startPos.y,
-      w: 22,
-      h: 28,
-      vx: 0,
-      vy: 0,
-      onGround: false
-    };
+// entities
+let coins = [];
+let enemies = [];
+let goalTiles = [];
+let startPos = {x:40, y: H - TILE*3};
 
-    let keys = {};
-    document.addEventListener("keydown", e => keys[e.code] = true);
-    document.addEventListener("keyup", e => keys[e.code] = false);
+function spawnEntities(){
+  coins = [];
+  enemies = [];
+  goalTiles = [];
+  for (let y=0;y<MAP_H;y++){
+    for (let x=0;x<MAP_W;x++){
+      const ch = level[y][x];
+      const px = x*TILE, py = y*TILE;
+      if (ch === '?') coins.push({x:px+8,y:py+8,w:16,h:16,col:false});
+      if (ch === 'E') enemies.push({x:px,y:py,w:28,h:28,dir: -1, speed: 50});
+      if (ch === 'G') goalTiles.push({x:px,y:py,w:TILE,h:TILE});
+    }
+  }
+}
 
-    let coins = [], enemies = [], goalTiles = [];
-    let score = 0;
+spawnEntities();
 
-    function spawnEntities() {
-      coins = [];
-      enemies = [];
-      goalTiles = [];
-      for (let y=0; y<MAP_H; y++) {
-        for (let x=0; x<MAP_W; x++) {
-          const ch = level[y][x];
-          const px = x * TILE, py = y * TILE;
+// player
+const player = {
+  x: startPos.x,
+  y: startPos.y,
+  w: 22,
+  h: 28,
+  vx: 0,
+  vy: 0,
+  speed: 170,
+  jumpVel: 420,
+  grounded: false,
+  coins: 0,
+  alive: true
+};
 
-          if (ch === 'S') {
-            startPos = {
-              x: px + (TILE - player.w) / 2,
-              y: py + TILE - player.h
-            };
-            player.x = startPos.x;
-            player.y = startPos.y;
-            level[y][x] = '.';
-          }
+// physics
+const GRAV = 1400;
 
-          if (ch === '?') {
-            coins.push({ x:px+8, y:py+8, w:16, h:16, col:false });
-          }
+// input
+const keys = {};
+window.addEventListener('keydown', e=>{ keys[e.code]=true; if(['Space','ArrowUp'].includes(e.code)) e.preventDefault(); });
+window.addEventListener('keyup', e=>{ keys[e.code]=false; });
 
-          if (ch === 'E') {
-            enemies.push({ x:px, y:py, w:28, h:28, dir:-1, speed:50 });
-          }
+// helpers
+function isSolidTile(tx,ty){
+  if (tx < 0 || tx >= MAP_W || ty < 0 || ty >= MAP_H) return false; // outside = empty
+  return level[ty][tx] === '#';
+}
 
-          if (ch === 'G') {
-            goalTiles.push({ x:px, y:py, w:TILE, h:TILE });
-          }
-        }
+function tilesOverlappingRect(x,y,w,h){
+  const left = Math.floor(x / TILE);
+  const right = Math.floor((x + w - 1) / TILE);
+  const top = Math.floor(y / TILE);
+  const bottom = Math.floor((y + h - 1) / TILE);
+  const out = [];
+  for (let ty=top; ty<=bottom; ty++){
+    for (let tx=left; tx<=right; tx++){
+      if (isSolidTile(tx,ty)) out.push({tx,ty,x:tx*TILE,y:ty*TILE,w:TILE,h:TILE});
+    }
+  }
+  return out;
+}
+
+function rectsOverlap(a,b){ return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
+
+// camera
+let camX = 0;
+function updateCamera(){
+  camX = player.x - W*0.35;
+  camX = Math.max(0, Math.min(camX, MAP_W*TILE - W));
+}
+
+// respawn
+function respawn(){
+  player.x = startPos.x; player.y = startPos.y; player.vx = 0; player.vy = 0; player.coins = 0; player.alive = true; player.grounded = false;
+  spawnEntities();
+}
+
+// game loop
+let last = performance.now();
+function loop(now){
+  const dt = Math.min((now-last)/1000, 1/30);
+  last = now;
+  update(dt);
+  render();
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+function update(dt){
+  if (!player.alive) return;
+  // input
+  let dir = 0;
+  if (keys['ArrowLeft'] || keys['KeyA']) dir -= 1;
+  if (keys['ArrowRight'] || keys['KeyD']) dir += 1;
+  player.vx = dir * player.speed;
+  if ((keys['Space'] || keys['ArrowUp']) && player.grounded){ player.vy = -player.jumpVel; player.grounded = false; }
+
+  // apply gravity
+  player.vy += GRAV * dt;
+
+  // horizontal move + collision
+  player.x += player.vx * dt;
+  let collTiles = tilesOverlappingRect(player.x, player.y, player.w, player.h);
+  if (collTiles.length){
+    for (const t of collTiles){
+      if (player.vx > 0){ // moving right -> push left
+        player.x = t.x - player.w;
+      } else if (player.vx < 0){ // moving left -> push right
+        player.x = t.x + TILE;
+      }
+      player.vx = 0;
+    }
+  }
+
+  // vertical move + collision
+  player.y += player.vy * dt;
+  collTiles = tilesOverlappingRect(player.x, player.y, player.w, player.h);
+  player.grounded = false;
+  if (collTiles.length){
+    for (const t of collTiles){
+      if (player.vy > 0){ // falling -> land on tile
+        player.y = t.y - player.h;
+        player.vy = 0;
+        player.grounded = true;
+      } else if (player.vy < 0){ // hitting head
+        player.y = t.y + TILE;
+        player.vy = 0;
       }
     }
+  }
 
-    spawnEntities();
+  // enemies
+  for (let i = enemies.length - 1; i >= 0; i--){
+    const e = enemies[i];
+    // simple patrol with edge detection
+    // move
+    e.x += e.speed * dt * e.dir;
+    // if obstacle in front or no ground ahead -> flip
+    const frontX = e.dir > 0 ? e.x + e.w + 2 : e.x - 2;
+    const footY = e.y + e.h + 2;
+    const tileBelowFront = isSolidTile(Math.floor(frontX/TILE), Math.floor(footY/TILE));
+    const collideAhead = tilesOverlappingRect(e.x, e.y, e.w, e.h).length > 0;
+    if (!tileBelowFront || collideAhead){ e.dir *= -1; }
 
-    function rectsOverlap(a,b){
-      return a.x < b.x+b.w && a.x+a.w > b.x && a.y < b.y+b.h && a.y+a.h > b.y;
-    }
-
-    function getTileAt(x,y){
-      let tx = Math.floor(x/TILE), ty = Math.floor(y/TILE);
-      if(tx<0||tx>=MAP_W||ty<0||ty>=MAP_H) return '#';
-      return level[ty][tx];
-    }
-
-    function update(dt){
-      // Steuerung
-      if(keys["ArrowLeft"]) player.vx = -120;
-      else if(keys["ArrowRight"]) player.vx = 120;
-      else player.vx = 0;
-
-      if((keys["ArrowUp"]||keys["Space"]) && player.onGround){
-        player.vy = -260; player.onGround=false;
-      }
-
-      // Gravitation
-      player.vy += 600*dt;
-
-      // Bewegung X
-      player.x += player.vx*dt;
-      if(player.vx>0){
-        if(getTileAt(player.x+player.w, player.y)=="#"||getTileAt(player.x+player.w, player.y+player.h-1)=="#"){
-          player.x = Math.floor((player.x+player.w)/TILE)*TILE - player.w -0.01;
-        }
-      } else if(player.vx<0){
-        if(getTileAt(player.x, player.y)=="#"||getTileAt(player.x, player.y+player.h-1)=="#"){
-          player.x = Math.floor(player.x/TILE+1)*TILE;
-        }
-      }
-
-      // Bewegung Y
-      player.y += player.vy*dt;
-      player.onGround=false;
-      if(player.vy>=0){
-        if(getTileAt(player.x, player.y+player.h)=="#"||getTileAt(player.x+player.w-1, player.y+player.h)=="#"){
-          player.y = Math.floor((player.y+player.h)/TILE)*TILE - player.h;
-          player.vy=0; player.onGround=true;
-        }
+    // collision with player
+    if (rectsOverlap({x:player.x,y:player.y,w:player.w,h:player.h}, e)){
+      if (player.vy > 150 && (player.y + player.h - e.y) < 20){
+        // stomp enemy
+        enemies.splice(i,1);
+        player.vy = -220;
       } else {
-        if(getTileAt(player.x, player.y)=="#"||getTileAt(player.x+player.w-1, player.y)=="#"){
-          player.y = Math.floor(player.y/TILE+1)*TILE;
-          player.vy=0;
-        }
+        // die -> respawn
+        player.alive = false;
+        setTimeout(respawn, 400);
       }
-
-      // Münzen sammeln
-      coins.forEach(c=>{
-        if(!c.col && rectsOverlap(player,c)){ c.col=true; score++; }
-      });
-
-      // Gegner
-      enemies.forEach(e=>{
-        e.x += e.dir*e.speed*dt;
-        if(getTileAt(e.x, e.y+e.h+1)=='.') e.dir*=-1;
-        if(rectsOverlap(player,e)){
-          if(player.vy>0){
-            e.dead=true; player.vy=-200;
-          } else {
-            respawn();
-          }
-        }
-      });
-      enemies = enemies.filter(e=>!e.dead);
-
-      // Ziel
-      goalTiles.forEach(g=>{
-        if(rectsOverlap(player,g)){
-          alert("Level geschafft! Punkte: "+score);
-          respawn(true);
-        }
-      });
-
-      if(player.y>H) respawn();
     }
+  }
 
-    function respawn(reset=false){
-      player.x=startPos.x; player.y=startPos.y;
-      player.vx=player.vy=0; score= reset?0:score;
+  // coins
+  for (const c of coins){
+    if (!c.col && rectsOverlap({x:player.x,y:player.y,w:player.w,h:player.h}, c)){
+      c.col = true; player.coins += 1;
     }
+  }
 
-    function draw(){
-      ctx.fillStyle="#5c94fc"; ctx.fillRect(0,0,W,H);
-      for(let y=0;y<MAP_H;y++){
-        for(let x=0;x<MAP_W;x++){
-          if(level[y][x]=="#"){
-            ctx.fillStyle="#654321";
-            ctx.fillRect(x*TILE,y*TILE,TILE,TILE);
-          }
-        }
+  // goal
+  for (const g of goalTiles){ if (rectsOverlap({x:player.x,y:player.y,w:player.w,h:player.h}, g)){
+    setTimeout(()=>{ alert('Level geschafft! Münzen: ' + player.coins); respawn(); }, 50);
+  }}
+
+  updateCamera();
+}
+
+// render
+function render(){
+  // clear
+  ctx.clearRect(0,0,W,H);
+
+  // sky gradient is canvas background; draw tiles visible in camera
+  const startCol = Math.floor(camX / TILE);
+  const endCol = Math.min(MAP_W, Math.ceil((camX + W)/TILE));
+
+  // draw tiles
+  for (let y=0;y<MAP_H;y++){
+    for (let x=startCol;x<endCol;x++){
+      const ch = level[y][x];
+      const sx = x*TILE - camX;
+      const sy = y*TILE;
+      if (ch === '#'){
+        // block
+        ctx.fillStyle = '#8b5a2b';
+        ctx.fillRect(sx, sy, TILE, TILE);
+        // top highlight
+        ctx.fillStyle = '#a36f43';
+        ctx.fillRect(sx+2, sy+2, TILE-4, TILE-8);
       }
-      ctx.fillStyle="yellow";
-      coins.forEach(c=>{ if(!c.col) ctx.beginPath(), ctx.arc(c.x+8,c.y+8,8,0,Math.PI*2), ctx.fill(); });
-
-      ctx.fillStyle="red";
-      enemies.forEach(e=>ctx.fillRect(e.x,e.y,e.w,e.h));
-
-      ctx.fillStyle="green";
-      goalTiles.forEach(g=>ctx.fillRect(g.x,g.y,g.w,g.h));
-
-      ctx.fillStyle="blue";
-      ctx.fillRect(player.x,player.y,player.w,player.h);
-
-      ctx.fillStyle="white";
-      ctx.font="16px sans-serif";
-      ctx.fillText("Score: "+score,10,20);
+      if (ch === 'G'){
+        // small flag
+        ctx.fillStyle = '#333'; ctx.fillRect(sx + TILE/2 - 3, sy - 22, 6, 22);
+        ctx.fillStyle = '#e22'; ctx.fillRect(sx + TILE/2, sy - 18, 14, 12);
+      }
     }
+  }
 
-    let last=0;
-    function loop(ts){
-      let dt=(ts-last)/1000; last=ts;
-      update(dt);
-      draw();
-      requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
-  </script>
+  // coins
+  for (const c of coins){ if (c.col) continue; ctx.beginPath(); ctx.fillStyle = '#ffd24d'; ctx.arc(c.x - camX + c.w/2, c.y + c.h/2, 8, 0, Math.PI*2); ctx.fill(); }
+
+  // enemies
+  for (const e of enemies){ ctx.fillStyle = '#b33'; ctx.fillRect(e.x - camX, e.y, e.w, e.h); ctx.fillStyle='#fff'; ctx.fillRect(e.x - camX + 6, e.y + 6, 5,5); }
+
+  // player (simple)
+  ctx.save();
+  ctx.translate(player.x - camX, player.y);
+  // body
+  ctx.fillStyle = '#1a73e8'; ctx.fillRect(0, 6, player.w, player.h-6);
+  // head
+  ctx.fillStyle = '#fccfa7'; ctx.fillRect(3, -6, 16, 12);
+  // hat
+  ctx.fillStyle = '#d33'; ctx.fillRect(0, -10, 22, 6);
+  // eye
+  ctx.fillStyle = '#000'; ctx.fillRect(10, -2, 3,3);
+  ctx.restore();
+
+  // HUD
+  ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fillRect(8,8,160,36);
+  ctx.fillStyle = '#000'; ctx.font = '14px system-ui'; ctx.fillText('Münzen: ' + player.coins, 18, 30);
+}
+
+// focus hint
+canvas.addEventListener('click', ()=> canvas.focus());
+
+// resize handler: keep CSS size, no need to change canvas scaling here
+window.addEventListener('resize', ()=>{});
+
+</script>
 </body>
 </html>
