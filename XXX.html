@@ -27,7 +27,10 @@
   <div class="controls">
     <button id="pause" class="btn">Pause</button>
     <label style="font-size:12px;display:flex;align-items:center;gap:6px">
-      <input id="speed" class="range" type="range" min="0.1" max="3" step="0.05" value="1">
+      Speed: <input id="speed" class="range" type="range" min="0.1" max="3" step="0.05" value="1">
+    </label>
+    <label style="font-size:12px;display:flex;align-items:center;gap:6px">
+      Intensity: <input id="intensity" class="range" type="range" min="0.5" max="2.5" step="0.1" value="1.6">
     </label>
   </div>
 </div>
@@ -59,8 +62,8 @@ function resizeCanvas(){
     mainFBO = createFBO(w, h, gl.RGBA8, gl.UNSIGNED_BYTE);
     const halfW = Math.max(1, Math.floor(w / 2));
     const halfH = Math.max(1, Math.floor(h / 2));
-    bloomHFBO = createFBO(halfW, halfH, gl.RGBA16F, gl.HALF_FLOAT);
-    bloomVFBO = createFBO(halfW, halfH, gl.RGBA16F, gl.HALF_FLOAT);
+    bloomHFBO = createFBO(halfW, halfH, gl.RGBA8, gl.UNSIGNED_BYTE); // reverted to UNSIGNED_BYTE for compatibility
+    bloomVFBO = createFBO(halfW, halfH, gl.RGBA8, gl.UNSIGNED_BYTE);
   }
 }
 window.addEventListener('resize', resizeCanvas);
@@ -70,7 +73,7 @@ function compileShader(src, type){
   gl.shaderSource(s, src);
   gl.compileShader(s);
   if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)){
-    console.error(gl.getShaderInfoLog(s));
+    console.error('Shader compile error:', gl.getShaderInfoLog(s));
     throw new Error('Shader compile error');
   }
   return s;
@@ -84,7 +87,7 @@ function linkProgram(vs, fs, transformVaryings){
   }
   gl.linkProgram(p);
   if(!gl.getProgramParameter(p, gl.LINK_STATUS)){
-    console.error(gl.getProgramInfoLog(p));
+    console.error('Program link error:', gl.getProgramInfoLog(p));
     throw new Error('Program link error');
   }
   return p;
@@ -193,13 +196,13 @@ function drawQuad(program, uniforms = {}, textureBindings = []){
   textureBindings.forEach((binding, index) => {
     gl.activeTexture(gl.TEXTURE0 + index);
     gl.bindTexture(gl.TEXTURE_2D, binding.tex);
-    gl.uniform1i(gl.getUniformLocation(program, binding uniform), index);
+    gl.uniform1i(gl.getUniformLocation(program, binding.uniform), index);
   });
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 }
 
 // ----------------------- Particle system (GPU via transform feedback) -----------------------
-const NUM_PARTICLES = 200000; // Increased for more density
+const NUM_PARTICLES = 150000; // Reduced for better compatibility on lower-end GPUs
 
 // particle update shader (vertex shader + transform feedback)
 const particleUpdateVSsrc = `#version 300 es
@@ -376,12 +379,12 @@ const brightProgram = linkProgram(quadVShader, brightFShader);
 
 // composite shader (adds bloom, applies final tonemap)
 const compositeFS = `#version 300 es
-precision highp float; in vec2 v_uv; out vec4 fragColor; uniform sampler2D u_scene; uniform sampler2D u_blur; uniform float u_time;
-void main(){ vec3 scene = texture(u_scene, v_uv).rgb; vec3 bloom = texture(u_blur, v_uv).rgb * 2.0; // boosted
- // fake god-rays: radial brightening
+precision highp float; in vec2 v_uv; out vec4 fragColor; uniform sampler2D u_scene; uniform sampler2D u_blur; uniform float u_time; uniform float u_intensity;
+void main(){ vec3 scene = texture(u_scene, v_uv).rgb; vec3 bloom = texture(u_blur, v_uv).rgb * u_intensity; // adjustable intensity
+ // fake god-rays: radial brightening with more modulation
  vec2 d = v_uv - vec2(0.5);
  float t = max(0.0, 1.0 - length(d)*1.6);
- vec3 rays = scene * pow(t, 2.0) * 0.8 * (0.5 + 0.5*sin(u_time*0.6 + length(d)*12.0));
+ vec3 rays = scene * pow(t, 2.0) * 0.8 * (0.5 + 0.5*sin(u_time*0.6 + length(d)*12.0 + cos(u_time*0.3)*2.0));
  vec3 col = scene + bloom + rays;
  // tone mapping
  col = col / (col + vec3(1.0));
@@ -401,91 +404,97 @@ canvas.addEventListener('pointermove', e => { const r = canvas.getBoundingClient
 // UI
 const pauseBtn = document.getElementById('pause');
 const speedRange = document.getElementById('speed');
+const intensityRange = document.getElementById('intensity');
 let running = true;
 pauseBtn.addEventListener('click', ()=>{ running = !running; pauseBtn.textContent = running ? 'Pause' : 'Resume'; });
 
 // main render loop
 function step(){
-  resizeCanvas();
-  const now = performance.now()*0.001; let dt = Math.min(0.033, now - last); last = now; if(!running) dt = 0;
-  const time = now;
-  const res = [canvas.width, canvas.height];
+  try {
+    resizeCanvas();
+    const now = performance.now()*0.001; let dt = Math.min(0.033, now - last); last = now; if(!running) dt = 0;
+    const time = now;
+    const res = [canvas.width, canvas.height];
 
-  // ---------- draw procedural background into mainFBO ----------
-  gl.bindFramebuffer(gl.FRAMEBUFFER, mainFBO.fbo);
-  gl.viewport(0, 0, mainFBO.w, mainFBO.h);
-  drawQuad(flowProgram, {u_time: time, u_res: res, u_mouse: [mouse.x, mouse.y]});
+    // ---------- draw procedural background into mainFBO ----------
+    gl.bindFramebuffer(gl.FRAMEBUFFER, mainFBO.fbo);
+    gl.viewport(0, 0, mainFBO.w, mainFBO.h);
+    drawQuad(flowProgram, {u_time: time, u_res: res, u_mouse: [mouse.x, mouse.y]});
 
-  // ---------- particle update pass (transform feedback) ----------
-  gl.useProgram(updateProgram);
-  gl.uniform1f(gl.getUniformLocation(updateProgram, 'u_time'), time);
-  gl.uniform1f(gl.getUniformLocation(updateProgram, 'u_dt'), dt);
-  gl.uniform2fv(gl.getUniformLocation(updateProgram, 'u_resolution'), res);
-  gl.uniform2fv(gl.getUniformLocation(updateProgram, 'u_mouse'), [mouse.x, mouse.y]);
-  gl.uniform1f(gl.getUniformLocation(updateProgram, 'u_speed'), parseFloat(speedRange.value));
+    // ---------- particle update pass (transform feedback) ----------
+    gl.useProgram(updateProgram);
+    gl.uniform1f(gl.getUniformLocation(updateProgram, 'u_time'), time);
+    gl.uniform1f(gl.getUniformLocation(updateProgram, 'u_dt'), dt);
+    gl.uniform2fv(gl.getUniformLocation(updateProgram, 'u_resolution'), res);
+    gl.uniform2fv(gl.getUniformLocation(updateProgram, 'u_mouse'), [mouse.x, mouse.y]);
+    gl.uniform1f(gl.getUniformLocation(updateProgram, 'u_speed'), parseFloat(speedRange.value));
 
-  gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, tf);
-  gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, particleBuffers[dstIdx]);
-  gl.enable(gl.RASTERIZER_DISCARD);
-  gl.bindVertexArray(particleVAOs[srcIdx]);
-  gl.beginTransformFeedback(gl.POINTS);
-  gl.drawArrays(gl.POINTS, 0, NUM_PARTICLES);
-  gl.endTransformFeedback();
-  gl.disable(gl.RASTERIZER_DISCARD);
-  gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, null);
+    gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, tf);
+    gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, particleBuffers[dstIdx]);
+    gl.enable(gl.RASTERIZER_DISCARD);
+    gl.bindVertexArray(particleVAOs[srcIdx]);
+    gl.beginTransformFeedback(gl.POINTS);
+    gl.drawArrays(gl.POINTS, 0, NUM_PARTICLES);
+    gl.endTransformFeedback();
+    gl.disable(gl.RASTERIZER_DISCARD);
+    gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, null);
 
-  // swap buffers
-  swap();
+    // swap buffers
+    swap();
 
-  // ---------- render particles additively into mainFBO ----------
-  gl.bindFramebuffer(gl.FRAMEBUFFER, mainFBO.fbo);
-  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
-  gl.useProgram(renderProgram);
-  gl.uniform2fv(gl.getUniformLocation(renderProgram, 'u_resolution'), res);
-  gl.uniform1f(gl.getUniformLocation(renderProgram, 'u_time'), time);
-  gl.bindVertexArray(particleVAOs[srcIdx]);
-  gl.drawArrays(gl.POINTS, 0, NUM_PARTICLES);
-  gl.disable(gl.BLEND);
+    // ---------- render particles additively into mainFBO ----------
+    gl.bindFramebuffer(gl.FRAMEBUFFER, mainFBO.fbo);
+    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    gl.useProgram(renderProgram);
+    gl.uniform2fv(gl.getUniformLocation(renderProgram, 'u_resolution'), res);
+    gl.uniform1f(gl.getUniformLocation(renderProgram, 'u_time'), time);
+    gl.bindVertexArray(particleVAOs[srcIdx]);
+    gl.drawArrays(gl.POINTS, 0, NUM_PARTICLES);
+    gl.disable(gl.BLEND);
 
-  // ---------- bloom: bright pass to bloomHFBO ----------
-  gl.bindFramebuffer(gl.FRAMEBUFFER, bloomHFBO.fbo);
-  gl.viewport(0, 0, bloomHFBO.w, bloomHFBO.h);
-  gl.useProgram(brightProgram);
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, mainFBO.tex);
-  gl.uniform1i(gl.getUniformLocation(brightProgram, 'u_tex'), 0);
-  gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
-  gl.enableVertexAttribArray(0);
-  gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    // ---------- bloom: bright pass to bloomHFBO ----------
+    gl.bindFramebuffer(gl.FRAMEBUFFER, bloomHFBO.fbo);
+    gl.viewport(0, 0, bloomHFBO.w, bloomHFBO.h);
+    gl.useProgram(brightProgram);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, mainFBO.tex);
+    gl.uniform1i(gl.getUniformLocation(brightProgram, 'u_tex'), 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
-  // horizontal blur to bloomVFBO
-  gl.bindFramebuffer(gl.FRAMEBUFFER, bloomVFBO.fbo);
-  gl.useProgram(blurProgram);
-  gl.bindTexture(gl.TEXTURE_2D, bloomHFBO.tex);
-  gl.uniform1i(gl.getUniformLocation(blurProgram, 'u_tex'), 0);
-  gl.uniform2fv(gl.getUniformLocation(blurProgram, 'u_dir'), [2.0 / bloomHFBO.w, 0.0]); // slightly larger kernel
-  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    // horizontal blur to bloomVFBO
+    gl.bindFramebuffer(gl.FRAMEBUFFER, bloomVFBO.fbo);
+    gl.useProgram(blurProgram);
+    gl.bindTexture(gl.TEXTURE_2D, bloomHFBO.tex);
+    gl.uniform1i(gl.getUniformLocation(blurProgram, 'u_tex'), 0);
+    gl.uniform2fv(gl.getUniformLocation(blurProgram, 'u_dir'), [2.0 / bloomHFBO.w, 0.0]); // slightly larger kernel
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
-  // vertical blur back to bloomHFBO
-  gl.bindFramebuffer(gl.FRAMEBUFFER, bloomHFBO.fbo);
-  gl.bindTexture(gl.TEXTURE_2D, bloomVFBO.tex);
-  gl.uniform1i(gl.getUniformLocation(blurProgram, 'u_tex'), 0);
-  gl.uniform2fv(gl.getUniformLocation(blurProgram, 'u_dir'), [0.0, 2.0 / bloomVFBO.h]);
-  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    // vertical blur back to bloomHFBO
+    gl.bindFramebuffer(gl.FRAMEBUFFER, bloomHFBO.fbo);
+    gl.bindTexture(gl.TEXTURE_2D, bloomVFBO.tex);
+    gl.uniform1i(gl.getUniformLocation(blurProgram, 'u_tex'), 0);
+    gl.uniform2fv(gl.getUniformLocation(blurProgram, 'u_dir'), [0.0, 2.0 / bloomVFBO.h]);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
-  // ---------- composite to screen ----------
-  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-  gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.useProgram(compositeProgram);
-  gl.activeTexture(gl.TEXTURE0);
-  gl.bindTexture(gl.TEXTURE_2D, mainFBO.tex);
-  gl.uniform1i(gl.getUniformLocation(compositeProgram, 'u_scene'), 0);
-  gl.activeTexture(gl.TEXTURE1);
-  gl.bindTexture(gl.TEXTURE_2D, bloomHFBO.tex);
-  gl.uniform1i(gl.getUniformLocation(compositeProgram, 'u_blur'), 1);
-  gl.uniform1f(gl.getUniformLocation(compositeProgram, 'u_time'), time);
-  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    // ---------- composite to screen ----------
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.useProgram(compositeProgram);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, mainFBO.tex);
+    gl.uniform1i(gl.getUniformLocation(compositeProgram, 'u_scene'), 0);
+    gl.activeTexture(gl.TEXTURE1);
+    gl.bindTexture(gl.TEXTURE_2D, bloomHFBO.tex);
+    gl.uniform1i(gl.getUniformLocation(compositeProgram, 'u_blur'), 1);
+    gl.uniform1f(gl.getUniformLocation(compositeProgram, 'u_time'), time);
+    gl.uniform1f(gl.getUniformLocation(compositeProgram, 'u_intensity'), parseFloat(intensityRange.value));
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  } catch (e) {
+    console.error('Rendering error:', e);
+  }
 
   requestAnimationFrame(step);
 }
