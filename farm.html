@@ -1,640 +1,485 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Epic Mini Farming Saga Deluxe</title>
-<style>
-:root{
-  --accent:#00ff7f;
-  --bg1:#0f1112;
-  --bg2:#121212;
-  --card:#161616;
-  --muted:#bfc9bd;
-  --glass: rgba(255,255,255,0.03);
-  --radius:14px;
-  --coin-color: #ffd700;
-}
-*{box-sizing:border-box}
-html,body{height:100%;}
-body{
-  margin:0;
-  font-family: 'Trebuchet MS', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-  background: url('BALTI.JPG') center/cover no-repeat, radial-gradient(circle at 20% 10%, #16201a 0%, #080808 60%);
-  color:#e9fff0;
-  display:flex;
-  align-items:flex-start;
-  justify-content:center;
-  padding:28px;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
-.container{
-  width:980px;
-  max-width:95vw;
-  display:grid;
-  grid-template-columns: 1fr 320px;
-  gap:22px;
-  align-items:start;
-}
-header{grid-column:1/-1; text-align:center}
-h1{
-  margin:0 0 10px 0;
-  font-size:1.9rem;
-  color:var(--accent);
-  text-shadow:0 0 12px rgba(0,255,127,0.12);
-}
-.sub{color:var(--muted); margin-bottom:12px}
-.panel{
-  background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-  padding:14px;
-  border-radius:var(--radius);
-  border:1px solid rgba(0,255,127,0.08);
-  box-shadow:0 6px 30px rgba(0,0,0,0.6), inset 0 0 30px rgba(0,255,127,0.02);
-}
-#canvasWrap{display:flex;flex-direction:column;gap:10px;align-items:center}
-canvas{width:560px; height:560px; border-radius:12px; background:linear-gradient(180deg,#1b1b1b,#0d0d0d); box-shadow:0 0 30px rgba(0,255,127,0.06); display:block; image-rendering: pixelated;}
-.controls{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-.btn{cursor:pointer; border:none; padding:10px 16px; border-radius:12px; background:linear-gradient(#00ff7f,#008a4a); color:#002; font-weight:700; box-shadow:0 6px 20px rgba(0,255,127,0.08); transition:transform .12s}
-.btn:active{transform:translateY(2px)}
-.btn:disabled{opacity:0.5; cursor:not-allowed; background:gray;}
-#infoRow{display:flex; gap:10px; width:100%; margin-top:6px; align-items:center}
-.statBox{flex:1; padding:10px; background:var(--card); border-radius:10px; text-align:left}
-.statTitle{font-size:0.85rem; color:var(--muted)}
-.statValue{font-weight:700; font-size:1.05rem}
-#side{display:flex; flex-direction:column; gap:14px}
-#stats{min-height:160px}
-#strainLog{max-height:220px; overflow:auto; font-size:0.92rem; color:var(--muted); padding:8px; background:var(--glass); border-radius:10px}
-#breederCard{display:flex; flex-direction:column; align-items:center; gap:10px; padding:12px}
-#breederCard img{width:100%; border-radius:10px; display:block}
-#breederCard p{margin:0; font-weight:700; color:var(--muted)}
-.xpBar{height:12px; background:rgba(255,255,255,0.04); border-radius:999px; overflow:hidden}
-.xpFill{height:100%; width:0%; background:linear-gradient(90deg,var(--accent), #8affb8); transition:width 300ms ease}
-.toast{position:fixed; left:50%; transform:translateX(-50%); bottom:28px; background:#09110a; padding:10px 16px; border-radius:999px; border:1px solid rgba(0,255,127,0.08); box-shadow:0 8px 30px rgba(0,0,0,0.6); display:none}
-.backLink{display:inline-block; margin-top:12px; color:var(--muted); text-decoration:none}
-#shopPanel .shopItem{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:8px; background:var(--card); border-radius:10px;}
-#shopPanel .shopItem button{padding:6px 12px; font-size:0.9rem;}
-#achievements ul{list-style:none; padding:0; color:var(--muted);}
-#achievements li{margin-bottom:6px; display:flex; align-items:center; gap:6px;}
-#achievements li.unlocked{color:var(--accent);}
-@media (max-width:900px){
-  .container{grid-template-columns:1fr;}
-  canvas{width:100%; height:60vh}
-}
-@keyframes fall {
-  to {
-    transform: translateY(100vh) rotate(360deg);
-  }
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Epic Mini Farming Saga Deluxe — Polished</title>
+  <meta name="description" content="Minimalistisches, tiefes Browser-Mini-Game: Pflanzen deployen, wachsen lassen, ernten, upgraden." />
+  <style>
+    /* =====================
+       Design Tokens
+       ===================== */
+    :root{
+      /* neutrale dunkle Basis */
+      --bg-900: #0b0e0f;
+      --bg-800: #0f1412;
+      --card: rgba(255,255,255,0.03);
+      --muted: #99a098;
+      --glass: rgba(255,255,255,0.03);
+      --radius: 14px;
+
+      /* Akzente (dezenter, harmonischer) */
+      --accent-1: #3ec38a; /* softes grün */
+      --accent-2: #ffd167; /* warmes gold für Loot */
+      --accent-3: #9b7ef6; /* lila als Sekundär */
+
+      /* Typographie */
+      --ui-font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+
+      /* Abstände */
+      --gap: 18px;
+    }
+
+    /* =====================
+       Reset & Basis
+       ===================== */
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: var(--ui-font);
+      background: linear-gradient(180deg,var(--bg-900), var(--bg-800));
+      color: #eaf9f0;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:28px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* =====================
+       Container
+       ===================== */
+    .container{
+      width:1000px;
+      max-width:95vw;
+      display:grid;
+      grid-template-columns: 1fr 340px;
+      gap:var(--gap);
+      align-items:start;
+    }
+
+    header{grid-column:1/-1; text-align:center}
+    h1{
+      margin:0 0 6px 0;
+      font-size:1.9rem;
+      color:var(--accent-1);
+      letter-spacing:0.6px;
+    }
+    .sub{color:var(--muted); margin-bottom:6px}
+
+    /* =====================
+       Panels & UI
+       ===================== */
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:14px;
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow:0 8px 30px rgba(0,0,0,0.6), inset 0 0 30px rgba(255,255,255,0.01);
+    }
+
+    /* Canvas area */
+    #canvasWrap{display:flex;flex-direction:column;gap:12px;align-items:center}
+    canvas{
+      width:560px; height:560px; border-radius:12px;
+      background: linear-gradient(180deg,#121313,#0b0b0b);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.65), 0 6px 18px rgba(0,0,0,0.45) inset;
+      display:block; image-rendering: pixelated;
+      border: 1px solid rgba(255,255,255,0.02);
+    }
+
+    .controls{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .btn{
+      cursor:pointer;
+      border:none;
+      padding:10px 14px;
+      border-radius:12px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      color:var(--accent-1);
+      font-weight:700;
+      letter-spacing:0.2px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.6);
+      transition:transform .12s, box-shadow .12s, opacity .12s, color .12s;
+      display:inline-flex; align-items:center; gap:8px;
+    }
+    .btn:hover{ transform: translateY(-2px); box-shadow:0 14px 36px rgba(0,0,0,0.6); }
+    .btn:active{ transform: translateY(1px); }
+    .btn:disabled{ opacity:0.45; cursor:not-allowed; }
+
+    .btn-accent{ background: linear-gradient(180deg, color-mix(in srgb, var(--accent-1) 18%, transparent), transparent); color:#07110a; border:1px solid rgba(62,195,138,0.08); }
+    .btn-gold{ color:#3a2a03; border:1px solid rgba(255,209,103,0.08); }
+
+    #infoRow{display:flex; gap:10px; width:100%; margin-top:6px; align-items:center}
+    .statBox{flex:1; padding:12px; background:var(--card); border-radius:10px; text-align:left}
+    .statTitle{font-size:0.84rem; color:var(--muted)}
+    .statValue{font-weight:800; font-size:1.1rem}
+
+    #side{display:flex; flex-direction:column; gap:12px}
+    #strainLog{max-height:220px; overflow:auto; font-size:0.92rem; color:var(--muted); padding:8px; background:var(--glass); border-radius:10px}
+
+    /* Shop */
+    #shopPanel .shopItem{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; padding:10px; background:rgba(255,255,255,0.01); border-radius:10px; border:1px solid rgba(255,255,255,0.02)}
+    #shopPanel .shopItem button{padding:8px 12px; font-size:0.92rem}
+    #shopPanel .shopItem .meta{color:var(--muted); font-size:0.86rem}
+
+    /* Achievements */
+    #achievements ul{list-style:none; padding:0; color:var(--muted); margin:8px 0 0 0}
+    #achievements li{margin-bottom:8px; display:flex; align-items:center; gap:8px}
+    #achievements li.unlocked{color:var(--accent-1);}
+
+    /* XP bar */
+    .xpBar{height:12px; background:rgba(255,255,255,0.03); border-radius:999px; overflow:hidden}
+    .xpFill{height:100%; width:0%; background: linear-gradient(90deg,var(--accent-1), var(--accent-2)); transition:width 420ms cubic-bezier(.2,.9,.2,1)}
+
+    /* Toast */
+    .toast{position:fixed; left:50%; transform:translateX(-50%); bottom:28px; background:linear-gradient(180deg, rgba(4,6,4,0.9), rgba(8,12,8,0.95)); padding:10px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.02); box-shadow:0 10px 30px rgba(0,0,0,0.6); display:none}
+
+    /* small helpers */
+    .muted{ color:var(--muted) }
+    .right{ margin-left:auto }
+
+    /* Responsive */
+    @media (max-width:980px){
+      .container{grid-template-columns:1fr;}
+      canvas{width:100%; height:60vh}
+      #infoRow{flex-direction:column}
+    }
+
+    /* confetti animation */
+    @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+  </style>
 </head>
 <body>
-<div class="container">
-<header>
-  <h1>🌿 Epic Mini Farming Saga Deluxe</h1>
-  <div class="sub">Deploy seeds, watch them dominate, harvest for insane XP and epic loot!</div>
-</header>
+  <div class="container">
+    <header>
+      <h1>🌿 Epic Mini Farming Saga Deluxe</h1>
+      <div class="sub">Deploy seeds · watch them grow · harvest XP & gold · upgrade wisely</div>
+    </header>
 
-<main class="panel" id="canvasWrap">
-  <canvas id="farmCanvas" width="560" height="560" aria-label="Farm canvas"></canvas>
-  <div class="controls">
-    <button class="btn" id="plantBtn">🌱 Deploy Random Seed Bomb</button>
-    <button class="btn" id="harvestBtn">🌾 Reap Mature Dominators</button>
-    <button class="btn" id="fillBtn">🔁 Dominate Empty Plots</button>
-    <div style="flex:1"></div>
-    <button class="btn" id="backBtn">◀ Back to Serious</button>
-    <button class="btn" id="restartBtn">New Epic Start</button>
+    <main class="panel" id="canvasWrap">
+      <canvas id="farmCanvas" width="560" height="560" aria-label="Farm canvas" role="img"></canvas>
+
+      <div class="controls">
+        <button class="btn btn-accent" id="plantBtn">🌱 Deploy Random Seed Bomb</button>
+        <button class="btn" id="harvestBtn">🌾 Reap Mature Dominators</button>
+        <button class="btn" id="fillBtn">🔁 Dominate Empty Plots</button>
+
+        <div style="flex:1"></div>
+
+        <button class="btn" id="backBtn">◀ Back</button>
+        <button class="btn btn-gold" id="restartBtn">New Epic Start</button>
+      </div>
+
+      <div id="infoRow">
+        <div class="statBox" aria-live="polite">
+          <div class="statTitle">Power Level</div>
+          <div class="statValue" id="level">1</div>
+        </div>
+
+        <div class="statBox">
+          <div class="statTitle">Experience Points</div>
+          <div class="statValue" id="xp">0</div>
+          <div class="xpBar" style="margin-top:8px"><div id="xpFill" class="xpFill"></div></div>
+        </div>
+
+        <div class="statBox">
+          <div class="statTitle">Total Dominations</div>
+          <div class="statValue" id="harvested">0</div>
+        </div>
+
+        <div class="statBox">
+          <div class="statTitle">Gold Loot</div>
+          <div class="statValue" id="coins">0</div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="panel" id="side">
+
+      <section id="stats">
+        <strong>📝 Epic Strain Chronicle</strong>
+        <div id="strainLog" aria-live="polite" class="muted"></div>
+      </section>
+
+      <section id="shopPanel" class="panel">
+        <strong>🏪 Ultimate Upgrade Vault (Epic Loot)</strong>
+        <div id="shopItems" style="margin-top:8px"></div>
+      </section>
+
+      <section id="achievements" class="panel">
+        <strong>🏆 Legendary Achievements</strong>
+        <ul id="achievementList"></ul>
+      </section>
+
+      <section class="panel">
+        <strong>Domination Mastery Guide</strong>
+        <ul style="padding-left:18px; margin:8px 0 0 0; color:var(--muted)">
+          <li>Smash a plot to deploy a seed bomb (klicken).</li>
+          <li>Use "Deploy Random Seed Bomb" für Chaos & Surprise.</li>
+          <li>Strains entwickeln sich mit der Zeit — ernte, wenn sie leuchten.</li>
+          <li>Gold kaufen Upgrades im Vault — investiere klug.</li>
+        </ul>
+      </section>
+
+    </aside>
   </div>
-  <div id="infoRow">
-    <div class="statBox">
-      <div class="statTitle">Power Level</div>
-      <div class="statValue" id="level">1</div>
-    </div>
-    <div class="statBox">
-      <div class="statTitle">Experience Points</div>
-      <div class="statValue" id="xp">0</div>
-      <div class="xpBar" style="margin-top:8px"><div id="xpFill" class="xpFill"></div></div>
-    </div>
-    <div class="statBox">
-      <div class="statTitle">Total Dominations</div>
-      <div class="statValue" id="harvested">0</div>
-    </div>
-    <div class="statBox">
-      <div class="statTitle">Gold Loot</div>
-      <div class="statValue" id="coins">0</div>
-    </div>
-  </div>
-</main>
 
-<aside class="panel" id="side">
-  <div id="stats">
-    <strong>📝 Epic Strain Chronicle</strong>
-    <div id="strainLog"></div>
-  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <div id="shopPanel" class="panel">
-    <strong>🏪 Ultimate Upgrade Vault (Epic Loot)</strong>
-    <div id="shopItems"></div>
-  </div>
+  <audio id="plantSound" src="plant.mp3" preload="auto"></audio>
+  <audio id="harvestSound" src="harvest.mp3" preload="auto"></audio>
+  <audio id="levelUpSound" src="levelup.mp3" preload="auto"></audio>
 
-  <div id="achievements" class="panel">
-    <strong>🏆 Legendary Achievements</strong>
-    <ul id="achievementList"></ul>
-  </div>
+  <script>
+  /* =====================
+     Spiel: Logik & Rendering
+     Kommentare auf Deutsch — übersichtlich in Sektionen
+     ===================== */
 
-  <div class="panel">
-    <strong>Domination Mastery Guide</strong>
-    <ul style="padding-left:18px; margin:8px 0 0 0; color:var(--muted)">
-      <li>Smash a plot to deploy a seed bomb.</li>
-      <li>Unleash "Deploy Random Seed Bomb" for chaotic placement.</li>
-      <li>Strains evolve over time. Reap when they glow with power.</li>
-      <li>Claim gold loot and acquire godlike upgrades in the vault!</li>
-    </ul>
-  </div>
-</aside>
-</div>
+  // --- Konfiguration / Zustand ---
+  const GRID_SIZE = 5;
+  const canvas = document.getElementById('farmCanvas');
+  const ctx = canvas.getContext('2d');
 
-<div class="toast" id="toast"></div>
+  // Stämme (Strains)
+  let strains = [
+    {name: "Sticky Buns", color: "#6FCF97", growRate: 6, xp: 12, coins: 5, unlocked: true},
+    {name: "Pink Berry Pop", color: "#F6D365", growRate: 8, xp: 9, coins: 4, unlocked: true},
+    {name: "Boom Boom Berry", color: "#4DD0E1", growRate: 4.5, xp: 15, coins: 7, unlocked: true},
+    {name: "White Rhino", color: "#EDE7F6", growRate: 7, xp: 10, coins: 5, unlocked: true},
+    {name: "Golden Kush", color: "#ffd167", growRate: 5, xp: 20, coins: 10, unlocked: false, unlockLevel: 3},
+    {name: "Purple Haze", color: "#9b7ef6", growRate: 9, xp: 8, coins: 6, unlocked: false, unlockLevel: 5}
+  ];
 
-<audio id="plantSound" src="plant.mp3" preload="auto"></audio>
-<audio id="harvestSound" src="harvest.mp3" preload="auto"></audio>
-<audio id="levelUpSound" src="levelup.mp3" preload="auto"></audio> <!-- Add a levelup.mp3 if available -->
+  const upgrades = [
+    {id: "growthBoost", name: "Hyper Growth Accelerator", desc: "+20% Domination Speed", cost: 30, level: 0, maxLevel: 3, effect: (times=1) => { growthMultiplier += 0.2 * times }},
+    {id: "xpBoost", name: "Insane XP Amplifier", desc: "+10% XP per Domination", cost: 50, level: 0, maxLevel: 3, effect: (times=1) => { xpMultiplier += 0.1 * times }},
+    {id: "coinBoost", name: "Gold Loot Multiplier", desc: "+15% Gold per Domination", cost: 40, level: 0, maxLevel: 3, effect: (times=1) => { coinMultiplier += 0.15 * times }},
+    {id: "autoPlant", name: "Auto Domination Drone", desc: "Auto-deploy on empty plots", cost: 80, level: 0, maxLevel: 1, effect: (times=1) => { autoPlantUnlocked = true }}
+  ];
 
-<script>
-// -------------------
-// Config & State
-// -------------------
-const GRID_SIZE = 5;
-let strains = [
-  {name: "Sticky Buns", color: "#8EE28E", growRate: 6, xp: 12, coins: 5, unlocked: true},
-  {name: "Pink Berry Pop", color: "#E6F39B", growRate: 8, xp: 9, coins: 4, unlocked: true},
-  {name: "Boom Boom Berry", color: "#6FD08A", growRate: 4.5, xp: 15, coins: 7, unlocked: true},
-  {name: "White Rhino", color: "#DFF7D6", growRate: 7, xp: 10, coins: 5, unlocked: true},
-  {name: "Golden Kush", color: "#FFD700", growRate: 5, xp: 20, coins: 10, unlocked: false, unlockLevel: 3},
-  {name: "Purple Haze", color: "#A020F0", growRate: 9, xp: 8, coins: 6, unlocked: false, unlockLevel: 5}
-];
-const upgrades = [
-  {id: "growthBoost", name: "Hyper Growth Accelerator", desc: "+20% Domination Speed", cost: 30, level: 0, maxLevel: 3, effect: () => growthMultiplier += 0.2},
-  {id: "xpBoost", name: "Insane XP Amplifier", desc: "+10% XP per Domination", cost: 50, level: 0, maxLevel: 3, effect: () => xpMultiplier += 0.1},
-  {id: "coinBoost", name: "Gold Loot Multiplier", desc: "+15% Gold per Domination", cost: 40, level: 0, maxLevel: 3, effect: () => coinMultiplier += 0.15},
-  {id: "autoPlant", name: "Auto Domination Drone", desc: "Automatically deploys on empty plots (stealth mode)", cost: 80, level: 0, maxLevel: 1, effect: () => autoPlantUnlocked = true}
-];
-const achievements = [
-  {id: "firstHarvest", name: "Novice Dominator", desc: "Reap your first strain", unlocked: false, condition: () => harvested >= 1},
-  {id: "level5", name: "Ascended to Power Level 5", desc: "Reach Power Level 5", unlocked: false, condition: () => level >= 5},
-  {id: "harvest100", name: "Century of Dominations", desc: "Reap 100 strains", unlocked: false, condition: () => harvested >= 100},
-  {id: "allUpgrades", name: "Ultimate Upgrade God", desc: "Max out all upgrades", unlocked: false, condition: () => upgrades.every(u => u.level >= u.maxLevel)}
-];
-const canvas = document.getElementById('farmCanvas');
-const ctx = canvas.getContext('2d');
-const farm = Array.from({length: GRID_SIZE}, () => Array(GRID_SIZE).fill(null));
-let xp = 0, level = 1, harvested = 0, coins = 100; // Start with 100 gold for testing
-let growthMultiplier = 1, xpMultiplier = 1, coinMultiplier = 1, autoPlantUnlocked = false;
-let lastAutoPlant = 0;
+  const achievements = [
+    {id: "firstHarvest", name: "Novice Dominator", desc: "Reap your first strain", unlocked: false, condition: () => harvested >= 1},
+    {id: "level5", name: "Ascended to Power Level 5", desc: "Reach Power Level 5", unlocked: false, condition: () => level >= 5},
+    {id: "harvest100", name: "Century of Dominations", desc: "Reap 100 strains", unlocked: false, condition: () => harvested >= 100},
+    {id: "allUpgrades", name: "Ultimate Upgrade God", desc: "Max out all upgrades", unlocked: false, condition: () => upgrades.every(u => u.level >= u.maxLevel)}
+  ];
 
-// -------------------
-// Classes
-// -------------------
-class Plant {
-  constructor(strain) {
-    this.strain = strain;
-    this.growth = 0;
-    this.particles = [];
-    this.sway = Math.random() * Math.PI * 2;
-  }
-  grow(dt) {
-    if (this.growth < 100) {
-      this.growth = Math.min(100, this.growth + this.strain.growRate * growthMultiplier * (dt / 1000));
-    } else if (Math.random() < 0.06) {
-      this.particles.push(new Spark());
+  // Spielfeld
+  const farm = Array.from({length: GRID_SIZE}, () => Array(GRID_SIZE).fill(null));
+
+  // Währungen & Multiplikatoren
+  let xp = 0, level = 1, harvested = 0, coins = 100;
+  let growthMultiplier = 1, xpMultiplier = 1, coinMultiplier = 1, autoPlantUnlocked = false;
+  let lastAutoPlant = 0;
+
+  // --- Klassen ---
+  class Plant {
+    constructor(strain){
+      this.strain = strain;
+      this.growth = 0; // 0..100
+      this.particles = [];
+      this.sway = Math.random() * Math.PI * 2;
     }
-    this.particles.forEach(p => p.update(dt));
-    this.particles = this.particles.filter(p => !p.dead);
+    grow(dt){
+      if (this.growth < 100) this.growth = Math.min(100, this.growth + this.strain.growRate * growthMultiplier * (dt / 1000));
+      else if (Math.random() < 0.06) this.particles.push(new Spark());
+      this.particles.forEach(p => p.update(dt));
+      this.particles = this.particles.filter(p => !p.dead);
+    }
+    isReady(){ return this.growth >= 100 }
   }
-  isReady() { return this.growth >= 100; }
-}
-class Spark {
-  constructor() {
-    this.x = 0; this.y = 0; this.vx = (Math.random() - 0.5) * 0.6; this.vy = -Math.random() * 0.8 - 0.2;
-    this.life = 700 + Math.random() * 700; this.age = 0; this.size = 1 + Math.random() * 2; this.dead = false;
-  }
-  update(dt) {
-    this.age += dt;
-    if (this.age > this.life) this.dead = true;
-    this.vy += 0.001 * dt;
-    this.x += this.vx * dt * 0.06;
-    this.y += this.vy * dt * 0.06;
-  }
-  draw(ctx) {
-    ctx.globalAlpha = 1 - (this.age / this.life);
-    ctx.fillStyle = 'rgba(255,255,200,0.9)';
-    ctx.fillRect(this.x, this.y, this.size, this.size);
-    ctx.globalAlpha = 1;
-  }
-}
 
-// -------------------
-// Helpers
-// -------------------
-function shadeColor(hex, percent) {
-  const num = parseInt(hex.slice(1), 16);
-  const r = Math.max(0, Math.min(255, (num >> 16) + Math.round(255 * percent / 100)));
-  const g = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + Math.round(255 * percent / 100)));
-  const b = Math.max(0, Math.min(255, (num & 0x0000FF) + Math.round(255 * percent / 100)));
-  return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-}
-function addLog(text) {
-  const time = new Date().toLocaleTimeString();
-  document.getElementById('strainLog').innerHTML = `<div style="margin-bottom:6px"><small style='color:var(--muted)'>[${time}]</small> ${text}</div>` + document.getElementById('strainLog').innerHTML;
-}
-function updateStats() {
-  document.getElementById('xp').textContent = xp;
-  document.getElementById('level').textContent = level;
-  document.getElementById('harvested').textContent = harvested;
-  document.getElementById('coins').textContent = coins;
-  const pct = Math.min(100, Math.round((xp / xpThresholdForLevel(level)) * 100));
-  document.getElementById('xpFill').style.width = pct + '%';
-  renderShop(); // New: Render shop after stats update
-}
-function xpThresholdForLevel(l) { return 40 + l * 20; }
-function showToast(msg, ms = 1500) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.display = 'block';
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => { t.style.display = 'none' }, ms);
-}
-function playSound(id) {
-  const a = document.getElementById(id);
-  if (a) { a.currentTime = 0; a.play().catch(() => {}); }
-}
-function saveGame() {
-  const saveData = { xp, level, harvested, coins, upgrades: upgrades.map(u => ({level: u.level, cost: u.cost})), achievements: achievements.map(a => a.unlocked), farm: farm.map(row => row.map(p => p ? {strain: strains.findIndex(s => s.name === p.strain.name), growth: p.growth} : null)) };
-  localStorage.setItem('miniFarmingSave', JSON.stringify(saveData));
-}
-function loadGame() {
-  const save = localStorage.getItem('miniFarmingSave');
-  if (save) {
-    const data = JSON.parse(save);
-    xp = data.xp; level = data.level; harvested = data.harvested; coins = data.coins;
-    upgrades.forEach((u, i) => { u.level = data.upgrades[i].level; u.cost = data.upgrades[i].cost; });
-    achievements.forEach((a, i) => a.unlocked = data.achievements[i]);
-    farm.forEach((row, r) => row.forEach((_, c) => { const p = data.farm[r][c]; farm[r][c] = p ? new Plant(strains[p.strain]) : null; if (p) farm[r][c].growth = p.growth; }));
-    applyUpgrades();
-    unlockStrains();
-  } else {
-    coins = 100; // Fallback for new start
-  }
-  updateStats();
-  updateBackground();
-  renderShop();
-  renderAchievements();
-}
-function applyUpgrades() {
-  growthMultiplier = 1; xpMultiplier = 1; coinMultiplier = 1; autoPlantUnlocked = false;
-  upgrades.forEach(u => { for (let i = 0; i < u.level; i++) u.effect(); });
-}
-function unlockStrains() {
-  strains.forEach(s => { if (s.unlockLevel && level >= s.unlockLevel) s.unlocked = true; });
-}
-function checkAchievements() {
-  let newUnlock = false;
-  achievements.forEach(a => {
-    if (!a.unlocked && a.condition()) {
-      a.unlocked = true;
-      newUnlock = true;
-      addLog(`🏆 Legendary Achievement Unlocked: ${a.name}`);
-      showToast(`Epic Win: ${a.name}!`, 2000);
-      coins += 20;
+  class Spark {
+    constructor(){
+      this.x = 0; this.y = 0; this.vx = (Math.random()-0.5)*0.6; this.vy = -Math.random()*0.8 - 0.2;
+      this.life = 700 + Math.random()*700; this.age = 0; this.size = 1 + Math.random()*2; this.dead=false;
     }
-  });
-  if (newUnlock) {
-    renderAchievements();
-    confettiRain();
+    update(dt){ this.age += dt; if (this.age > this.life) this.dead = true; this.vy += 0.001 * dt; this.x += this.vx * dt * 0.06; this.y += this.vy * dt * 0.06; }
+    draw(ctx){ ctx.globalAlpha = 1 - (this.age / this.life); ctx.fillStyle = 'rgba(255,255,200,0.9)'; ctx.fillRect(this.x, this.y, this.size, this.size); ctx.globalAlpha = 1; }
   }
-}
-function renderShop() {
-  const shopItems = document.getElementById('shopItems');
-  shopItems.innerHTML = '';
-  upgrades.forEach(u => {
-    const item = document.createElement('div');
-    item.className = 'shopItem';
-    item.innerHTML = `<div>${u.name} (Lvl ${u.level}/${u.maxLevel})<br><small>${u.desc} - Costs ${u.cost} Gold</small></div>`;
-    const buyBtn = document.createElement('button');
-    buyBtn.className = 'btn';
-    buyBtn.textContent = 'Acquire';
-    const isDisabled = coins < u.cost || u.level >= u.maxLevel;
-    buyBtn.disabled = isDisabled;
-    if (isDisabled) console.log(`Vault Debug: ${u.name} locked - Gold: ${coins}, Cost: ${u.cost}, Level: ${u.level}/${u.maxLevel}`);
-    buyBtn.onclick = () => {
-      console.log(`Vault Debug: Attempting to acquire ${u.name} - Gold: ${coins}, Cost: ${u.cost}`);
-      if (coins >= u.cost && u.level < u.maxLevel) {
-        coins -= u.cost;
-        u.level++;
-        u.cost = Math.round(u.cost * 1.5);
-        u.effect();
-        addLog(`🛒 Epic Upgrade Acquired: ${u.name} (Lvl ${u.level})`);
-        showToast(`Power Boost: ${u.name}!`);
-        updateStats();
-        checkAchievements();
-        saveGame();
-        console.log(`Vault Debug: Acquisition successful - New Gold: ${coins}`);
-      } else {
-        console.log(`Vault Debug: Acquisition failed`);
-      }
-    };
-    item.appendChild(buyBtn);
-    shopItems.appendChild(item);
-  });
-}
-function renderAchievements() {
-  const list = document.getElementById('achievementList');
-  list.innerHTML = '';
-  achievements.forEach(a => {
-    const li = document.createElement('li');
-    li.className = a.unlocked ? 'unlocked' : '';
-    li.innerHTML = `${a.unlocked ? '✅' : '🔒'} ${a.name} - ${a.desc}`;
-    list.appendChild(li);
-  });
-}
-function updateBackground() {
-  let bgFile = 'BALTI.JPG';
-  if (level >= 25) bgFile = 'BALTI4.JPG';
-  else if (level >= 20) bgFile = 'BALTI3.JPG';
-  else if (level >= 15) bgFile = 'BALTI2.JPG';
-  else if (level >= 10) bgFile = 'BALTI1.JPG';
-  else if (level >= 5) bgFile = 'BALTI.JPG';
-  document.body.style.background = `url('${bgFile}') center/cover no-repeat, radial-gradient(circle at 20% 10%, #16201a 0%, #080808 60%)`;
-}
-function confettiRain() {
-  for (let i = 0; i < 100; i++) {
-    const confetti = document.createElement('div');
-    confetti.style.position = 'fixed';
-    confetti.style.left = `${Math.random() * 100}vw`;
-    confetti.style.top = '-10px';
-    confetti.style.width = '10px';
-    confetti.style.height = '10px';
-    confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-    confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear`;
-    confetti.style.opacity = '0.8';
-    confetti.style.borderRadius = '50%';
-    document.body.appendChild(confetti);
-    setTimeout(() => confetti.remove(), 5000);
-  }
-}
 
-// -------------------
-// Canvas Draw
-// -------------------
-function draw() {
-  const w = canvas.width, h = canvas.height;
-  ctx.clearRect(0, 0, w, h);
-  const cell = w / GRID_SIZE;
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      const x = c * cell, y = r * cell;
-      ctx.fillStyle = 'rgba(10,10,10,0.6)';
-      roundRect(ctx, x + 6, y + 6, cell - 12, cell - 12, 8);
-      ctx.fill();
-      ctx.strokeStyle = 'rgba(0,255,127,0.06)';
-      ctx.lineWidth = 1;
-      roundRect(ctx, x + 6, y + 6, cell - 12, cell - 12, 8);
-      ctx.stroke();
-      const plant = farm[r][c];
-      if (plant) drawPlant(ctx, plant, x + cell / 2, y + cell / 2 + 8, cell * 0.38);
-    }
+  // --- Helferfunktionen ---
+  function shadeColor(hex, percent){
+    const num = parseInt(hex.slice(1),16);
+    const r = Math.max(0, Math.min(255, (num>>16) + Math.round(255 * percent / 100)));
+    const g = Math.max(0, Math.min(255, ((num>>8)&0x00FF) + Math.round(255 * percent / 100)));
+    const b = Math.max(0, Math.min(255, (num & 0x0000FF) + Math.round(255 * percent / 100)));
+    return '#' + ((1<<24) + (r<<16) + (g<<8) + b).toString(16).slice(1);
   }
-}
-function roundRect(ctx, x, y, w, h, r) {
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.arcTo(x + w, y, x + w, y + h, r);
-  ctx.arcTo(x + w, y + h, x, y + h, r);
-  ctx.arcTo(x, y + h, x, y, r);
-  ctx.arcTo(x, y, x + w, y, r);
-  ctx.closePath();
-}
-function drawPlant(ctx, plant, cx, cy, size) {
-  const progress = plant.growth / 100;
-  const t = performance.now() / 1000;
-  const sway = Math.sin(t + plant.sway) * 3 * (1 - progress);
-  ctx.save();
-  ctx.translate(cx, cy + size * 0.25);
-  ctx.rotate(sway * 0.02);
-  ctx.strokeStyle = '#2c6a3a';
-  ctx.lineWidth = Math.max(1, 2 * progress);
-  ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.quadraticCurveTo(0 - size * 0.05, -size * 0.25 - progress * size * 0.75, 0, -size * 1.0);
-  ctx.stroke();
-  const leafCount = 4 + Math.floor(progress * 4);
-  for (let i = 0; i < leafCount; i++) {
-    const angle = (i / leafCount) * Math.PI * 2 + (1 - progress) * 0.8;
-    drawLeaf(ctx, Math.cos(angle) * size * 0.35, -size * 0.8 + Math.sin(angle) * size * 0.06, size * 0.48 * progress, plant.strain.color, progress, i);
-  }
-  if (progress > 0.85) {
-    const budSize = 6 + (progress - 0.85) * 40;
-    const grad = ctx.createRadialGradient(0, -size * 1.0, budSize * 0.2, 0, -size * 1.0, budSize);
-    grad.addColorStop(0, 'gold');
-    grad.addColorStop(1, plant.strain.color);
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(0, -size * 1.0, budSize, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  plant.particles.forEach(p => p.draw(ctx));
-  ctx.restore();
-}
-function drawLeaf(ctx, lx, ly, sz, color, progress, idx) {
-  ctx.save();
-  ctx.translate(lx, ly);
-  ctx.rotate(Math.sin(idx + performance.now() / 800) * 0.14 * (1 - progress));
-  ctx.beginPath();
-  ctx.moveTo(0, 0);
-  ctx.bezierCurveTo(sz * 0.4, -sz * 0.2, sz * 0.8, -sz * 0.6, sz, -sz * 0.9);
-  ctx.bezierCurveTo(sz * 0.6, -sz * 0.6, sz * 0.2, -sz * 0.2, 0, 0);
-  const g = ctx.createLinearGradient(0, -sz, 0, sz * 0.6);
-  g.addColorStop(0, color);
-  g.addColorStop(1, shadeColor(color, -20));
-  ctx.fillStyle = g;
-  ctx.fill();
-  ctx.globalAlpha = 0.14;
-  ctx.beginPath();
-  ctx.ellipse(sz * 0.2, -sz * 0.35, sz * 0.25, sz * 0.12, -0.6, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.globalAlpha = 1;
-  ctx.restore();
-}
 
-// -------------------
-// Game Loop
-// -------------------
-let last = performance.now();
-function frame(now) {
-  const dt = Math.min(60, now - last);
-  last = now;
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      const p = farm[r][c];
-      if (p) p.grow(dt);
-    }
+  function addLog(text){
+    const time = new Date().toLocaleTimeString();
+    const node = document.getElementById('strainLog');
+    node.insertAdjacentHTML('afterbegin', `<div style="margin-bottom:8px"><small class='muted'>[${time}]</small> ${text}</div>`);
   }
-  if (autoPlantUnlocked && now - lastAutoPlant > 5000) {
-    plantRandom(true);
-    lastAutoPlant = now;
-  }
-  draw();
-  requestAnimationFrame(frame);
-}
-requestAnimationFrame(frame);
 
-// -------------------
-// Gameplay functions
-// -------------------
-function getUnlockedStrains() {
-  return strains.filter(s => s.unlocked);
-}
-function plantRandom(silent = false) {
-  let planted = false;
-  const availableStrains = getUnlockedStrains();
-  if (availableStrains.length === 0) return false;
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      if (!farm[r][c] && Math.random() < 0.28) {
-        const s = availableStrains[Math.floor(Math.random() * availableStrains.length)];
-        farm[r][c] = new Plant(s);
-        if (!silent) addLog(`🌱 Deployed: ${s.name}`);
-        planted = true;
-      }
-    }
+  function updateStats(){
+    document.getElementById('xp').textContent = xp;
+    document.getElementById('level').textContent = level;
+    document.getElementById('harvested').textContent = harvested;
+    document.getElementById('coins').textContent = coins;
+    const pct = Math.min(100, Math.round((xp / xpThresholdForLevel(level)) * 100));
+    document.getElementById('xpFill').style.width = pct + '%';
+    renderShop(); renderAchievements();
   }
-  if (planted && !silent) {
-    playSound('plantSound');
-    showToast('Seed Bomb Deployed');
+
+  function xpThresholdForLevel(l){ return 40 + l * 20 }
+
+  function showToast(msg, ms=1500){
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.style.display = 'block'; t.style.opacity = '1';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(()=>{ t.style.transition = 'opacity 420ms'; t.style.opacity = '0'; setTimeout(()=> t.style.display = 'none', 420); }, ms);
   }
-  return planted;
-}
-function fillAllEmpty() {
-  let any = false;
-  const availableStrains = getUnlockedStrains();
-  if (availableStrains.length === 0) return;
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      if (!farm[r][c]) {
-        const s = availableStrains[Math.floor(Math.random() * availableStrains.length)];
-        farm[r][c] = new Plant(s);
-        any = true;
-      }
-    }
+
+  function playSound(id){ const a = document.getElementById(id); if (a) { a.currentTime = 0; a.play().catch(()=>{}); } }
+
+  // Persistenz
+  function saveGame(){
+    try{
+      const saveData = {
+        xp, level, harvested, coins,
+        upgrades: upgrades.map(u => ({level: u.level, cost: u.cost})),
+        achievements: achievements.map(a => a.unlocked),
+        farm: farm.map(row => row.map(p => p ? {strain: strains.findIndex(s=>s.name===p.strain.name), growth: p.growth} : null))
+      };
+      localStorage.setItem('miniFarmingSave', JSON.stringify(saveData));
+    }catch(e){ console.warn('Save failed', e) }
   }
-  if (any) {
-    playSound('plantSound');
-    addLog('🔁 All empty plots dominated');
-    showToast('Grid Dominated');
-  }
-}
-function harvestReady() {
-  let any = false;
-  for (let r = 0; r < GRID_SIZE; r++) {
-    for (let c = 0; c < GRID_SIZE; c++) {
-      const p = farm[r][c];
-      if (p && p.isReady()) {
-        const gainedXP = Math.round(p.strain.xp * xpMultiplier);
-        const gainedCoins = Math.round(p.strain.coins * coinMultiplier);
-        xp += gainedXP;
-        coins += gainedCoins;
-        harvested++;
-        addLog(`🌾 Reaped: ${p.strain.name} (+${gainedXP} XP, +${gainedCoins} Gold)`);
-        farm[r][c] = null;
-        any = true;
-      }
-    }
-  }
-  if (any) {
-    playSound('harvestSound');
-    checkLevelUp();
-    checkAchievements();
+
+  function loadGame(){
+    const save = localStorage.getItem('miniFarmingSave');
+    if (save){
+      try{
+        const data = JSON.parse(save);
+        xp = data.xp; level = data.level; harvested = data.harvested; coins = data.coins;
+        upgrades.forEach((u,i)=>{ if(data.upgrades[i]){ u.level = data.upgrades[i].level; u.cost = data.upgrades[i].cost } });
+        achievements.forEach((a,i) => a.unlocked = !!data.achievements[i]);
+        farm.forEach((row,r)=> row.forEach((_,c)=>{ const p = data.farm[r][c]; farm[r][c] = p ? new Plant(strains[p.strain]) : null; if (p) farm[r][c].growth = p.growth; }));
+        applyUpgrades(); unlockStrains();
+      }catch(e){ console.warn('Load corrupted', e); }
+    } else coins = 100;
     updateStats();
-    showToast('Dominated!');
-    saveGame();
-  } else {
-    showToast('No strains ready for domination', 1000);
   }
-}
-function checkLevelUp() {
-  let threshold = xpThresholdForLevel(level);
-  while (xp >= threshold) {
-    xp -= threshold;
-    level++;
-    unlockStrains();
-    addLog(`🔥 POWER SURGE! Power Level ${level} attained`);
-    showToast(`POWER SURGE! ${level}`);
-    playSound('levelUpSound');
-    threshold = xpThresholdForLevel(level);
-    updateBackground();
-  }
-}
 
-// -------------------
-// Input
-// -------------------
-canvas.addEventListener('click', (ev) => {
-  const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
-  const cssX = (ev.clientX - rect.left) * scaleX;
-  const cssY = (ev.clientY - rect.top) * scaleY;
-  const cell = canvas.width / GRID_SIZE;
-  const col = Math.floor(cssX / cell);
-  const row = Math.floor(cssY / cell);
-  if (row >= 0 && row < GRID_SIZE && col >= 0 && col < GRID_SIZE) {
-    if (!farm[row][col]) {
-      const availableStrains = getUnlockedStrains();
-      if (availableStrains.length === 0) return showToast('No strains available for domination');
-      const s = availableStrains[Math.floor(Math.random() * availableStrains.length)];
-      farm[row][col] = new Plant(s);
-      addLog(`🌱 Deployed: ${s.name} (manual strike)`);
-      playSound('plantSound');
-      showToast('Seed Bomb Deployed');
-    } else {
-      if (farm[row][col].isReady()) {
-        const p = farm[row][col];
-        const gainedXP = Math.round(p.strain.xp * xpMultiplier);
-        const gainedCoins = Math.round(p.strain.coins * coinMultiplier);
-        xp += gainedXP;
-        coins += gainedCoins;
-        harvested++;
-        addLog(`🌾 Reaped: ${p.strain.name} (+${gainedXP} XP, +${gainedCoins} Gold)`);
-        farm[row][col] = null;
-        playSound('harvestSound');
-        checkLevelUp();
-        checkAchievements();
-        updateStats();
-        showToast('Reaped');
-        saveGame();
-      } else {
-        showToast('Strain not ready for domination');
+  function applyUpgrades(){ growthMultiplier = 1; xpMultiplier = 1; coinMultiplier = 1; autoPlantUnlocked = false; upgrades.forEach(u=>{ for(let i=0;i<u.level;i++) u.effect(1); }); }
+  function unlockStrains(){ strains.forEach(s=> { if (s.unlockLevel && level >= s.unlockLevel) s.unlocked = true }); }
+
+  function checkAchievements(){
+    let any = false;
+    achievements.forEach(a=>{ if(!a.unlocked && a.condition()){ a.unlocked = true; any = true; addLog(`🏆 Achievement: ${a.name}`); showToast(`Achievement: ${a.name}`, 2000); coins += 20; } });
+    if(any) confettiRain();
+  }
+
+  // --- Shop & Achievements Rendering ---
+  function renderShop(){
+    const shopItems = document.getElementById('shopItems'); shopItems.innerHTML = '';
+    upgrades.forEach(u=>{
+      const item = document.createElement('div'); item.className = 'shopItem';
+      item.innerHTML = `
+        <div>
+          <div style="font-weight:700">${u.name} <small class='muted' style='font-weight:600'>(Lvl ${u.level}/${u.maxLevel})</small></div>
+          <div class='meta'>${u.desc} • Costs ${u.cost} Gold</div>
+        </div>`;
+      const buyBtn = document.createElement('button'); buyBtn.className = 'btn'; buyBtn.textContent = 'Acquire';
+      const disabled = coins < u.cost || u.level >= u.maxLevel;
+      buyBtn.disabled = disabled;
+      buyBtn.onclick = () => {
+        if (coins >= u.cost && u.level < u.maxLevel){ coins -= u.cost; u.level++; u.cost = Math.round(u.cost * 1.5); u.effect(1); addLog(`🛒 Upgrade: ${u.name} (Lvl ${u.level})`); showToast(`${u.name} acquired`); updateStats(); checkAchievements(); saveGame(); }
+      };
+      item.appendChild(buyBtn); shopItems.appendChild(item);
+    });
+  }
+
+  function renderAchievements(){ const list = document.getElementById('achievementList'); list.innerHTML = ''; achievements.forEach(a=>{ const li = document.createElement('li'); li.className = a.unlocked ? 'unlocked' : ''; li.innerHTML = `${a.unlocked ? '✅' : '🔒'} ${a.name} — <small class='muted'>${a.desc}</small>`; list.appendChild(li); }); }
+
+  // --- Visual Effekte ---
+  function confettiRain(){ for(let i=0;i<80;i++){ const c = document.createElement('div'); c.style.position='fixed'; c.style.left = `${Math.random()*100}vw`; c.style.top = '-12px'; c.style.width = '10px'; c.style.height='10px'; c.style.backgroundColor = `hsl(${Math.random()*360},70%,55%)`; c.style.borderRadius='50%'; c.style.opacity='0.9'; c.style.animation = `fall ${Math.random()*3+2}s linear`; c.style.zIndex = 9999; document.body.appendChild(c); setTimeout(()=>c.remove(),5200); } }
+
+  // --- Canvas: Draw Functions ---
+  function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+
+  function draw(){
+    const w = canvas.width, h = canvas.height; ctx.clearRect(0,0,w,h);
+    const cell = w / GRID_SIZE;
+    for (let r=0; r<GRID_SIZE; r++){
+      for (let c=0; c<GRID_SIZE; c++){
+        const x = c*cell, y = r*cell;
+        ctx.fillStyle = 'rgba(8,10,8,0.6)'; roundRect(ctx, x+6, y+6, cell-12, cell-12, 8); ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.02)'; ctx.lineWidth = 1; roundRect(ctx, x+6, y+6, cell-12, cell-12, 8); ctx.stroke();
+        const plant = farm[r][c]; if (plant) drawPlant(ctx, plant, x + cell/2, y + cell/2 + 8, cell * 0.38);
       }
     }
   }
-});
-document.getElementById('plantBtn').addEventListener('click', () => {
-  if (plantRandom()) updateStats();
-  else showToast('No space for deployment');
-  saveGame();
-});
-document.getElementById('harvestBtn').addEventListener('click', () => { harvestReady(); });
-document.getElementById('fillBtn').addEventListener('click', () => { fillAllEmpty(); updateStats(); saveGame(); });
-document.getElementById('backBtn').addEventListener('click', () => { location.href = 'seite3.html'; });
-document.getElementById('restartBtn').addEventListener('click', () => {
-  localStorage.removeItem('miniFarmingSave');
-  location.reload();
-});
 
-// Init
-loadGame();
-plantRandom();
-setInterval(saveGame, 30000); // Auto-Save
-</script>
+  function drawPlant(ctx, plant, cx, cy, size){
+    const progress = plant.growth / 100; const t = performance.now() / 1000; const sway = Math.sin(t + plant.sway) * 3 * (1 - progress);
+    ctx.save(); ctx.translate(cx, cy + size * 0.25); ctx.rotate(sway * 0.02);
+    // Stamm
+    ctx.strokeStyle = '#2c6a3a'; ctx.lineWidth = Math.max(1, 2 * progress); ctx.beginPath(); ctx.moveTo(0,0); ctx.quadraticCurveTo(-size*0.05, -size*0.25 - progress*size*0.75, 0, -size*1.0); ctx.stroke();
+    const leafCount = 4 + Math.floor(progress * 4);
+    for (let i=0; i<leafCount; i++){ const angle = (i/leafCount)*Math.PI*2 + (1-progress)*0.8; drawLeaf(ctx, Math.cos(angle)*size*0.35, -size*0.8 + Math.sin(angle)*size*0.06, size*0.48*progress, plant.strain.color, progress, i); }
+    if (progress > 0.85){ const budSize = 6 + (progress - 0.85) * 40; const grad = ctx.createRadialGradient(0, -size*1.0, budSize*0.15, 0, -size*1.0, budSize); grad.addColorStop(0, 'rgba(255,243,175,1)'); grad.addColorStop(1, plant.strain.color); ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(0, -size*1.0, budSize, 0, Math.PI*2); ctx.fill(); }
+    plant.particles.forEach(p => p.draw(ctx)); ctx.restore();
+  }
+
+  function drawLeaf(ctx, lx, ly, sz, color, progress, idx){ ctx.save(); ctx.translate(lx, ly); ctx.rotate(Math.sin(idx + performance.now()/800) * 0.14 * (1 - progress)); ctx.beginPath(); ctx.moveTo(0,0); ctx.bezierCurveTo(sz*0.4, -sz*0.2, sz*0.8, -sz*0.6, sz, -sz*0.9); ctx.bezierCurveTo(sz*0.6, -sz*0.6, sz*0.2, -sz*0.2, 0, 0); const g = ctx.createLinearGradient(0, -sz, 0, sz*0.6); g.addColorStop(0, color); g.addColorStop(1, shadeColor(color, -15)); ctx.fillStyle = g; ctx.fill(); ctx.globalAlpha = 0.12; ctx.beginPath(); ctx.ellipse(sz*0.2, -sz*0.35, sz*0.25, sz*0.12, -0.6, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 1; ctx.restore(); }
+
+  // --- Game Loop ---
+  let last = performance.now();
+  function frame(now){
+    const dt = Math.min(60, now - last); last = now;
+    for (let r=0; r<GRID_SIZE; r++) for (let c=0; c<GRID_SIZE; c++) { const p = farm[r][c]; if (p) p.grow(dt); }
+    if (autoPlantUnlocked && now - lastAutoPlant > 5000){ plantRandom(true); lastAutoPlant = now; }
+    draw(); requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  // --- Gameplay Funktionen ---
+  function getUnlockedStrains(){ return strains.filter(s => s.unlocked); }
+
+  function plantRandom(silent=false){ let planted=false; const available = getUnlockedStrains(); if (!available.length) return false; for (let r=0;r<GRID_SIZE;r++) for (let c=0;c<GRID_SIZE;c++){ if (!farm[r][c] && Math.random() < 0.28){ const s = available[Math.floor(Math.random()*available.length)]; farm[r][c] = new Plant(s); if (!silent) addLog(`🌱 Deployed: ${s.name}`); planted = true; } }
+    if (planted && !silent){ playSound('plantSound'); showToast('Seed Bomb Deployed'); }
+    return planted;
+  }
+
+  function fillAllEmpty(){ let any=false; const available = getUnlockedStrains(); if (!available.length) return; for (let r=0;r<GRID_SIZE;r++) for (let c=0;c<GRID_SIZE;c++){ if (!farm[r][c]){ const s = available[Math.floor(Math.random()*available.length)]; farm[r][c] = new Plant(s); any=true; } }
+    if (any){ playSound('plantSound'); addLog('🔁 All empty plots dominated'); showToast('Grid Dominated'); }
+  }
+
+  function harvestReady(){ let any=false; for (let r=0;r<GRID_SIZE;r++) for (let c=0;c<GRID_SIZE;c++){ const p = farm[r][c]; if (p && p.isReady()){ const gainedXP = Math.round(p.strain.xp * xpMultiplier); const gainedCoins = Math.round(p.strain.coins * coinMultiplier); xp += gainedXP; coins += gainedCoins; harvested++; addLog(`🌾 Reaped: ${p.strain.name} (+${gainedXP} XP, +${gainedCoins} Gold)`); farm[r][c] = null; any = true; } }
+    if (any){ playSound('harvestSound'); checkLevelUp(); checkAchievements(); updateStats(); showToast('Dominated!'); saveGame(); } else { showToast('No strains ready for domination', 1000); }
+  }
+
+  function checkLevelUp(){ let threshold = xpThresholdForLevel(level); while (xp >= threshold){ xp -= threshold; level++; unlockStrains(); addLog(`🔥 POWER SURGE! Level ${level}`); showToast(`POWER SURGE! ${level}`); playSound('levelUpSound'); threshold = xpThresholdForLevel(level); } updateStats(); }
+
+  // --- Input Handling ---
+  canvas.addEventListener('click', (ev) => {
+    const rect = canvas.getBoundingClientRect(); const scaleX = canvas.width / rect.width; const scaleY = canvas.height / rect.height;
+    const x = (ev.clientX - rect.left) * scaleX; const y = (ev.clientY - rect.top) * scaleY; const cell = canvas.width / GRID_SIZE; const col = Math.floor(x / cell); const row = Math.floor(y / cell);
+    if (row>=0 && row<GRID_SIZE && col>=0 && col<GRID_SIZE){
+      if (!farm[row][col]){
+        const available = getUnlockedStrains(); if(!available.length) return showToast('No strains available'); const s = available[Math.floor(Math.random()*available.length)]; farm[row][col] = new Plant(s); addLog(`🌱 Deployed: ${s.name} (manual)`); playSound('plantSound'); showToast('Seed Bomb Deployed'); saveGame(); updateStats();
+      } else {
+        if (farm[row][col].isReady()){
+          const p = farm[row][col]; const gainedXP = Math.round(p.strain.xp * xpMultiplier); const gainedCoins = Math.round(p.strain.coins * coinMultiplier);
+          xp += gainedXP; coins += gainedCoins; harvested++; addLog(`🌾 Reaped: ${p.strain.name} (+${gainedXP} XP, +${gainedCoins} Gold)`); farm[row][col] = null; playSound('harvestSound'); checkLevelUp(); checkAchievements(); updateStats(); showToast('Reaped'); saveGame();
+        } else showToast('Strain not ready for domination');
+      }
+    }
+  });
+
+  document.getElementById('plantBtn').addEventListener('click', ()=>{ if(plantRandom()) updateStats(); else showToast('No space for deployment'); saveGame(); });
+  document.getElementById('harvestBtn').addEventListener('click', harvestReady);
+  document.getElementById('fillBtn').addEventListener('click', ()=>{ fillAllEmpty(); updateStats(); saveGame(); });
+  document.getElementById('backBtn').addEventListener('click', ()=> location.href = 'seite3.html');
+  document.getElementById('restartBtn').addEventListener('click', ()=>{ localStorage.removeItem('miniFarmingSave'); location.reload(); });
+
+  // --- Init ---
+  loadGame(); plantRandom(); setInterval(saveGame, 30000);
+  </script>
 </body>
 </html>
