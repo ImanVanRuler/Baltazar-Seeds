@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>WebGL Plasma Demo</title>
+  <title>WebGL Plasma + Particles</title>
   <style>
     html, body {
       margin: 0;
@@ -19,12 +19,13 @@
 </head>
 <body>
 <canvas id="glcanvas"></canvas>
-<script type="text/javascript">
+<script>
 const canvas = document.getElementById("glcanvas");
 const gl = canvas.getContext("webgl");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// --- Plasma shader ---
 const vertexShaderSource = `
 attribute vec2 a_position;
 varying vec2 v_uv;
@@ -50,6 +51,7 @@ void main() {
 }
 `;
 
+// Compile shaders
 function createShader(gl, type, source) {
   const shader = gl.createShader(type);
   gl.shaderSource(shader, source);
@@ -60,7 +62,6 @@ function createShader(gl, type, source) {
   }
   return shader;
 }
-
 function createProgram(gl, vsSource, fsSource) {
   const vs = createShader(gl, gl.VERTEX_SHADER, vsSource);
   const fs = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
@@ -75,10 +76,10 @@ function createProgram(gl, vsSource, fsSource) {
   return program;
 }
 
-const program = createProgram(gl, vertexShaderSource, fragmentShaderSource);
-const positionLocation = gl.getAttribLocation(program, "a_position");
-const timeLocation = gl.getUniformLocation(program, "u_time");
-const resLocation = gl.getUniformLocation(program, "u_resolution");
+const plasmaProgram = createProgram(gl, vertexShaderSource, fragmentShaderSource);
+const positionLocation = gl.getAttribLocation(plasmaProgram, "a_position");
+const timeLocation = gl.getUniformLocation(plasmaProgram, "u_time");
+const resLocation = gl.getUniformLocation(plasmaProgram, "u_resolution");
 
 const buffer = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -91,19 +92,68 @@ gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
    1,  1,
 ]), gl.STATIC_DRAW);
 
+// --- Particles (Canvas 2D overlay for simplicity) ---
+const ctx = canvas.getContext("2d"); // switch to 2D after plasma
+let particles = [];
+const numParticles = 150;
+let mouse = {x: canvas.width/2, y: canvas.height/2};
+
+for (let i = 0; i < numParticles; i++) {
+  particles.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    vx: (Math.random() - 0.5) * 2,
+    vy: (Math.random() - 0.5) * 2,
+    size: Math.random() * 3 + 2
+  });
+}
+
+canvas.addEventListener("mousemove", e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+
+// --- Render loop ---
 function render(time) {
+  // Plasma
   gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.clear(gl.COLOR_BUFFER_BIT);
-
-  gl.useProgram(program);
-  gl.enableVertexAttribArray(positionLocation);
+  gl.useProgram(plasmaProgram);
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.enableVertexAttribArray(positionLocation);
   gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
-
   gl.uniform1f(timeLocation, time * 0.001);
   gl.uniform2f(resLocation, canvas.width, canvas.height);
-
   gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+  // Switch to 2D for particles
+  ctx.globalCompositeOperation = "lighter"; // glow effect
+  for (let p of particles) {
+    let dx = mouse.x - p.x;
+    let dy = mouse.y - p.y;
+    let dist = Math.sqrt(dx*dx + dy*dy);
+    let force = Math.max(0, 100 - dist) / 100;
+    p.vx += (dx / dist) * force * 0.5;
+    p.vy += (dy / dist) * force * 0.5;
+
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vx *= 0.95;
+    p.vy *= 0.95;
+
+    if (p.x < 0) p.x = canvas.width;
+    if (p.y < 0) p.y = canvas.height;
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y > canvas.height) p.y = 0;
+
+    let grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size*4);
+    grd.addColorStop(0, "rgba(255,255,255,0.8)");
+    grd.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size*4, 0, Math.PI*2);
+    ctx.fill();
+  }
+
   requestAnimationFrame(render);
 }
 requestAnimationFrame(render);
