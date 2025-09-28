@@ -56,7 +56,13 @@ function resizeCanvas(){
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   const w = Math.floor(window.innerWidth * dpr);
   const h = Math.floor(window.innerHeight * dpr);
+  const oldW = canvas.width;
+  const oldH = canvas.height;
   if(canvas.width !== w || canvas.height !== h){
+    if(oldW && oldH){
+      mouse.x *= w / oldW;
+      mouse.y *= h / oldH;
+    }
     canvas.width = w; canvas.height = h;
     gl.viewport(0,0,w,h);
     mainFBO = createFBO(w, h, gl.RGBA8, gl.UNSIGNED_BYTE);
@@ -157,6 +163,12 @@ void main(){
   float n2 = snoise(p * 3.0 - t*0.8);
   float n3 = snoise(p * 6.0 + t*1.2);
   float flow = n * 0.5 + n2 * 0.3 + n3 * 0.2;
+  // Add mouse influence to background
+  vec2 m = u_mouse / u_res;
+  vec2 mp = (m - 0.5) * vec2(u_res.x/u_res.y, 1.0);
+  float md = length(p - mp);
+  float infl = exp(-md * 5.0) * 0.5;
+  flow += infl;
   vec3 col = vec3(0.02,0.01,0.03);
   // colorful veins
   vec3 a = vec3(0.0,0.6,0.9) * (0.5 + 0.5 * sin((flow+uv.x*3.0+u_time*0.6)*3.0));
@@ -265,10 +277,10 @@ void main(){
   vec2 m = u_mouse / u_resolution;
   vec2 diff = pos - m;
   float d = length(diff) + 1e-6;
-  vec2 swirl = vec2(-diff.y, diff.x) / d * exp(-d * 20.0) * 0.5;
+  vec2 swirl = vec2(-diff.y, diff.x) / d * exp(-d * 10.0) * 2.0;
 
   // integrate with drag
-  vel += (field + swirl) * 0.0003 * u_speed;
+  vel += (field + swirl) * 0.001 * u_speed;
   vel *= 0.995; // simple drag
   pos += vel * u_dt * 60.0;
 
