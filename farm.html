@@ -11,7 +11,7 @@
             --bg2: #121212;
             --card: #282828; /* Improved card background */
             --muted: #A5D6A7; /* Softer muted color for text */
-            --glass: rgba(255, 255, 255, 0.1); /* Reduced transparency by half (increased opacity) */
+            --glass: rgba(255, 255, 255, 0.2); /* Increased opacity for better readability */
             --radius: 16px; /* Slightly larger radius for modern feel */
             --coin-color: #FFD700;
             --text-primary: #E8F5E9; /* Improved primary text color */
@@ -41,6 +41,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             animation: psyched 20s infinite alternate ease-in-out; /* Added psychedelic animation for background switching */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.6); /* Added text shadow for better readability on background */
         }
 
         @keyframes psyched {
@@ -89,7 +90,7 @@
         }
 
         .panel {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent); /* Reduced transparency by half */
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)); /* Adjusted gradient for slightly less transparency */
             padding: 16px;
             border-radius: var(--radius);
             border: 1px solid var(--border-color);
@@ -331,6 +332,25 @@
             to {
                 transform: translateY(100vh) rotate(360deg);
             }
+        }
+
+        /* Added for glittering effect */
+        .sparkle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 5px white, 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: twinkle 3s infinite ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+            100% { opacity: 0; transform: scale(1); }
         }
     </style>
 </head>
@@ -951,6 +971,20 @@
         loadGame();
         plantRandom();
         setInterval(saveGame, 30000); // Auto-Save
+
+        // Added for more glittering background
+        function createSparkles(num) {
+            for (let i = 0; i < num; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.top = `${Math.random() * 100}%`;
+                sparkle.style.left = `${Math.random() * 100}%`;
+                sparkle.style.animationDelay = `${Math.random() * 3}s`;
+                sparkle.style.animationDuration = `${2 + Math.random() * 3}s`;
+                document.body.appendChild(sparkle);
+            }
+        }
+        createSparkles(100); // Create 100 sparkles for more glitter
     </script>
 </body>
 </html>
