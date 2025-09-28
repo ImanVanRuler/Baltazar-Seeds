@@ -39,7 +39,7 @@
 <script>
 // Spectral Garden — Single-file WebGL2 demo
 // Features: procedural flow field (fragment shader), GPU particle system (transform feedback), additive blending, improved bloom with bright pass & god-rays post-process.
-// Optimized: fixed resize, better particle flow with curl noise, proper HDR bloom, increased particles.
+// Optimized: fixed resize, better particle flow with curl noise, proper bloom, reduced particles for compatibility.
 
 'use strict';
 
@@ -48,6 +48,14 @@ const gl = canvas.getContext('webgl2', {antialias: true, preserveDrawingBuffer: 
 if(!gl){
   document.body.innerHTML = '<div style="color:white;padding:20px">WebGL2 wird benötigt — bitte aktuellen Browser verwenden.</div>';
   throw new Error('WebGL2 not supported');
+}
+
+// Function to check GL errors
+function checkGlError(operation) {
+  const err = gl.getError();
+  if (err !== gl.NO_ERROR) {
+    console.warn(`WebGL error during ${operation}: ${err}`);
+  }
 }
 
 // ----------------------- utilities -----------------------
@@ -62,7 +70,7 @@ function resizeCanvas(){
     mainFBO = createFBO(w, h, gl.RGBA8, gl.UNSIGNED_BYTE);
     const halfW = Math.max(1, Math.floor(w / 2));
     const halfH = Math.max(1, Math.floor(h / 2));
-    bloomHFBO = createFBO(halfW, halfH, gl.RGBA8, gl.UNSIGNED_BYTE); // reverted to UNSIGNED_BYTE for compatibility
+    bloomHFBO = createFBO(halfW, halfH, gl.RGBA8, gl.UNSIGNED_BYTE);
     bloomVFBO = createFBO(halfW, halfH, gl.RGBA8, gl.UNSIGNED_BYTE);
   }
 }
@@ -105,6 +113,7 @@ function createFBO(w, h, internalFormat, type){
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
   gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  checkGlError('createFBO');
   return {fbo, tex, w, h};
 }
 
@@ -199,10 +208,11 @@ function drawQuad(program, uniforms = {}, textureBindings = []){
     gl.uniform1i(gl.getUniformLocation(program, binding.uniform), index);
   });
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  checkGlError('drawQuad');
 }
 
 // ----------------------- Particle system (GPU via transform feedback) -----------------------
-const NUM_PARTICLES = 150000; // Reduced for better compatibility on lower-end GPUs
+const NUM_PARTICLES = 100000; // Reduced further for better compatibility
 
 // particle update shader (vertex shader + transform feedback)
 const particleUpdateVSsrc = `#version 300 es
@@ -385,7 +395,7 @@ void main(){ vec3 scene = texture(u_scene, v_uv).rgb; vec3 bloom = texture(u_blu
  vec2 d = v_uv - vec2(0.5);
  float t = max(0.0, 1.0 - length(d)*1.6);
  vec3 rays = scene * pow(t, 2.0) * 0.8 * (0.5 + 0.5*sin(u_time*0.6 + length(d)*12.0 + cos(u_time*0.3)*2.0));
- vec3 col = scene + bloom + rays;
+ vec3 col = scene + bloom * 0.8 + rays; // softened bloom
  // tone mapping
  col = col / (col + vec3(1.0));
  // subtle color grading
@@ -438,6 +448,7 @@ function step(){
     gl.endTransformFeedback();
     gl.disable(gl.RASTERIZER_DISCARD);
     gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, null);
+    checkGlError('particle update');
 
     // swap buffers
     swap();
@@ -451,6 +462,7 @@ function step(){
     gl.bindVertexArray(particleVAOs[srcIdx]);
     gl.drawArrays(gl.POINTS, 0, NUM_PARTICLES);
     gl.disable(gl.BLEND);
+    checkGlError('particle render');
 
     // ---------- bloom: bright pass to bloomHFBO ----------
     gl.bindFramebuffer(gl.FRAMEBUFFER, bloomHFBO.fbo);
@@ -463,14 +475,16 @@ function step(){
     gl.enableVertexAttribArray(0);
     gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    checkGlError('bright pass');
 
     // horizontal blur to bloomVFBO
     gl.bindFramebuffer(gl.FRAMEBUFFER, bloomVFBO.fbo);
     gl.useProgram(blurProgram);
     gl.bindTexture(gl.TEXTURE_2D, bloomHFBO.tex);
     gl.uniform1i(gl.getUniformLocation(blurProgram, 'u_tex'), 0);
-    gl.uniform2fv(gl.getUniformLocation(blurProgram, 'u_dir'), [2.0 / bloomHFBO.w, 0.0]); // slightly larger kernel
+    gl.uniform2fv(gl.getUniformLocation(blurProgram, 'u_dir'), [2.0 / bloomHFBO.w, 0.0]);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    checkGlError('horizontal blur');
 
     // vertical blur back to bloomHFBO
     gl.bindFramebuffer(gl.FRAMEBUFFER, bloomHFBO.fbo);
@@ -478,6 +492,7 @@ function step(){
     gl.uniform1i(gl.getUniformLocation(blurProgram, 'u_tex'), 0);
     gl.uniform2fv(gl.getUniformLocation(blurProgram, 'u_dir'), [0.0, 2.0 / bloomVFBO.h]);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    checkGlError('vertical blur');
 
     // ---------- composite to screen ----------
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
@@ -492,6 +507,7 @@ function step(){
     gl.uniform1f(gl.getUniformLocation(compositeProgram, 'u_time'), time);
     gl.uniform1f(gl.getUniformLocation(compositeProgram, 'u_intensity'), parseFloat(intensityRange.value));
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    checkGlError('composite');
   } catch (e) {
     console.error('Rendering error:', e);
   }
