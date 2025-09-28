@@ -97,7 +97,7 @@ partCanvas.width = window.innerWidth;
 partCanvas.height = window.innerHeight;
 
 let particles = [];
-const numParticles = 150;
+const numParticles = 200;
 let mouse = {x: partCanvas.width/2, y: partCanvas.height/2};
 
 for (let i = 0; i < numParticles; i++) {
@@ -134,20 +134,32 @@ function render(time) {
     let dx = mouse.x - p.x;
     let dy = mouse.y - p.y;
     let dist = Math.sqrt(dx*dx + dy*dy) + 0.01;
-    let force = Math.max(0, 120 - dist) / 120;
-    p.vx += (dx / dist) * force * 0.5;
-    p.vy += (dy / dist) * force * 0.5;
 
+    // Stärkere Magnetkraft mit Orbit-Effekt
+    let force = Math.max(0, 300 - dist) / 300;
+    let angle = Math.atan2(dy, dx);
+
+    // Radialer Zug zum Mauszeiger
+    p.vx += (dx / dist) * force * 1.5;
+    p.vy += (dy / dist) * force * 1.5;
+
+    // Orbitale Ablenkung (kleine seitliche Kraft)
+    p.vx += Math.cos(angle + Math.PI/2) * force * 0.5;
+    p.vy += Math.sin(angle + Math.PI/2) * force * 0.5;
+
+    // Bewegung updaten
     p.x += p.vx;
     p.y += p.vy;
-    p.vx *= 0.95;
-    p.vy *= 0.95;
+    p.vx *= 0.9;
+    p.vy *= 0.9;
 
+    // Wrap-around an den Bildschirmrändern
     if (p.x < 0) p.x = partCanvas.width;
     if (p.y < 0) p.y = partCanvas.height;
     if (p.x > partCanvas.width) p.x = 0;
     if (p.y > partCanvas.height) p.y = 0;
 
+    // Zeichnen
     let grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size*4);
     grd.addColorStop(0, "rgba(255,255,255,0.8)");
     grd.addColorStop(1, "rgba(0,0,0,0)");
