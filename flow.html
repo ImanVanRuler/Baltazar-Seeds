@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Spectral Garden — Visual Demo</title>
+<title>Baltazar Seeds — Spectral Garden</title>
 <style>
   /* Minimal reset */
   html,body{height:100%;margin:0;background:#000;}
@@ -17,13 +17,30 @@
   .btn{background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:8px;color:#eaf9ff;font-size:13px;cursor:pointer}
   .range{width:120px}
   .footer{position:fixed;right:16px;bottom:16px;color:#bfefff;font-size:12px;opacity:0.9;font-family:Inter,Arial}
+  .back-button {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    background: linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));
+    border:1px solid rgba(255,255,255,0.08);
+    padding:6px 10px;
+    border-radius:8px;
+    color:#eaf9ff;
+    font-size:13px;
+    text-decoration: none;
+    z-index: 20;
+    cursor: pointer;
+  }
+  .back-button:hover {
+    background: linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.05));
+  }
 </style>
 </head>
 <body>
 <canvas id="glcanvas"></canvas>
 <div class="ui">
   <h1>Spectral Garden</h1>
-  <p>High-fidelity WebGL visual demo — flow field, particles, bloom & god-rays</p>
+  <p>High-fidelity WebGL visual demo inspired by Baltazar Seeds — flow field, particles, bloom & god-rays</p>
   <div class="controls">
     <button id="pause" class="btn">Pause</button>
     <label style="font-size:12px;display:flex;align-items:center;gap:6px">
@@ -34,7 +51,7 @@
     </label>
   </div>
 </div>
-<div class="footer">Move mouse — influence the flow</div>
+<div class="footer">Move mouse or touch to influence the flow — Inspired by <a href="https://imanvanruler.github.io/Baltazar-Seeds/seite3.html" style="color:inherit;text-decoration:underline">Baltazar Seeds</a></div>
 
 <script>
 // Spectral Garden — Single-file WebGL2 demo
@@ -169,10 +186,10 @@ void main(){
   float md = length(p - mp);
   float infl = exp(-md * 5.0) * 0.5;
   flow += infl;
-  vec3 col = vec3(0.02,0.01,0.03);
-  // colorful veins
-  vec3 a = vec3(0.0,0.6,0.9) * (0.5 + 0.5 * sin((flow+uv.x*3.0+u_time*0.6)*3.0));
-  vec3 b = vec3(0.9,0.6,0.2) * (0.5 + 0.5 * cos((flow+uv.y*6.0-u_time*0.7)*2.5));
+  vec3 col = vec3(0.01,0.01,0.03); // cooler dark background
+  // colorful veins - cooler tones: blues, purples, cyans
+  vec3 a = vec3(0.1,0.4,0.9) * (0.5 + 0.5 * sin((flow+uv.x*3.0+u_time*0.6)*3.0)); // deep blue
+  vec3 b = vec3(0.5,0.1,0.8) * (0.5 + 0.5 * cos((flow+uv.y*6.0-u_time*0.7)*2.5)); // purple
   col += a * 0.6 + b * 0.35;
   // vignette
   float dist = length((uv-0.5));
@@ -323,8 +340,8 @@ in float ageFact; in float velFact; out vec4 fragColor;
 void main(){
   float r = length(gl_PointCoord - 0.5);
   float a = smoothstep(0.5, 0.0, r);
-  // color ramp with velocity influence
-  vec3 col = mix(vec3(0.9,0.7,0.4), vec3(0.2,0.9,1.0), clamp(ageFact*1.2 + velFact*0.5,0.0,1.0));
+  // color ramp with velocity influence - cooler tones: purple to cyan
+  vec3 col = mix(vec3(0.6,0.2,0.9), vec3(0.0,0.8,1.0), clamp(ageFact*1.2 + velFact*0.5,0.0,1.0));
   fragColor = vec4(col * (0.6 + 0.4*ageFact), a * (0.8 + 0.2*ageFact));
 }
 `;
@@ -400,8 +417,8 @@ void main(){ vec3 scene = texture(u_scene, v_uv).rgb; vec3 bloom = texture(u_blu
  vec3 col = scene + bloom + rays;
  // tone mapping
  col = col / (col + vec3(1.0));
- // subtle color grading
- col = pow(col, vec3(0.95,0.9,0.92));
+ // subtle color grading - cooler tones
+ col = pow(col, vec3(0.92,0.95,0.9));
  fragColor = vec4(col,1.0);
 }
 `;
@@ -413,12 +430,26 @@ let last = performance.now()*0.001;
 let mouse = {x: canvas.width/2, y: canvas.height/2};
 canvas.addEventListener('pointermove', e => { const r = canvas.getBoundingClientRect(); const dpr = Math.min(window.devicePixelRatio||1,2); mouse.x = (e.clientX - r.left) * dpr; mouse.y = (r.bottom - e.clientY) * dpr; });
 
+// Add touch support for more interaction
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  const touch = e.touches[0];
+  const r = canvas.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio||1,2);
+  mouse.x = (touch.clientX - r.left) * dpr;
+  mouse.y = (r.bottom - touch.clientY) * dpr;
+});
+
 // UI
 const pauseBtn = document.getElementById('pause');
 const speedRange = document.getElementById('speed');
 const intensityRange = document.getElementById('intensity');
 let running = true;
 pauseBtn.addEventListener('click', ()=>{ running = !running; pauseBtn.textContent = running ? 'Pause' : 'Resume'; });
+
+// Ensure sliders update in real-time (already do, but add explicit listeners for feedback if needed)
+speedRange.addEventListener('input', () => {}); // Placeholder, value read every frame
+intensityRange.addEventListener('input', () => {}); // Placeholder
 
 // main render loop
 function step(){
@@ -517,7 +548,7 @@ requestAnimationFrame(step);
 
 </script>
 
- <a href="seite3.html" class="back-button">Back To Menu</a>
+<a href="https://imanvanruler.github.io/Baltazar-Seeds/seite3.html" class="back-button">Back to Menu</a>
   
 </body>
 </html>
