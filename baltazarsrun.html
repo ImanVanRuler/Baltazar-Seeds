@@ -5,20 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Baltazar Run - Grower Edition</title>
 <style>
-  html, body {height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; font-family: system-ui, Arial, sans-serif; color: #e6eef8;}
+  html, body {
+    height: 100%; margin: 0;
+    background: #0b1220; display: flex;
+    align-items: center; justify-content: center;
+    font-family: system-ui, Arial, sans-serif; color: #e6eef8;
+  }
   #wrap {width: 900px; text-align: center;}
-  canvas {display: block; margin: 8px auto; border-radius: 8px; image-rendering: pixelated; background: url('baltirunbackground.jpg') no-repeat center center; background-size: cover;}
-  .info, .hint {font-size: 16px; opacity: 0.9;}
+  canvas {
+    display: block; margin: 8px auto;
+    background: url('baltirunbackground.jpg') center/cover no-repeat;
+    border-radius: 8px; image-rendering: pixelated;
+  }
+  .info, .hint {font-size: 14px; opacity: 0.9;}
   .hint {margin-top: 6px; color: #dfeffb;}
-  .btn, .back-button {padding: 8px 14px; margin: 4px; font-size: 16px; cursor: pointer; border: none; border-radius: 4px; background: #1a73e8; color: #fff; text-decoration: none;}
-  .btn:hover, .back-button:hover {background: #155ab6;}
+  .btn {
+    padding: 8px 14px; margin: 4px; font-size: 16px; cursor: pointer;
+    border: none; border-radius: 5px; background: #1a73e8; color: #fff;
+  }
+  .btn:hover {background: #155ab6;}
+  a.back-button {padding: 8px 14px; margin: 4px; font-size: 16px; text-decoration: none; background: #777; color: #fff; border-radius: 5px;}
+  a.back-button:hover {background: #555;}
 </style>
 </head>
 <body>
 <div id="wrap">
   <canvas id="game" width="900" height="500" tabindex="0"></canvas>
   <div class="info">Controls: ← → to move, ↑ or Space to jump. Click canvas if keys do not respond.</div>
-  <div class="hint">Collect Seeds, avoid enemies, and reach the goal!</div>
+  <div class="hint">Grower Edition: Collect seeds, jump on clouds, enjoy the smoother camera!</div>
   <div>
     <a href="seite3.html" class="back-button">Back To Menu</a>
     <button class="btn" id="restart">Restart</button>
@@ -36,26 +50,27 @@ canvas.style.width = CSS_W + 'px';
 canvas.style.height = CSS_H + 'px';
 ctx.setTransform(DPR,0,0,DPR,0,0);
 
-const W = CSS_W, H = CSS_H, TILE = 40;
+const W = CSS_W, H = CSS_H, TILE = 50; // größer
 
+// Level: letzte Reihe = Boden, Plattformen höher
 const levelRaw = [
-  '....................................................................................................................',
-  '....................................................................................................................',
-  '.......................?........................................#..................................................',
-  '..................#######....................................###..................................................',
-  '..............?...................................??...............................................................',
-  '......#########......................#####...................#########...........................................',
-  '............................E...........................................................................G...........',
-  '###############################################################################################......................',
+  '.........................................................................................',
+  '.........................................................................................',
+  '.........................................................................................',
+  '.............?.................................................................?.........',
+  '............................#####..........................................................',
+  '.................................#####..............................................',
+  '......#######.................................................#######....................',
+  '.........................................................................................',
+  '................E..............................................................G.........',
+  '#########################################################################################'
 ];
 const MAP_W = levelRaw[0].length;
 const MAP_H = levelRaw.length;
 const level = levelRaw.map(r => r.split(''));
 
-let seeds = [];
-let enemies = [];
-let goalTiles = [];
-let startPos = {x:50, y: H - TILE*2};
+let seeds = [], enemies = [], goalTiles = [];
+let startPos = {x: 100, y: H - TILE - 50}; // direkt über Boden
 
 const playerImg = new Image();
 playerImg.src = 'baltirun.png';
@@ -64,12 +79,12 @@ function spawnEntities(){
   seeds = [];
   enemies = [];
   goalTiles = [];
-  for (let y=0;y<MAP_H;y++){
-    for (let x=0;x<MAP_W;x++){
+  for (let y=0; y<MAP_H; y++){
+    for (let x=0; x<MAP_W; x++){
       const ch = level[y][x];
       const px = x*TILE, py = y*TILE;
       if (ch === '?') seeds.push({x:px+TILE/4,y:py+TILE/4,w:TILE/2,h:TILE/2,col:false});
-      if (ch === 'E') enemies.push({x:px,y:py,w:TILE,h:TILE,dir: -1, speed: 80});
+      if (ch === 'E') enemies.push({x:px,y:py,w:TILE-10,h:TILE-10,dir:-1,speed:70});
       if (ch === 'G') goalTiles.push({x:px,y:py,w:TILE,h:TILE});
     }
   }
@@ -79,8 +94,8 @@ spawnEntities();
 const player = {
   x: startPos.x,
   y: startPos.y,
-  w: 48,
-  h: 48,
+  w: 50,
+  h: 50,
   vx: 0,
   vy: 0,
   speed: 200,
@@ -92,19 +107,19 @@ const player = {
 
 const GRAV = 1500;
 const keys = {};
-window.addEventListener('keydown', e=>{ keys[e.code]=true; if(['Space','ArrowUp'].includes(e.code)) e.preventDefault(); });
-window.addEventListener('keyup', e=>{ keys[e.code]=false; });
+window.addEventListener('keydown', e => { keys[e.code]=true; if(['Space','ArrowUp'].includes(e.code)) e.preventDefault(); });
+window.addEventListener('keyup', e => { keys[e.code]=false; });
 
 function isSolidTile(tx,ty){
-  if (tx < 0 || tx >= MAP_W || ty < 0 || ty >= MAP_H) return false;
+  if (tx<0 || tx>=MAP_W || ty<0 || ty>=MAP_H) return false;
   return level[ty][tx] === '#';
 }
 
 function tilesOverlappingRect(x,y,w,h){
-  const left = Math.floor(x / TILE);
-  const right = Math.floor((x + w - 1) / TILE);
-  const top = Math.floor(y / TILE);
-  const bottom = Math.floor((y + h - 1) / TILE);
+  const left = Math.floor(x/TILE);
+  const right = Math.floor((x+w-1)/TILE);
+  const top = Math.floor(y/TILE);
+  const bottom = Math.floor((y+h-1)/TILE);
   const out = [];
   for (let ty=top; ty<=bottom; ty++){
     for (let tx=left; tx<=right; tx++){
@@ -114,7 +129,7 @@ function tilesOverlappingRect(x,y,w,h){
   return out;
 }
 
-function rectsOverlap(a,b){ return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
+function rectsOverlap(a,b){ return a.x < b.x+b.w && a.x+a.w>b.x && a.y<b.y+b.h && a.y+a.h>b.y; }
 
 let camX = 0;
 function updateCamera(){
@@ -123,79 +138,84 @@ function updateCamera(){
 }
 
 function respawn(){
-  player.x = startPos.x; player.y = startPos.y; player.vx = 0; player.vy = 0; player.seeds = 0; player.alive = true; player.grounded = false;
+  player.x = startPos.x; player.y = startPos.y; player.vx=0; player.vy=0; player.seeds=0; player.alive=true; player.grounded=false;
   spawnEntities();
 }
 
+let last = performance.now();
 function loop(now){
-  const dt = Math.min((now-last)/1000, 1/30);
+  const dt = Math.min((now-last)/1000,1/30);
   last = now;
   update(dt);
   render();
   requestAnimationFrame(loop);
 }
-let last = performance.now();
 requestAnimationFrame(loop);
 
 function update(dt){
   if (!player.alive) return;
 
   let dir = 0;
-  if (keys['ArrowLeft'] || keys['KeyA']) dir -= 1;
-  if (keys['ArrowRight'] || keys['KeyD']) dir += 1;
-  player.vx = dir * player.speed;
-  if ((keys['Space'] || keys['ArrowUp']) && player.grounded){ player.vy = -player.jumpVel; player.grounded = false; }
+  if(keys['ArrowLeft']||keys['KeyA']) dir-=1;
+  if(keys['ArrowRight']||keys['KeyD']) dir+=1;
+  player.vx = dir*player.speed;
 
-  player.vy += GRAV * dt;
+  if((keys['Space']||keys['ArrowUp']) && player.grounded){ player.vy=-player.jumpVel; player.grounded=false; }
 
-  player.x += player.vx * dt;
-  let collTiles = tilesOverlappingRect(player.x, player.y, player.w, player.h);
-  if (collTiles.length){
-    for (const t of collTiles){
-      if (player.vx > 0) player.x = t.x - player.w;
-      else if (player.vx < 0) player.x = t.x + TILE;
-      player.vx = 0;
+  player.vy += GRAV*dt;
+
+  // horizontal collision
+  player.x += player.vx*dt;
+  let collTiles = tilesOverlappingRect(player.x,player.y,player.w,player.h);
+  if(collTiles.length){
+    for(const t of collTiles){
+      if(player.vx>0) player.x = t.x - player.w;
+      else if(player.vx<0) player.x = t.x + TILE;
+      player.vx=0;
     }
   }
 
-  player.y += player.vy * dt;
-  collTiles = tilesOverlappingRect(player.x, player.y, player.w, player.h);
-  player.grounded = false;
-  if (collTiles.length){
-    for (const t of collTiles){
-      if (player.vy > 0){ player.y = t.y - player.h; player.vy = 0; player.grounded = true; }
-      else if (player.vy < 0){ player.y = t.y + TILE; player.vy = 0; }
+  // vertical collision
+  player.y += player.vy*dt;
+  collTiles = tilesOverlappingRect(player.x,player.y,player.w,player.h);
+  player.grounded=false;
+  if(collTiles.length){
+    for(const t of collTiles){
+      if(player.vy>0){ player.y = t.y - player.h; player.vy=0; player.grounded=true; }
+      else if(player.vy<0){ player.y = t.y + TILE; player.vy=0; }
     }
   }
 
-  // fall detection
-  if (player.y > H + 200) respawn();
+  // fallen below canvas
+  if(player.y > H){ respawn(); }
 
   // enemies
-  for (let i = enemies.length - 1; i >= 0; i--){
+  for(let i=enemies.length-1;i>=0;i--){
     const e = enemies[i];
-    e.x += e.speed * dt * e.dir;
-    const frontX = e.dir > 0 ? e.x + e.w + 2 : e.x - 2;
-    const footY = e.y + e.h + 2;
-    const tileBelowFront = isSolidTile(Math.floor(frontX/TILE), Math.floor(footY/TILE));
-    const collideAhead = tilesOverlappingRect(e.x, e.y, e.w, e.h).length > 0;
-    if (!tileBelowFront || collideAhead) e.dir *= -1;
+    e.x += e.speed*dt*e.dir;
+    const frontX = e.dir>0? e.x+e.w+2: e.x-2;
+    const footY = e.y+e.h+2;
+    const tileBelowFront = isSolidTile(Math.floor(frontX/TILE),Math.floor(footY/TILE));
+    const collideAhead = tilesOverlappingRect(e.x,e.y,e.w,e.h).length>0;
+    if(!tileBelowFront||collideAhead) e.dir*=-1;
 
-    if (rectsOverlap({x:player.x,y:player.y,w:player.w,h:player.h}, e)){
-      if (player.vy > 150 && (player.y + player.h - e.y) < 20){ enemies.splice(i,1); player.vy = -220; }
-      else { player.alive = false; setTimeout(respawn, 400); }
+    if(rectsOverlap({x:player.x,y:player.y,w:player.w,h:player.h}, e)){
+      if(player.vy>150 && (player.y+player.h-e.y)<20){ enemies.splice(i,1); player.vy=-250; }
+      else { player.alive=false; setTimeout(respawn,400); }
     }
   }
 
   // seeds
-  for (const s of seeds){
-    if (!s.col && rectsOverlap({x:player.x,y:player.y,w:player.w,h:player.h}, s)){ s.col = true; player.seeds += 1; }
+  for(const s of seeds){
+    if(!s.col && rectsOverlap({x:player.x,y:player.y,w:player.w,h:player.h}, s)){
+      s.col=true; player.seeds+=1;
+    }
   }
 
   // goal
-  for (const g of goalTiles){
-    if (rectsOverlap({x:player.x,y:player.y,w:player.w,h:player.h}, g)){
-      setTimeout(()=>{ alert('Level complete! Seeds collected: ' + player.seeds); respawn(); }, 50);
+  for(const g of goalTiles){
+    if(rectsOverlap({x:player.x,y:player.y,w:player.w,h:player.h}, g)){
+      setTimeout(()=>{ alert('Level complete! Seeds collected: '+player.seeds); respawn(); },50);
     }
   }
 
@@ -204,52 +224,55 @@ function update(dt){
 
 function render(){
   ctx.clearRect(0,0,W,H);
-  const startCol = Math.floor(camX / TILE);
-  const endCol = Math.min(MAP_W, Math.ceil((camX + W)/TILE));
+  const startCol = Math.floor(camX/TILE);
+  const endCol = Math.min(MAP_W, Math.ceil((camX+W)/TILE));
 
-  // draw tiles
-  for (let y=0;y<MAP_H;y++){
-    for (let x=startCol;x<endCol;x++){
+  // draw tiles as clouds
+  for(let y=0;y<MAP_H;y++){
+    for(let x=startCol;x<endCol;x++){
       const ch = level[y][x];
       const sx = x*TILE - camX;
       const sy = y*TILE;
-      if (ch === '#'){
-        ctx.fillStyle = '#8b5a2b';
-        ctx.fillRect(sx, sy, TILE, TILE);
-        ctx.fillStyle = '#a36f43';
-        ctx.fillRect(sx+4, sy+4, TILE-8, TILE-12);
+      if(ch==='#'){
+        ctx.fillStyle='#fff'; // cloud
+        ctx.beginPath();
+        ctx.arc(sx+TILE/2, sy+TILE/2, TILE/2, 0, Math.PI*2);
+        ctx.fill();
       }
-      if (ch === 'G'){
-        ctx.fillStyle = '#333'; ctx.fillRect(sx + TILE/2 - 4, sy - 28, 8, 28);
-        ctx.fillStyle = '#2ecc71'; ctx.fillRect(sx + TILE/2, sy - 22, 18, 14);
+      if(ch==='G'){
+        ctx.fillStyle='#333'; ctx.fillRect(sx + TILE/2 - 4, sy - 28, 8, 28);
+        ctx.fillStyle='#2ecc71'; ctx.fillRect(sx + TILE/2, sy - 22, 18, 14);
       }
     }
   }
 
   // seeds
-  for (const s of seeds){
-    if (s.col) continue;
-    ctx.fillStyle = '#8b4513';
+  for(const s of seeds){
+    if(s.col) continue;
+    ctx.fillStyle='#8b4513';
     ctx.beginPath();
-    ctx.arc(s.x - camX + s.w/2, s.y + s.h/2, 10, 0, Math.PI*2);
+    ctx.arc(s.x - camX + s.w/2, s.y + s.h/2, 12, 0, Math.PI*2);
     ctx.fill();
   }
 
   // enemies
-  for (const e of enemies){ ctx.fillStyle = '#b33'; ctx.fillRect(e.x - camX, e.y, e.w, e.h); ctx.fillStyle='#fff'; ctx.fillRect(e.x - camX + 8, e.y + 8, 6,6); }
+  for(const e of enemies){
+    ctx.fillStyle='#b33'; ctx.fillRect(e.x-camX,e.y,e.w,e.h);
+    ctx.fillStyle='#fff'; ctx.fillRect(e.x-camX+10,e.y+10,8,8);
+  }
 
-  // player image
+  // player
   ctx.drawImage(playerImg, player.x - camX, player.y, player.w, player.h);
 
   // HUD
-  ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fillRect(12,12,200,40);
-  ctx.fillStyle = '#000'; ctx.font = '18px system-ui'; ctx.fillText('Seeds: ' + player.seeds, 22, 38);
+  ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.fillRect(12,12,220,44);
+  ctx.fillStyle='#000'; ctx.font='18px system-ui'; ctx.fillText('Seeds: '+player.seeds,22,40);
 }
 
-canvas.addEventListener('click', ()=> canvas.focus());
-window.addEventListener('resize', ()=>{});
+canvas.addEventListener('click',()=>canvas.focus());
+window.addEventListener('resize',()=>{});
+document.getElementById('restart').addEventListener('click',respawn);
 
-document.getElementById('restart').addEventListener('click', respawn);
 </script>
 </body>
 </html>
