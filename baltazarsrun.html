@@ -11,7 +11,7 @@
             align-items: center; justify-content: center;
             font-family: system-ui, Arial, sans-serif; color: #e6eef8;
         }
-        #wrap {width: 900px; text-align: center;}
+        #wrap {width: 900px; max-width: 100%; text-align: center;}
         canvas {
             display: block; margin: 8px auto;
             background: url('baltirunbackground.jpg') center/cover no-repeat;
@@ -26,18 +26,27 @@
         .btn:hover {background: #155ab6;}
         a.back-button {padding: 8px 14px; margin: 4px; font-size: 16px; text-decoration: none; background: #777; color: #fff; border-radius: 5px;}
         a.back-button:hover {background: #555;}
+        #mute {background: #ff9900;}
+        #mute:hover {background: #cc6600;}
+        #pause-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center;
+            color: #fff; font-size: 32px; z-index: 10;
+        }
     </style>
 </head>
 <body>
 <div id="wrap">
     <canvas id="game" width="900" height="500" tabindex="0"></canvas>
-    <div class="info">Controls: ← → to move, ↑ or Space to jump. Click canvas if keys do not respond.</div>
+    <div class="info">Controls: ← → to move, ↑ or Space to jump (double-jump possible). P to pause. Click canvas if keys do not respond.</div>
     <div class="hint">Epic Grower Adventure: Collect cannabis seeds, defeat enemies, conquer levels in Baltazar's world!</div>
     <div>
         <a href="seite3.html" class="back-button">Back To Menu</a>
         <button class="btn" id="restart">Restart</button>
+        <button class="btn" id="mute">Mute Music</button>
     </div>
 </div>
+<div id="pause-overlay">Paused - Press P to resume</div>
 
 <script>
 const canvas = document.getElementById('game');
@@ -50,11 +59,10 @@ canvas.style.width = CSS_W + 'px';
 canvas.style.height = CSS_H + 'px';
 ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
-const W = CSS_W, H = CSS_H, TILE = 60; // Increased tile size for more detail
+const W = CSS_W, H = CSS_H, TILE = 60;
 
-// Multiple levels with longer, more complex designs
 const levels = [
-    // Level 1: Beginner
+    // Level 1: Beginner (unverändert)
     [
         '.........................................................................................................................................................................................',
         '.........................................................................................................................................................................................',
@@ -67,7 +75,7 @@ const levels = [
         '................................E..............................................................E................................................................G........',
         '#########################################################################################################################################################################'
     ],
-    // Level 2: Intermediate with spikes and more enemies
+    // Level 2: Intermediate (unverändert)
     [
         '.........................................................................................................................................................................................',
         '.........................................................................................................................................................................................',
@@ -80,7 +88,7 @@ const levels = [
         '.........................................................................................................................................................G.......................',
         '#########################################################################################################################################################################'
     ],
-    // Level 3: Advanced with flying enemies and longer paths
+    // Level 3: Advanced (unverändert)
     [
         '.........................................................................................................................................................................................',
         '................?..................?..................?..................?..................?..................?..................?..................?...............',
@@ -93,16 +101,16 @@ const levels = [
         '.........................................................................................................................................................G.......................',
         '#########################################################################################################################################################################'
     ],
-    // Level 4: It's getting harder
+    // Level 4: Härter gemacht – mehr Spikes, Enemies, längere Pfade
     [
         '.........................................................................................................................................................................................',
         '................?..................?..................?..................?..................?..................?..................?..................?...............',
         '.......F..........#####...........#####...........#####...........#####...........#####...........#####...........#####...........#####...........#####...........F.....',
         '.........................................................................................................................................................................................',
-        '.......E.........................................................................................................................................................E...............',
+        '.......E.......S..........E.......S..........E.......S..........E.......S..........E.......S..........E.......S..........E.......S..........E.......S..........E.......',
         '................S..................S..................S..................S..................S..................S..................S..................S...............',
         '.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####..',
-        '.........................................................................................................................................................................................',
+        '........S.........S.........S.........S.........S.........S.........S.........S.........S.........S.........S.........S.........S.........S.........S.........S.........',
         '.........................................................................................................................................................G.......................',
         '#########################################################################################################################################################################'
     ],
@@ -115,10 +123,11 @@ let MAP_H = levelRaw.length;
 let level = levelRaw.map(r => r.split(''));
 
 let seeds = [], enemies = [], goalTiles = [], spikes = [];
-let startPos = {x: 100, y: H - TILE - 80}; // Adjusted for larger player
+let startPos = {x: 100, y: H - TILE - 80};
 
 const playerImg = new Image();
 playerImg.src = 'baltirun.png';
+playerImg.onerror = () => console.error('Player image failed to load');
 
 function spawnEntities() {
     seeds = [];
@@ -130,8 +139,8 @@ function spawnEntities() {
             const ch = level[y][x];
             const px = x * TILE, py = y * TILE;
             if (ch === '?') seeds.push({x: px + TILE / 4, y: py + TILE / 4, w: TILE / 2, h: TILE / 2, col: false});
-            if (ch === 'E') enemies.push({x: px, y: py, w: TILE - 10, h: TILE - 10, dir: -1, speed: 100, type: 'walker'});
-            if (ch === 'F') enemies.push({x: px, y: py, w: TILE - 10, h: TILE - 10, dir: 1, speed: 80, type: 'flyer', vy: 0});
+            if (ch === 'E') enemies.push({x: px, y: py, w: TILE - 10, h: TILE - 10, dir: -1, speed: 100 + currentLevel * 20, type: 'walker', spawnTime: Date.now()});
+            if (ch === 'F') enemies.push({x: px, y: py, w: TILE - 10, h: TILE - 10, dir: 1, speed: 80 + currentLevel * 10, type: 'flyer', vy: 0, spawnTime: Date.now()});
             if (ch === 'S') spikes.push({x: px, y: py, w: TILE, h: TILE});
             if (ch === 'G') goalTiles.push({x: px, y: py, w: TILE, h: TILE});
         }
@@ -142,13 +151,15 @@ spawnEntities();
 const player = {
     x: startPos.x,
     y: startPos.y,
-    w: 80, // Larger player size
+    w: 80,
     h: 80,
     vx: 0,
     vy: 0,
-    speed: 220, // Faster movement
-    jumpVel: 850, // Higher jump
+    speed: 220,
+    jumpVel: 850,
     grounded: false,
+    jumps: 0, // Für Double-Jump
+    maxJumps: 2,
     seeds: 0,
     lives: 3,
     alive: true,
@@ -157,9 +168,14 @@ const player = {
     animTimer: 0
 };
 
-const GRAV = 1600; // Slightly higher gravity for more challenge
+const GRAV = 1600;
 const keys = {};
-window.addEventListener('keydown', e => { keys[e.code] = true; if (['Space', 'ArrowUp'].includes(e.code)) e.preventDefault(); });
+let paused = false;
+window.addEventListener('keydown', e => { 
+    keys[e.code] = true; 
+    if (['Space', 'ArrowUp'].includes(e.code)) e.preventDefault();
+    if (e.code === 'KeyP') togglePause();
+});
 window.addEventListener('keyup', e => { keys[e.code] = false; });
 
 function isSolidTile(tx, ty) {
@@ -188,7 +204,7 @@ let camTargetX = 0;
 function updateCamera(dt) {
     camTargetX = player.x - W * 0.4;
     camTargetX = Math.max(0, Math.min(camTargetX, MAP_W * TILE - W));
-    camX += (camTargetX - camX) * 10 * dt; // Smooth camera follow
+    camX += (camTargetX - camX) * 10 * dt;
 }
 
 function nextLevel() {
@@ -210,6 +226,7 @@ function respawn() {
     player.vx = 0;
     player.vy = 0;
     player.grounded = false;
+    player.jumps = 0;
     player.alive = true;
     spawnEntities();
 }
@@ -224,7 +241,7 @@ function gameOver() {
 
 let last = performance.now();
 
-// Sounds (place these files in the same folder or adjust paths)
+// Sounds
 const jumpSound = new Audio('jump.wav');
 const collectSound = new Audio('collect_seed.wav');
 const killSound = new Audio('enemy_kill.wav');
@@ -232,19 +249,73 @@ const deathSound = new Audio('death.mp3');
 const levelCompleteSound = new Audio('level_complete.wav');
 const bgMusic = new Audio('background_music.wav');
 bgMusic.loop = true;
-bgMusic.play();
+bgMusic.onerror = () => console.error('Background music failed to load');
+let musicPlaying = false;
+
+function startMusic() {
+    if (!musicPlaying) {
+        bgMusic.play().then(() => musicPlaying = true).catch(err => console.error('Music play failed:', err));
+    }
+}
+
+document.getElementById('mute').addEventListener('click', () => {
+    if (musicPlaying) {
+        bgMusic.pause();
+        musicPlaying = false;
+        document.getElementById('mute').textContent = 'Unmute Music';
+    } else {
+        bgMusic.play();
+        musicPlaying = true;
+        document.getElementById('mute').textContent = 'Mute Music';
+    }
+});
+
+function togglePause() {
+    paused = !paused;
+    document.getElementById('pause-overlay').style.display = paused ? 'flex' : 'none';
+    if (paused) bgMusic.pause(); else { if (musicPlaying) bgMusic.play(); }
+}
 
 function loop(now) {
     const dt = Math.min((now - last) / 1000, 1 / 30);
     last = now;
-    update(dt);
+    if (!paused) {
+        update(dt);
+    }
     render();
     requestAnimationFrame(loop);
 }
 requestAnimationFrame(loop);
 
+canvas.addEventListener('click', () => {
+    canvas.focus();
+    startMusic();
+});
+
+// Touch-Controls für Mobile (einfach)
+let touchStartX = 0;
+canvas.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    startMusic();
+});
+canvas.addEventListener('touchmove', e => {
+    const touchX = e.touches[0].clientX;
+    if (touchX - touchStartX > 50) keys['ArrowRight'] = true; else keys['ArrowRight'] = false;
+    if (touchStartX - touchX > 50) keys['ArrowLeft'] = true; else keys['ArrowLeft'] = false;
+});
+canvas.addEventListener('touchend', () => {
+    keys['ArrowRight'] = false;
+    keys['ArrowLeft'] = false;
+    if (player.jumps < player.maxJumps) {
+        player.vy = -player.jumpVel;
+        player.jumps++;
+        player.grounded = false;
+        jumpSound.play();
+    }
+});
+
 function update(dt) {
-    if (!player.alive) return;
+    if (!player.alive || paused) return;
 
     let dir = 0;
     if (keys['ArrowLeft'] || keys['KeyA']) {
@@ -257,67 +328,68 @@ function update(dt) {
     }
     player.vx = dir * player.speed;
 
-    if ((keys['Space'] || keys['ArrowUp']) && player.grounded) {
+    if ((keys['Space'] || keys['ArrowUp']) && player.jumps < player.maxJumps) {
         player.vy = -player.jumpVel;
+        player.jumps++;
         player.grounded = false;
         jumpSound.play();
     }
 
     player.vy += GRAV * dt;
 
-    // Horizontal movement and collision
+    // Horizontal
     player.x += player.vx * dt;
     let collTiles = tilesOverlappingRect(player.x, player.y, player.w, player.h);
     if (collTiles.length) {
+        collTiles.sort((a, b) => Math.abs(a.x - player.x) - Math.abs(b.x - player.x)); // Priorisiere nächste Kollision
         for (const t of collTiles) {
             if (player.vx > 0) player.x = t.x - player.w;
             else if (player.vx < 0) player.x = t.x + TILE;
             player.vx = 0;
+            break; // Nur eine Kollision pro Frame handeln
         }
     }
 
-    // Vertical movement and collision
+    // Vertical
     player.y += player.vy * dt;
     collTiles = tilesOverlappingRect(player.x, player.y, player.w, player.h);
     player.grounded = false;
     if (collTiles.length) {
+        collTiles.sort((a, b) => Math.abs(a.y - player.y) - Math.abs(b.y - player.y));
         for (const t of collTiles) {
             if (player.vy > 0) {
                 player.y = t.y - player.h;
                 player.vy = 0;
                 player.grounded = true;
+                player.jumps = 0;
             } else if (player.vy < 0) {
                 player.y = t.y + TILE;
                 player.vy = 0;
             }
+            break;
         }
     }
 
-    // Fallen off screen
     if (player.y > H + 100) {
         player.alive = false;
         deathSound.play();
         player.lives--;
-        if (player.lives <= 0) {
-            setTimeout(gameOver, 400);
-        } else {
-            setTimeout(respawn, 400);
-        }
+        if (player.lives <= 0) setTimeout(gameOver, 400);
+        else setTimeout(respawn, 400);
     }
 
-    // Enemies update
+    // Enemies
     for (let i = enemies.length - 1; i >= 0; i--) {
         const e = enemies[i];
         if (e.type === 'walker') {
             e.x += e.speed * dt * e.dir;
             const frontX = e.dir > 0 ? e.x + e.w + 2 : e.x - 2;
             const footY = e.y + e.h + 2;
-            const tileBelowFront = isSolidTile(Math.floor(frontX / TILE), Math.floor(footY / TILE));
-            const collideAhead = tilesOverlappingRect(e.x, e.y, e.w, e.h).length > 0;
-            if (!tileBelowFront || collideAhead) e.dir *= -1;
+            if (!isSolidTile(Math.floor(frontX / TILE), Math.floor(footY / TILE)) || tilesOverlappingRect(e.x, e.y, e.w, e.h).length > 0) e.dir *= -1;
         } else if (e.type === 'flyer') {
             e.x += e.speed * dt * e.dir;
-            e.vy = Math.sin(Date.now() / 500) * 100; // Sine wave flying
+            const time = (Date.now() - e.spawnTime) / 500; // Pro Enemy, smoother
+            e.vy = Math.sin(time) * 100;
             e.y += e.vy * dt;
             if (e.x < 0 || e.x + e.w > MAP_W * TILE) e.dir *= -1;
         }
@@ -331,11 +403,8 @@ function update(dt) {
                 player.alive = false;
                 deathSound.play();
                 player.lives--;
-                if (player.lives <= 0) {
-                    setTimeout(gameOver, 400);
-                } else {
-                    setTimeout(respawn, 400);
-                }
+                if (player.lives <= 0) setTimeout(gameOver, 400);
+                else setTimeout(respawn, 400);
             }
         }
     }
@@ -346,15 +415,12 @@ function update(dt) {
             player.alive = false;
             deathSound.play();
             player.lives--;
-            if (player.lives <= 0) {
-                setTimeout(gameOver, 400);
-            } else {
-                setTimeout(respawn, 400);
-            }
+            if (player.lives <= 0) setTimeout(gameOver, 400);
+            else setTimeout(respawn, 400);
         }
     }
 
-    // Seeds collection
+    // Seeds
     for (const s of seeds) {
         if (!s.col && rectsOverlap(player, s)) {
             s.col = true;
@@ -374,11 +440,11 @@ function update(dt) {
         }
     }
 
-    // Animation timer
+    // Animation
     if (Math.abs(player.vx) > 0 && player.grounded) {
         player.animTimer += dt;
         if (player.animTimer > 0.1) {
-            player.animFrame = (player.animFrame + 1) % 4; // Assume 4-frame run animation in sprite sheet
+            player.animFrame = (player.animFrame + 1) % 4;
             player.animTimer = 0;
         }
     } else {
@@ -393,18 +459,17 @@ function render() {
     const startCol = Math.floor(camX / TILE);
     const endCol = Math.min(MAP_W, Math.ceil((camX + W) / TILE));
 
-    // Draw tiles as detailed clouds
+    // Tiles
     for (let y = 0; y < MAP_H; y++) {
         for (let x = startCol; x < endCol; x++) {
             const ch = level[y][x];
             const sx = x * TILE - camX;
             const sy = y * TILE;
             if (ch === '#') {
-                ctx.fillStyle = '#fff'; // Cloud base
+                ctx.fillStyle = '#fff';
                 ctx.beginPath();
                 ctx.ellipse(sx + TILE / 2, sy + TILE / 2, TILE / 2, TILE / 3, 0, 0, Math.PI * 2);
                 ctx.fill();
-                // Add fluff
                 ctx.beginPath();
                 ctx.arc(sx + TILE / 4, sy + TILE / 4, TILE / 4, 0, Math.PI * 2);
                 ctx.fill();
@@ -413,10 +478,9 @@ function render() {
                 ctx.fill();
             }
             if (ch === 'G') {
-                // Goal flag
-                ctx.fillStyle = '#333'; // Pole
+                ctx.fillStyle = '#333';
                 ctx.fillRect(sx + TILE / 2 - 4, sy - 40, 8, 40);
-                ctx.fillStyle = '#2ecc71'; // Flag
+                ctx.fillStyle = '#2ecc71';
                 ctx.beginPath();
                 ctx.moveTo(sx + TILE / 2, sy - 35);
                 ctx.lineTo(sx + TILE / 2 + 30, sy - 25);
@@ -424,7 +488,6 @@ function render() {
                 ctx.fill();
             }
             if (ch === 'S') {
-                // Spikes
                 ctx.fillStyle = '#f00';
                 for (let i = 0; i < 3; i++) {
                     ctx.beginPath();
@@ -440,11 +503,11 @@ function render() {
     // Seeds
     for (const s of seeds) {
         if (s.col) continue;
-        ctx.fillStyle = '#8b4513'; // Seed color
+        ctx.fillStyle = '#8b4513';
         ctx.beginPath();
         ctx.ellipse(s.x - camX + s.w / 2, s.y + s.h / 2, 15, 10, 0, 0, Math.PI * 2);
         ctx.fill();
-        ctx.fillStyle = '#fff'; // Highlight
+        ctx.fillStyle = '#fff';
         ctx.beginPath();
         ctx.arc(s.x - camX + s.w / 2 + 5, s.y + s.h / 2 - 5, 3, 0, Math.PI * 2);
         ctx.fill();
@@ -452,39 +515,39 @@ function render() {
 
     // Enemies
     for (const e of enemies) {
-        ctx.fillStyle = e.type === 'flyer' ? '#ff9900' : '#b33'; // Different colors for types
+        ctx.fillStyle = e.type === 'flyer' ? '#ff9900' : '#b33';
         ctx.fillRect(e.x - camX, e.y, e.w, e.h);
-        ctx.fillStyle = '#fff'; // Eyes
+        ctx.fillStyle = '#fff';
         ctx.fillRect(e.x - camX + (e.dir > 0 ? e.w - 18 : 10), e.y + 10, 8, 8);
     }
 
-    // Player (with flip for direction, assume sprite is facing right)
+    // Player with animation
+    const frameX = player.animFrame * player.w;
     ctx.save();
     if (!player.facingRight) {
         ctx.translate(player.x - camX + player.w, player.y);
         ctx.scale(-1, 1);
-        ctx.drawImage(playerImg, 0, 0, player.w, player.h); // Adjust if sprite sheet
+        ctx.drawImage(playerImg, frameX, 0, player.w, player.h, 0, 0, player.w, player.h);
     } else {
-        ctx.drawImage(playerImg, player.x - camX, player.y, player.w, player.h);
+        ctx.drawImage(playerImg, frameX, 0, player.w, player.h, player.x - camX, player.y, player.w, player.h);
     }
     ctx.restore();
 
-    // HUD
+    // HUD erweitert
     ctx.fillStyle = 'rgba(255,255,255,0.9)';
     ctx.fillRect(12, 12, 300, 44);
     ctx.fillStyle = '#000';
     ctx.font = '18px system-ui';
-    ctx.fillText('Seeds: ' + player.seeds + ' | Lives: ' + player.lives + ' | Level: ' + (currentLevel + 1), 22, 40);
+    const remainingSeeds = seeds.filter(s => !s.col).length;
+    ctx.fillText('Seeds: ' + player.seeds + '/' + (seeds.length - remainingSeeds + player.seeds) + ' | Lives: ' + player.lives + ' | Level: ' + (currentLevel + 1), 22, 40);
 }
 
-canvas.addEventListener('click', () => canvas.focus());
 document.getElementById('restart').addEventListener('click', () => {
     player.seeds = 0;
     player.lives = 3;
     currentLevel = 0;
     respawn();
 });
-
 </script>
 </body>
 </html>
