@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baltazar's Run - Epic Grower Adventure</title>
+    <title>Baltazar's Run - Epic Grower Adventure (Fixed)</title>
     <style>
         html, body {
             height: 100%; margin: 0;
@@ -11,13 +11,13 @@
             align-items: center; justify-content: center;
             font-family: system-ui, Arial, sans-serif; color: #e6eef8;
         }
-        #wrap {width: 900px; max-width: 100%; text-align: center;}
+        #wrap {width: 900px; max-width: 100%; text-align: center; position: relative;}
         canvas {
             display: block; margin: 8px auto;
             background: url('baltirunbackground.jpg') center/cover no-repeat;
             border-radius: 8px; image-rendering: pixelated;
         }
-        .info, .hint {font-size: 14px; opacity: 0.9;}
+        .info, .hint {font-size: 14px; opacity: 0.95;}
         .hint {margin-top: 6px; color: #dfeffb;}
         .btn {
             padding: 8px 14px; margin: 4px; font-size: 16px; cursor: pointer;
@@ -38,17 +38,21 @@
 <body>
 <div id="wrap">
     <canvas id="game" width="900" height="600" tabindex="0"></canvas>
-    <div class="info">Controls: ← → to move, ↑ or Space to jump (double-jump possible). P to pause. Click canvas if keys do not respond.</div>
-    <div class="hint">Epic Grower Adventure: Collect cannabis seeds, defeat enemies, conquer levels in Baltazar's world!</div>
+    <div class="info">Controls: ← → to move, ↑ or Space to jump (double-jump). P to pause. Click canvas if keys do not respond.</div>
+    <div class="hint">Epic Grower Adventure: Collect seeds, defeat enemies, conquer levels in Baltazar's world!</div>
     <div>
         <a href="seite3.html" class="back-button">Back To Menu</a>
         <button class="btn" id="restart">Restart</button>
         <button class="btn" id="mute">Mute Music</button>
+        <button class="btn" id="show-highscore">Highscore</button>
     </div>
+    <div id="pause-overlay">Paused - Press P to resume</div>
 </div>
-<div id="pause-overlay">Paused - Press P to resume</div>
 
 <script>
+/* -------------------------
+   Setup Canvas, DPR, Constants
+   ------------------------- */
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 const CSS_W = 900, CSS_H = 600;
@@ -61,8 +65,11 @@ ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
 const W = CSS_W, H = CSS_H, TILE = 60;
 
+/* -------------------------
+   Levels (unchanged content)
+   ------------------------- */
 const levels = [
-    // Level 1: Beginner (angepasst für mehr Spaß und Balance)
+    // Level 1
     [
         '.........................................................................................................................................................................................',
         '.........................................................................................................................................................................................',
@@ -75,7 +82,7 @@ const levels = [
         '................................E..............................................................E................................................................G........',
         '#########################################################################################################################################################################'
     ],
-    // Level 2: Intermediate (mehr Enemies und Spikes für Challenge)
+    // Level 2
     [
         '.........................................................................................................................................................................................',
         '.........................................................................................................................................................................................',
@@ -88,7 +95,7 @@ const levels = [
         '.........................................................................................................................................................G.......................',
         '#########################################################################################################################################################################'
     ],
-    // Level 3: Advanced (mehr fliegende Enemies und Spikes)
+    // Level 3
     [
         '.........................................................................................................................................................................................',
         '................?..................?..................?..................?..................?..................?..................?..................?...............',
@@ -101,7 +108,7 @@ const levels = [
         '.........................................................................................................................................................G.......................',
         '#########################################################################################################################################################################'
     ],
-    // Level 4: Expert (härter, mit mehr Enemies, Spikes und längeren Pfaden)
+    // Level 4
     [
         '.........................................................................................................................................................................................',
         '................?..................?..................?..................?..................?..................?..................?..................?...............',
@@ -114,7 +121,7 @@ const levels = [
         '.........................................................................................................................................................G.......................',
         '#########################################################################################################################################################################'
     ],
-    // Neues Level 5: Master (noch anspruchsvoller, mit gemischten Enemies)
+    // Level 5
     [
         '.........................................................................................................................................................................................',
         '................?..................?..................?..................?..................?..................?..................?..................?...............',
@@ -129,6 +136,9 @@ const levels = [
     ]
 ];
 
+/* -------------------------
+   State
+   ------------------------- */
 let currentLevel = 0;
 let levelRaw = levels[currentLevel];
 let MAP_W = levelRaw[0].length;
@@ -138,18 +148,10 @@ let level = levelRaw.map(r => r.split(''));
 let seeds = [], enemies = [], goalTiles = [], spikes = [];
 let startPos = {x: 100, y: H - TILE - 80};
 
-const playerImg = new Image();
-playerImg.src = 'baltirun.png';
-playerImg.onerror = () => console.error('Player image failed to load');
-
-const enemyAImg = new Image(); // Für Walker (E)
-enemyAImg.src = 'enemyA.png';
-
-const enemyBImg = new Image(); // Für Flyer (F)
-enemyBImg.src = 'enemyB.png';
-
-const spikeImg = new Image(); // Für Spikes (S)
-spikeImg.src = 'spike.png';
+const playerImg = new Image(); playerImg.src = 'baltirun.png';
+const enemyAImg = new Image(); enemyAImg.src = 'enemyA.png';
+const enemyBImg = new Image(); enemyBImg.src = 'enemyB.png';
+const spikeImg = new Image(); spikeImg.src = 'spike.png';
 
 function spawnEntities() {
     seeds = [];
@@ -161,8 +163,27 @@ function spawnEntities() {
             const ch = level[y][x];
             const px = x * TILE, py = y * TILE;
             if (ch === '?') seeds.push({x: px + TILE / 4, y: py + TILE / 4, w: TILE / 2, h: TILE / 2, col: false});
-            if (ch === 'E') enemies.push({x: px, y: py, w: TILE, h: TILE, dir: -1, speed: 100 + currentLevel * 20, type: 'walker', vy: 0, spawnTime: Date.now()});
-            if (ch === 'F') enemies.push({x: px, y: py, w: TILE, h: TILE, dir: 1, speed: 80 + currentLevel * 10, type: 'flyer', vy: 0, spawnTime: Date.now()});
+            if (ch === 'E') {
+                enemies.push({
+                    x: px, y: py, w: TILE, h: TILE,
+                    dir: Math.random() < 0.5 ? -1 : 1,
+                    speed: 80 + currentLevel * 20,
+                    type: 'walker',
+                    vy: 0,
+                    grounded: false,
+                    spawnTime: Date.now()
+                });
+            }
+            if (ch === 'F') {
+                enemies.push({
+                    x: px, y: py, w: TILE, h: TILE,
+                    dir: Math.random() < 0.5 ? -1 : 1,
+                    speed: 80 + currentLevel * 10,
+                    type: 'flyer',
+                    vy: 0,
+                    spawnTime: Date.now()
+                });
+            }
             if (ch === 'S') spikes.push({x: px, y: py, w: TILE, h: TILE});
             if (ch === 'G') goalTiles.push({x: px, y: py, w: TILE, h: TILE});
         }
@@ -177,7 +198,7 @@ const player = {
     h: 80,
     vx: 0,
     vy: 0,
-    speed: 250, // Etwas schneller für besseres Feeling
+    speed: 250,
     jumpVel: 850,
     grounded: false,
     jumps: 0,
@@ -189,15 +210,62 @@ const player = {
 };
 
 const GRAV = 1600;
+const ENEMY_GRAV = 1400;
 const keys = {};
 let paused = false;
-window.addEventListener('keydown', e => { 
-    keys[e.code] = true; 
+let levelCompleting = false; // Schutz gegen mehrfaches Auslösen
+let last = performance.now();
+
+/* -------------------------
+   Sounds / Music
+   ------------------------- */
+const jumpSound = new Audio('jump.wav');
+const collectSound = new Audio('collect_seed.wav');
+const killSound = new Audio('enemy_kill.wav');
+const deathSound = new Audio('death.mp3');
+const levelCompleteSound = new Audio('level_complete.wav');
+const bgMusic = new Audio('background_music.wav');
+bgMusic.loop = true; bgMusic.volume = 0.2;
+let musicPlaying = false;
+function startMusic() {
+    if (!musicPlaying) {
+        bgMusic.play().then(() => musicPlaying = true).catch(()=>{/*ignore*/});
+    }
+}
+document.getElementById('mute').addEventListener('click', () => {
+    if (musicPlaying) { bgMusic.pause(); musicPlaying = false; document.getElementById('mute').textContent = 'Unmute Music'; }
+    else { bgMusic.play().then(()=>musicPlaying=true).catch(()=>{}); document.getElementById('mute').textContent = 'Mute Music'; }
+});
+
+/* -------------------------
+   Highscore (localStorage)
+   ------------------------- */
+const HS_KEY = 'baltazar_highscore_v1';
+function getHighscore() {
+    const v = localStorage.getItem(HS_KEY);
+    return v ? parseInt(v,10) : 0;
+}
+function setHighscore(val) {
+    const cur = getHighscore();
+    if (val > cur) localStorage.setItem(HS_KEY, String(val));
+}
+document.getElementById('show-highscore').addEventListener('click', () => {
+    alert('Highscore (most seeds): ' + getHighscore());
+});
+
+/* -------------------------
+   Input (keyboard only) — Touch removed on user request
+   ------------------------- */
+window.addEventListener('keydown', e => {
+    keys[e.code] = true;
     if (['Space', 'ArrowUp'].includes(e.code)) e.preventDefault();
     if (e.code === 'KeyP') togglePause();
 });
 window.addEventListener('keyup', e => { keys[e.code] = false; });
 
+/* -------------------------
+   Tile utilities & collisions
+   ------------------------- */
 function isSolidTile(tx, ty) {
     if (tx < 0 || tx >= MAP_W || ty < 0 || ty >= MAP_H) return false;
     return level[ty][tx] === '#';
@@ -216,31 +284,42 @@ function tilesOverlappingRect(x, y, w, h) {
     }
     return out;
 }
-
 function rectsOverlap(a, b) { return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
 
+/* -------------------------
+   Camera
+   ------------------------- */
 let camX = 0;
 let camTargetX = 0;
 function updateCamera(dt) {
     camTargetX = player.x - W * 0.4;
     camTargetX = Math.max(0, Math.min(camTargetX, MAP_W * TILE - W));
-    camX += (camTargetX - camX) * Math.min(10 * dt, 1); // Sanftere Interpolation
+    camX += (camTargetX - camX) * Math.min(12 * dt, 1);
 }
 
+/* -------------------------
+   Level control
+   ------------------------- */
 function nextLevel() {
     currentLevel++;
     if (currentLevel >= levels.length) {
         alert('Congratulations! You completed all levels! Total seeds: ' + player.seeds);
+        setHighscore(player.seeds);
         currentLevel = 0;
     }
+    loadLevel(currentLevel);
+}
+function loadLevel(i) {
+    levelCompleting = false;
+    currentLevel = i;
     levelRaw = levels[currentLevel];
     MAP_W = levelRaw[0].length;
     MAP_H = levelRaw.length;
     level = levelRaw.map(r => r.split(''));
-    respawn();
+    respawn(true);
 }
-
-function respawn() {
+function respawn(noClearKeys=false) {
+    // position
     player.x = startPos.x;
     player.y = startPos.y;
     player.vx = 0;
@@ -248,123 +327,70 @@ function respawn() {
     player.grounded = false;
     player.jumps = 0;
     player.alive = true;
+    // ensure keys don't make player start moving by accident after respawn
+    if (!noClearKeys) {
+        for (const k in keys) keys[k] = false;
+    }
     spawnEntities();
 }
-
 function gameOver() {
     alert('Game Over! Total seeds collected: ' + player.seeds);
+    setHighscore(player.seeds);
     player.seeds = 0;
     player.lives = 3;
-    currentLevel = 0;
-    respawn();
+    loadLevel(0);
 }
 
-let last = performance.now();
-
-// Sounds
-const jumpSound = new Audio('jump.wav');
-const collectSound = new Audio('collect_seed.wav');
-const killSound = new Audio('enemy_kill.wav');
-const deathSound = new Audio('death.mp3');
-const levelCompleteSound = new Audio('level_complete.wav');
-const bgMusic = new Audio('background_music.wav');
-bgMusic.loop = true;
-bgMusic.volume = 0.2;
-bgMusic.onerror = () => console.error('Background music failed to load');
-let musicPlaying = false;
-
-function startMusic() {
-    if (!musicPlaying) {
-        bgMusic.play().then(() => musicPlaying = true).catch(err => console.error('Music play failed:', err));
+/* -------------------------
+   Particle trail for running
+   ------------------------- */
+const particles = [];
+function spawnTrail(x,y) {
+    particles.push({x, y, vx: (Math.random()-0.5)*30, vy: -Math.random()*40 - 10, life: 0.45 + Math.random()*0.25, size: 4 + Math.random()*6});
+}
+function updateParticles(dt) {
+    for (let i = particles.length -1; i >=0; i--) {
+        const p = particles[i];
+        p.life -= dt;
+        p.vy += 800 * dt;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        if (p.life <= 0) particles.splice(i,1);
     }
 }
 
-document.getElementById('mute').addEventListener('click', () => {
-    if (musicPlaying) {
-        bgMusic.pause();
-        musicPlaying = false;
-        document.getElementById('mute').textContent = 'Unmute Music';
-    } else {
-        bgMusic.play();
-        musicPlaying = true;
-        document.getElementById('mute').textContent = 'Mute Music';
-    }
-});
-
-function togglePause() {
-    paused = !paused;
-    document.getElementById('pause-overlay').style.display = paused ? 'flex' : 'none';
-    if (paused) bgMusic.pause(); else { if (musicPlaying) bgMusic.play(); }
-}
-
-function loop(now) {
-    const dt = Math.min((now - last) / 1000, 1 / 30);
-    last = now;
-    if (!paused) {
-        update(dt);
-    }
-    render();
-    requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
-
-canvas.addEventListener('click', () => {
-    canvas.focus();
-    startMusic();
-});
-
-// Touch-Controls für Mobile (verbessert)
-let touchStartX = 0;
-let touchJump = false;
-canvas.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
-    const touchY = e.touches[0].clientY;
-    if (touchY < canvas.height / 2) touchJump = true; // Obere Hälfte für Jump
-    startMusic();
-});
-canvas.addEventListener('touchmove', e => {
-    const touchX = e.touches[0].clientX;
-    keys['ArrowRight'] = (touchX - touchStartX > 50);
-    keys['ArrowLeft'] = (touchStartX - touchX > 50);
-});
-canvas.addEventListener('touchend', () => {
-    keys['ArrowRight'] = false;
-    keys['ArrowLeft'] = false;
-    if (touchJump && player.jumps < player.maxJumps) {
-        player.vy = -player.jumpVel;
-        player.jumps++;
-        player.grounded = false;
-        jumpSound.play();
-    }
-    touchJump = false;
-});
-
+/* -------------------------
+   Update Loop
+   ------------------------- */
 function update(dt) {
     if (!player.alive || paused) return;
 
+    // Input -> horizontal
     let dir = 0;
-    if (keys['ArrowLeft'] || keys['KeyA']) {
-        dir -= 1;
-        player.facingRight = false;
-    }
-    if (keys['ArrowRight'] || keys['KeyD']) {
-        dir += 1;
-        player.facingRight = true;
-    }
+    if (keys['ArrowLeft'] || keys['KeyA']) { dir -= 1; player.facingRight = false; }
+    if (keys['ArrowRight'] || keys['KeyD']) { dir += 1; player.facingRight = true; }
     player.vx = dir * player.speed;
 
+    // Spawn trail when running on ground
+    if (player.grounded && dir !== 0) {
+        // spawn behind player's feet
+        spawnTrail(player.x + player.w/2, player.y + player.h - 8);
+    }
+
+    // Jump input
     if ((keys['Space'] || keys['ArrowUp']) && player.jumps < player.maxJumps) {
         player.vy = -player.jumpVel;
         player.jumps++;
         player.grounded = false;
         jumpSound.play();
-        keys['Space'] = false; // Verhindert Dauer-Jump
-        keys['ArrowUp'] = false;
+        // prevent holding
+        keys['Space'] = false; keys['ArrowUp'] = false;
     }
 
+    // Gravity
     player.vy += GRAV * dt;
 
-    // Horizontal (verbessert: Mehrere Kollisionen handhaben)
+    // Horizontal collisions (multiple)
     player.x += player.vx * dt;
     let collTiles = tilesOverlappingRect(player.x, player.y, player.w, player.h);
     for (const t of collTiles) {
@@ -373,7 +399,7 @@ function update(dt) {
     }
     if (collTiles.length) player.vx = 0;
 
-    // Vertical (verbessert: Mehrere Kollisionen)
+    // Vertical collisions
     player.y += player.vy * dt;
     collTiles = tilesOverlappingRect(player.x, player.y, player.w, player.h);
     player.grounded = false;
@@ -389,46 +415,82 @@ function update(dt) {
         }
     }
 
-    if (player.y > H + 100) {
+    // Fell off map
+    if (player.y > H + 200) {
         player.alive = false;
         deathSound.play();
         player.lives--;
         if (player.lives <= 0) setTimeout(gameOver, 400);
-        else setTimeout(respawn, 400);
+        else setTimeout(()=>respawn(false), 400);
     }
 
-    // Enemies (verbessert: Bessere AI für Flyer, Kollisionen)
-    for (let i = enemies.length - 1; i >= 0; i--) {
+    // Update enemies
+    for (let i = enemies.length -1; i >=0; i--) {
         const e = enemies[i];
         if (e.type === 'walker') {
-            e.x += e.speed * dt * e.dir;
-            const frontX = e.dir > 0 ? e.x + e.w + 2 : e.x - 2;
-            const footY = e.y + e.h + 2;
-            const frontTileX = Math.floor(frontX / TILE);
-            const footTileY = Math.floor(footY / TILE);
-            if (!isSolidTile(frontTileX, footTileY) || tilesOverlappingRect(e.x, e.y, e.w, e.h).length > 0) {
+            // Gravity for walker
+            e.vy += ENEMY_GRAV * dt;
+            e.y += e.vy * dt;
+
+            // vertical collision for walker with tiles
+            let eColl = tilesOverlappingRect(e.x, e.y, e.w, e.h);
+            e.grounded = false;
+            for (const t of eColl) {
+                if (e.vy > 0) {
+                    e.y = t.y - e.h;
+                    e.vy = 0;
+                    e.grounded = true;
+                } else if (e.vy < 0) {
+                    e.y = t.y + TILE;
+                    e.vy = 0;
+                }
+            }
+
+            // Move horizontally only if grounded (prevents odd midair sliding)
+            if (e.grounded) {
+                e.x += e.speed * dt * e.dir;
+            }
+
+            // Determine front tile under foot to avoid walking off edge
+            const frontX = Math.floor((e.dir > 0 ? e.x + e.w + 2 : e.x - 2) / TILE);
+            const footY = Math.floor((e.y + e.h + 2) / TILE);
+            // reverse on no ground ahead or on wall collision
+            const wallCheck = tilesOverlappingRect(e.x, e.y, e.w, e.h);
+            if (!isSolidTile(frontX, footY) || wallCheck.length > 0) {
+                // small reposition to avoid getting stuck in wall
                 e.dir *= -1;
+                e.x += e.dir * 2;
             }
         } else if (e.type === 'flyer') {
+            // Flyer uses oscillation, but respect map bounds
             e.x += e.speed * dt * e.dir;
-            const time = (Date.now() - e.spawnTime) / 500;
-            e.vy = Math.sin(time) * 150; // Höhere Amplitude für mehr Bewegung
+            const t = (Date.now() - e.spawnTime) / 500;
+            e.vy = Math.sin(t) * 150;
             e.y += e.vy * dt;
-            if (e.x < 0 || e.x + e.w > MAP_W * TILE) e.dir *= -1;
-            if (e.y < 0 || e.y + e.h > H) e.vy *= -1; // Verhindert Aus-dem-Bild-Fliegen
+            if (e.x < 0) { e.x = 0; e.dir = 1; }
+            if (e.x + e.w > MAP_W * TILE) { e.x = MAP_W * TILE - e.w; e.dir = -1; }
+            if (e.y < 0) { e.y = 0; e.vy = Math.abs(e.vy); }
+            if (e.y + e.h > H - TILE/2) { e.y = H - TILE/2 - e.h; e.vy = -Math.abs(e.vy); }
         }
 
+        // Enemy-player collision (stomp vs hit)
         if (rectsOverlap(player, e)) {
-            if (player.vy > 150 && player.y + player.h < e.y + 20) { // Genaueres Stomp-Check
-                enemies.splice(i, 1);
-                player.vy = -300;
+            // relative vertical overlap amount
+            const overlapY = (player.y + player.h) - e.y;
+            // Stomp if player is falling fast enough and roughly above enemy
+            if (player.vy > 200 && overlapY > 10 && overlapY < 80 && (player.y + player.h - e.y) < 80) {
+                enemies.splice(i,1);
+                player.vy = -320;
                 killSound.play();
+                continue;
             } else {
+                // Hurt player
                 player.alive = false;
                 deathSound.play();
                 player.lives--;
                 if (player.lives <= 0) setTimeout(gameOver, 400);
-                else setTimeout(respawn, 400);
+                else setTimeout(()=>respawn(false), 400);
+                break;
             }
         }
     }
@@ -440,40 +502,53 @@ function update(dt) {
             deathSound.play();
             player.lives--;
             if (player.lives <= 0) setTimeout(gameOver, 400);
-            else setTimeout(respawn, 400);
+            else setTimeout(()=>respawn(false), 400);
+            break;
         }
     }
 
-    // Seeds
-    for (let i = seeds.length - 1; i >= 0; i--) {
+    // Seeds (collect)
+    for (let i = seeds.length -1; i >=0; i--) {
         const s = seeds[i];
         if (!s.col && rectsOverlap(player, s)) {
             s.col = true;
             player.seeds += 1;
             collectSound.play();
+            // Update highscore on the fly if desired
+            setHighscore(player.seeds);
         }
     }
 
-    // Goal
-    for (const g of goalTiles) {
-        if (rectsOverlap(player, g)) {
-            levelCompleteSound.play();
-            setTimeout(() => {
-                alert('Level ' + (currentLevel + 1) + ' complete! Seeds collected: ' + player.seeds);
-                nextLevel();
-            }, 50);
+    // Goal(s) - Prevent multiple triggers
+    if (!levelCompleting) {
+        for (const g of goalTiles) {
+            if (rectsOverlap(player, g)) {
+                levelCompleting = true;
+                levelCompleteSound.play();
+                setTimeout(() => {
+                    alert('Level ' + (currentLevel + 1) + ' complete! Seeds: ' + player.seeds);
+                    nextLevel();
+                }, 40);
+                break;
+            }
         }
     }
+
+    // particles
+    updateParticles(dt);
 
     updateCamera(dt);
 }
 
+/* -------------------------
+   Render
+   ------------------------- */
 function render() {
-    ctx.clearRect(0, 0, W, H);
+    ctx.clearRect(0,0,W,H);
     const startCol = Math.floor(camX / TILE);
     const endCol = Math.min(MAP_W, Math.ceil((camX + W) / TILE));
 
-    // Tiles (verbessert: Schönere Darstellung)
+    // Tiles
     for (let y = 0; y < MAP_H; y++) {
         for (let x = startCol; x < endCol; x++) {
             const ch = level[y][x];
@@ -504,18 +579,23 @@ function render() {
         }
     }
 
-    // Spikes (nun mit Bild)
+    // Spikes
     for (const s of spikes) {
         const sx = s.x - camX;
         const sy = s.y;
-        ctx.drawImage(spikeImg, sx, sy, s.w, s.h);
+        // draw image if available, otherwise fallback
+        if (spikeImg.complete && spikeImg.naturalWidth !== 0) ctx.drawImage(spikeImg, sx, sy, s.w, s.h);
+        else {
+            ctx.fillStyle = '#aa0000';
+            ctx.fillRect(sx, sy, s.w, s.h);
+        }
     }
 
-    // Seeds (verbessert: Etwas animiert)
+    // Seeds
     for (const s of seeds) {
         if (s.col) continue;
         const sx = s.x - camX + s.w / 2;
-        const sy = s.y + s.h / 2 + Math.sin(Date.now() / 200) * 2; // Leichte Schwebung
+        const sy = s.y + s.h / 2 + Math.sin(Date.now() / 200) * 2;
         ctx.fillStyle = '#8b4513';
         ctx.beginPath();
         ctx.ellipse(sx, sy, 15, 10, 0, 0, Math.PI * 2);
@@ -526,56 +606,126 @@ function render() {
         ctx.fill();
     }
 
-    // Enemies (nun mit Bildern und Flip für Richtung)
+    // Enemies
     for (const e of enemies) {
         const sx = e.x - camX;
         const sy = e.y;
         ctx.save();
         if (e.dir < 0) {
             ctx.translate(sx + e.w, sy);
-            ctx.scale(-1, 1);
+            ctx.scale(-1,1);
             if (e.type === 'walker') {
-                ctx.drawImage(enemyAImg, 0, 0, e.w, e.h);
-            } else if (e.type === 'flyer') {
-                ctx.drawImage(enemyBImg, 0, 0, e.w, e.h);
+                if (enemyAImg.complete && enemyAImg.naturalWidth !== 0) ctx.drawImage(enemyAImg, 0, 0, e.w, e.h);
+                else { ctx.fillStyle='#ff5555'; ctx.fillRect(0,0,e.w,e.h); }
+            } else {
+                if (enemyBImg.complete && enemyBImg.naturalWidth !== 0) ctx.drawImage(enemyBImg, 0, 0, e.w, e.h);
+                else { ctx.fillStyle='#55aaff'; ctx.fillRect(0,0,e.w,e.h); }
             }
         } else {
             if (e.type === 'walker') {
-                ctx.drawImage(enemyAImg, sx, sy, e.w, e.h);
-            } else if (e.type === 'flyer') {
-                ctx.drawImage(enemyBImg, sx, sy, e.w, e.h);
+                if (enemyAImg.complete && enemyAImg.naturalWidth !== 0) ctx.drawImage(enemyAImg, sx, sy, e.w, e.h);
+                else { ctx.fillStyle='#ff5555'; ctx.fillRect(sx,sy,e.w,e.h); }
+            } else {
+                if (enemyBImg.complete && enemyBImg.naturalWidth !== 0) ctx.drawImage(enemyBImg, sx, sy, e.w, e.h);
+                else { ctx.fillStyle='#55aaff'; ctx.fillRect(sx,sy,e.w,e.h); }
             }
         }
         ctx.restore();
     }
 
-    // Player (Fehler behoben: Immer mit w/h zeichnen)
+    // Player
     ctx.save();
     if (!player.facingRight) {
         ctx.translate(player.x - camX + player.w, player.y);
-        ctx.scale(-1, 1);
-        ctx.drawImage(playerImg, 0, 0, player.w, player.h);
+        ctx.scale(-1,1);
+        if (playerImg.complete && playerImg.naturalWidth !== 0) ctx.drawImage(playerImg, 0, 0, player.w, player.h);
+        else { ctx.fillStyle='#88ff88'; ctx.fillRect(0,0,player.w,player.h); }
     } else {
-        ctx.drawImage(playerImg, player.x - camX, player.y, player.w, player.h);
+        if (playerImg.complete && playerImg.naturalWidth !== 0) ctx.drawImage(playerImg, player.x - camX, player.y, player.w, player.h);
+        else { ctx.fillStyle='#88ff88'; ctx.fillRect(player.x - camX, player.y, player.w, player.h); }
     }
     ctx.restore();
 
-    // HUD (verbessert: Transparenter, mehr Infos)
-    ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillRect(12, 12, 350, 44);
+    // Particles (trail/glitter)
+    for (const p of particles) {
+        const px = p.x - camX;
+        const alpha = Math.max(0, p.life / 0.8);
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(px - p.size/2, p.y - p.size/2, p.size, p.size);
+        ctx.globalAlpha = 1;
+    }
+
+    // HUD
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.fillRect(12, 12, 430, 46);
     ctx.fillStyle = '#000';
     ctx.font = '18px system-ui';
-    const totalSeeds = seeds.length;
+    const totalSeeds = seeds.length + levelExtrasCollectedSeeds(); // in case seeds array shrinks across levels
     const collected = player.seeds;
-    ctx.fillText('Seeds: ' + collected + '/' + totalSeeds + ' | Lives: ' + player.lives + ' | Level: ' + (currentLevel + 1), 22, 40);
+    ctx.fillText('Seeds: ' + collected + '/' + totalSeeds + '  |  Lives: ' + player.lives + '  |  Level: ' + (currentLevel + 1) , 22, 40);
+
+    // Highscore small
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.fillRect(W - 200, 12, 188, 36);
+    ctx.fillStyle = '#000';
+    ctx.font = '16px system-ui';
+    ctx.fillText('Highscore: ' + getHighscore(), W - 188, 36);
 }
 
+/* small helper when seeds array shrinks due to multiple collects; here kept trivial */
+function levelExtrasCollectedSeeds() { return 0; }
+
+/* -------------------------
+   Main loop
+   ------------------------- */
+function loop(now) {
+    const dt = Math.min((now - last) / 1000, 1 / 30);
+    last = now;
+    if (!paused) update(dt);
+    render();
+    requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* -------------------------
+   Canvas focus & mouse
+   ------------------------- */
+canvas.addEventListener('click', () => {
+    canvas.focus();
+    startMusic();
+});
+
+/* -------------------------
+   Pause toggle
+   ------------------------- */
+function togglePause() {
+    paused = !paused;
+    document.getElementById('pause-overlay').style.display = paused ? 'flex' : 'none';
+    if (paused) bgMusic.pause(); else { if (musicPlaying) bgMusic.play(); }
+}
+
+/* -------------------------
+   Restart button
+   ------------------------- */
 document.getElementById('restart').addEventListener('click', () => {
     player.seeds = 0;
     player.lives = 3;
-    currentLevel = 0;
-    respawn();
+    loadLevel(0);
 });
+
+/* -------------------------
+   Utility: prevent accidental multiple alerts/timeouts when reloading level quickly
+   ------------------------- */
+window.addEventListener('blur', () => {
+    // keep keys cleared so no stuck-inputs after alt-tabbing
+    for (const k in keys) keys[k] = false;
+});
+
+/* -------------------------
+   Initial focus
+   ------------------------- */
+canvas.focus();
 </script>
 </body>
 </html>
