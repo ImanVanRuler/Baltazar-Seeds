@@ -163,9 +163,7 @@ const player = {
     seeds: 0,
     lives: 3,
     alive: true,
-    facingRight: true,
-    animFrame: 0,
-    animTimer: 0
+    facingRight: true
 };
 
 const GRAV = 1600;
@@ -249,6 +247,7 @@ const deathSound = new Audio('death.mp3');
 const levelCompleteSound = new Audio('level_complete.wav');
 const bgMusic = new Audio('background_music.wav');
 bgMusic.loop = true;
+bgMusic.volume = 0.2;
 bgMusic.onerror = () => console.error('Background music failed to load');
 let musicPlaying = false;
 
@@ -440,17 +439,6 @@ function update(dt) {
         }
     }
 
-    // Animation
-    if (Math.abs(player.vx) > 0 && player.grounded) {
-        player.animTimer += dt;
-        if (player.animTimer > 0.1) {
-            player.animFrame = (player.animFrame + 1) % 4;
-            player.animTimer = 0;
-        }
-    } else {
-        player.animFrame = 0;
-    }
-
     updateCamera(dt);
 }
 
@@ -521,15 +509,14 @@ function render() {
         ctx.fillRect(e.x - camX + (e.dir > 0 ? e.w - 18 : 10), e.y + 10, 8, 8);
     }
 
-    // Player with animation
-    const frameX = player.animFrame * player.w;
+    // Player
     ctx.save();
     if (!player.facingRight) {
         ctx.translate(player.x - camX + player.w, player.y);
         ctx.scale(-1, 1);
-        ctx.drawImage(playerImg, frameX, 0, player.w, player.h, 0, 0, player.w, player.h);
+        ctx.drawImage(playerImg, 0, 0);
     } else {
-        ctx.drawImage(playerImg, frameX, 0, player.w, player.h, player.x - camX, player.y, player.w, player.h);
+        ctx.drawImage(playerImg, player.x - camX, player.y, player.w, player.h);
     }
     ctx.restore();
 
