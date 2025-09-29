@@ -133,8 +133,8 @@ const player = {
     h: 80,
     vx: 0,
     vy: 0,
-    speed: 250, // Faster movement
-    jumpVel: 750, // Higher jump
+    speed: 220, // Faster movement
+    jumpVel: 850, // Higher jump
     grounded: false,
     seeds: 0,
     lives: 3,
@@ -144,7 +144,7 @@ const player = {
     animTimer: 0
 };
 
-const GRAV = 1800; // Slightly higher gravity for more challenge
+const GRAV = 1600; // Slightly higher gravity for more challenge
 const keys = {};
 window.addEventListener('keydown', e => { keys[e.code] = true; if (['Space', 'ArrowUp'].includes(e.code)) e.preventDefault(); });
 window.addEventListener('keyup', e => { keys[e.code] = false; });
@@ -212,12 +212,12 @@ function gameOver() {
 let last = performance.now();
 
 // Sounds (place these files in the same folder or adjust paths)
-const jumpSound = new Audio('jump.mp3');
-const collectSound = new Audio('collect_seed.mp3');
-const killSound = new Audio('enemy_kill.mp3');
+const jumpSound = new Audio('jump.wav');
+const collectSound = new Audio('collect_seed.wav');
+const killSound = new Audio('enemy_kill.wav');
 const deathSound = new Audio('death.mp3');
-const levelCompleteSound = new Audio('level_complete.mp3');
-const bgMusic = new Audio('background_music.mp3');
+const levelCompleteSound = new Audio('level_complete.wav');
+const bgMusic = new Audio('background_music.wav');
 bgMusic.loop = true;
 bgMusic.play();
 
