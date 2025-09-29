@@ -278,7 +278,35 @@
         text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff;
       }
     }
+/* ---- Leuchtende Linien-Hover für Navigation ---- */
+nav a {
+  position: relative; /* notwendig für ::after */
+  color: var(--accent);
+  text-decoration: none;
+  margin-left: 1rem;
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 0 #000;
+  transition: color 0.3s ease;
+}
 
+nav a::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 110%;
+  height: 110%;
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  opacity: 0.7;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+nav a:hover::after {
+  transform: translate(-50%, -50%) scale(1.2);
+  opacity: 1;
+}
   </style>
 </head>
 <body>
