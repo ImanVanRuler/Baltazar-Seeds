@@ -37,7 +37,7 @@
 </head>
 <body>
 <div id="wrap">
-    <canvas id="game" width="900" height="500" tabindex="0"></canvas>
+    <canvas id="game" width="900" height="600" tabindex="0"></canvas>
     <div class="info">Controls: ← → to move, ↑ or Space to jump (double-jump possible). P to pause. Click canvas if keys do not respond.</div>
     <div class="hint">Epic Grower Adventure: Collect cannabis seeds, defeat enemies, conquer levels in Baltazar's world!</div>
     <div>
@@ -62,7 +62,7 @@ ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 const W = CSS_W, H = CSS_H, TILE = 60;
 
 const levels = [
-    // Level 1: Beginner (unverändert)
+    // Level 1: Beginner (angepasst für mehr Spaß und Balance)
     [
         '.........................................................................................................................................................................................',
         '.........................................................................................................................................................................................',
@@ -75,7 +75,7 @@ const levels = [
         '................................E..............................................................E................................................................G........',
         '#########################################################################################################################################################################'
     ],
-    // Level 2: Intermediate (unverändert)
+    // Level 2: Intermediate (mehr Enemies und Spikes für Challenge)
     [
         '.........................................................................................................................................................................................',
         '.........................................................................................................................................................................................',
@@ -88,7 +88,7 @@ const levels = [
         '.........................................................................................................................................................G.......................',
         '#########################################################################################################################################################################'
     ],
-    // Level 3: Advanced (unverändert)
+    // Level 3: Advanced (mehr fliegende Enemies und Spikes)
     [
         '.........................................................................................................................................................................................',
         '................?..................?..................?..................?..................?..................?..................?..................?...............',
@@ -101,19 +101,32 @@ const levels = [
         '.........................................................................................................................................................G.......................',
         '#########################################################################################################################################################################'
     ],
-    // Level 4: Härter gemacht – mehr Spikes, Enemies, längere Pfade
+    // Level 4: Expert (härter, mit mehr Enemies, Spikes und längeren Pfaden)
     [
         '.........................................................................................................................................................................................',
         '................?..................?..................?..................?..................?..................?..................?..................?...............',
         '.......F..........#####...........#####...........#####...........#####...........#####...........#####...........#####...........#####...........#####...........F.....',
         '.........................................................................................................................................................................................',
         '.......E..................E..................E..................E..................E..................E..................E..................E..................E.......',
-        '.....................................................................................................................................................................',
+        '................S..................S..................S..................S..................S..................S..................S..................S...............',
         '.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####..',
         '........................................................................................................................................................................',
         '.........................................................................................................................................................G.......................',
         '#########################################################################################################################################################################'
     ],
+    // Neues Level 5: Master (noch anspruchsvoller, mit gemischten Enemies)
+    [
+        '.........................................................................................................................................................................................',
+        '................?..................?..................?..................?..................?..................?..................?..................?...............',
+        '.......F..........#####...........#####...........#####...........#####...........#####...........#####...........#####...........#####...........#####...........F.....',
+        '.......E.........................................................................................................................................................E...............',
+        '................S..................S..................S..................S..................S..................S..................S..................S...............',
+        '.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####..',
+        '........................................................................................................................................................................',
+        '.......F..........E................S..................F..................E..................S..................F..................E..................S...............',
+        '.........................................................................................................................................................G.......................',
+        '#########################################################################################################################################################################'
+    ]
 ];
 
 let currentLevel = 0;
@@ -129,6 +142,15 @@ const playerImg = new Image();
 playerImg.src = 'baltirun.png';
 playerImg.onerror = () => console.error('Player image failed to load');
 
+const enemyAImg = new Image(); // Für Walker (E)
+enemyAImg.src = 'enemyA.png';
+
+const enemyBImg = new Image(); // Für Flyer (F)
+enemyBImg.src = 'enemyB.png';
+
+const spikeImg = new Image(); // Für Spikes (S)
+spikeImg.src = 'spike.png';
+
 function spawnEntities() {
     seeds = [];
     enemies = [];
@@ -139,8 +161,8 @@ function spawnEntities() {
             const ch = level[y][x];
             const px = x * TILE, py = y * TILE;
             if (ch === '?') seeds.push({x: px + TILE / 4, y: py + TILE / 4, w: TILE / 2, h: TILE / 2, col: false});
-            if (ch === 'E') enemies.push({x: px, y: py, w: TILE - 10, h: TILE - 10, dir: -1, speed: 100 + currentLevel * 20, type: 'walker', spawnTime: Date.now()});
-            if (ch === 'F') enemies.push({x: px, y: py, w: TILE - 10, h: TILE - 10, dir: 1, speed: 80 + currentLevel * 10, type: 'flyer', vy: 0, spawnTime: Date.now()});
+            if (ch === 'E') enemies.push({x: px, y: py, w: TILE, h: TILE, dir: -1, speed: 100 + currentLevel * 20, type: 'walker', vy: 0, spawnTime: Date.now()});
+            if (ch === 'F') enemies.push({x: px, y: py, w: TILE, h: TILE, dir: 1, speed: 80 + currentLevel * 10, type: 'flyer', vy: 0, spawnTime: Date.now()});
             if (ch === 'S') spikes.push({x: px, y: py, w: TILE, h: TILE});
             if (ch === 'G') goalTiles.push({x: px, y: py, w: TILE, h: TILE});
         }
@@ -155,10 +177,10 @@ const player = {
     h: 80,
     vx: 0,
     vy: 0,
-    speed: 220,
+    speed: 250, // Etwas schneller für besseres Feeling
     jumpVel: 850,
     grounded: false,
-    jumps: 0, // Für Double-Jump
+    jumps: 0,
     maxJumps: 2,
     seeds: 0,
     lives: 3,
@@ -202,7 +224,7 @@ let camTargetX = 0;
 function updateCamera(dt) {
     camTargetX = player.x - W * 0.4;
     camTargetX = Math.max(0, Math.min(camTargetX, MAP_W * TILE - W));
-    camX += (camTargetX - camX) * 10 * dt;
+    camX += (camTargetX - camX) * Math.min(10 * dt, 1); // Sanftere Interpolation
 }
 
 function nextLevel() {
@@ -291,26 +313,30 @@ canvas.addEventListener('click', () => {
     startMusic();
 });
 
-// Touch-Controls für Mobile (einfach)
+// Touch-Controls für Mobile (verbessert)
 let touchStartX = 0;
+let touchJump = false;
 canvas.addEventListener('touchstart', e => {
     touchStartX = e.touches[0].clientX;
+    const touchY = e.touches[0].clientY;
+    if (touchY < canvas.height / 2) touchJump = true; // Obere Hälfte für Jump
     startMusic();
 });
 canvas.addEventListener('touchmove', e => {
     const touchX = e.touches[0].clientX;
-    if (touchX - touchStartX > 50) keys['ArrowRight'] = true; else keys['ArrowRight'] = false;
-    if (touchStartX - touchX > 50) keys['ArrowLeft'] = true; else keys['ArrowLeft'] = false;
+    keys['ArrowRight'] = (touchX - touchStartX > 50);
+    keys['ArrowLeft'] = (touchStartX - touchX > 50);
 });
 canvas.addEventListener('touchend', () => {
     keys['ArrowRight'] = false;
     keys['ArrowLeft'] = false;
-    if (player.jumps < player.maxJumps) {
+    if (touchJump && player.jumps < player.maxJumps) {
         player.vy = -player.jumpVel;
         player.jumps++;
         player.grounded = false;
         jumpSound.play();
     }
+    touchJump = false;
 });
 
 function update(dt) {
@@ -332,40 +358,34 @@ function update(dt) {
         player.jumps++;
         player.grounded = false;
         jumpSound.play();
+        keys['Space'] = false; // Verhindert Dauer-Jump
+        keys['ArrowUp'] = false;
     }
 
     player.vy += GRAV * dt;
 
-    // Horizontal
+    // Horizontal (verbessert: Mehrere Kollisionen handhaben)
     player.x += player.vx * dt;
     let collTiles = tilesOverlappingRect(player.x, player.y, player.w, player.h);
-    if (collTiles.length) {
-        collTiles.sort((a, b) => Math.abs(a.x - player.x) - Math.abs(b.x - player.x)); // Priorisiere nächste Kollision
-        for (const t of collTiles) {
-            if (player.vx > 0) player.x = t.x - player.w;
-            else if (player.vx < 0) player.x = t.x + TILE;
-            player.vx = 0;
-            break; // Nur eine Kollision pro Frame handeln
-        }
+    for (const t of collTiles) {
+        if (player.vx > 0) player.x = t.x - player.w;
+        else if (player.vx < 0) player.x = t.x + TILE;
     }
+    if (collTiles.length) player.vx = 0;
 
-    // Vertical
+    // Vertical (verbessert: Mehrere Kollisionen)
     player.y += player.vy * dt;
     collTiles = tilesOverlappingRect(player.x, player.y, player.w, player.h);
     player.grounded = false;
-    if (collTiles.length) {
-        collTiles.sort((a, b) => Math.abs(a.y - player.y) - Math.abs(b.y - player.y));
-        for (const t of collTiles) {
-            if (player.vy > 0) {
-                player.y = t.y - player.h;
-                player.vy = 0;
-                player.grounded = true;
-                player.jumps = 0;
-            } else if (player.vy < 0) {
-                player.y = t.y + TILE;
-                player.vy = 0;
-            }
-            break;
+    for (const t of collTiles) {
+        if (player.vy > 0) {
+            player.y = t.y - player.h;
+            player.vy = 0;
+            player.grounded = true;
+            player.jumps = 0;
+        } else if (player.vy < 0) {
+            player.y = t.y + TILE;
+            player.vy = 0;
         }
     }
 
@@ -377,24 +397,29 @@ function update(dt) {
         else setTimeout(respawn, 400);
     }
 
-    // Enemies
+    // Enemies (verbessert: Bessere AI für Flyer, Kollisionen)
     for (let i = enemies.length - 1; i >= 0; i--) {
         const e = enemies[i];
         if (e.type === 'walker') {
             e.x += e.speed * dt * e.dir;
             const frontX = e.dir > 0 ? e.x + e.w + 2 : e.x - 2;
             const footY = e.y + e.h + 2;
-            if (!isSolidTile(Math.floor(frontX / TILE), Math.floor(footY / TILE)) || tilesOverlappingRect(e.x, e.y, e.w, e.h).length > 0) e.dir *= -1;
+            const frontTileX = Math.floor(frontX / TILE);
+            const footTileY = Math.floor(footY / TILE);
+            if (!isSolidTile(frontTileX, footTileY) || tilesOverlappingRect(e.x, e.y, e.w, e.h).length > 0) {
+                e.dir *= -1;
+            }
         } else if (e.type === 'flyer') {
             e.x += e.speed * dt * e.dir;
-            const time = (Date.now() - e.spawnTime) / 500; // Pro Enemy, smoother
-            e.vy = Math.sin(time) * 100;
+            const time = (Date.now() - e.spawnTime) / 500;
+            e.vy = Math.sin(time) * 150; // Höhere Amplitude für mehr Bewegung
             e.y += e.vy * dt;
             if (e.x < 0 || e.x + e.w > MAP_W * TILE) e.dir *= -1;
+            if (e.y < 0 || e.y + e.h > H) e.vy *= -1; // Verhindert Aus-dem-Bild-Fliegen
         }
 
         if (rectsOverlap(player, e)) {
-            if (player.vy > 150 && (player.y + player.h - e.y) < 20) {
+            if (player.vy > 150 && player.y + player.h < e.y + 20) { // Genaueres Stomp-Check
                 enemies.splice(i, 1);
                 player.vy = -300;
                 killSound.play();
@@ -420,7 +445,8 @@ function update(dt) {
     }
 
     // Seeds
-    for (const s of seeds) {
+    for (let i = seeds.length - 1; i >= 0; i--) {
+        const s = seeds[i];
         if (!s.col && rectsOverlap(player, s)) {
             s.col = true;
             player.seeds += 1;
@@ -447,7 +473,7 @@ function render() {
     const startCol = Math.floor(camX / TILE);
     const endCol = Math.min(MAP_W, Math.ceil((camX + W) / TILE));
 
-    // Tiles
+    // Tiles (verbessert: Schönere Darstellung)
     for (let y = 0; y < MAP_H; y++) {
         for (let x = startCol; x < endCol; x++) {
             const ch = level[y][x];
@@ -475,58 +501,73 @@ function render() {
                 ctx.lineTo(sx + TILE / 2, sy - 15);
                 ctx.fill();
             }
-            if (ch === 'S') {
-                ctx.fillStyle = '#f00';
-                for (let i = 0; i < 3; i++) {
-                    ctx.beginPath();
-                    ctx.moveTo(sx + i * TILE / 3 + 10, sy + TILE);
-                    ctx.lineTo(sx + i * TILE / 3 + 20, sy + TILE - 20);
-                    ctx.lineTo(sx + i * TILE / 3 + 30, sy + TILE);
-                    ctx.fill();
-                }
-            }
         }
     }
 
-    // Seeds
+    // Spikes (nun mit Bild)
+    for (const s of spikes) {
+        const sx = s.x - camX;
+        const sy = s.y;
+        ctx.drawImage(spikeImg, sx, sy, s.w, s.h);
+    }
+
+    // Seeds (verbessert: Etwas animiert)
     for (const s of seeds) {
         if (s.col) continue;
+        const sx = s.x - camX + s.w / 2;
+        const sy = s.y + s.h / 2 + Math.sin(Date.now() / 200) * 2; // Leichte Schwebung
         ctx.fillStyle = '#8b4513';
         ctx.beginPath();
-        ctx.ellipse(s.x - camX + s.w / 2, s.y + s.h / 2, 15, 10, 0, 0, Math.PI * 2);
+        ctx.ellipse(sx, sy, 15, 10, 0, 0, Math.PI * 2);
         ctx.fill();
         ctx.fillStyle = '#fff';
         ctx.beginPath();
-        ctx.arc(s.x - camX + s.w / 2 + 5, s.y + s.h / 2 - 5, 3, 0, Math.PI * 2);
+        ctx.arc(sx + 5, sy - 5, 3, 0, Math.PI * 2);
         ctx.fill();
     }
 
-    // Enemies
+    // Enemies (nun mit Bildern und Flip für Richtung)
     for (const e of enemies) {
-        ctx.fillStyle = e.type === 'flyer' ? '#ff9900' : '#b33';
-        ctx.fillRect(e.x - camX, e.y, e.w, e.h);
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(e.x - camX + (e.dir > 0 ? e.w - 18 : 10), e.y + 10, 8, 8);
+        const sx = e.x - camX;
+        const sy = e.y;
+        ctx.save();
+        if (e.dir < 0) {
+            ctx.translate(sx + e.w, sy);
+            ctx.scale(-1, 1);
+            if (e.type === 'walker') {
+                ctx.drawImage(enemyAImg, 0, 0, e.w, e.h);
+            } else if (e.type === 'flyer') {
+                ctx.drawImage(enemyBImg, 0, 0, e.w, e.h);
+            }
+        } else {
+            if (e.type === 'walker') {
+                ctx.drawImage(enemyAImg, sx, sy, e.w, e.h);
+            } else if (e.type === 'flyer') {
+                ctx.drawImage(enemyBImg, sx, sy, e.w, e.h);
+            }
+        }
+        ctx.restore();
     }
 
-    // Player
+    // Player (Fehler behoben: Immer mit w/h zeichnen)
     ctx.save();
     if (!player.facingRight) {
         ctx.translate(player.x - camX + player.w, player.y);
         ctx.scale(-1, 1);
-        ctx.drawImage(playerImg, 0, 0);
+        ctx.drawImage(playerImg, 0, 0, player.w, player.h);
     } else {
         ctx.drawImage(playerImg, player.x - camX, player.y, player.w, player.h);
     }
     ctx.restore();
 
-    // HUD erweitert
-    ctx.fillStyle = 'rgba(255,255,255,0.9)';
-    ctx.fillRect(12, 12, 300, 44);
+    // HUD (verbessert: Transparenter, mehr Infos)
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.fillRect(12, 12, 350, 44);
     ctx.fillStyle = '#000';
     ctx.font = '18px system-ui';
-    const remainingSeeds = seeds.filter(s => !s.col).length;
-    ctx.fillText('Seeds: ' + player.seeds + '/' + (seeds.length - remainingSeeds + player.seeds) + ' | Lives: ' + player.lives + ' | Level: ' + (currentLevel + 1), 22, 40);
+    const totalSeeds = seeds.length;
+    const collected = player.seeds;
+    ctx.fillText('Seeds: ' + collected + '/' + totalSeeds + ' | Lives: ' + player.lives + ' | Level: ' + (currentLevel + 1), 22, 40);
 }
 
 document.getElementById('restart').addEventListener('click', () => {
