@@ -214,37 +214,82 @@
       color: black;
     }
 
-   footer .footer-socials a {
+   /* Footer bleibt gleich */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  background: rgba(0,0,0,0.85);
+  font-size: 0.9rem;
+  text-shadow: 1px 1px 0 #000;
+}
+
+/* Footer Social Icons */
+footer .footer-socials a {
   position: relative;
+  display: inline-flex;         /* wichtig: damit der Kreis um das Icon sitzt */
+  align-items: center;
+  justify-content: center;
+  width: 3rem;                  /* Kreisgröße */
+  height: 3rem;
   font-size: 1.5rem;
   color: var(--accent);
   margin: 0 0.5rem;
-  transition: color 0.3s ease;
-  z-index: 1;
   text-decoration: none;
+  z-index: 1;
+  border-radius: 50%;           /* runde Buttons */
+  overflow: visible;
+  transition: color 0.3s ease;
 }
 
+/* Glow-Effekt */
 footer .footer-socials a::after {
   content: '';
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%) scale(0);
-  width: 160%;
-  height: 160%;
+  width: 130%;
+  height: 130%;
   border: 2px solid var(--accent);
   border-radius: 50%;
   opacity: 0;
-  box-shadow: 0 0 10px var(--accent), 0 0 25px var(--accent);
+  box-shadow: 0 0 8px var(--accent), 0 0 20px var(--accent);
   transition: transform 0.4s ease, opacity 0.4s ease;
   animation: pulseGlow 3s infinite alternate;
   pointer-events: none;
+  z-index: -1; /* hinter das Icon */
 }
 
+/* beim Hover verstärken */
 footer .footer-socials a:hover::after {
   transform: translate(-50%, -50%) scale(1.2);
   opacity: 1;
 }
+
+/* Farb-Animation (nur 1x im gesamten CSS nötig) */
+@keyframes pulseGlow {
+  0% {
+    border-color: #ff00ff;
+    box-shadow: 0 0 6px #ff00ff, 0 0 18px #ff00ff;
+  }
+  25% {
+    border-color: #00ffff;
+    box-shadow: 0 0 6px #00ffff, 0 0 18px #00ffff;
+  }
+  50% {
+    border-color: #00ff00;
+    box-shadow: 0 0 6px #00ff00, 0 0 18px #00ff00;
+  }
+  75% {
+    border-color: #ffff00;
+    box-shadow: 0 0 6px #ffff00, 0 0 18px #ffff00;
+  }
+  100% {
+    border-color: #ff0000;
+    box-shadow: 0 0 6px #ff0000, 0 0 18px #ff0000;
+  }
+}
+
 
 
     .donate-btn {
