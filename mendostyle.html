@@ -1,68 +1,39 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MendoStyle — Standalone</title>
-<style>
-  :root {
-    --bg: #0b0b0b;
-    --fg: #f7f7f7;
-    --accent: #ff3b3b;
-  }
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  }
-  .wrap {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.2rem;
-    padding: 2rem;
-    text-align: center;
-  }
-  h1 {
-    font-size: clamp(20px, 5vw, 48px);
-    letter-spacing: 1px;
-    margin: 0;
-  }
-  p {
-    max-width: 680px;
-    color: #dcdcdc;
-    margin: 0;
-  }
-  .box {
-    padding: 1.2rem 1.6rem;
-    border-radius: 12px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border: 1px solid rgba(255,255,255,0.03);
-  }
-  footer {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 0.6rem;
-    text-align: center;
-    font-size: 0.82rem;
-    color: rgba(255,255,255,0.5);
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mendo Dope Farms</title>
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { height: 100%; font-family: 'Arial', sans-serif; background-color: #121212; color: #fff; display: flex; justify-content: center; align-items: center; }
+
+    /* Container */
+    .container { text-align: center; padding: 20px; border: 2px solid #ffcc00; border-radius: 15px; background: rgba(0, 0, 0, 0.7); max-width: 90%; }
+
+    /* Header */
+    h1 { font-size: 3rem; color: #ffcc00; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px; }
+
+    /* Paragraph */
+    p { font-size: 1.2rem; color: #ccc; margin-bottom: 1.5rem; }
+
+    /* Button */
+    .btn { display: inline-block; padding: 10px 20px; margin-top: 10px; background-color: #ffcc00; color: #121212; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; }
+    .btn:hover { background-color: #e6b800; }
+
+    /* Footer */
+    footer { position: absolute; bottom: 10px; font-size: 0.8rem; color: #aaa; }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="box">
-    <h1>MendoStyle — Standalone</h1>
-    <p>Dies ist eine komplett lokale Demo-Seite (keine externen Dateien). Wenn diese Seite angezeigt wird, ist Deine GitHub-Pages-Startseite korrekt.</p>
+  <div class="container">
+    <h1>Mendo Dope Farms</h1>
+    <p>Willkommen auf der offiziellen Seite von Mendo Dope Farms. Hier findest du alles über unsere preisgekrönten Sorten, Züchtungen und mehr.</p>
+    <a href="https://mendodopefarms.com" class="btn" target="_blank">Besuche unseren Shop</a>
   </div>
-</div>
-<footer>mendostyle.html — lokal & self-contained</footer>
+  <footer>
+    <p>&copy; 2025 Mendo Dope Farms. Alle Rechte vorbehalten.</p>
+  </footer>
 </body>
 </html>
