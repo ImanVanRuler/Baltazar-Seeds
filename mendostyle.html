@@ -1,227 +1,199 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baltazar Seeds Mainmenu</title>
-    <link rel="icon" type="image/png" href="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/abdeb8944bb0a8cff53495222d827d5b87b7f62f/original/black-w-white-logo.jpg/!!/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.png">
-    <style>
-        @font-face { font-family: "DogjawPro"; src: url('//assets-production.bndzgl.com/assets/6fea8294-68ad-497f-95f1-9a2cf496c193/dogjawpro.woff2') format('woff2'); font-weight: 400; }
-        @font-face { font-family: "Black Ops One"; src: url('//assets-production.bndzgl.com/assets/ffa98d22-6eae-416c-95cf-3eb480efe0a5/blackopsone-regular.woff2') format('woff2'); font-style: normal; font-weight: 400; }
-        @font-face { font-family: "Impact"; src: url('//assets-production.bndzgl.com/assets/a475f8b4-f33d-4bd8-91fe-6f097b7e9efd/impact.woff2') format('woff2'); font-weight: 400; }
-        @font-face { font-family: "Audiowide"; src: url('//assets-production.bndzgl.com/assets/4480cbae-2b78-4308-9254-6af3b9ddb15d/audiowide-regular.woff2') format('woff2'); font-style: normal; font-weight: 400; }
-        @font-face { font-family: "Fjalla One"; src: url('//assets-production.bndzgl.com/assets/1e835441-b601-426f-860b-8953487cb2f8/fjallaone-regular.woff2') format('woff2'); font-style: normal; font-weight: 400; }
-        @font-face { font-family: "lazer84"; src: url('//assets-production.bndzgl.com/assets/e66ba16b-f0a4-4db4-9be2-055bdf6fde5e/lazer84.woff2') format('woff2'); font-weight: 400; }
-        @font-face { font-family: "Suez One"; src: url('//assets-production.bndzgl.com/assets/02e3aaad-acd1-4f5e-b716-f598af2c2941/suezone-regular.woff2') format('woff2'); font-style: normal; font-weight: 400; }
-
-        :root {
-            --text-color: hsl(0, 0%, 100%);
-            --link-color: hsl(71, 90%, 48%);
-            --feature-title-color: hsl(94, 64%, 37%);
-            --nav-link-color: hsl(0, 0%, 100%);
-            --nav-link-rollover-color: hsl(66, 92%, 49%);
-            --sub-menu-background-color: hsl(0, 0%, 0%);
-            --sub-menu-link-color: hsl(0, 0%, 100%);
-            --mobile-nav-link-color: hsl(0, 0%, 100%);
-            --page-title-color: hsl(0, 0%, 100%);
-            --button-color: hsl(71, 90%, 48%);
-            --button-hover-color: hsl(237, 81%, 45%);
-            --page-background-color: hsl(0, 0%, 0%);
-            --heading-color: hsl(335, 30%, 31%);
-            --image-filter-custom-rgba: hsla(220, 35%, 19%, 0.6);
-            --section-background-color: hsl(0, 0%, 0%);
-        }
-
-        body { background: var(--page-background-color); color: var(--text-color); font-family: 'Audiowide', cursive; margin: 0; padding: 0; }
-        a { color: var(--link-color); text-decoration: none; }
-        a:hover { color: var(--nav-link-rollover-color); }
-        header { position: relative; height: 100vh; overflow: hidden; }
-        video { position: absolute; top: 50%; left: 50%; min-width: 100%; min-height: 100%; width: auto; height: auto; transform: translate(-50%, -50%); }
-        .title-nav-container { position: relative; z-index: 1; text-align: center; padding: 2rem; }
-        nav ul { list-style: none; display: flex; justify-content: center; padding: 0; }
-        nav li { margin: 0 1rem; }
-        nav a { font-size: 1.2rem; }
-        .store-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; padding: 1rem; }
-        .store-item { border: 1px solid var(--link-color); padding: 1rem; text-align: center; background: rgba(0,0,0,0.8); }
-        .store-item img { max-width: 100%; height: auto; }
-        .category-bar { text-align: center; margin-bottom: 1rem; }
-        .category-bar button { margin: 0.5rem; padding: 0.5rem 1rem; background: var(--button-color); border: none; cursor: pointer; font-family: 'Audiowide', cursive; }
-        .category-bar button.active { background: var(--button-hover-color); }
-        #sortSelect { background: black; color: var(--link-color); border: 2px solid var(--link-color); padding: 0.5rem; font-family: 'Audiowide', cursive; }
-        section { padding: 2rem; text-align: center; }
-        footer { text-align: center; padding: 1rem; background: var(--sub-menu-background-color); }
-        .button { display: inline-block; padding: 0.5rem 1rem; background: var(--button-color); margin-top: 1rem; }
-        .button:hover { background: var(--button-hover-color); }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Baltazar Seeds — Mainmenu</title>
+<link rel="icon" href="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/abdeb8944bb0a8cff53495222d827d5b87b7f62f/original/black-w-white-logo.jpg/!!/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.png">
+<style>
+  /* --- Fonts (fallbacks vorhanden) --- */
+  @font-face{font-family:"Audiowide";src:url('//assets-production.bndzgl.com/assets/4480cbae-2b78-4308-9254-6af3b9ddb15d/audiowide-regular.woff2') format('woff2');font-weight:400;font-style:normal;}
+  :root{
+    --bg: #000;
+    --text: #fff;
+    --accent: hsl(71,90%,48%);
+    --accent-2: hsl(237,81%,45%);
+    --card-bg: rgba(0,0,0,0.7);
+  }
+  html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:"Audiowide",system-ui,Segoe UI,Roboto,Arial,sans-serif;}
+  /* header / video */
+  header{position:relative;height:60vh;min-height:360px;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  header video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:contrast(1.05) saturate(1.05);}
+  /* dark overlay for readability */
+  .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 60%);z-index:1;}
+  .title-nav-container{position:relative;z-index:2;text-align:center;padding:2rem 1rem;}
+  .title-nav-container h1{margin:0;font-size:clamp(1.6rem,4vw,3rem);letter-spacing:2px;color:var(--text);text-transform:uppercase;}
+  nav ul{display:flex;gap:1rem;justify-content:center;padding:0;margin:0;list-style:none;font-size:0.95rem;}
+  nav a{color:var(--text);opacity:0.9}
+  nav a:hover{opacity:1;color:var(--accent);}
+  /* store section */
+  section{padding:2rem 1rem;max-width:1200px;margin:0 auto;}
+  h2{margin:0 0 1rem 0;font-size:1.5rem;color:var(--text)}
+  .category-bar{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:1rem;align-items:center}
+  .category-bar button, .category-bar select{background:var(--card-bg);border:1px solid rgba(255,255,255,0.08);color:var(--text);padding:.45rem .8rem;border-radius:6px;cursor:pointer;font-family:inherit}
+  .category-bar button.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#000;font-weight:700}
+  .store-wrapper{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+  .store-item{background:var(--card-bg);border-radius:10px;padding:1rem;backdrop-filter:blur(4px);transition:transform .28s ease, box-shadow .28s ease;display:flex;flex-direction:column;align-items:center;text-align:center}
+  .store-item:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+  .store-item img{width:100%;height:140px;object-fit:cover;border-radius:6px;margin-bottom:.6rem}
+  .store-item h3{margin:.3rem 0 .2rem 0;font-size:1rem}
+  .product-price{margin-top:auto;font-weight:700}
+  .button{display:inline-block;padding:.4rem .7rem;border-radius:6px;margin-top:.6rem;background:var(--accent);color:#000;text-decoration:none;font-weight:700}
+  footer{padding:1rem;text-align:center;color:rgba(255,255,255,0.7);border-top:1px solid rgba(255,255,255,0.03);margin-top:2rem}
+  /* small screens tweaks */
+  @media (max-width:520px){
+    nav ul{flex-wrap:wrap;font-size:.9rem}
+    .store-item img{height:120px}
+  }
+</style>
 </head>
 <body>
-    <header>
-        <video autoplay muted loop playsinline>
-            <source src="INTRO.mp4" type="video/mp4">
-        </video>
-        <div class="title-nav-container">
-            <h1><a href="/home">BALTAZAR SEEDS</a></h1>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Entrance</a></li>
-                    <li><a href="seite3.html">Menu</a></li>
-                    <li><a href="impressum.html">Imprint & Contact</a></li>
-                    <li><a href="fun.html">Fun Area</a></li>
-                    <li><a href="https://x.com/BALTAZARSEEDS" target="_blank"><i class="fab fa-x-twitter"></i></a></li>
-                    <li><a href="https://www.instagram.com/real_jack_james" target="_blank"><i class="fab fa-instagram"></i></a></li>
-                    <li><a href="https://www.youtube.com/@IMANVANRULER" target="_blank"><i class="fab fa-youtube"></i></a></li>
-                    <li><a href="https://soundcloud.com/jackjames-2" target="_blank"><i class="fab fa-soundcloud"></i></a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <section>
-        <h2>Baltazar Seeds</h2>
-        <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/ad2c757408347054e073ffcf96a1eea3420b0426/original/rub-a-dub-smaller.jpg/!!/b%3AW1sicmVzaXplIiwxMDAwXSxbIm1heCJdLFsid2UiXV0%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="Rub-a-Dub">
-    </section>
+<header>
+  <!-- Video: falls INTRO.mp4 nicht existiert, zeigt Browser nichts — dann sieht man Overlay & Titel -->
+  <video autoplay muted loop playsinline>
+    <source src="INTRO.mp4" type="video/mp4">
+    <!-- Fallback-Bild -->
+  </video>
+  <div class="overlay" aria-hidden="true"></div>
+  <div class="title-nav-container">
+    <h1><a href="/home" style="color:inherit;text-decoration:none">BALTAZAR SEEDS</a></h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Entrance</a></li>
+        <li><a href="seite3.html">Menu</a></li>
+        <li><a href="impressum.html">Imprint</a></li>
+        <li><a href="fun.html">Fun</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-    <section>
-        <h2>What's new in the store</h2>
-        <div class="category-bar">
-            <button class="active" data-category="all">ALL</button>
-            <button data-category="MOSTLY SATIVA">MOSTLY SATIVA</button>
-            <button data-category="MOSTLY INDICA">MOSTLY INDICA</button>
-            <button data-category="BALANCED">BALANCED</button>
-            <button data-category="SPECIAL">SPECIAL</button>
-            <button data-category="GROWING">GROWING</button>
-            <button data-category="MERCH">MERCH</button>
-            <button data-category="ULTRA STYLE">ULTRA STYLE</button>
-            <select id="sortSelect">
-                <option value="name">Sort by Name (A-Z)</option>
-                <option value="price">Sort by Price</option>
-                <option value="popularity">Sort by Popularity</option>
-                <option value="random">Random</option>
-            </select>
-        </div>
-        <div class="store-wrapper">
-            <article class="store-item" data-category="MOSTLY SATIVA" data-price="30" data-popularity="90">
-                <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/f56ea75eadbf9c48e1b02bfc4bbee92640bcaa05/original/STRAIN1.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="BALTAZAR HAZE">
-                <h1>BALTAZAR HAZE</h1>
-                <p>Creative & Psychedelic</p>
-                <div class="product-price">$30.00</div>
-                <a href="strain1.html" class="button">View Details</a>
-            </article>
-            <article class="store-item" data-category="MOSTLY INDICA" data-price="25" data-popularity="85">
-                <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/0e3b79cdbc5810bff8320aaaf12493f2c73c9649/original/STRAIN2.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="BALTAZAR KUSH">
-                <h1>BALTAZAR KUSH</h1>
-                <p>Gassy & Strong</p>
-                <div class="product-price">$25.00</div>
-                <a href="strain2.html" class="button">View Details</a>
-            </article>
-            <article class="store-item" data-category="BALANCED" data-price="28" data-popularity="80">
-                <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/8b95c376d7bf9483e32c0aa2f84a6de0610b5e80/original/STRAIN3.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="BALTAZAR WHITE WIDOW">
-                <h1>BALTAZAR WHITE WIDOW</h1>
-                <p>Balanced & Sweet</p>
-                <div class="product-price">$28.00</div>
-                <a href="strain3.html" class="button">View Details</a>
-            </article>
-            <article class="store-item" data-category="SPECIAL" data-price="22" data-popularity="75">
-                <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/8b95c376d7bf9483e32c0aa2f84a6de0610b5e80/original/STRAIN4.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="BALTAZAR SKUNK">
-                <h1>BALTAZAR SKUNK</h1>
-                <p>Classic & Stinky</p>
-                <div class="product-price">$22.00</div>
-                <a href="strain4.html" class="button">View Details</a>
-            </article>
-            <article class="store-item" data-category="SPECIAL" data-price="35" data-popularity="95">
-                <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/8b95c376d7bf9483e32c0aa2f84a6de0610b5e80/original/STRAIN5.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="BALTAZAR SOUR DIESEL">
-                <h1>BALTAZAR SOUR DIESEL</h1>
-                <p>Gassy & Powerful</p>
-                <div class="product-price">$35.00</div>
-                <a href="strain5.html" class="button">View Details</a>
-            </article>
-            <article class="store-item" data-category="SPECIAL" data-price="40" data-popularity="85">
-                <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/8b95c376d7bf9483e32c0aa2f84a6de0610b5e80/original/STRAIN6.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="BALTAZAR PURPLE NIGHTMARE">
-                <h1>BALTAZAR PURPLE NIGHTMARE</h1>
-                <p>Sweet & Relaxing</p>
-                <div class="product-price">$40.00</div>
-                <a href="strain6.html" class="button">View Details</a>
-            </article>
-            <article class="store-item" data-category="MERCH" data-price="15" data-popularity="70">
-                <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/8b95c376d7bf9483e32c0aa2f84a6de0610b5e80/original/MERCH1.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="Black Hoody">
-                <h1>Black Hoody</h1>
-                <p>With Logo</p>
-                <div class="product-price">$15.00</div>
-                <a href="merch1.html" class="button">View Details</a>
-            </article>
-            <article class="store-item" data-category="MERCH" data-price="12" data-popularity="65">
-                <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/8b95c376d7bf9483e32c0aa2f84a6de0610b5e80/original/MERCH2.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="Big Wave Hemp Leaf">
-                <h1>Big Wave Hemp Leaf</h1>
-                <p>Shirt</p>
-                <div class="product-price">$12.00</div>
-                <a href="merch2.html" class="button">View Details</a>
-            </article>
-            <article class="store-item" data-category="MERCH" data-price="10" data-popularity="60">
-                <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/8b95c376d7bf9483e32c0aa2f84a6de0610b5e80/original/MERCH3.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="Little Hemp Waves">
-                <h1>Little Hemp Waves</h1>
-                <p>Shirt</p>
-                <div class="product-price">$10.00</div>
-                <a href="merch3.html" class="button">View Details</a>
-            </article>
-            <article class="store-item" data-category="MERCH" data-price="18" data-popularity="55">
-                <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/8b95c376d7bf9483e32c0aa2f84a6de0610b5e80/original/MERCH4.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="Colorful Badfarmers">
-                <h1>Colorful Badfarmers</h1>
-                <p>Shirt</p>
-                <div class="product-price">$18.00</div>
-                <a href="merch4.html" class="button">View Details</a>
-            </article>
-        </div>
-    </section>
+<section>
+  <h2>What's new in the store</h2>
 
-    <footer>
-        <p>&copy; 2025 Baltazar Seeds - Badfarmers Genetics</p>
-    </footer>
+  <div class="category-bar" role="toolbar" aria-label="Filter">
+    <button data-category="all" class="active">ALL</button>
+    <button data-category="MOSTLY SATIVA">SATIVA</button>
+    <button data-category="MOSTLY INDICA">INDICA</button>
+    <button data-category="BALANCED">BALANCED</button>
+    <select id="sortSelect" aria-label="Sort">
+      <option value="name">Sort: Name (A-Z)</option>
+      <option value="price">Sort: Price (low→high)</option>
+      <option value="popularity">Sort: Popularity (high→low)</option>
+      <option value="random">Sort: Random</option>
+    </select>
+  </div>
 
-    <script>
-        // Kategorie-Filter
-        const buttons = document.querySelectorAll('.category-bar button');
-        const items = document.querySelectorAll('.store-item');
-        const sortSelect = document.getElementById('sortSelect');
+  <div class="store-wrapper" id="storeWrapper">
+    <!-- vereinfachte Items, Bilder bleiben extern -->
+    <article class="store-item" data-category="MOSTLY SATIVA" data-price="30" data-popularity="90">
+      <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/f56ea75eadbf9c48e1b02bfc4bbee92640bcaa05/original/STRAIN1.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="Baltazar Haze">
+      <h3>BALT.AZAR HAZE</h3>
+      <p>Creative & Psychedelic</p>
+      <div class="product-price">$30.00</div>
+      <a class="button" href="strain1.html">View</a>
+    </article>
 
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                buttons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                const category = button.getAttribute('data-category');
-                filterItems(category);
-            });
-        });
+    <article class="store-item" data-category="MOSTLY INDICA" data-price="25" data-popularity="85">
+      <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/0e3b79cdbc5810bff8320aaaf12493f2c73c9649/original/STRAIN2.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="Baltazar Kush">
+      <h3>BALT.AZAR KUSH</h3>
+      <p>Gassy & Strong</p>
+      <div class="product-price">$25.00</div>
+      <a class="button" href="strain2.html">View</a>
+    </article>
 
-        function filterItems(category) {
-            items.forEach(item => {
-                if (category === 'all' || item.getAttribute('data-category') === category) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
+    <article class="store-item" data-category="BALANCED" data-price="28" data-popularity="80">
+      <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/8b95c376d7bf9483e32c0aa2f84a6de0610b5e80/original/STRAIN3.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="White Widow">
+      <h3>BALT.AZAR WHITE WIDOW</h3>
+      <p>Balanced & Sweet</p>
+      <div class="product-price">$28.00</div>
+      <a class="button" href="strain3.html">View</a>
+    </article>
 
-        // Sortierfunktion
-        sortSelect.addEventListener('change', () => {
-            const sortBy = sortSelect.value;
-            const itemsArray = Array.from(items);
-            let sortedItems;
+    <article class="store-item" data-category="SPECIAL" data-price="35" data-popularity="95">
+      <img src="//d10j3mvrs1suex.cloudfront.net/s:bzglfiles/u/290083/8b95c376d7bf9483e32c0aa2f84a6de0610b5e80/original/STRAIN5.JPG/!!/b%3AW1sicmVzaXplIixbNjAwLG51bGwseyJ3aXRob3V0RW5sYXJnZW1lbnQiOnRydWUsImZpdCI6Im91dHNpZGUifV1dXQ%3D%3D/meta%3AeyJzcmNCdWNrZXQiOiJiemdsZmlsZXMifQ%3D%3D.jpg" alt="Sour Diesel">
+      <h3>SOUR DIESEL</h3>
+      <p>Gassy & Powerful</p>
+      <div class="product-price">$35.00</div>
+      <a class="button" href="strain5.html">View</a>
+    </article>
 
-            if (sortBy === 'name') {
-                sortedItems = itemsArray.sort((a, b) => a.querySelector('h1').textContent.localeCompare(b.querySelector('h1').textContent));
-            } else if (sortBy === 'price') {
-                sortedItems = itemsArray.sort((a, b) => parseFloat(a.getAttribute('data-price')) - parseFloat(b.getAttribute('data-price')));
-            } else if (sortBy === 'popularity') {
-                sortedItems = itemsArray.sort((a, b) => parseFloat(b.getAttribute('data-popularity')) - parseFloat(a.getAttribute('data-popularity')));
-            } else if (sortBy === 'random') {
-                sortedItems = itemsArray.sort(() => Math.random() - 0.5);
-            }
+  </div>
+</section>
 
-            const storeWrapper = document.querySelector('.store-wrapper');
-            storeWrapper.innerHTML = '';
-            sortedItems.forEach(item => storeWrapper.appendChild(item));
-        });
-    </script>
+<footer>
+  <small>&copy; 2025 Baltazar Seeds — Badfarmers Genetics</small>
+</footer>
+
+<script>
+  // Elemente
+  const categoryButtons = Array.from(document.querySelectorAll('.category-bar button'));
+  const sortSelect = document.getElementById('sortSelect');
+  const storeWrapper = document.getElementById('storeWrapper');
+
+  // Hilfsfunktion: liest aktuelle Items als Array
+  function getItemsArray() {
+    return Array.from(storeWrapper.querySelectorAll('.store-item'));
+  }
+
+  // Filter
+  categoryButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      categoryButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const category = btn.getAttribute('data-category');
+      filterItems(category);
+    });
+  });
+
+  function filterItems(category) {
+    const items = getItemsArray();
+    items.forEach(item => {
+      const itemCat = item.getAttribute('data-category') || '';
+      // case-insensitive compare for robustness
+      if (category.toLowerCase() === 'all' || itemCat.toLowerCase() === category.toLowerCase()) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  // Sort
+  sortSelect.addEventListener('change', () => {
+    sortAndRender(sortSelect.value);
+  });
+
+  function sortAndRender(mode = 'name') {
+    const items = getItemsArray();
+
+    let sorted = items.slice(); // copy
+
+    if (mode === 'name') {
+      sorted.sort((a,b) => a.querySelector('h3').textContent.trim().localeCompare(b.querySelector('h3').textContent.trim()));
+    } else if (mode === 'price') {
+      sorted.sort((a,b) => parseFloat(a.dataset.price) - parseFloat(b.dataset.price));
+    } else if (mode === 'popularity') {
+      sorted.sort((a,b) => parseFloat(b.dataset.popularity) - parseFloat(a.dataset.popularity));
+    } else if (mode === 'random') {
+      sorted.sort(() => Math.random() - 0.5);
+    }
+
+    // Append in new order (preserves display style)
+    sorted.forEach(it => storeWrapper.appendChild(it));
+  }
+
+  // initial state
+  filterItems('all');
+
+  // Optional: keyboard-accessible quick-filter (Taste 1-4)
+  window.addEventListener('keydown', e => {
+    if (e.key === '1') categoryButtons[0]?.click();
+    if (e.key === '2') categoryButtons[1]?.click();
+    if (e.key === '3') categoryButtons[2]?.click();
+  });
+</script>
+
 </body>
 </html>
