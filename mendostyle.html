@@ -1,39 +1,65 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mendo Dope Farms</title>
-  <style>
-    /* Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body, html { height: 100%; font-family: 'Arial', sans-serif; background-color: #121212; color: #fff; display: flex; justify-content: center; align-items: center; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mendo Style</title>
+<style>
+  /* Grund-Reset */
+  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Arial', sans-serif; }
+  body { background: linear-gradient(120deg, #1b1b1b, #2c2c2c); color: #fff; overflow-x: hidden; }
 
-    /* Container */
-    .container { text-align: center; padding: 20px; border: 2px solid #ffcc00; border-radius: 15px; background: rgba(0, 0, 0, 0.7); max-width: 90%; }
+  /* Header */
+  header { background: #111; padding: 2rem 1rem; text-align: center; position: relative; }
+  header h1 { font-size: 3rem; letter-spacing: 2px; text-transform: uppercase; color: #f0a500; }
+  header p { font-size: 1.2rem; margin-top: 0.5rem; color: #ccc; }
 
-    /* Header */
-    h1 { font-size: 3rem; color: #ffcc00; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 2px; }
+  /* Animierte Hintergrundeffekte */
+  .bg-effect {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(circle at 50% 50%, rgba(240,165,0,0.2), transparent 70%);
+    animation: rotate 60s linear infinite;
+    z-index: 0;
+  }
 
-    /* Paragraph */
-    p { font-size: 1.2rem; color: #ccc; margin-bottom: 1.5rem; }
+  @keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
-    /* Button */
-    .btn { display: inline-block; padding: 10px 20px; margin-top: 10px; background-color: #ffcc00; color: #121212; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; }
-    .btn:hover { background-color: #e6b800; }
+  /* Hauptbereich */
+  main { position: relative; z-index: 1; padding: 5rem 1rem; max-width: 1200px; margin: 0 auto; text-align: center; }
+  main h2 { font-size: 2rem; color: #f0a500; margin-bottom: 1rem; }
+  main p { font-size: 1.1rem; line-height: 1.6; color: #ddd; margin-bottom: 2rem; }
 
-    /* Footer */
-    footer { position: absolute; bottom: 10px; font-size: 0.8rem; color: #aaa; }
-  </style>
+  /* Buttons */
+  .btn { display: inline-block; padding: 1rem 2rem; background: #f0a500; color: #111; text-decoration: none; text-transform: uppercase; font-weight: bold; border-radius: 8px; transition: all 0.3s ease; }
+  .btn:hover { background: #fff; color: #111; transform: scale(1.05); box-shadow: 0 0 20px #f0a500; }
+
+  /* Footer */
+  footer { background: #111; text-align: center; padding: 2rem 1rem; color: #777; font-size: 0.9rem; margin-top: 4rem; }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Mendo Dope Farms</h1>
-    <p>Willkommen auf der offiziellen Seite von Mendo Dope Farms. Hier findest du alles über unsere preisgekrönten Sorten, Züchtungen und mehr.</p>
-    <a href="https://mendodopefarms.com" class="btn" target="_blank">Besuche unseren Shop</a>
-  </div>
+  <div class="bg-effect"></div>
+
+  <header>
+    <h1>Mendo Style</h1>
+    <p>Independent & Stylish</p>
+  </header>
+
+  <main>
+    <h2>Welcome to the vibe</h2>
+    <p>Hier steht dein eigener Content. Du kannst alles anpassen – Texte, Bilder, Buttons. Alles funktioniert eigenständig und die Seite ist sofort sichtbar.</p>
+    <a href="#" class="btn">Check it out</a>
+  </main>
+
   <footer>
-    <p>&copy; 2025 Mendo Dope Farms. Alle Rechte vorbehalten.</p>
+    &copy; 2025 Mendo Style. All rights reserved.
   </footer>
 </body>
 </html>
