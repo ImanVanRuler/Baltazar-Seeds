@@ -1,89 +1,68 @@
-# === GitHub Pages Fix + MendoStyle Setup ===
-# Voraussetzungen:
-# - Du bist im Root deines lokalen GitHub-Repos
-# - Dein Branch heißt main (falls master oder gh-pages, bitte ersetzen)
-
-# 1️⃣ Datei mendostyle.html anlegen
-cat > mendostyle.html <<'HTML'
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MendoStyle</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: #0e0e0e;
-      color: #f5f5f5;
-      font-family: 'Arial', sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.5em;
-      margin-bottom: 0.5em;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    p {
-      color: #bbb;
-      max-width: 500px;
-      line-height: 1.5;
-    }
-    video {
-      width: 80%;
-      max-width: 700px;
-      margin-top: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(255,255,255,0.15);
-    }
-    a {
-      color: #00bfff;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MendoStyle — Standalone</title>
+<style>
+  :root {
+    --bg: #0b0b0b;
+    --fg: #f7f7f7;
+    --accent: #ff3b3b;
+  }
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+  .wrap {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    padding: 2rem;
+    text-align: center;
+  }
+  h1 {
+    font-size: clamp(20px, 5vw, 48px);
+    letter-spacing: 1px;
+    margin: 0;
+  }
+  p {
+    max-width: 680px;
+    color: #dcdcdc;
+    margin: 0;
+  }
+  .box {
+    padding: 1.2rem 1.6rem;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.03);
+  }
+  footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.6rem;
+    text-align: center;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.5);
+  }
+</style>
 </head>
 <body>
-
-  <h1>MendoStyle</h1>
-  <p>Wenn du diese Seite siehst, läuft GitHub Pages korrekt und deine Datei <strong>mendostyle.html</strong> ist erreichbar.</p>
-
-  <video autoplay loop muted playsinline>
-    <source src="INTRO.mp4" type="video/mp4">
-    Dein Browser unterstützt keine Videoanzeige.
-  </video>
-
-  <p><a href="https://github.com/">Zurück zu GitHub</a></p>
-
+<div class="wrap">
+  <div class="box">
+    <h1>MendoStyle — Standalone</h1>
+    <p>Dies ist eine komplett lokale Demo-Seite (keine externen Dateien). Wenn diese Seite angezeigt wird, ist Deine GitHub-Pages-Startseite korrekt.</p>
+  </div>
+</div>
+<footer>mendostyle.html — lokal & self-contained</footer>
 </body>
 </html>
-HTML
-
-# 2️⃣ Optional: Datei zusätzlich als index.html kopieren (damit GitHub Pages sie als Startseite verwendet)
-cp mendostyle.html index.html
-
-# 3️⃣ Jekyll deaktivieren (verhindert mögliche Filterung)
-touch .nojekyll
-
-# 4️⃣ Alles committen und pushen
-git add mendostyle.html index.html .nojekyll
-git commit -m "Add mendostyle.html, index.html, disable Jekyll for GitHub Pages"
-git push origin main
-
-# 5️⃣ Leeren Commit erzeugen, um GitHub Pages Build zu triggern
-git commit --allow-empty -m "Trigger GitHub Pages rebuild"
-git push origin main
-
-# 6️⃣ Hinweis
-echo ""
-echo "✅ Fertig! Öffne in GitHub:"
-echo "   Settings → Pages → Prüfe die URL deiner Seite (z. B. https://username.github.io/repo-name/)"
-echo "   Deine Datei mendostyle.html wird jetzt als Startseite angezeigt."
