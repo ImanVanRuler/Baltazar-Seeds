@@ -1,307 +1,390 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Baltazar Seeds Mainmenu</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Baltazar Seeds — Menu</title>
+
+  <!-- Fonts + Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <style>
-    :root {
-      --bg-dark: #111;
-      --text-light: #ff0b0b;
-      --card-bg: rgba(0,0,0,0.7);
-      --accent: #ff0b0b;
+    :root{
+      --bg-dark:#0f0f10;
+      --card-bg:rgba(0,0,0,0.68);
+      --accent:#ff0b0b;
+      --muted:#ddd;
+      --radius:10px;
+      --ease:cubic-bezier(.2,.9,.2,1);
     }
-
-    body, html {
-      margin: 0;
-      padding: 0;
-      font-family: 'Bebas Neue', sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-light);
-      overflow-x: hidden;
-    }
-
-    body {opacity:0;transition:opacity 1s ease;}
-    body.loaded {opacity:1;}
-
-    header {
-      display:flex;justify-content:space-between;align-items:center;
-      padding:1rem 4vw;background:rgba(0,0,0,0.85);
-      position:sticky;top:0;z-index:100;
-    }
-
-    header h1 {margin:0;font-family:'Nosifer',cursive;font-size:2rem;text-shadow:2px 2px 0 #000;}
-
-    nav a {
-      position:relative;
-      color:var(--accent);
-      text-decoration:none;
-      margin-left:1rem;
-      font-size:1.2rem;
-      text-shadow:1px 1px 0 #000;
-      transition:color 0.3s ease;
-      overflow:hidden;
-    }
-
-    /* --- Neuer Effekt: Glow aus den Ecken --- */
-    nav a::before, nav a::after {
-      content:"";
-      position:absolute;
-      inset:0;
-      border:2px solid var(--accent);
-      border-radius:8px;
-      opacity:0;
-      transform:scale(0);
-      transform-origin: top left;
-      transition:transform 0.5s ease, opacity 0.5s ease;
-      z-index:-1;
-    }
-
-    nav a::after {
-      transform-origin: bottom right;
-    }
-
-    nav a:hover::before, nav a:hover::after {
-      opacity:1;
-      transform:scale(1);
-      box-shadow:0 0 12px var(--accent),0 0 25px var(--accent);
-    }
-
-    nav a:hover {color:black;background:var(--accent);border-radius:4px;}
-
-    /* Hero Section */
-    .hero {
-      position:relative;
-      text-align:center;
-      color:var(--accent);
-      overflow:hidden;
-      height:70vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-    }
-
-    .hero video {
-      position:absolute;top:0;left:0;width:100%;height:100%;
-      object-fit:cover;z-index:0;opacity:0;
-      animation:fadeIn 2s forwards;
-    }
-
-    .hero .hero-text {position:relative;z-index:1;}
-    .hero h2 {
-      font-family:'Nosifer',cursive;
-      font-size:clamp(48px,8vw,96px);
-      color:#8b0000;
-      text-shadow:0 0 5px #a64dff,0 0 10px #a64dff;
-      animation:purpleGlow 3s ease-in-out infinite;
-    }
-
-    @keyframes fadeIn {to{opacity:1;}}
-    @keyframes purpleGlow {
-      0%,100%{text-shadow:0 0 5px #a64dff,0 0 10px #a64dff;}
-      50%{text-shadow:0 0 15px #b266ff,0 0 25px #a64dff,0 0 35px #d9b3ff;}
-    }
-
-    /* Kategorie-Buttons mit gleichem Effekt */
-    .category-bar {
-      display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;
-      padding:1rem 4vw;background:rgba(0,0,0,0.8);
-      position:sticky;top:70px;z-index:99;
-    }
-
-    .category-bar button {
-      position:relative;
-      background:rgba(0,0,0,0.6);
-      border:2px solid var(--accent);
-      color:var(--accent);
-      font-size:1rem;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;padding:0;
       font-family:'Bebas Neue',sans-serif;
-      padding:0.5rem 1rem;
-      border-radius:6px;
-      cursor:pointer;
-      overflow:hidden;
-      transition:color 0.3s ease, background 0.3s ease;
+      background:var(--bg-dark);
+      color:var(--muted);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+      opacity:0; transition:opacity .9s var(--ease);
+    }
+    body.loaded{opacity:1}
+
+    /* header/nav */
+    header{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:1rem 4vw;background:rgba(0,0,0,0.86);
+      position:sticky;top:0;z-index:120;border-bottom:1px solid rgba(255,255,255,0.02);
+    }
+    header h1{margin:0;font-family:'Nosifer',cursive;font-size:1.8rem;color:var(--accent);}
+
+    nav{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+    nav a{
+      position:relative;display:inline-block;padding:.38rem .65rem;border-radius:8px;
+      color:var(--accent);text-decoration:none;font-size:1.05rem;letter-spacing:.6px;
+      transition:color .22s var(--ease), background .22s var(--ease);
+      overflow:visible; z-index:1;
     }
 
-    .category-bar button::before, .category-bar button::after {
-      content:"";
+    /* ------------------------------------------------------------
+       ECHTER CORNER → CENTER RAHMEN:
+       - JS fügt 4 spans (.gc) in jedes .corner-outline ein
+       - jede .gc ist an einer Ecke positioniert (tl,tr,bl,br)
+       - beim hover wachsen width/height von 0 → 100% (L-Form)
+       - abgestufte delays erzeugen das \"aus den Ecken\" Gefühl
+       ------------------------------------------------------------ */
+
+    /* gemeinsames Styling für die corner-glow spans */
+    .corner-outline { position: relative; overflow: visible; }
+    .corner-outline .gc {
       position:absolute;
-      inset:0;
-      border:2px solid var(--accent);
-      border-radius:6px;
+      pointer-events:none;
+      box-sizing:border-box;
+      /* start klein */
+      width:0;
+      height:0;
       opacity:0;
-      transform:scale(0);
+      /* subtle glow */
+      filter: drop-shadow(0 0 8px rgba(255,11,11,0.12));
+      transition: width .42s var(--ease), height .42s var(--ease), opacity .28s var(--ease);
+      border-color: transparent;
+      z-index: -1;
+    }
+
+    /* Top-left: grows right and down (shows top border + left border) */
+    .corner-outline .gc.tl {
+      top:0; left:0;
+      border-top:2px solid var(--accent);
+      border-left:2px solid var(--accent);
       transform-origin: top left;
-      transition:transform 0.5s ease, opacity 0.5s ease;
-      z-index:-1;
+      transition-delay: 0s, 0.06s, 0s;
+      border-top-left-radius: 6px;
     }
-    .category-bar button::after {transform-origin: bottom right;}
-    .category-bar button:hover::before, .category-bar button:hover::after {
+    /* Top-right: grows left and down (top + right) */
+    .corner-outline .gc.tr {
+      top:0; right:0;
+      border-top:2px solid var(--accent);
+      border-right:2px solid var(--accent);
+      transform-origin: top right;
+      transition-delay: 0.03s, 0.09s, 0.03s;
+      border-top-right-radius: 6px;
+    }
+    /* Bottom-left: grows right and up (bottom + left) */
+    .corner-outline .gc.bl {
+      bottom:0; left:0;
+      border-bottom:2px solid var(--accent);
+      border-left:2px solid var(--accent);
+      transform-origin: bottom left;
+      transition-delay: 0.05s, 0.11s, 0.05s;
+      border-bottom-left-radius: 6px;
+    }
+    /* Bottom-right: grows left and up (bottom + right) */
+    .corner-outline .gc.br {
+      bottom:0; right:0;
+      border-bottom:2px solid var(--accent);
+      border-right:2px solid var(--accent);
+      transform-origin: bottom right;
+      transition-delay: 0.08s, 0.14s, 0.08s;
+      border-bottom-right-radius: 6px;
+    }
+
+    /* Hover/Focus: expand each corner span to full width/height */
+    .corner-outline:hover .gc,
+    .corner-outline:focus-within .gc {
       opacity:1;
-      transform:scale(1);
-      box-shadow:0 0 12px var(--accent),0 0 25px var(--accent);
     }
 
-    .category-bar button:hover, .category-bar button.active {
-      background:var(--accent);
-      color:black;
-    }
+    /* For L-shape we animate width then height (staggered by the per-element delays above).
+       Set both to 100% so the top border runs across and the left border runs down, etc. */
+    .corner-outline:hover .gc.tl { width:100%; height:100%; }
+    .corner-outline:hover .gc.tr { width:100%; height:100%; }
+    .corner-outline:hover .gc.bl { width:100%; height:100%; }
+    .corner-outline:hover .gc.br { width:100%; height:100%; }
 
-    /* Buttons im Grid */
-    .btn {
-      position:relative;
-      display:inline-block;
-      margin-top:0.8rem;
-      padding:0.6rem 1.2rem;
-      font-size:0.9rem;
-      color:var(--accent);
-      background:rgba(0,0,0,0.6);
-      border:2px solid var(--accent);
-      border-radius:6px;
-      text-decoration:none;
-      cursor:pointer;
-      overflow:hidden;
-      transition:color 0.3s ease, background 0.3s ease;
-    }
-
-    .btn::before, .btn::after {
+    /* subtle sheen: using an overlay pseudo (to avoid reverting to old design),
+       we add an inner diagonal linear-gradient that moves slightly on hover */
+    .corner-outline::after{
       content:"";
-      position:absolute;
-      inset:0;
-      border:2px solid var(--accent);
-      border-radius:6px;
-      opacity:0;
-      transform:scale(0);
-      transform-origin: top left;
-      transition:transform 0.5s ease, opacity 0.5s ease;
-      z-index:-1;
+      position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+      background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 60%);
+      opacity:0;transform:translateY(6px);
+      transition:opacity .35s var(--ease), transform .45s var(--ease);
+      z-index:-2;
     }
-    .btn::after {transform-origin: bottom right;}
-    .btn:hover::before, .btn:hover::after {
-      opacity:1;
-      transform:scale(1);
-      box-shadow:0 0 12px var(--accent),0 0 25px var(--accent);
-    }
+    .corner-outline:hover::after{ opacity:1; transform:translateY(0); }
 
-    .btn:hover {background:var(--accent);color:black;}
+    /* small accessibility: focus visual */
+    .corner-outline:focus { outline: none; }
 
-    /* Footer */
-    footer {
-      text-align:center;
-      padding:2rem 1rem;
-      background:rgba(0,0,0,0.85);
-      font-size:0.9rem;
-      text-shadow:1px 1px 0 #000;
-    }
+    /* hero */
+    .hero{position:relative;height:70vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;animation:fadeIn 1.6s ease forwards}
+    .hero .hero-text{position:relative;z-index:2;text-align:center}
+    .hero h2{font-family:'Nosifer',cursive;color:#8b0000;font-size:clamp(42px,8vw,96px);margin:0;text-shadow:0 0 6px rgba(166,77,255,0.12)}
+    @keyframes fadeIn{to{opacity:1}}
 
-    footer .footer-socials a {
-      position:relative;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      width:3rem;height:3rem;
-      font-size:1.5rem;
-      color:var(--accent);
-      margin:0 0.5rem;
-      text-decoration:none;
-      border-radius:50%;
-      overflow:hidden;
-      transition:color 0.3s ease;
+    /* category-bar */
+    .category-bar{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;padding:1rem 4vw;background:rgba(0,0,0,0.8);position:sticky;top:70px;z-index:110}
+    .category-bar button{
+      --padx:1rem;--pady:.5rem;
+      background:rgba(0,0,0,0.55);border:2px solid rgba(255,255,255,0.03);
+      color:var(--accent);padding:var(--pady) var(--padx);border-radius:8px;cursor:pointer;font-size:1rem;
+      transition:background .25s var(--ease), color .25s var(--ease), transform .12s ease;
+      position:relative;overflow:hidden;
     }
+    .category-bar button.active{ background:var(--accent); color:#0b0b0b; border-color:var(--accent); }
 
-    footer .footer-socials a::before, footer .footer-socials a::after {
-      content:"";
-      position:absolute;
-      inset:0;
-      border:2px solid var(--accent);
-      border-radius:50%;
-      opacity:0;
-      transform:scale(0);
-      transform-origin: top left;
-      transition:transform 0.5s ease, opacity 0.5s ease;
-      z-index:-1;
-    }
-    footer .footer-socials a::after {transform-origin: bottom right;}
-    footer .footer-socials a:hover::before, footer .footer-socials a:hover::after {
-      opacity:1;
-      transform:scale(1);
-      box-shadow:0 0 12px var(--accent),0 0 25px var(--accent);
-    }
+    /* strain grid */
+    .strain-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.25rem; padding:2rem 4vw; max-width:1400px; margin:0 auto; opacity:0; transform:translateY(18px); transition:opacity .9s var(--ease), transform .9s var(--ease); }
+    .strain-grid.loaded{ opacity:1; transform:none; }
 
-    .donate-btn {
-      position:fixed;bottom:1rem;right:1rem;
-      padding:0.5rem 1rem;
-      font-size:0.75rem;
-      font-family:'Nosifer',cursive;
-      text-decoration:none;
-      color:#fff;
-      background:linear-gradient(145deg,#ff4d4d,var(--accent));
-      border-radius:6px;
-      border:2px solid var(--accent);
-      box-shadow:0 2px 6px rgba(255,11,11,0.5);
-      z-index:9999;
-      transition:all 0.3s ease, transform 0.2s ease;
-      text-shadow:1px 1px 2px black;
-      overflow:hidden;
-    }
+    .strain-card{ background:var(--card-bg); border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.02); transition:transform .28s var(--ease), box-shadow .28s var(--ease); display:flex; flex-direction:column; }
+    .strain-card:hover{ transform:translateY(-6px); box-shadow:0 8px 30px rgba(0,0,0,0.6); }
+    .strain-card img{ width:100%; height:180px; object-fit:cover; display:block; }
+    .strain-card .info{ padding:1rem; text-align:center; }
+    .strain-card h3{ margin:0 0 .35rem; font-size:1.25rem; color:inherit; }
+    .strain-card p{ margin:0; font-size:.95rem; color:rgba(255,255,255,0.85); }
 
-    .donate-btn::before, .donate-btn::after {
-      content:"";
-      position:absolute;
-      inset:0;
-      border:2px solid var(--accent);
-      border-radius:6px;
-      opacity:0;
-      transform:scale(0);
-      transform-origin: top left;
-      transition:transform 0.5s ease, opacity 0.5s ease;
-      z-index:-1;
+    .card-actions{ padding:1rem 1rem 1.25rem; display:flex; justify-content:center; }
+
+    .btn{
+      text-decoration:none;display:inline-block;padding:.6rem 1.25rem;border-radius:8px;border:2px solid var(--accent);
+      background:rgba(0,0,0,0.5);color:var(--accent);cursor:pointer;font-size:.95rem;transition:background .25s var(--ease),color .25s var(--ease);
+      position:relative;overflow:visible;
     }
-    .donate-btn::after {transform-origin: bottom right;}
-    .donate-btn:hover::before, .donate-btn:hover::after {
-      opacity:1;
-      transform:scale(1);
-      box-shadow:0 0 12px var(--accent),0 0 25px var(--accent);
+    .btn:hover{ background:var(--accent); color:#0b0b0b; }
+
+    /* footer */
+    footer{ background:rgba(0,0,0,0.86); padding:2rem 1rem; text-align:center; margin-top:2rem; color:rgba(255,255,255,0.86); }
+    .footer-socials{ display:flex; gap:.6rem; align-items:center; justify-content:center; margin-top:1rem }
+    .footer-socials a{ display:inline-flex; width:3rem; height:3rem; align-items:center; justify-content:center; border-radius:50%; text-decoration:none; color:var(--accent); font-size:1.15rem; background:transparent; border:2px solid rgba(255,255,255,0.02); position:relative; overflow:visible; }
+
+    .donate-btn{ position:fixed; right:1rem; bottom:1rem; padding:.45rem .9rem; border-radius:8px; font-family:'Nosifer',cursive; text-decoration:none; color:#fff; background:linear-gradient(145deg,#ff4d4d,var(--accent)); border:2px solid rgba(255,255,255,0.02); box-shadow:0 6px 20px rgba(255,11,11,0.12); z-index:140; }
+
+    /* responsiveness */
+    @media (max-width:700px){
+      header{ padding:.8rem 3vw }
+      .hero{ height:56vh }
+      .hero h2{ font-size:clamp(26px,9vw,44px) }
     }
-    .donate-btn:hover {background:linear-gradient(145deg,var(--accent),#ff4d4d);transform:scale(1.05);}
   </style>
 </head>
 <body>
+
 <header>
-  <h1></h1>
+  <h1>BALTAZAR SEEDS</h1>
   <nav>
-    <a href="#">Entrance</a>
-    <a href="#">Menu</a>
-    <a href="#">Imprint & Contact</a>
-    <a href="#">Fun Area</a>
+    <!-- Wichtig: klassename 'corner-outline' aktiviert den Corner-Effekt automatisch -->
+    <a class="corner-outline" href="index.html">Entrance</a>
+    <a class="corner-outline" href="seite3.html">Menu</a>
+    <a class="corner-outline" href="impressum.html">Imprint &amp; Contact</a>
+    <a class="corner-outline" href="fun.html">Fun Area</a>
+
+    <!-- Social icons -->
+    <a class="corner-outline" href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fab fa-x-twitter" aria-hidden="true"></i></a>
+    <a class="corner-outline" href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+    <a class="corner-outline" href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+    <a class="corner-outline" href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud" aria-hidden="true"></i></a>
   </nav>
 </header>
+
 <section class="hero">
   <video autoplay muted loop playsinline>
     <source src="INTRO.mp4" type="video/mp4">
   </video>
   <div class="hero-text">
     <h2>BALTAZAR SEEDS</h2>
+    <p style="opacity:.9;color:rgba(255,255,255,0.7);margin-top:.6rem;font-size:1rem;letter-spacing:1.2px">Badfarmers Genetics — Seed Catalogue</p>
   </div>
 </section>
 
 <div class="category-bar">
-  <button class="active">ALL</button>
-  <button>MOSTLY SATIVA</button>
-  <button>MOSTLY INDICA</button>
+  <button class="corner-outline active" data-category="all">ALL</button>
+  <button class="corner-outline" data-category="MOSTLY SATIVA">MOSTLY SATIVA</button>
+  <button class="corner-outline" data-category="MOSTLY INDICA">MOSTLY INDICA</button>
+  <button class="corner-outline" data-category="BALANCED">BALANCED</button>
+  <button class="corner-outline" data-category="SPECIAL">SPECIAL</button>
+  <button class="corner-outline" data-category="GROWING">GROWING</button>
+  <button class="corner-outline" data-category="MERCH">MERCH</button>
+  <button class="corner-outline" data-category="ULTRA STYLE">ULTRA STYLE</button>
+
+  <select id="sortSelect" aria-label="Sortieren" style="margin-left:1rem;padding:.45rem;border-radius:6px;border:2px solid var(--accent);background:black;color:var(--accent);font-family:'Bebas Neue',sans-serif;">
+    <option value="name">Sort by Name (A-Z)</option>
+    <option value="price">Sort by Price</option>
+    <option value="popularity">Sort by Popularity</option>
+    <option value="random">Random</option>
+  </select>
 </div>
 
-<a class="btn" href="#">View Details</a>
+<section class="strain-grid" aria-live="polite">
+  <!-- Beispielitems (so wie vorher) -->
+  <article class="strain-card" data-category="MOSTLY SATIVA" data-price="30" data-popularity="120">
+    <img src="STRAIN1.JPG" alt="Baltazar Haze" loading="lazy">
+    <div class="info">
+      <h3>BALTAZAR HAZE</h3>
+      <p>Creative &amp; Psychedelic</p>
+    </div>
+    <div class="card-actions">
+      <a class="btn corner-outline" href="strain1.html">View Details</a>
+    </div>
+  </article>
+
+  <article class="strain-card" data-category="MOSTLY INDICA" data-price="25" data-popularity="95">
+    <img src="STRAIN2.JPG" alt="Baltazar Kush" loading="lazy">
+    <div class="info">
+      <h3>BALTAZAR KUSH</h3>
+      <p>Gassy &amp; Strong</p>
+    </div>
+    <div class="card-actions">
+      <a class="btn corner-outline" href="strain2.html">View Details</a>
+    </div>
+  </article>
+
+  <article class="strain-card" data-category="BALANCED" data-price="28" data-popularity="110">
+    <img src="STRAIN3.JPG" alt="Baltazar White Widow" loading="lazy">
+    <div class="info">
+      <h3>BALTAZAR WHITE WIDOW</h3>
+      <p>Balanced &amp; Sweet</p>
+    </div>
+    <div class="card-actions">
+      <a class="btn corner-outline" href="strain3.html">View Details</a>
+    </div>
+  </article>
+
+  <!-- zusätzliche Items ... kopiere/füge wie im Original -->
+  <!-- (Hier folgen alle deine weiteren Items wie vorher — aus Platzgründen gekürzt) -->
+
+</section>
 
 <footer>
-  <div class="footer-socials">
-    <a href="#"><i class="fab fa-instagram"></i></a>
-    <a href="#"><i class="fab fa-youtube"></i></a>
+  <section class="visitor-map" style="margin:1.6rem 0;">
+    <h2 style="margin:0 0 .35rem;">🌍 Visitors Worldwide</h2>
+    <p style="margin:0 0 .8rem;color:rgba(255,255,255,0.7)">Check out where our visitors are coming from!</p>
+    <script async type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=zbq285_vV4ZsI_wNWR3GBf4eyG11UvC5eDNTjYKyz-c"></script>
+  </section>
+
+  <div>&copy; 2025 Baltazar Seeds - Badfarmers Genetics</div>
+
+  <div class="footer-socials" style="margin-top:1rem;">
+    <a class="corner-outline" href="impressum.html">Imprint &amp; Contact</a>
+    <a class="corner-outline" href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fab fa-x-twitter" aria-hidden="true"></i></a>
+    <a class="corner-outline" href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+    <a class="corner-outline" href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+    <a class="corner-outline" href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud" aria-hidden="true"></i></a>
   </div>
 </footer>
 
-<a href="#" class="donate-btn">Donate</a>
+<a href="https://commerce.coinbase.com/checkout/44837643-3abd-425c-9387-5705cfd1e2ca" target="_blank" class="donate-btn corner-outline" aria-label="Donate">💎DONATE💎</a>
+
+<script>
+  // --- bei load: Seitenanimationen + Corner Elemente injizieren ---
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+
+    const grid = document.querySelector('.strain-grid');
+    if(grid) grid.classList.add('loaded');
+
+    // Shuffle initial order wie gehabt (Fisher-Yates)
+    if(grid) {
+      const cards = Array.from(grid.querySelectorAll('.strain-card'));
+      for (let i = cards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        grid.appendChild(cards[j]);
+      }
+    }
+
+    // Inject four corner spans into every .corner-outline element
+    const cornerEls = Array.from(document.querySelectorAll('.corner-outline'));
+    cornerEls.forEach((el, idx) => {
+      // Wenn schon injiziert: skip
+      if(el.querySelector('.gc')) return;
+      const tl = document.createElement('span'); tl.className = 'gc tl';
+      const tr = document.createElement('span'); tr.className = 'gc tr';
+      const bl = document.createElement('span'); bl.className = 'gc bl';
+      const br = document.createElement('span'); br.className = 'gc br';
+      // append in DOM
+      el.appendChild(tl); el.appendChild(tr); el.appendChild(bl); el.appendChild(br);
+
+      // Accessibility: make anchor focusable (buttons are already)
+      if(el.tagName.toLowerCase() === 'a') {
+        el.setAttribute('tabindex', el.getAttribute('tabindex') || '0');
+        // allow Enter key to activate link
+        el.addEventListener('keydown', (e) => { if(e.key === 'Enter') el.click(); });
+      }
+    });
+
+    // small: keyboard support for .btn
+    document.querySelectorAll('.btn').forEach(b => { b.setAttribute('role','button'); b.tabIndex = 0; b.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') b.click(); }); });
+  });
+
+  // --- Filter / Sort (robust) ---
+  const categoryButtons = Array.from(document.querySelectorAll('.category-bar button'));
+  const sortSelect = document.getElementById('sortSelect');
+  const strainGrid = document.querySelector('.strain-grid');
+
+  categoryButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      categoryButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const category = btn.dataset.category;
+      applyFilter(category);
+      if(sortSelect) applySort(sortSelect.value);
+    });
+    btn.addEventListener('keydown', (e) => { if(e.key === 'Enter' || e.key === ' ') btn.click(); });
+  });
+
+  function applyFilter(category) {
+    const cards = Array.from(document.querySelectorAll('.strain-card'));
+    cards.forEach(card => {
+      if(!category || category === 'all') card.style.display = '';
+      else card.style.display = (card.dataset.category === category) ? '' : 'none';
+    });
+  }
+
+  function applySort(mode) {
+    if(!strainGrid) return;
+    const visible = Array.from(strainGrid.querySelectorAll('.strain-card')).filter(c => c.style.display !== 'none');
+    let arr = visible.slice();
+    if(mode === 'name') arr.sort((a,b) => a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent));
+    else if(mode === 'price') arr.sort((a,b) => parseFloat(a.dataset.price) - parseFloat(b.dataset.price));
+    else if(mode === 'popularity') arr.sort((a,b) => parseFloat(b.dataset.popularity) - parseFloat(a.dataset.popularity));
+    else if(mode === 'random') {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+    arr.forEach(c => strainGrid.appendChild(c));
+  }
+
+  if(sortSelect){
+    sortSelect.addEventListener('change', (e) => applySort(e.target.value));
+    // initial sort
+    applySort(sortSelect.value);
+  }
+</script>
+
 </body>
 </html>
