@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baltazar Seeds Mainmenu</title>
-    <!-- Google Fonts -->
+    <meta name="description" content="Baltazar Seeds - Premium Cannabis Genetics & Merch von Badfarmers für Growers und Breeders. Nur für 21+.">
+    <meta name="keywords" content="cannabis seeds, genetics, badfarmers, sativa, indica, merch">
+    <title>Baltazar Seeds - Badfarmers Genetics</title>
     <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         :root {
             --bg-dark: #111;
-            --text-light: #ff0b0b;
+            --text-light: #ff4d4d;
+            --text-contrast: #fff;
             --card-bg: rgba(0,0,0,0.7);
-            --accent: #ff0b0b;
+            --accent: #ff4d4d;
         }
         body, html {
             margin: 0;
@@ -45,6 +46,7 @@
             font-family: 'Nosifer', cursive;
             font-size: 2rem;
             text-shadow: 2px 2px 0 #000;
+            color: var(--text-contrast);
         }
         nav a {
             color: var(--accent);
@@ -52,13 +54,13 @@
             margin-left: 1rem;
             font-size: 1.2rem;
             text-shadow: 1px 1px 0 #000;
-            transition: 0.3s;
-        }
-        nav a:hover {
-            color: black;
-            background: var(--accent);
+            transition: all 0.3s ease;
             padding: 0.2rem 0.5rem;
             border-radius: 4px;
+        }
+        nav a:hover {
+            color: var(--text-contrast);
+            background: var(--accent);
         }
         .hero {
             position: relative;
@@ -90,7 +92,9 @@
             font-family: 'Nosifer', cursive;
             font-size: clamp(48px, 8vw, 96px);
             margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 0 #000;
+            color: #8b0000;
+            text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff;
+            animation: purpleGlow 2s ease-in-out infinite;
         }
         .hero p {
             font-family: 'Bebas Neue', sans-serif;
@@ -98,9 +102,15 @@
             letter-spacing: 2px;
             margin: 0;
             text-shadow: 1px 1px 0 #000;
+            color: var(--text-contrast);
         }
         @keyframes fadeIn {
             to { opacity: 1; }
+        }
+        @keyframes purpleGlow {
+            0% { text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff; }
+            50% { text-shadow: 0 0 15px #b266ff, 0 0 25px #a64dff; }
+            100% { text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff; }
         }
         .category-bar {
             display: flex;
@@ -110,10 +120,10 @@
             padding: 1rem 4vw;
             background: rgba(0,0,0,0.8);
             position: sticky;
-            top: 70px;
+            top: 3.5rem;
             z-index: 99;
         }
-        .category-bar button {
+        .category-bar button, .category-bar select {
             background: rgba(0,0,0,0.6);
             border: 2px solid var(--accent);
             color: var(--accent);
@@ -122,11 +132,16 @@
             padding: 0.5rem 1rem;
             border-radius: 6px;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
         }
         .category-bar button:hover, .category-bar button.active {
             background: var(--accent);
-            color: black;
+            color: var(--text-contrast);
+        }
+        .category-bar select {
+            margin-left: 1rem;
+            background: var(--bg-dark);
+            color: var(--text-contrast);
         }
         .strain-grid {
             display: grid;
@@ -148,7 +163,7 @@
             border: 2px solid var(--accent);
             border-radius: 12px;
             overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .strain-card:hover {
             transform: translateY(-5px);
@@ -159,6 +174,7 @@
             height: 180px;
             object-fit: cover;
             display: block;
+            decoding: async;
         }
         .strain-card .info {
             padding: 1rem;
@@ -168,11 +184,13 @@
             margin: 0 0 0.5rem;
             font-size: 1.5rem;
             text-shadow: 1px 1px 0 #000;
+            color: var(--text-contrast);
         }
         .strain-card .info p {
             margin: 0;
             font-size: 1rem;
             text-shadow: 1px 1px 0 #000;
+            color: var(--text-light);
         }
         .btn {
             display: inline-block;
@@ -189,63 +207,32 @@
         }
         .btn:hover {
             background: var(--accent);
-            color: black;
+            color: var(--text-contrast);
         }
-        /* Footer bleibt gleich */
         footer {
             text-align: center;
             padding: 2rem 1rem;
             background: rgba(0,0,0,0.85);
             font-size: 0.9rem;
             text-shadow: 1px 1px 0 #000;
+            color: var(--text-contrast);
         }
-        /* Footer Social Icons */
         footer .footer-socials a {
-            position: relative;
-            display: inline-flex; /* wichtig: damit der Kreis um das Icon sitzt */
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 3rem; /* Kreisgröße */
+            width: 3rem;
             height: 3rem;
             font-size: 1.5rem;
             color: var(--accent);
             margin: 0 0.5rem;
             text-decoration: none;
-            z-index: 1;
-            border-radius: 50%; /* runde Buttons */
-            overflow: visible;
-            transition: color 0.3s ease;
-        }
-        /* Glow-Effekt */
-        footer .footer-socials a::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 130%;
-            height: 130%;
-            border: 2px solid var(--accent);
             border-radius: 50%;
-            opacity: 0;
-            box-shadow: 0 0 8px var(--accent), 0 0 20px var(--accent);
-            transition: transform 0.4s ease, opacity 0.4s ease;
-            animation: pulseGlow 3s infinite alternate;
-            pointer-events: none;
-            z-index: -1; /* hinter das Icon */
+            transition: all 0.3s ease;
         }
-        /* beim Hover verstärken */
-        footer .footer-socials a:hover::after {
-            transform: translate(-50%, -50%) scale(1.2);
-            opacity: 1;
-        }
-        /* Farb-Animation (nur 1x im gesamten CSS nötig) */
-        @keyframes pulseGlow {
-            0% { border-color: #ff00ff; box-shadow: 0 0 6px #ff00ff, 0 0 18px #ff00ff; }
-            25% { border-color: #00ffff; box-shadow: 0 0 6px #00ffff, 0 0 18px #00ffff; }
-            50% { border-color: #00ff00; box-shadow: 0 0 6px #00ff00, 0 0 18px #00ff00; }
-            75% { border-color: #ffff00; box-shadow: 0 0 6px #ffff00, 0 0 18px #ffff00; }
-            100% { border-color: #ff0000; box-shadow: 0 0 6px #ff0000, 0 0 18px #ff0000; }
+        footer .footer-socials a:hover {
+            background: var(--accent);
+            color: var(--text-contrast);
         }
         .donate-btn {
             position: fixed;
@@ -255,11 +242,11 @@
             font-size: 0.75rem;
             font-family: 'Nosifer', cursive;
             text-decoration: none;
-            color: #fff;
+            color: var(--text-contrast);
             background: linear-gradient(145deg, #ff4d4d, var(--accent));
             border-radius: 6px;
             border: 2px solid var(--accent);
-            box-shadow: 0 2px 6px rgba(255,11,11,0.5);
+            box-shadow: 0 2px 6px rgba(255,77,77,0.5);
             z-index: 9999;
             transition: all 0.3s ease, transform 0.2s ease;
             text-shadow: 1px 1px 2px black;
@@ -267,91 +254,34 @@
         .donate-btn:hover {
             background: linear-gradient(145deg, var(--accent), #ff4d4d);
             transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(255,11,11,0.7);
+            box-shadow: 0 4px 12px rgba(255,77,77,0.7);
         }
-        .hero h2 {
-            font-family: 'Nosifer', cursive;
-            font-size: clamp(48px, 8vw, 96px);
-            margin-bottom: 0.5rem;
-            color: #8b0000; /* Dunkelrot */
-            text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff;
-            animation: purpleGlow 3s ease-in-out infinite;
-        }
-        @keyframes purpleGlow {
-            0% { text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff; }
-            50% { text-shadow: 0 0 15px #b266ff, 0 0 25px #a64dff, 0 0 35px #d9b3ff; }
-            100% { text-shadow: 0 0 5px #a64dff, 0 0 10px #a64dff; }
-        }
-        /* ---- Leuchtende Linien-Hover für Navigation ---- */
-        nav a {
-            position: relative;
-            color: var(--accent);
-            text-decoration: none;
-            margin-left: 1rem;
-            font-size: 1.2rem;
-            text-shadow: 0 0 4px var(--accent), 0 0 8px #000;
-            transition: color 0.3s ease;
-            z-index: 1;
-        }
-        /* animierte Umrandung */
-        nav a::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 120%;
-            height: 140%;
-            border: 2px solid var(--accent);
-            border-radius: 8px;
-            opacity: 0;
-            box-shadow: 0 0 10px var(--accent), 0 0 25px var(--accent);
-            transition: transform 0.4s ease, opacity 0.4s ease;
-            animation: pulseGlow 3s infinite alternate;
-            pointer-events: none;
-        }
-        nav a:hover::after {
-            transform: translate(-50%, -50%) scale(1.2);
-            opacity: 1;
-        }
-        /* Farbe pulsiert dynamisch */
-        @keyframes pulseGlow {
-            0% { border-color: #ff00ff; box-shadow: 0 0 5px #ff00ff, 0 0 20px #ff00ff; }
-            25% { border-color: #00ffff; box-shadow: 0 0 5px #00ffff, 0 0 20px #00ffff; }
-            50% { border-color: #00ff00; box-shadow: 0 0 5px #00ff00, 0 0 20px #00ff00; }
-            75% { border-color: #ffff00; box-shadow: 0 0 5px #ffff00, 0 0 20px #ffff00; }
-            100% { border-color: #ff0000; box-shadow: 0 0 5px #ff0000, 0 0 20px #ff0000; }
-        }
-        /* Einheitlicher Neon-Puls für alle Buttons & Links */
         nav a, .category-bar button, .btn, .donate-btn, footer .footer-socials a {
             position: relative;
             overflow: visible;
             z-index: 1;
         }
-        /* Pseudo-Element für Glow */
         nav a::after, .category-bar button::after, .btn::after, .donate-btn::after, footer .footer-socials a::after {
             content: '';
             position: absolute;
             left: 50%;
             top: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
             width: 120%;
             height: 120%;
             border-radius: 8px;
             border: 2px solid var(--accent);
-            transform: translate(-50%, -50%) scale(0.8);
             opacity: 0.7;
             box-shadow: 0 0 10px var(--accent), 0 0 25px var(--accent);
             transition: transform 0.4s ease, opacity 0.4s ease;
-            animation: pulseGlow 3s infinite alternate;
+            animation: pulseGlow 2s infinite alternate;
             pointer-events: none;
             z-index: -1;
         }
-        /* Hover-Scale */
         nav a:hover::after, .category-bar button:hover::after, .btn:hover::after, .donate-btn:hover::after, footer .footer-socials a:hover::after {
             transform: translate(-50%, -50%) scale(1.2);
             opacity: 1;
         }
-        /* Pulse Animation */
         @keyframes pulseGlow {
             0% { border-color: #ff00ff; box-shadow: 0 0 5px #ff00ff, 0 0 20px #ff00ff; }
             25% { border-color: #00ffff; box-shadow: 0 0 5px #00ffff, 0 0 20px #00ffff; }
@@ -359,42 +289,52 @@
             75% { border-color: #ffff00; box-shadow: 0 0 5px #ffff00, 0 0 20px #ffff00; }
             100% { border-color: #ff0000; box-shadow: 0 0 5px #ff0000, 0 0 20px #ff0000; }
         }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+        }
+        @media (max-width: 768px) {
+            .hero { height: 50vh; }
+            .category-bar { flex-direction: column; align-items: center; }
+            .category-bar button, .category-bar select { width: 100%; max-width: 300px; }
+            nav a { font-size: 1rem; margin-left: 0.5rem; }
+            header h1 { font-size: 1.5rem; }
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1></h1>
+        <h1>Baltazar Seeds</h1>
         <nav>
-            <a href="index.html">Entrance</a>
-            <a href="seite3.html">Menu</a>
-            <a href="impressum.html">Imprint & Contact</a>
-            <a href="fun.html">Fun Area</a>
-            <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
-            <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
+            <a href="index.html" aria-label="Zur Startseite">Entrance</a>
+            <a href="seite3.html" aria-label="Zum Hauptmenü">Menu</a>
+            <a href="impressum.html" aria-label="Impressum und Kontakt">Imprint & Contact</a>
+            <a href="fun.html" aria-label="Fun-Bereich">Fun Area</a>
+            <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener" aria-label="Folge uns auf X"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener" aria-label="Folge uns auf Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener" aria-label="Folge uns auf YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener" aria-label="Folge uns auf SoundCloud"><i class="fab fa-soundcloud"></i></a>
         </nav>
     </header>
     <section class="hero">
-        <video autoplay muted loop playsinline>
+        <video autoplay muted loop playsinline poster="intro-poster.jpg">
             <source src="INTRO.mp4" type="video/mp4">
+            <p>Video nicht verfügbar. <a href="seite3.html">Zum Menü</a></p>
         </video>
         <div class="hero-text">
             <h2>BALTAZAR SEEDS</h2>
-            <p></p>
+            <p>Premium Genetics & Merch by Badfarmers</p>
         </div>
     </section>
     <div class="category-bar">
-        <button class="active" data-category="all">ALL</button>
-        <button data-category="MOSTLY SATIVA">MOSTLY SATIVA</button>
-        <button data-category="MOSTLY INDICA">MOSTLY INDICA</button>
-        <button data-category="BALANCED">BALANCED</button>
-        <button data-category="SPECIAL">SPECIAL</button>
-        <button data-category="GROWING">GROWING</button>
-        <button data-category="MERCH">MERCH</button>
-        <button data-category="ULTRA STYLE">ULTRA STYLE</button>
-        <!-- Sort dropdown -->
-        <select id="sortSelect" style="margin-left:1rem; padding:0.4rem; border-radius:6px; border:2px solid var(--accent); background:black; color:var(--accent); font-family:'Bebas Neue',sans-serif;">
+        <button class="active" data-category="all" aria-label="Alle Produkte anzeigen">ALL</button>
+        <button data-category="MOSTLY SATIVA" aria-label="Meist Sativa">MOSTLY SATIVA</button>
+        <button data-category="MOSTLY INDICA" aria-label="Meist Indica">MOSTLY INDICA</button>
+        <button data-category="BALANCED" aria-label="Ausgeglichen">BALANCED</button>
+        <button data-category="SPECIAL" aria-label="Spezial">SPECIAL</button>
+        <button data-category="GROWING" aria-label="Anbauprodukte">GROWING</button>
+        <button data-category="MERCH" aria-label="Merchandise">MERCH</button>
+        <button data-category="ULTRA STYLE" aria-label="Ultra Style">ULTRA STYLE</button>
+        <select id="sortSelect" aria-label="Sortieroptionen">
             <option value="name">Sort by Name (A-Z)</option>
             <option value="price">Sort by Price</option>
             <option value="popularity">Sort by Popularity</option>
@@ -402,176 +342,177 @@
         </select>
     </div>
     <section class="strain-grid">
-        <!-- Beispielprodukte mit data-price und data-popularity -->
         <div class="strain-card" data-category="MOSTLY SATIVA" data-price="30" data-popularity="120">
-            <img src="STRAIN1.JPG" alt="Baltazar Haze" loading="lazy">
+            <img src="STRAIN1.JPG" alt="Baltazar Haze" loading="lazy" decoding="async">
             <div class="info">
                 <h3>BALTAZAR HAZE</h3>
                 <p>Creative & Psychedelic</p>
-                <a href="strain1.html" class="btn">View Details</a>
+                <a href="strain1.html" class="btn" aria-label="Details zu Baltazar Haze">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="MOSTLY INDICA" data-price="25" data-popularity="95">
-            <img src="STRAIN2.JPG" alt="Baltazar Kush" loading="lazy">
+            <img src="STRAIN2.JPG" alt="Baltazar Kush" loading="lazy" decoding="async">
             <div class="info">
                 <h3>BALTAZAR KUSH</h3>
                 <p>Gassy & Strong</p>
-                <a href="strain2.html" class="btn">View Details</a>
+                <a href="strain2.html" class="btn" aria-label="Details zu Baltazar Kush">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="BALANCED" data-price="28" data-popularity="110">
-            <img src="STRAIN3.JPG" alt="Baltazar White Widow" loading="lazy">
+            <img src="STRAIN3.JPG" alt="Baltazar White Widow" loading="lazy" decoding="async">
             <div class="info">
                 <h3>BALTAZAR WHITE WIDOW</h3>
                 <p>Balanced & Sweet</p>
-                <a href="strain3.html" class="btn">View Details</a>
+                <a href="strain3.html" class="btn" aria-label="Details zu Baltazar White Widow">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="SPECIAL" data-price="22" data-popularity="80">
-            <img src="STRAIN4.JPG" alt="Baltazar Skunk" loading="lazy">
+            <img src="STRAIN4.JPG" alt="Baltazar Skunk" loading="lazy" decoding="async">
             <div class="info">
                 <h3>BALTAZAR SKUNK</h3>
                 <p>Classic & Stinky</p>
-                <a href="strain4.html" class="btn">View Details</a>
+                <a href="strain4.html" class="btn" aria-label="Details zu Baltazar Skunk">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="MOSTLY SATIVA" data-price="35" data-popularity="130">
-            <img src="STRAIN5.JPG" alt="Baltazar Sour Diesel" loading="lazy">
+            <img src="STRAIN5.JPG" alt="Baltazar Sour Diesel" loading="lazy" decoding="async">
             <div class="info">
                 <h3>BALTAZAR SOUR DIESEL</h3>
                 <p>Gassy & Powerful</p>
-                <a href="strain5.html" class="btn">View Details</a>
+                <a href="strain5.html" class="btn" aria-label="Details zu Baltazar Sour Diesel">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="SPECIAL" data-price="40" data-popularity="140">
-            <img src="STRAIN6.JPG" alt="Baltazar Purple Nightmare" loading="lazy">
+            <img src="STRAIN6.JPG" alt="Baltazar Purple Nightmare" loading="lazy" decoding="async">
             <div class="info">
                 <h3>BALTAZAR PURPLE NIGHTMARE</h3>
                 <p>Sweet & Relaxing</p>
-                <a href="strain6.html" class="btn">View Details</a>
+                <a href="strain6.html" class="btn" aria-label="Details zu Baltazar Purple Nightmare">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="MERCH" data-price="15" data-popularity="60">
-            <img src="MERCH1.JPG" alt="Baltazar Merch" loading="lazy">
+            <img src="MERCH1.JPG" alt="Black Hoody with Logo" loading="lazy" decoding="async">
             <div class="info">
                 <h3>Black Hoody</h3>
                 <p>With Logo</p>
-                <a href="merch1.html" class="btn">View Details</a>
+                <a href="merch1.html" class="btn" aria-label="Details zu Black Hoody">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="MERCH" data-price="12" data-popularity="55">
-            <img src="MERCH2.JPG" alt="Baltazar Merch" loading="lazy">
+            <img src="MERCH2.JPG" alt="Big Wave Hemp Leaf Shirt" loading="lazy" decoding="async">
             <div class="info">
                 <h3>Big Wave Hemp Leaf</h3>
                 <p>Shirt</p>
-                <a href="merch2.html" class="btn">View Details</a>
+                <a href="merch2.html" class="btn" aria-label="Details zu Big Wave Hemp Leaf Shirt">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="MERCH" data-price="10" data-popularity="50">
-            <img src="MERCH3.JPG" alt="Baltazar Merch" loading="lazy">
+            <img src="MERCH3.JPG" alt="Little Hemp Waves Shirt" loading="lazy" decoding="async">
             <div class="info">
                 <h3>Little Hemp Waves</h3>
                 <p>Shirt</p>
-                <a href="merch3.html" class="btn">View Details</a>
+                <a href="merch3.html" class="btn" aria-label="Details zu Little Hemp Waves Shirt">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="MERCH" data-price="18" data-popularity="70">
-            <img src="MERCH4.JPG" alt="Baltazar Merch" loading="lazy">
+            <img src="MERCH4.JPG" alt="Colorful Badfarmers Shirt" loading="lazy" decoding="async">
             <div class="info">
                 <h3>Colorful Badfarmers</h3>
                 <p>Shirt</p>
-                <a href="merch4.html" class="btn">View Details</a>
+                <a href="merch4.html" class="btn" aria-label="Details zu Colorful Badfarmers Shirt">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="GROWING" data-price="45" data-popularity="90">
-            <img src="GROW1.JPG" alt="Baltazar Growing" loading="lazy">
+            <img src="GROW1.JPG" alt="Homebox Ambient Q120+" loading="lazy" decoding="async">
             <div class="info">
                 <h3>Homebox</h3>
                 <p>Ambient Q120+</p>
-                <a href="grow1.html" class="btn">View Details</a>
+                <a href="grow1.html" class="btn" aria-label="Details zu Homebox Ambient Q120+">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="ULTRA STYLE" data-price="50" data-popularity="100">
-            <img src="ULTRASTYLE.JPG" alt="Baltazar Ultra" loading="lazy">
+            <img src="ULTRASTYLE.JPG" alt="Ultra Style Badfarmers Genetics" loading="lazy" decoding="async">
             <div class="info">
                 <h3>ULTRA STYLE</h3>
                 <p>BADFARMERS GENETICS</p>
-                <a href="ultrastyle.html" class="btn">View Details</a>
+                <a href="ultrastyle.html" class="btn" aria-label="Details zu Ultra Style">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="GROWING" data-price="38" data-popularity="85">
-            <img src="M1.JPG" alt="LUMii Black 600W Digital Ballast" loading="lazy">
+            <img src="M1.JPG" alt="LUMii Black 600W Digital Ballast" loading="lazy" decoding="async">
             <div class="info">
                 <h3>LUMii Black</h3>
                 <p>250W-600W Digital Ballast</p>
-                <a href="grow2.html" class="btn">View Details</a>
+                <a href="grow2.html" class="btn" aria-label="Details zu LUMii Black Ballast">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="GROWING" data-price="38" data-popularity="85">
-            <img src="GROW2.JPG" alt="LUMii Black 600W Digital Ballast" loading="lazy">
+            <img src="GROW2.JPG" alt="Spider Farmer G3000 LED" loading="lazy" decoding="async">
             <div class="info">
                 <h3>Spider Farmer G3000</h3>
                 <p>300W Dimmable Full Spectrum LED</p>
-                <a href="grow3.html" class="btn">View Details</a>
+                <a href="grow3.html" class="btn" aria-label="Details zu Spider Farmer G3000">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="GROWING" data-price="38" data-popularity="85">
-            <img src="GROW3.JPG" alt="VIPARSPECTRA P2000 250W Full Spectrum LED" loading="lazy">
+            <img src="GROW3.JPG" alt="VIPARSPECTRA P2000 LED" loading="lazy" decoding="async">
             <div class="info">
                 <h3>VIPARSPECTRA P2000</h3>
                 <p>250W Full Spectrum LED</p>
-                <a href="grow4.html" class="btn">View Details</a>
+                <a href="grow4.html" class="btn" aria-label="Details zu VIPARSPECTRA P2000">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="GROWING" data-price="38" data-popularity="85">
-            <img src="GROW4.JPG" alt="250W High-End LED HLG 300L RSPEC" loading="lazy">
+            <img src="GROW4.JPG" alt="HLG 300L RSPEC LED" loading="lazy" decoding="async">
             <div class="info">
                 <h3>HLG 300L RSPEC</h3>
                 <p>250W High-End LED</p>
-                <a href="grow5.html" class="btn">View Details</a>
+                <a href="grow5.html" class="btn" aria-label="Details zu HLG 300L RSPEC">View Details</a>
             </div>
         </div>
         <div class="strain-card" data-category="GROWING" data-price="38" data-popularity="85">
-            <img src="S1.JPG" alt="320W LED MEDIC GROW MINI SUN 2" loading="lazy">
+            <img src="S1.JPG" alt="MEDIC GROW MINI SUN 2 LED" loading="lazy" decoding="async">
             <div class="info">
                 <h3>MEDIC GROW MINI SUN 2</h3>
                 <p>320W LED</p>
-                <a href="grow6.html" class="btn">View Details</a>
+                <a href="grow6.html" class="btn" aria-label="Details zu MEDIC GROW MINI SUN 2">View Details</a>
             </div>
         </div>
     </section>
     <footer>
-        <section class="visitor-map" style="text-align:center; margin: 3rem 0;">
-            <h2>🌍 Visitors Worldwide 🌍</h2>
-            <p>Check out where our visitors are coming from!</p>
-            <script async type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=zbq285_vV4ZsI_wNWR3GBf4eyG11UvC5eDNTjYKyz-c"></script>
-        </section>
-        &copy; 2025 Baltazar Seeds - Badfarmers Genetics
+        <p>&copy; 2025 Baltazar Seeds - Badfarmers Genetics</p>
         <div class="footer-socials" style="margin-top:1rem;">
-            <br><a href="impressum.html">Imprint & Contact</a></br>
-            <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
-            <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
+            <a href="impressum.html" aria-label="Impressum und Kontakt">Imprint & Contact</a>
+            <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener" aria-label="Folge uns auf X"><i class="fab fa-x-twitter"></i></a>
+            <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener" aria-label="Folge uns auf Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener" aria-label="Folge uns auf YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener" aria-label="Folge uns auf SoundCloud"><i class="fab fa-soundcloud"></i></a>
         </div>
     </footer>
-    <a href="https://commerce.coinbase.com/checkout/44837643-3abd-425c-9387-5705cfd1e2ca" target="_blank" class="donate-btn">💎DONATE💎</a>
+    <a href="https://commerce.coinbase.com/checkout/44837643-3abd-425c-9387-5705cfd1e2ca" target="_blank" rel="noopener" class="donate-btn" aria-label="Spenden über Coinbase">💎DONATE💎</a>
     <script>
+        if (!sessionStorage.getItem('ageVerified')) {
+            window.location.href = 'hauptseite.html';
+        }
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
         window.addEventListener('load', () => {
             document.body.classList.add('loaded');
             document.querySelector('.strain-grid').classList.add('loaded');
-            // Zu Beginn zufällig mischen
-            const grid = document.querySelector('.strain-grid');
-            const cards = Array.from(grid.children);
-            for (let i = cards.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                grid.appendChild(cards[j]);
-            }
+            sortCards('random');
         });
         const buttons = document.querySelectorAll('.category-bar button');
         const strainCards = document.querySelectorAll('.strain-card');
         const grid = document.querySelector('.strain-grid');
-        // Filter nach Kategorie
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
                 buttons.forEach(b => b.classList.remove('active'));
@@ -580,46 +521,28 @@
                 strainCards.forEach(card => {
                     card.style.display = (category === 'all' || card.dataset.category === category) ? 'block' : 'none';
                 });
-                // Optional: Wenn ein Sortierwert ausgewählt ist, nach Filter neu sortieren
-                const sortSel = document.getElementById('sortSelect').value;
-                sortCards(sortSel);
+                sortCards(document.getElementById('sortSelect').value);
             });
         });
-        // Sortierfunktion als separate Funktion
-        function sortCards(mode) {
-            // Wir holen alle sichtbaren Cards (display != none)
-            const visible = Array.from(grid.querySelectorAll('.strain-card')).filter(c => c.style.display !== "none");
-            let sorted;
-            if (mode === "name") {
-                sorted = visible.sort((a, b) => {
-                    return a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent);
-                });
-            } else if (mode === "price") {
-                sorted = visible.sort((a, b) => {
-                    return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
-                });
-            } else if (mode === "popularity") {
-                sorted = visible.sort((a, b) => {
-                    return parseFloat(b.dataset.popularity) - parseFloat(a.dataset.popularity);
-                });
-            } else if (mode === "random") {
-                // shuffle sichtbar
-                sorted = visible.slice(); // kopieren
+        const sortCards = debounce((mode) => {
+            const visibleCards = [...strainCards].filter(card => card.style.display !== 'none');
+            let sorted = [...visibleCards];
+            if (mode === 'name') {
+                sorted.sort((a, b) => a.querySelector('h3').textContent.localeCompare(b.querySelector('h3').textContent));
+            } else if (mode === 'price') {
+                sorted.sort((a, b) => (parseFloat(a.dataset.price) || 0) - (parseFloat(b.dataset.price) || 0));
+            } else if (mode === 'popularity') {
+                sorted.sort((a, b) => (parseFloat(b.dataset.popularity) || 0) - (parseFloat(a.dataset.popularity) || 0));
+            } else if (mode === 'random') {
                 for (let i = sorted.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [sorted[i], sorted[j]] = [sorted[j], sorted[i]];
                 }
-            } else {
-                // fallback: keine Änderung
-                sorted = visible;
             }
-            // Anhängen in neuer Reihenfolge
             sorted.forEach(card => grid.appendChild(card));
-        }
-        // Eventlistener für Dropdown
+        }, 100);
         document.getElementById('sortSelect').addEventListener('change', (e) => {
-            const mode = e.target.value;
-            sortCards(mode);
+            sortCards(e.target.value);
         });
     </script>
 </body>
