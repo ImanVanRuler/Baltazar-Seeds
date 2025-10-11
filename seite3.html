@@ -655,60 +655,83 @@
     </script>
 
     <!-- ====== CountAPI Besucher-Counter Script (robust, Cache-Buster, Timeout, localStorage throttle) ====== -->
-    <script>
-        (function () {
-            // Passe namespace/key falls gewünscht an
-            const NAMESPACE = 'baltazar_seeds_de';
-            const KEY = 'homepage';
-            const COUNT_EL = document.getElementById('visits-count');
-            const NOTE_EL = document.getElementById('visits-note');
-            if (!COUNT_EL) return;
+   <script>
+(function () {
+  const NAMESPACE = 'baltazar_seeds_de';
+  const KEY = 'homepage';
+  const COUNT_EL = document.getElementById('visits-count');
+  const NOTE_EL = document.getElementById('visits-note');
+  if (!COUNT_EL) return;
 
-            const storageKey = `counter_${NAMESPACE}_${KEY}_ts`;
-            const now = Date.now();
-            const dayMs = 24 * 60 * 60 * 1000;
-            const last = Number(localStorage.getItem(storageKey) || 0);
-            const alreadyCountedToday = (now - last) < dayMs;
+  const storageKey = `counter_${NAMESPACE}_${KEY}_ts`;
+  const now = Date.now();
+  const dayMs = 24 * 60 * 60 * 1000;
+  const last = Number(localStorage.getItem(storageKey) || 0);
+  const alreadyCountedToday = (now - last) < dayMs;
 
-            const action = alreadyCountedToday ? 'get' : 'hit';
-            // Cache-Buster mit Timestamp, no-store beim fetch
-            const url = `https://api.countapi.xyz/${action}/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(KEY)}?t=${now}`;
+  // Helper: fetch mit timeout
+  function fetchWithTimeout(url, opts = {}, timeout = 8000) {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const p = fetch(url, Object.assign({}, opts, { signal, cache: 'no-store' }));
+    const t = setTimeout(() => controller.abort(), timeout);
+    return p.finally(() => clearTimeout(t));
+  }
 
-            // Timeout via AbortController
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+  // Versuche zuerst GET (liest aktuellen Wert), falls nicht vorhanden dann HIT (inkrement)
+  async function tryGetThenHit() {
+    const tstamp = Date.now();
+    const getUrl = `https://api.countapi.xyz/get/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(KEY)}?t=${tstamp}`;
+    const hitUrl = `https://api.countapi.xyz/hit/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(KEY)}?t=${tstamp}`;
 
-            fetch(url, { cache: 'no-store', signal: controller.signal })
-                .then(res => {
-                    clearTimeout(timeoutId);
-                    if (!res.ok) throw new Error('Network response not ok');
-                    return res.json();
-                })
-                .then(json => {
-                    if (typeof json.value !== 'undefined') {
-                        COUNT_EL.textContent = json.value;
-                        if (!alreadyCountedToday) localStorage.setItem(storageKey, String(Date.now()));
-                        // Optional Hinweis anpassen
-                        NOTE_EL.textContent = alreadyCountedToday ? 'bereits heute gezählt (Browser)' : 'einmal pro 24h/Browser';
-                    } else {
-                        COUNT_EL.textContent = '0';
-                    }
-                })
-                .catch(async (err) => {
-                    console.warn('CountAPI Fehler, versuche Fallback get', err);
-                    // Fallback: versuche GET ohne t
-                    try {
-                        const res2 = await fetch(`https://api.countapi.xyz/get/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(KEY)}`, { cache: 'no-store' });
-                        const j2 = await res2.json();
-                        COUNT_EL.textContent = j2.value ?? '0';
-                    } catch (err2) {
-                        console.error('Fallback ebenfalls fehlgeschlagen', err2);
-                        COUNT_EL.textContent = '–';
-                        NOTE_EL.textContent = 'Zähler momentan nicht verfügbar';
-                    }
-                });
-        })();
-    </script>
+    try {
+      // Wenn noch nicht heute gezählt, wir möchten hit — aber testen wir GET zuerst (manche Blocker blocken post/put)
+      if (!alreadyCountedToday) {
+        // Versuche HIT direkt (besser: wenn hit blockiert, fallback auf get)
+        try {
+          const resHit = await fetchWithTimeout(hitUrl, {}, 8000);
+          if (!resHit.ok) throw new Error('HIT nicht OK: ' + resHit.status);
+          const jhit = await resHit.json();
+          COUNT_EL.textContent = jhit.value ?? '–';
+          localStorage.setItem(storageKey, String(Date.now()));
+          NOTE_EL.textContent = 'Gezählt (einmal pro 24h/Browser)';
+          console.info('CountAPI: HIT erfolgreich', jhit);
+          return;
+        } catch (hitErr) {
+          console.warn('CountAPI HIT fehlgeschlagen, versuche GET als Fallback', hitErr);
+          // fallthrough zum GET-Fallback
+        }
+      }
+
+      // GET (liest aktuellen Wert ohne zu inkrementieren)
+      try {
+        const res = await fetchWithTimeout(getUrl, {}, 8000);
+        if (!res.ok) throw new Error('GET nicht OK: ' + res.status);
+        const j = await res.json();
+        COUNT_EL.textContent = j.value ?? '0';
+        NOTE_EL.textContent = alreadyCountedToday ? 'bereits heute gezählt (Browser)' : 'Anzeige (kein Zählvorgang)';
+        console.info('CountAPI: GET erfolgreich', j);
+        return;
+      } catch (getErr) {
+        throw getErr;
+      }
+
+    } catch (err) {
+      console.error('CountAPI Gesamtausfall', err);
+      // Benutzerfreundliche Hinweistexte
+      COUNT_EL.textContent = '–';
+      // Wenn Blocker wahrscheinlich ist, sag das
+      const msg = /blocked_by_client|ERR_BLOCKED_BY_CLIENT|blocked/i.test(String(err)) ?
+        'Zähler durch Werbeblocker blockiert' :
+        'Zähler momentan nicht verfügbar';
+      NOTE_EL.textContent = msg;
+    }
+  }
+
+  // Start
+  tryGetThenHit();
+})();
+</script>
     <!-- ====== Ende CountAPI Script ====== -->
 </body>
 </html>
