@@ -194,10 +194,11 @@
         /* Footer bleibt gleich */
         footer {
             text-align: center;
-            padding: 2rem 1rem;
+            padding: 2rem 1rem 4.5rem; /* Platz unten für counter falls fixed */
             background: rgba(0,0,0,0.85);
             font-size: 0.9rem;
             text-shadow: 1px 1px 0 #000;
+            position: relative;
         }
         /* Footer Social Icons */
         footer .footer-socials a {
@@ -238,14 +239,6 @@
         footer .footer-socials a:hover::after {
             transform: translate(-50%, -50%) scale(1.2);
             opacity: 1;
-        }
-        /* Farb-Animation (nur 1x im gesamten CSS nötig) */
-        @keyframes pulseGlow {
-            0% { border-color: #ff00ff; box-shadow: 0 0 6px #ff00ff, 0 0 18px #ff00ff; }
-            25% { border-color: #00ffff; box-shadow: 0 0 6px #00ffff, 0 0 18px #00ffff; }
-            50% { border-color: #00ff00; box-shadow: 0 0 6px #00ff00, 0 0 18px #00ff00; }
-            75% { border-color: #ffff00; box-shadow: 0 0 6px #ffff00, 0 0 18px #ffff00; }
-            100% { border-color: #ff0000; box-shadow: 0 0 6px #ff0000, 0 0 18px #ff0000; }
         }
         .donate-btn {
             position: fixed;
@@ -358,6 +351,35 @@
             50% { border-color: #00ff00; box-shadow: 0 0 5px #00ff00, 0 0 20px #00ff00; }
             75% { border-color: #ffff00; box-shadow: 0 0 5px #ffff00, 0 0 20px #ffff00; }
             100% { border-color: #ff0000; box-shadow: 0 0 5px #ff0000, 0 0 20px #ff0000; }
+        }
+
+        /* ---- Styles für den Besucher-Counter ---- */
+        .site-counter {
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.6rem;
+            opacity: 0.95;
+        }
+        .site-counter .counter-bubble {
+            background: rgba(0,0,0,0.6);
+            border: 2px solid var(--accent);
+            padding: 0.35rem 0.7rem;
+            border-radius: 999px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            min-width: 3.2rem;
+            text-align: center;
+            box-shadow: 0 0 8px rgba(255,11,11,0.12);
+        }
+        .site-counter small {
+            display: block;
+            font-size: 0.8rem;
+            color: #f3f3f3;
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -554,8 +576,17 @@
             <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
             <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
         </div>
+
+        <!-- ====== HIER: Einfacher Besucher-Counter (CountAPI) - ganz unten im Footer ====== -->
+        <div class="site-counter" aria-live="polite" title="Besucherzähler">
+            <div>👁️ Besucher insgesamt</div>
+            <div class="counter-bubble" id="visits-count">…</div>
+            <small id="visits-note">einmal pro 24h/Browser</small>
+        </div>
+        <!-- ====== Ende Counter ====== -->
     </footer>
     <a href="https://commerce.coinbase.com/checkout/44837643-3abd-425c-9387-5705cfd1e2ca" target="_blank" class="donate-btn">💎DONATE💎</a>
+
     <script>
         window.addEventListener('load', () => {
             document.body.classList.add('loaded');
@@ -622,5 +653,62 @@
             sortCards(mode);
         });
     </script>
+
+    <!-- ====== CountAPI Besucher-Counter Script (robust, Cache-Buster, Timeout, localStorage throttle) ====== -->
+    <script>
+        (function () {
+            // Passe namespace/key falls gewünscht an
+            const NAMESPACE = 'baltazar_seeds_de';
+            const KEY = 'homepage';
+            const COUNT_EL = document.getElementById('visits-count');
+            const NOTE_EL = document.getElementById('visits-note');
+            if (!COUNT_EL) return;
+
+            const storageKey = `counter_${NAMESPACE}_${KEY}_ts`;
+            const now = Date.now();
+            const dayMs = 24 * 60 * 60 * 1000;
+            const last = Number(localStorage.getItem(storageKey) || 0);
+            const alreadyCountedToday = (now - last) < dayMs;
+
+            const action = alreadyCountedToday ? 'get' : 'hit';
+            // Cache-Buster mit Timestamp, no-store beim fetch
+            const url = `https://api.countapi.xyz/${action}/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(KEY)}?t=${now}`;
+
+            // Timeout via AbortController
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+
+            fetch(url, { cache: 'no-store', signal: controller.signal })
+                .then(res => {
+                    clearTimeout(timeoutId);
+                    if (!res.ok) throw new Error('Network response not ok');
+                    return res.json();
+                })
+                .then(json => {
+                    if (typeof json.value !== 'undefined') {
+                        COUNT_EL.textContent = json.value;
+                        if (!alreadyCountedToday) localStorage.setItem(storageKey, String(Date.now()));
+                        // Optional Hinweis anpassen
+                        NOTE_EL.textContent = alreadyCountedToday ? 'bereits heute gezählt (Browser)' : 'einmal pro 24h/Browser';
+                    } else {
+                        COUNT_EL.textContent = '0';
+                    }
+                })
+                .catch(async (err) => {
+                    console.warn('CountAPI Fehler, versuche Fallback get', err);
+                    // Fallback: versuche GET ohne t
+                    try {
+                        const res2 = await fetch(`https://api.countapi.xyz/get/${encodeURIComponent(NAMESPACE)}/${encodeURIComponent(KEY)}`, { cache: 'no-store' });
+                        const j2 = await res2.json();
+                        COUNT_EL.textContent = j2.value ?? '0';
+                    } catch (err2) {
+                        console.error('Fallback ebenfalls fehlgeschlagen', err2);
+                        COUNT_EL.textContent = '–';
+                        NOTE_EL.textContent = 'Zähler momentan nicht verfügbar';
+                    }
+                });
+        })();
+    </script>
+    <!-- ====== Ende CountAPI Script ====== -->
 </body>
 </html>
