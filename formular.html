@@ -165,26 +165,24 @@
     const CHECKOUT_URL = "https://commerce.coinbase.com/checkout/e2aedc7b-f013-4070-9d6d-05c2a7cbd9b8";
 
     document.getElementById("orderForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      // Validation
       const requiredFields = ['#product_select','#fullname','#email','#street','#city','#postal','#country'];
-      for(const sel of requiredFields){
+      for (const sel of requiredFields) {
         const el = document.querySelector(sel);
-        if(!el.value.trim()){ alert(el.previousElementSibling.textContent + " is required"); el.focus(); return; }
+        if (!el.value.trim()) {
+          alert(el.previousElementSibling.textContent + " is required");
+          el.focus();
+          e.preventDefault();
+          return;
+        }
       }
 
-      // Open Coinbase in new tab
-      const win = window.open(CHECKOUT_URL, "_blank");
-      if(!win){ alert("Popup blocked. Please allow popups."); return; }
+      // Coinbase Checkout öffnen
+      window.open(CHECKOUT_URL, "_blank");
 
-      // Disable button to prevent double submit
+      // Button deaktivieren, um Doppel-Submit zu vermeiden
       const btn = document.getElementById("buyButton");
       btn.disabled = true;
       btn.textContent = "Processing…";
-
-      // Submit form to FormSubmit after short delay
-      setTimeout(()=>{ e.target.submit(); }, 250);
     });
   </script>
 
