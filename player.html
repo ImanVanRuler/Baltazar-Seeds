@@ -1,93 +1,167 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mein Musik Player</title>
+  <title>Psychedelic Sound Portal</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;700&display=swap');
+
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #111, #333);
-      color: white;
+      margin: 0;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      min-height: 100vh;
-      margin: 0;
-      padding: 40px 10px;
+      padding: 50px 20px;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(270deg, #2b0057, #001d40, #420042, #00331f);
+      background-size: 800% 800%;
+      animation: bgshift 12s ease infinite;
     }
+
+    @keyframes bgshift {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
     h1 {
-      margin-bottom: 30px;
-      font-size: 2rem;
-      letter-spacing: 1px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #aaf7ff;
+      text-shadow: 0 0 10px #9d00ff, 0 0 20px #00ffd9;
+      margin-bottom: 40px;
+      animation: pulse 3s infinite alternate;
     }
+
+    @keyframes pulse {
+      from {opacity: 0.7;}
+      to {opacity: 1;}
+    }
+
     .player {
       background: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      padding: 20px 30px;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 255, 200, 0.2);
+      width: 320px;
+      padding: 25px;
       margin-bottom: 25px;
-      width: 300px;
       text-align: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transition: all 0.4s ease;
+      transform: scale(1);
     }
+
+    .player:hover {
+      box-shadow: 0 0 40px rgba(0, 255, 200, 0.6);
+      transform: scale(1.03);
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      color: #fff;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px #00fff0;
+    }
+
     audio {
       width: 100%;
       outline: none;
       margin-top: 10px;
+      filter: drop-shadow(0 0 5px #00ffd9);
     }
+
     .download {
       display: inline-block;
-      margin-top: 10px;
-      padding: 8px 14px;
-      border-radius: 8px;
-      background-color: #1db954;
-      color: white;
+      margin-top: 12px;
+      padding: 8px 16px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #00ffd5, #a600ff);
+      color: #fff;
       text-decoration: none;
       font-weight: bold;
-      transition: background 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: 0.3s;
+      box-shadow: 0 0 10px rgba(0, 255, 213, 0.3);
     }
+
     .download:hover {
-      background-color: #17a84b;
+      background: linear-gradient(135deg, #a600ff, #00ffd5);
+      box-shadow: 0 0 20px rgba(0, 255, 213, 0.8);
+      transform: scale(1.05);
     }
+
     footer {
-      margin-top: 40px;
-      opacity: 0.7;
-      font-size: 0.9rem;
+      margin-top: 50px;
+      font-size: 0.85rem;
+      opacity: 0.8;
+      text-align: center;
+      letter-spacing: 1px;
+      text-shadow: 0 0 8px #00fff0;
+    }
+
+    footer a {
+      color: #00ffd5;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      color: #aaffff;
+      text-shadow: 0 0 12px #00fff0;
     }
   </style>
 </head>
 <body>
-  <h1>🎧 Meine Musik</h1>
+  <h1>🌀 Psychedelic Sound Portal</h1>
 
-  <!-- Player Beispiel -->
   <div class="player">
-    <h3>Track 1 – Beispiel</h3>
+    <h3>Lucid Drift</h3>
     <audio controls>
-      <source src="track1.mp3" type="audio/mpeg">
-      Dein Browser unterstützt kein Audio-Element.
+      <source src="lucid_drift.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
     </audio>
     <a class="download" href="track1.mp3" download>Download</a>
   </div>
 
   <div class="player">
-    <h3>Track 2 – Beispiel</h3>
+    <h3>Neon Sandstorm</h3>
     <audio controls>
-      <source src="track2.mp3" type="audio/mpeg">
-      Dein Browser unterstützt kein Audio-Element.
+      <source src="neon_sandstorm.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
     </audio>
     <a class="download" href="track2.mp3" download>Download</a>
   </div>
 
   <div class="player">
-    <h3>Track 3 – Beispiel</h3>
+    <h3>Fractal Bloom</h3>
     <audio controls>
-      <source src="track3.mp3" type="audio/mpeg">
-      Dein Browser unterstützt kein Audio-Element.
+      <source src="fractal_bloom.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
     </audio>
     <a class="download" href="track3.mp3" download>Download</a>
   </div>
 
-  <footer>© 2025 – Dein Name / GitHub Music Page</footer>
+  <div class="player">
+    <h3>Vortex Child</h3>
+    <audio controls>
+      <source src="vortex_child.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    <a class="download" href="track4.mp3" download>Download</a>
+  </div>
+
+  <footer>
+    © 2025 – Psychedelic Sound Portal | Designed by <a href="#">You</a>
+  </footer>
 </body>
 </html>
