@@ -3,228 +3,193 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Psychedelic Sound Portal</title>
+  <title>PSYCHEDELIC SOUND PORTAL</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
-  <!-- Particles.js (für Hintergrund‑Partikel) -->
-  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <!-- Three.js + Shader -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.167.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.167.0/examples/js/postprocessing/EffectComposer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.167.0/examples/js/postprocessing/RenderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.167.0/examples/js/postprocessing/ShaderPass.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.167.0/examples/js/shaders/CopyShader.js"></script>
 
   <style>
     :root {
-      --neon-cyan: #00ffcc;
-      --neon-magenta: #ff00ff;
-      --neon-purple: #9d00ff;
-      --deep-space: #0a001f;
-      --glow-sm: 0 0 12px rgba(0, 255, 204, 0.6);
-      --glow-md: 0 0 25px rgba(157, 0, 255, 0.7);
-      --glow-lg: 0 0 40px rgba(0, 255, 217, 0.5);
+      --neon-1: #00ffff; --neon-2: #ff00ff; --neon-3: #ffff00; --neon-4: #00ff00;
+      --deep-void: #000000; --plasma: #0a001f;
     }
-
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     body {
-      min-height:100vh;
-      background:#000;
-      color:#fff;
-      font-family:'Rajdhani',sans-serif;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      padding:60px 16px 80px;
-      overflow:hidden;
-      position:relative;
+      margin:0; overflow:hidden; font-family:'Share Tech Mono', monospace;
+      color:#fff; height:100vh; display:flex; flex-direction:column;
+      align-items:center; justify-content:flex-start; padding:40px 16px;
+      position:relative; background:#000;
     }
 
-    /* Hintergrund‑Partikel */
-    #particles-js {
-      position:fixed; inset:0; z-index:-2;
-      background:radial-gradient(circle at center, #1a0033 0%, #000f26 50%, #001a17 100%);
-    }
+    /* WebGL Canvas */
+    #webgl-canvas { position:fixed; inset:0; z-index:-3; }
 
-    /* Glasmorphism‑Overlay */
-    .glass-overlay {
-      position:fixed; inset:0; z-index:-1;
-      background:linear-gradient(135deg, rgba(10,0,31,0.7), rgba(0,15,38,0.5));
-      backdrop-filter:blur(10px);
-      pointer-events:none;
+    /* Kaleidoskop-Overlay */
+    .kaleidoscope {
+      position:fixed; inset:0; z-index:-2; pointer-events:none;
+      background:radial-gradient(circle at 50% 50%, transparent 30%, rgba(255,0,255,0.05) 70%);
+      mix-blend-mode:screen; animation:kaleido 20s linear infinite;
     }
+    @keyframes kaleido { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 
     h1 {
-      font-family:'Orbitron',sans-serif;
-      font-size:clamp(2.2rem,6vw,3.2rem);
-      letter-spacing:6px;
-      text-transform:uppercase;
-      margin-bottom:40px;
-      background:linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta), var(--neon-purple));
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
-      text-shadow:var(--glow-lg);
-      animation: titlePulse 3s ease-in-out infinite alternate, hueShift 8s linear infinite;
-      position:relative;
-      z-index:10;
+      font-family:'Orbitron',sans-serif; font-size:clamp(2.5rem,8vw,4.5rem);
+      letter-spacing:8px; text-transform:uppercase; margin-bottom:20px;
+      background:linear-gradient(90deg, var(--neon-1), var(--neon-2), var(--neon-3), var(--neon-4), var(--neon-1));
+      background-size:300%; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text; animation:glitchText 3s steps(10) infinite, hueShift 6s linear infinite;
+      text-shadow:0 0 30px var(--neon-2), 0 0 60px var(--neon-1);
+      position:relative; z-index:10;
     }
-    @keyframes titlePulse { from{opacity:.85; transform:scale(1)} to{opacity:1; transform:scale(1.03)} }
-    @keyframes hueShift { from{background-position:0%} to{background-position:200%} }
+    @keyframes glitchText {
+      0%,100%{clip-path:polygon(0 0,100% 0,100% 30%,0 30%)}
+      10%{clip-path:polygon(0 30%,100% 30%,100% 60%,0 60%)}
+      20%{clip-path:polygon(0 60%,100% 60%,100% 90%,0 90%)}
+      30%{clip-path:polygon(0 10%,100% 10%,100% 40%,0 40%)}
+      40%{clip-path:polygon(0 40%,100% 40%,100% 70%,0 70%)}
+      50%{clip-path:polygon(0 70%,100% 70%,100% 100%,0 100%)}
+      60%{clip-path:polygon(0 20%,100% 20%,100% 50%,0 50%)}
+      70%{clip-path:polygon(0 50%,100% 50%,100% 80%,0 80%)}
+      80%{clip-path:polygon(0 80%,100% 80%,100% 100%,0 100%)}
+      90%{clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+    }
+    @keyframes hueShift { from{background-position:0%} to{background-position:300%} }
 
     .total-downloads {
-      margin-bottom:24px; font-size:1.2rem; color:var(--neon-cyan);
-      text-shadow:var(--glow-sm); letter-spacing:1.2px;
-      animation: float 4s ease-in-out infinite;
+      font-size:1.3rem; color:var(--neon-1); text-shadow:0 0 15px var(--neon-1);
+      margin-bottom:30px; animation:pulse 2s ease-in-out infinite;
     }
-    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
 
     #tracks-container {
-      display:flex; flex-direction:column; gap:24px;
-      width:100%; max-width:380px;
-      perspective:1000px;
+      display:flex; flex-direction:column; gap:30px; width:100%; max-width:420px;
+      perspective:1200px; position:relative; z-index:5;
     }
 
     .player {
-      background:rgba(15,15,35,0.25);
-      backdrop-filter:blur(16px);
-      border:1px solid rgba(255,255,255,0.1);
-      border-radius:20px;
-      padding:22px;
-      text-align:center;
-      transition:all .4s cubic-bezier(.2,.8,.4,1);
-      box-shadow:var(--glow-md);
-      position:relative;
-      overflow:hidden;
-      transform-style:preserve-3d;
+      background:rgba(10,10,30,0.3); backdrop-filter:blur(20px);
+      border:2px solid transparent; border-radius:24px; padding:26px;
+      text-align:center; transition:all .5s cubic-bezier(.1,.9,.3,1);
+      box-shadow:0 0 30px rgba(0,255,255,.4), 0 0 60px rgba(255,0,255,.3);
+      position:relative; overflow:hidden; transform-style:preserve-3d;
+      animation:float3D 6s ease-in-out infinite;
+    }
+    @keyframes float3D {
+      0%,100%{transform:translateY(0) rotateX(0deg) rotateY(0deg)}
+      50%{transform:translateY(-12px) rotateX(5deg) rotateY(8deg)}
     }
     .player::before {
-      content:''; position:absolute; inset:0;
-      background:linear-gradient(135deg, rgba(0,255,204,0.05), rgba(157,0,255,0.05));
-      opacity:0; transition:opacity .4s;
-      pointer-events:none;
+      content:''; position:absolute; inset:-10px; z-index:-1;
+      background:conic-gradient(from 0deg, var(--neon-1), var(--neon-2), var(--neon-3), var(--neon-4), var(--neon-1));
+      filter:blur(20px); opacity:0.6; animation:spin 8s linear infinite;
     }
+    @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+
     .player:hover {
-      transform:translateY(-8px) rotateX(4deg);
-      box-shadow:var(--glow-lg), 0 20px 40px rgba(0,0,0,0.3);
-      border-color:var(--neon-cyan);
+      transform:translateY(-16px) rotateX(10deg) rotateY(15deg) scale(1.05);
+      border-color:var(--neon-1); box-shadow:0 0 80px rgba(0,255,255,.8);
     }
-    .player:hover::before { opacity:1; }
 
     .player h3 {
-      font-size:1.25rem; font-weight:600; margin-bottom:14px;
-      letter-spacing:1.4px; color:#e0f7ff;
-      text-shadow:0 0 10px rgba(0,255,255,.7);
-      position:relative; z-index:2;
+      font-size:1.4rem; font-weight:700; margin-bottom:16px;
+      letter-spacing:2px; color:#fff; text-shadow:0 0 15px var(--neon-2);
+      animation:glitch 2s infinite;
+    }
+    @keyframes glitch {
+      0%,100%{text-shadow:2px 0 var(--neon-1), -2px 0 var(--neon-2)}
+      50%{text-shadow:-2px 0 var(--neon-1), 2px 0 var(--neon-2)}
     }
 
+    .visualizer {
+      width:100%; height:80px; margin:16px 0; background:#000;
+      border-radius:12px; overflow:hidden; position:relative;
+      box-shadow:inset 0 0 20px rgba(0,255,255,.3);
+    }
+    .visualizer canvas { width:100%; height:100%; }
+
     audio {
-      width:100%; height:44px; outline:none; border-radius:10px;
-      filter:drop-shadow(0 0 8px rgba(0,255,204,.4));
+      width:100%; height:48px; outline:none; border-radius:12px;
+      filter:drop-shadow(0 0 12px var(--neon-1));
     }
     audio::-webkit-media-controls-panel {
-      background:rgba(0,0,0,.5); border-radius:10px; backdrop-filter:blur(6px);
+      background:rgba(0,0,0,.6); border-radius:12px; backdrop-filter:blur(8px);
     }
 
     .download {
-      display:inline-flex; align-items:center; gap:10px; justify-content:center;
-      margin-top:16px; padding:10px 22px;
-      background:linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
-      background-size:200%;
-      color:#fff; font-weight:600; text-transform:uppercase;
-      font-size:.9rem; letter-spacing:1.5px;
-      border-radius:12px; text-decoration:none;
-      transition:all .35s ease;
-      box-shadow:0 0 16px rgba(0,255,204,.5);
-      position:relative; overflow:hidden;
-      animation:hueShift 6s linear infinite;
+      display:inline-flex; align-items:center; gap:12px; justify-content:center;
+      margin-top:18px; padding:12px 26px;
+      background:linear-gradient(45deg, var(--neon-1), var(--neon-2));
+      background-size:300%; color:#000; font-weight:700;
+      text-transform:uppercase; font-size:1rem; letter-spacing:2px;
+      border-radius:16px; text-decoration:none; position:relative;
+      overflow:hidden; box-shadow:0 0 20px var(--neon-1);
+      animation:hueShift 5s linear infinite;
+      transition:all .4s ease;
     }
-    .download::after {
+    .download::before {
       content:''; position:absolute; inset:0;
-      background:linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
-      transform:translateX(-100%); transition:transform .6s;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
+      transform:translateX(-100%); transition:transform .7s;
     }
-    .download:hover {
-      transform:scale(1.08); box-shadow:0 0 30px rgba(157,0,255,.8);
-    }
-    .download:active::after { transform:translateX(100%); }
+    .download:hover::before { transform:translateX(100%); }
+    .download:active { transform:scale(0.92); }
 
     .download-count {
-      font-size:.78rem; margin-top:8px; color:var(--neon-cyan);
-      opacity:.9; text-shadow:0 0 6px rgba(0,255,255,.6);
-      animation:pulseCount 2s ease-in-out infinite;
+      font-size:.85rem; color:var(--neon-3); text-shadow:0 0 10px var(--neon-3);
+      animation:pulse 1.5s infinite;
     }
-    @keyframes pulseCount { 0%,100%{opacity:.8} 50%{opacity:1} }
 
-    .button-container { margin-top:30px; }
     .back-button {
-      display:inline-block; padding:12px 28px;
-      background:rgba(0,255,204,.15); color:var(--neon-cyan);
-      text-decoration:none; border-radius:14px;
-      font-weight:600; letter-spacing:1.4px;
-      border:1px solid rgba(0,255,204,.3);
-      transition:all .3s ease;
-      box-shadow:0 0 12px rgba(0,255,204,.3);
+      margin-top:40px; padding:14px 32px; background:rgba(255,255,255,.1);
+      color:var(--neon-1); border:2px solid var(--neon-1); border-radius:16px;
+      text-decoration:none; font-weight:700; letter-spacing:2px;
+      box-shadow:0 0 20px var(--neon-1); transition:all .4s;
     }
     .back-button:hover {
-      background:rgba(0,255,204,.35); color:#fff;
-      box-shadow:0 0 20px rgba(0,255,204,.7);
-      transform:translateY(-2px);
+      background:var(--neon-1); color:#000; box-shadow:0 0 40px var(--neon-1);
+      transform:scale(1.1);
     }
 
     footer {
-      margin-top:70px; font-size:.82rem; opacity:.75;
-      text-align:center; letter-spacing:1.2px;
-      animation:float 5s ease-in-out infinite;
+      margin-top:80px; font-size:.9rem; opacity:.8; animation:pulse 3s infinite;
     }
-    footer a {
-      color:var(--neon-cyan); text-decoration:none; font-weight:600;
-      position:relative;
-    }
-    footer a::after {
-      content:''; position:absolute; bottom:-2px; left:0; width:0;
-      height:1px; background:var(--neon-cyan); transition:width .3s;
-    }
-    footer a:hover::after { width:100%; }
+    footer a { color:var(--neon-2); text-shadow:0 0 10px var(--neon-2); }
 
     @media (max-width:480px) {
-      .player { padding:18px; }
-      h1 { margin-bottom:36px; }
-      .download { padding:9px 18px; font-size:.85rem; }
+      .player { padding:20px; }
+      h1 { font-size:2.8rem; }
     }
-
-    /* Micro‑Interaction: Klick‑Ripple */
-    .ripple {
-      position:absolute; border-radius:50%;
-      background:rgba(0,255,204,.4);
-      transform:scale(0); animation:rippleAnim .6s ease-out;
-      pointer-events:none;
-    }
-    @keyframes rippleAnim { to{transform:scale(4); opacity:0} }
   </style>
 </head>
 
 <body>
-  <!-- Partikel‑Hintergrund -->
-  <div id="particles-js"></div>
-  <div class="glass-overlay"></div>
+  <canvas id="webgl-canvas"></canvas>
+  <div class="kaleidoscope"></div>
 
-  <h1>Psychedelic Sound Portal</h1>
+  <h1>PSYCHEDELIC SOUND PORTAL</h1>
   <div class="total-downloads">Gesamtdownloads: <span id="total-downloads">0</span></div>
 
   <div id="tracks-container"></div>
 
-  <div class="button-container">
-    <a href="seite3.html" class="back-button">Back To Menu</a>
-  </div>
+  <a href="seite3.html" class="back-button">BACK TO MENU</a>
 
-  <footer>© 2025 – Psychedelic Sound Portal | Designed by <a href="https://imanvanruler.com">IMAN VAN RULER</a></footer>
+  <footer>© 2025 – Psychedelic Sound Portal | <a href="https://imanvanruler.com">IMAN VAN RULER</a></footer>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
 
   <script>
-    // -------------------------------------------------
-    // 1. Firebase + Anonymous Auth
-    // -------------------------------------------------
+    // =============================================
+    // 1. Firebase + Auth
+    // =============================================
     const firebaseConfig = {
       apiKey: "AIzaSyD_S_8vWCalPM0nc8QyhgHPQsqWh73YCuY",
       authDomain: "psychedelicsoundportal.firebaseapp.com",
@@ -238,41 +203,89 @@
     const db = firebase.database();
     firebase.auth().signInAnonymously().catch(console.error);
 
-    // -------------------------------------------------
-    // 2. Track‑Daten
-    // -------------------------------------------------
+    // =============================================
+    // 2. Tracks
+    // =============================================
     const tracks = [
-      { id: 'lucid_drift',      title: '1. Lucid Drift',      file: 'lucid_drift.mp3' },
-      { id: 'neon_sandstorm',  title: '2. Neon Sandstorm',  file: 'neon_sandstorm.mp3' },
-      { id: 'fractal_bloom',   title: '3. Fractal Bloom',   file: 'fractal_bloom.mp3' },
-      { id: 'vortex_child',    title: '4. Vortex Child',    file: 'vortex_child.mp3' }
+      { id: 'lucid_drift', title: '1. Lucid Drift', file: 'lucid_drift.mp3' },
+      { id: 'neon_sandstorm', title: '2. Neon Sandstorm', file: 'neon_sandstorm.mp3' },
+      { id: 'fractal_bloom', title: '3. Fractal Bloom', file: 'fractal_bloom.mp3' },
+      { id: 'vortex_child', title: '4. Vortex Child', file: 'vortex_child.mp3' }
     ];
 
-    // -------------------------------------------------
-    // 3. HTML‑Generierung
-    // -------------------------------------------------
+    // =============================================
+    // 3. HTML + Visualizer
+    // =============================================
     const container = document.getElementById('tracks-container');
+    const visualizers = {};
+
     tracks.forEach(t => {
       const div = document.createElement('div');
       div.className = 'player';
       div.innerHTML = `
         <h3>${t.title}</h3>
-        <audio controls preload="metadata" title="${t.title} abspielen">
+        <div class="visualizer"><canvas id="viz-${t.id}"></canvas></div>
+        <audio id="audio-${t.id}" controls preload="metadata">
           <source src="${t.file}" type="audio/mpeg">
-          Dein Browser unterstützt kein Audio.
         </audio>
-        <a href="${t.file}" download class="download" data-track="${t.id}"
-           aria-label="${t.title} herunterladen">
-          <span>Download</span>
+        <a href="${t.file}" download class="download" data-track="${t.id}">
+          <span>DOWNLOAD</span>
           <span class="download-count" id="count-${t.id}">Downloads: 0</span>
         </a>
       `;
       container.appendChild(div);
+
+      // Visualizer Setup
+      const audio = document.getElementById(`audio-${t.id}`);
+      const canvas = document.getElementById(`viz-${t.id}`);
+      const ctx = canvas.getContext('2d');
+      canvas.width = 400; canvas.height = 80;
+
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const analyser = audioCtx.createAnalyser();
+      const source = audioCtx.createMediaElementSource(audio);
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      analyser.fftSize = 256;
+
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      visualizers[t.id] = { ctx, analyser, dataArray, bufferLength };
+
+      // Start visualization on play
+      audio.addEventListener('play', () => renderFrame(t.id));
     });
 
-    // -------------------------------------------------
-    // 4. Zähler‑Updates
-    // -------------------------------------------------
+    function renderFrame(id) {
+      const { ctx, analyser, dataArray, bufferLength } = visualizers[id];
+      requestAnimationFrame(() => renderFrame(id));
+
+      analyser.getByteFrequencyData(dataArray);
+      ctx.fillStyle = 'rgba(0,0,0,0.2)';
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+      const barWidth = (ctx.canvas.width / bufferLength) * 2.5;
+      let x = 0;
+
+      for (let i = 0; i < bufferLength; i++) {
+        const barHeight = (dataArray[i] / 255) * ctx.canvas.height * 0.8;
+
+        const gradient = ctx.createLinearGradient(0, ctx.canvas.height - barHeight, 0, ctx.canvas.height);
+        gradient.addColorStop(0, '#00ffff');
+        gradient.addColorStop(0.5, '#ff00ff');
+        gradient.addColorStop(1, '#ffff00');
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(x, ctx.canvas.height - barHeight, barWidth, barHeight);
+
+        x += barWidth + 1;
+      }
+    }
+
+    // =============================================
+    // 4. Zähler
+    // =============================================
     function updateTotal() {
       let sum = 0;
       tracks.forEach(t => {
@@ -284,15 +297,14 @@
     tracks.forEach(t => {
       db.ref('downloads/' + t.id).on('value', snap => {
         const cnt = snap.val() || 0;
-        const el = document.getElementById(`count-${t.id}`);
-        el.textContent = `Downloads: ${cnt}`;
+        document.getElementById(`count-${t.id}`).textContent = `Downloads: ${cnt}`;
         updateTotal();
       });
     });
 
-    // -------------------------------------------------
-    // 5. Download + Ripple‑Effekt
-    // -------------------------------------------------
+    // =============================================
+    // 5. Download + Glitch Feedback
+    // =============================================
     document.addEventListener('click', e => {
       const btn = e.target.closest('.download');
       if (!btn) return;
@@ -300,41 +312,76 @@
       const track = btn.dataset.track;
       db.ref('downloads/' + track).transaction(c => (c || 0) + 1);
 
-      // Ripple‑Effekt
-      const ripple = document.createElement('div');
-      const rect = btn.getBoundingClientRect();
-      const size = Math.max(rect.width, rect.height);
-      ripple.className = 'ripple';
-      ripple.style.width = ripple.style.height = size + 'px';
-      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
-      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
-      btn.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 600);
-
-      // Visuelles Feedback
-      btn.style.transform = 'scale(0.94)';
-      setTimeout(() => btn.style.transform = '', 150);
+      btn.style.filter = 'hue-rotate(180deg) brightness(1.5)';
+      setTimeout(() => btn.style.filter = '', 300);
     });
 
-    // -------------------------------------------------
-    // 6. Particles.js Initialisierung
-    // -------------------------------------------------
-    particlesJS('particles-js', {
-      particles: {
-        number: { value: 80, density: { enable: true, value_area: 800 } },
-        color: { value: ['#00ffcc', '#ff00ff', '#9d00ff'] },
-        shape: { type: 'circle' },
-        opacity: { value: 0.6, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1 } },
-        size: { value: 3, random: true, anim: { enable: true, speed: 2, size_min: 0.1 } },
-        line_linked: { enable: true, distance: 140, color: '#00ffcc', opacity: 0.3, width: 1 },
-        move: { enable: true, speed: 1.5, direction: 'none', random: false, straight: false, out_mode: 'out' }
+    // =============================================
+    // 6. WebGL Psychedelic Shader
+    // =============================================
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('webgl-canvas'), antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    camera.position.z = 5;
+
+    const geometry = new THREE.PlaneGeometry(10, 10, 128, 128);
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+        resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) }
       },
-      interactivity: {
-        detect_on: 'canvas',
-        events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
-        modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
-      },
-      retina_detect: true
+      vertexShader: `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float time;
+        uniform vec2 resolution;
+        varying vec2 vUv;
+
+        float hash(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+        float noise(vec2 p) {
+          vec2 i = floor(p); vec2 f = fract(p);
+          f = f*f*(3.0-2.0*f);
+          return mix(mix(hash(i), hash(i+vec2(1,0)), f.x),
+                     mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y);
+        }
+
+        void main() {
+          vec2 uv = vUv * 2.0 - 1.0;
+          uv *= 2.0 + sin(time * 0.5) * 0.5;
+          float t = time * 0.3;
+          float n = noise(uv * 3.0 + t);
+          vec3 col = 0.5 + 0.5 * cos(6.28318 * (vec3(n, n+0.33, n+0.66) + vec3(0,2,4)));
+          col *= pow(n, 0.5);
+          col = mix(col, vec3(1.0), pow(length(uv), 3.0) * 0.3);
+          gl_FragColor = vec4(col, 1.0);
+        }
+      `,
+      wireframe: false
+    });
+
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    function animate() {
+      requestAnimationFrame(animate);
+      material.uniforms.time.value += 0.016;
+      mesh.rotation.z = Math.sin(Date.now() * 0.0005) * 0.1;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      material.uniforms.resolution.value.set(window.innerWidth, window.innerHeight);
     });
   </script>
 </body>
