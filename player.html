@@ -8,114 +8,203 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
 
+  <!-- Particles.js (für Hintergrund‑Partikel) -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
   <style>
     :root {
-      --glow: 0 0 15px rgba(0,255,213,0.6);
-      --glow-intense: 0 0 30px rgba(157,0,255,0.8), 0 0 50px rgba(0,255,217,0.5);
-      --bg-gradient: linear-gradient(270deg, #1a0033, #000f26, #2a003a, #001a17);
+      --neon-cyan: #00ffcc;
+      --neon-magenta: #ff00ff;
+      --neon-purple: #9d00ff;
+      --deep-space: #0a001f;
+      --glow-sm: 0 0 12px rgba(0, 255, 204, 0.6);
+      --glow-md: 0 0 25px rgba(157, 0, 255, 0.7);
+      --glow-lg: 0 0 40px rgba(0, 255, 217, 0.5);
     }
+
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     body {
       min-height:100vh;
-      background:var(--bg-gradient);
-      background-size:800% 800%;
-      animation:bgshift 16s ease infinite;
+      background:#000;
       color:#fff;
       font-family:'Rajdhani',sans-serif;
       display:flex;
       flex-direction:column;
       align-items:center;
-      padding:60px 16px;
-      overflow-x:hidden;
+      padding:60px 16px 80px;
+      overflow:hidden;
       position:relative;
     }
-    body::before {
-      content:''; position:fixed; inset:0;
-      background:var(--bg-gradient);
-      background-size:800% 800%;
-      animation:bgshift 16s ease infinite;
-      z-index:-1;
-      will-change:background-position;
+
+    /* Hintergrund‑Partikel */
+    #particles-js {
+      position:fixed; inset:0; z-index:-2;
+      background:radial-gradient(circle at center, #1a0033 0%, #000f26 50%, #001a17 100%);
     }
-    @keyframes bgshift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+
+    /* Glasmorphism‑Overlay */
+    .glass-overlay {
+      position:fixed; inset:0; z-index:-1;
+      background:linear-gradient(135deg, rgba(10,0,31,0.7), rgba(0,15,38,0.5));
+      backdrop-filter:blur(10px);
+      pointer-events:none;
+    }
+
     h1 {
       font-family:'Orbitron',sans-serif;
-      font-size:clamp(1.8rem,5vw,2.5rem);
-      letter-spacing:4px;
+      font-size:clamp(2.2rem,6vw,3.2rem);
+      letter-spacing:6px;
       text-transform:uppercase;
-      margin-bottom:50px;
-      text-shadow:var(--glow-intense);
-      animation:pulse 2.5s ease-in-out infinite alternate;
-      color:#a0f7ff;
+      margin-bottom:40px;
+      background:linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta), var(--neon-purple));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+      text-shadow:var(--glow-lg);
+      animation: titlePulse 3s ease-in-out infinite alternate, hueShift 8s linear infinite;
+      position:relative;
+      z-index:10;
     }
-    @keyframes pulse { from{opacity:.8; text-shadow:var(--glow)} to{opacity:1; text-shadow:var(--glow-intense)} }
+    @keyframes titlePulse { from{opacity:.85; transform:scale(1)} to{opacity:1; transform:scale(1.03)} }
+    @keyframes hueShift { from{background-position:0%} to{background-position:200%} }
 
-    .total-downloads { margin-bottom:20px; font-size:1.1rem; color:#a0f7ff; text-shadow:0 0 8px rgba(0,255,255,.6); }
+    .total-downloads {
+      margin-bottom:24px; font-size:1.2rem; color:var(--neon-cyan);
+      text-shadow:var(--glow-sm); letter-spacing:1.2px;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
 
-    #tracks-container { display:flex; flex-direction:column; gap:18px; width:100%; max-width:340px; }
+    #tracks-container {
+      display:flex; flex-direction:column; gap:24px;
+      width:100%; max-width:380px;
+      perspective:1000px;
+    }
 
     .player {
-      background:rgba(20,20,40,.3);
-      backdrop-filter:blur(12px);
-      border:1px solid rgba(255,255,255,.15);
-      border-radius:16px;
-      padding:18px;
+      background:rgba(15,15,35,0.25);
+      backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:20px;
+      padding:22px;
       text-align:center;
-      transition:all .35s ease;
-      box-shadow:var(--glow);
+      transition:all .4s cubic-bezier(.2,.8,.4,1);
+      box-shadow:var(--glow-md);
+      position:relative;
+      overflow:hidden;
+      transform-style:preserve-3d;
     }
-    .player:hover { transform:translateY(-4px); box-shadow:var(--glow-intense); border-color:rgba(0,255,213,.5); }
+    .player::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg, rgba(0,255,204,0.05), rgba(157,0,255,0.05));
+      opacity:0; transition:opacity .4s;
+      pointer-events:none;
+    }
+    .player:hover {
+      transform:translateY(-8px) rotateX(4deg);
+      box-shadow:var(--glow-lg), 0 20px 40px rgba(0,0,0,0.3);
+      border-color:var(--neon-cyan);
+    }
+    .player:hover::before { opacity:1; }
 
     .player h3 {
-      font-size:1.15rem; font-weight:600; margin-bottom:12px;
-      letter-spacing:1.2px; color:#e0f7ff;
-      text-shadow:0 0 8px rgba(0,255,255,.6);
+      font-size:1.25rem; font-weight:600; margin-bottom:14px;
+      letter-spacing:1.4px; color:#e0f7ff;
+      text-shadow:0 0 10px rgba(0,255,255,.7);
+      position:relative; z-index:2;
     }
-    audio { width:100%; height:40px; outline:none; }
-    audio::-webkit-media-controls-panel { background:rgba(0,0,0,.4); border-radius:8px; backdrop-filter:blur(4px); }
+
+    audio {
+      width:100%; height:44px; outline:none; border-radius:10px;
+      filter:drop-shadow(0 0 8px rgba(0,255,204,.4));
+    }
+    audio::-webkit-media-controls-panel {
+      background:rgba(0,0,0,.5); border-radius:10px; backdrop-filter:blur(6px);
+    }
 
     .download {
-      display:inline-flex; align-items:center; gap:8px;
-      margin-top:14px; padding:8px 18px;
-      background:linear-gradient(135deg,#00ffcc,#9d00ff);
+      display:inline-flex; align-items:center; gap:10px; justify-content:center;
+      margin-top:16px; padding:10px 22px;
+      background:linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+      background-size:200%;
       color:#fff; font-weight:600; text-transform:uppercase;
-      font-size:.85rem; letter-spacing:1.3px;
-      border-radius:10px; text-decoration:none;
-      transition:all .3s ease; box-shadow:0 0 12px rgba(0,255,204,.4);
+      font-size:.9rem; letter-spacing:1.5px;
+      border-radius:12px; text-decoration:none;
+      transition:all .35s ease;
+      box-shadow:0 0 16px rgba(0,255,204,.5);
+      position:relative; overflow:hidden;
+      animation:hueShift 6s linear infinite;
     }
-    .download:hover { background:linear-gradient(135deg,#ff00c8,#00ffcc); box-shadow:0 0 20px rgba(157,0,255,.7); transform:scale(1.06); }
-    .download:active { transform:scale(.95); box-shadow:0 0 25px rgba(0,255,213,.9); }
+    .download::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+      transform:translateX(-100%); transition:transform .6s;
+    }
+    .download:hover {
+      transform:scale(1.08); box-shadow:0 0 30px rgba(157,0,255,.8);
+    }
+    .download:active::after { transform:translateX(100%); }
 
-    .download-count { font-size:.75rem; margin-top:6px; color:#a0f7ff; opacity:.9; text-shadow:0 0 6px rgba(0,255,255,.5); }
+    .download-count {
+      font-size:.78rem; margin-top:8px; color:var(--neon-cyan);
+      opacity:.9; text-shadow:0 0 6px rgba(0,255,255,.6);
+      animation:pulseCount 2s ease-in-out infinite;
+    }
+    @keyframes pulseCount { 0%,100%{opacity:.8} 50%{opacity:1} }
 
-    .button-container { margin-top:20px; }
+    .button-container { margin-top:30px; }
     .back-button {
-      display:inline-block; padding:10px 24px;
-      background:rgba(0,255,204,.2); color:#00ffcc;
-      text-decoration:none; border-radius:12px;
-      font-weight:600; letter-spacing:1.2px;
-      border:1px solid rgba(0,255,204,.4);
+      display:inline-block; padding:12px 28px;
+      background:rgba(0,255,204,.15); color:var(--neon-cyan);
+      text-decoration:none; border-radius:14px;
+      font-weight:600; letter-spacing:1.4px;
+      border:1px solid rgba(0,255,204,.3);
       transition:all .3s ease;
+      box-shadow:0 0 12px rgba(0,255,204,.3);
     }
-    .back-button:hover { background:rgba(0,255,204,.4); color:#fff; box-shadow:0 0 15px rgba(0,255,204,.6); }
+    .back-button:hover {
+      background:rgba(0,255,204,.35); color:#fff;
+      box-shadow:0 0 20px rgba(0,255,204,.7);
+      transform:translateY(-2px);
+    }
 
-    footer { margin-top:60px; font-size:.8rem; opacity:.7; text-align:center; letter-spacing:1px; }
-    footer a { color:#00ffcc; text-decoration:none; font-weight:600; }
-    footer a:hover { color:#a0f7ff; text-shadow:0 0 10px #00ffcc; }
+    footer {
+      margin-top:70px; font-size:.82rem; opacity:.75;
+      text-align:center; letter-spacing:1.2px;
+      animation:float 5s ease-in-out infinite;
+    }
+    footer a {
+      color:var(--neon-cyan); text-decoration:none; font-weight:600;
+      position:relative;
+    }
+    footer a::after {
+      content:''; position:absolute; bottom:-2px; left:0; width:0;
+      height:1px; background:var(--neon-cyan); transition:width .3s;
+    }
+    footer a:hover::after { width:100%; }
 
     @media (max-width:480px) {
-      .player { padding:16px; }
-      h1 { margin-bottom:40px; }
+      .player { padding:18px; }
+      h1 { margin-bottom:36px; }
+      .download { padding:9px 18px; font-size:.85rem; }
     }
-  </style>
 
-  <!-- Firebase SDK (compat) -->
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+    /* Micro‑Interaction: Klick‑Ripple */
+    .ripple {
+      position:absolute; border-radius:50%;
+      background:rgba(0,255,204,.4);
+      transform:scale(0); animation:rippleAnim .6s ease-out;
+      pointer-events:none;
+    }
+    @keyframes rippleAnim { to{transform:scale(4); opacity:0} }
+  </style>
 </head>
 
 <body>
+  <!-- Partikel‑Hintergrund -->
+  <div id="particles-js"></div>
+  <div class="glass-overlay"></div>
+
   <h1>Psychedelic Sound Portal</h1>
   <div class="total-downloads">Gesamtdownloads: <span id="total-downloads">0</span></div>
 
@@ -127,9 +216,14 @@
 
   <footer>© 2025 – Psychedelic Sound Portal | Designed by <a href="https://imanvanruler.com">IMAN VAN RULER</a></footer>
 
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+
   <script>
     // -------------------------------------------------
-    // 1. Firebase Konfiguration (Anonymous Auth)
+    // 1. Firebase + Anonymous Auth
     // -------------------------------------------------
     const firebaseConfig = {
       apiKey: "AIzaSyD_S_8vWCalPM0nc8QyhgHPQsqWh73YCuY",
@@ -142,12 +236,10 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-
-    // Anonymous Auth (nur nötig, wenn Schreibrechte gesperrt sind)
-    firebase.auth().signInAnonymously().catch(err => console.error('Auth error:', err));
+    firebase.auth().signInAnonymously().catch(console.error);
 
     // -------------------------------------------------
-    // 2. Track‑Daten (einfach erweiterbar)
+    // 2. Track‑Daten
     // -------------------------------------------------
     const tracks = [
       { id: 'lucid_drift',      title: '1. Lucid Drift',      file: 'lucid_drift.mp3' },
@@ -157,7 +249,7 @@
     ];
 
     // -------------------------------------------------
-    // 3. HTML‑Erzeugung
+    // 3. HTML‑Generierung
     // -------------------------------------------------
     const container = document.getElementById('tracks-container');
     tracks.forEach(t => {
@@ -179,7 +271,7 @@
     });
 
     // -------------------------------------------------
-    // 4. Zähler‑Logik (Realtime‑Updates)
+    // 4. Zähler‑Updates
     // -------------------------------------------------
     function updateTotal() {
       let sum = 0;
@@ -189,30 +281,60 @@
       });
       document.getElementById('total-downloads').textContent = sum;
     }
-
     tracks.forEach(t => {
-      const ref = db.ref('downloads/' + t.id);
-      ref.on('value', snap => {
+      db.ref('downloads/' + t.id).on('value', snap => {
         const cnt = snap.val() || 0;
-        document.getElementById(`count-${t.id}`).textContent = `Downloads: ${cnt}`;
+        const el = document.getElementById(`count-${t.id}`);
+        el.textContent = `Downloads: ${cnt}`;
         updateTotal();
       });
     });
 
     // -------------------------------------------------
-    // 5. Download‑Klick (nur Zähler erhöhen)
+    // 5. Download + Ripple‑Effekt
     // -------------------------------------------------
     document.addEventListener('click', e => {
       const btn = e.target.closest('.download');
       if (!btn) return;
 
       const track = btn.dataset.track;
-      // Zähler atomar erhöhen
       db.ref('downloads/' + track).transaction(c => (c || 0) + 1);
 
-      // kurzes visuelles Feedback
-      btn.style.opacity = '0.7';
-      setTimeout(() => btn.style.opacity = '1', 300);
+      // Ripple‑Effekt
+      const ripple = document.createElement('div');
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+
+      // Visuelles Feedback
+      btn.style.transform = 'scale(0.94)';
+      setTimeout(() => btn.style.transform = '', 150);
+    });
+
+    // -------------------------------------------------
+    // 6. Particles.js Initialisierung
+    // -------------------------------------------------
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: ['#00ffcc', '#ff00ff', '#9d00ff'] },
+        shape: { type: 'circle' },
+        opacity: { value: 0.6, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1 } },
+        size: { value: 3, random: true, anim: { enable: true, speed: 2, size_min: 0.1 } },
+        line_linked: { enable: true, distance: 140, color: '#00ffcc', opacity: 0.3, width: 1 },
+        move: { enable: true, speed: 1.5, direction: 'none', random: false, straight: false, out_mode: 'out' }
+      },
+      interactivity: {
+        detect_on: 'canvas',
+        events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
+        modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } }
+      },
+      retina_detect: true
     });
   </script>
 </body>
