@@ -78,7 +78,6 @@
       height: 40px;
       outline: none;
     }
-    /* Styling der nativen Audio-Controls */
     audio::-webkit-media-controls-panel {
       background: rgba(0, 0, 0, 0.4);
       border-radius: 8px;
@@ -104,12 +103,16 @@
       text-decoration: none;
       transition: all 0.3s ease;
       box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
-      position: relative;
+      cursor: pointer;
     }
     .download:hover {
       background: linear-gradient(135deg, #ff00c8, #00ffcc);
       box-shadow: 0 0 20px rgba(157, 0, 255, 0.7);
       transform: scale(1.06);
+    }
+    .download:active {
+      transform: scale(0.95);
+      box-shadow: 0 0 25px rgba(0, 255, 213, 0.9);
     }
     .download-count {
       font-size: 0.75rem;
@@ -162,40 +165,36 @@
       color: #a0f7ff;
       text-shadow: 0 0 10px #00ffcc;
     }
-    /* Responsive */
     @media (max-width: 480px) {
       .player { padding: 16px; }
       h1 { margin-bottom: 40px; }
     }
   </style>
 
-  <!-- Firebase SDK (Compat-Version für einfaches HTML – KEINE Imports!) -->
+  <!-- Firebase SDK (Compat-Version) -->
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
   <script>
-    // Deine Config (angepasst: Nur Essentials, keine Imports oder Analytics!)
+    // Deine Firebase Config (aus deiner Console!)
     const firebaseConfig = {
       apiKey: "AIzaSyD_S_8vWCalPM0nc8QyhgHPQsqWh73YCuY",
       authDomain: "psychedelicsoundportal.firebaseapp.com",
-      databaseURL: "https://psychedelicsoundportal-default-rtdb.firebaseio.com/",  // Korrigiert: Mit / am Ende!
+      databaseURL: "https://psychedelicsoundportal-default-rtdb.firebaseio.com/",
       projectId: "psychedelicsoundportal",
       storageBucket: "psychedelicsoundportal.firebasestorage.app",
       messagingSenderId: "933455200564",
       appId: "1:933455200564:web:2b39c2e0bdf08d09486561"
-      // measurementId: "G-72TY4WR4PF"  // Optional: Entferne, wenn du Analytics nicht brauchst
     };
-    // Initialize Firebase (Compat-Stil)
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
   </script>
-
 </head>
 <body>
-  <h1>🌀 Psychedelic Sound Portal 🌀</h1>
-  
-  <!-- Gesamtzähler (wird live upgedatet) -->
+  <h1>Psychedelic Sound Portal</h1>
+
+  <!-- Gesamtdownloads -->
   <div class="total-downloads">
-    Gesamtdownloads: <span id="total-downloads">0</span> 🌀
+    Gesamtdownloads: <span id="total-downloads">0</span>
   </div>
 
   <!-- Track 1 -->
@@ -250,38 +249,56 @@
     © 2025 – Psychedelic Sound Portal | Designed by <a href="#">IMAN VAN RULER</a>
   </footer>
 
-  <!-- Firebase Download-Zähler Script (neu hinzugefügt) -->
+  <!-- Firebase + Download-Logik -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const tracks = ['lucid_drift', 'neon_sandstorm', 'fractal_bloom', 'vortex_child'];
       let total = 0;
 
-      // Funktion: Zähler laden und anzeigen (live aus Firebase)
+      // Lade Zähler aus Firebase
       function loadCounts() {
         tracks.forEach(track => {
           const ref = db.ref('downloads/' + track);
           ref.on('value', (snap) => {
             const count = snap.val() || 0;
             document.getElementById('count-' + track).textContent = 'Downloads: ' + count;
-            total += count;  // Gesamtsumme berechnen
+            // Gesamtsumme neu berechnen
+            total = tracks.reduce((sum, t) => {
+              const txt = document.getElementById('count-' + t).textContent;
+              return sum + (parseInt(txt.split(': ')[1]) || 0);
+            }, 0);
             document.getElementById('total-downloads').textContent = total;
           });
         });
       }
 
-      // Initial laden (beim Seitenstart)
       loadCounts();
 
-      // Bei Klick: Zähler in Firebase erhöhen (atomar, global)
+      // Klick: Zähler + echter Download
       document.querySelectorAll('.download').forEach(link => {
         link.addEventListener('click', function(e) {
+          e.preventDefault();
+
           const track = this.getAttribute('data-track');
+          const fileUrl = this.getAttribute('href');
+
+          // 1. Zähler erhöhen
           const ref = db.ref('downloads/' + track);
-          ref.transaction((current) => (current || 0) + 1);  // Erhöht um 1, ohne Konflikte
-          
-          // Optional: Button kurz deaktivieren gegen Spam-Klicks
-          this.style.pointerEvents = 'none';
-          setTimeout(() => { this.style.pointerEvents = 'auto'; }, 1000);
+          ref.transaction((current) => (current || 0) + 1);
+
+          // 2. Download starten (nach kurzer Pause)
+          setTimeout(() => {
+            const a = document.createElement('a');
+            a.href = fileUrl;
+            a.download = '';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          }, 300);
+
+          // Feedback
+          this.style.opacity = '0.7';
+          setTimeout(() => { this.style.opacity = '1'; }, 600);
         });
       });
     });
