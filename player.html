@@ -10,10 +10,6 @@
 
   <!-- Three.js + Shader -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.167.0/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.167.0/examples/js/postprocessing/EffectComposer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.167.0/examples/js/postprocessing/RenderPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.167.0/examples/js/postprocessing/ShaderPass.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.167.0/examples/js/shaders/CopyShader.js"></script>
 
   <style>
     :root {
@@ -21,15 +17,24 @@
       --deep-void: #000000; --plasma: #0a001f;
     }
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html, body {
+      margin:0; font-family:'Share Tech Mono', monospace;
+      color:#fff; background:#000;
+      min-height:100vh; /* WICHTIG: Scrollen ermöglichen */
+    }
     body {
-      margin:0; overflow:hidden; font-family:'Share Tech Mono', monospace;
-      color:#fff; height:100vh; display:flex; flex-direction:column;
-      align-items:center; justify-content:flex-start; padding:40px 16px;
-      position:relative; background:#000;
+      display:flex; flex-direction:column; align-items:center;
+      padding:60px 16px 100px; /* Platz für Footer + Scroll */
+      position:relative;
+      overflow-y:auto; /* Scrollen erlauben! */
+      overflow-x:hidden;
     }
 
-    /* WebGL Canvas */
-    #webgl-canvas { position:fixed; inset:0; z-index:-3; }
+    /* WebGL Canvas – fixiert hinter allem */
+    #webgl-canvas {
+      position:fixed; inset:0; z-index:-3;
+      pointer-events:none;
+    }
 
     /* Kaleidoskop-Overlay */
     .kaleidoscope {
@@ -146,7 +151,7 @@
     }
 
     .back-button {
-      margin-top:40px; padding:14px 32px; background:rgba(255,255,255,.1);
+      margin:40px 0; padding:14px 32px; background:rgba(255,255,255,.1);
       color:var(--neon-1); border:2px solid var(--neon-1); border-radius:16px;
       text-decoration:none; font-weight:700; letter-spacing:2px;
       box-shadow:0 0 20px var(--neon-1); transition:all .4s;
@@ -157,18 +162,21 @@
     }
 
     footer {
-      margin-top:80px; font-size:.9rem; opacity:.8; animation:pulse 3s infinite;
+      margin-top:40px; font-size:.9rem; opacity:.8; animation:pulse 3s infinite;
+      text-align:center;
     }
     footer a { color:var(--neon-2); text-shadow:0 0 10px var(--neon-2); }
 
     @media (max-width:480px) {
       .player { padding:20px; }
       h1 { font-size:2.8rem; }
+      body { padding:40px 12px 80px; }
     }
   </style>
 </head>
 
 <body>
+  <!-- WebGL Hintergrund -->
   <canvas id="webgl-canvas"></canvas>
   <div class="kaleidoscope"></div>
 
@@ -235,7 +243,6 @@
       `;
       container.appendChild(div);
 
-      // Visualizer Setup
       const audio = document.getElementById(`audio-${t.id}`);
       const canvas = document.getElementById(`viz-${t.id}`);
       const ctx = canvas.getContext('2d');
@@ -253,7 +260,6 @@
 
       visualizers[t.id] = { ctx, analyser, dataArray, bufferLength };
 
-      // Start visualization on play
       audio.addEventListener('play', () => renderFrame(t.id));
     });
 
@@ -270,15 +276,12 @@
 
       for (let i = 0; i < bufferLength; i++) {
         const barHeight = (dataArray[i] / 255) * ctx.canvas.height * 0.8;
-
         const gradient = ctx.createLinearGradient(0, ctx.canvas.height - barHeight, 0, ctx.canvas.height);
         gradient.addColorStop(0, '#00ffff');
         gradient.addColorStop(0.5, '#ff00ff');
         gradient.addColorStop(1, '#ffff00');
-
         ctx.fillStyle = gradient;
         ctx.fillRect(x, ctx.canvas.height - barHeight, barWidth, barHeight);
-
         x += barWidth + 1;
       }
     }
@@ -303,21 +306,19 @@
     });
 
     // =============================================
-    // 5. Download + Glitch Feedback
+    // 5. Download Feedback
     // =============================================
     document.addEventListener('click', e => {
       const btn = e.target.closest('.download');
       if (!btn) return;
-
       const track = btn.dataset.track;
       db.ref('downloads/' + track).transaction(c => (c || 0) + 1);
-
       btn.style.filter = 'hue-rotate(180deg) brightness(1.5)';
       setTimeout(() => btn.style.filter = '', 300);
     });
 
     // =============================================
-    // 6. WebGL Psychedelic Shader
+    // 6. WebGL Shader (fixiert, kein Blockieren)
     // =============================================
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -334,32 +335,20 @@
       },
       vertexShader: `
         varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
+        void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
       `,
       fragmentShader: `
-        uniform float time;
-        uniform vec2 resolution;
-        varying vec2 vUv;
-
+        uniform float time; uniform vec2 resolution; varying vec2 vUv;
         float hash(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
         float noise(vec2 p) {
-          vec2 i = floor(p); vec2 f = fract(p);
-          f = f*f*(3.0-2.0*f);
-          return mix(mix(hash(i), hash(i+vec2(1,0)), f.x),
-                     mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y);
+          vec2 i = floor(p); vec2 f = fract(p); f = f*f*(3.0-2.0*f);
+          return mix(mix(hash(i), hash(i+vec2(1,0)), f.x), mix(hash(i+vec2(0,1)), hash(i+vec2(1,1)), f.x), f.y);
         }
-
         void main() {
-          vec2 uv = vUv * 2.0 - 1.0;
-          uv *= 2.0 + sin(time * 0.5) * 0.5;
-          float t = time * 0.3;
+          vec2 uv = vUv * 2.0 - 1.0; uv *= 2.0 + sin(time * 0.5) * 0.5; float t = time * 0.3;
           float n = noise(uv * 3.0 + t);
           vec3 col = 0.5 + 0.5 * cos(6.28318 * (vec3(n, n+0.33, n+0.66) + vec3(0,2,4)));
-          col *= pow(n, 0.5);
-          col = mix(col, vec3(1.0), pow(length(uv), 3.0) * 0.3);
+          col *= pow(n, 0.5); col = mix(col, vec3(1.0), pow(length(uv), 3.0) * 0.3);
           gl_FragColor = vec4(col, 1.0);
         }
       `,
