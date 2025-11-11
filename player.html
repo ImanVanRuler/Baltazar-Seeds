@@ -1,29 +1,5 @@
 <!DOCTYPE html>
 <html lang="de">
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyD_S_8vWCalPM0nc8QyhgHPQsqWh73YCuY",
-  authDomain: "psychedelicsoundportal.firebaseapp.com",
-  databaseURL: "https://psychedelicsoundportal-default-rtdb.firebaseio.com",
-  projectId: "psychedelicsoundportal",
-  storageBucket: "psychedelicsoundportal.firebasestorage.app",
-  messagingSenderId: "933455200564",
-  appId: "1:933455200564:web:2b39c2e0bdf08d09486561",
-  measurementId: "G-72TY4WR4PF"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-  
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -35,13 +11,11 @@ const analytics = getAnalytics(app);
       --glow-intense: 0 0 30px rgba(157, 0, 255, 0.8), 0 0 50px rgba(0, 255, 217, 0.5);
       --bg-gradient: linear-gradient(270deg, #1a0033, #000f26, #2a003a, #001a17);
     }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       min-height: 100vh;
       background: var(--bg-gradient);
@@ -55,12 +29,10 @@ const analytics = getAnalytics(app);
       padding: 60px 16px;
       overflow-x: hidden;
     }
-
     @keyframes bgshift {
       0%, 100% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
     }
-
     h1 {
       font-family: 'Orbitron', sans-serif;
       font-size: clamp(1.8rem, 5vw, 2.5rem);
@@ -71,12 +43,10 @@ const analytics = getAnalytics(app);
       animation: pulse 2.5s ease-in-out infinite alternate;
       color: #a0f7ff;
     }
-
     @keyframes pulse {
       from { opacity: 0.8; text-shadow: var(--glow); }
       to { opacity: 1; text-shadow: var(--glow-intense); }
     }
-
     .player {
       background: rgba(20, 20, 40, 0.3);
       backdrop-filter: blur(12px);
@@ -90,13 +60,11 @@ const analytics = getAnalytics(app);
       transition: all 0.35s ease;
       box-shadow: var(--glow);
     }
-
     .player:hover {
       transform: translateY(-4px);
       box-shadow: var(--glow-intense);
       border-color: rgba(0, 255, 213, 0.5);
     }
-
     h3 {
       font-size: 1.15rem;
       font-weight: 600;
@@ -105,27 +73,23 @@ const analytics = getAnalytics(app);
       color: #e0f7ff;
       text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
     }
-
     audio {
       width: 100%;
       height: 40px;
       outline: none;
     }
-
     /* Styling der nativen Audio-Controls */
     audio::-webkit-media-controls-panel {
       background: rgba(0, 0, 0, 0.4);
       border-radius: 8px;
       backdrop-filter: blur(4px);
     }
-
     audio::-webkit-media-controls-play-button,
     audio::-webkit-media-controls-volume-slider,
     audio::-webkit-media-controls-current-time-display,
     audio::-webkit-media-controls-time-remaining-display {
       filter: drop-shadow(0 0 6px #00ffcc);
     }
-
     .download {
       display: inline-block;
       margin-top: 14px;
@@ -140,14 +104,48 @@ const analytics = getAnalytics(app);
       text-decoration: none;
       transition: all 0.3s ease;
       box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
+      position: relative;
     }
-
     .download:hover {
       background: linear-gradient(135deg, #ff00c8, #00ffcc);
       box-shadow: 0 0 20px rgba(157, 0, 255, 0.7);
       transform: scale(1.06);
     }
-
+    .download-count {
+      font-size: 0.75rem;
+      margin-top: 6px;
+      color: #a0f7ff;
+      font-weight: 500;
+      opacity: 0.9;
+      text-shadow: 0 0 6px rgba(0, 255, 255, 0.5);
+    }
+    .total-downloads {
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      color: #a0f7ff;
+      text-align: center;
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+    }
+    .button-container {
+      margin-top: 20px;
+    }
+    .back-button {
+      display: inline-block;
+      padding: 10px 24px;
+      background: rgba(0, 255, 204, 0.2);
+      color: #00ffcc;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      letter-spacing: 1.2px;
+      border: 1px solid rgba(0, 255, 204, 0.4);
+      transition: all 0.3s ease;
+    }
+    .back-button:hover {
+      background: rgba(0, 255, 204, 0.4);
+      color: white;
+      box-shadow: 0 0 15px rgba(0, 255, 204, 0.6);
+    }
     footer {
       margin-top: 60px;
       font-size: 0.8rem;
@@ -155,72 +153,138 @@ const analytics = getAnalytics(app);
       text-align: center;
       letter-spacing: 1px;
     }
-
     footer a {
       color: #00ffcc;
       text-decoration: none;
       font-weight: 600;
     }
-
     footer a:hover {
       color: #a0f7ff;
       text-shadow: 0 0 10px #00ffcc;
     }
-
     /* Responsive */
     @media (max-width: 480px) {
       .player { padding: 16px; }
       h1 { margin-bottom: 40px; }
     }
   </style>
+
+  <!-- Firebase SDK (Compat-Version für einfaches HTML – KEINE Imports!) -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
+  <script>
+    // Deine Config (angepasst: Nur Essentials, keine Imports oder Analytics!)
+    const firebaseConfig = {
+      apiKey: "AIzaSyD_S_8vWCalPM0nc8QyhgHPQsqWh73YCuY",
+      authDomain: "psychedelicsoundportal.firebaseapp.com",
+      databaseURL: "https://psychedelicsoundportal-default-rtdb.firebaseio.com/",  // Korrigiert: Mit / am Ende!
+      projectId: "psychedelicsoundportal",
+      storageBucket: "psychedelicsoundportal.firebasestorage.app",
+      messagingSenderId: "933455200564",
+      appId: "1:933455200564:web:2b39c2e0bdf08d09486561"
+      // measurementId: "G-72TY4WR4PF"  // Optional: Entferne, wenn du Analytics nicht brauchst
+    };
+    // Initialize Firebase (Compat-Stil)
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
+
 </head>
 <body>
-
   <h1>🌀 Psychedelic Sound Portal 🌀</h1>
+  
+  <!-- Gesamtzähler (wird live upgedatet) -->
+  <div class="total-downloads">
+    Gesamtdownloads: <span id="total-downloads">0</span> 🌀
+  </div>
 
+  <!-- Track 1 -->
   <div class="player">
     <h3>1. Lucid Drift</h3>
     <audio controls preload="metadata">
       <source src="track1.mp3" type="audio/mpeg">
       Dein Browser unterstützt kein Audio.
     </audio>
-    <a class="download" href="lucid_drift.mp3" download>Download</a>
+    <a class="download" href="lucid_drift.mp3" download data-track="lucid_drift">Download</a>
+    <div class="download-count" id="count-lucid_drift">Downloads: 0</div>
   </div>
 
+  <!-- Track 2 -->
   <div class="player">
     <h3>2. Neon Sandstorm</h3>
     <audio controls preload="metadata">
       <source src="track2.mp3" type="audio/mpeg">
       Dein Browser unterstützt kein Audio.
     </audio>
-    <a class="download" href="neon_sandstorm.mp3" download>Download</a>
+    <a class="download" href="neon_sandstorm.mp3" download data-track="neon_sandstorm">Download</a>
+    <div class="download-count" id="count-neon_sandstorm">Downloads: 0</div>
   </div>
 
+  <!-- Track 3 -->
   <div class="player">
     <h3>3. Fractal Bloom</h3>
     <audio controls preload="metadata">
       <source src="track3.mp3" type="audio/mpeg">
       Dein Browser unterstützt kein Audio.
     </audio>
-    <a class="download" href="fractal_bloom.mp3" download>Download</a>
+    <a class="download" href="fractal_bloom.mp3" download data-track="fractal_bloom">Download</a>
+    <div class="download-count" id="count-fractal_bloom">Downloads: 0</div>
   </div>
 
+  <!-- Track 4 -->
   <div class="player">
     <h3>4. Vortex Child</h3>
     <audio controls preload="metadata">
       <source src="track4.mp3" type="audio/mpeg">
       Dein Browser unterstützt kein Audio.
     </audio>
-    <a class="download" href="vortex_child.mp3" download>Download</a>
+    <a class="download" href="vortex_child.mp3" download data-track="vortex_child">Download</a>
+    <div class="download-count" id="count-vortex_child">Downloads: 0</div>
   </div>
 
- <div class="button-container">
+  <div class="button-container">
     <a href="seite3.html" class="back-button">Back To Menu</a>
   </div>
-  
+
   <footer>
     © 2025 – Psychedelic Sound Portal | Designed by <a href="#">IMAN VAN RULER</a>
   </footer>
 
+  <!-- Firebase Download-Zähler Script (neu hinzugefügt) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const tracks = ['lucid_drift', 'neon_sandstorm', 'fractal_bloom', 'vortex_child'];
+      let total = 0;
+
+      // Funktion: Zähler laden und anzeigen (live aus Firebase)
+      function loadCounts() {
+        tracks.forEach(track => {
+          const ref = db.ref('downloads/' + track);
+          ref.on('value', (snap) => {
+            const count = snap.val() || 0;
+            document.getElementById('count-' + track).textContent = 'Downloads: ' + count;
+            total += count;  // Gesamtsumme berechnen
+            document.getElementById('total-downloads').textContent = total;
+          });
+        });
+      }
+
+      // Initial laden (beim Seitenstart)
+      loadCounts();
+
+      // Bei Klick: Zähler in Firebase erhöhen (atomar, global)
+      document.querySelectorAll('.download').forEach(link => {
+        link.addEventListener('click', function(e) {
+          const track = this.getAttribute('data-track');
+          const ref = db.ref('downloads/' + track);
+          ref.transaction((current) => (current || 0) + 1);  // Erhöht um 1, ohne Konflikte
+          
+          // Optional: Button kurz deaktivieren gegen Spam-Klicks
+          this.style.pointerEvents = 'none';
+          setTimeout(() => { this.style.pointerEvents = 'auto'; }, 1000);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
