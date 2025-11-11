@@ -3,97 +3,138 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🌀 Psychedelic Sound Portal 🌀</title>
+  <title>Psychedelic Sound Portal</title>
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --glow: 0 0 15px rgba(0, 255, 213, 0.6);
-      --glow-intense: 0 0 30px rgba(157, 0, 255, 0.8), 0 0 50px rgba(0, 255, 217, 0.5);
+      --glow: 0 0 15px rgba(0,255,213,0.6);
+      --glow-intense: 0 0 30px rgba(157,0,255,0.8), 0 0 50px rgba(0,255,217,0.5);
       --bg-gradient: linear-gradient(270deg, #1a0033, #000f26, #2a003a, #001a17);
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     body {
-      min-height: 100vh;
-      background: var(--bg-gradient);
-      background-size: 800% 800%;
-      animation: bgshift 16s ease infinite;
-      color: #fff;
-      font-family: 'Rajdhani', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 60px 16px;
-      overflow-x: hidden;
+      min-height:100vh;
+      background:var(--bg-gradient);
+      background-size:800% 800%;
+      animation:bgshift 16s ease infinite;
+      color:#fff;
+      font-family:'Rajdhani',sans-serif;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:60px 16px;
+      overflow-x:hidden;
+      position:relative;
     }
-    @keyframes bgshift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    body::before {
+      content:''; position:fixed; inset:0;
+      background:var(--bg-gradient);
+      background-size:800% 800%;
+      animation:bgshift 16s ease infinite;
+      z-index:-1;
+      will-change:background-position;
+    }
+    @keyframes bgshift { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
     h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      margin-bottom: 50px;
-      text-shadow: var(--glow-intense);
-      animation: pulse 2.5s ease-in-out infinite alternate;
-      color: #a0f7ff;
+      font-family:'Orbitron',sans-serif;
+      font-size:clamp(1.8rem,5vw,2.5rem);
+      letter-spacing:4px;
+      text-transform:uppercase;
+      margin-bottom:50px;
+      text-shadow:var(--glow-intense);
+      animation:pulse 2.5s ease-in-out infinite alternate;
+      color:#a0f7ff;
     }
-    @keyframes pulse { from { opacity: 0.8; text-shadow: var(--glow); } to { opacity: 1; text-shadow: var(--glow-intense); } }
+    @keyframes pulse { from{opacity:.8; text-shadow:var(--glow)} to{opacity:1; text-shadow:var(--glow-intense)} }
+
+    .total-downloads { margin-bottom:20px; font-size:1.1rem; color:#a0f7ff; text-shadow:0 0 8px rgba(0,255,255,.6); }
+
+    #tracks-container { display:flex; flex-direction:column; gap:18px; width:100%; max-width:340px; }
+
     .player {
-      background: rgba(20, 20, 40, 0.3);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 340px;
-      padding: 18px;
-      margin: 18px 0;
-      text-align: center;
-      transition: all 0.35s ease;
-      box-shadow: var(--glow);
+      background:rgba(20,20,40,.3);
+      backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:16px;
+      padding:18px;
+      text-align:center;
+      transition:all .35s ease;
+      box-shadow:var(--glow);
     }
-    .player:hover { transform: translateY(-4px); box-shadow: var(--glow-intense); border-color: rgba(0, 255, 213, 0.5); }
-    h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 12px; letter-spacing: 1.2px; color: #e0f7ff; text-shadow: 0 0 8px rgba(0, 255, 255, 0.6); }
-    audio { width: 100%; height: 40px; outline: none; }
-    audio::-webkit-media-controls-panel { background: rgba(0, 0, 0, 0.4); border-radius: 8px; backdrop-filter: blur(4px); }
+    .player:hover { transform:translateY(-4px); box-shadow:var(--glow-intense); border-color:rgba(0,255,213,.5); }
+
+    .player h3 {
+      font-size:1.15rem; font-weight:600; margin-bottom:12px;
+      letter-spacing:1.2px; color:#e0f7ff;
+      text-shadow:0 0 8px rgba(0,255,255,.6);
+    }
+    audio { width:100%; height:40px; outline:none; }
+    audio::-webkit-media-controls-panel { background:rgba(0,0,0,.4); border-radius:8px; backdrop-filter:blur(4px); }
+
     .download {
-      display: inline-block;
-      margin-top: 14px;
-      padding: 8px 18px;
-      background: linear-gradient(135deg, #00ffcc, #9d00ff);
-      color: white;
-      font-weight: 600;
-      text-transform: uppercase;
-      font-size: 0.85rem;
-      letter-spacing: 1.3px;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
-      cursor: pointer;
+      display:inline-flex; align-items:center; gap:8px;
+      margin-top:14px; padding:8px 18px;
+      background:linear-gradient(135deg,#00ffcc,#9d00ff);
+      color:#fff; font-weight:600; text-transform:uppercase;
+      font-size:.85rem; letter-spacing:1.3px;
+      border-radius:10px; text-decoration:none;
+      transition:all .3s ease; box-shadow:0 0 12px rgba(0,255,204,.4);
     }
-    .download:hover { background: linear-gradient(135deg, #ff00c8, #00ffcc); box-shadow: 0 0 20px rgba(157, 0, 255, 0.7); transform: scale(1.06); }
-    .download:active { transform: scale(0.95); box-shadow: 0 0 25px rgba(0, 255, 213, 0.9); }
-    .download-count { font-size: 0.75rem; margin-top: 6px; color: #a0f7ff; font-weight: 500; opacity: 0.9; text-shadow: 0 0 6px rgba(0, 255, 255, 0.5); }
-    .total-downloads { margin-bottom: 20px; font-size: 1.1rem; color: #a0f7ff; text-align: center; text-shadow: 0 0 8px rgba(0, 255, 255, 0.6); }
-    .button-container { margin-top: 20px; }
+    .download:hover { background:linear-gradient(135deg,#ff00c8,#00ffcc); box-shadow:0 0 20px rgba(157,0,255,.7); transform:scale(1.06); }
+    .download:active { transform:scale(.95); box-shadow:0 0 25px rgba(0,255,213,.9); }
+
+    .download-count { font-size:.75rem; margin-top:6px; color:#a0f7ff; opacity:.9; text-shadow:0 0 6px rgba(0,255,255,.5); }
+
+    .button-container { margin-top:20px; }
     .back-button {
-      display: inline-block; padding: 10px 24px; background: rgba(0, 255, 204, 0.2); color: #00ffcc; text-decoration: none;
-      border-radius: 12px; font-weight: 600; letter-spacing: 1.2px; border: 1px solid rgba(0, 255, 204, 0.4); transition: all 0.3s ease;
+      display:inline-block; padding:10px 24px;
+      background:rgba(0,255,204,.2); color:#00ffcc;
+      text-decoration:none; border-radius:12px;
+      font-weight:600; letter-spacing:1.2px;
+      border:1px solid rgba(0,255,204,.4);
+      transition:all .3s ease;
     }
-    .back-button:hover { background: rgba(0, 255, 204, 0.4); color: white; box-shadow: 0 0 15px rgba(0, 255, 204, 0.6); }
-    footer { margin-top: 60px; font-size: 0.8rem; opacity: 0.7; text-align: center; letter-spacing: 1px; }
-    footer a { color: #00ffcc; text-decoration: none; font-weight: 600; }
-    footer a:hover { color: #a0f7ff; text-shadow: 0 0 10px #00ffcc; }
-    @media (max-width: 480px) { .player { padding: 16px; } h1 { margin-bottom: 40px; } }
+    .back-button:hover { background:rgba(0,255,204,.4); color:#fff; box-shadow:0 0 15px rgba(0,255,204,.6); }
+
+    footer { margin-top:60px; font-size:.8rem; opacity:.7; text-align:center; letter-spacing:1px; }
+    footer a { color:#00ffcc; text-decoration:none; font-weight:600; }
+    footer a:hover { color:#a0f7ff; text-shadow:0 0 10px #00ffcc; }
+
+    @media (max-width:480px) {
+      .player { padding:16px; }
+      h1 { margin-bottom:40px; }
+    }
   </style>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase SDK (compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+</head>
+
+<body>
+  <h1>Psychedelic Sound Portal</h1>
+  <div class="total-downloads">Gesamtdownloads: <span id="total-downloads">0</span></div>
+
+  <div id="tracks-container"></div>
+
+  <div class="button-container">
+    <a href="seite3.html" class="back-button">Back To Menu</a>
+  </div>
+
+  <footer>© 2025 – Psychedelic Sound Portal | Designed by <a href="https://imanvanruler.com">IMAN VAN RULER</a></footer>
+
   <script>
+    // -------------------------------------------------
+    // 1. Firebase Konfiguration (Anonymous Auth)
+    // -------------------------------------------------
     const firebaseConfig = {
       apiKey: "AIzaSyD_S_8vWCalPM0nc8QyhgHPQsqWh73YCuY",
       authDomain: "psychedelicsoundportal.firebaseapp.com",
-      databaseURL: "https://psychedelicsoundportal-default-rtdb.firebaseio.com/",
+      databaseURL: "https://psychedelicsoundportal-default-rtdb.firebaseio.com",
       projectId: "psychedelicsoundportal",
       storageBucket: "psychedelicsoundportal.firebasestorage.app",
       messagingSenderId: "933455200564",
@@ -101,106 +142,77 @@
     };
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-  </script>
-</head>
-<body>
-  <h1>Psychedelic Sound Portal</h1>
 
-  <div class="total-downloads">Gesamtdownloads: <span id="total-downloads">0</span></div>
+    // Anonymous Auth (nur nötig, wenn Schreibrechte gesperrt sind)
+    firebase.auth().signInAnonymously().catch(err => console.error('Auth error:', err));
 
-  <!-- Track 1 -->
-  <div class="player">
-    <h3>1. Lucid Drift</h3>
-    <audio controls preload="metadata"><source src="lucid_drift.mp3" type="audio/mpeg">Dein Browser unterstützt kein Audio.</audio>
-    <button class="download" data-track="lucid_drift" data-file="lucid_drift.mp3">Download</button>
-    <div class="download-count" id="count-lucid_drift">Downloads: 0</div>
-  </div>
+    // -------------------------------------------------
+    // 2. Track‑Daten (einfach erweiterbar)
+    // -------------------------------------------------
+    const tracks = [
+      { id: 'lucid_drift',      title: '1. Lucid Drift',      file: 'lucid_drift.mp3' },
+      { id: 'neon_sandstorm',  title: '2. Neon Sandstorm',  file: 'neon_sandstorm.mp3' },
+      { id: 'fractal_bloom',   title: '3. Fractal Bloom',   file: 'fractal_bloom.mp3' },
+      { id: 'vortex_child',    title: '4. Vortex Child',    file: 'vortex_child.mp3' }
+    ];
 
-  <!-- Track 2 -->
-  <div class="player">
-    <h3>2. Neon Sandstorm</h3>
-    <audio controls preload="metadata"><source src="neon_sandstorm.mp3" type="audio/mpeg">Dein Browser unterstützt kein Audio.</audio>
-    <button class="download" data-track="neon_sandstorm" data-file="neon_sandstorm.mp3">Download</button>
-    <div class="download-count" id="count-neon_sandstorm">Downloads: 0</div>
-  </div>
+    // -------------------------------------------------
+    // 3. HTML‑Erzeugung
+    // -------------------------------------------------
+    const container = document.getElementById('tracks-container');
+    tracks.forEach(t => {
+      const div = document.createElement('div');
+      div.className = 'player';
+      div.innerHTML = `
+        <h3>${t.title}</h3>
+        <audio controls preload="metadata" title="${t.title} abspielen">
+          <source src="${t.file}" type="audio/mpeg">
+          Dein Browser unterstützt kein Audio.
+        </audio>
+        <a href="${t.file}" download class="download" data-track="${t.id}"
+           aria-label="${t.title} herunterladen">
+          <span>Download</span>
+          <span class="download-count" id="count-${t.id}">Downloads: 0</span>
+        </a>
+      `;
+      container.appendChild(div);
+    });
 
-  <!-- Track 3 -->
-  <div class="player">
-    <h3>3. Fractal Bloom</h3>
-    <audio controls preload="metadata"><source src="fractal_bloom.mp3" type="audio/mpeg">Dein Browser unterstützt kein Audio.</audio>
-    <button class="download" data-track="fractal_bloom" data-file="fractal_bloom.mp3">Download</button>
-    <div class="download-count" id="count-fractal_bloom">Downloads: 0</div>
-  </div>
-
-  <!-- Track 4 -->
-  <div class="player">
-    <h3>4. Vortex Child</h3>
-    <audio controls preload="metadata"><source src="vortex_child.mp3" type="audio/mpeg">Dein Browser unterstützt kein Audio.</audio>
-    <button class="download" data-track="vortex_child" data-file="vortex_child.mp3">Download</button>
-    <div class="download-count" id="count-vortex_child">Downloads: 0</div>
-  </div>
-
-  <div class="button-container">
-    <a href="seite3.html" class="back-button">Back To Menu</a>
-  </div>
-
-  <footer>© 2025 – Psychedelic Sound Portal | Designed by <a href="#">IMAN VAN RULER</a></footer>
-
-  <!-- FINALER DOWNLOAD + ZÄHLER CODE -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const tracks = ['lucid_drift', 'neon_sandstorm', 'fractal_bloom', 'vortex_child'];
-
-      // Lade Zähler
-      function updateTotal() {
-        let sum = 0;
-        tracks.forEach(t => {
-          const txt = document.getElementById('count-' + t).textContent;
-          sum += parseInt(txt.split(': ')[1]) || 0;
-        });
-        document.getElementById('total-downloads').textContent = sum;
-      }
-
-      tracks.forEach(track => {
-        const ref = db.ref('downloads/' + track);
-        ref.on('value', snap => {
-          const count = snap.val() || 0;
-          document.getElementById('count-' + track).textContent = 'Downloads: ' + count;
-          updateTotal();
-        });
+    // -------------------------------------------------
+    // 4. Zähler‑Logik (Realtime‑Updates)
+    // -------------------------------------------------
+    function updateTotal() {
+      let sum = 0;
+      tracks.forEach(t => {
+        const txt = document.getElementById(`count-${t.id}`).textContent;
+        sum += parseInt(txt.split(': ')[1]) || 0;
       });
+      document.getElementById('total-downloads').textContent = sum;
+    }
 
-      // DOWNLOAD MIT FETCH + BLOB
-      document.querySelectorAll('.download').forEach(btn => {
-        btn.addEventListener('click', async function() {
-          const track = this.getAttribute('data-track');
-          const file = this.getAttribute('data-file');
-
-          // 1. Zähler erhöhen
-          db.ref('downloads/' + track).transaction(c => (c || 0) + 1);
-
-          // 2. MP3 laden + downloaden
-          try {
-            const response = await fetch(file);
-            if (!response.ok) throw new Error('File not found');
-            const blob = await response.blob();
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = file;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-          } catch (err) {
-            alert('Fehler: Datei nicht gefunden: ' + file);
-          }
-
-          // Feedback
-          this.style.opacity = '0.7';
-          setTimeout(() => { this.style.opacity = '1'; }, 600);
-        });
+    tracks.forEach(t => {
+      const ref = db.ref('downloads/' + t.id);
+      ref.on('value', snap => {
+        const cnt = snap.val() || 0;
+        document.getElementById(`count-${t.id}`).textContent = `Downloads: ${cnt}`;
+        updateTotal();
       });
+    });
+
+    // -------------------------------------------------
+    // 5. Download‑Klick (nur Zähler erhöhen)
+    // -------------------------------------------------
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('.download');
+      if (!btn) return;
+
+      const track = btn.dataset.track;
+      // Zähler atomar erhöhen
+      db.ref('downloads/' + track).transaction(c => (c || 0) + 1);
+
+      // kurzes visuelles Feedback
+      btn.style.opacity = '0.7';
+      setTimeout(() => btn.style.opacity = '1', 300);
     });
   </script>
 </body>
