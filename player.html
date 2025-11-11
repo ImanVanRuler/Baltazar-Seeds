@@ -1,167 +1,198 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Psychedelic Sound Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;700&display=swap');
+    :root {
+      --glow: 0 0 15px rgba(0, 255, 213, 0.6);
+      --glow-intense: 0 0 30px rgba(157, 0, 255, 0.8), 0 0 50px rgba(0, 255, 217, 0.5);
+      --bg-gradient: linear-gradient(270deg, #1a0033, #000f26, #2a003a, #001a17);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
-      margin: 0;
       min-height: 100vh;
+      background: var(--bg-gradient);
+      background-size: 800% 800%;
+      animation: bgshift 16s ease infinite;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding: 50px 20px;
-      color: #fff;
-      font-family: 'Rajdhani', sans-serif;
+      padding: 60px 16px;
       overflow-x: hidden;
-      background: linear-gradient(270deg, #2b0057, #001d40, #420042, #00331f);
-      background-size: 800% 800%;
-      animation: bgshift 12s ease infinite;
     }
 
     @keyframes bgshift {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
     }
 
     h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 2.2rem;
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      letter-spacing: 4px;
       text-transform: uppercase;
-      letter-spacing: 3px;
-      color: #aaf7ff;
-      text-shadow: 0 0 10px #9d00ff, 0 0 20px #00ffd9;
-      margin-bottom: 40px;
-      animation: pulse 3s infinite alternate;
+      margin-bottom: 50px;
+      text-shadow: var(--glow-intense);
+      animation: pulse 2.5s ease-in-out infinite alternate;
+      color: #a0f7ff;
     }
 
     @keyframes pulse {
-      from {opacity: 0.7;}
-      to {opacity: 1;}
+      from { opacity: 0.8; text-shadow: var(--glow); }
+      to { opacity: 1; text-shadow: var(--glow-intense); }
     }
 
     .player {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      box-shadow: 0 0 30px rgba(0, 255, 200, 0.2);
-      width: 320px;
-      padding: 25px;
-      margin-bottom: 25px;
+      background: rgba(20, 20, 40, 0.3);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 340px;
+      padding: 18px;
+      margin: 18px 0;
       text-align: center;
-      transition: all 0.4s ease;
-      transform: scale(1);
+      transition: all 0.35s ease;
+      box-shadow: var(--glow);
     }
 
     .player:hover {
-      box-shadow: 0 0 40px rgba(0, 255, 200, 0.6);
-      transform: scale(1.03);
+      transform: translateY(-4px);
+      box-shadow: var(--glow-intense);
+      border-color: rgba(0, 255, 213, 0.5);
     }
 
     h3 {
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-      color: #fff;
-      letter-spacing: 1px;
-      text-shadow: 0 0 8px #00fff0;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      letter-spacing: 1.2px;
+      color: #e0f7ff;
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
     }
 
     audio {
       width: 100%;
+      height: 40px;
       outline: none;
-      margin-top: 10px;
-      filter: drop-shadow(0 0 5px #00ffd9);
+    }
+
+    /* Styling der nativen Audio-Controls */
+    audio::-webkit-media-controls-panel {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 8px;
+      backdrop-filter: blur(4px);
+    }
+
+    audio::-webkit-media-controls-play-button,
+    audio::-webkit-media-controls-volume-slider,
+    audio::-webkit-media-controls-current-time-display,
+    audio::-webkit-media-controls-time-remaining-display {
+      filter: drop-shadow(0 0 6px #00ffcc);
     }
 
     .download {
       display: inline-block;
-      margin-top: 12px;
-      padding: 8px 16px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #00ffd5, #a600ff);
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
+      margin-top: 14px;
+      padding: 8px 18px;
+      background: linear-gradient(135deg, #00ffcc, #9d00ff);
+      color: white;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: 0.3s;
-      box-shadow: 0 0 10px rgba(0, 255, 213, 0.3);
+      font-size: 0.85rem;
+      letter-spacing: 1.3px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 12px rgba(0, 255, 204, 0.4);
     }
 
     .download:hover {
-      background: linear-gradient(135deg, #a600ff, #00ffd5);
-      box-shadow: 0 0 20px rgba(0, 255, 213, 0.8);
-      transform: scale(1.05);
+      background: linear-gradient(135deg, #ff00c8, #00ffcc);
+      box-shadow: 0 0 20px rgba(157, 0, 255, 0.7);
+      transform: scale(1.06);
     }
 
     footer {
-      margin-top: 50px;
-      font-size: 0.85rem;
-      opacity: 0.8;
+      margin-top: 60px;
+      font-size: 0.8rem;
+      opacity: 0.7;
       text-align: center;
       letter-spacing: 1px;
-      text-shadow: 0 0 8px #00fff0;
     }
 
     footer a {
-      color: #00ffd5;
+      color: #00ffcc;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 600;
     }
 
     footer a:hover {
-      color: #aaffff;
-      text-shadow: 0 0 12px #00fff0;
+      color: #a0f7ff;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .player { padding: 16px; }
+      h1 { margin-bottom: 40px; }
     }
   </style>
 </head>
 <body>
-  <h1>🌀 Psychedelic Sound Portal</h1>
+
+  <h1>🌀 Psychedelic Sound Portal 🌀</h1>
 
   <div class="player">
     <h3>Lucid Drift</h3>
-    <audio controls>
+    <audio controls preload="metadata">
       <source src="lucid_drift.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
+      Dein Browser unterstützt kein Audio.
     </audio>
-    <a class="download" href="track1.mp3" download>Download</a>
+    <a class="download" href="lucid_drift.mp3" download>Download</a>
   </div>
 
   <div class="player">
     <h3>Neon Sandstorm</h3>
-    <audio controls>
+    <audio controls preload="metadata">
       <source src="neon_sandstorm.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
+      Dein Browser unterstützt kein Audio.
     </audio>
-    <a class="download" href="track2.mp3" download>Download</a>
+    <a class="download" href="neon_sandstorm.mp3" download>Download</a>
   </div>
 
   <div class="player">
     <h3>Fractal Bloom</h3>
-    <audio controls>
+    <audio controls preload="metadata">
       <source src="fractal_bloom.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
+      Dein Browser unterstützt kein Audio.
     </audio>
-    <a class="download" href="track3.mp3" download>Download</a>
+    <a class="download" href="fractal_bloom.mp3" download>Download</a>
   </div>
 
   <div class="player">
     <h3>Vortex Child</h3>
-    <audio controls>
+    <audio controls preload="metadata">
       <source src="vortex_child.mp3" type="audio/mpeg">
-      Your browser does not support the audio element.
+      Dein Browser unterstützt kein Audio.
     </audio>
-    <a class="download" href="track4.mp3" download>Download</a>
+    <a class="download" href="vortex_child.mp3" download>Download</a>
   </div>
 
   <footer>
-    © 2025 – Psychedelic Sound Portal | Designed by IMAN VAN RULER<a href="#">You</a>
+    © 2025 – Psychedelic Sound Portal | Designed by <a href="#">IMAN VAN RULER</a>
   </footer>
+
 </body>
 </html>
