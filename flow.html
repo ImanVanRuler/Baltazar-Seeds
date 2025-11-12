@@ -114,6 +114,9 @@ const canvas = document.getElementById('c');
 const gl = canvas.getContext('webgl2');
 if (!gl) { alert('WebGL2 not supported'); throw ''; }
 
+// set sensible defaults
+gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
 // === Resize & FBOs ===
 let mainFBO, bloomFBO1, bloomFBO2;
 function resize() {
@@ -159,17 +162,21 @@ function draw(prog, uni = {}, tex = []) {
   gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf);
   gl.enableVertexAttribArray(0);
   gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+
   for (let k in uni) {
     const loc = gl.getUniformLocation(prog, k);
     if (!loc) continue;
     const v = uni[k];
     if (typeof v === 'number') gl.uniform1f(loc, v);
-    else if (v.length === 2) gl.uniform2fv(loc, v);
+    else if (Array.isArray(v) && v.length === 2) gl.uniform2fv(loc, v);
+    else if (Array.isArray(v) && v.length === 3) gl.uniform3fv(loc, v);
+    else if (Array.isArray(v) && v.length === 4) gl.uniform4fv(loc, v);
   }
   tex.forEach((t,i) => {
     gl.activeTexture(gl.TEXTURE0 + i);
     gl.bindTexture(gl.TEXTURE_2D, t.tex);
-    gl.uniform1i(gl.getUniformLocation(prog, t.name), i);
+    const loc = gl.getUniformLocation(prog, t.name);
+    if (loc) gl.uniform1i(loc, i);
   });
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 }
@@ -189,7 +196,10 @@ function link(vs, fs, tf = null) {
   gl.attachShader(p, vs); gl.attachShader(p, fs);
   if (tf) gl.transformFeedbackVaryings(p, tf, gl.INTERLEAVED_ATTRIBS);
   gl.linkProgram(p);
-  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw 'Link error';
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+    console.error(gl.getProgramInfoLog(p));
+    throw 'Link error';
+  }
   return p;
 }
 
@@ -239,9 +249,9 @@ void main() {
   v += (curl + swirl) * 0.0012 * s; v *= 0.994;
   p += v * dt * 60.0;
   if (p.x < -0.15 || p.x > 1.15 || p.y < -0.15 || p.y > 1.15 || a > 7.0) {
-    float r = n(vec2(a,t)); float ang = r*6.28; float rad = 0.03 + r*0.1;
+    float rr = n(vec2(a,t)); float ang = rr*6.28; float rad = 0.03 + rr*0.1;
     p = vec2(0.5) + vec2(cos(ang), sin(ang))*rad;
-    v = (n(p+vec2(1,2))*2.0-1.0, n(p+vec2(3,4))*2.0-1.0)*0.0018;
+    v = vec2(n(p+vec2(1,2))*2.0-1.0, n(p+vec2(3,4))*2.0-1.0) * 0.0018;
     a = 0.0;
   }
   v_pos = p; v_vel = v; v_age = a;
@@ -297,7 +307,7 @@ for (let i = 0; i < 2; i++) {
   gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2, 1, gl.FLOAT, false, 20, 16);
 }
 let src = 0, dst = 1;
-const swap = () => [src, dst] = [dst, src];
+const swap = () => { const t = src; src = dst; dst = t; };
 const tf = gl.createTransformFeedback();
 
 // === Post-processing ===
@@ -338,12 +348,12 @@ void main() {
 }`, gl.FRAGMENT_SHADER));
 
 // === Input ===
-let mouse = { x: canvas.width/2, y: canvas.height/2 };
+let mouse = { x: 0, y: 0 };
 canvas.addEventListener('pointermove', e => {
   const r = canvas.getBoundingClientRect();
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   mouse.x = (e.clientX - r.left) * dpr;
-  mouse.y = (r.bottom - e.clientY) * dpr;
+  mouse.y = (e.clientY - r.top) * dpr;
 });
 
 // === UI ===
@@ -369,12 +379,13 @@ function frame() {
     const speed = parseFloat(speedIn.value);
     const bloomIntensity = parseFloat(bloomIn.value);
 
-    // Flow
+    // Flow -> render to mainFBO (ensure viewport matches FBO)
     gl.bindFramebuffer(gl.FRAMEBUFFER, mainFBO.fbo);
+    gl.viewport(0, 0, mainFBO.w, mainFBO.h);
     gl.clear(gl.COLOR_BUFFER_BIT);
     draw(flowProg, { t: now, r: res, m: [mouse.x, mouse.y] });
 
-    // Update particles
+    // Update particles (transform feedback) -- note we use normalized mouse in shader for particle logic
     gl.useProgram(updateProg);
     gl.uniform1f(gl.getUniformLocation(updateProg, 't'), now);
     gl.uniform1f(gl.getUniformLocation(updateProg, 'dt'), running ? dt : 0);
@@ -392,8 +403,9 @@ function frame() {
     gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, null);
     swap();
 
-    // Render particles
+    // Render particles into mainFBO (keep FBO viewport)
     gl.bindFramebuffer(gl.FRAMEBUFFER, mainFBO.fbo);
+    gl.viewport(0, 0, mainFBO.w, mainFBO.h);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
     gl.useProgram(renderProg);
@@ -402,18 +414,20 @@ function frame() {
     gl.drawArrays(gl.POINTS, 0, N);
     gl.disable(gl.BLEND);
 
-    // Bloom
+    // Bloom passes (they set appropriate viewports)
     gl.bindFramebuffer(gl.FRAMEBUFFER, bloomFBO1.fbo);
     gl.viewport(0, 0, bloomFBO1.w, bloomFBO1.h);
     draw(brightProg, {}, [{ tex: mainFBO.tex, name: 'tex' }]);
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, bloomFBO2.fbo);
+    gl.viewport(0, 0, bloomFBO2.w, bloomFBO2.h);
     draw(blurProg, { dir: [2.5 / bloomFBO1.w, 0] }, [{ tex: bloomFBO1.tex, name: 'tex' }]);
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, bloomFBO1.fbo);
+    gl.viewport(0, 0, bloomFBO1.w, bloomFBO1.h);
     draw(blurProg, { dir: [0, 2.5 / bloomFBO1.h] }, [{ tex: bloomFBO2.tex, name: 'tex' }]);
 
-    // Final
+    // Final -> canvas
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.viewport(0, 0, canvas.width, canvas.height);
     draw(compProg, { t: now, intensity: bloomIntensity }, [
