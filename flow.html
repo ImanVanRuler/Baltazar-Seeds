@@ -1,77 +1,76 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Spectral Garden — Reimagined</title>
+<title>Spectral Garden — Autonomous</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root{--ui-bg:rgba(8,12,20,0.6);--accent:#7bd3ff;--accent2:#c27bff}
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;background:#000;color:#eaf6ff;font-family:Inter,system-ui,Segoe UI,Roboto}
-  canvas{display:block;width:100vw;height:100vh}
-  .ui{
-    position:fixed;left:18px;top:18px;z-index:200;padding:14px 16px;border-radius:14px;
-    background:var(--ui-bg);backdrop-filter:blur(8px);border:1px solid rgba(120,180,255,0.08);
-    box-shadow:0 10px 30px rgba(0,0,0,0.55);min-width:260px
+  :root{
+    --bg:#03030a;
+    --glass: rgba(255,255,255,0.04);
+    --accent:#8be9ff;
   }
-  .ui h1{font-size:15px;margin-bottom:6px;background:linear-gradient(90deg,var(--accent),var(--accent2));
-    -webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:600}
-  .ui p{font-size:12px;opacity:0.9;margin-bottom:10px}
-  .controls{display:flex;flex-direction:column;gap:8px}
-  .row{display:flex;align-items:center;gap:8px;font-size:13px}
-  .btn{padding:8px 12px;border-radius:10px;border:none;background:linear-gradient(180deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));
-    color:#dff7ff;font-weight:600;cursor:pointer}
-  .small{font-size:12px;padding:6px 8px;border-radius:8px}
-  input[type=range]{width:140px}
-  .label{font-size:12px;color:#a8dfff;min-width:60px}
-  .footer{position:fixed;right:18px;bottom:18px;color:#9fd9ff;opacity:0.85;font-size:12px}
-  .back{position:fixed;right:18px;top:18px;background:transparent;color:#9fd9ff;text-decoration:none;border-radius:10px;padding:8px}
-  @media(max-width:640px){.ui{left:10px;top:10px;right:10px}}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bg);font-family:Inter,system-ui,Segoe UI,Roboto;color:#eaf6ff;overflow:hidden}
+  canvas{display:block;width:100vw;height:100vh}
+  /* Back button - stylish */
+  .back {
+    position:fixed;
+    left:18px;
+    top:18px;
+    z-index:300;
+    display:inline-flex;
+    gap:10px;
+    align-items:center;
+    padding:10px 14px;
+    border-radius:12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
+    border:1px solid rgba(140,200,255,0.06);
+    color:#bfefff;
+    text-decoration:none;
+    font-weight:600;
+    font-size:13px;
+    backdrop-filter: blur(8px) saturate(120%);
+    box-shadow: 0 6px 20px rgba(10,20,40,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .back:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(30,80,160,0.28), 0 2px 6px rgba(0,0,0,0.5);
+  }
+  .back .dot{
+    width:10px;height:10px;border-radius:50%;
+    background:linear-gradient(90deg,#7be9ff,#c77bff);
+    box-shadow: 0 6px 18px rgba(120,200,255,0.12), 0 0 18px rgba(120,60,220,0.06);
+  }
+  .credit {
+    position:fixed; right:18px; bottom:18px; z-index:200; font-size:12px; color:#93d8ff; opacity:0.9;
+    text-decoration:none;
+  }
+  @media(max-width:640px){
+    .back{left:10px;top:10px;padding:8px 10px;font-size:12px}
+    .credit{right:10px;bottom:10px}
+  }
 </style>
 </head>
 <body>
+<a class="back" id="backBtn" href="#">
+  <span class="dot" aria-hidden></span>
+  <span>← Back</span>
+</a>
+<a class="credit" href="https://imanvanruler.github.io/Baltazar-Seeds/seite3.html" target="_blank">Baltazar Seeds — Spectral Garden</a>
 <canvas id="c"></canvas>
-
-<div class="ui">
-  <h1>Spectral Garden — Reimagined</h1>
-  <p>Move mouse, click to burst. Shapes, color & bloom — tuned for interactivity.</p>
-  <div class="controls">
-    <div class="row">
-      <button id="pause" class="btn">Pause</button>
-      <button id="shape" class="btn small">Shape: Circle</button>
-      <button id="fs" class="btn small">Fullscreen</button>
-    </div>
-    <div class="row">
-      <span class="label">Speed</span>
-      <input id="speed" type="range" min="0.2" max="4" step="0.05" value="1">
-      <span id="speedVal" class="label">1.00</span>
-    </div>
-    <div class="row">
-      <span class="label">Bloom</span>
-      <input id="bloom" type="range" min="0.0" max="3" step="0.05" value="1.3">
-      <span id="bloomVal" class="label">1.30</span>
-    </div>
-    <div class="row">
-      <span class="label">Palette</span>
-      <button id="palPrev" class="btn small">◀</button>
-      <button id="palNext" class="btn small">▶</button>
-      <span id="palName" style="margin-left:8px;font-size:12px;color:#bfeaff">Aurora</span>
-    </div>
-  </div>
-</div>
-
-<div class="footer">Click = Burst · Drag = flow · Shapes & palettes toggle</div>
 
 <script>
 'use strict';
 // --- Setup WebGL2 ---
 const canvas = document.getElementById('c');
-const gl = canvas.getContext('webgl2', {antialias:false});
+const gl = canvas.getContext('webgl2', { antialias:false });
 if(!gl){ alert('WebGL2 required'); throw new Error('WebGL2 not supported'); }
 gl.clearColor(0,0,0,1);
 
-// --- Resize ---
+// --- Resize helper ---
 function fit() {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   canvas.width = Math.floor(innerWidth * dpr);
@@ -81,364 +80,360 @@ function fit() {
 window.addEventListener('resize', fit);
 fit();
 
-// --- Utilities: compile/link ---
+// --- Shader helpers ---
 function compile(src, type){
-  const s = gl.createShader(type);
-  gl.shaderSource(s, src);
-  gl.compileShader(s);
-  if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)){
-    console.error(gl.getShaderInfoLog(s));
-    throw new Error('Shader compile error');
+  const sh = gl.createShader(type);
+  gl.shaderSource(sh, src);
+  gl.compileShader(sh);
+  if(!gl.getShaderParameter(sh, gl.COMPILE_STATUS)){
+    console.error(gl.getShaderInfoLog(sh));
+    throw 'Shader compile error';
   }
-  return s;
+  return sh;
 }
-function link(vs, fs, tfVaryings=null){
+function link(vs, fs, varyings=null){
   const p = gl.createProgram();
-  gl.attachShader(p, vs); gl.attachShader(p, fs);
-  if(tfVaryings) gl.transformFeedbackVaryings(p, tfVaryings, gl.INTERLEAVED_ATTRIBS);
+  gl.attachShader(p, vs);
+  gl.attachShader(p, fs);
+  if(varyings) gl.transformFeedbackVaryings(p, varyings, gl.INTERLEAVED_ATTRIBS);
   gl.linkProgram(p);
   if(!gl.getProgramParameter(p, gl.LINK_STATUS)){
     console.error(gl.getProgramInfoLog(p));
-    throw new Error('Program link error');
+    throw 'Program link error';
   }
   return p;
 }
 
-// --- Fullscreen quad ---
+// --- Quad ---
 const quadVS = `#version 300 es
 precision mediump float;
-layout(location=0) in vec2 aPos;
-out vec2 vUv;
-void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos,0,1); }`;
+layout(location=0) in vec2 a;
+out vec2 v;
+void main(){ v = a*0.5 + 0.5; gl_Position = vec4(a, 0.0, 1.0); }`;
 const quadBuf = gl.createBuffer();
 gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf);
 gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
 
-// helper draw
-function draw(prog, uniforms={}, textures=[]){
+function drawQuad(prog, uniforms={}, texts=[]){
   gl.useProgram(prog);
   gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf);
   gl.enableVertexAttribArray(0);
   gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
-
   for(const k in uniforms){
     const loc = gl.getUniformLocation(prog, k);
     if(!loc) continue;
     const v = uniforms[k];
     if(typeof v === 'number') gl.uniform1f(loc, v);
-    else if(Array.isArray(v) && v.length===2) gl.uniform2fv(loc, v);
-    else if(Array.isArray(v) && v.length===3) gl.uniform3fv(loc, v);
-    else if(Array.isArray(v) && v.length===4) gl.uniform4fv(loc, v);
+    else if(Array.isArray(v) && v.length==2) gl.uniform2fv(loc, v);
+    else if(Array.isArray(v) && v.length==3) gl.uniform3fv(loc, v);
+    else if(Array.isArray(v) && v.length==4) gl.uniform4fv(loc, v);
   }
-  textures.forEach((t,i)=>{
+  texts.forEach((t,i)=>{
     gl.activeTexture(gl.TEXTURE0 + i);
     gl.bindTexture(gl.TEXTURE_2D, t.tex);
     const loc = gl.getUniformLocation(prog, t.name);
     if(loc) gl.uniform1i(loc, i);
   });
-  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 }
 
-// --- Simple FBO maker ---
+// --- FBO maker ---
 function makeFBO(w,h){
   const f = gl.createFramebuffer();
   gl.bindFramebuffer(gl.FRAMEBUFFER, f);
   const tex = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, tex);
-  gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA, w,h,0,gl.RGBA,gl.UNSIGNED_BYTE,null);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
   gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-  return {fbo:f, tex:tex, w:w, h:h};
+  return { fbo: f, tex: tex, w: w, h: h };
 }
 
-// --- Flow shader (visual base) ---
+// --- Flow background shader (soft rich colors) ---
 const flowFS = `#version 300 es
 precision highp float;
-in vec2 vUv; out vec4 o;
-uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; uniform float uHueShift;
-float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123); }
+in vec2 v;
+out vec4 o;
+uniform vec2 uRes; uniform float uTime; uniform vec2 uMouse; uniform float uHue;
+float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
 float noise(vec2 p){
-  vec2 i = floor(p); vec2 f = fract(p);
-  float a = hash(i), b = hash(i+vec2(1.,0.)), c = hash(i+vec2(0.,1.)), d = hash(i+vec2(1.,1.));
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  float a = hash(i), b = hash(i+vec2(1.0,0.0)), c = hash(i+vec2(0.0,1.0)), d = hash(i+vec2(1.0,1.0));
   vec2 u = f*f*(3.0-2.0*f);
-  return mix(a, b, u.x) + (c-a)*u.y*(1.0-u.x) + (d-b)*u.x*u.y;
+  return mix(a, b, u.x) + (c - a)*u.y*(1.0 - u.x) + (d - b)*u.x*u.y;
 }
-vec3 palette(float t){
-  // dynamic psychedelic palette
-  vec3 a = vec3(0.05,0.02,0.08);
+vec3 palette(float t, float shift){
+  vec3 a = vec3(0.03, 0.02, 0.04);
   vec3 b = vec3(0.2,0.6,1.0);
-  vec3 c = vec3(1.0,0.4,0.8);
-  vec3 d = vec3(0.7,1.0,0.6);
-  return a + b*cos(6.28318*(c*t + d + uHueShift));
+  vec3 c = vec3(1.0,0.35,0.85);
+  return a + b * cos(6.28318*(c * (t + shift) + vec3(0.2,0.1,0.3)));
 }
 void main(){
-  vec2 uv = vUv;
-  vec2 p = (uv-0.5)*vec2(uRes.x/uRes.y,1.0);
-  float t = uTime*0.2;
-  float n = noise(p*3.0 + t);
-  // add swirling near mouse
-  vec2 m = (uMouse - 0.5) * vec2(uRes.x/uRes.y,1.0);
-  float d = length(p-m);
-  float swirl = exp(-d*6.0) * 1.6;
-  float n2 = noise(p*6.0 - t*0.5 + swirl);
-  float mixn = smoothstep(-0.2,0.8, n*0.6 + n2*0.4 + swirl*0.6);
-  vec3 col = palette(mixn);
-  // vignette
-  float v = smoothstep(0.9,0.2,length(uv-0.5));
-  col *= 1.0 - 0.5*v;
-  o = vec4(col,1.0);
+  vec2 uv = v;
+  vec2 p = (uv - 0.5) * vec2(uRes.x/uRes.y, 1.0);
+  float t = uTime * 0.08;
+  float n = noise(p * 2.0 + t);
+  vec2 m = (uMouse - 0.5) * vec2(uRes.x/uRes.y, 1.0);
+  float d = length(p - m);
+  float swirl = exp(-d * 5.0) * 1.6;
+  float n2 = noise(p * 6.0 - t*0.8 + swirl);
+  float s = smoothstep(-0.2, 0.8, n*0.6 + n2*0.4 + swirl*0.7);
+  vec3 col = palette(s, uHue);
+  float vign = smoothstep(1.0, 0.35, length(uv - 0.5));
+  col *= 1.0 - 0.45 * vign;
+  o = vec4(col, 1.0);
 }`;
 
-// compile flow
+// compile flow program
 const flowProg = link(compile(quadVS, gl.VERTEX_SHADER), compile(flowFS, gl.FRAGMENT_SHADER));
 
-// --- Particles using Transform Feedback ---
-// We'll keep particles as simple XY + velocity + life + kind
-const NUM = 80000; // tuned for interactivity; lower if slow
+// --- Particles with TF (lightweight) ---
+const NUM = 40000; // reduce if too slow
 const stride = 5; // x,y,vx,vy,life
-const initData = new Float32Array(NUM * stride);
+const init = new Float32Array(NUM * stride);
 for(let i=0;i<NUM;i++){
-  const j=i*stride;
+  const j = i*stride;
   const a = Math.random()*Math.PI*2;
-  const r = 0.02 + Math.random()*0.12;
-  initData[j]   = 0.5 + Math.cos(a)*r;   // x
-  initData[j+1] = 0.5 + Math.sin(a)*r;   // y
-  initData[j+2] = (Math.random()*2-1)*0.002; // vx
-  initData[j+3] = (Math.random()*2-1)*0.002; // vy
-  initData[j+4] = Math.random()*3.0;      // life
+  const r = 0.02 + Math.random()*0.09;
+  init[j]   = 0.5 + Math.cos(a)*r;
+  init[j+1] = 0.5 + Math.sin(a)*r;
+  init[j+2] = (Math.random()*2-1)*0.002;
+  init[j+3] = (Math.random()*2-1)*0.002;
+  init[j+4] = Math.random()*3.0;
 }
-
 const buffers = [gl.createBuffer(), gl.createBuffer()];
 const vaos = [gl.createVertexArray(), gl.createVertexArray()];
 for(let k=0;k<2;k++){
   gl.bindVertexArray(vaos[k]);
   gl.bindBuffer(gl.ARRAY_BUFFER, buffers[k]);
-  gl.bufferData(gl.ARRAY_BUFFER, initData, gl.DYNAMIC_COPY);
-  // attribs: location 0-4
+  gl.bufferData(gl.ARRAY_BUFFER, init, gl.DYNAMIC_COPY);
   gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0,2,gl.FLOAT,false,stride*4,0);
   gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1,2,gl.FLOAT,false,stride*4,8);
   gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2,1,gl.FLOAT,false,stride*4,16);
 }
-let src = 0, dst = 1;
+let src=0,dst=1;
 function swap(){ const t=src; src=dst; dst=t; }
 
-// update shader (vertex shader with TF)
+// update shader (vertex with TF outputs)
 const updateVS = `#version 300 es
 precision highp float;
 layout(location=0) in vec2 aPos;
 layout(location=1) in vec2 aVel;
 layout(location=2) in float aLife;
 out vec2 vPos; out vec2 vVel; out float vLife;
-uniform float uTime; uniform float uDt; uniform float uSpeed; uniform vec2 uRes; uniform vec2 uMouse;
-float hash(float n){ return fract(sin(n)*43758.5453); }
-float rnd(vec2 p){ return fract(sin(dot(p,vec2(12.9898,78.233)))*43758.5453); }
+uniform float uTime; uniform float uDt; uniform float uSpeed; uniform vec2 uMouse;
+float rnd(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
 void main(){
   vec2 pos = aPos;
   vec2 vel = aVel;
   float life = aLife + uDt;
-  // flow force sample via simple procedural noise (cheap)
-  vec2 uv = (pos - 0.5) * vec2(uRes.x/uRes.y,1.0);
-  float t = uTime*0.6;
-  // derive a fake curl from sin noise
-  float n1 = sin((uv.x+uv.y*1.2)*4.0 + t)*0.5 + 0.5;
-  float n2 = sin((uv.y-uv.x*1.1)*3.1 - t*0.7)*0.5 + 0.5;
-  vec2 curl = vec2(n2 - n1, n1 - n2);
-  // mouse attraction/repel strong near cursor
+  // simple flow
+  vec2 uv = pos - 0.5;
+  float t = uTime * 0.5;
+  float f1 = sin((uv.x + uv.y)*6.0 + t);
+  float f2 = cos((uv.y - uv.x)*5.0 - t*0.6);
+  vec2 flow = vec2(f1, f2) * 0.0012;
+  // mouse subtle influence
   vec2 m = uMouse;
   vec2 d = pos - m;
   float dist = length(d) + 1e-6;
-  vec2 dir = normalize(d);
-  vec2 swirl = vec2(-dir.y, dir.x) * exp(-dist*8.0) * 0.9;
-  vec2 pull = -dir * exp(-dist*5.0) * 0.6;
-  vel += (curl + swirl + pull) * 0.002 * uSpeed;
-  vel *= mix(0.985, 0.992, clamp(uSpeed,0.2,2.5));
+  vec2 dir = d / dist;
+  vec2 swirl = vec2(-dir.y, dir.x) * exp(-dist * 8.0) * 0.6;
+  vec2 pull = -dir * exp(-dist * 4.0) * 0.5;
+  vel += (flow + swirl + pull) * 0.002 * uSpeed;
+  vel *= mix(0.987, 0.994, clamp(uSpeed, 0.2, 3.0));
   pos += vel * uDt * 60.0;
-  // respawn
   if(pos.x < -0.2 || pos.x > 1.2 || pos.y < -0.2 || pos.y > 1.2 || life > 6.0){
     float r = rnd(vec2(uTime, life));
-    float ang = r*6.2831853;
-    float rad = 0.01 + r*0.12;
-    pos = vec2(0.5) + vec2(cos(ang), sin(ang))*rad;
-    vel = vec2(rnd(pos+1.0)-0.5, rnd(pos+2.0)-0.5)*0.003 * uSpeed;
+    float ang = r * 6.2831853;
+    float rad = 0.01 + r * 0.12;
+    pos = vec2(0.5) + vec2(cos(ang), sin(ang)) * rad;
+    vel = vec2(rnd(pos+1.2)-0.5, rnd(pos+2.3)-0.5) * 0.002 * uSpeed;
     life = 0.0;
   }
   vPos = pos; vVel = vel; vLife = life;
 }`;
 const passthroughFS = `#version 300 es
 precision highp float; out vec4 o; void main(){ o = vec4(0.0); }`;
-const updateProg = link(compile(updateVS, gl.VERTEX_SHADER), compile(passthroughFS, gl.FRAGMENT_SHADER),
-  ['vPos','vVel','vLife']);
+const updateProg = link(compile(updateVS, gl.VERTEX_SHADER), compile(passthroughFS, gl.FRAGMENT_SHADER), ['vPos','vVel','vLife']);
 
-// render particle shader (points)
+// render particles (point sprites)
 const renderVS = `#version 300 es
 precision highp float;
 layout(location=0) in vec2 aPos;
 layout(location=1) in vec2 aVel;
 layout(location=2) in float aLife;
-uniform vec2 uRes;
-uniform float uTime;
-uniform int uShape; // 0 circle,1 diamond,2 square,3 star
-out float vLife; out float vN;
+uniform vec2 uRes; uniform float uTime; out float vLife; out float vRand;
 void main(){
-  vLife = 1.0 - clamp(aLife/6.0,0.0,1.0);
-  vec2 p = (aPos - 0.5) * vec2(uRes.x/uRes.y,1.0);
-  gl_Position = vec4(p*2.0, 0.0, 1.0);
-  float base = 6.0 + vLife*18.0;
-  gl_PointSize = base * (1.0 + (sin(uTime*2.0 + aPos.x*20.0)*0.08));
-  vN = fract(aPos.x*123.456 + aPos.y*78.9);
+  vLife = 1.0 - clamp(aLife/6.0, 0.0, 1.0);
+  vRand = fract(aPos.x * 123.456 + aPos.y * 78.9);
+  vec2 p = (aPos - 0.5) * vec2(uRes.x/uRes.y, 1.0);
+  gl_Position = vec4(p * 2.0, 0.0, 1.0);
+  float base = 4.0 + vLife*14.0;
+  gl_PointSize = base * (1.0 + (sin(uTime*1.8 + aPos.x*30.0)*0.06));
 }`;
 const renderFS = `#version 300 es
 precision highp float;
-in float vLife; in float vN;
+in float vLife; in float vRand;
 out vec4 o;
-uniform float uHueShift; uniform int uShape;
+uniform float uHue; uniform float uBloomFactor; uniform int uShape;
 vec3 hsb2rgb(vec3 c){
   vec3 rgb = clamp(abs(mod(c.x*6.0+vec3(0.0,4.0,2.0),6.0)-3.0)-1.0,0.0,1.0);
   rgb = rgb*rgb*(3.0-2.0*rgb);
   return c.z * mix(vec3(1.0), rgb, c.y);
 }
-float shapeMask(vec2 uv){
-  // uv in [0,1] with center at 0.5
+float shapeMask(vec2 uv, int s){
   vec2 p = (uv - 0.5)*2.0;
   float d = length(p);
-  // circle
-  if(uShape==0) return smoothstep(0.98,0.45, d);
-  // diamond
-  if(uShape==1) return smoothstep(1.1,0.5, max(abs(p.x),abs(p.y)));
-  // square
-  if(uShape==2) return smoothstep(1.0,0.45, max(abs(p.x),abs(p.y)));
-  // star (rough)
-  float a = atan(p.y,p.x);
-  float r = pow(abs(cos(5.0*a))*0.5 + 0.2, 0.8);
-  return smoothstep(1.0,0.45, d / r);
+  if(s==0) return smoothstep(1.0, 0.45, d); // circle
+  if(s==1) return smoothstep(1.4, 0.55, max(abs(p.x), abs(p.y))); // diamond-like
+  if(s==2) return smoothstep(1.0, 0.48, max(abs(p.x), abs(p.y))); // square-ish
+  // star-ish
+  float a = atan(p.y, p.x);
+  float r = pow(abs(cos(5.0*a))*0.55 + 0.2, 0.85);
+  return smoothstep(1.0, 0.45, d / r);
 }
 void main(){
   vec2 uv = gl_PointCoord;
-  float m = shapeMask(uv);
+  float m = shapeMask(uv, uShape);
   if(m < 0.01) discard;
-  float alpha = m * (0.6 + 0.4*vLife) * (0.8 + 0.2*fract(vN*123.0));
-  float hue = fract(vN*0.33 + uHueShift);
+  float alpha = m * (0.45 + 0.55*vLife) * (0.85 + 0.15 * vRand);
+  float hue = fract(uHue + vRand*0.3);
   vec3 col = hsb2rgb(vec3(hue, 0.8, 1.0));
-  o = vec4(col * (0.6 + 0.6*vLife), alpha);
+  o = vec4(col * (0.5 + 0.6*vLife), alpha * (0.6 + 0.4*uBloomFactor));
 }`;
 
-// compile render
+// compile render program
 const renderProg = link(compile(renderVS, gl.VERTEX_SHADER), compile(renderFS, gl.FRAGMENT_SHADER));
 
-// --- Post-processing: bright pass & two-pass blur & composite ---
+// --- Post (bright + blur + composite) ---
 const brightFS = `#version 300 es
-precision highp float; in vec2 vUv; out vec4 o; uniform sampler2D tex;
-void main(){ vec3 c = texture(tex, vUv).rgb; float l = dot(c, vec3(0.299,0.587,0.114)); o = vec4(c * max(0.0, l-0.6), 1.0); }`;
+precision highp float; in vec2 v; out vec4 o; uniform sampler2D tex;
+void main(){ vec3 c = texture(tex, v).rgb; float l = dot(c, vec3(0.299,0.587,0.114)); o = vec4(c * max(0.0, l - 0.55), 1.0); }`;
 const blurFS = `#version 300 es
-precision highp float; in vec2 vUv; out vec4 o; uniform sampler2D tex; uniform vec2 dir;
+precision highp float; in vec2 v; out vec4 o; uniform sampler2D tex; uniform vec2 dir;
 void main(){
-  vec2 uv = vUv;
-  vec3 sum = texture(tex, uv).rgb * 0.227027;
+  vec2 uv = v; vec3 sum = texture(tex, uv).rgb * 0.227027;
   sum += texture(tex, uv + dir * 1.384615).rgb * 0.316216;
   sum += texture(tex, uv - dir * 1.384615).rgb * 0.316216;
   sum += texture(tex, uv + dir * 3.230769).rgb * 0.070270;
   sum += texture(tex, uv - dir * 3.230769).rgb * 0.070270;
-  o = vec4(sum,1.0);
+  o = vec4(sum, 1.0);
 }`;
 const compFS = `#version 300 es
-precision highp float; in vec2 vUv; out vec4 o; uniform sampler2D scene, blur; uniform float intensity;
+precision highp float; in vec2 v; out vec4 o; uniform sampler2D scene, blur; uniform float intensity;
 void main(){
-  vec3 s = texture(scene, vUv).rgb;
-  vec3 b = texture(blur, vUv).rgb * intensity;
+  vec3 s = texture(scene, v).rgb;
+  vec3 b = texture(blur, v).rgb * intensity;
   vec3 col = s + b;
   col = col / (col + vec3(1.0));
-  o = vec4(pow(col, vec3(0.95,0.98,0.99)),1.0);
+  o = vec4(pow(col, vec3(0.95,0.98,0.99)), 1.0);
 }`;
 const brightProg = link(compile(quadVS, gl.VERTEX_SHADER), compile(brightFS, gl.FRAGMENT_SHADER));
 const blurProg = link(compile(quadVS, gl.VERTEX_SHADER), compile(blurFS, gl.FRAGMENT_SHADER));
 const compProg = link(compile(quadVS, gl.VERTEX_SHADER), compile(compFS, gl.FRAGMENT_SHADER));
 
-// --- FBOs for scene & bloom ---
-let sceneFBO = makeFBO(canvas.width, canvas.height);
+// --- FBOs ---
+let scene = makeFBO(canvas.width, canvas.height);
 let ping = makeFBO(Math.max(64, canvas.width>>1), Math.max(64, canvas.height>>1));
 let pong = makeFBO(Math.max(64, canvas.width>>1), Math.max(64, canvas.height>>1));
-function resizeFBOs(){ sceneFBO = makeFBO(canvas.width, canvas.height); ping = makeFBO(Math.max(64, canvas.width>>1), Math.max(64, canvas.height>>1)); pong = makeFBO(Math.max(64, canvas.width>>1), Math.max(64, canvas.height>>1)); }
+function resizeFBOs(){ scene = makeFBO(canvas.width, canvas.height); ping = makeFBO(Math.max(64, canvas.width>>1), Math.max(64, canvas.height>>1)); pong = makeFBO(Math.max(64, canvas.width>>1), Math.max(64, canvas.height>>1)); }
 window.addEventListener('resize', ()=>{ fit(); resizeFBOs(); });
 
-// --- Input & UI hooks ---
-let mouse = {x:0.5,y:0.5,down:false};
+// --- Autonomous parameters (auto-evolving) ---
+let hueBase = Math.random();
+let hueTarget = Math.random();
+let hueLerp = 0;
+let bloomBase = 1.0;
+let bloomTarget = 1.2;
+let bloomLerp = 0;
+let speedBase = 1.0;
+let speedTarget = 1.0;
+let speedLerp = 0;
+let shape = 0;
+let shapeTimer = 0;
+let autoTimer = 0;
+
+// subtle mouse that decays to center
+let mouse = { x:0.5, y:0.5, lastMove: performance.now() };
 canvas.addEventListener('pointermove', e=>{
   const r = canvas.getBoundingClientRect();
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   mouse.x = ((e.clientX - r.left) * dpr) / canvas.width;
   mouse.y = 1.0 - ((e.clientY - r.top) * dpr) / canvas.height;
+  mouse.lastMove = performance.now();
 });
-canvas.addEventListener('pointerdown', e=>{
-  mouse.down = true;
-  spawnBurst((mouse.x), (mouse.y));
-});
-canvas.addEventListener('pointerup', e=>{ mouse.down=false; });
 
-// bursts queue
-const bursts = [];
-function spawnBurst(nx, ny, power=1.0){
-  bursts.push({x:nx,y:ny,p:power,t:0});
-  // also inject a few particle resets by directly manipulating buffer on GPU-friendly way: (we simply rely on update shader respawn)
+// Back button behavior
+document.getElementById('backBtn').addEventListener('click', (e)=>{
+  e.preventDefault();
+  // smooth fade-out: briefly dim canvas, then history.back()
+  document.querySelector('.back').style.opacity = 0.6;
+  canvas.style.transition = 'filter 0.6s ease, opacity 0.6s ease';
+  canvas.style.filter = 'blur(10px) brightness(0.6)';
+  canvas.style.opacity = 0.55;
+  setTimeout(()=>{ if(history.length>1) history.back(); else window.location.href = '/'; }, 520);
+});
+
+// automatic target changes occasionally
+function pickNewTargets(){
+  hueTarget = Math.random();
+  bloomTarget = 0.6 + Math.random()*2.2; // 0.6 .. 2.8
+  speedTarget = 0.4 + Math.random()*3.0; // 0.4 .. 3.4
+  // random shape occasionally
+  if(Math.random() > 0.5) shape = (shape + 1) % 4;
 }
+pickNewTargets();
 
-// UI elements
-const pauseBtn = document.getElementById('pause');
-const shapeBtn = document.getElementById('shape');
-const fsBtn = document.getElementById('fs');
-const speedIn = document.getElementById('speed'), speedVal = document.getElementById('speedVal');
-const bloomIn = document.getElementById('bloom'), bloomVal = document.getElementById('bloomVal');
-const palPrev = document.getElementById('palPrev'), palNext = document.getElementById('palNext'), palName = document.getElementById('palName');
-
-let running = true;
-pauseBtn.onclick = ()=>{ running = !running; pauseBtn.textContent = running? 'Pause' : 'Play'; };
-fsBtn.onclick = ()=>{ if(document.fullscreenElement) document.exitFullscreen(); else canvas.requestFullscreen(); };
-
-let shapeMode = 0;
-const shapeLabels = ['Circle','Diamond','Square','Star'];
-shapeBtn.onclick = ()=>{ shapeMode = (shapeMode+1) % shapeLabels.length; shapeBtn.textContent = 'Shape: ' + shapeLabels[shapeMode]; };
-
-let palettes = [
-  {name:'Aurora', shift:0.03},
-  {name:'Vapor', shift:0.22},
-  {name:'Tropic', shift:0.55},
-  {name:'Moss', shift:0.78}
-];
-let palIdx = 0;
-palPrev.onclick = ()=>{ palIdx = (palIdx-1 + palettes.length)%palettes.length; palName.textContent = palettes[palIdx].name; };
-palNext.onclick = ()=>{ palIdx = (palIdx+1) % palettes.length; palName.textContent = palettes[palIdx].name; };
-
-speedIn.oninput = ()=> speedVal.textContent = parseFloat(speedIn.value).toFixed(2);
-bloomIn.oninput = ()=> bloomVal.textContent = parseFloat(bloomIn.value).toFixed(2);
-speedVal.textContent = speedIn.value; bloomVal.textContent = bloomIn.value;
-
-// --- Transform Feedback & draw loop ---
+// --- Render loop ---
 const tf = gl.createTransformFeedback();
-let last = performance.now()*0.001;
+let last = performance.now() * 0.001;
+
 function frame(){
-  const now = performance.now()*0.001;
+  const now = performance.now() * 0.001;
   let dt = Math.min(0.033, now - last); last = now;
-  if(!running) dt = 0;
-  // update bursts time
-  for(let i=bursts.length-1;i>=0;i++){
-    bursts[i].t += dt;
-    if(bursts[i].t > 0.6) bursts.splice(i,1);
+  autoTimer += dt;
+  // slowly lerp autonomous params
+  hueLerp += dt * 0.08;
+  if(hueLerp > 1){ hueLerp = 0; hueBase = hueTarget; hueTarget = Math.random(); }
+  const hue = hueBase * (1.0 - hueLerp) + hueTarget * hueLerp;
+
+  bloomLerp += dt * 0.6;
+  if(bloomLerp > 1){ bloomLerp = 0; bloomBase = bloomTarget; bloomTarget = 0.6 + Math.random()*2.2; }
+  const bloom = bloomBase * (1.0 - bloomLerp) + bloomTarget * bloomLerp;
+
+  speedLerp += dt * 0.5;
+  if(speedLerp > 1){ speedLerp = 0; speedBase = speedTarget; speedTarget = 0.4 + Math.random()*3.0; }
+  const speed = speedBase * (1.0 - speedLerp) + speedTarget * speedLerp;
+
+  // micro-oscillation to make it feel alive
+  const micro = 0.92 + 0.12 * Math.sin(now * 0.9);
+
+  // gentle shape switching timer
+  shapeTimer += dt;
+  if(shapeTimer > 7.5 + Math.random()*6.0){ shapeTimer = 0; shape = (shape+1)%4; }
+
+  // subtle mouse decay: if idle, move toward center slowly
+  if(performance.now() - mouse.lastMove > 2200){
+    mouse.x += (0.5 - mouse.x) * dt * 0.3;
+    mouse.y += (0.5 - mouse.y) * dt * 0.3;
   }
 
-  // === Render base flow into scene FBO (for background color) ===
-  gl.bindFramebuffer(gl.FRAMEBUFFER, sceneFBO.fbo);
-  gl.viewport(0,0,sceneFBO.w, sceneFBO.h);
-  draw(flowProg, { uRes:[canvas.width, canvas.height], uTime:now, uMouse:[mouse.x, mouse.y], uHueShift: palettes[palIdx].shift }, []);
+  // --- Flow background to scene FBO ---
+  gl.bindFramebuffer(gl.FRAMEBUFFER, scene.fbo);
+  gl.viewport(0,0,scene.w,scene.h);
+  drawQuad(flowProg, { uRes: [canvas.width, canvas.height], uTime: now, uMouse: [mouse.x, mouse.y], uHue: hue });
 
-  // === Update particles with transform feedback ===
+  // --- Update particles (TF) ---
   gl.useProgram(updateProg);
   gl.uniform1f(gl.getUniformLocation(updateProg,'uTime'), now);
   gl.uniform1f(gl.getUniformLocation(updateProg,'uDt'), dt);
-  gl.uniform1f(gl.getUniformLocation(updateProg,'uSpeed'), parseFloat(speedIn.value));
-  gl.uniform2fv(gl.getUniformLocation(updateProg,'uRes'), [canvas.width, canvas.height]);
+  gl.uniform1f(gl.getUniformLocation(updateProg,'uSpeed'), speed * micro);
   gl.uniform2fv(gl.getUniformLocation(updateProg,'uMouse'), [mouse.x, mouse.y]);
 
   gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, tf);
@@ -452,46 +447,46 @@ function frame(){
   gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, null);
   swap();
 
-  // === Render particles onto sceneFBO using additive blending ===
-  gl.bindFramebuffer(gl.FRAMEBUFFER, sceneFBO.fbo);
-  gl.viewport(0,0,sceneFBO.w, sceneFBO.h);
+  // --- Render particles additively onto scene ---
+  gl.bindFramebuffer(gl.FRAMEBUFFER, scene.fbo);
+  gl.viewport(0,0,scene.w,scene.h);
   gl.enable(gl.BLEND);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
   gl.useProgram(renderProg);
   gl.uniform2fv(gl.getUniformLocation(renderProg,'uRes'), [canvas.width, canvas.height]);
   gl.uniform1f(gl.getUniformLocation(renderProg,'uTime'), now);
-  gl.uniform1i(gl.getUniformLocation(renderProg,'uShape'), shapeMode);
-  gl.uniform1f(gl.getUniformLocation(renderProg,'uHueShift'), palettes[palIdx].shift);
+  gl.uniform1f(gl.getUniformLocation(renderProg,'uHue'), hue);
+  gl.uniform1f(gl.getUniformLocation(renderProg,'uBloomFactor'), Math.min(1.6, bloom * 0.7));
+  gl.uniform1i(gl.getUniformLocation(renderProg,'uShape'), shape);
   gl.bindVertexArray(vaos[src]);
   gl.drawArrays(gl.POINTS, 0, NUM);
   gl.disable(gl.BLEND);
 
-  // === Bloom: bright pass -> blur X -> blur Y ===
+  // --- Bloom passes ---
   gl.bindFramebuffer(gl.FRAMEBUFFER, ping.fbo);
   gl.viewport(0,0,ping.w,ping.h);
-  draw(brightProg, {}, [{tex:sceneFBO.tex, name:'tex'}]);
+  drawQuad(brightProg, {}, [{ tex: scene.tex, name: 'tex' }]);
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, pong.fbo);
   gl.viewport(0,0,pong.w,pong.h);
-  draw(blurProg, { dir: [1.5/ping.w, 0]}, [{tex:ping.tex, name:'tex'}]);
+  drawQuad(blurProg, { dir: [1.5/ping.w, 0] }, [{ tex: ping.tex, name: 'tex' }]);
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, ping.fbo);
   gl.viewport(0,0,ping.w,ping.h);
-  draw(blurProg, { dir: [0, 1.5/pong.h]}, [{tex:pong.tex, name:'tex'}]);
+  drawQuad(blurProg, { dir: [0, 1.5/pong.h] }, [{ tex: pong.tex, name: 'tex' }]);
 
-  // === Composite to screen ===
+  // --- Composite to screen ---
   gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-  gl.viewport(0,0,canvas.width, canvas.height);
-  draw(compProg, { intensity: parseFloat(bloomIn.value) }, [{tex:sceneFBO.tex, name:'scene'}, {tex:ping.tex, name:'blur'}]);
+  gl.viewport(0,0,canvas.width,canvas.height);
+  drawQuad(compProg, { intensity: Math.max(0.2, Math.min(2.8, bloom)) }, [{ tex: scene.tex, name: 'scene' }, { tex: ping.tex, name: 'blur' }]);
 
   requestAnimationFrame(frame);
 }
 resizeFBOs();
 requestAnimationFrame(frame);
 
-// small performance tip: allow lowering NUM if slow (console)
-console.log('Spectral Garden started. NUM=', NUM);
-
+// small console hints
+console.log('Autonomous Spectral Garden running — NUM=', NUM, ' (lower NUM if performance issues)');
 </script>
 </body>
 </html>
