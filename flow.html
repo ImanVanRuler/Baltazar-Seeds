@@ -1,192 +1,74 @@
 <!doctype html>
 <html lang="de">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Baltazar Seeds — Spectral Garden</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* Reset & Basis */
-  *, *::before, *::after { box-sizing: border-box; }
-  html, body { height: 100%; margin: 0; background: #000; overflow: hidden; font-family: 'Inter', system-ui, sans-serif; }
-  canvas { display: block; width: 100vw; height: 100vh; }
-
-  /* UI Container */
-  .ui {
-    position: fixed;
-    left: 16px; top: 16px;
-    z-index: 100;
-    color: #e7f7ff;
-    background: rgba(10, 15, 30, 0.45);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 16px 18px;
-    border-radius: 16px;
-    border: 1px solid rgba(100, 180, 255, 0.15);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(100, 180, 255, 0.1);
-    max-width: 340px;
-    transition: all 0.3s ease;
-    animation: fadeIn 0.6s ease-out;
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:'Inter',system-ui,sans-serif}
+  canvas{display:block;width:100vw;height:100vh}
+  .ui{
+    position:fixed;left:16px;top:16px;z-index:100;
+    background:rgba(10,15,30,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    padding:16px 18px;border-radius:16px;border:1px solid rgba(100,180,255,.15);
+    box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 0 1px rgba(100,180,255,.1);
+    max-width:340px;transition:.3s;animation:fadeIn .6s ease-out
   }
-  .ui:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5); }
-
-  .ui h1 {
-    margin: 0 0 6px;
-    font-size: 18px;
-    font-weight: 600;
-    background: linear-gradient(135deg, #6ec3ff, #a375ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .ui:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(0,0,0,.5)}
+  .ui h1{margin:0 0 6px;font-size:18px;font-weight:600;
+    background:linear-gradient(135deg,#6ec3ff,#a375ff);-webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;background-clip:text}
+  .ui p{margin:0 0 12px;font-size:12.5px;opacity:.88;line-height:1.4}
+  .controls{display:flex;flex-direction:column;gap:10px}
+  .control-row{display:flex;align-items:center;gap:10px;font-size:12.5px}
+  .btn{
+    background:linear-gradient(180deg,rgba(100,180,255,.2),rgba(100,180,255,.08));
+    border:1px solid rgba(100,180,255,.25);padding:8px 14px;border-radius:10px;
+    color:#d0eeff;font-size:13px;font-weight:500;cursor:pointer;transition:.2s;
+    display:flex;align-items:center;gap:6px;backdrop-filter:blur(4px)
   }
-  .ui p {
-    margin: 0 0 12px;
-    font-size: 12.5px;
-    opacity: 0.88;
-    line-height: 1.4;
+  .btn:hover{background:linear-gradient(180deg,rgba(100,180,255,.3),rgba(100,180,255,.15));
+    transform:translateY(-1px);box-shadow:0 4px 12px rgba(100,180,255,.2)}
+  .range-container{flex:1;display:flex;align-items:center;gap:8px}
+  .range{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1);
+    -webkit-appearance:none;cursor:pointer}
+  .range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;
+    border-radius:50%;background:#6ec3ff;border:2px solid #fff;
+    box-shadow:0 2px 6px rgba(0,0,0,.3);cursor:grab}
+  .range::-webkit-slider-thumb:active{cursor:grabbing}
+  .range-value{min-width:32px;font-size:11.5px;color:#a0d8ff;font-weight:500}
+  .footer{position:fixed;right:16px;bottom:16px;color:#a0d8ff;font-size:12px;opacity:.85;z-index:50;animation:fadeIn 1s ease-out .3s both}
+  .footer a{color:#6ec3ff;text-decoration:underline;text-underline-offset:2px}
+  .back-button{
+    position:fixed;top:16px;right:16px;background:linear-gradient(180deg,rgba(100,180,255,.2),rgba(100,180,255,.08));
+    border:1px solid rgba(100,180,255,.25);padding:8px 14px;border-radius:10px;
+808
+    color:#d0eeff;font-size:13px;text-decoration:none;z-index:100;cursor:pointer;
+    transition:.2s;display:flex;gap:6px;align-items:center;backdrop-filter:blur(4px)
   }
-
-  /* Controls */
-  .controls {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .control-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 12.5px;
-  }
-
-  /* Buttons */
-  .btn {
-    background: linear-gradient(180deg, rgba(100, 180, 255, 0.2), rgba(100, 180, 255, 0.08));
-    border: 1px solid rgba(100, 180, 255, 0.25);
-    padding: 8px 14px;
-    border-radius: 10px;
-    color: #d0eeff;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    backdrop-filter: blur(4px);
-  }
-  .btn:hover {
-    background: linear-gradient(180deg, rgba(100, 180, 255, 0.3), rgba(100, 180, 255, 0.15));
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(100, 180, 255, 0.2);
-  }
-  .btn:active { transform: translateY(0); }
-
-  /* Range Slider */
-  .range-container {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .range {
-    flex: 1;
-    height: 6px;
-    border-radius: 3px;
-    background: rgba(255, 255, 255, 0.1);
-    outline: none;
-    -webkit-appearance: none;
-    cursor: pointer;
-  }
-  .range::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    background: #6ec3ff;
-    border: 2px solid #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    cursor: grab;
-  }
-  .range::-webkit-slider-thumb:active { cursor: grabbing; }
-  .range-value {
-    min-width: 32px;
-    font-size: 11.5px;
-    color: #a0d8ff;
-    font-weight: 500;
-  }
-
-  /* Footer */
-  .footer {
-    position: fixed;
-    right: 16px; bottom: 16px;
-    color: #a0d8ff;
-    font-size: 12px;
-    opacity: 0.85;
-    z-index: 50;
-    animation: fadeIn 1s ease-out 0.3s both;
-  }
-  .footer a {
-    color: #6ec3ff;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-
-  /* Back Button */
-  .back-button {
-    position: fixed;
-    top: 16px; right: 16px;
-    background: linear-gradient(180deg, rgba(100, 180, 255, 0.2), rgba(100, 180, 255, 0.08));
-    border: 1px solid rgba(100, 180, 255, 0.25);
-    padding: 8px 14px;
-    border-radius: 10px;
-    color: #d0eeff;
-    font-size: 13px;
-    text-decoration: none;
-    z-index: 100;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .back-button:hover {
-    background: linear-gradient(180deg, rgba(100, 180, 255, 0.3), rgba(100, 180, 255, 0.15));
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(100, 180, 255, 0.2);
-  }
-
-  /* Fullscreen Button */
-  .fullscreen-btn {
-    margin-left: auto;
-  }
-
-  /* Animations */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Mobile Adjustments */
-  @media (max-width: 640px) {
-    .ui { left: 12px; top: 12px; right: 12px; padding: 14px; }
-    .back-button { top: 12px; right: 12px; }
-    .control-row { font-size: 12px; }
-    .ui h1 { font-size: 17px; }
+  .back-button:hover{background:linear-gradient(180deg,rgba(100,180,255,.3),rgba(100,180,255,.15));
+    transform:translateY(-1px);box-shadow:0 4px 12px rgba(100,180,255,.2)}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:640px){
+    .ui{left:12px;top:12px;right:12px;padding:14px}
+    .back-button{top:12px;right:12px}
+    .control-row{font-size:12px}
+    .ui h1{font-size:17px}
   }
 </style>
 </head>
 <body>
 <canvas id="glcanvas"></canvas>
 
-<!-- UI Panel -->
 <div class="ui">
   <h1>Spectral Garden</h1>
-  <p>Interaktives WebGL-Flow-Field mit GPU-Partikeln, Bloom & God-Rays</p>
+  <p>Interaktives WebGL‑Flow‑Field mit GPU‑Partikeln, Bloom & God‑Rays</p>
   <div class="controls">
     <div class="control-row">
-      <button id="pause" class="btn">⏸ Pause</button>
-      <button id="fullscreen" class="btn fullscreen-btn">⛶ Vollbild</button>
+      <button id="pause" class="btn">Pause</button>
+      <button id="fullscreen" class="btn">Vollbild</button>
     </div>
     <div class="control-row">
       <span>Speed:</span>
@@ -209,327 +91,307 @@
   Maus/Touch bewegen → Flow beeinflussen — Inspiriert von <a href="https://imanvanruler.github.io/Baltazar-Seeds/seite3.html" target="_blank">Baltazar Seeds</a>
 </div>
 
-<a href="https://imanvanruler.github.io/Baltazar-Seeds/seite3.html" class="back-button">← Zurück</a>
+<a href="https://imanvanruler.github.io/Baltazar-Seeds/seite3.html" class="back-button">Zurück</a>
 
 <script>
 'use strict';
 
-// === WebGL Setup ===
+/* ---------- WebGL Setup ---------- */
 const canvas = document.getElementById('glcanvas');
-const gl = canvas.getContext('webgl2', { antialias: true, preserveDrawingBuffer: false });
-if (!gl) {
-  document.body.innerHTML = '<div style="color:#fff;padding:20px;font-family:sans-serif">WebGL2 nicht unterstützt.</div>';
-  throw new Error('WebGL2 not supported');
-}
+const gl = canvas.getContext('webgl2', {antialias:true, preserveDrawingBuffer:false});
+if (!gl) throw new Error('WebGL2 nicht unterstützt');
 
-// === Utilities ===
+/* ---------- Utils ---------- */
 let mainFBO, bloomHFBO, bloomVFBO;
-function resizeCanvas() {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  const w = Math.floor(innerWidth * dpr);
-  const h = Math.floor(innerHeight * dpr);
-  if (canvas.width !== w || canvas.height !== h) {
-    canvas.width = w; canvas.height = h;
-    gl.viewport(0, 0, w, h);
-    mainFBO = createFBO(w, h, gl.RGBA16F, gl.HALF_FLOAT);
-    const hw = Math.max(1, Math.floor(w / 2)), hh = Math.max(1, Math.floor(h / 2));
-    bloomHFBO = createFBO(hw, hh, gl.RGBA16F, gl.HALF_FLOAT);
-    bloomVFBO = createFBO(hw, hh, gl.RGBA16F, gl.HALF_FLOAT);
+function resizeCanvas(){
+  const dpr = Math.min(window.devicePixelRatio||1,2);
+  const w = Math.floor(innerWidth*dpr), h = Math.floor(innerHeight*dpr);
+  if (canvas.width!==w || canvas.height!==h){
+    canvas.width=w; canvas.height=h; gl.viewport(0,0,w,h);
+    mainFBO = createFBO(w,h,gl.RGBA16F,gl.HALF_FLOAT);
+    const hw = Math.max(64,Math.floor(w/2)), hh = Math.max(64,Math.floor(h/2));
+    bloomHFBO = createFBO(hw,hh,gl.RGBA16F,gl.HALF_FLOAT);
+    bloomVFBO = createFBO(hw,hh,gl.RGBA16F,gl.HALF_FLOAT);
   }
 }
-window.addEventListener('resize', resizeCanvas);
+window.addEventListener('resize',resizeCanvas);
 
-function compileShader(src, type) {
-  const s = gl.createShader(type);
-  gl.shaderSource(s, src); gl.compileShader(s);
-  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-    console.error(gl.getShaderInfoLog(s));
-    throw new Error('Shader compile error');
-  }
-  return s;
-}
-function linkProgram(vs, fs, tfVaryings) {
-  const p = gl.createProgram();
-  gl.attachShader(p, vs); gl.attachShader(p, fs);
-  if (tfVaryings) gl.transformFeedbackVaryings(p, tfVaryings, gl.INTERLEAVED_ATTRIBS);
-  gl.linkProgram(p);
-  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error('Link error');
-  return p;
-}
-function createFBO(w, h, fmt, type) {
-  const fbo = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-  const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, tex);
-  gl.texImage2D(gl.TEXTURE_2D, 0, fmt, w, h, 0, gl.RGBA, type, null);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
-  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-  return { fbo, tex, w, h };
+function compile(src,type){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);
+  if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.error(gl.getShaderInfoLog(s));throw'compile';}return s;}
+function link(vs,fs,tf){const p=gl.createProgram();gl.attachShader(p,vs);gl.attachShader(p,fs);
+  if(tf)gl.transformFeedbackVaryings(p,tf,gl.INTERLEAVED_ATTRIBS);gl.linkProgram(p);
+  if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw'link';return p;}
+function createFBO(w,h,internal,type){
+  const fbo=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,fbo);
+  const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);
+  gl.texImage2D(gl.TEXTURE_2D,0,internal,w,h,0,gl.RGBA,type,null);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,tex,0);
+  gl.bindFramebuffer(gl.FRAMEBUFFER,null);
+  return {fbo,tex,w,h};
 }
 
-// === Fullscreen Quad ===
+/* ---------- Fullscreen Quad ---------- */
 const quadVS = `#version 300 es
 precision highp float;
 layout(location=0) in vec2 a_pos;
 out vec2 v_uv;
-void main() { v_uv = a_pos * 0.5 + 0.5; gl_Position = vec4(a_pos, 0.0, 1.0); }`;
-const quadPos = new Float32Array([-1,-1, 1,-1, -1,1, 1,1]);
-const quadVBO = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO); gl.bufferData(gl.ARRAY_BUFFER, quadPos, gl.STATIC_DRAW);
+void main(){v_uv=a_pos*0.5+0.5;gl_Position=vec4(a_pos,0.0,1.0);}`;
+const quadPos = new Float32Array([-1,-1,1,-1,-1,1,1,1]);
+const quadVBO = gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,quadVBO);gl.bufferData(gl.ARRAY_BUFFER,quadPos,gl.STATIC_DRAW);
 
-function drawQuad(prog, uniforms = {}, texs = []) {
+function drawQuad(prog,uni={},tex=[]){
   gl.useProgram(prog);
-  gl.bindBuffer(gl.ARRAY_BUFFER, quadVBO);
-  gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-  for (const k in uniforms) {
-    const loc = gl.getUniformLocation(prog, k);
-    if (!loc) continue;
-    const v = uniforms[k];
-    if (typeof v === 'number') gl.uniform1f(loc, v);
-    else if (v.length === 2) gl.uniform2fv(loc, v);
-    else if (v.length === 3) gl.uniform3fv(loc, v);
-    else if (v.length === 4) gl.uniform4fv(loc, v);
+  gl.bindBuffer(gl.ARRAY_BUFFER,quadVBO);
+  gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
+  for(const k in uni){
+    const loc=gl.getUniformLocation(prog,k);
+    if(loc===null)continue;
+    const v=uni[k];
+    if(typeof v==='number')gl.uniform1f(loc,v);
+    else if(v.length===2)gl.uniform2fv(loc,v);
   }
-  texs.forEach((t, i) => {
-    gl.activeTexture(gl.TEXTURE0 + i);
-    gl.bindTexture(gl.TEXTURE_2D, t.tex);
-    gl.uniform1i(gl.getUniformLocation(prog, t.name), i);
+  tex.forEach((t,i)=>{
+    gl.activeTexture(gl.TEXTURE0+i);
+    gl.bindTexture(gl.TEXTURE_2D,t.tex);
+    gl.uniform1i(gl.getUniformLocation(prog,t.name),i);
   });
-  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
 }
 
-// === Shaders ===
+/* ---------- Flow Field ---------- */
 const flowFS = `#version 300 es
 precision highp float;
 in vec2 v_uv; out vec4 o;
 uniform float u_time; uniform vec2 u_res; uniform vec2 u_mouse;
-vec3 hsv2rgb(vec3 c){ vec4 K=vec4(1.,2./3.,1./3.,3.); vec3 p=abs(fract(c.xxx+K.xyz)*6.-K.www); return c.z*mix(K.xxx,clamp(p-K.xxx,0.,1.),c.y); }
 float noise(vec2 p){
-  vec3 i = floor(vec3(p, 0.0)); vec3 f = fract(vec3(p, 0.0));
-  i = mod(i, vec3(289.0)); vec4 a = vec4(dot(i.xy, vec2(1.0, 289.0)));
-  return mix(mix(mix(fract(sin(a.x)*43758.5453), fract(sin(a.y)*43758.5453), f.x),
-                     fract(sin(a.z)*43758.5453), f.x), f.y);
+  vec3 i=floor(vec3(p,0.0)),f=fract(vec3(p,0.0));
+  i=mod(i,vec3(289.0));
+  vec4 a=vec4(dot(i.xy,vec2(1.0,289.0)));
+  return mix(mix(mix(fract(sin(a.x)*43758.5),fract(sin(a.y)*43758.5),f.x),
+                     fract(sin(a.z)*43758.5),f.x),f.y);
 }
 void main(){
-  vec2 uv = v_uv, p = (uv - 0.5) * vec2(u_res.x/u_res.y, 1.0);
-  float t = u_time * 0.25;
-  float n = noise(p*1.5 + t) * 0.5 + noise(p*3.0 - t*0.8) * 0.3 + noise(p*6.0 + t*1.2) * 0.2;
-  vec2 m = u_mouse / u_res; vec2 mp = (m - 0.5) * vec2(u_res.x/u_res.y, 1.0);
-  float md = length(p - mp); float infl = exp(-md*6.0)*0.6;
-  n += infl;
-  vec3 col = vec3(0.015, 0.02, 0.04);
-  col += hsv2rgb(vec3(n*0.8 + 0.6, 0.8, 0.6)) * 0.5;
-  col += hsv2rgb(vec3(n*1.2 + 0.2, 0.7, 0.8)) * 0.3;
-  float vig = smoothstep(0.9, 0.3, length(uv-0.5));
-  col *= vig * 1.1;
-  o = vec4(col, 1.0);
+  vec2 uv=v_uv, p=(uv-0.5)*vec2(u_res.x/u_res.y,1.0);
+  float t=u_time*0.25;
+  float n=noise(p*1.5+t)*0.5 + noise(p*3.0-t*0.8)*0.3 + noise(p*6.0+t*1.2)*0.2;
+  vec2 m=u_mouse/u_res, mp=(m-0.5)*vec2(u_res.x/u_res.y,1.0);
+  float md=length(p-mp), infl=exp(-md*6.0)*0.6;
+  n+=infl;
+  vec3 col=vec3(0.015,0.02,0.04);
+  col+=mix(vec3(0.2,0.5,1.0),vec3(0.8,0.2,0.9),n)*0.5;
+  col+=mix(vec3(0.1,0.8,1.0),vec3(0.6,0.1,0.9),n*1.2)*0.3;
+  float vig=smoothstep(0.9,0.3,length(uv-0.5));
+  col*=vig*1.1;
+  o=vec4(col,1.0);
 }`;
+const flowProg = link(compile(quadVS,gl.VERTEX_SHADER),compile(flowFS,gl.FRAGMENT_SHADER));
 
-// === Compile Programs ===
-const qVS = compileShader(quadVS, gl.VERTEX_SHADER);
-const flowProg = linkProgram(qVS, compileShader(flowFS, gl.FRAGMENT_SHADER));
-
-// === Particle System ===
+/* ---------- Particle System ---------- */
 const NUM_PARTICLES = 120000;
-const particleUpdateVS = `#version 300 es
+const partUpdateVS = `#version 300 es
 precision highp float;
 layout(location=0) in vec2 pos; layout(location=1) in vec2 vel; layout(location=2) in float age;
 out vec2 v_pos; out vec2 v_vel; out float v_age;
-uniform float u_time, u_dt, u_speed; uniform vec2 u_res, u_mouse;
-float noise(vec2 p){ /* same noise as above */ vec3 i=floor(vec3(p,0)); vec3 f=fract(vec3(p,0)); i=mod(i,vec3(289)); vec4 a=vec4(dot(i.xy,vec2(1,289))); return mix(mix(mix(fract(sin(a.x)*43758.5),fract(sin(a.y)*43758.5),f.x),fract(sin(a.z)*43758.5),f.x),f.y); }
-float field(vec2 p, float t){ return noise(p*1.5+t)*0.5 + noise(p*3.0-t*0.8)*0.3 + noise(p*6.0+t*1.2)*0.2; }
+uniform float u_time,u_dt,u_speed; uniform vec2 u_res,u_mouse;
+float noise(vec2 p){
+  vec3 i=floor(vec3(p,0)),f=fract(vec3(p,0));
+  i=mod(i,vec3(289));
+  vec4 a=vec4(dot(i.xy,vec2(1,289)));
+  return mix(mix(mix(fract(sin(a.x)*43758.5),fract(sin(a.y)*43758.5),f.x),fract(sin(a.z)*43758.5),f.x),f.y);
+}
+float field(vec2 p,float t){return noise(p*1.5+t)*0.5 + noise(p*3.0-t*0.8)*0.3 + noise(p*6.0+t*1.2)*0.2;}
 void main(){
-  vec2 p = pos, v = vel; float a = age + u_dt;
-  vec2 uv = (p - 0.5) * vec2(u_res.x/u_res.y, 1.0);
-  const float e = 0.002; vec2 grad = vec2(field(uv + vec2(e,0), u_time*0.2) - field(uv - vec2(e,0), u_time*0.2),
-                                      field(uv + vec2(0,e), u_time*0.2) - field(uv - vec2(0,e), u_time*0.2)) / (2.0*e);
-  vec2 curl = vec2(grad.y, -grad.x) * 1.8;
-  vec2 m = u_mouse / u_res; vec2 d = p - m; float l = length(d)+1e-6;
-  vec2 swirl = vec2(-d.y, d.x) / l * exp(-l*12.0) * 2.5;
-  v += (curl + swirl) * 0.0012 * u_speed; v *= 0.994;
-  p += v * u_dt * 60.0;
-  if (p.x < -0.15 || p.x > 1.15 || p.y < -0.15 || p.y > 1.15 || a > 7.0) {
-    float r = fract(sin(dot(vec2(a, u_time), vec2(12.9898, 78.233))) * 43758.5453);
-    float ang = r * 6.28318; float rad = 0.03 + r * 0.1;
-    p = vec2(0.5) + vec2(cos(ang), sin(ang)) * rad;
-    v = vec2(fract(sin(dot(p, vec2(7.1, 15.9)))*43758.5)*2.0-1.0,
-             fract(sin(dot(p.yx, vec2(11.7, 19.3)))*43758.5)*2.0-1.0) * 0.0018;
-    a = 0.0;
+  vec2 p=pos, v=vel; float a=age+u_dt;
+  vec2 uv=(p-0.5)*vec2(u_res.x/u_res.y,1.0);
+  const float e=0.002;
+  vec2 grad=vec2(field(uv+vec2(e,0),u_time*0.2)-field(uv-vec2(e,0),u_time*0.2),
+                 field(uv+vec2(0,e),u_time*0.2)-field(uv-vec2(0,e),u_time*0.2))/(2.0*e);
+  vec2 curl=vec2(grad.y,-grad.x)*1.8;
+  vec2 m=u_mouse/u_res, d=p-m; float l=length(d)+1e-6;
+  vec2 swirl=vec2(-d.y,d.x)/l*exp(-l*12.0)*2.5;
+  v+=(curl+swirl)*0.0012*u_speed; v*=0.994;
+  p+=v*u_dt*60.0;
+  if(p.x<-0.15||p.x>1.15||p.y<-0.15||p.y>1.15||a>7.0){
+    float r=fract(sin(dot(vec2(a,u_time),vec2(12.9898,78.233)))*43758.5);
+    float ang=r*6.28318, rad=0.03+r*0.1;
+    p=vec2(0.5)+vec2(cos(ang),sin(ang))*rad;
+    v=vec2(fract(sin(dot(p,vec2(7.1,15.9)))*43758.5)*2.0-1.0,
+           fract(sin(dot(p.yx,vec2(11.7,19.3)))*43758.5)*2.0-1.0)*0.0018;
+    a=0.0;
   }
-  v_pos = p; v_vel = v; v_age = a;
+  v_pos=p; v_vel=v; v_age=a;
 }`;
-const particleRenderVS = `#version 300 es
+const partRenderVS = `#version 300 es
 precision highp float;
 layout(location=0) in vec2 pos; layout(location=1) in vec2 vel; layout(location=2) in float age;
 uniform vec2 u_res; out float life; out float speed;
 void main(){
-  vec2 p = (pos - 0.5) * vec2(u_res.x/u_res.y, 1.0);
-  float sz = 1.5 + (1.0 - clamp(age/7.0,0.0,1.0)) * 10.0;
-  gl_Position = vec4(p*2.0, 0.0, 1.0);
-  gl_PointSize = sz;
-  life = 1.0 - clamp(age/7.0,0.0,1.0);
-  speed = length(vel)*120.0;
+  vec2 p=(pos-0.5)*vec2(u_res.x/u_res.y,1.0);
+  float sz=1.5+(1.0-clamp(age/7.0,0.0,1.0))*10.0;
+  gl_Position=vec4(p*2.0,0.0,1.0); gl_PointSize=sz;
+  life=1.0-clamp(age/7.0,0.0,1.0);
+  speed=length(vel)*120.0;
 }`;
-const particleRenderFS = `#version 300 es
+const partRenderFS = `#version 300 es
 precision highp float;
 in float life; in float speed; out vec4 o;
 void main(){
-  float d = length(gl_PointCoord - 0.5);
-  if (d > 0.5) discard;
-  float a = smoothstep(0.5, 0.0, d) * (0.7 + 0.3*life);
-  vec3 c = mix(vec3(0.6,0.3,1.0), vec3(0.1,0.9,1.0), clamp(life*1.3 + speed*0.4,0.0,1.0));
-  o = vec4(c * (0.7 + 0.3*life), a);
+  float d=length(gl_PointCoord-0.5);
+  if(d>0.5) discard;
+  float a=smoothstep(0.5,0.0,d)*(0.7+0.3*life);
+  vec3 c=mix(vec3(0.6,0.3,1.0),vec3(0.1,0.9,1.0),clamp(life*1.3+speed*0.4,0.0,1.0));
+  o=vec4(c*(0.7+0.3*life),a);
 }`;
 
-// === Setup Particles ===
-const updateProg = linkProgram(compileShader(particleUpdateVS, gl.VERTEX_SHADER),
-  compileShader(`#version 300 es\nprecision highp float; out vec4 o; void main(){o=vec4(0);}`, gl.FRAGMENT_SHADER),
+/* ----- Particle Programs ----- */
+const updateProg = link(compile(partUpdateVS,gl.VERTEX_SHADER),
+  compile(`#version 300 es\nprecision highp float; out vec4 o; void main(){o=vec4(0);}`,gl.FRAGMENT_SHADER),
   ['v_pos','v_vel','v_age']);
-const renderProg = linkProgram(compileShader(particleRenderVS, gl.VERTEX_SHADER), compileShader(particleRenderFS, gl.FRAGMENT_SHADER));
+const renderProg = link(compile(partRenderVS,gl.VERTEX_SHADER),compile(partRenderFS,gl.FRAGMENT_SHADER));
 
-const VAOs = [gl.createVertexArray(), gl.createVertexArray()];
-const bufs = [gl.createBuffer(), gl.createBuffer()];
-const initData = new Float32Array(NUM_PARTICLES * 5);
-for (let i = 0; i < NUM_PARTICLES; i++) {
-  const a = Math.random() * Math.PI * 2, r = 0.03 + Math.random() * 0.1;
-  const i5 = i*5;
-  initData[i5] = 0.5 + Math.cos(a)*r;
-  initData[i5+1] = 0.5 + Math.sin(a)*r;
-  initData[i5+2] = (Math.random()*2-1)*0.0018;
-  initData[i5+3] = (Math.random()*2-1)*0.0018;
-  initData[i5+4] = Math.random() * 3;
+/* ----- Particle Buffers ----- */
+const VAOs=[gl.createVertexArray(),gl.createVertexArray()];
+const bufs=[gl.createBuffer(),gl.createBuffer()];
+const initData=new Float32Array(NUM_PARTICLES*5);
+for(let i=0;i<NUM_PARTICLES;i++){
+  const a=Math.random()*Math.PI*2, r=0.03+Math.random()*0.1;
+  const i5=i*5;
+  initData[i5]=0.5+Math.cos(a)*r;
+  initData[i5+1]=0.5+Math.sin(a)*r;
+  initData[i5+2]=(Math.random()*2-1)*0.0018;
+  initData[i5+3]=(Math.random()*2-1)*0.0018;
+  initData[i5+4]=Math.random()*3;
 }
-for (let i = 0; i < 2; i++) {
+for(let i=0;i<2;i++){
   gl.bindVertexArray(VAOs[i]);
-  gl.bindBuffer(gl.ARRAY_BUFFER, bufs[i]);
-  gl.bufferData(gl.ARRAY_BUFFER, initData, gl.DYNAMIC_COPY);
-  gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0,2,gl.FLOAT,false,20,0);
-  gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1,2,gl.FLOAT,false,20,8);
-  gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2,1,gl.FLOAT,false,20,16);
+  gl.bindBuffer(gl.ARRAY_BUFFER,bufs[i]);
+  gl.bufferData(gl.ARRAY_BUFFER,initData,gl.DYNAMIC_COPY);
+  gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,20,0);
+  gl.enableVertexAttribArray(1);gl.vertexAttribPointer(1,2,gl.FLOAT,false,20,8);
+  gl.enableVertexAttribArray(2);gl.vertexAttribPointer(2,1,gl.FLOAT,false,20,16);
 }
-let src = 0, dst = 1; const swap = () => [src, dst] = [dst, src];
-const tf = gl.createTransformFeedback();
+let src=0,dst=1; const swap=()=>[src,dst]=[dst,src];
+const tf=gl.createTransformFeedback();
 
-// === Post-Processing ===
-const blurProg = linkProgram(qVS, compileShader(`#version 300 es
-precision highp float; in vec2 v_uv; out vec4 o; uniform sampler2D tex; uniform vec2 dir;
-void main(){ vec2 uv=v_uv; float w[5]; w[0]=0.227; w[1]=0.195; w[2]=0.122; w[3]=0.054; w[4]=0.016;
-  vec4 s=texture(tex,uv)*w[0]; for(int i=1;i<5;i++) { s+=texture(tex,uv+dir*float(i))*w[i]; s+=texture(tex,uv-dir*float(i))*w[i]; } o=s; }`, gl.FRAGMENT_SHADER));
-const brightProg = linkProgram(qVS, compileShader(`#version 300 es
-precision highp float; in vec2 v_uv; out vec4 o; uniform sampler2D tex;
-void main(){ vec3 c=texture(tex,v_uv).rgb; float l=dot(c,vec3(0.299,0.587,0.114)); o=vec4(c*max(0.0,l-0.6),1.0); }`, gl.FRAGMENT_SHADER));
-const compProg = linkProgram(qVS, compileShader(`#version 300 es
-precision highp float; in vec2 v_uv; out vec4 o; uniform sampler2D scene, blur; uniform float u_time, u_intensity;
+/* ---------- Post‑Processing ---------- */
+const blurProg = link(compile(quadVS,gl.VERTEX_SHADER),compile(`#version 300 es
+precision highp float; in vec2 v_uv; out vec4 o; uniform sampler2D u_tex; uniform vec2 u_dir;
 void main(){
-  vec3 s=texture(scene,v_uv).rgb; vec3 b=texture(blur,v_uv).rgb * u_intensity;
-  vec2 d=v_uv-0.5; float r=length(d); float rays=pow(max(0.0,1.0-r*1.8),2.0)*(0.6+0.4*sin(u_time*0.7+r*14.0));
-  vec3 col = s + b + s*rays*0.9;
-  col = col/(col+1.0); col = pow(col, vec3(0.9,0.94,0.88));
+  vec2 uv=v_uv; float w[5]; w[0]=0.227; w[1]=0.195; w[2]=0.122; w[3]=0.054; w[4]=0.016;
+  vec4 s=texture(u_tex,uv)*w[0];
+  for(int i=1;i<5;i++){ s+=texture(u_tex,uv+u_dir*float(i))*w[i]; s+=texture(u_tex,uv-u_dir*float(i))*w[i]; }
+  o=s;
+}`,gl.FRAGMENT_SHADER));
+
+const brightProg = link(compile(quadVS,gl.VERTEX_SHADER),compile(`#version 300 es
+precision highp float; in vec2 v_uv; out vec4 o; uniform sampler2D u_tex;
+void main(){
+  vec3 c=texture(u_tex,v_uv).rgb; float l=dot(c,vec3(0.299,0.587,0.114));
+  o=vec4(c*max(0.0,l-0.6),1.0);
+}`,gl.FRAGMENT_SHADER));
+
+const compProg = link(compile(quadVS,gl.VERTEX_SHADER),compile(`#version 300 es
+precision highp float; in vec2 v_uv; out vec4 o;
+uniform sampler2D u_scene, u_blur; uniform float u_time, u_intensity;
+void main(){
+  vec3 s=texture(u_scene,v_uv).rgb;
+  vec3 b=texture(u_blur,v_v).rgb*u_intensity;
+  vec2 d=v_uv-0.5; float r=length(d);
+  float rays=pow(max(0.0,1.0-r*1.8),2.0)*(0.6+0.4*sin(u_time*0.7+r*14.0));
+  vec3 col=s+b+s*rays*0.9;
+  col=col/(col+1.0);
+  col=pow(col,vec3(0.9,0.94,0.88));
   o=vec4(col,1.0);
-}`, gl.FRAGMENT_SHADER));
+}`,gl.FRAGMENT_SHADER));
 
-// === Interaction ===
-let mouse = {x: canvas.width/2, y: canvas.height/2}, touches = [];
-const updateMouse = (e) => {
+/* ---------- Interaction ---------- */
+let mouse={x:canvas.width/2,y:canvas.height/2};
+const setMouse=e=>{
   e.preventDefault();
-  const r = canvas.getBoundingClientRect(), dpr = Math.min(devicePixelRatio||1,2);
-  if (e.touches) {
-    touches = Array.from(e.touches).map(t => ({
-      x: (t.clientX - r.left) * dpr,
-      y: (r.bottom - t.clientY) * dpr
-    }));
-    if (touches.length > 0) mouse = touches[0];
-  } else {
-    mouse.x = (e.clientX - r.left) * dpr;
-    mouse.y = (r.bottom - e.clientY) * dpr;
-  }
+  const r=canvas.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
+  mouse.x=(e.clientX-r.left)*dpr;
+  mouse.y=(r.bottom-e.clientY)*dpr;
 };
-canvas.addEventListener('pointermove', updateMouse);
-canvas.addEventListener('touchmove', updateMouse, {passive:false});
+canvas.addEventListener('pointermove',setMouse);
+canvas.addEventListener('touchmove',setMouse,{passive:false});
 
-// === UI Logic ===
-const pauseBtn = document.getElementById('pause');
-const speedIn = document.getElementById('speed'), speedVal = document.getElementById('speed-value');
-const intIn = document.getElementById('intensity'), intVal = document.getElementById('intensity-value');
-let running = true;
-pauseBtn.addEventListener('click', () => {
-  running = !running;
-  pauseBtn.textContent = running ? '⏸ Pause' : '▶ Resume';
-});
-speedIn.addEventListener('input', () => speedVal.textContent = parseFloat(speedIn.value).toFixed(2));
-intIn.addEventListener('input', () => intVal.textContent = parseFloat(intIn.value).toFixed(2));
-document.getElementById('fullscreen').addEventListener('click', () => {
-  if (!document.fullscreenElement) canvas.requestFullscreen();
-  else document.exitFullscreen();
-});
-speedVal.textContent = speedIn.value; intVal.textContent = intIn.value;
+/* ---------- UI ---------- */
+const pauseBtn=document.getElementById('pause');
+const speedIn=document.getElementById('speed'), speedVal=document.getElementById('speed-value');
+const intIn=document.getElementById('intensity'), intVal=document.getElementById('intensity-value');
+let running=true;
+pauseBtn.addEventListener('click',()=>{running=!running;pauseBtn.textContent=running?'Pause':'Resume';});
+speedIn.addEventListener('input',()=>speedVal.textContent=parseFloat(speedIn.value).toFixed(2));
+intIn.addEventListener('input',()=>intVal.textContent=parseFloat(intIn.value).toFixed(2));
+document.getElementById('fullscreen').addEventListener('click',()=>
+  document.fullscreenElement?document.exitFullscreen():canvas.requestFullscreen());
+speedVal.textContent=speedIn.value; intVal.textContent=intIn.value;
 
-// === Render Loop ===
-let last = performance.now()*0.001;
-function render() {
-  try {
+/* ---------- Render Loop ---------- */
+let last=performance.now()*0.001;
+function render(){
+  try{
     resizeCanvas();
-    const now = performance.now()*0.001, dt = Math.min(0.033, now - last); last = now;
-    const time = now, res = [canvas.width, canvas.height];
-    const speed = parseFloat(speedIn.value), intensity = parseFloat(intIn.value);
+    const now=performance.now()*0.001, dt=Math.min(0.033,now-last); last=now;
+    const time=now, res=[canvas.width,canvas.height];
+    const speed=parseFloat(speedIn.value), intensity=parseFloat(intIn.value);
 
-    // Background
-    gl.bindFramebuffer(gl.FRAMEBUFFER, mainFBO.fbo);
-    drawQuad(flowProg, {u_time: time, u_res: res, u_mouse: [mouse.x, mouse.y]});
+    /* ---- Flow field ---- */
+    gl.bindFramebuffer(gl.FRAMEBUFFER,mainFBO.fbo);
+    drawQuad(flowProg,{u_time:time,u_res:res,u_mouse:[mouse.x,mouse.y]});
 
-    // Particle Update
+    /* ---- Particle update ---- */
     gl.useProgram(updateProg);
-    gl.uniform1f(gl.getUniformLocation(updateProg, 'u_time'), time);
-    gl.uniform1f(gl.getUniformLocation(updateProg, 'u_dt'), running ? dt : 0);
-    gl.uniform2fv(gl.getUniformLocation(updateProg, 'u_res'), res);
-    gl.uniform2fv(gl.getUniformLocation(updateProg, 'u_mouse'), [mouse.x, mouse.y]);
-    gl.uniform1f(gl.getUniformLocation(updateProg, 'u_speed'), speed);
-    gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, tf);
-    gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER, 0, bufs[dst]);
+    gl.uniform1f(gl.getUniformLocation(updateProg,'u_time'),time);
+    gl.uniform1f(gl.getUniformLocation(updateProg,'u_dt'),running?dt:0);
+    gl.uniform2fv(gl.getUniformLocation(updateProg,'u_res'),res);
+    gl.uniform2fv(gl.getUniformLocation(updateProg,'u_mouse'),[mouse.x,mouse.y]);
+    gl.uniform1f(gl.getUniformLocation(updateProg,'u_speed'),speed);
+    gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK,tf);
+    gl.bindBufferBase(gl.TRANSFORM_FEEDBACK_BUFFER,0,bufs[dst]);
     gl.enable(gl.RASTERIZER_DISCARD);
     gl.bindVertexArray(VAOs[src]);
     gl.beginTransformFeedback(gl.POINTS);
-    gl.drawArrays(gl.POINTS, 0, NUM_PARTICLES);
+    gl.drawArrays(gl.POINTS,0,NUM_PARTICLES);
     gl.endTransformFeedback();
     gl.disable(gl.RASTERIZER_DISCARD);
-    gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK, null);
+    gl.bindTransformFeedback(gl.TRANSFORM_FEEDBACK,null);
     swap();
 
-    // Render Particles
-    gl.bindFramebuffer(gl.FRAMEBUFFER, mainFBO.fbo);
-    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    /* ---- Render particles ---- */
+    gl.bindFramebuffer(gl.FRAMEBUFFER,mainFBO.fbo);
+    gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE);
     gl.useProgram(renderProg);
-    gl.uniform2fv(gl.getUniformLocation(renderProg, 'u_res'), res);
+    gl.uniform2fv(gl.getUniformLocation(renderProg,'u_res'),res);
     gl.bindVertexArray(VAOs[src]);
-    gl.drawArrays(gl.POINTS, 0, NUM_PARTICLES);
+    gl.drawArrays(gl.POINTS,0,NUM_PARTICLES);
     gl.disable(gl.BLEND);
 
-    // Bloom
-    gl.bindFramebuffer(gl.FRAMEBUFFER, bloomHFBO.fbo);
+    /* ---- Bloom ---- */
+    gl.bindFramebuffer(gl.FRAMEBUFFER,bloomHFBO.fbo);
     gl.viewport(0,0,bloomHFBO.w,bloomHFBO.h);
-    drawQuad(brightProg, {}, [{tex: mainFBO.tex, name: 'tex'}]);
-    gl.bindFramebuffer(gl.FRAMEBUFFER, bloomVFBO.fbo);
-    drawQuad(blurProg, {u_dir: [2.5/bloomHFBO.w, 0]}, [{tex: bloomHFBO.tex, name: 'tex'}]);
-    gl.bindFramebuffer(gl.FRAMEBUFFER, bloomHFBO.fbo);
-    drawQuad(blurProg, {u_dir: [0, 2.5/bloomHFBO.h]}, [{tex: bloomVFBO.tex, name: 'tex'}]);
+    drawQuad(brightProg,{},[{tex:mainFBO.tex,name:'u_tex'}]);
 
-    // Composite
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    gl.bindFramebuffer(gl.FRAMEBUFFER,bloomVFBO.fbo);
+    drawQuad(blurProg,{u_dir:[2.5/bloomHFBO.w,0]},[{tex:bloomHFBO.tex,name:'u_tex'}]);
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER,bloomHFBO.fbo);
+    drawQuad(blurProg,{u_dir:[0,2.5/bloomHFBO.h]},[{tex:bloomVFBO.tex,name:'u_tex'}]);
+
+    /* ---- Composite ---- */
+    gl.bindFramebuffer(gl.FRAMEBUFFER,null);
     gl.viewport(0,0,canvas.width,canvas.height);
-    drawQuad(compProg, {
-      u_time: time,
-      u_intensity: intensity
-    }, [
-      {tex: mainFBO.tex, name: 'scene'},
-      {tex: bloomHFBO.tex, name: 'blur'}
-    ]);
-  } catch (e) { console.error(e); }
+    drawQuad(compProg,{u_time:time,u_intensity:intensity},
+      [{tex:mainFBO.tex,name:'u_scene'},{tex:bloomHFBO.tex,name:'u_blur'}]);
+
+  }catch(e){console.error(e);}
   requestAnimationFrame(render);
 }
-resizeCanvas();
-requestAnimationFrame(render);
+resizeCanvas(); requestAnimationFrame(render);
 </script>
 </body>
 </html>
