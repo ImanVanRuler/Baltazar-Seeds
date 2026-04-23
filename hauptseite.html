@@ -1,226 +1,161 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Baltazar Seeds</title>
-  <!-- Google Font: Nosifer -->
-  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: auto;
-      font-family: 'Nosifer', cursive;
-      color: #000000; /* Text schwarz */
+    :root {
+      --red: #ff3333;
+      --dark: rgba(0, 0, 0, 0.85);
     }
 
-    /* Video-Hintergrund */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: #fff;
+      background: #000;
+      overflow: hidden;
+    }
+
     .video-bg {
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
       object-fit: cover;
       z-index: -2;
+      filter: brightness(0.65) contrast(1.1);
     }
 
-    .wrap {
+    .content {
       position: relative;
       z-index: 2;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 10vh 4vw;
-      opacity: 0; /* Start unsichtbar für Fade-in */
-      transition: opacity 1s ease;
+      padding: 2rem 1.5rem;
+      opacity: 0;
+      transition: opacity 1.5s ease;
     }
 
     h1 {
-      font-size: clamp(40px, 10vw, 100px); 
-      margin: 0 0 1rem;
+      font-family: 'Nosifer', cursive;
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      letter-spacing: 4px;
       text-transform: uppercase;
-      position: relative;
-      display: inline-block;
-      color: #000000; /* Haupttext schwarz */
-      background: transparent;
-      -webkit-text-stroke-width: 2px; 
-      -webkit-text-stroke-color: #ff0000; /* roter Rahmen */
+      color: #fff;
+      -webkit-text-stroke: 2px var(--red);
       text-shadow: 
-        0 0 5px #ff0000,
-        0 0 10px #ff0000,
-        0 0 20px #ff0000;
-      animation: floatText 3s ease-in-out infinite alternate,
-                 glowPulse 2s infinite ease-in-out;
-    }
-    
-    @keyframes floatText {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-10px); }
-    }
-
-    @keyframes glowPulse {
-      0% {
-        text-shadow: 
-          0 0 5px #ff0000,
-          0 0 10px #ff0000,
-          0 0 20px #ff0000;
-      }
-      50% {
-        text-shadow: 
-          0 0 10px #ff0000,
-          0 0 20px #ff3333,
-          0 0 40px #ff0000,
-          0 0 60px #ff3333;
-      }
-      100% {
-        text-shadow: 
-          0 0 5px #ff0000,
-          0 0 10px #ff0000,
-          0 0 20px #ff0000;
-      }
-    }
-
-    h1::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: -10px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #ff0000;
-      box-shadow: -120px 10px 0 -2px #ff0000,
-                  -60px 15px 0 -3px #ff0000,
-                  0px 20px 0 -2px #ff0000,
-                  60px 10px 0 -2px #ff0000,
-                  120px 15px 0 -3px #ff0000;
-      animation: dropFall 9s infinite ease-in-out;
-    }
-
-    @keyframes dropFall {
-      0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-      50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
+        0 0 20px var(--red),
+        0 0 40px var(--red),
+        0 0 60px rgba(255, 50, 50, 0.6);
+      margin-bottom: 1.5rem;
+      animation: subtleFloat 6s ease-in-out infinite alternate;
     }
 
     p {
-      font-size: 1.5rem;
-      color: #000000; /* Schwarz */
-      text-align: center;
-      line-height: 1.6;
-      -webkit-text-stroke: 1px #ff0000; /* roter Rahmen */
-      position: relative;
-      max-width: 900px;
-      margin: 2rem auto;
+      font-size: 1.25rem;
+      max-width: 620px;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+    }
+
+    .age-notice {
+      background: var(--dark);
+      border: 1px solid var(--red);
+      border-radius: 12px;
+      padding: 1.75rem 2rem;
+      max-width: 520px;
+      margin: 2rem 0;
+      font-size: 1.05rem;
     }
 
     .btn {
       display: inline-block;
-      margin-top: 3rem;
-      padding: 1rem 2rem;
-      font-size: 1.5rem;
-      color: #000000; /* Schwarz */
-      background: rgba(0,0,0,0.6);
-      border: 2px solid #ff0000;
-      border-radius: 8px;
+      padding: 1rem 2.8rem;
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #fff;
+      background: transparent;
+      border: 2px solid var(--red);
+      border-radius: 50px;
       text-decoration: none;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      -webkit-text-stroke: 1px #ff0000; /* roter Rahmen */
+      transition: all 0.4s ease;
+      letter-spacing: 1px;
     }
 
     .btn:hover {
-      background: #ff0000;
-      color: #000000;
+      background: var(--red);
+      color: #000;
+      transform: translateY(-3px);
+      box-shadow: 0 0 25px rgba(255, 51, 51, 0.6);
     }
 
-    /* Schwarzes Overlay für Fade-in und Fade-out */
-    #fadeOverlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: black;
-      opacity: 1; /* Start sichtbar */
-      z-index: 999;
-      transition: opacity 1s ease;
-      pointer-events: none;
+    /* Leichter psychedelic Glow */
+    @keyframes subtleFloat {
+      from { transform: translateY(0) rotate(-1deg); }
+      to   { transform: translateY(-12px) rotate(1deg); }
     }
 
-    /* Globaler Schimmer-Effekt */
-    .shine-overlay {
-      position: fixed;
-      top: 0; left: -150%;
-      width: 50%; height: 100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
-      transform: skewX(-20deg);
-      pointer-events: none;
-      z-index: 5; /* über Content, unter FadeOverlay */
-      animation: shine 6s infinite;
+    /* Schöner Fade-In */
+    .loaded .content {
+      opacity: 1;
     }
 
-    @keyframes shine {
-      0%   { left: -150%; }
-      100% { left: 150%; }
+    /* Für reduzierte Animationen */
+    @media (prefers-reduced-motion: reduce) {
+      h1, .btn { animation: none !important; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Hintergrundvideo -->
-  <video class="video-bg" autoplay muted loop playsinline>
+  <!-- Hintergrundvideo (komprimiert empfohlen) -->
+  <video class="video-bg" autoplay muted loop playsinline preload="metadata">
     <source src="INTRO.mp4" type="video/mp4">
-    Dein Browser unterstützt kein HTML5-Video.
+    Dein Browser unterstützt kein Video.
   </video>
 
-  <!-- Overlay für Schimmer über die ganze Seite -->
-  <div class="shine-overlay"></div>
+  <div class="content" id="content">
+    <h1>Baltazar</h1>
+    
+    <div class="age-notice">
+      <p><strong>Real Genetics. Real Passion.</strong></p>
+      <p>By entering this site you confirm that you are 21 years or older and understand that this website is intended for cannabis growers and breeders.</p>
+    </div>
 
-  <!-- Overlay für Fade -->
-  <div id="fadeOverlay"></div>
-
-  <!-- Inhalt -->
-  <div class="wrap" id="content">
-    <h1>WELCOME</h1>
-    <p>
-      Baltazar Seeds is the place for passionate Cannabis Growers & Breeders.  
-      Every Strain is crafted with precision, tested for Quality and designed for true Enthusiasts.  
-      Real Genetics. Real Passion. Real Cannabis. It's time for a New World Life!!
-    </p>
-    <p>
-      <b>By entering this Site</b><br>
-      <b>you Confirm that you are 21+</b><br>
-      <b>and understand that this Website is for</b><br>
-      <b>Cannabis Growers and Breeders</b>
-    </p>
-
-    <!-- Buttons -->
-    <a href="https://www.disneylandparis.com/de-de" class="btn">Go to Disneyland</a>
-    <a href="seite3.html" class="btn" id="enter21"> I Agree!! I’m 21+ Let Me In!</a>
+    <a href="seite3.html" class="btn" id="enterBtn">I AM 21+ — LET ME IN</a>
   </div>
 
   <script>
-    const overlay = document.getElementById('fadeOverlay');
-    const content = document.getElementById('content');
-
-    // Fade-in beim Laden
+    // Einfacher Fade-In beim Laden
     window.addEventListener('load', () => {
-      content.style.opacity = 1;
-      overlay.style.opacity = 0;
+      document.documentElement.classList.add('loaded');
     });
 
-    // Fade-out beim Button-Klick
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = this.href;
-        overlay.style.opacity = 1;
-        content.style.opacity = 0;
-        setTimeout(() => {
-          window.location = target;
-        }, 1000);
-      });
+    // Fade-Out beim Klick
+    document.getElementById('enterBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      const content = document.getElementById('content');
+      content.style.transition = 'opacity 1s ease';
+      content.style.opacity = '0';
+      
+      setTimeout(() => {
+        window.location.href = this.href;
+      }, 900);
     });
   </script>
-
 </body>
 </html>
