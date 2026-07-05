@@ -1,115 +1,1224 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Baltazar Seeds – Hauptseite</title>
-  <!-- Google Font: Nosifer -->
-  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>BALTAZAR SEEDS | 420 Universe | IMANVANRULER@BALTAZARSEEDS.COM</title>
+  <meta name="description" content="BALTAZAR SEEDS 420 universe with apparel drops framed hemp leaves chains pendants sound and community">
+  <meta name="theme-color" content="#030403">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="BALTAZAR SEEDS | 420 Universe">
+  <meta property="og:description" content="BALTAZAR SEEDS 420 universe with apparel drops framed hemp leaves chains pendants sound and community">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="CATLOGO.JPG">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600;6..96,700;6..96,800&family=Space+Grotesk:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
   <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow-y: auto; /* Scrollen erlaubt */
-      font-family: 'Nosifer', cursive;
-      color: #ff0b0b;
-      background: #000;
+    :root {
+      --bg:#030403;
+      --panel:#090c09;
+      --panel2:#0d120d;
+      --soft:#121912;
+      --line:rgba(217,255,196,.15);
+      --line2:rgba(255,255,255,.09);
+      --text:#f4f3e8;
+      --muted:#aab39e;
+      --faint:#697160;
+      --green:#b8ff72;
+      --green2:#63d471;
+      --gold:#d7b56d;
+      --orange:#d9783d;
+      --danger:#d9783d;
+      --shadow:0 30px 90px rgba(0,0,0,.55);
+      --radius:28px;
+      --max:1220px;
+      --nav-h:78px;
+      --ease:cubic-bezier(.2,.8,.2,1);
     }
 
-    /* Video-Hintergrund */
-    .video-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      z-index: -1;
+    * { box-sizing:border-box; }
+
+    html {
+      scroll-behavior:smooth;
+      background:var(--bg);
+      scrollbar-gutter:stable;
     }
 
-    .wrap {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 10vh 4vw;
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior:auto; }
+      *, *::before, *::after {
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+        transition-duration:.01ms !important;
+      }
+    }
+
+    body {
+      margin:0;
+      min-height:100vh;
+      font-family:"Space Grotesk", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(184,255,114,.18), transparent 32rem),
+        radial-gradient(circle at 88% 15%, rgba(217,120,61,.13), transparent 28rem),
+        radial-gradient(circle at 50% 100%, rgba(99,212,113,.09), transparent 36rem),
+        linear-gradient(180deg,#020302 0%,#060806 46%,#020302 100%);
+      overflow-x:hidden;
+      text-rendering:optimizeLegibility;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    body::before {
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.22;
+      z-index:-1;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size:70px 70px;
+      mask-image:linear-gradient(to bottom, rgba(0,0,0,.75), transparent 88%);
+    }
+
+    body::after {
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:50;
+      opacity:.075;
+      background:repeating-linear-gradient(0deg, rgba(255,255,255,.18) 0, rgba(255,255,255,.18) 1px, transparent 1px, transparent 4px);
+      mix-blend-mode:soft-light;
+    }
+
+    a { color:inherit; text-decoration:none; }
+    img { display:block; max-width:100%; }
+    button, input, select { font:inherit; }
+    ::selection { background:rgba(184,255,114,.32); color:var(--text); }
+
+    :focus-visible {
+      outline:2px solid rgba(184,255,114,.9);
+      outline-offset:4px;
+      border-radius:14px;
+    }
+
+    .skip-link {
+      position:fixed;
+      left:18px;
+      top:14px;
+      z-index:100;
+      padding:12px 16px;
+      border-radius:999px;
+      color:#071006;
+      background:linear-gradient(135deg,var(--green),var(--green2));
+      font-weight:900;
+      transform:translateY(-140%);
+      transition:.2s ease;
+    }
+
+    .skip-link:focus { transform:translateY(0); }
+    .page { width:min(var(--max), calc(100% - 34px)); margin:0 auto; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+    .topbar {
+      position:sticky;
+      top:0;
+      z-index:40;
+      border-bottom:1px solid var(--line2);
+      background:rgba(3,4,3,.76);
+      backdrop-filter:blur(22px);
+      -webkit-backdrop-filter:blur(22px);
+    }
+
+    .nav-inner {
+      width:min(var(--max), calc(100% - 34px));
+      margin:0 auto;
+      min-height:var(--nav-h);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+    }
+
+    .brand { display:flex; align-items:center; gap:13px; min-width:230px; }
+    .brand img {
+      width:48px;
+      height:48px;
+      object-fit:cover;
+      border-radius:16px;
+      border:1px solid rgba(184,255,114,.25);
+      box-shadow:0 0 34px rgba(184,255,114,.12);
+      background:#060806;
+    }
+
+    .brand-name { display:block; font-weight:900; letter-spacing:.16em; font-size:.9rem; line-height:1.1; }
+    .brand-sub { display:block; margin-top:5px; font-size:.69rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
+
+    nav { display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; }
+    nav a {
+      min-height:38px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:0 13px;
+      border:1px solid transparent;
+      border-radius:999px;
+      color:#dfe5d5;
+      font-size:.78rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      transition:transform .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease), color .25s var(--ease);
+    }
+
+    nav a:hover { color:var(--green); border-color:rgba(184,255,114,.25); background:rgba(184,255,114,.06); transform:translateY(-1px); }
+
+    .mobile-toggle {
+      display:none;
+      width:46px;
+      height:46px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      font-size:1rem;
+      cursor:pointer;
+    }
+
+    .hero { position:relative; padding:58px 0 42px; }
+    .hero-main, .section-shell, .community-shell {
+      border:1px solid var(--line2);
+      background:linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+    }
+
+    .hero-main {
+      position:relative;
+      overflow:hidden;
+      border-radius:42px;
+      padding:clamp(30px, 5vw, 68px);
+      min-height:clamp(560px, 74vh, 760px);
+      display:flex;
+      align-items:flex-end;
+      isolation:isolate;
+    }
+
+    .hero-main::before {
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:-2;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.84), rgba(0,0,0,.44) 48%, rgba(0,0,0,.72)),
+        radial-gradient(circle at 20% 20%, rgba(184,255,114,.16), transparent 34rem),
+        url('CATLOGO.JPG') center/cover no-repeat;
+      opacity:.74;
+      transform:scale(1.02);
+      filter:saturate(.82) contrast(1.12);
+    }
+
+    .hero-main::after {
+      content:"";
+      position:absolute;
+      inset:18px;
+      z-index:-1;
+      border-radius:30px;
+      border:1px solid rgba(244,243,232,.075);
+      pointer-events:none;
+      box-shadow:inset 0 0 80px rgba(0,0,0,.44);
+    }
+
+    .hero-content { position:relative; z-index:2; width:min(860px, 100%); }
+    .kicker, .section-kicker {
+      display:inline-flex;
+      align-items:center;
+      gap:9px;
+      padding:9px 13px;
+      border:1px solid rgba(184,255,114,.22);
+      border-radius:999px;
+      color:var(--green);
+      background:rgba(184,255,114,.055);
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      font-size:.72rem;
+      font-weight:800;
+    }
+
+    .kicker::before, .section-kicker::before {
+      content:"";
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--green);
+      box-shadow:0 0 18px rgba(184,255,114,.9);
+      flex:0 0 auto;
     }
 
     h1 {
-      font-size: clamp(36px, 12vw, 120px);
-      margin: 0 0 1rem;
-      text-transform: uppercase;
-      color: #ff0b0b;
-      text-shadow: 0 2px 4px black;
-      position: relative;
-      display: inline-block;
+      margin:24px 0 0;
+      max-width:100%;
+      font-family:"Bodoni Moda", "Unbounded", serif;
+      font-size:clamp(4.4rem, 13vw, 10.8rem);
+      letter-spacing:-.085em;
+      line-height:.82;
+      text-transform:uppercase;
+      font-weight:800;
+      text-wrap:balance;
     }
 
-    /* Blut-Tropfen Effekt */
-    h1::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: -10px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #ff0b0b;
-      box-shadow:
-        -120px 10px 0 -2px #ff0b0b,
-        -60px 15px 0 -3px #b30000,
-        0px 20px 0 -2px #ff0b0b,
-        60px 10px 0 -2px #b30000,
-        120px 15px 0 -3px #ff0b0b;
-      animation: dropFall 9s infinite ease-in-out;
+    h1 span { display:block; color:transparent; -webkit-text-stroke:1px rgba(244,243,232,.86); text-shadow:0 0 46px rgba(184,255,114,.18); letter-spacing:-.075em; }
+    .hero-copy { max-width:680px; margin:26px 0 0; color:#d7dece; font-size:clamp(1rem, 1.45vw, 1.18rem); line-height:1.72; }
+    .hero-actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:30px; }
+
+    .btn, .primary-btn, .ghost-btn, .dark-btn {
+      min-height:48px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:0 18px;
+      border-radius:999px;
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:.76rem;
+      transition:transform .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease), box-shadow .25s var(--ease), color .25s var(--ease);
+      cursor:pointer;
+      user-select:none;
     }
 
-    @keyframes dropFall {
-      0%   { transform: translateX(-50%) translateY(0); opacity: 1; }
-      50%  { transform: translateX(-50%) translateY(10px); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
+    .primary-btn { border:1px solid rgba(184,255,114,.44); color:#061006; background:linear-gradient(135deg, var(--green), var(--green2)); box-shadow:0 20px 45px rgba(99,212,113,.16); }
+    .ghost-btn { border:1px solid rgba(244,243,232,.18); color:var(--text); background:rgba(255,255,255,.055); }
+    .dark-btn, .btn { border:1px solid rgba(184,255,114,.18); color:var(--text); background:rgba(0,0,0,.28); }
+    .primary-btn:hover, .ghost-btn:hover, .dark-btn:hover, .btn:hover { transform:translateY(-3px); border-color:rgba(184,255,114,.45); box-shadow:0 24px 70px rgba(0,0,0,.38); }
+
+    .hero-mark {
+      position:absolute;
+      z-index:2;
+      top:clamp(24px,4vw,44px);
+      right:clamp(24px,4vw,44px);
+      width:min(210px, 24vw);
+      aspect-ratio:1;
+      border:1px solid rgba(244,243,232,.12);
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:rgba(0,0,0,.22);
+      color:rgba(244,243,232,.58);
+      font-family:"Unbounded", sans-serif;
+      font-size:.62rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      text-align:center;
+      line-height:1.55;
     }
 
-    p {
-      font-size: 1.5rem;
-      text-shadow: 0 1px 3px black;
-      margin: 0.5rem 0 1rem;
+    .section { padding:42px 0; scroll-margin-top:calc(var(--nav-h) + 24px); }
+    .section-shell { border-radius:34px; padding:34px; overflow:hidden; }
+    .section-head h2, .community-shell h2 { margin:22px 0 0; font-family:"Unbounded", "Space Grotesk", ui-sans-serif, system-ui, sans-serif; font-size:clamp(1.65rem, 3.35vw, 2.85rem); line-height:1.05; letter-spacing:-.05em; max-width:760px; }
+    .section-copy p, .community-shell p { color:var(--muted); line-height:1.8; font-size:.98rem; }
+
+    .overview-shell { position:relative; isolation:isolate; }
+    .overview-shell::before {
+      content:"";
+      position:absolute;
+      inset:-1px;
+      z-index:-1;
+      border-radius:inherit;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(184,255,114,.16), transparent 22rem),
+        radial-gradient(circle at 88% 12%, rgba(215,181,109,.12), transparent 20rem),
+        linear-gradient(135deg, rgba(184,255,114,.08), transparent 42%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .overview-intro { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:28px; align-items:end; margin-bottom:28px; }
+    .overview-copy { margin:0; max-width:620px; color:var(--muted); line-height:1.8; font-size:.98rem; }
+    .overview-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:13px; }
+    .overview-card {
+      position:relative;
+      overflow:hidden;
+      min-height:190px;
+      border:1px solid var(--line2);
+      border-radius:24px;
+      padding:22px;
+      background:linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.022));
+      transition:transform .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease), box-shadow .25s var(--ease);
+    }
+    .overview-card::after { content:""; position:absolute; inset:0; background:linear-gradient(115deg, transparent 0%, rgba(255,255,255,.08) 42%, transparent 58%); transform:translateX(-120%); transition:transform .75s var(--ease); pointer-events:none; }
+    .overview-card:hover { transform:translateY(-5px); border-color:rgba(184,255,114,.3); background:linear-gradient(145deg, rgba(184,255,114,.075), rgba(255,255,255,.026)); box-shadow:0 24px 70px rgba(0,0,0,.34), 0 0 34px rgba(184,255,114,.08); }
+    .overview-card:hover::after { transform:translateX(120%); }
+    .overview-card i { color:var(--green); font-size:1.25rem; }
+    .overview-card h3 { margin:18px 0 8px; font-size:1.18rem; letter-spacing:-.02em; }
+    .overview-card p { margin:0; color:var(--muted); line-height:1.62; font-size:.9rem; }
+    .overview-card strong { color:#f2ead0; font-weight:900; }
+    .overview-card[data-jump] { cursor:pointer; }
+    .overview-note { margin-top:16px; display:grid; grid-template-columns:repeat(4,1fr); gap:13px; }
+    .note-pill { border:1px solid rgba(184,255,114,.14); border-radius:999px; padding:11px 13px; background:rgba(0,0,0,.24); color:#cfd7c4; font-size:.76rem; text-transform:uppercase; letter-spacing:.08em; text-align:center; }
+
+    .collection-top { display:flex; justify-content:space-between; gap:20px; align-items:flex-end; margin-bottom:18px; }
+    .collection-count { display:flex; gap:10px; flex-wrap:wrap; }
+    .count-pill { border:1px solid var(--line2); border-radius:999px; padding:10px 13px; color:var(--muted); background:rgba(0,0,0,.22); font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; }
+
+    .filter-bar { display:grid; grid-template-columns:1.4fr minmax(180px,.55fr) minmax(170px,.45fr); gap:12px; margin:0 0 22px; align-items:center; }
+    .filter-buttons { display:flex; gap:9px; flex-wrap:wrap; }
+    .filter-buttons button, .search-box, select {
+      min-height:46px;
+      border:1px solid var(--line2);
+      border-radius:999px;
+      background:rgba(0,0,0,.28);
+      color:var(--text);
+      padding:0 15px;
+      outline:none;
+    }
+    .filter-buttons button { cursor:pointer; color:var(--muted); text-transform:uppercase; letter-spacing:.09em; font-size:.73rem; font-weight:900; transition:.2s ease; }
+    .filter-buttons button.active, .filter-buttons button[aria-pressed="true"] { color:#071006; background:linear-gradient(135deg,var(--green),var(--green2)); border-color:transparent; }
+    .search-box::placeholder { color:var(--faint); }
+    select { appearance:none; background-image:linear-gradient(45deg,transparent 50%, var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%, transparent 50%); background-position:calc(100% - 20px) 20px, calc(100% - 14px) 20px; background-size:6px 6px; background-repeat:no-repeat; padding-right:38px; }
+
+    .grid-wrap { position:relative; min-height:200px; }
+    .strain-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:17px; }
+    .product-card { position:relative; overflow:hidden; border:1px solid var(--line2); border-radius:28px; background:linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.025)); box-shadow:0 18px 55px rgba(0,0,0,.28); transition:transform .25s var(--ease), border-color .25s var(--ease), box-shadow .25s var(--ease); min-height:100%; display:flex; flex-direction:column; content-visibility:auto; contain-intrinsic-size:420px; isolation:isolate; }
+    .product-card::before { content:""; position:absolute; inset:-1px; z-index:-1; border-radius:inherit; background:radial-gradient(circle at var(--mx, 50%) var(--my, 18%), rgba(184,255,114,.22), transparent 18rem); opacity:0; transition:opacity .25s var(--ease); pointer-events:none; }
+    .product-card::after { content:""; position:absolute; inset:0; z-index:1; border-radius:inherit; background:linear-gradient(115deg, transparent 0%, rgba(255,255,255,.09) 43%, transparent 58%); transform:translateX(-125%); transition:transform .7s var(--ease); pointer-events:none; mix-blend-mode:screen; }
+    .product-card:hover { transform:translateY(-6px); border-color:rgba(184,255,114,.3); box-shadow:0 30px 80px rgba(0,0,0,.45), 0 0 36px rgba(184,255,114,.08); }
+    .product-card:hover::before { opacity:1; }
+    .product-card:hover::after { transform:translateX(125%); }
+    .product-card.missing-image .image-wrap::after { content:"Image fallback"; position:absolute; left:12px; bottom:12px; padding:7px 10px; border-radius:999px; background:rgba(0,0,0,.5); color:var(--muted); font-size:.7rem; letter-spacing:.08em; text-transform:uppercase; }
+
+    .image-wrap { position:relative; aspect-ratio:1/1; overflow:hidden; background:#070907; }
+    .image-wrap img { width:100%; height:100%; object-fit:cover; transform:scale(1.01); transition:transform .35s var(--ease), filter .35s var(--ease); background:#070907; }
+    .product-card:hover .image-wrap img { transform:scale(1.055); filter:saturate(1.08) contrast(1.04); }
+
+    .drop-chip, .class-chip { position:absolute; top:12px; z-index:2; padding:7px 10px; border-radius:999px; font-size:.69rem; font-weight:950; letter-spacing:.12em; text-transform:uppercase; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.16); background:rgba(0,0,0,.48); max-width:calc(100% - 24px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .drop-chip { left:12px; color:var(--green); }
+    .class-chip { right:12px; color:#f1e1b2; }
+
+    .info { padding:19px; display:flex; flex-direction:column; flex:1; }
+    .info h3 { margin:0; font-size:1.05rem; letter-spacing:-.02em; overflow-wrap:anywhere; }
+    .info p { margin:10px 0 0; color:var(--muted); line-height:1.55; font-size:.88rem; }
+    .card-meta { display:flex; flex-wrap:wrap; gap:7px; margin:17px 0; }
+    .card-meta span { padding:7px 9px; border-radius:999px; background:rgba(255,255,255,.055); border:1px solid var(--line2); color:#cfd7c4; font-size:.7rem; text-transform:uppercase; letter-spacing:.08em; }
+    .info .btn { margin-top:auto; width:100%; }
+
+    .empty-state { display:none; padding:28px; border:1px solid var(--line2); border-radius:24px; color:var(--muted); background:rgba(0,0,0,.24); text-align:center; }
+
+    .community-shell { border-radius:34px; padding:34px; overflow:hidden; }
+    .community-head { display:flex; justify-content:space-between; gap:20px; align-items:flex-end; margin-bottom:22px; }
+    .community-frame { border:1px solid var(--line2); border-radius:28px; overflow:hidden; min-height:520px; background:#050705; }
+    .community-frame iframe { display:block; width:100%; height:620px; border:0; background:#050705; }
+
+    footer { padding:46px 0 54px; color:var(--muted); text-align:center; }
+    .footer-socials { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+    .footer-socials a { width:44px; height:44px; display:grid; place-items:center; border-radius:999px; border:1px solid var(--line2); background:rgba(255,255,255,.04); transition:transform .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease); }
+    .footer-socials a:hover { color:var(--green); border-color:rgba(184,255,114,.35); transform:translateY(-3px); }
+    .fineprint { max-width:860px; margin:16px auto 0; font-size:.78rem; line-height:1.8; color:var(--faint); }
+
+    .reveal { opacity:0; transform:translateY(18px); transition:opacity .55s var(--ease), transform .55s var(--ease); }
+    .reveal.is-visible { opacity:1; transform:translateY(0); }
+
+    @media (max-width:1040px) {
+      .overview-intro { grid-template-columns:1fr; align-items:start; }
+      .overview-grid, .overview-note, .strain-grid { grid-template-columns:repeat(2,1fr); }
+      .filter-bar { grid-template-columns:1fr; }
+      nav { display:none; position:absolute; left:17px; right:17px; top:80px; padding:14px; border:1px solid var(--line2); border-radius:24px; background:rgba(3,4,3,.96); box-shadow:var(--shadow); justify-content:flex-start; }
+      nav.open { display:flex; }
+      .mobile-toggle { display:grid; place-items:center; }
     }
 
-    /* Logo klein */
-    .logo-img {
-      max-width: 120px;
-      width: 100%;
-      height: auto;
-      margin: 1rem auto;
-      border: 2px solid #ff0b0b;
-      border-radius: 6px;
-      background: rgba(0,0,0,0.3);
-      box-shadow: 0 4px 12px rgba(255,0,0,0.3);
-      display: block;
+    @media (max-width:640px) {
+      .page, .nav-inner { width:min(100% - 22px, var(--max)); }
+      .hero { padding-top:32px; }
+      .hero-main, .section-shell, .community-shell { border-radius:26px; padding:22px; }
+      .hero-main { min-height:540px; align-items:flex-end; }
+      .hero-mark { display:none; }
+      h1 { font-size:clamp(3.25rem, 17vw, 5.4rem); line-height:.86; letter-spacing:-.075em; }
+      .overview-grid, .overview-note, .strain-grid { grid-template-columns:1fr; }
+      .collection-top, .community-head { align-items:flex-start; flex-direction:column; }
+      .brand { min-width:0; }
+      .brand-sub { display:none; }
+      .community-frame iframe { height:520px; }
+      .filter-buttons { display:grid; grid-template-columns:1fr 1fr; }
+      .filter-buttons button { width:100%; }
     }
   </style>
 </head>
 <body>
-  <!-- Hintergrundvideo -->
-  <video class="video-bg" autoplay muted loop playsinline preload="auto">
-    <source src="INTRO.mp4" type="video/mp4">
-    Dein Browser unterstützt kein HTML5-Video.
-  </video>
+  <a class="skip-link" href="#drops">Skip to products</a>
 
-  <!-- Inhalt -->
-  <div class="wrap">
-    <h1>Baltazar Seeds</h1>
-    <p>WELCOME TO HELL</p>
+  <header class="topbar">
+    <div class="nav-inner">
+      <a class="brand" href="index.html" aria-label="BALTAZAR SEEDS Home">
+        <img src="CATLOGO.JPG" alt="BALTAZAR SEEDS Logo" width="48" height="48" decoding="async">
+        <span class="brand-copy">
+          <span class="brand-name">BALTAZAR SEEDS</span>
+          <span class="brand-sub">420 Universe</span>
+        </span>
+      </a>
 
-    <!-- kleines Logo -->
-    <img src="IMG_7975.PNG" alt="Baltazar Logo" class="logo-img">
+      <button class="mobile-toggle" id="mobileToggle" type="button" aria-label="Open menu" aria-controls="mainNav" aria-expanded="false">
+        <i class="fa-solid fa-bars" aria-hidden="true"></i>
+      </button>
 
-    <!-- Beispielinhalt zum Scrollen -->
-    <div style="max-width:800px; margin:2rem auto; color:#ffdcdc; line-height:1.5; padding:0 1rem;">
-      <p>Hier kann zusätzlicher Inhalt stehen, sodass du nach unten scrollen kannst.</p>
-      <p>Mehr Inhalt, Links oder weitere Sektionen einfügen.</p>
-      <div style="height:1200px;"></div>
+      <nav id="mainNav" aria-label="Main navigation">
+        <a href="#drops">Drops</a>
+        <a href="#classes">Classes</a>
+        <a href="/community/">Community</a>
+        <a href="player.html">Sound</a>
+        <a href="fun.html">Fun</a>
+        <a href="impressum.html">Contact</a>
+      </nav>
     </div>
-  </div>
+  </header>
+
+  <main id="main">
+    <section class="hero page" id="top" aria-labelledby="heroTitle">
+      <div class="hero-main reveal">
+        <div class="hero-mark">ORIGINAL<br>420 UNIVERSE</div>
+        <div class="hero-content">
+          <div class="kicker">NEW WORLD LIFE</div>
+          <h1 id="heroTitle">BALTAZAR<span>SEEDS</span></h1>
+          <p class="hero-copy">An underground world of clothing, framed hemp leaves, jewelry, sound and community</p>
+          <div class="hero-actions">
+            <a href="#drops" class="primary-btn"><i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i>Enter Drops</a>
+            <a href="/community/" class="ghost-btn"><i class="fa-solid fa-comments" aria-hidden="true"></i>Community</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section page" id="classes" aria-labelledby="classesTitle">
+      <div class="section-shell overview-shell reveal">
+        <div class="overview-intro">
+          <div class="section-head">
+            <div class="section-kicker">Shop System</div>
+            <h2 id="classesTitle">Product families with clear prices and collector character</h2>
+          </div>
+          <p class="overview-copy">
+            BALTAZAR SEEDS works like a small 420 archive: every drop has its own identity, every category stays easy to understand, and every item is presented as a calm, mysterious and intentional artifact.
+          </p>
+        </div>
+
+        <div class="overview-grid">
+          <a href="#drops" class="overview-card" data-jump="APPAREL">
+            <i class="fa-solid fa-shirt" aria-hidden="true"></i>
+            <h3>T Shirts</h3>
+            <p>Numbered apparel drops with front and back visuals, smoke humor, underground mythology and a fixed price of <strong>29,90 €</strong>.</p>
+          </a>
+
+          <a href="#drops" class="overview-card" data-jump="FRAME">
+            <i class="fa-solid fa-leaf" aria-hidden="true"></i>
+            <h3>Leaf Frames</h3>
+            <p>Real hemp leaf art presented as botanical wall pieces with wood, glass and light metal material language for <strong>19,90 €</strong>.</p>
+          </a>
+
+          <a href="#drops" class="overview-card" data-jump="JEWELRY">
+            <i class="fa-solid fa-gem" aria-hidden="true"></i>
+            <h3>Chains And Pendants</h3>
+            <p>Wearable peace, harmony and world symbols from the 420 universe with a fixed jewelry price of <strong>09,90 €</strong>.</p>
+          </a>
+
+          <a href="/community/" class="overview-card">
+            <i class="fa-solid fa-comments" aria-hidden="true"></i>
+            <h3>Community</h3>
+            <p>Guestbook, smoke reports, music moods and underground notes from people moving through the BALTAZAR SEEDS world.</p>
+          </a>
+        </div>
+
+        <div class="overview-note" aria-label="BALTAZAR SEEDS shop notes">
+          <div class="note-pill">Unique visual identity</div>
+          <div class="note-pill">Fixed clear pricing</div>
+          <div class="note-pill">Small drop archive</div>
+          <div class="note-pill">Handled with intention</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section page" id="drops" aria-labelledby="dropsTitle">
+      <div class="section-shell reveal">
+        <div class="collection-top">
+          <div class="section-head">
+            <div class="section-kicker">Drops</div>
+            <h2 id="dropsTitle">All existing product pages in one archive</h2>
+            <p class="hero-copy">Filter by class search by name or sort the archive without breaking the structure</p>
+          </div>
+          <div class="collection-count" aria-live="polite">
+            <div class="count-pill"><span id="visibleCount">0</span> Visible</div>
+            <div class="count-pill"><span id="totalCount">0</span> Total</div>
+          </div>
+        </div>
+
+        <div class="filter-bar" role="search" aria-label="Product search and filters">
+          <div class="filter-buttons" aria-label="Product filters">
+            <button class="active" type="button" data-category="all" aria-pressed="true">All</button>
+            <button type="button" data-category="APPAREL" aria-pressed="false">Apparel</button>
+            <button type="button" data-category="FRAME" aria-pressed="false">Leaf Frames</button>
+            <button type="button" data-category="JEWELRY" aria-pressed="false">Jewelry</button>
+          </div>
+
+          <label class="sr-only" for="searchBox">Search Signal</label>
+          <input class="search-box" id="searchBox" type="search" placeholder="Search Signal" autocomplete="off" inputmode="search">
+
+          <label class="sr-only" for="sortSelect">Sort products</label>
+          <select id="sortSelect" aria-label="Sort products">
+            <option value="featured">Featured First</option>
+            <option value="name">Name A Z</option>
+            <option value="price">Price Low First</option>
+            <option value="category">Class</option>
+          </select>
+        </div>
+
+        <div class="grid-wrap">
+          <div class="empty-state" id="emptyState" role="status">No matching signal found</div>
+          <section class="strain-grid" id="productGrid" aria-live="polite" aria-busy="true"></section>
+        </div>
+      </div>
+    </section>
+
+    <section class="section page" id="community" aria-labelledby="communityTitle">
+      <div class="community-shell reveal">
+        <div class="community-head">
+          <div>
+            <div class="section-kicker">Community Wall</div>
+            <h2 id="communityTitle">Underground Feed</h2>
+            <p>New York Smoke reports late night thoughts London rain moods Amsterdam energy Berlin baseline pressure Tehran street Ganja and digital 420 atmosphere from inside the BALTAZAR SEEDS world</p>
+          </div>
+          <a href="/community/" class="primary-btn"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>Full Page</a>
+        </div>
+
+        <div class="community-frame">
+          <iframe src="/community/" loading="lazy" title="BALTAZAR SEEDS Community"></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page">
+    <div class="footer-socials">
+      <a href="impressum.html" aria-label="Contact"><i class="fas fa-envelope" aria-hidden="true"></i></a>
+      <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fab fa-x-twitter" aria-hidden="true"></i></a>
+      <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+      <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+      <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener noreferrer" aria-label="SoundCloud"><i class="fab fa-soundcloud" aria-hidden="true"></i></a>
+    </div>
+
+    <p>© 2026 <strong>BALTAZAR SEEDS</strong> Tehran Berlin Amsterdam Watton Underground 420 Universe</p>
+    <p class="fineprint">Product images are visual references Every item is individually prepared as a unique or limited artifact so small differences can appear Shipping may take longer because every piece is handled with intention Any mention of genetics seeds or secret bonus belongs to the mysterious BALTAZAR SEEDS 420 universe and is not a guaranteed public product promise</p>
+  </footer>
+
+  <noscript>
+    <div class="page" style="padding:20px;color:#f4f3e8;background:#090c09;border:1px solid rgba(255,255,255,.12);border-radius:18px;margin-bottom:28px;">This page needs JavaScript to load the product archive.</div>
+  </noscript>
+
+  <script>
+const products = [
+  {
+    "cat": "APPAREL",
+    "cls": "HOODIE",
+    "num": 1,
+    "name": "TREASURE CHEST",
+    "price": "49,90 €",
+    "img": "MERCH1.JPG",
+    "link": "merch1.html",
+    "desc": "Black heavyweight hoodie with a small treasure chest emblem inspired by hidden wealth"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 2,
+    "name": "OCEAN LEAF",
+    "price": "29,90 €",
+    "img": "MERCH2.JPG",
+    "link": "merch2.html",
+    "desc": "Ocean inspired floating hemp leaf surrounded by deep blue waves"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 3,
+    "name": "PSYCHEDELIC LEAF",
+    "price": "29,90 €",
+    "img": "MERCH3.JPG",
+    "link": "merch3.html",
+    "desc": "Trippy all over leaf design with hypnotic hemp vibes"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 4,
+    "name": "BADFARMERS GENETICS",
+    "price": "29,90 €",
+    "img": "MERCH4.JPG",
+    "link": "merch4.html",
+    "desc": "Colorful artwork graphics mixed with vibrant graffiti aesthetics"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 5,
+    "name": "THE CHLOROPHYLL HAS TO GO",
+    "price": "29,90 €",
+    "img": "MERCH5.JPG",
+    "link": "merch5.html",
+    "desc": "Vintage clock with rebellious grower attitude"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 6,
+    "name": "NEON PIPE",
+    "price": "29,90 €",
+    "img": "MERCH6A.JPG",
+    "link": "merch6.html",
+    "desc": "Glowing neon pipe inspired by neon lights and smoking culture"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 7,
+    "name": "ZOMBIE VISION",
+    "price": "29,90 €",
+    "img": "MERCH7A.JPG",
+    "link": "merch7.html",
+    "desc": "...so potent that it leaves you frozen like a zombie"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 8,
+    "name": "COSMIC RESIN",
+    "price": "29,90 €",
+    "img": "MERCH8A.JPG",
+    "link": "merch8.html",
+    "desc": "Cosmic cannabis inspired design with vibrant nebula visuals"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 9,
+    "name": "STAY BLAZED",
+    "price": "29,90 €",
+    "img": "MERCH9A.JPG",
+    "link": "merch9.html",
+    "desc": "Pink rabbit artwork with smoky 420 street aesthetics"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 10,
+    "name": "VENOM 420",
+    "price": "29,90 €",
+    "img": "MERCH10A.JPG",
+    "link": "merch10.html",
+    "desc": "Reptile inspired design mixed with toxic green 420 visuals"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 11,
+    "name": "SMOKING DEAD",
+    "price": "29,90 €",
+    "img": "MERCH11A.JPG",
+    "link": "merch11.html",
+    "desc": "Melting smoker with a big bong"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 12,
+    "name": "BONG SWEET BONG",
+    "price": "29,90 €",
+    "img": "MERCH12A.JPG",
+    "link": "merch12.html",
+    "desc": "Graffiti style artwork bold electric lettering"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 13,
+    "name": "RED OMEN",
+    "price": "29,90 €",
+    "img": "MERCH13A.JPG",
+    "link": "merch13.html",
+    "desc": "Black cat dark demonic ritual"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 14,
+    "name": "BONG LIFE",
+    "price": "29,90 €",
+    "img": "MERCH14A.JPG",
+    "link": "merch14.html",
+    "desc": "Mushroom psychedelic alien"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 15,
+    "name": "CALM & CREATIVE",
+    "price": "29,90 €",
+    "img": "MERCH15A.JPG",
+    "link": "merch15.html",
+    "desc": "Minimal black design focused on relaxed creative energy"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 16,
+    "name": "ALWAYS FUNNY ALWAYS HUNGRY ALWAYS TIRED",
+    "price": "29,90 €",
+    "img": "MERCH16A.JPG",
+    "link": "merch16.html",
+    "desc": "420 Stoner design inspired by everyday smoke culture"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 17,
+    "name": "RICH IN MIND",
+    "price": "29,90 €",
+    "img": "MERCH17A.JPG",
+    "link": "merch17.html",
+    "desc": "Treasure chest artwork inspired by mindset over money"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 18,
+    "name": "SMOKE TILL BONES",
+    "price": "29,90 €",
+    "img": "MERCH18A.JPG",
+    "link": "merch18.html",
+    "desc": "Skeleton artwork beside a chained cannabis plant"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 19,
+    "name": "STAY SURREAL",
+    "price": "29,90 €",
+    "img": "MERCH19A.JPG",
+    "link": "merch19.html",
+    "desc": "Abstract dreamlike colorful psychedelic artwork with distorted surreal visuals"
+  },
+  {
+    "cat": "APPAREL",
+    "cls": "T Shirt",
+    "num": 20,
+    "name": "CREAM AND CARAMEL",
+    "price": "29,90 €",
+    "img": "MERCH20A.JPG",
+    "link": "merch20.html",
+    "desc": "Red and white design inspired by classic retro aesthetics"
+  },
+  {
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 1,
+    "name": "Golden #01",
+    "price": "19,90 €",
+    "img": "LEAFRAME1.JPG",
+    "link": "LEFRAME1.html",
+    "desc": "Baltazar Seeds Number One Golden Hemp Frame"
+  },
+  {
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 2,
+    "name": "Silver #02",
+    "price": "19,90 €",
+    "img": "LEAFRAME2.JPG",
+    "link": "LEFRAME2.html",
+    "desc": "Focused, more minimal and classic"
+  },
+  {
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 3,
+    "name": "Bronze #03",
+    "price": "19,90 €",
+    "img": "LEAFRAME3.JPG",
+    "link": "LEFRAME3.html",
+    "desc": "Richer, darker and more antique"
+  },
+  {
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 4,
+    "name": "Museum #04",
+    "price": "19,90 €",
+    "img": "LEAFRAME4.JPG",
+    "link": "LEFRAME4.html",
+    "desc": "Underground botanical archive and luxury wall object"
+  },
+  {
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 5,
+    "name": "Silent Green #05",
+    "price": "19,90 €",
+    "img": "LEAFRAME5.JPG",
+    "link": "LEFRAME5.html",
+    "desc": "Collector piece between botanical archive and 420 minimal wall art"
+  },
+  {
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 6,
+    "name": "Silent Black #06",
+    "price": "19,90 €",
+    "img": "LEAFRAME6.JPG",
+    "link": "LEFRAME6.html",
+    "desc": "Symbol of nature, memory and 420 culture"
+  },
+  {
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 7,
+    "name": "Silent White #07",
+    "price": "19,90 €",
+    "img": "LEAFRAME7.JPG",
+    "link": "LEFRAME7.html",
+    "desc": "Calm, minimal and almost museum-like"
+  },
+  {
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 8,
+    "name": "Botanic Chaos #08",
+    "price": "19,90 €",
+    "img": "LEAFRAME8.JPG",
+    "link": "LEFRAME8.html",
+    "desc": "Layered botanical composition filled with different preserved hemp leaves"
+  },
+  {
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 9,
+    "name": "Amber Sacred #09",
+    "price": "19,90 €",
+    "img": "LEAFRAME9.JPG",
+    "link": "LEFRAME9.html",
+    "desc": "Creating a timeless contrast between nature and elegance"
+  },
+  {
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 10,
+    "name": "Devil #10",
+    "price": "19,90 €",
+    "img": "LEAFRAME10.JPG",
+    "link": "LEFRAME10.html",
+    "desc": "Devilish horns wooden frame"
+  },
+  {
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 11,
+    "name": "Imperial #11",
+    "price": "19,90 €",
+    "img": "LEAFRAME11.JPG",
+    "link": "LEFRAME11.html",
+    "desc": "Luxurious and almost royal atmosphere"
+  },
+  {
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 12,
+    "name": "Royal #12",
+    "price": "19,90 €",
+    "img": "LEAFRAME12.JPG",
+    "link": "LEFRAME12.html",
+    "desc": "Clean white frame with a fine golden edge"
+  },{
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 13,
+    "name": "Let Me Leaf #13",
+    "price": "19,90 €",
+    "img": "LEAFRAME13.JPG",
+    "link": "LEFRAME13.html",
+    "desc": "Warm bronze frame with a balanced preserved hemp leaf and clean collector finish"
+  },{
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 14,
+    "name": "White Gold #14",
+    "price": "19,90 €",
+    "img": "LEAFRAME14.JPG",
+    "link": "LEFRAME14.html",
+    "desc": "Bright white frame with fine gold details and a darker botanical contrast"
+  },{
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 15,
+    "name": "Brushed #15",
+    "price": "19,90 €",
+    "img": "LEAFRAME15.JPG",
+    "link": "LEFRAME15.html",
+    "desc": "Wide brushed gold frame with a centered leaf and structured gallery look"
+  },{
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 16,
+    "name": "Polished #16",
+    "price": "19,90 €",
+    "img": "LEAFRAME16.JPG",
+    "link": "LEFRAME16.html",
+    "desc": "Reflective gold frame with sharper contrast and refined botanical balance"
+  },{
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 17,
+    "name": "Soft Gold #17",
+    "price": "19,90 €",
+    "img": "LEAFRAME17.JPG",
+    "link": "LEFRAME17.html",
+    "desc": "Soft matte gold tones with a minimal and quietly elegant composition"
+  },{
+    "cat": "FRAME",
+    "cls": "Leaf Frame",
+    "num": 18,
+    "name": "Gold Final #18",
+    "price": "19,90 €",
+    "img": "LEAFRAME18.JPG",
+    "link": "LEFRAME18.html",
+    "desc": "Final framed archive piece with deep green tones and balanced gold presentation"
+  },{
+    "cat": "JEWELRY",
+    "cls": "Chain And Pendant",
+    "num": 1,
+    "name": "CRYSTAL LEAF",
+    "price": "9,90 €",
+    "img": "CHAIN1.JPG",
+    "link": "Chain1.html",
+    "desc": "Gold leaf pendant with shiny streetwear details"
+  },
+  {
+    "cat": "JEWELRY",
+    "cls": "Chain And Pendant",
+    "num": 2,
+    "name": "ETHIO CROSS",
+    "price": "9,90 €",
+    "img": "CHAIN2.JPG",
+    "link": "Chain2.html",
+    "desc": "Detailed gold cross pendant inspired by traditional Ethiopian craftsmanship"
+  }
+];
+
+    const state = {
+      activeCategory: 'all',
+      query: '',
+      sort: 'featured'
+    };
+
+    const productGrid = document.getElementById('productGrid');
+    const visibleCount = document.getElementById('visibleCount');
+    const totalCount = document.getElementById('totalCount');
+    const searchBox = document.getElementById('searchBox');
+    const sortSelect = document.getElementById('sortSelect');
+    const emptyState = document.getElementById('emptyState');
+    const filterButtons = Array.from(document.querySelectorAll('[data-category]'));
+    const jumpCards = Array.from(document.querySelectorAll('[data-jump]'));
+    const mobileToggle = document.getElementById('mobileToggle');
+    const mainNav = document.getElementById('mainNav');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function escapeHTML(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function priceNumber(value) {
+      return Number(String(value).replace('€', '').replace(',', '.').trim()) || 0;
+    }
+
+    function safeItem(item) {
+      return {
+        cat: escapeHTML(item.cat),
+        cls: escapeHTML(item.cls),
+        num: Number(item.num) || 0,
+        name: escapeHTML(item.name),
+        price: escapeHTML(item.price),
+        img: encodeURI(String(item.img)),
+        link: encodeURI(String(item.link)),
+        desc: escapeHTML(item.desc)
+      };
+    }
+
+    function cardTemplate(rawItem) {
+      const item = safeItem(rawItem);
+      const number = String(item.num).padStart(2, '0');
+
+      return `
+        <article class="product-card" data-category="${item.cat}">
+          <a class="image-wrap" href="${item.link}" aria-label="Open ${item.name}">
+            <span class="drop-chip">#${number}</span>
+            <span class="class-chip">${item.cls}</span>
+            <img src="${item.img}" alt="${item.name}" loading="lazy" decoding="async" width="600" height="600" onerror="this.closest('.product-card').classList.add('missing-image'); this.onerror=null; this.src='CATLOGO.JPG';">
+          </a>
+          <div class="info">
+            <h3>${item.name}</h3>
+            <p>${item.desc}</p>
+            <div class="card-meta">
+              <span>${item.cls}</span>
+              <span>${item.price}</span>
+              <span>${item.cat}</span>
+            </div>
+            <a class="btn" href="${item.link}"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i>Open Drop</a>
+          </div>
+        </article>
+      `;
+    }
+
+    function sortProducts(list) {
+      const sorted = [...list];
+      const value = state.sort;
+
+      if (value === 'name') sorted.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity:'base' }));
+      if (value === 'price') sorted.sort((a, b) => priceNumber(a.price) - priceNumber(b.price) || a.num - b.num);
+      if (value === 'category') sorted.sort((a, b) => a.cat.localeCompare(b.cat) || a.num - b.num);
+      if (value === 'featured') {
+        const order = { APPAREL: 1, FRAME: 2, JEWELRY: 3 };
+        sorted.sort((a, b) => (order[a.cat] || 99) - (order[b.cat] || 99) || a.num - b.num);
+      }
+
+      return sorted;
+    }
+
+    function filteredProducts() {
+      const query = state.query.trim().toLowerCase();
+
+      return products.filter(item => {
+        const matchCategory = state.activeCategory === 'all' || item.cat === state.activeCategory;
+        const searchable = `${item.name} ${item.desc} ${item.cls} ${item.cat} ${item.price}`.toLowerCase();
+        const matchSearch = !query || searchable.includes(query);
+        return matchCategory && matchSearch;
+      });
+    }
+
+    function renderProducts() {
+      productGrid.setAttribute('aria-busy', 'true');
+      const sorted = sortProducts(filteredProducts());
+
+      productGrid.innerHTML = sorted.map(cardTemplate).join('');
+      visibleCount.textContent = sorted.length;
+      totalCount.textContent = products.length;
+      emptyState.style.display = sorted.length ? 'none' : 'block';
+      productGrid.setAttribute('aria-busy', 'false');
+    }
+
+    function setCategory(category) {
+      state.activeCategory = category;
+      filterButtons.forEach(button => {
+        const active = button.dataset.category === category;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      renderProducts();
+    }
+
+    function debounce(fn, wait = 120) {
+      let timeout;
+      return (...args) => {
+        window.clearTimeout(timeout);
+        timeout = window.setTimeout(() => fn(...args), wait);
+      };
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => setCategory(button.dataset.category));
+    });
+
+    jumpCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const category = card.dataset.jump;
+        const target = filterButtons.find(button => button.dataset.category === category);
+        if (target) target.click();
+      });
+    });
+
+    searchBox.addEventListener('input', debounce(() => {
+      state.query = searchBox.value;
+      renderProducts();
+    }));
+
+    sortSelect.addEventListener('change', () => {
+      state.sort = sortSelect.value;
+      renderProducts();
+    });
+
+    productGrid.addEventListener('pointermove', event => {
+      const card = event.target.closest('.product-card');
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+      card.style.setProperty('--my', `${event.clientY - rect.top}px`);
+    });
+
+    mobileToggle.addEventListener('click', () => {
+      const isOpen = mainNav.classList.toggle('open');
+      mobileToggle.setAttribute('aria-expanded', String(isOpen));
+      const icon = mobileToggle.querySelector('i');
+      icon.classList.toggle('fa-bars', !isOpen);
+      icon.classList.toggle('fa-xmark', isOpen);
+    });
+
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('open');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        const icon = mobileToggle.querySelector('i');
+        icon.classList.add('fa-bars');
+        icon.classList.remove('fa-xmark');
+      });
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && mainNav.classList.contains('open')) {
+        mainNav.classList.remove('open');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        mobileToggle.focus();
+        const icon = mobileToggle.querySelector('i');
+        icon.classList.add('fa-bars');
+        icon.classList.remove('fa-xmark');
+      }
+    });
+
+    function initReveal() {
+      const elements = Array.from(document.querySelectorAll('.reveal'));
+      if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+        elements.forEach(element => element.classList.add('is-visible'));
+        return;
+      }
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold:.12 });
+
+      elements.forEach(element => observer.observe(element));
+    }
+
+    renderProducts();
+    initReveal();
+  </script>
 </body>
 </html>
