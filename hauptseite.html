@@ -1,30 +1,28 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Baltazar Seeds</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-  
+  <!-- Google Font: Nosifer -->
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
   <style>
     :root {
-      --red: #ff3333;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+      --red-main: #CC1111;
+      --red-shadow: #990000;
     }
 
     body, html {
+      margin: 0;
+      padding: 0;
       height: 100%;
-      font-family: 'Inter', system-ui, sans-serif;
-      color: #fff;
-      overflow: hidden;
+      overflow: auto;
+      font-family: 'Nosifer', cursive;
+      color: var(--red-main);
+      background: black;
     }
 
+    /* Hintergrundvideo */
     .video-bg {
       position: fixed;
       top: 0;
@@ -32,257 +30,199 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -2;
-      filter: brightness(0.55) contrast(1.15) saturate(1.1);
+      z-index: -2; /* Video immer ganz hinten */
     }
 
-    .content {
+    .wrap {
       position: relative;
       z-index: 2;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       text-align: center;
-      padding: 2rem 1.5rem;
+      padding: 10vh 4vw;
       opacity: 0;
-      transition: opacity 1.6s ease;
+      transition: opacity 1s ease;
+      pointer-events: auto;
     }
 
+    /* Überschrift mit Effekten */
     h1 {
-      font-family: 'Nosifer', cursive;
-      font-size: clamp(3.8rem, 11vw, 8rem);
-      letter-spacing: 5px;
+      font-size: clamp(36px, 12vw, 120px);
+      margin: 0 0 1rem;
       text-transform: uppercase;
-      color: #ffffff;
-      -webkit-text-stroke: 2.5px var(--red);
-      text-shadow: 
-        0 0 20px var(--red),
-        0 0 40px var(--red),
-        0 0 60px rgba(255, 51, 51, 0.6);
-      margin-bottom: 1.8rem;
-      animation: subtlePsy 8s ease-in-out infinite alternate;
+      position: relative;
+      display: inline-block;
+      color: var(--red-main);
+      background: linear-gradient(90deg, var(--red-main), #FF5500, var(--red-main));
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: var(--red-main);
+      animation: shimmer 3s infinite linear, pulseGlow 2s infinite alternate, jitter 0.5s infinite;
+      text-shadow: 0 2px 4px black;
     }
 
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { text-shadow: 0 0 5px #990000, 0 0 10px #AA0000; }
+      50% { text-shadow: 0 0 20px #FF5500, 0 0 40px #FF3300; }
+    }
+
+    @keyframes jitter {
+      0% { transform: translate(0,0) rotate(0deg); }
+      25% { transform: translate(-2px,1px) rotate(-1deg); }
+      50% { transform: translate(1px,-2px) rotate(1deg); }
+      75% { transform: translate(-1px,2px) rotate(-1deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
+    }
+
+    /* Tropfen */
+    h1::after, h1::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red-main);
+      box-shadow: 
+        -120px 10px 0 -2px var(--red-main),
+        -60px 15px 0 -3px var(--red-shadow),
+        0px 20px 0 -2px var(--red-main),
+        60px 10px 0 -2px var(--red-shadow),
+        120px 15px 0 -3px var(--red-main);
+      animation: dropFall 9s infinite ease-in-out;
+    }
+
+    h1::before {
+      animation-delay: 4s;
+    }
+
+    @keyframes dropFall {
+      0% { transform: translateX(-50%) translateY(0) scale(0.5); opacity: 0.8; }
+      50% { transform: translateX(-50%) translateY(15px) scale(1); opacity: 1; }
+      100% { transform: translateX(-50%) translateY(45px) scale(0.3); opacity: 0; }
+    }
+
+    /* Text */
     p {
-      font-size: 1.22rem;
-      max-width: 580px;
-      line-height: 1.75;
-      margin-bottom: 2.2rem;
-      opacity: 0.92;
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      color: var(--red-main);
+      text-align: center;
+      line-height: 1.6;
+      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000,
+                   0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000;
+      position: relative;
+      overflow: hidden;
     }
 
-    .age-notice {
-      background: rgba(0, 0, 0, 0.78);
-      border: 1px solid var(--red);
-      border-radius: 14px;
-      padding: 1.8rem 2rem;
-      max-width: 520px;
-      margin: 2rem 0 2.5rem;
+    p::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -150%;
+      width: 50%; height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+      transform: skewX(-20deg);
+      pointer-events: none;
+      animation: shine 6s infinite;
     }
 
+    @keyframes shine {
+      0% { left: -150%; }
+      100% { left: 150%; }
+    }
+
+    /* Buttons */
     .btn {
       display: inline-block;
-      padding: 1.15rem 3rem;
-      font-size: 1.32rem;
-      font-weight: 500;
-      color: #fff;
-      background: transparent;
-      border: 2.5px solid var(--red);
-      border-radius: 50px;
+      margin-top: 3rem;
+      margin-right: 1rem;
+      padding: 1rem 2rem;
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: var(--red-main);
+      background: rgba(0,0,0,0.6);
+      border: 2px solid var(--red-main);
+      border-radius: 8px;
       text-decoration: none;
-      letter-spacing: 1.2px;
-      transition: all 0.4s ease;
+      transition: all 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
     }
 
     .btn:hover {
-      background: var(--red);
-      color: #000;
-      transform: translateY(-4px);
-      box-shadow: 0 0 35px rgba(255, 51, 51, 0.65);
+      background: var(--red-main);
+      color: black;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
 
-    /* Leichter psychedelischer Float-Effekt */
-    @keyframes subtlePsy {
-      from {
-        transform: translateY(0) rotate(-0.6deg);
-      }
-      to {
-        transform: translateY(-16px) rotate(0.8deg);
-      }
-    }
-
-    /* Fade-In */
-    .loaded .content {
+    /* Overlay für Fade-in/out */
+    #fadeOverlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: black;
       opacity: 1;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      h1 { animation: none !important; }
+      visibility: visible;
+      z-index: 999;
+      transition: opacity 1s ease, visibility 1s ease;
+      pointer-events: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- Video Hintergrund -->
-  <video class="video-bg" autoplay muted loop playsinline preload="metadata">
+  <video class="video-bg" autoplay muted loop playsinline poster="fallback.jpg">
     <source src="INTRO.mp4" type="video/mp4">
-    Dein Browser unterstützt kein Video.
+    Dein Browser unterstützt kein HTML5-Video.
   </video>
 
-  <div class="content" id="content">
-    <h1>Baltazar</h1>
-    
-    <div class="age-notice">
-      <p><strong>Real Genetics. Real Passion.</strong></p>
-      <p>By entering this site you confirm that you are 21 years or older and understand that this website is intended for cannabis growers and breeders.</p>
-    </div>
+  <div id="fadeOverlay"></div>
 
-    <a href="seite3.html" class="btn" id="enterBtn">I AM 21+ — LET ME IN</a>
+  <div class="wrap" id="content">
+    <h1>WELCOME LEGENDS</h1>
+    <p>
+      WELCOME TO BALTAZAR SEEDS WHERE THE STREETS MEET THE GENETICS<br>
+      THIS AIN’T YOUR AVERAGE SEED SHOP.<br><br>
+      BALTAZAR SEEDS AKA BADFARMERS GENETICS IS ALL ABOUT REALNESS, PURE PASSION, MAD SCIENCE AND VIBES YOU CAN FEEL.<br>
+      BORN FROM THE MIND OF IMAN VAN RULER<br>
+      BETTER KNOWN AS REAL JACK JAMES<br>
+      WE DON’T JUST DROP SEEDS, WE DROP LEGACIES.<br><br>
+      EVERY STRAIN IS HAND PICKED, TESTED AND CRAFTED TO FLEX ON FLAVOR, AROMA AND NEXT-LEVEL EFFECT. NO GIMMICKS, NO HYPE — JUST AUTHENTICITY.<br>
+      IF IT DON’T GROW RIGHT, IT DON’T GET IN.<br><br>
+      BALTAZAR SEEDS IS WHERE STREET HUSTLE MEETS BOTANICAL GENIUS. EVERY PLANT TELLS A STORY, EVERY GROWER LEVELS UP. THIS AIN’T JUST A SHOP<br>
+      IT’S A MOVEMENT. REAL SEEDS. REAL VIBES. REAL LEGACY.
+    </p>
+
+    <a href="index.html" class="btn">Back To The Entrance</a>
+    <a href="seite3.html" class="btn" id="enter21">I’m 21+ Let Me In!!</a>
   </div>
 
   <script>
-    // Fade-In beim Laden
+    const overlay = document.getElementById('fadeOverlay');
+    const content = document.getElementById('content');
+
     window.addEventListener('load', () => {
-      document.documentElement.classList.add('loaded');
+      content.style.opacity = 1;
+      overlay.style.opacity = 0;
+      overlay.style.visibility = 'hidden';
     });
 
-    // Fade-Out beim Klick
-    document.getElementById('enterBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      const content = document.getElementById('content');
-      content.style.opacity = '0';
-      
-      setTimeout(() => {
-        window.location.href = this.href;
-      }, 1100);
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = this.href;
+        overlay.style.visibility = 'visible';
+        overlay.style.opacity = 1;
+        content.style.opacity = 0;
+        setTimeout(() => {
+          window.location = target;
+        }, 1000);
+      });
     });
   </script>
-</body>
-</html>
-    .content {
-      position: relative;
-      z-index: 2;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem 1.5rem;
-      opacity: 0;
-      transition: opacity 1.5s ease;
-    }
 
-    h1 {
-      font-family: 'Nosifer', cursive;
-      font-size: clamp(3.5rem, 10vw, 7rem);
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: #fff;
-      -webkit-text-stroke: 2px var(--red);
-      text-shadow: 
-        0 0 20px var(--red),
-        0 0 40px var(--red),
-        0 0 60px rgba(255, 50, 50, 0.6);
-      margin-bottom: 1.5rem;
-      animation: subtleFloat 6s ease-in-out infinite alternate;
-    }
-
-    p {
-      font-size: 1.25rem;
-      max-width: 620px;
-      line-height: 1.7;
-      margin-bottom: 2rem;
-      opacity: 0.95;
-    }
-
-    .age-notice {
-      background: var(--dark);
-      border: 1px solid var(--red);
-      border-radius: 12px;
-      padding: 1.75rem 2rem;
-      max-width: 520px;
-      margin: 2rem 0;
-      font-size: 1.05rem;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 1rem 2.8rem;
-      font-size: 1.3rem;
-      font-weight: 500;
-      color: #fff;
-      background: transparent;
-      border: 2px solid var(--red);
-      border-radius: 50px;
-      text-decoration: none;
-      transition: all 0.4s ease;
-      letter-spacing: 1px;
-    }
-
-    .btn:hover {
-      background: var(--red);
-      color: #000;
-      transform: translateY(-3px);
-      box-shadow: 0 0 25px rgba(255, 51, 51, 0.6);
-    }
-
-    /* Leichter psychedelic Glow */
-    @keyframes subtleFloat {
-      from { transform: translateY(0) rotate(-1deg); }
-      to   { transform: translateY(-12px) rotate(1deg); }
-    }
-
-    /* Schöner Fade-In */
-    .loaded .content {
-      opacity: 1;
-    }
-
-    /* Für reduzierte Animationen */
-    @media (prefers-reduced-motion: reduce) {
-      h1, .btn { animation: none !important; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Hintergrundvideo (komprimiert empfohlen) -->
-  <video class="video-bg" autoplay muted loop playsinline preload="metadata">
-    <source src="INTRO.mp4" type="video/mp4">
-    Dein Browser unterstützt kein Video.
-  </video>
-
-  <div class="content" id="content">
-    <h1>Baltazar</h1>
-    
-    <div class="age-notice">
-      <p><strong>Real Genetics. Real Passion.</strong></p>
-      <p>By entering this site you confirm that you are 21 years or older and understand that this website is intended for cannabis growers and breeders.</p>
-    </div>
-
-    <a href="seite3.html" class="btn" id="enterBtn">I AM 21+ — LET ME IN</a>
-  </div>
-
-  <script>
-    // Einfacher Fade-In beim Laden
-    window.addEventListener('load', () => {
-      document.documentElement.classList.add('loaded');
-    });
-
-    // Fade-Out beim Klick
-    document.getElementById('enterBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-      const content = document.getElementById('content');
-      content.style.transition = 'opacity 1s ease';
-      content.style.opacity = '0';
-      
-      setTimeout(() => {
-        window.location.href = this.href;
-      }, 900);
-    });
-  </script>
 </body>
 </html>
