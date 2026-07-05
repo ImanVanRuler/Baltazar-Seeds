@@ -1,387 +1,700 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Baltazar Seeds</title>
-  <!-- Google Font: Nosifer -->
-  <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BALTAZAR SEEDS | Private Gate</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    body, html {
+    :root {
+      --bg: #030201;
+      --cream: #f1dfbb;
+      --cream2: #fff1d2;
+      --muted: rgba(241, 223, 187, .72);
+      --ghost: rgba(241, 223, 187, .42);
+      --line: rgba(241, 223, 187, .14);
+      --line2: rgba(241, 223, 187, .075);
+      --gold: #b99a4a;
+      --gold2: #e6c66a;
+      --red: #4d0f0d;
+      --green: #17351f;
+      --smoke: rgba(0,0,0,.62);
+      --radius: 34px;
+      --mx: 50%;
+      --my: 42%;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, system-ui, sans-serif;
+      color: var(--cream);
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at var(--mx) var(--my), rgba(230,198,106,.11), transparent 23%),
+        radial-gradient(circle at 14% 18%, rgba(23,53,31,.22), transparent 29%),
+        radial-gradient(circle at 86% 20%, rgba(77,15,13,.34), transparent 34%),
+        linear-gradient(180deg, #080604, #010101 74%);
+      isolation: isolate;
+    }
+
+    .video-layer {
+      position: fixed;
+      inset: 0;
+      z-index: -20;
+      overflow: hidden;
+      background: #020202;
+    }
+
+    .video-layer video {
+      width: 100%;
       height: 100%;
-      overflow: auto;
-      font-family: 'Nosifer', cursive;
-      color: #990000; /* dunkleres Rot */
-    }
-
-    /* Video-Hintergrund */
-    .video-bg {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
       object-fit: cover;
-      z-index: -1;
-    }
-
-    .wrap {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 10vh 4vw;
-      opacity: 0; /* Start unsichtbar für Fade-in */
-      transition: opacity 1s ease;
-    }
-
-    h1 {
-      font-size: clamp(36px, 12vw, 120px);
-      margin: 0 0 1rem;
-      text-transform: uppercase;
-      position: relative;
-      display: inline-block;
-      background: linear-gradient(90deg, #990000, #ff5500, #990000);
-      background-size: 200% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: shimmer 3s infinite linear;
-      text-shadow: 0 2px 4px black;
-    }
-
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
-    h1::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: -10px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #990000;
-      box-shadow: -120px 10px 0 -2px #990000,
-                  -60px 15px 0 -3px #660000,
-                  0px 20px 0 -2px #990000,
-                  60px 10px 0 -2px #660000,
-                  120px 15px 0 -3px #990000;
-      animation: dropFall 9s infinite ease-in-out;
-    }
-
-    @keyframes dropFall {
-      0% { transform: translateX(-50%) translateY(0); opacity: 1; }
-      50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(40px); opacity: 0; }
-    }
-
-    p {
-      font-size: 1.5rem;
-      color: #990000;
-      text-align: center;
-      line-height: 1.6;
-      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000,
-                   0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000;
-      position: relative;
-      overflow: hidden;
-    }
-
-    p::after {
-      content: '';
-      position: absolute;
-      top: 0; left: -150%;
-      width: 50%; height: 100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
-      transform: skewX(-20deg);
-      pointer-events: none;
-      animation: shine 6s infinite;
-    }
-
-    @keyframes shine {
-      0% { left: -150%; }
-      100% { left: 150%; }
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 3rem;
-      padding: 1rem 2rem;
-      font-size: 1.5rem;
-      color: #990000;
-      background: rgba(0,0,0,0.6);
-      border: 2px solid #990000;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background: #990000;
-      color: black;
-    }
-
-    /* Schwarzes Overlay für Fade-in und Fade-out */
-    #fadeOverlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: black;
-      opacity: 1; /* Start sichtbar */
-      z-index: 999;
-      transition: opacity 1s ease;
-      pointer-events: none;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Hintergrundvideo -->
-  <video class="video-bg" autoplay muted loop playsinline>
-    <source src="INTRO.mp4" type="video/mp4">
-    Dein Browser unterstützt kein HTML5-Video.
-  </video>
-
-  <!-- Overlay für Fade -->
-  <div id="fadeOverlay"></div>
-
-  <!-- Inhalt -->
-  <div class="wrap" id="content">
-    <h1>Baltazar Seeds</h1>
-    <p>
-      WELCOME TO BALTAZAR SEEDS WHERE THE STREETS MEET THE GENETICS<br>
-      THIS AIN’T YOUR AVERAGE SEED SHOP.<br><br>
-      BALTAZAR SEEDS AKA BADFARMERS GENETICS IS ALL ABOUT REALNESS, PURE PASSION, MAD SCIENCE AND VIBES YOU CAN FEEL.<br>
-      BORN FROM THE MIND OF IMAN VAN RULER<br>
-      BETTER KNOWN AS REAL JACK JAMES<br>
-      WE DON’T JUST DROP SEEDS, WE DROP LEGACIES.<br><br>
-      EVERY STRAIN IS HAND PICKED, TESTED AND CRAFTED TO FLEX ON FLAVOR, AROMA AND NEXT-LEVEL EFFECT. NO GIMMICKS, NO HYPE — JUST AUTHENTICITY.<br>
-      IF IT DON’T GROW RIGHT, IT DON’T GET IN.<br><br>
-      BALTAZAR SEEDS IS WHERE STREET HUSTLE MEETS BOTANICAL GENIUS. EVERY PLANT TELLS A STORY, EVERY GROWER LEVELS UP. THIS AIN’T JUST A SHOP<br>
-      IT’S A MOVEMENT. REAL SEEDS. REAL VIBES. REAL LEGACY.
-    </p>
-
-    <!-- Buttons -->
-    <a href="index.html" class="btn">Back To The Entrance</a>
-    <a href="seite3.html" class="btn" id="enter21">I’m 21+ Let Me In!!</a>
-  </div>
-
-  <script>
-    const overlay = document.getElementById('fadeOverlay');
-    const content = document.getElementById('content');
-
-    // Fade-in beim Laden
-    window.addEventListener('load', () => {
-      content.style.opacity = 1;
-      overlay.style.opacity = 0;
-    });
-
-    // Fade-out beim Button-Klick
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = this.href;
-        overlay.style.opacity = 1; // Schwarz wieder einblenden
-        content.style.opacity = 0;
-        setTimeout(() => {
-          window.location = target;
-        }, 1000); // 1s warten bis Overlay voll sichtbar
-      });
-    });
-  </script>
-
-</body>
-</html>      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 10vh 4vw;
       opacity: 0;
-      transition: opacity 1s ease;
-      pointer-events: auto;
+      transform: scale(1.045);
+      filter: grayscale(.12) brightness(.18) contrast(1.22) saturate(.78);
+      transition: opacity 1.5s ease;
     }
 
-    /* Überschrift mit Effekten */
-    h1 {
-      font-size: clamp(36px, 12vw, 120px);
-      margin: 0 0 1rem;
-      text-transform: uppercase;
+    html.video-ready .video-layer video {
+      opacity: 1;
+    }
+
+    .cinema-shade {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at var(--mx) var(--my), rgba(0,0,0,.05), rgba(0,0,0,.68) 62%, rgba(0,0,0,.94) 100%),
+        linear-gradient(180deg, rgba(0,0,0,.26), rgba(0,0,0,.78));
+      pointer-events: none;
+    }
+
+    .film-noise {
+      position: absolute;
+      inset: 0;
+      opacity: .045;
+      mix-blend-mode: soft-light;
+      background-image:
+        linear-gradient(rgba(255,255,255,.13) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.13) 1px, transparent 1px);
+      background-size: 4px 4px;
+      pointer-events: none;
+    }
+
+    .scan {
+      position: fixed;
+      inset: 0;
+      z-index: -8;
+      pointer-events: none;
+      opacity: .1;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.08) 0,
+        rgba(255,255,255,.08) 1px,
+        transparent 1px,
+        transparent 7px
+      );
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .smoke-orb {
+      position: fixed;
+      inset: -20%;
+      z-index: -9;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 38% 42%, rgba(185,154,74,.08), transparent 23%),
+        radial-gradient(circle at 62% 58%, rgba(77,15,13,.14), transparent 26%),
+        radial-gradient(circle at 52% 72%, rgba(23,53,31,.12), transparent 30%);
+      filter: blur(32px);
+      animation: slowSmoke 18s ease-in-out infinite alternate;
+    }
+
+    .page {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 28px 16px;
+      perspective: 1200px;
+    }
+
+    .gate {
+      width: min(100%, 1080px);
       position: relative;
-      display: inline-block;
-      color: var(--red-main);
-      background: linear-gradient(90deg, var(--red-main), #FF5500, var(--red-main));
-      background-size: 200% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: var(--red-main);
-      animation: shimmer 3s infinite linear, pulseGlow 2s infinite alternate, jitter 0.5s infinite;
-      text-shadow: 0 2px 4px black;
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at var(--mx) var(--my), rgba(241,223,187,.06), transparent 32%),
+        linear-gradient(180deg, rgba(255,255,255,.046), rgba(255,255,255,.012)),
+        rgba(4,3,2,.74);
+      border: 1px solid var(--line);
+      box-shadow:
+        0 40px 120px rgba(0,0,0,.74),
+        0 0 70px rgba(185,154,74,.08),
+        inset 0 1px 0 rgba(255,255,255,.055);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(24px) rotateX(2deg) scale(.985);
+      transition: opacity 1s ease, transform 1s ease;
     }
 
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
+    html.loaded .gate {
+      opacity: 1;
+      transform: translateY(0) rotateX(0) scale(1);
     }
 
-    @keyframes pulseGlow {
-      0%, 100% { text-shadow: 0 0 5px #990000, 0 0 10px #AA0000; }
-      50% { text-shadow: 0 0 20px #FF5500, 0 0 40px #FF3300; }
-    }
-
-    @keyframes jitter {
-      0% { transform: translate(0,0) rotate(0deg); }
-      25% { transform: translate(-2px,1px) rotate(-1deg); }
-      50% { transform: translate(1px,-2px) rotate(1deg); }
-      75% { transform: translate(-1px,2px) rotate(-1deg); }
-      100% { transform: translate(0,0) rotate(0deg); }
-    }
-
-    /* Tropfen */
-    h1::after, h1::before {
+    .gate::before {
       content: "";
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: -10px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--red-main);
-      box-shadow: 
-        -120px 10px 0 -2px var(--red-main),
-        -60px 15px 0 -3px var(--red-shadow),
-        0px 20px 0 -2px var(--red-main),
-        60px 10px 0 -2px var(--red-shadow),
-        120px 15px 0 -3px var(--red-main);
-      animation: dropFall 9s infinite ease-in-out;
+      inset: 18px;
+      border-radius: 24px;
+      border: 1px solid var(--line2);
+      pointer-events: none;
     }
 
-    h1::before {
-      animation-delay: 4s;
-    }
-
-    @keyframes dropFall {
-      0% { transform: translateX(-50%) translateY(0) scale(0.5); opacity: 0.8; }
-      50% { transform: translateX(-50%) translateY(15px) scale(1); opacity: 1; }
-      100% { transform: translateX(-50%) translateY(45px) scale(0.3); opacity: 0; }
-    }
-
-    /* Text */
-    p {
-      font-size: clamp(1rem, 2vw, 1.5rem);
-      color: var(--red-main);
-      text-align: center;
-      line-height: 1.6;
-      text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000,
-                   0 2px 0 #000, 2px 0 0 #000, 0 -2px 0 #000, -2px 0 0 #000;
-      position: relative;
-      overflow: hidden;
-    }
-
-    p::after {
-      content: '';
+    .gate::after {
+      content: "";
       position: absolute;
-      top: 0; left: -150%;
-      width: 50%; height: 100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
-      transform: skewX(-20deg);
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent, rgba(241,223,187,.05), transparent),
+        radial-gradient(circle at var(--mx) var(--my), rgba(230,198,106,.1), transparent 24%);
+      opacity: .7;
       pointer-events: none;
-      animation: shine 6s infinite;
     }
 
-    @keyframes shine {
-      0% { left: -150%; }
-      100% { left: 150%; }
+    .edge {
+      position: absolute;
+      width: 58px;
+      height: 58px;
+      border-color: rgba(185,154,74,.42);
+      z-index: 4;
+      opacity: .82;
     }
 
-    /* Buttons */
-    .btn {
-      display: inline-block;
-      margin-top: 3rem;
-      margin-right: 1rem;
-      padding: 1rem 2rem;
-      font-size: clamp(1rem, 2.5vw, 1.5rem);
-      color: var(--red-main);
-      background: rgba(0,0,0,0.6);
-      border: 2px solid var(--red-main);
-      border-radius: 8px;
+    .e1 { left: 26px; top: 26px; border-left: 1px solid; border-top: 1px solid; }
+    .e2 { right: 26px; top: 26px; border-right: 1px solid; border-top: 1px solid; }
+    .e3 { left: 26px; bottom: 26px; border-left: 1px solid; border-bottom: 1px solid; }
+    .e4 { right: 26px; bottom: 26px; border-right: 1px solid; border-bottom: 1px solid; }
+
+    .inner {
+      position: relative;
+      z-index: 5;
+      padding: clamp(28px, 5vw, 64px);
+      text-align: center;
+    }
+
+    .logo-stage {
+      position: relative;
+      width: 190px;
+      height: 190px;
+      margin: 0 auto 26px;
+      display: grid;
+      place-items: center;
+    }
+
+    .logo-stage::before {
+      content: "";
+      position: absolute;
+      width: 156px;
+      height: 156px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(230,198,106,.22), transparent 58%),
+        radial-gradient(circle, rgba(77,15,13,.24), transparent 72%);
+      filter: blur(16px);
+      animation: pulse 4.8s ease-in-out infinite alternate;
+    }
+
+    .logo-stage::after {
+      content: "";
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      border: 1px solid rgba(241,223,187,.08);
+      box-shadow:
+        inset 0 0 34px rgba(185,154,74,.04),
+        0 0 54px rgba(185,154,74,.07);
+    }
+
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .ring-a {
+      width: 146px;
+      height: 146px;
+      border: 1px solid rgba(185,154,74,.34);
+      animation: spin 18s linear infinite;
+    }
+
+    .ring-b {
+      width: 176px;
+      height: 176px;
+      border: 1px dashed rgba(241,223,187,.16);
+      animation: spinReverse 28s linear infinite;
+    }
+
+    .ring-c {
+      width: 112px;
+      height: 112px;
+      border: 1px solid rgba(23,53,31,.55);
+      animation: breatheRing 5.5s ease-in-out infinite alternate;
+    }
+
+    .cat-logo {
+      position: relative;
+      z-index: 8;
+      width: 104px;
+      height: 104px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 1px solid rgba(241,223,187,.38);
+      box-shadow:
+        0 0 0 8px rgba(0,0,0,.38),
+        0 24px 48px rgba(0,0,0,.68),
+        0 0 34px rgba(185,154,74,.2);
+      filter: contrast(1.08) saturate(.88) brightness(.9);
+    }
+
+    .satellite {
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(230,198,106,.88);
+      box-shadow: 0 0 18px rgba(230,198,106,.8);
+      z-index: 7;
+    }
+
+    .s1 { transform: translate(78px, -22px); }
+    .s2 {
+      width: 5px;
+      height: 5px;
+      background: rgba(241,223,187,.62);
+      transform: translate(-74px, 42px);
+    }
+
+    .small {
+      font-family: Space Grotesk, Inter, sans-serif;
+      font-size: .72rem;
+      letter-spacing: .34em;
+      text-transform: uppercase;
+      color: var(--ghost);
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: Nosifer, fantasy;
+      font-weight: 400;
+      text-transform: uppercase;
+      font-size: clamp(2.45rem, 7.4vw, 6.7rem);
+      line-height: .96;
+      letter-spacing: .026em;
+      color: #f2dfb8;
+      text-shadow:
+        0 1px 0 rgba(0,0,0,.95),
+        0 10px 28px rgba(0,0,0,.72),
+        0 0 24px rgba(185,154,74,.16),
+        0 0 46px rgba(77,15,13,.18);
+    }
+
+    .claim {
+      max-width: 760px;
+      margin: 24px auto 0;
+      font-family: Space Grotesk, Inter, sans-serif;
+      font-size: clamp(1.05rem, 2vw, 1.45rem);
+      line-height: 1.46;
+      color: rgba(241,223,187,.88);
+      font-weight: 500;
+    }
+
+    .hairline {
+      width: min(480px, 78%);
+      height: 1px;
+      margin: 30px auto;
+      background: linear-gradient(90deg, transparent, rgba(241,223,187,.16), rgba(185,154,74,.62), rgba(241,223,187,.16), transparent);
+      box-shadow: 0 0 24px rgba(185,154,74,.14);
+    }
+
+    .text {
+      max-width: 735px;
+      margin: 0 auto;
+      font-size: 1rem;
+      line-height: 1.82;
+      color: var(--muted);
+    }
+
+    .text strong {
+      color: var(--cream2);
+      font-weight: 750;
+    }
+
+    .tokens {
+      max-width: 760px;
+      margin: 34px auto 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .token {
+      padding: 9px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.012));
+      color: rgba(241,223,187,.62);
+      font-family: Space Grotesk, Inter, sans-serif;
+      font-size: .71rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .age {
+      max-width: 640px;
+      margin: 34px auto 0;
+      padding: 20px 22px;
+      border-radius: 24px;
+      border: 1px solid rgba(185,154,74,.22);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(185,154,74,.06), transparent 42%),
+        rgba(0,0,0,.28);
+      color: rgba(241,223,187,.64);
+      font-size: .9rem;
+      line-height: 1.65;
+    }
+
+    .age b {
+      display: block;
+      margin-bottom: 7px;
+      color: rgba(241,223,187,.9);
+      font-family: Space Grotesk, Inter, sans-serif;
+      font-size: .73rem;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+    }
+
+    .enter-wrap {
+      margin-top: 34px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .enter {
+      position: relative;
+      min-width: 272px;
+      min-height: 62px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
       text-decoration: none;
-      transition: all 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      cursor: pointer;
+      color: #f6e6c3;
+      font-family: Space Grotesk, Inter, sans-serif;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      border: 1px solid rgba(185,154,74,.52);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.015)),
+        rgba(0,0,0,.34);
+      box-shadow:
+        0 18px 46px rgba(0,0,0,.48),
+        0 0 34px rgba(185,154,74,.09),
+        inset 0 1px 0 rgba(255,255,255,.07);
+      overflow: hidden;
+      transition: transform .28s ease, border-color .28s ease, background .28s ease, box-shadow .28s ease;
     }
 
-    .btn:hover {
-      background: var(--red-main);
-      color: black;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    .enter::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent, rgba(230,198,106,.22), transparent);
+      transform: translateX(-120%);
+      transition: transform .9s ease;
     }
 
-    /* Overlay für Fade-in/out */
-    #fadeOverlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: black;
-      opacity: 1;
-      visibility: visible;
-      z-index: 999;
-      transition: opacity 1s ease, visibility 1s ease;
+    .enter::after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border-radius: inherit;
+      border: 1px solid rgba(241,223,187,.075);
       pointer-events: none;
+    }
+
+    .enter span {
+      position: relative;
+      z-index: 2;
+    }
+
+    .enter:hover {
+      transform: translateY(-4px);
+      border-color: rgba(241,223,187,.62);
+      background:
+        linear-gradient(180deg, rgba(185,154,74,.15), rgba(255,255,255,.018)),
+        rgba(0,0,0,.42);
+      box-shadow:
+        0 24px 60px rgba(0,0,0,.56),
+        0 0 42px rgba(185,154,74,.15);
+    }
+
+    .enter:hover::before {
+      transform: translateX(120%);
+    }
+
+    .foot {
+      margin-top: 24px;
+      font-family: Space Grotesk, Inter, sans-serif;
+      font-size: .68rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: rgba(241,223,187,.34);
+    }
+
+    body.is-leaving .gate {
+      opacity: 0;
+      transform: translateY(18px) scale(.99);
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes spinReverse {
+      to { transform: rotate(-360deg); }
+    }
+
+    @keyframes pulse {
+      from { opacity: .48; transform: scale(.94); }
+      to { opacity: .9; transform: scale(1.08); }
+    }
+
+    @keyframes breatheRing {
+      from { transform: scale(.95); opacity: .42; }
+      to { transform: scale(1.08); opacity: .82; }
+    }
+
+    @keyframes slowSmoke {
+      from { transform: translate3d(-1%, -1%, 0) scale(1); opacity: .72; }
+      to { transform: translate3d(1%, 1%, 0) scale(1.07); opacity: 1; }
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 14px;
+        align-items: start;
+      }
+
+      .gate {
+        border-radius: 26px;
+      }
+
+      .gate::before {
+        inset: 12px;
+        border-radius: 18px;
+      }
+
+      .inner {
+        padding: 30px 16px 26px;
+      }
+
+      .logo-stage {
+        width: 158px;
+        height: 158px;
+        margin-bottom: 22px;
+      }
+
+      .ring-a { width: 124px; height: 124px; }
+      .ring-b { width: 152px; height: 152px; }
+      .ring-c { width: 98px; height: 98px; }
+
+      .cat-logo {
+        width: 88px;
+        height: 88px;
+      }
+
+      .small {
+        font-size: .64rem;
+        letter-spacing: .22em;
+      }
+
+      h1 {
+        font-size: clamp(2.18rem, 12vw, 4rem);
+      }
+
+      .claim {
+        font-size: 1.04rem;
+      }
+
+      .text {
+        font-size: .94rem;
+        line-height: 1.72;
+      }
+
+      .enter {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .edge {
+        width: 34px;
+        height: 34px;
+      }
+
+      .e1 { left: 18px; top: 18px; }
+      .e2 { right: 18px; top: 18px; }
+      .e3 { left: 18px; bottom: 18px; }
+      .e4 { right: 18px; bottom: 18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
     }
   </style>
 </head>
+
 <body>
-
-  <video class="video-bg" autoplay muted loop playsinline poster="fallback.jpg">
-    <source src="INTRO.mp4" type="video/mp4">
-    Dein Browser unterstützt kein HTML5-Video.
-  </video>
-
-  <div id="fadeOverlay"></div>
-
-  <div class="wrap" id="content">
-    <h1>WELCOME LEGENDS</h1>
-    <p>
-      WELCOME TO BALTAZAR SEEDS WHERE THE STREETS MEET THE GENETICS<br>
-      THIS AIN’T YOUR AVERAGE SEED SHOP.<br><br>
-      BALTAZAR SEEDS AKA BADFARMERS GENETICS IS ALL ABOUT REALNESS, PURE PASSION, MAD SCIENCE AND VIBES YOU CAN FEEL.<br>
-      BORN FROM THE MIND OF IMAN VAN RULER<br>
-      BETTER KNOWN AS REAL JACK JAMES<br>
-      WE DON’T JUST DROP SEEDS, WE DROP LEGACIES.<br><br>
-      EVERY STRAIN IS HAND PICKED, TESTED AND CRAFTED TO FLEX ON FLAVOR, AROMA AND NEXT-LEVEL EFFECT. NO GIMMICKS, NO HYPE — JUST AUTHENTICITY.<br>
-      IF IT DON’T GROW RIGHT, IT DON’T GET IN.<br><br>
-      BALTAZAR SEEDS IS WHERE STREET HUSTLE MEETS BOTANICAL GENIUS. EVERY PLANT TELLS A STORY, EVERY GROWER LEVELS UP. THIS AIN’T JUST A SHOP<br>
-      IT’S A MOVEMENT. REAL SEEDS. REAL VIBES. REAL LEGACY.
-    </p>
-
-    <a href="index.html" class="btn">Back To The Entrance</a>
-    <a href="seite3.html" class="btn" id="enter21">I’m 21+ Let Me In!!</a>
+  <div class="video-layer" aria-hidden="true">
+    <video id="bgVideo" autoplay muted loop playsinline preload="auto">
+      <source src="HELL.mp4" type="video/mp4">
+    </video>
+    <div class="cinema-shade"></div>
+    <div class="film-noise"></div>
   </div>
 
+  <div class="smoke-orb" aria-hidden="true"></div>
+  <div class="scan" aria-hidden="true"></div>
+
+  <main class="page">
+    <section class="gate" id="gate">
+      <span class="edge e1"></span>
+      <span class="edge e2"></span>
+      <span class="edge e3"></span>
+      <span class="edge e4"></span>
+
+      <div class="inner">
+        <div class="logo-stage">
+          <span class="ring ring-a"></span>
+          <span class="ring ring-b"></span>
+          <span class="ring ring-c"></span>
+          <span class="satellite s1"></span>
+          <span class="satellite s2"></span>
+          <img src="CATLOGO.JPG" alt="BALTAZAR SEEDS Logo" class="cat-logo">
+        </div>
+
+        <div class="small">Private Entrance · Independent Work · Limited Drops</div>
+
+        <h1>Baltazar Seeds</h1>
+
+        <p class="claim">
+          A quiet gate into music, cannabis inspired art, personal philosophy and limited merchandise.
+        </p>
+
+        <div class="hairline"></div>
+
+        <p class="text">
+          This is not a loud shop pretending to be a culture. It is a personal world built slowly from pressure, taste, instinct and persistence.
+          <br><br>
+          BALTAZAR SEEDS connects <strong>sound, smoke, visual identity, street wisdom and wearable pieces</strong> into one living archive.
+          Every drop is meant to feel individual, limited and real.
+        </p>
+
+        <div class="tokens">
+          <span class="token">Music</span>
+          <span class="token">420 Culture</span>
+          <span class="token">Art</span>
+          <span class="token">Merch</span>
+          <span class="token">Philosophy</span>
+          <span class="token">Rare Drops</span>
+        </div>
+
+        <div class="age">
+          <b>Age Confirmation</b>
+          By entering this site you confirm that you are 21 years of age or older. This universe includes adult oriented lifestyle themes, artistic cannabis references and future limited releases.
+        </div>
+
+        <div class="enter-wrap">
+          <a href="seite3.html" class="enter" id="enterBtn">
+            <span>Enter The Archive</span>
+          </a>
+        </div>
+
+        <div class="foot">Built by vision · carried by consistency</div>
+      </div>
+    </section>
+  </main>
+
   <script>
-    const overlay = document.getElementById('fadeOverlay');
-    const content = document.getElementById('content');
+    (function () {
+      const root = document.documentElement;
+      const body = document.body;
+      const video = document.getElementById("bgVideo");
+      const enterBtn = document.getElementById("enterBtn");
 
-    window.addEventListener('load', () => {
-      content.style.opacity = 1;
-      overlay.style.opacity = 0;
-      overlay.style.visibility = 'hidden';
-    });
-
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = this.href;
-        overlay.style.visibility = 'visible';
-        overlay.style.opacity = 1;
-        content.style.opacity = 0;
-        setTimeout(() => {
-          window.location = target;
-        }, 1000);
+      window.addEventListener("load", function () {
+        root.classList.add("loaded");
       });
-    });
-  </script>
 
+      if (video) {
+        const ready = function () {
+          root.classList.add("video-ready");
+        };
+
+        video.addEventListener("loadeddata", ready, { once: true });
+        video.addEventListener("canplay", ready, { once: true });
+
+        const playAttempt = video.play();
+
+        if (playAttempt !== undefined) {
+          playAttempt.then(ready).catch(function () {});
+        }
+      }
+
+      window.addEventListener("pointermove", function (event) {
+        const x = Math.round((event.clientX / window.innerWidth) * 100);
+        const y = Math.round((event.clientY / window.innerHeight) * 100);
+        root.style.setProperty("--mx", x + "%");
+        root.style.setProperty("--my", y + "%");
+      });
+
+      if (enterBtn) {
+        enterBtn.addEventListener("click", function (event) {
+          event.preventDefault();
+          body.classList.add("is-leaving");
+
+          setTimeout(function () {
+            window.location.href = enterBtn.href;
+          }, 650);
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
