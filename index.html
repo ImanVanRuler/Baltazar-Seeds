@@ -73,7 +73,16 @@
 
 <script type="text/babel" data-presets="react">
 const { useState, useEffect, useRef } = React;
-const { motion, AnimatePresence, useScroll, useTransform, useInView } = window["framer-motion"] || window.framerMotion || window.Motion;
+
+/* FIX: robust Framer Motion global detection with safe fallback */
+const _FM = window["framer-motion"] || window.framerMotion || window.Motion || {};
+const {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useInView,
+} = _FM;
 
 /* ============ PARTICLE FIELD ============ */
 function ParticleField({ reducedMotion }) {
@@ -504,8 +513,8 @@ function InnerCircle() {
         headers: { Accept: "application/json", "Content-Type": "application/json" },
       });
       if (res.ok) { setSubmitted(true); setStep(4); }
-    } catch {
-      // silently fail
+    } catch (_e) {
+      /* FIX: added _e parameter — empty catch without binding breaks some Babel versions */
     }
     setSubmitting(false);
   }
@@ -605,7 +614,7 @@ function InnerCircle() {
                     </p>
                     <button
                       onClick={() => setStep(1)}
-                      className="font-mono text-[11px] tracking-[0.3em] uppercase text-copper border border-copper/30 px-10 py-4 hover:bg-copper hover:text-alabaster transition-all duration-400"
+                      className="font-mono text-[11px] tracking-[0.3em] uppercase text-copper border border-copper/30 px-10 py-4 hover:bg-copper hover:text-alabaster transition-all duration-300"
                     >
                       Begin
                     </button>
