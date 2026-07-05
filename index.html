@@ -1,129 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>
-       Baltazar Seeds
-      </title>
-    <meta content="A luxury genetics archive for artisanal cultivators, curating rare botanical lineages through clinical precision and craft." name="description"/>
-    <meta content="Baltazar Seeds" property="og:title"/>
-    <meta content="A luxury genetics archive for artisanal cultivators, curating rare botanical lineages through clinical precision and craft." property="og:description"/>
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&amp;family=Inter:wght@300;400;500&amp;family=JetBrains+Mono:wght@300;400&amp;display=swap" rel="stylesheet"/>
-    <meta content="https://media.base44.com/images/public/6a4adcf0f926f3f17f748b1f/315ac1d5d_logo.png/v1/fill/w_1200,h_630/315ac1d5d_logo.png" property="og:image"/>
-    <meta content="https://baltazar-botanical-atelier.base44.app" property="og:url"/>
-    <meta content="website" property="og:type"/>
-    <meta content="Baltazar Seeds" property="og:site_name"/>
-    <meta content="Baltazar Seeds" name="twitter:title"/>
-    <meta content="A luxury genetics archive for artisanal cultivators, curating rare botanical lineages through clinical precision and craft." name="twitter:description"/>
-    <meta content="https://media.base44.com/images/public/6a4adcf0f926f3f17f748b1f/315ac1d5d_logo.png/v1/fill/w_1200,h_630/315ac1d5d_logo.png" name="twitter:image"/>
-    <meta content="summary_large_image" name="twitter:card"/>
-    <meta content="https://baltazar-botanical-atelier.base44.app" name="twitter:url"/>
-    <meta content="yes" name="mobile-web-app-capable"/>
-    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
-    <meta content="Baltazar Seeds" name="apple-mobile-web-app-title"/>
-    <link href="https://baltazar-botanical-atelier.base44.app" rel="canonical"/>
-    <script data-seo-source="builder" type="application/ld+json">
-       {"name": "Baltazar Seeds", "@context": "https://schema.org", "@type": "WebSite", "url": "https://baltazar-botanical-atelier.base44.app"}
-      </script>
-    <script data-seo-source="builder" type="application/ld+json">
-       {"name": "Baltazar Seeds", "logo": "https://media.base44.com/images/public/6a4adcf0f926f3f17f748b1f/315ac1d5d_logo.png", "@context": "https://schema.org", "@type": "Organization", "url": "https://baltazar-botanical-atelier.base44.app"}
-      </script>
-    <script async="true" data-app-id="6a4adcf0f926f3f17f748b1f" data-platform-url="https://app.base44.com" src="/static/js/badge.js">
-    </script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Baltazar Seeds — A 420 Universe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --ink:#f4efe4;
+    --muted:#8a8578;
+    --gold:#c9a961;
+    --gold-bright:#e8c979;
+    --leaf:#4a6b3a;
+    --line:rgba(201,169,97,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-weight:300;
+    overflow-x:hidden;
+    min-height:100vh;
+    position:relative;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* Ambient light layers */
+  .ambient{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .ambient::before{
+    content:"";position:absolute;inset:-20%;
+    background:
+      radial-gradient(600px 400px at 20% 30%, rgba(201,169,97,.10), transparent 60%),
+      radial-gradient(700px 500px at 80% 70%, rgba(74,107,58,.12), transparent 60%),
+      radial-gradient(500px 500px at 50% 100%, rgba(201,169,97,.06), transparent 60%);
+    animation:drift 24s ease-in-out infinite alternate;
+  }
+  @keyframes drift{
+    0%{transform:translate(0,0) scale(1)}
+    100%{transform:translate(-3%,2%) scale(1.05)}
+  }
+
+  /* Film grain */
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.08;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.9'/></svg>");
+  }
+
+  /* Particles canvas */
+  canvas#field{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.55}
+
+  /* Frame */
+  .frame{position:fixed;inset:24px;border:1px solid var(--line);pointer-events:none;z-index:3}
+  .frame::before,.frame::after,.corner{position:absolute;width:22px;height:22px;border:1px solid var(--gold);}
+  .frame::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+  .frame::after{top:-1px;right:-1px;border-left:none;border-bottom:none}
+  .corner.bl{bottom:-1px;left:-1px;border-right:none;border-top:none}
+  .corner.br{bottom:-1px;right:-1px;border-left:none;border-top:none}
+
+  /* Layout */
+  main{position:relative;z-index:5;min-height:100vh;display:flex;flex-direction:column;padding:64px 40px 40px}
+  header{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+  header .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;margin-right:10px;box-shadow:0 0 12px var(--gold);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.4;transform:scale(.85)}}
+
+  .hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:80px 0 40px;max-width:920px;margin:0 auto;width:100%}
+
+  .eyebrow{display:inline-flex;align-items:center;gap:14px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:36px;opacity:0;animation:rise .9s .1s forwards ease-out}
+  .eyebrow::before,.eyebrow::after{content:"";width:36px;height:1px;background:var(--gold);opacity:.6}
+
+  h1{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:400;
+    font-size:clamp(56px,10vw,140px);
+    line-height:.95;
+    letter-spacing:-.02em;
+    background:linear-gradient(180deg,#f4efe4 0%,#c9a961 55%,#8a6f3d 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    opacity:0;animation:rise 1.2s .25s forwards ease-out;
+    text-shadow:0 0 80px rgba(201,169,97,.15);
+  }
+  h1 em{font-style:italic;font-weight:300;color:var(--gold-bright);-webkit-text-fill-color:currentColor}
+
+  .subtitle{
+    margin-top:28px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;letter-spacing:.5em;text-transform:uppercase;
+    color:var(--ink);opacity:0;
+    animation:rise 1s .55s forwards ease-out;
+  }
+  .subtitle .four-twenty{color:var(--leaf);font-weight:400}
+
+  .divider{width:1px;height:60px;background:linear-gradient(180deg,transparent,var(--gold),transparent);margin:44px auto 32px;opacity:0;animation:grow 1s .8s forwards ease-out}
+  @keyframes grow{to{opacity:1}}
+
+  .tagline{max-width:520px;font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:20px;line-height:1.6;color:var(--muted);opacity:0;animation:rise 1s 1s forwards ease-out}
+
+  /* Form */
+  .signup{margin-top:56px;width:100%;max-width:480px;opacity:0;animation:rise 1s 1.25s forwards ease-out}
+  .signup-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;text-align:center}
+  form{display:flex;gap:0;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.02);backdrop-filter:blur(8px);transition:border-color .4s}
+  form:focus-within{border-color:var(--gold)}
+  input[type=email]{
+    flex:1;background:transparent;border:none;outline:none;color:var(--ink);
+    padding:18px 22px;font-family:'Inter',sans-serif;font-size:14px;letter-spacing:.05em;
+  }
+  input::placeholder{color:var(--muted);letter-spacing:.15em;font-size:12px;text-transform:uppercase}
+  button{
+    background:transparent;border:none;border-left:1px solid var(--line);
+    color:var(--gold);padding:0 28px;cursor:pointer;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+    transition:all .3s;position:relative;overflow:hidden;
+  }
+  button:hover{background:var(--gold);color:#0a0a0a}
+  button:disabled{opacity:.4;cursor:wait}
+  .fineprint{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-align:center}
+  .fineprint span{color:var(--gold)}
+
+  .status{margin-top:18px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;min-height:16px;opacity:0;transition:opacity .4s}
+  .status.show{opacity:1}
+  .status.ok{color:var(--gold-bright)}
+  .status.err{color:#c96961}
+
+  footer{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);opacity:0;animation:rise 1s 1.5s forwards ease-out}
+  footer .seal{display:flex;align-items:center;gap:10px}
+  footer .seal svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:1.2}
+
+  @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+  @media (max-width:640px){
+    main{padding:40px 24px 28px}
+    .frame{inset:12px}
+    form{flex-direction:column}
+    button{border-left:none;border-top:1px solid var(--line);padding:16px}
+    input[type=email]{padding:16px 18px;text-align:center}
+    header .loc{display:none}
+    footer{flex-direction:column;gap:12px}
+  }
+</style>
 </head>
 <body>
-    <div id="root">
-        <div data-seo-source="builder" id="seo-snapshot" style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">
-            <main>
-                <header>
-                    <h1>
-                           Baltazar Seeds
-                          </h1>
-                    <p>
-                           A luxury genetics archive for artisanal cultivators, curating rare botanical lineages through clinical precision and craft.
-                          </p>
-                </header>
-                <nav aria-label="Pages">
-                    <h2>
-                           Pages
-                          </h2>
-                    <ul>
-                        <li>
-                            <a href="/Register">
-                                     Register
-                                    </a>
+  <div class="ambient"></div>
+  <canvas id="field"></canvas>
+  <div class="frame"><span class="corner bl"></span><span class="corner br"></span></div>
+  <div class="grain"></div>
 
-                                    — Register on Baltazar Seeds. A luxury genetics archive for artisanal cultivators, curating rare botanical lin.
-                                   
-                        </li>
-                        <li>
-                            <a href="/Login">
-                                     Login
-                                    </a>
+  <main>
+    <header>
+      <div><span class="dot"></span>Baltazar Seeds</div>
+      <div class="loc">EST · MMXXV</div>
+      <div>Coming Soon</div>
+    </header>
 
-                                    — Login on Baltazar Seeds. A luxury genetics archive for artisanal cultivators, curating rare botanical lin.
-                                   
-                        </li>
-                        <li>
-                            <a href="/ResetPassword">
-                                     Reset Password
-                                    </a>
+    <section class="hero">
+      <div class="eyebrow">Cultivating Something Rare</div>
+      <h1>Baltazar<br><em>Seeds</em></h1>
+      <div class="subtitle">A <span class="four-twenty">420</span> Universe</div>
 
-                                    — Reset Password on Baltazar Seeds. A luxury genetics archive for artisanal cultivators, curating rare botanical lin.
-                                   
-                        </li>
-                        <li>
-                            <a href="/ForgotPassword">
-                                     Forgot Password
-                                    </a>
+      <div class="divider"></div>
 
-                                    — Forgot Password on Baltazar Seeds. A luxury genetics archive for artisanal cultivators, curating rare botanical lin.
-                                   
-                        </li>
-                    </ul>
-                </nav>
-            </main>
-        </div>
-    </div>
-    <script crossorigin="" src="/assets/index-CiT_zD3L.js" type="module">
-    </script>
-    <link crossorigin="" href="/assets/index-DpYAWlS3.css" rel="stylesheet"/>
-    <script type="module">
-    if (window.self === window.top) {
-        let lastPath = "";
-        function getPageNameFromPath(path) {
-            const segments = path.split("/").filter(Boolean);
-            return segments[0] || null;
-        }
-        function trackPageView() {
-            const path = window.location.pathname;
-            if (path === lastPath)
-                return;
-            lastPath = path;
-            const pageName = getPageNameFromPath(path) || "home";
-            const appId = "6a4adcf0f926f3f17f748b1f";
-            if (!appId)
-                return;
-            fetch(`/api/app-logs/${appId}/log-user-in-app/${pageName}`, {
-                method: "POST",
-            }).catch(() => {});
-        }
-        const originalPushState = history.pushState.bind(history);
-        history.pushState = function(...args) {
-            originalPushState(...args);
-            trackPageView();
-        };
-        const originalReplaceState = history.replaceState.bind(history);
-        history.replaceState = function(...args) {
-            originalReplaceState(...args);
-            trackPageView();
-        };
-        window.addEventListener("popstate", trackPageView);
-        trackPageView();
+      <p class="tagline">A curated genetics library, meticulously bred. Reserved for those who appreciate the craft. The doors open soon.</p>
+
+      <div class="signup">
+        <div class="signup-label">— Request Early Access —</div>
+        <form id="signupForm" action="https://formspree.io/f/mwvdyaly" method="POST">
+          <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
+          <input type="hidden" name="_subject" value="New Baltazar Seeds Early Access Signup" />
+          <button type="submit" id="submitBtn">Notify Me</button>
+        </form>
+        <div class="fineprint">Free · No spam · <span>Just the launch signal</span></div>
+        <div class="status" id="status"></div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="seal">
+        <svg viewBox="0 0 24 24"><path d="M12 2c-3 4-3 8 0 12 3-4 3-8 0-12z"/><path d="M12 14c-4 0-8 2-10 6 4 0 8-2 10-6z"/><path d="M12 14c4 0 8 2 10 6-4 0-8-2-10-6z"/></svg>
+        Baltazar Seeds
+      </div>
+      <div>Handcrafted Genetics</div>
+      <div>© 2025 · All Rights Reserved</div>
+    </footer>
+  </main>
+
+<script>
+  // Particle field
+  const c = document.getElementById('field');
+  const ctx = c.getContext('2d');
+  let w, h, particles;
+  function resize(){ w=c.width=innerWidth; h=c.height=innerHeight; }
+  resize(); addEventListener('resize', resize);
+  function init(){
+    particles = Array.from({length:60},()=>({
+      x:Math.random()*w, y:Math.random()*h,
+      vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25,
+      r:Math.random()*1.4+.3
+    }));
+  }
+  init();
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for(const p of particles){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>w) p.vx*=-1;
+      if(p.y<0||p.y>h) p.vy*=-1;
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(201,169,97,.5)';
+      ctx.fill();
     }
-    </script>
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const a=particles[i], b=particles[j];
+        const d=Math.hypot(a.x-b.x,a.y-b.y);
+        if(d<130){
+          ctx.beginPath();
+          ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+          ctx.strokeStyle=`rgba(201,169,97,${.12*(1-d/130)})`;
+          ctx.lineWidth=.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  // Form
+  const form = document.getElementById('signupForm');
+  const status = document.getElementById('status');
+  const btn = document.getElementById('submitBtn');
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    btn.disabled = true; btn.textContent = 'Sending…';
+    status.className='status';
+    try{
+      const res = await fetch(form.action, {
+        method:'POST',
+        body:new FormData(form),
+        headers:{'Accept':'application/json'}
+      });
+      if(res.ok){
+        status.textContent = '✦ You\'re on the list. Stay tuned.';
+        status.className = 'status show ok';
+        form.reset();
+        btn.textContent = 'Confirmed';
+      } else {
+        throw new Error('Failed');
+      }
+    } catch(err){
+      status.textContent = 'Something went wrong. Try again.';
+      status.className = 'status show err';
+      btn.disabled = false; btn.textContent = 'Notify Me';
+    }
+  });
+</script>
 </body>
 </html>
