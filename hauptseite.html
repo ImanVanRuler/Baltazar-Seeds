@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Baltazar Seeds — Couture Cultivation</title>
+<title>Baltazar Seeds — Rare Genetics</title>
 <meta name="description" content="Rare genetics. Meticulously bred. Reserved for those who know.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,6 +34,1666 @@ html, body {
 
 body {
   background: var(--bg);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* Grain texture via pseudo-element — no JS, no SVG filter issues */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+  /* Small tiled noise created from safe SVG (no filters) */
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='200' height='200' fill='none'/><g opacity='.08'><rect x='12' y='34' width='1' height='1' fill='white'/><rect x='45' y='12' width='1' height='1' fill='white'/><rect x='78' y='56' width='1' height='1' fill='white'/><rect x='23' y='89' width='1' height='1' fill='white'/><rect x='134' y='23' width='1' height='1' fill='white'/><rect x='167' y='67' width='1' height='1' fill='white'/><rect x='90' y='145' width='1' height='1' fill='white'/><rect x='56' y='178' width='1' height='1' fill='white'/><rect x='189' y='112' width='1' height='1' fill='white'/><rect x='3' y='156' width='1' height='1' fill='white'/><rect x='112' y='90' width='1' height='1' fill='white'/><rect x='145' y='167' width='1' height='1' fill='white'/><rect x='34' y='123' width='1' height='1' fill='white'/><rect x='178' y='45' width='1' height='1' fill='white'/><rect x='67' y='100' width='1' height='1' fill='white'/><rect x='100' y='34' width='1' height='1' fill='white'/><rect x='156' y='134' width='1' height='1' fill='white'/><rect x='7' y='78' width='1' height='1' fill='white'/><rect x='123' y='7' width='1' height='1' fill='white'/><rect x='89' y='189' width='1' height='1' fill='white'/></g></svg>");
+  background-size: 200px 200px;
+  opacity: 0.6;
+  mix-blend-mode: overlay;
+}
+
+/* ─────────────────────────────────────────────
+   INTRO SCREEN
+───────────────────────────────────────────── */
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  /* pointer-events blocked so slider underneath still receives events after fade */
+  pointer-events: none;
+  transition: opacity 0.8s ease 0.1s, visibility 0.8s ease 0.1s;
+}
+#intro.gone {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.intro-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 5vw, 46px);
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0;
+  animation: fadeIn 1s ease 0.3s forwards;
+}
+.intro-rule {
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.4;
+  animation: growLine 0.9s ease 0.55s forwards;
+}
+.intro-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0;
+  animation: fadeIn 1s ease 0.85s forwards;
+}
+
+@keyframes fadeIn   { to { opacity: 1; } }
+@keyframes growLine { to { width: 96px; } }
+
+/* ─────────────────────────────────────────────
+   AMBIENT LIGHT
+───────────────────────────────────────────── */
+#ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 55% at 18% 50%, rgba(184,135,58,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 82% 50%, rgba(30,68,22,0.06) 0%, transparent 70%);
+}
+
+/* ─────────────────────────────────────────────
+   CORNER MARKS
+───────────────────────────────────────────── */
+#corners {
+  position: fixed;
+  inset: 20px;
+  pointer-events: none;
+  z-index: 50;
+}
+.corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: rgba(184,135,58,0.22);
+  border-style: solid;
+}
+.corner.tl { top: 0; left: 0;  border-width: 1px 0 0 1px; }
+.corner.tr { top: 0; right: 0; border-width: 1px 1px 0 0; }
+.corner.bl { bottom: 0; left: 0;  border-width: 0 0 1px 1px; }
+.corner.br { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+/* ─────────────────────────────────────────────
+   PROGRESS BAR
+───────────────────────────────────────────── */
+#progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 1px;
+  width: 0;
+  background: linear-gradient(to right, var(--gold), rgba(184,135,58,0.2));
+  z-index: 80;
+  pointer-events: none;
+  transition: width 1s cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+/* ─────────────────────────────────────────────
+   NAV
+───────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 52px;
+  pointer-events: none;
+}
+@media (max-width: 768px) { nav { padding: 22px 24px; } }
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink);
+  pointer-events: all;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-pulse {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  animation: pulse 3s ease infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(0.6); }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  pointer-events: all;
+}
+@media (max-width: 768px) { .nav-links { gap: 22px; } }
+
+.nav-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: var(--gold); }
+
+/* ─────────────────────────────────────────────
+   CENTER DIVIDER LINE
+───────────────────────────────────────────── */
+#divider {
+  position: fixed;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--line);
+  z-index: 2;
+  pointer-events: none;
+}
+@media (max-width: 768px) { #divider { display: none; } }
+
+/* ─────────────────────────────────────────────
+   SIDE SWIPE HINT
+───────────────────────────────────────────── */
+#swipe-hint {
+  position: fixed;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+#swipe-hint::before {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 52px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  opacity: 0.18;
+}
+#swipe-hint span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  writing-mode: vertical-rl;
+}
+@media (max-width: 1100px) { #swipe-hint { display: none; } }
+
+/* ─────────────────────────────────────────────
+   KEYBOARD HINT
+───────────────────────────────────────────── */
+#kb-hint {
+  position: fixed;
+  bottom: 78px;
+  right: 52px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  pointer-events: none;
+  z-index: 50;
+}
+@media (max-width: 768px) { #kb-hint { display: none; } }
+
+/* ─────────────────────────────────────────────
+   SLIDER TRACK
+───────────────────────────────────────────── */
+#slider-track {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  height: 100vh;
+  cursor: grab;
+  transition: transform 1s cubic-bezier(0.77, 0, 0.18, 1);
+  will-change: transform;
+}
+#slider-track:active { cursor: grabbing; }
+
+/* ─────────────────────────────────────────────
+   SLIDE
+───────────────────────────────────────────── */
+.slide {
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .slide {
+    grid-template-columns: 1fr;
+    grid-template-rows: 55% 45%;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   IMAGE PANEL
+───────────────────────────────────────────── */
+.slide-img {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg2);
+}
+
+/* Vignette toward info panel */
+.slide-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 45%, rgba(8,13,9,0.7) 100%);
+}
+
+/* Placeholder: always visible unless hidden by JS after image loads */
+.img-ph {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: rgba(234,230,223,0.12);
+}
+.img-ph svg { opacity: 0.18; }
+.img-ph span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+}
+
+/*
+  Product image:
+  - visibility:hidden (not display:none) so transitions can still fire
+  - opacity:0 for a fade-in on load
+*/
+.slide-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(1.1);
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.6s ease;
+}
+/* When parent slide is active, zoom image back to natural */
+.slide.active .slide-img img {
+  transform: scale(1);
+}
+/* JS adds .loaded once the image fires onload */
+.slide-img img.loaded {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Botanical watermark (decorative SVG leaf) */
+.botanical {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  width: 190px;
+  height: 190px;
+  opacity: 0.03;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Genetics tag — top right of image */
+.slide-genetics {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  z-index: 5;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(184,135,58,0.08);
+  padding: 5px 11px;
+  border: 1px solid var(--gold-line);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.6s ease 0.5s, transform 0.6s ease 0.5s;
+}
+.slide.active .slide-genetics {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Slide number — bottom left of image */
+.slide-num {
+  position: absolute;
+  bottom: 26px;
+  left: 26px;
+  z-index: 5;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(234,230,223,0.28);
+  background: rgba(8,13,9,0.55);
+  padding: 5px 11px;
+  border: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+}
+
+/* ─────────────────────────────────────────────
+   INFO PANEL
+───────────────────────────────────────────── */
+.slide-info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 72px 80px 60px;
+  background: var(--bg);
+  overflow: hidden;
+}
+@media (max-width: 768px) { .slide-info { padding: 28px 24px 80px; } }
+
+/* Ghost index number in background */
+.ghost-num {
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translateY(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 210px;
+  font-weight: 400;
+  line-height: 1;
+  color: rgba(234,230,223,0.035);
+  pointer-events: none;
+  letter-spacing: -0.05em;
+  user-select: none;
+}
+@media (max-width: 900px) { .ghost-num { display: none; } }
+
+/*
+  Entrance animation for all info elements.
+  Base: invisible + offset. Active: visible + no offset.
+  Transitions are defined per-element (different delays).
+  The hover transitions on .cta are separate and do NOT share
+  this declaration to avoid conflicts.
+*/
+.slide-tag,
+.slide-name,
+.slide-lineage,
+.slide-desc,
+.slide-price-row,
+.slide-cta {
+  opacity: 0;
+}
+
+.slide-tag {
+  transform: translateX(-10px);
+  transition: opacity 0.6s ease 0.08s, transform 0.6s ease 0.08s;
+}
+.slide-name {
+  transform: translateY(26px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.16s,
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.16s;
+}
+.slide-lineage {
+  transition: opacity 0.7s ease 0.26s;
+}
+.slide-desc {
+  transform: translateY(14px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.28s,
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.28s;
+}
+.slide-price-row {
+  transform: translateY(10px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.36s,
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.36s;
+}
+.slide-cta {
+  transform: translateY(10px);
+  /* Entrance animation only — hover transitions are on :hover */
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.44s,
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.44s;
+}
+
+/* Active state: show everything */
+.slide.active .slide-tag,
+.slide.active .slide-name,
+.slide.active .slide-lineage,
+.slide.active .slide-desc,
+.slide.active .slide-price-row,
+.slide.active .slide-cta {
+  opacity: 1;
+  transform: none;
+}
+
+/* — Category tag — */
+.slide-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.52em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.slide-tag::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+
+/* — Strain name — */
+.slide-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(34px, 4.2vw, 60px);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.slide-name em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* — Lineage — */
+.slide-lineage {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.22em;
+  color: var(--ink-dim);
+  margin-bottom: 22px;
+}
+
+/* — Description — */
+.slide-desc {
+  font-size: 13px;
+  line-height: 1.82;
+  color: rgba(234,230,223,0.38);
+  font-weight: 300;
+  max-width: 360px;
+  margin-bottom: 32px;
+}
+
+/* — Price row — */
+.slide-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.slide-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 300;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.slide-price-unit {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* — CTA button (live) — */
+.slide-cta {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  position: relative;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  border: 1px solid var(--gold-line);
+  padding: 14px 28px;
+  gap: 14px;
+}
+/* Sliding fill on hover — handled by ::before, not transition on the element */
+.slide-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: translateX(-101%);
+  transition: transform 0.4s cubic-bezier(0.77, 0, 0.18, 1);
+}
+.slide-cta:hover::before { transform: translateX(0); }
+.slide-cta:hover { color: var(--bg); }
+.slide-cta .cta-label,
+.slide-cta svg { position: relative; z-index: 1; }
+
+/* — CTA button (coming soon / disabled) — */
+.slide-cta-soon {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border: 1px solid rgba(234,230,223,0.06);
+  padding: 14px 28px;
+  gap: 14px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.44s,
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.44s;
+}
+.slide.active .slide-cta-soon {
+  opacity: 1;
+  transform: none;
+}
+
+/* — THC badge — */
+.thc-badge {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-line);
+  background: rgba(184,135,58,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.6s ease 0.55s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.55s;
+}
+.slide.active .thc-badge {
+  opacity: 1;
+  transform: scale(1);
+}
+.thc-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+}
+.thc-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+@media (max-width: 768px) { .thc-badge { display: none; } }
+
+/* ─────────────────────────────────────────────
+   CONTROLS
+───────────────────────────────────────────── */
+#controls {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+#dots { display: flex; gap: 8px; align-items: center; }
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(234,230,223,0.14);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.35s, transform 0.35s;
+}
+.dot.active {
+  background: var(--gold);
+  transform: scale(1.7);
+}
+
+.arrow {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--ink-faint);
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-dim);
+  flex-shrink: 0;
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+}
+.arrow:hover {
+  border-color: var(--gold-line);
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+.arrow:disabled {
+  opacity: 0.15;
+  cursor: default;
+  pointer-events: none;
+}
+
+#counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.4em;
+  color: var(--ink-dim);
+  min-width: 46px;
+  text-align: center;
+}
+
+/* ─────────────────────────────────────────────
+   CONTACT MODAL
+───────────────────────────────────────────── */
+#modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  background: rgba(8,13,9,0.9);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+#modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+#modal {
+  width: 92%;
+  max-width: 440px;
+  background: var(--bg2);
+  border: 1px solid var(--gold-line);
+  padding: 50px 46px;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#modal-overlay.open #modal {
+  transform: translateY(0);
+}
+
+#modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  font-size: 16px;
+  line-height: 1;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+#modal-close:hover { color: var(--gold); }
+
+.modal-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.52em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.modal-eyebrow::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.4;
+}
+
+.modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 34px;
+}
+.modal-title em { font-style: italic; color: var(--gold); }
+
+.modal-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  text-decoration: none;
+  color: var(--ink-dim);
+  border-bottom: 1px solid var(--line);
+  transition: color 0.3s;
+}
+.modal-row:first-of-type { border-top: 1px solid var(--line); }
+.modal-row:hover { color: var(--ink); }
+.modal-row:hover .modal-icon { border-color: var(--gold-line); color: var(--gold); }
+
+.modal-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--ink-faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.modal-row-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 3px;
+}
+.modal-row-val {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.modal-note {
+  margin-top: 26px;
+  font-size: 12px;
+  line-height: 1.75;
+  font-weight: 300;
+  color: rgba(234,230,223,0.22);
+}
+
+/* ─────────────────────────────────────────────
+   CAT LOGO — top-right corner mark
+───────────────────────────────────────────── */
+#cat-logo {
+  position: fixed;
+  /* Sit comfortably below nav bar so nothing overlaps */
+  top: 82px;
+  right: 22px;
+  z-index: 300;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  overflow: visible;
+  animation: logoFloat 4s ease-in-out infinite;
+  cursor: none; /* custom cursor overrides */
+}
+#cat-logo-inner {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--gold-line);
+  position: relative;
+  transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+#cat-logo:hover #cat-logo-inner {
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(184,135,58,0.32), 0 0 42px rgba(184,135,58,0.12);
+}
+#cat-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+}
+#cat-logo:hover img {
+  transform: scale(1.08);
+  filter: brightness(1.1);
+}
+/* Outer orbit ring — expands + fades on hover */
+#cat-logo-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid rgba(184,135,58,0);
+  transition: border-color 0.5s ease, transform 1.6s cubic-bezier(0.16,1,0.3,1), inset 0.5s ease;
+  pointer-events: none;
+}
+#cat-logo:hover #cat-logo-ring {
+  border-color: rgba(184,135,58,0.22);
+  transform: rotate(60deg) scale(1.06);
+}
+
+/* Click spin */
+#cat-logo.logo-clicked #cat-logo-inner {
+  animation: logoSpin 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes logoSpin {
+  0%   { transform: rotate(0deg)   scale(1);    }
+  35%  { transform: rotate(-18deg) scale(0.88); }
+  65%  { transform: rotate(12deg)  scale(1.1);  }
+  100% { transform: rotate(0deg)   scale(1);    }
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0px);  }
+  40%       { transform: translateY(-5px); }
+  70%       { transform: translateY(-2px); }
+}
+
+/* ─────────────────────────────────────────────
+   LOGO CLICK — spark particles
+───────────────────────────────────────────── */
+.logo-spark {
+  position: fixed;
+  border-radius: 50%;
+  background: var(--gold);
+  pointer-events: none;
+  z-index: 9990;
+  transform: translate(-50%, -50%);
+  animation: sparkFly 0.8s ease-out forwards;
+}
+@keyframes sparkFly {
+  0%   { opacity: 1;   transform: translate(-50%, -50%) scale(1);   }
+  100% { opacity: 0;   transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.2); }
+}
+
+/* ─────────────────────────────────────────────
+   CUSTOM CURSOR
+───────────────────────────────────────────── */
+body,
+body *,
+body *::before,
+body *::after { cursor: none !important; }
+
+#cursor-dot {
+  position: fixed;
+  width: 5px;
+  height: 5px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.25s ease;
+  will-change: left, top;
+}
+#cursor-ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(184,135,58,0.35);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width  0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease,
+              opacity 0.25s ease;
+  will-change: left, top;
+}
+/* Hover: ring grows, dot grows */
+body.cur-hover #cursor-dot  { width: 8px; height: 8px; }
+body.cur-hover #cursor-ring {
+  width: 54px; height: 54px;
+  border-color: rgba(184,135,58,0.65);
+}
+/* Press: ring snaps inward */
+body.cur-press #cursor-ring {
+  width: 22px; height: 22px;
+  border-color: var(--gold);
+}
+
+/* ─────────────────────────────────────────────
+   DUAL-IMAGE CROSSFADE (slides 5 & 6)
+───────────────────────────────────────────── */
+
+/* Second image sits directly above first — same z-index stack */
+.img-b {
+  z-index: 3;  /* above .img-a (z-index 2), below vignette (z-index 4) */
+  /* Smooth fade-back when slide deactivates mid-cycle (prevents opacity snap) */
+  transition: opacity 0.8s ease;
+}
+
+/*
+  When the slide is active AND the second image has loaded,
+  start the cycle. Delay 1.5s so slide entrance animation finishes first.
+  Each full cycle: ~5s on img-b, crossfade, ~5s on img-a, crossfade back.
+*/
+.slide.active .img-b.loaded {
+  animation: imgCycle 11s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+@keyframes imgCycle {
+  0%, 38%   { opacity: 1; }  /* img-b visible (covers img-a) */
+  48%, 88%  { opacity: 0; }  /* img-a shows through           */
+  100%      { opacity: 1; }  /* back to img-b                 */
+}
+</style>
+</head>
+<body>
+
+<!-- Intro -->
+<div id="intro">
+  <div class="intro-logo">Baltazar Seeds</div>
+  <div class="intro-rule"></div>
+  <div class="intro-sub">Rare Genetics</div>
+</div>
+
+<!-- Ambient light -->
+<div id="ambient"></div>
+
+<!-- Corner marks -->
+<div id="corners">
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+</div>
+
+<!-- Progress bar -->
+<div id="progress"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-logo">
+    <span class="nav-pulse"></span>
+    Baltazar Seeds
+  </div>
+  <div class="nav-links">
+    <button class="nav-link" id="nav-collection">Collection</button>
+    <button class="nav-link" id="nav-contact">Contact</button>
+  </div>
+</nav>
+
+<!-- Logo mark — top-right corner -->
+<div id="cat-logo">
+  <div id="cat-logo-ring"></div>
+  <div id="cat-logo-inner">
+    <img src="CATLOGO.JPG" alt="Baltazar Seeds"
+         onerror="document.getElementById('cat-logo').style.display='none';">
+  </div>
+</div>
+
+<!-- Center divider -->
+<div id="divider"></div>
+
+<!-- Side swipe hint -->
+<div id="swipe-hint"><span>Swipe</span></div>
+
+<!-- Keyboard hint -->
+<div id="kb-hint">← → Navigate</div>
+
+
+<!-- ═══════════════════════════════════════════
+     SLIDER
+════════════════════════════════════════════ -->
+<div id="slider-track">
+
+
+  <!-- SLIDE 1 — Phantom Haze ──────────────── -->
+  <div class="slide active" data-index="0">
+
+    <div class="slide-img">
+      <svg class="botanical" viewBox="0 0 200 200" fill="none">
+        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
+      </svg>
+      <div class="img-ph" id="ph1">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+        </svg>
+        <span>Phantom Haze</span>
+      </div>
+      <img src="STRAIN1.JPG" alt="Baltazar's Phantom Haze"
+           onload="this.classList.add('loaded'); document.getElementById('ph1').style.display='none';"
+           onerror="this.remove();">
+      <div class="slide-genetics">Sativa Dom. · Ghost Train × Silver Haze</div>
+      <div class="slide-num">01 / Collection</div>
+    </div>
+
+    <div class="slide-info">
+      <div class="ghost-num">01</div>
+      <div class="slide-tag">New Drop</div>
+      <h2 class="slide-name">Baltazar's<br><em>Phantom Haze</em></h2>
+      <div class="slide-lineage">Ghost Train Haze × Silver Haze · F6</div>
+      <p class="slide-desc">She rises like smoke: weightless, euphoric, impossible to hold. Six generations of refinement distilled into a cerebral clarity that sharpens the world around you. Born for the thinkers, the builders, the ones who never stop moving.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a class="slide-cta" href="https://buy.stripe.com/dRm4gCdai9wn46Y7A5gw00J" target="_blank" rel="noopener">
+        <span class="cta-label">Order Now</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <div class="thc-badge"><div class="thc-val">28%</div><div class="thc-lbl">THC</div></div>
+    </div>
+  </div>
+
+
+  <!-- SLIDE 2 — Velvet Thunder ────────────── -->
+  <div class="slide" data-index="1">
+
+    <div class="slide-img">
+      <svg class="botanical" viewBox="0 0 200 200" fill="none">
+        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
+      </svg>
+      <div class="img-ph" id="ph2">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+        </svg>
+        <span>Velvet Thunder</span>
+      </div>
+      <img src="STRAIN2.JPG" alt="Baltazar's Velvet Thunder"
+           onload="this.classList.add('loaded'); document.getElementById('ph2').style.display='none';"
+           onerror="this.remove();">
+      <div class="slide-genetics">Hybrid · GMO × Zkittlez</div>
+      <div class="slide-num">02 / Collection</div>
+    </div>
+
+    <div class="slide-info">
+      <div class="ghost-num">02</div>
+      <div class="slide-tag">Bestseller</div>
+      <h2 class="slide-name">Baltazar's<br><em>Velvet Thunder</em></h2>
+      <div class="slide-lineage">GMO × Zkittlez · F5 Stable</div>
+      <p class="slide-desc">Power wrapped in silk. The first hit is soft and then the thunder rolls in deep. A heavyweight cross that delivers dense resinous flowers with a terpene architecture that refuses to be summarized or forgotten.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a class="slide-cta" href="https://buy.stripe.com/8x25kG9Y65g75b26w1gw00K" target="_blank" rel="noopener">
+        <span class="cta-label">Order Now</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <div class="thc-badge"><div class="thc-val">31%</div><div class="thc-lbl">THC</div></div>
+    </div>
+  </div>
+
+
+  <!-- SLIDE 3 — Golden Ritual ─────────────── -->
+  <div class="slide" data-index="2">
+
+    <div class="slide-img">
+      <svg class="botanical" viewBox="0 0 200 200" fill="none">
+        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
+      </svg>
+      <div class="img-ph" id="ph3">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+        </svg>
+        <span>Golden Ritual</span>
+      </div>
+      <img src="STRAIN3.JPG" alt="Baltazar's Golden Ritual"
+           onload="this.classList.add('loaded'); document.getElementById('ph3').style.display='none';"
+           onerror="this.remove();">
+      <div class="slide-genetics">Indica Dom. · GDP × OG Kush</div>
+      <div class="slide-num">03 / Collection</div>
+    </div>
+
+    <div class="slide-info">
+      <div class="ghost-num">03</div>
+      <div class="slide-tag">Limited</div>
+      <h2 class="slide-name">Baltazar's<br><em>Golden Ritual</em></h2>
+      <div class="slide-lineage">Granddaddy Purple × OG Kush · F4</div>
+      <p class="slide-desc">An evening ceremony for those who appreciate depth. Rich amber terpenes, old world structure. This is not a shortcut. It is a destination. Warm, full, and unmistakably alive in the hand.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a class="slide-cta" href="https://buy.stripe.com/14A8wSeem6kb46Yg6Bgw00L" target="_blank" rel="noopener">
+        <span class="cta-label">Order Now</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <div class="thc-badge"><div class="thc-val">27%</div><div class="thc-lbl">THC</div></div>
+    </div>
+  </div>
+
+
+  <!-- SLIDE 4 — Midnight Oracle ───────────── -->
+  <div class="slide" data-index="3">
+
+    <div class="slide-img">
+      <svg class="botanical" viewBox="0 0 200 200" fill="none">
+        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
+      </svg>
+      <div class="img-ph" id="ph4">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+        </svg>
+        <span>Midnight Oracle</span>
+      </div>
+      <img src="STRAIN4.JPG" alt="Baltazar's Midnight Oracle"
+           onload="this.classList.add('loaded'); document.getElementById('ph4').style.display='none';"
+           onerror="this.remove();">
+      <div class="slide-genetics">Indica · Hindu Kush × Black Afghan</div>
+      <div class="slide-num">04 / Collection</div>
+    </div>
+
+    <div class="slide-info">
+      <div class="ghost-num">04</div>
+      <div class="slide-tag">Exclusive</div>
+      <h2 class="slide-name">Baltazar's<br><em>Midnight Oracle</em></h2>
+      <div class="slide-lineage">Hindu Kush × Black Afghan · F7</div>
+      <p class="slide-desc">She speaks only to those who are ready to listen. Ancient landrace genetics refined into a resinous meditative body of work. Dense. Dark. Wise. Seven generations in the making and worth every one of them.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a class="slide-cta" href="https://buy.stripe.com/dRmdRc9Y6gYPbzq2fLgw00M" target="_blank" rel="noopener">
+        <span class="cta-label">Order Now</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <div class="thc-badge"><div class="thc-val">29%</div><div class="thc-lbl">THC</div></div>
+    </div>
+  </div>
+
+
+  <!-- SLIDE 5 — Crimson Protocol ──────────── -->
+  <div class="slide" data-index="4">
+
+    <div class="slide-img">
+      <svg class="botanical" viewBox="0 0 200 200" fill="none">
+        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
+      </svg>
+      <div class="img-ph" id="ph5">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+        </svg>
+        <span>Crimson Protocol</span>
+      </div>
+      <!-- Primary image -->
+      <img class="img-a" src="STRAIN5.JPG" alt="Baltazar's Crimson Protocol"
+           onload="this.classList.add('loaded'); document.getElementById('ph5').style.display='none';"
+           onerror="this.remove();">
+      <!-- Secondary image — crossfades over primary when slide is active -->
+      <img class="img-b" src="STRAIN5A.JPG" alt="Baltazar's Crimson Protocol — view 2"
+           onload="this.classList.add('loaded');"
+           onerror="this.remove();">
+      <div class="slide-genetics">Hybrid · Cherry Punch × Gelato 41</div>
+      <div class="slide-num">05 / Collection</div>
+    </div>
+
+    <div class="slide-info">
+      <div class="ghost-num">05</div>
+      <div class="slide-tag">Incoming</div>
+      <h2 class="slide-name">Baltazar's<br><em>Crimson Protocol</em></h2>
+      <div class="slide-lineage">Cherry Punch × Gelato 41 · F4</div>
+      <p class="slide-desc">Structured like a system and beautiful like a crime. Cherry sweetness meets Gelato richness in a hybrid that plays both sides and wins every time. Precision breeding for precision minds who know exactly what they want.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <div class="slide-cta-soon">
+        <span>Coming Soon</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <div class="thc-badge"><div class="thc-val">26%</div><div class="thc-lbl">THC</div></div>
+    </div>
+  </div>
+
+
+  <!-- SLIDE 6 — Silent Forest ─────────────── -->
+  <div class="slide" data-index="5">
+
+    <div class="slide-img">
+      <svg class="botanical" viewBox="0 0 200 200" fill="none">
+        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
+      </svg>
+      <div class="img-ph" id="ph6">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+        </svg>
+        <span>Silent Forest</span>
+      </div>
+      <!-- Primary image -->
+      <img class="img-a" src="STRAIN6.JPG" alt="Baltazar's Silent Forest"
+           onload="this.classList.add('loaded'); document.getElementById('ph6').style.display='none';"
+           onerror="this.remove();">
+      <!-- Secondary image — crossfades over primary when slide is active -->
+      <img class="img-b" src="STRAIN6A.JPG" alt="Baltazar's Silent Forest — view 2"
+           onload="this.classList.add('loaded');"
+           onerror="this.remove();">
+      <div class="slide-genetics">Indica Dom. · Northern Lights × Afghan Kush</div>
+      <div class="slide-num">06 / Collection</div>
+    </div>
+
+    <div class="slide-info">
+      <div class="ghost-num">06</div>
+      <div class="slide-tag">Incoming</div>
+      <h2 class="slide-name">Baltazar's<br><em>Silent Forest</em></h2>
+      <div class="slide-lineage">Northern Lights × Afghan Kush · F6</div>
+      <p class="slide-desc">Stand in a grove at 3am and breathe deeply. That is this strain. Northern Lights heritage meets Afghan depth in a pure uncompromising Indica built entirely for rest and long quiet reflection.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <div class="slide-cta-soon">
+        <span>Coming Soon</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </div>
+      <div class="thc-badge"><div class="thc-val">24%</div><div class="thc-lbl">THC</div></div>
+    </div>
+  </div>
+
+
+</div><!-- /slider-track -->
+
+
+<!-- Controls -->
+<div id="controls">
+  <button class="arrow" id="btn-prev" aria-label="Previous slide" disabled>
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+  <div id="dots"></div>
+  <button class="arrow" id="btn-next" aria-label="Next slide">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+  <div id="counter">01 / 06</div>
+</div>
+
+
+<!-- Contact modal -->
+<div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+  <div id="modal">
+    <button id="modal-close" aria-label="Close contact">&#10005;</button>
+
+    <div class="modal-eyebrow">Get in Touch</div>
+    <div class="modal-title" id="modal-heading">Reach<br><em>Baltazar</em></div>
+
+    <a class="modal-row" href="mailto:imanvanruler@freenet.de">
+      <div class="modal-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <polyline points="2,4 12,13 22,4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="modal-row-label">Email</div>
+        <div class="modal-row-val">imanvanruler@freenet.de</div>
+      </div>
+    </a>
+
+    <a class="modal-row" href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener noreferrer">
+      <div class="modal-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="4.5"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <div>
+        <div class="modal-row-label">Instagram</div>
+        <div class="modal-row-val">@real_jack_james</div>
+      </div>
+    </a>
+
+    <p class="modal-note">For orders, questions, or wholesale inquiries reach out directly. We respond within 24 hours. All seeds are sold as collectibles only.</p>
+  </div>
+</div>
+
+
+<!-- Custom cursor — must be in DOM before script runs -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Intro dismiss ───────────────────────── */
+  var intro = document.getElementById('intro');
+  setTimeout(function () { intro.classList.add('gone'); }, 2200);
+
+  /* ── Shared audio context (singleton) ──────── */
+  var sharedAudioCtx = null;
+
+  /* ── Slider state ───────────────────────── */
+  var track   = document.getElementById('slider-track');
+  var slides  = Array.from(document.querySelectorAll('.slide'));
+  var dotsEl  = document.getElementById('dots');
+  var btnPrev = document.getElementById('btn-prev');
+  var btnNext = document.getElementById('btn-next');
+  var counter = document.getElementById('counter');
+  var progress = document.getElementById('progress');
+
+  var total   = slides.length;  /* 6 */
+  var current = 0;
+  var locked  = false;          /* prevents rapid-fire during transition */
+
+  /* ── Build dot buttons ──────────────────── */
+  slides.forEach(function (_, i) {
+    var btn = document.createElement('button');
+    btn.className = 'dot' + (i === 0 ? ' active' : '');
+    btn.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    btn.addEventListener('click', function () { goTo(i); });
+    dotsEl.appendChild(btn);
+  });
+
+  function getDots() { return dotsEl.querySelectorAll('.dot'); }
+
+  /* Zero-pad: pad(0)=>"01", pad(5)=>"06" */
+  function fmt(n) { return String(n + 1).padStart(2, '0'); }
+
+  /* ── Navigate to slide ──────────────────── */
+  function goTo(idx) {
+    if (locked || idx === current || idx < 0 || idx >= total) return;
+    locked = true;
+
+    /* Remove active from current */
+    slides[current].classList.remove('active');
+    getDots()[current].classList.remove('active');
+
+    current = idx;
+
+    /* Add active to new */
+    slides[current].classList.add('active');
+    getDots()[current].classList.add('active');
+
+    /* Move track */
+    track.style.transform = 'translateX(-' + (current * 100) + 'vw)';
+
+    /* Update UI */
+    counter.textContent  = fmt(current) + ' / ' + fmt(total - 1);
+    progress.style.width = ((current + 1) / total * 100) + '%';
+    btnPrev.disabled     = current === 0;
+    btnNext.disabled     = current === total - 1;
+
+    /* Release lock after transition duration (1 s) */
+    setTimeout(function () { locked = false; }, 1050);
+  }
+
+  /* ── Init ───────────────────────────────── */
+  progress.style.width = ((1 / total) * 100) + '%';
+  counter.textContent  = '01 / ' + fmt(total - 1);
+
+  /* ── Arrow buttons ──────────────────────── */
+  btnPrev.addEventListener('click', function () { goTo(current - 1); });
+  btnNext.addEventListener('click', function () { goTo(current + 1); });
+
+  /* ── Keyboard ───────────────────────────── */
+  document.addEventListener('keydown', function (e) {
+    switch (e.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        goTo(current + 1);
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        goTo(current - 1);
+        break;
+      case 'Escape':
+        closeModal();
+        break;
+    }
+  });
+
+  /* ── Touch swipe ────────────────────────── */
+  var touchX = 0, touchY = 0;
+  track.addEventListener('touchstart', function (e) {
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+  }, { passive: true });
+  track.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - touchX;
+    var dy = e.changedTouches[0].clientY - touchY;
+    /* Only fire if horizontal swipe dominates and exceeds threshold */
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) {
+      goTo(dx < 0 ? current + 1 : current - 1);
+    }
+  }, { passive: true });
+
+  /* ── Mouse drag ─────────────────────────── */
+  var dragX = 0, dragging = false;
+  track.addEventListener('mousedown', function (e) {
+    /* Ignore clicks on links/buttons inside slides */
+    if (e.target.closest('a, button')) return;
+    dragX = e.clientX;
+    dragging = true;
+  });
+  document.addEventListener('mouseup', function (e) {
+    if (!dragging) return;
+    dragging = false;
+    var dx = e.clientX - dragX;
+    if (Math.abs(dx) > 60) goTo(dx < 0 ? current + 1 : current - 1);
+  });
+  track.addEventListener('mouseleave', function () { dragging = false; });
+
+  /* ── Nav buttons ────────────────────────── */
+  document.getElementById('nav-collection').addEventListener('click', function () {
+    goTo(0);
+  });
+  document.getElementById('nav-contact').addEventListener('click', openModal);
+
+  /* ── Contact modal ──────────────────────── */
+  var overlay = document.getElementById('modal-overlay');
+
+  function openModal()  { overlay.classList.add('open'); }
+  function closeModal() { overlay.classList.remove('open'); }
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeModal();
+  });
+
+
+  /* ── Custom cursor ────────────────────────── */
+  var curDot  = document.getElementById('cursor-dot');
+  var curRing = document.getElementById('cursor-ring');
+  var mx = window.innerWidth / 2,  my = window.innerHeight / 2;
+  var rx = mx, ry = my;
+
+  document.addEventListener('mousemove', function (e) {
+    mx = e.clientX;
+    my = e.clientY;
+    curDot.style.left = mx + 'px';
+    curDot.style.top  = my + 'px';
+  });
+
+  /* Ring follows with smooth lag */
+  (function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    curRing.style.left = rx + 'px';
+    curRing.style.top  = ry + 'px';
+    requestAnimationFrame(animRing);
+  })();
+
+  /* Hover state — cover all clickable elements */
+  Array.from(document.querySelectorAll('a, button, [role="button"], .slide-cta-soon, #cat-logo, .dot, .arrow')).forEach(function (el) {
+    el.addEventListener('mouseenter', function () { document.body.classList.add('cur-hover'); });
+    el.addEventListener('mouseleave', function () { document.body.classList.remove('cur-hover'); });
+  });
+
+  /* Press state */
+  document.addEventListener('mousedown', function () { document.body.classList.add('cur-press'); });
+  document.addEventListener('mouseup',   function () { document.body.classList.remove('cur-press'); });
+
+  /* Hide when pointer leaves window */
+  document.addEventListener('mouseleave', function () { curDot.style.opacity = '0'; curRing.style.opacity = '0'; });
+  document.addEventListener('mouseenter', function () { curDot.style.opacity = '1'; curRing.style.opacity = '1'; });
+
+  /* ── Logo click — spark burst + chime ────── */
+  document.getElementById('cat-logo').addEventListener('click', function () {
+    var logo = this;
+    var rect = logo.getBoundingClientRect();
+    var cx   = rect.left + rect.width  / 2;
+    var cy   = rect.top  + rect.height / 2;
+
+    /* Spin */
+    logo.classList.remove('logo-clicked');
+    void logo.offsetWidth;
+    logo.classList.add('logo-clicked');
+    setTimeout(function () { logo.classList.remove('logo-clicked'); }, 750);
+
+    /* Spark particles */
+    var count = 16;
+    for (var i = 0; i < count; i++) {
+      (function (i) {
+        var angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.5;
+        var dist  = 55 + Math.random() * 45;
+        var dx    = Math.cos(angle) * dist;
+        var dy    = Math.sin(angle) * dist;
+        var size  = 2 + Math.random() * 3.5;
+        var delay = Math.random() * 90;
+
+        var spark = document.createElement('div');
+        spark.className = 'logo-spark';
+        spark.style.cssText = 'left:' + cx + 'px;top:' + cy + 'px;'
+          + 'width:' + size + 'px;height:' + size + 'px;'
+          + 'animation-delay:' + delay + 'ms;'
+          + '--dx:' + dx + 'px;--dy:' + dy + 'px;';
+        document.body.appendChild(spark);
+        setTimeout(function () { spark.remove(); }, 900 + delay);
+      })(i);
+    }
+
+    /* Web Audio — warm C-major chord (singleton context, reused across clicks) */
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) {
+        if (!sharedAudioCtx) sharedAudioCtx = new AC();
+        /* Resume after browser autoplay suspension */
+        if (sharedAudioCtx.state === 'suspended') sharedAudioCtx.resume();
+        var actx = sharedAudioCtx;
+        [523.25, 659.25, 783.99].forEach(function (freq, i) {
+          var osc  = actx.createOscillator();
+          var gain = actx.createGain();
+          var t    = actx.currentTime + i * 0.08;
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, t);
+          gain.gain.setValueAtTime(0, t);
+          gain.gain.linearRampToValueAtTime(0.07, t + 0.045);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.7);
+          osc.connect(gain);
+          gain.connect(actx.destination);
+          osc.start(t);
+          osc.stop(t + 1.9);
+          /* Disconnect nodes after they finish to free memory */
+          osc.onended = function () { osc.disconnect(); gain.disconnect(); };
+        });
+      }
+    } catch (e) {}
+  });
+
+}());
+</script>
+
+</body>
+</html>
   color: var(--ink);
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
