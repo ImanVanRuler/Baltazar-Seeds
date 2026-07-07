@@ -882,6 +882,88 @@ nav {
   font-weight: 300;
   color: rgba(234,230,223,0.22);
 }
+
+/* ─────────────────────────────────────────────
+   CAT LOGO — top-right corner mark
+───────────────────────────────────────────── */
+#cat-logo {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 300;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: visible;   /* let glow bleed outside */
+  animation: logoFloat 4s ease-in-out infinite;
+}
+#cat-logo-inner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--gold-line);
+  position: relative;
+  transition: border-color 0.5s ease, box-shadow 0.5s ease;
+}
+#cat-logo:hover #cat-logo-inner {
+  border-color: var(--gold);
+  box-shadow: 0 0 14px rgba(184,135,58,0.28), 0 0 30px rgba(184,135,58,0.10);
+}
+#cat-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#cat-logo:hover img {
+  transform: scale(1.1);
+}
+/* Subtle rotating ring on hover */
+#cat-logo-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid rgba(184,135,58,0);
+  transition: border-color 0.5s ease, transform 1.5s ease;
+  pointer-events: none;
+}
+#cat-logo:hover #cat-logo-ring {
+  border-color: rgba(184,135,58,0.18);
+  transform: rotate(45deg) scale(1.05);
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0px);    }
+  40%       { transform: translateY(-4px);   }
+  70%       { transform: translateY(-2px);   }
+}
+
+/* ─────────────────────────────────────────────
+   DUAL-IMAGE CROSSFADE (slides 5 & 6)
+───────────────────────────────────────────── */
+
+/* Second image sits directly above first — same z-index stack */
+.img-b {
+  z-index: 3;  /* above .img-a (z-index 2), below vignette (z-index 4) */
+}
+
+/*
+  When the slide is active AND the second image has loaded,
+  start the cycle. Delay 1.5s so slide entrance animation finishes first.
+  Each full cycle: ~5s on img-b, crossfade, ~5s on img-a, crossfade back.
+*/
+.slide.active .img-b.loaded {
+  animation: imgCycle 11s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+@keyframes imgCycle {
+  0%, 38%   { opacity: 1; }  /* img-b visible (covers img-a) */
+  48%, 88%  { opacity: 0; }  /* img-a shows through           */
+  100%      { opacity: 1; }  /* back to img-b                 */
+}
 </style>
 </head>
 <body>
@@ -918,6 +1000,15 @@ nav {
     <button class="nav-link" id="nav-contact">Contact</button>
   </div>
 </nav>
+
+<!-- Logo mark — top-right corner -->
+<div id="cat-logo">
+  <div id="cat-logo-ring"></div>
+  <div id="cat-logo-inner">
+    <img src="CATLOGO.JPG" alt="Baltazar Seeds"
+         onerror="document.getElementById('cat-logo').style.display='none';">
+  </div>
+</div>
 
 <!-- Center divider -->
 <div id="divider"></div>
@@ -1132,8 +1223,13 @@ nav {
         </svg>
         <span>Crimson Protocol</span>
       </div>
-      <img src="STRAIN5.JPG" alt="Baltazar's Crimson Protocol"
+      <!-- Primary image -->
+      <img class="img-a" src="STRAIN5.JPG" alt="Baltazar's Crimson Protocol"
            onload="this.classList.add('loaded'); document.getElementById('ph5').style.display='none';"
+           onerror="this.remove();">
+      <!-- Secondary image — crossfades over primary when slide is active -->
+      <img class="img-b" src="STRAIN5A.JPG" alt="Baltazar's Crimson Protocol — view 2"
+           onload="this.classList.add('loaded');"
            onerror="this.remove();">
       <div class="slide-genetics">Hybrid · Cherry Punch × Gelato 41</div>
       <div class="slide-num">05 / Collection</div>
@@ -1177,8 +1273,13 @@ nav {
         </svg>
         <span>Silent Forest</span>
       </div>
-      <img src="STRAIN6.JPG" alt="Baltazar's Silent Forest"
+      <!-- Primary image -->
+      <img class="img-a" src="STRAIN6.JPG" alt="Baltazar's Silent Forest"
            onload="this.classList.add('loaded'); document.getElementById('ph6').style.display='none';"
+           onerror="this.remove();">
+      <!-- Secondary image — crossfades over primary when slide is active -->
+      <img class="img-b" src="STRAIN6A.JPG" alt="Baltazar's Silent Forest — view 2"
+           onload="this.classList.add('loaded');"
            onerror="this.remove();">
       <div class="slide-genetics">Indica Dom. · Northern Lights × Afghan Kush</div>
       <div class="slide-num">06 / Collection</div>
