@@ -7,6 +7,11 @@
 
 <title>BALTAZAR SEEDS | 420 Universe</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
 <style>
 
 * {
@@ -59,8 +64,189 @@ body {
 
     text-align: center;
 
-    cursor: pointer;
+    cursor: none;
+/* eigener mystischer Cursor */
 
+.cursor {
+
+    position: fixed;
+
+    width: 22px;
+    height: 22px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(220,240,200,0.7);
+
+    pointer-events: none;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 999;
+
+    transition:
+    width .3s ease,
+    height .3s ease,
+    background .3s ease;
+
+    mix-blend-mode: difference;
+
+}
+
+
+.cursor.active {
+
+    width: 60px;
+    height: 60px;
+
+    background:
+    rgba(120,200,120,0.15);
+
+}
+
+
+
+/* neue Schrift */
+
+.content {
+
+    font-family:
+    "Cormorant Garamond",
+    serif;
+
+}
+
+
+
+/* Titel */
+
+h1 {
+
+    position: relative;
+
+    font-weight: 400;
+
+    text-transform: uppercase;
+
+    animation:
+
+    titleReveal
+    3s
+    ease forwards,
+
+    subtleGlitch
+    7s
+    infinite;
+
+}
+
+
+
+/* elegante Einblendung */
+
+@keyframes titleReveal {
+
+
+0% {
+
+    opacity:0;
+
+    letter-spacing:40px;
+
+    filter:
+    blur(15px);
+
+}
+
+
+100% {
+
+    opacity:1;
+
+    letter-spacing:
+    clamp(5px,1vw,12px);
+
+    filter:
+    blur(0);
+
+}
+
+
+}
+
+
+
+/* sehr dezenter Glitch */
+
+@keyframes subtleGlitch {
+
+
+0%,
+90%,
+100% {
+
+    transform:
+    translate(0);
+
+}
+
+
+92% {
+
+    transform:
+    translate(-2px,1px);
+
+}
+
+
+94% {
+
+    transform:
+    translate(2px,-1px);
+
+}
+
+
+}
+
+
+
+.subtitle {
+
+    animation:
+
+    fadeSubtitle
+    4s
+    ease forwards;
+
+}
+
+
+
+@keyframes fadeSubtitle {
+
+
+from {
+
+    opacity:0;
+
+    transform:
+    translateY(20px);
+
+}
+
+
+to {
+
+    opacity:.65;
+
+    transform:
+    translateY(0);
+
+}
+
+
+}
 
     opacity: 0;
 
@@ -257,15 +443,57 @@ h1 {
 
 </div>
 
-
+<div class="cursor"></div>
 
 <script>
+
+const cursor =
+document.querySelector(".cursor");
+
+
+document.addEventListener(
+"mousemove",
+(e)=>{
+
+
+cursor.style.left =
+e.clientX + "px";
+
+
+cursor.style.top =
+e.clientY + "px";
+
+
+});
+
+
+const intro =
+document.querySelector(".intro");
+
+
+intro.addEventListener(
+"mouseenter",
+()=>{
+
+cursor.classList.add("active");
+
+});
+
+
+intro.addEventListener(
+"mouseleave",
+()=>{
+
+cursor.classList.remove("active");
+
+});
+
 
 
 function enterSite(){
 
-    window.location.href =
-    "hauptseite.html";
+window.location.href =
+"hauptseite.html";
 
 }
 
