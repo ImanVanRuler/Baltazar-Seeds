@@ -1,262 +1,1048 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Baltazar Seeds — A 420 Universe</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>BALTAZAR SEEDS | Organic Universe</title>
+
+
 <style>
-  :root{
-    --bg:#0a0a0a;
-    --ink:#f4efe4;
-    --muted:#8a8578;
-    --gold:#c9a961;
-    --gold-bright:#e8c979;
-    --leaf:#4a6b3a;
-    --line:rgba(201,169,97,.18);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{
-    background:var(--bg);
-    color:var(--ink);
-    font-family:'Inter',sans-serif;
-    font-weight:300;
-    overflow-x:hidden;
-    min-height:100vh;
-    position:relative;
-    -webkit-font-smoothing:antialiased;
-  }
 
-  /* Ambient light layers */
-  .ambient{position:fixed;inset:0;pointer-events:none;z-index:0}
-  .ambient::before{
-    content:"";position:absolute;inset:-20%;
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+html,
+body {
+
+    width:100%;
+    height:100%;
+
+    overflow:hidden;
+
+    background:#020302;
+
+    font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+}
+
+
+canvas {
+
+    position:fixed;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+}
+
+
+
+/*
+    Tiefe Nebelschicht
+*/
+
+
+.fog {
+
+    position:fixed;
+
+    inset:-20%;
+
+    pointer-events:none;
+
     background:
-      radial-gradient(600px 400px at 20% 30%, rgba(201,169,97,.10), transparent 60%),
-      radial-gradient(700px 500px at 80% 70%, rgba(74,107,58,.12), transparent 60%),
-      radial-gradient(500px 500px at 50% 100%, rgba(201,169,97,.06), transparent 60%);
-    animation:drift 24s ease-in-out infinite alternate;
-  }
-  @keyframes drift{
-    0%{transform:translate(0,0) scale(1)}
-    100%{transform:translate(-3%,2%) scale(1.05)}
-  }
+    radial-gradient(
+        circle at 50% 50%,
+        rgba(70,140,90,0.08),
+        transparent 45%
+    );
 
-  /* Film grain */
-  .grain{position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.08;mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.9'/></svg>");
-  }
 
-  /* Particles canvas */
-  canvas#field{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.55}
+    filter:blur(80px);
 
-  /* Frame */
-  .frame{position:fixed;inset:24px;border:1px solid var(--line);pointer-events:none;z-index:3}
-  .frame::before,.frame::after,.corner{position:absolute;width:22px;height:22px;border:1px solid var(--gold);}
-  .frame::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
-  .frame::after{top:-1px;right:-1px;border-left:none;border-bottom:none}
-  .corner.bl{bottom:-1px;left:-1px;border-right:none;border-top:none}
-  .corner.br{bottom:-1px;right:-1px;border-left:none;border-top:none}
+    animation:
+    fogMove 25s infinite alternate ease-in-out;
 
-  /* Layout */
-  main{position:relative;z-index:5;min-height:100vh;display:flex;flex-direction:column;padding:64px 40px 40px}
-  header{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
-  header .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;margin-right:10px;box-shadow:0 0 12px var(--gold);animation:pulse 2s ease-in-out infinite}
-  @keyframes pulse{50%{opacity:.4;transform:scale(.85)}}
+}
 
-  .hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:80px 0 40px;max-width:920px;margin:0 auto;width:100%}
 
-  .eyebrow{display:inline-flex;align-items:center;gap:14px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:36px;opacity:0;animation:rise .9s .1s forwards ease-out}
-  .eyebrow::before,.eyebrow::after{content:"";width:36px;height:1px;background:var(--gold);opacity:.6}
 
-  h1{
-    font-family:'Cormorant Garamond',serif;
-    font-weight:400;
-    font-size:clamp(56px,10vw,140px);
-    line-height:.95;
-    letter-spacing:-.02em;
-    background:linear-gradient(180deg,#f4efe4 0%,#c9a961 55%,#8a6f3d 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    opacity:0;animation:rise 1.2s .25s forwards ease-out;
-    text-shadow:0 0 80px rgba(201,169,97,.15);
-  }
-  h1 em{font-style:italic;font-weight:300;color:var(--gold-bright);-webkit-text-fill-color:currentColor}
+@keyframes fogMove {
 
-  .subtitle{
-    margin-top:28px;
-    font-family:'JetBrains Mono',monospace;
-    font-size:13px;letter-spacing:.5em;text-transform:uppercase;
-    color:var(--ink);opacity:0;
-    animation:rise 1s .55s forwards ease-out;
-  }
-  .subtitle .four-twenty{color:var(--leaf);font-weight:400}
 
-  .divider{width:1px;height:60px;background:linear-gradient(180deg,transparent,var(--gold),transparent);margin:44px auto 32px;opacity:0;animation:grow 1s .8s forwards ease-out}
-  @keyframes grow{to{opacity:1}}
+    from {
 
-  .tagline{max-width:520px;font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:20px;line-height:1.6;color:var(--muted);opacity:0;animation:rise 1s 1s forwards ease-out}
+        transform:
+        translate(-5%,-3%)
+        scale(1);
 
-  /* Form */
-  .signup{margin-top:56px;width:100%;max-width:480px;opacity:0;animation:rise 1s 1.25s forwards ease-out}
-  .signup-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;text-align:center}
-  form{display:flex;gap:0;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.02);backdrop-filter:blur(8px);transition:border-color .4s}
-  form:focus-within{border-color:var(--gold)}
-  input[type=email]{
-    flex:1;background:transparent;border:none;outline:none;color:var(--ink);
-    padding:18px 22px;font-family:'Inter',sans-serif;font-size:14px;letter-spacing:.05em;
-  }
-  input::placeholder{color:var(--muted);letter-spacing:.15em;font-size:12px;text-transform:uppercase}
-  button{
-    background:transparent;border:none;border-left:1px solid var(--line);
-    color:var(--gold);padding:0 28px;cursor:pointer;
-    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.3em;text-transform:uppercase;
-    transition:all .3s;position:relative;overflow:hidden;
-  }
-  button:hover{background:var(--gold);color:#0a0a0a}
-  button:disabled{opacity:.4;cursor:wait}
-  .fineprint{margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-align:center}
-  .fineprint span{color:var(--gold)}
+    }
 
-  .status{margin-top:18px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.25em;text-transform:uppercase;min-height:16px;opacity:0;transition:opacity .4s}
-  .status.show{opacity:1}
-  .status.ok{color:var(--gold-bright)}
-  .status.err{color:#c96961}
 
-  footer{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);opacity:0;animation:rise 1s 1.5s forwards ease-out}
-  footer .seal{display:flex;align-items:center;gap:10px}
-  footer .seal svg{width:14px;height:14px;stroke:var(--gold);fill:none;stroke-width:1.2}
+    to {
 
-  @keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        transform:
+        translate(5%,4%)
+        scale(1.15);
 
-  @media (max-width:640px){
-    main{padding:40px 24px 28px}
-    .frame{inset:12px}
-    form{flex-direction:column}
-    button{border-left:none;border-top:1px solid var(--line);padding:16px}
-    input[type=email]{padding:16px 18px;text-align:center}
-    header .loc{display:none}
-    footer{flex-direction:column;gap:12px}
-  }
+    }
+
+
+}
+
+
+
+/*
+    leichte Filmkörnung
+*/
+
+
+.grain {
+
+    position:fixed;
+
+    inset:-50%;
+
+    pointer-events:none;
+
+    opacity:.035;
+
+
+    background-image:url(
+    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23noise)'/%3E%3C/svg%3E"
+    );
+
+
+    animation:
+    grain 7s steps(8) infinite;
+
+}
+
+
+
+@keyframes grain {
+
+
+0% {
+
+transform:
+translate(0,0);
+
+}
+
+
+25% {
+
+transform:
+translate(-4%,5%);
+
+}
+
+
+50% {
+
+transform:
+translate(5%,-3%);
+
+}
+
+
+75% {
+
+transform:
+translate(-3%,-5%);
+
+}
+
+
+100% {
+
+transform:
+translate(0,0);
+
+}
+
+
+}
+
+
+
+
 </style>
+
+
 </head>
+
+
+
 <body>
-  <div class="ambient"></div>
-  <canvas id="field"></canvas>
-  <div class="frame"><span class="corner bl"></span><span class="corner br"></span></div>
-  <div class="grain"></div>
 
-  <main>
-    <header>
-      <div><span class="dot"></span>Baltazar Seeds</div>
-      <div class="loc">EST · MMXXV</div>
-      <div>Coming Soon</div>
-    </header>
 
-    <section class="hero">
-      <div class="eyebrow">Cultivating Something Rare</div>
-      <h1>Baltazar<br><em>Seeds</em></h1>
-      <div class="subtitle">A <span class="four-twenty">420</span> Universe</div>
 
-      <div class="divider"></div>
+<canvas id="universe"></canvas>
 
-      <p class="tagline">A curated genetics library, meticulously bred. Reserved for those who appreciate the craft. The doors open soon.</p>
 
-      <div class="signup">
-        <div class="signup-label">— Request Early Access —</div>
-        <form id="signupForm" action="https://formspree.io/f/mwvdyaly" method="POST">
-          <input type="email" name="email" placeholder="your@email.com" required autocomplete="email" />
-          <input type="hidden" name="_subject" value="New Baltazar Seeds Early Access Signup" />
-          <button type="submit" id="submitBtn">Notify Me</button>
-        </form>
-        <div class="fineprint">Free · No spam · <span>Just the launch signal</span></div>
-        <div class="status" id="status"></div>
-      </div>
-    </section>
+<div class="fog"></div>
 
-    <footer>
-      <div class="seal">
-        <svg viewBox="0 0 24 24"><path d="M12 2c-3 4-3 8 0 12 3-4 3-8 0-12z"/><path d="M12 14c-4 0-8 2-10 6 4 0 8-2 10-6z"/><path d="M12 14c4 0 8 2 10 6-4 0-8-2-10-6z"/></svg>
-        Baltazar Seeds
-      </div>
-      <div>Handcrafted Genetics</div>
-      <div>© 2025 · All Rights Reserved</div>
-    </footer>
-  </main>
+<div class="grain"></div>
+
+
+
+
 
 <script>
-  // Particle field
-  const c = document.getElementById('field');
-  const ctx = c.getContext('2d');
-  let w, h, particles;
-  function resize(){ w=c.width=innerWidth; h=c.height=innerHeight; }
-  resize(); addEventListener('resize', resize);
-  function init(){
-    particles = Array.from({length:60},()=>({
-      x:Math.random()*w, y:Math.random()*h,
-      vx:(Math.random()-.5)*.25, vy:(Math.random()-.5)*.25,
-      r:Math.random()*1.4+.3
-    }));
-  }
-  init();
-  function draw(){
-    ctx.clearRect(0,0,w,h);
-    for(const p of particles){
-      p.x+=p.vx; p.y+=p.vy;
-      if(p.x<0||p.x>w) p.vx*=-1;
-      if(p.y<0||p.y>h) p.vy*=-1;
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(201,169,97,.5)';
-      ctx.fill();
-    }
-    for(let i=0;i<particles.length;i++){
-      for(let j=i+1;j<particles.length;j++){
-        const a=particles[i], b=particles[j];
-        const d=Math.hypot(a.x-b.x,a.y-b.y);
-        if(d<130){
-          ctx.beginPath();
-          ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
-          ctx.strokeStyle=`rgba(201,169,97,${.12*(1-d/130)})`;
-          ctx.lineWidth=.5;
-          ctx.stroke();
-        }
-      }
-    }
-    requestAnimationFrame(draw);
-  }
-  draw();
 
-  // Form
-  const form = document.getElementById('signupForm');
-  const status = document.getElementById('status');
-  const btn = document.getElementById('submitBtn');
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    btn.disabled = true; btn.textContent = 'Sending…';
-    status.className='status';
-    try{
-      const res = await fetch(form.action, {
-        method:'POST',
-        body:new FormData(form),
-        headers:{'Accept':'application/json'}
-      });
-      if(res.ok){
-        status.textContent = '✦ You\'re on the list. Stay tuned.';
-        status.className = 'status show ok';
-        form.reset();
-        btn.textContent = 'Confirmed';
-      } else {
-        throw new Error('Failed');
-      }
-    } catch(err){
-      status.textContent = 'Something went wrong. Try again.';
-      status.className = 'status show err';
-      btn.disabled = false; btn.textContent = 'Notify Me';
+
+const canvas =
+document.getElementById(
+"universe"
+);
+
+
+const ctx =
+canvas.getContext(
+"2d",
+{
+alpha:true
+}
+);
+
+
+
+let width;
+let height;
+let ratio;
+
+
+
+function resize(){
+
+
+ratio =
+Math.min(
+window.devicePixelRatio || 1,
+2
+);
+
+
+
+width =
+window.innerWidth;
+
+
+height =
+window.innerHeight;
+
+
+
+canvas.width =
+width * ratio;
+
+
+canvas.height =
+height * ratio;
+
+
+
+canvas.style.width =
+width+"px";
+
+
+canvas.style.height =
+height+"px";
+
+
+
+ctx.setTransform(
+ratio,
+0,
+0,
+ratio,
+0,
+0
+);
+
+
+
+}
+
+
+
+window.addEventListener(
+"resize",
+resize
+);
+
+
+
+resize();
+
+
+
+
+
+let pointer = {
+
+
+x:
+width/2,
+
+
+y:
+height/2
+
+
+};
+
+
+
+window.addEventListener(
+"mousemove",
+e=>{
+
+
+pointer.x =
+e.clientX;
+
+
+pointer.y =
+e.clientY;
+
+
+}
+
+);
+
+
+
+window.addEventListener(
+"touchmove",
+e=>{
+
+
+if(e.touches[0]){
+
+
+pointer.x =
+e.touches[0].clientX;
+
+
+pointer.y =
+e.touches[0].clientY;
+
+
+}
+
+
+},
+{
+passive:true
+}
+
+);
+
+
+
+
+let time = 0;
+
+
+
+const layers = [];
+
+
+
+
+function createLayer(i){
+
+
+return {
+
+
+x:
+width/2 +
+(Math.random()-0.5)*300,
+
+
+y:
+height/2 +
+(Math.random()-0.5)*300,
+
+
+size:
+220 +
+Math.random()*220,
+
+
+speed:
+0.0004 +
+Math.random()*0.0008,
+
+
+phase:
+Math.random()*Math.PI*2,
+
+
+points:
+180,
+
+
+depth:
+i
+
+
+};
+
+
+}
+
+
+
+
+for(
+let i=0;
+i<5;
+i++
+){
+
+layers.push(
+createLayer(i)
+);
+
+}
+
+
+
+
+
+
+// ==========================================
+// BALTAZAR SEEDS ORGANIC MORPH ENGINE
+// PART 2/3
+// ==========================================
+
+
+
+function noise(
+    angle,
+    phase,
+    intensity
+){
+
+    return (
+
+        Math.sin(angle * 3 + phase)
+        * intensity * 0.12
+
+        +
+
+        Math.sin(angle * 6 - phase * 1.4)
+        * intensity * 0.06
+
+        +
+
+        Math.cos(angle * 11 + phase)
+        * intensity * 0.035
+
+        +
+
+        Math.sin(angle * 17 - phase * 0.7)
+        * intensity * 0.02
+
+    );
+
+}
+
+
+
+
+
+
+
+function drawOrganicLayer(
+    layer,
+    index
+){
+
+
+    const points =
+    layer.points;
+
+
+
+    /*
+        Farbwelt:
+        dunkles organisches Licht
+    */
+
+
+    let colors = [
+
+        [
+        "rgba(80,160,100,0.18)",
+        "rgba(0,0,0,0)"
+        ],
+
+
+        [
+        "rgba(120,200,130,0.12)",
+        "rgba(0,0,0,0)"
+        ],
+
+
+        [
+        "rgba(180,130,70,0.10)",
+        "rgba(0,0,0,0)"
+        ],
+
+
+        [
+        "rgba(80,220,160,0.08)",
+        "rgba(0,0,0,0)"
+        ],
+
+
+        [
+        "rgba(255,255,255,0.05)",
+        "rgba(0,0,0,0)"
+        ]
+
+    ];
+
+
+
+    let gradient =
+    ctx.createRadialGradient(
+
+        layer.x,
+        layer.y,
+        0,
+
+        layer.x,
+        layer.y,
+        layer.size * 1.5
+
+    );
+
+
+
+    gradient.addColorStop(
+        0,
+        colors[index][0]
+    );
+
+
+    gradient.addColorStop(
+        1,
+        colors[index][1]
+    );
+
+
+
+
+    ctx.beginPath();
+
+
+
+    for(
+        let i=0;
+        i<=points;
+        i++
+    ){
+
+
+        let angle =
+        (Math.PI*2/points)*i;
+
+
+
+        let deformation =
+        noise(
+            angle,
+            layer.phase,
+            layer.size
+        );
+
+
+
+        let radius =
+        layer.size +
+        deformation;
+
+
+
+        /*
+            leichte Reaktion
+            auf Maus/Finger
+        */
+
+
+        let attractionX =
+        (
+            pointer.x -
+            width/2
+        )
+        *
+        0.015
+        *
+        (index+1);
+
+
+
+        let attractionY =
+        (
+            pointer.y -
+            height/2
+        )
+        *
+        0.015
+        *
+        (index+1);
+
+
+
+
+        let x =
+        layer.x +
+        Math.cos(angle)
+        *
+        radius
+        +
+        attractionX;
+
+
+
+        let y =
+        layer.y +
+        Math.sin(angle)
+        *
+        radius
+        +
+        attractionY;
+
+
+
+
+        if(i===0){
+
+            ctx.moveTo(
+                x,
+                y
+            );
+
+        }
+        else{
+
+            ctx.lineTo(
+                x,
+                y
+            );
+
+        }
+
+
     }
-  });
+
+
+
+    ctx.closePath();
+
+
+
+    ctx.fillStyle =
+    gradient;
+
+
+    ctx.fill();
+
+
+
+    /*
+        weicher Lichtsaum
+    */
+
+
+    ctx.shadowBlur =
+    100;
+
+
+    ctx.shadowColor =
+    "rgba(100,220,130,0.08)";
+
+
+    ctx.fill();
+
+
+
+    ctx.shadowBlur = 0;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function updateLayers(){
+
+
+    layers.forEach(
+        (layer,index)=>{
+
+
+            layer.phase +=
+            layer.speed;
+
+
+
+            /*
+              langsames organisches Atmen
+            */
+
+
+            let breathe =
+            Math.sin(
+                time*0.002 +
+                index
+            )
+            *
+            0.15;
+
+
+
+            layer.size +=
+            breathe;
+
+
+
+
+            /*
+              Bewegung im Raum
+            */
+
+
+            layer.x +=
+            Math.sin(
+                time*0.0005+
+                index
+            )
+            *
+            0.15;
+
+
+
+            layer.y +=
+            Math.cos(
+                time*0.0004+
+                index
+            )
+            *
+            0.12;
+
+
+
+        }
+    );
+
+}
+
+
+
+
+
+
+
+
+
+function render(){
+
+
+
+    time++;
+
+
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+
+    /*
+        leichter schwarzer Schleier
+        für filmischen Effekt
+    */
+
+
+    ctx.fillStyle =
+    "rgba(0,0,0,0.12)";
+
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+
+    updateLayers();
+
+
+
+    /*
+        hintere Ebenen zuerst
+    */
+
+
+    layers
+    .slice()
+    .reverse()
+    .forEach(
+        (layer,index)=>{
+
+
+            drawOrganicLayer(
+                layer,
+                index
+            );
+
+
+        }
+    );
+
+
+
+    requestAnimationFrame(
+        render
+    );
+
+
+}
+
+
+
+
+render();
+
+
+
+// ==========================================
+// BALTAZAR SEEDS ATMOSPHERE FINISH
+// PART 3/3
+// ==========================================
+
+
+
+/*
+    Smooth Start Reveal
+
+    Die Szene erscheint nicht plötzlich,
+    sondern taucht langsam aus der Dunkelheit auf.
+*/
+
+
+let reveal = 0;
+
+
+
+function smoothReveal(){
+
+
+    if(reveal < 1){
+
+        reveal += 0.003;
+
+    }
+
+
+    canvas.style.opacity =
+    reveal;
+
+
+    requestAnimationFrame(
+        smoothReveal
+    );
+
+
+}
+
+
+
+smoothReveal();
+
+
+
+
+
+/*
+    Mobile Performance
+
+    Bei sehr kleinen Geräten
+    werden unnötige Berechnungen reduziert.
+*/
+
+
+function optimizeMobile(){
+
+
+    if(window.innerWidth < 600){
+
+
+        layers.forEach(
+            layer=>{
+
+
+                layer.points = 120;
+
+
+                layer.size *= 0.75;
+
+
+            }
+        );
+
+
+    }
+
+
+
+}
+
+
+
+optimizeMobile();
+
+
+
+
+
+
+
+/*
+    leichte automatische Kamerabewegung
+
+    Gibt dem Hintergrund das Gefühl,
+    nicht einfach "festzukleben",
+    sondern ein eigener Raum zu sein.
+*/
+
+
+let camera = {
+
+    x:0,
+
+    y:0
+
+};
+
+
+
+
+
+function updateCamera(){
+
+
+    camera.x =
+    Math.sin(time*0.0003)
+    *
+    15;
+
+
+    camera.y =
+    Math.cos(time*0.00025)
+    *
+    15;
+
+
+
+    ctx.translate(
+        camera.x,
+        camera.y
+    );
+
+
+}
+
+
+
+
+
+/*
+    kleine Anpassung:
+    Canvas bleibt immer scharf
+*/
+
+
+window.addEventListener(
+"resize",
+()=>{
+
+
+    optimizeMobile();
+
+
+});
+
+
+
+
+
+
+/*
+    Energie sparen,
+    wenn der Tab nicht sichtbar ist
+*/
+
+
+document.addEventListener(
+"visibilitychange",
+()=>{
+
+
+    if(document.hidden){
+
+        canvas.style.animationPlayState =
+        "paused";
+
+    }
+    else{
+
+        canvas.style.animationPlayState =
+        "running";
+
+    }
+
+
+});
+
+
+
 </script>
+
+
 </body>
+
 </html>
