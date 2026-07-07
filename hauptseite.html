@@ -10,19 +10,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
-/* ===================== RESET ===================== */
+/* ── RESET ─────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:        #080D09;
-  --bg2:       #0E1510;
-  --ink:       #EAE6DF;
-  --ink-dim:   rgba(234,230,223,0.38);
-  --ink-faint: rgba(234,230,223,0.12);
-  --gold:      #B8873A;
-  --gold-soft: rgba(184,135,58,0.14);
-  --gold-line: rgba(184,135,58,0.22);
-  --line:      rgba(234,230,223,0.06);
+  --bg:          #080D09;
+  --bg2:         #0E1510;
+  --ink:         #EAE6DF;
+  --ink-dim:     rgba(234,230,223,0.38);
+  --ink-faint:   rgba(234,230,223,0.10);
+  --gold:        #B8873A;
+  --gold-soft:   rgba(184,135,58,0.12);
+  --gold-line:   rgba(184,135,58,0.20);
+  --line:        rgba(234,230,223,0.06);
 }
 
 html, body { height: 100%; overflow: hidden; }
@@ -34,6 +34,1304 @@ body {
   -webkit-font-smoothing: antialiased;
   user-select: none;
 }
+
+/* ── INTRO ──────────────────────────────────── */
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  pointer-events: none;
+  transition: opacity 0.9s ease, visibility 0.9s ease;
+}
+#intro.gone { opacity: 0; visibility: hidden; }
+
+.intro-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 5vw, 48px);
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0;
+  animation: aFade 1s ease 0.4s forwards;
+}
+.intro-rule {
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.45;
+  animation: aRule 1s ease 0.6s forwards;
+}
+.intro-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0;
+  animation: aFade 1s ease 0.9s forwards;
+}
+@keyframes aFade { to { opacity: 1; } }
+@keyframes aRule { to { width: 100px; } }
+
+/* ── GRAIN OVERLAY ──────────────────────────── */
+#grain {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: none;
+  opacity: 1;
+}
+
+/* ── AMBIENT GLOW ───────────────────────────── */
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 55% at 18% 50%, rgba(184,135,58,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 82% 50%, rgba(30,68,22,0.07) 0%, transparent 70%);
+}
+
+/* ── CORNERS ────────────────────────────────── */
+.corners {
+  position: fixed;
+  inset: 20px;
+  pointer-events: none;
+  z-index: 50;
+}
+.corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: rgba(184,135,58,0.22);
+  border-style: solid;
+}
+.corner.tl { top:0; left:0;   border-width: 1px 0 0 1px; }
+.corner.tr { top:0; right:0;  border-width: 1px 1px 0 0; }
+.corner.bl { bottom:0; left:0;  border-width: 0 0 1px 1px; }
+.corner.br { bottom:0; right:0; border-width: 0 1px 1px 0; }
+
+/* ── PROGRESS ───────────────────────────────── */
+#progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 1px;
+  background: linear-gradient(to right, var(--gold), rgba(184,135,58,0.25));
+  z-index: 800;
+  transition: width 1s cubic-bezier(0.77,0,0.18,1);
+  pointer-events: none;
+}
+
+/* ── NAV ────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 52px;
+  pointer-events: none;
+}
+@media (max-width: 768px) { nav { padding: 22px 24px; } }
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink);
+  pointer-events: all;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  animation: dotPulse 3s ease infinite;
+}
+@keyframes dotPulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:0.35; transform:scale(0.6); }
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  pointer-events: all;
+}
+@media (max-width: 768px) { .nav-right { gap: 20px; } }
+
+.nav-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: var(--gold); }
+
+/* ── DIVIDER ────────────────────────────────── */
+.slide-divider {
+  position: fixed;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--line);
+  z-index: 10;
+  pointer-events: none;
+}
+@media (max-width: 768px) { .slide-divider { display: none; } }
+
+/* ── SCROLL HINT (SIDE) ─────────────────────── */
+.scroll-side {
+  position: fixed;
+  right: 50px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+.scroll-side-line {
+  width: 1px;
+  height: 56px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  opacity: 0.2;
+}
+.scroll-side-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  writing-mode: vertical-rl;
+}
+@media (max-width: 1100px) { .scroll-side { display: none; } }
+
+/* ── KEYBOARD HINT ──────────────────────────── */
+.hint {
+  position: fixed;
+  bottom: 80px;
+  right: 52px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  pointer-events: none;
+  z-index: 50;
+}
+@media (max-width: 768px) { .hint { display: none; } }
+
+/* ── SLIDER TRACK ───────────────────────────── */
+.slider-track {
+  display: flex;
+  height: 100vh;
+  position: relative;
+  z-index: 5;
+  transition: transform 1s cubic-bezier(0.77,0,0.18,1);
+  will-change: transform;
+  cursor: grab;
+}
+.slider-track:active { cursor: grabbing; }
+
+/* ── SLIDE ──────────────────────────────────── */
+.slide {
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .slide {
+    grid-template-columns: 1fr;
+    grid-template-rows: 55% 45%;
+  }
+}
+
+/* ── IMAGE HALF ─────────────────────────────── */
+.slide-image {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg2);
+}
+
+/* Dark edge vignette toward info panel */
+.slide-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 50%, rgba(8,13,9,0.65) 100%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* Placeholder shown by default; JS hides it when img loads */
+.img-placeholder {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: rgba(234,230,223,0.15);
+}
+.img-placeholder svg { opacity: 0.2; }
+.img-placeholder span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+}
+
+/* Real product image — hidden until loaded */
+.slide-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  display: none;                    /* JS shows it on load */
+  transform: scale(1.1);
+  transition: transform 1.4s cubic-bezier(0.16,1,0.3,1);
+}
+.slide.active .slide-image img {
+  transform: scale(1);
+}
+
+/* Botanical watermark */
+.botanical {
+  position: absolute;
+  bottom: -15px;
+  right: -15px;
+  width: 200px;
+  height: 200px;
+  opacity: 0.035;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Genetics tag */
+.slide-genetics {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(184,135,58,0.08);
+  padding: 5px 11px;
+  border: 1px solid var(--gold-line);
+  backdrop-filter: blur(10px);
+  z-index: 4;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.7s ease 0.5s, transform 0.7s ease 0.5s;
+}
+.slide.active .slide-genetics { opacity: 1; transform: translateY(0); }
+
+/* Slide number */
+.slide-num {
+  position: absolute;
+  bottom: 26px;
+  left: 26px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: rgba(234,230,223,0.28);
+  background: rgba(8,13,9,0.55);
+  padding: 5px 11px;
+  border: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  z-index: 4;
+}
+
+/* ── INFO HALF ──────────────────────────────── */
+.slide-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 72px 80px 60px;
+  position: relative;
+  background: var(--bg);
+}
+@media (max-width: 768px) { .slide-info { padding: 28px 24px 80px; } }
+
+/* Large ghost index number */
+.bg-index {
+  position: absolute;
+  top: 50%;
+  right: -16px;
+  transform: translateY(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 220px;
+  font-weight: 600;
+  line-height: 1;
+  color: rgba(234,230,223,0.04);
+  pointer-events: none;
+  letter-spacing: -0.05em;
+  user-select: none;
+}
+@media (max-width: 900px) { .bg-index { display: none; } }
+
+/* Animated elements — base state = hidden + offset */
+.slide-category,
+.slide-name,
+.slide-lineage,
+.slide-desc,
+.slide-price-row,
+.slide-cta { opacity: 0; }
+
+.slide-category  { transform: translateX(-12px); transition: opacity 0.65s ease 0.08s, transform 0.65s ease 0.08s; }
+.slide-name      { transform: translateY(28px);  transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.16s,
+                                                               transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.16s; }
+.slide-lineage   {                               transition: opacity 0.7s ease 0.28s; }
+.slide-desc      { transform: translateY(16px);  transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s,
+                                                               transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s; }
+.slide-price-row { transform: translateY(12px);  transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.38s,
+                                                               transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.38s; }
+.slide-cta       { transform: translateY(12px);  transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s,
+                                                               transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s; }
+
+/* Active: reveal all */
+.slide.active .slide-category,
+.slide.active .slide-name,
+.slide.active .slide-lineage,
+.slide.active .slide-desc,
+.slide.active .slide-price-row,
+.slide.active .slide-cta {
+  opacity: 1;
+  transform: none;
+}
+
+.slide-category {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.52em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.slide-category::before {
+  content: '';
+  display: inline-block;
+  width: 30px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.45;
+  flex-shrink: 0;
+}
+
+.slide-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(36px, 4.2vw, 62px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.slide-name em {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 300;
+}
+
+.slide-lineage {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.22em;
+  color: var(--ink-dim);
+  margin-bottom: 24px;
+}
+
+.slide-desc {
+  font-size: 13px;
+  line-height: 1.82;
+  color: rgba(234,230,223,0.38);
+  font-weight: 300;
+  max-width: 360px;
+  margin-bottom: 34px;
+}
+
+.slide-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 34px;
+}
+.slide-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 300;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.slide-price-unit {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* CTA button with sliding fill */
+.slide-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  border: 1px solid var(--gold-line);
+  padding: 14px 28px;
+  align-self: flex-start;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s, border-color 0.4s,
+              opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s,
+              transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s;
+}
+.slide-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: translateX(-101%);
+  transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
+}
+.slide-cta:hover::before { transform: translateX(0); }
+.slide-cta:hover          { color: var(--bg); border-color: var(--gold); }
+.slide-cta .cta-inner     { position: relative; z-index: 1; display: flex; align-items: center; gap: 14px; }
+
+/* Coming-soon state */
+.slide-cta.soon {
+  color: var(--ink-dim);
+  border-color: var(--line);
+  cursor: default;
+  pointer-events: none;
+}
+.slide-cta.soon::before { display: none; }
+
+/* THC badge */
+.thc-badge {
+  position: absolute;
+  bottom: 34px;
+  right: 34px;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-line);
+  background: rgba(184,135,58,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.7s ease 0.56s, transform 0.7s cubic-bezier(0.16,1,0.3,1) 0.56s;
+}
+.slide.active .thc-badge { opacity: 1; transform: scale(1); }
+.thc-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+}
+.thc-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+@media (max-width: 768px) { .thc-badge { display: none; } }
+
+/* ── CONTROLS ───────────────────────────────── */
+.controls {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.dots { display: flex; gap: 8px; align-items: center; }
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(234,230,223,0.14);
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  transition: background 0.35s, transform 0.35s;
+}
+.dot.active { background: var(--gold); transform: scale(1.65); }
+
+.arrow {
+  background: none;
+  border: 1px solid var(--ink-faint);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-dim);
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+  flex-shrink: 0;
+}
+.arrow:hover { border-color: var(--gold-line); background: var(--gold-soft); color: var(--gold); }
+.arrow:disabled { opacity: 0.16; cursor: default; pointer-events: none; }
+
+.slide-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.4em;
+  color: var(--ink-dim);
+  min-width: 46px;
+  text-align: center;
+}
+
+/* ── CONTACT MODAL ──────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  background: rgba(8,13,9,0.88);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+.modal-overlay.open { opacity: 1; visibility: visible; }
+
+.modal {
+  max-width: 460px;
+  width: 92%;
+  border: 1px solid var(--gold-line);
+  background: var(--bg2);
+  padding: 52px 48px;
+  position: relative;
+  transform: translateY(22px);
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+
+.modal-close {
+  position: absolute;
+  top: 18px; right: 18px;
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 6px 9px;
+  transition: color 0.3s;
+}
+.modal-close:hover { color: var(--gold); }
+
+.modal-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.52em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.modal-eyebrow::before { content:''; display:inline-block; width:22px; height:1px; background:var(--gold); opacity:0.45; }
+
+.modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 36px;
+  letter-spacing: -0.02em;
+}
+.modal-title em { font-style: italic; color: var(--gold); }
+
+.modal-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--ink-dim);
+  transition: color 0.3s;
+}
+.modal-row:first-of-type { border-top: 1px solid var(--line); }
+.modal-row:hover { color: var(--ink); }
+.modal-row:hover .modal-icon { border-color: var(--gold-line); color: var(--gold); }
+
+.modal-icon {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--ink-faint);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.modal-row-body { display: flex; flex-direction: column; gap: 3px; }
+.modal-row-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.modal-row-val {
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.modal-note {
+  margin-top: 28px;
+  font-size: 12px;
+  line-height: 1.75;
+  color: rgba(234,230,223,0.24);
+  font-weight: 300;
+}
+</style>
+</head>
+<body>
+
+<!-- ── INTRO ─────────────────────────────────── -->
+<div id="intro">
+  <div class="intro-logo">Baltazar Seeds</div>
+  <div class="intro-rule"></div>
+  <div class="intro-sub">Couture Cultivation</div>
+</div>
+
+<!-- ── GRAIN (canvas, animated) ──────────────── -->
+<canvas id="grain" style="position:fixed;inset:0;width:100%;height:100%;z-index:900;pointer-events:none;opacity:0.028;mix-blend-mode:screen;"></canvas>
+
+<!-- ── AMBIENT ───────────────────────────────── -->
+<div class="ambient"></div>
+
+<!-- ── CORNERS ───────────────────────────────── -->
+<div class="corners">
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+</div>
+
+<!-- ── PROGRESS ─────────────────────────────── -->
+<div id="progress"></div>
+
+<!-- ── NAV ──────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">
+    <span class="nav-dot"></span>
+    Baltazar Seeds
+  </div>
+  <div class="nav-right">
+    <span class="nav-link" onclick="scrollToSlide(0)">Collection</span>
+    <span class="nav-link" id="openContact">Contact</span>
+  </div>
+</nav>
+
+<!-- ── DIVIDER ───────────────────────────────── -->
+<div class="slide-divider"></div>
+
+<!-- ── SIDE HINT ─────────────────────────────── -->
+<div class="scroll-side">
+  <div class="scroll-side-line"></div>
+  <div class="scroll-side-label">Swipe</div>
+</div>
+
+<!-- ── KEYBOARD HINT ─────────────────────────── -->
+<div class="hint">← → Navigate</div>
+
+
+<!-- ════════════════════════════════════════════
+     SLIDER
+     ════════════════════════════════════════════ -->
+<div class="slider-track" id="sliderTrack">
+
+
+  <!-- ▸ SLIDE 1 — Phantom Haze ─────────────── -->
+  <div class="slide active">
+    <div class="slide-image">
+      <svg class="botanical" viewBox="0 0 200 200" fill="none">
+        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.6"/>
+        <path d="M100 130C60 120 30 140 10 170C40 170 70 150 100 130Z" stroke="white" stroke-width="0.6"/>
+        <path d="M100 130C140 120 170 140 190 170C160 170 130 150 100 130Z" stroke="white" stroke-width="0.6"/>
+      </svg>
+
+      <!-- Placeholder shown until image loads -->
+      <div class="img-placeholder" id="ph-1">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+        </svg>
+        <span>Phantom Haze</span>
+      </div>
+
+      <img src="STRAIN1.JPG" alt="Baltazar's Phantom Haze"
+           onload="this.style.display='block'; document.getElementById('ph-1').style.display='none';"
+           onerror="this.remove();">
+
+      <div class="slide-genetics">Sativa Dom. &nbsp;·&nbsp; Ghost Train × Silver Haze</div>
+      <div class="slide-num">01 / Collection</div>
+    </div>
+
+    <div class="slide-info">
+      <div class="bg-index">01</div>
+      <div class="slide-category">New Drop</div>
+      <h2 class="slide-name">Baltazar's<br><em>Phantom Haze</em></h2>
+      <div class="slide-lineage">Ghost Train Haze × Silver Haze · F6</div>
+      <p class="slide-desc">She rises like smoke: weightless, euphoric, impossible to hold. Six generations of refinement distilled into a cerebral clarity that sharpens the world around you. Born for the thinkers, the builders, the ones who never stop moving.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a href="https://buy.stripe.com/dRm4gCdai9wn46Y7A5gw00J" class="slide-cta" target="_blank" rel="noopener">
+        <span class="cta-inner">
+          Order Now
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </span>
+      </a>
+      <div class="thc-badge">
+        <div class="thc-val">28%</div>
+        <div class="thc-label">THC</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ▸ SLIDE 2 — Velvet Thunder ──────────── -->
+  <div class="slide">
+    <div class="slide-image">
+      <svg class="botanical" viewBox="0 0 200 200" fill="none">
+        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.6"/>
+        <path d="M100 130C60 120 30 140 10 170C40 170 70 150 100 130Z" stroke="white" stroke-width="0.6"/>
+        <path d="M100 130C140 120 170 140 190 170C160 170 130 150 100 130Z" stroke="white" stroke-width="0.6"/>
+      </svg>
+
+      <div class="img-placeholder" id="ph-2">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+        </svg>
+        <span>Velvet Thunder</span>
+      </div>
+
+      <img src="STRAIN2.JPG" alt="Baltazar's Velvet Thunder"
+           onload="this.style.display='block'; document.getElementById('ph-2').style.display='none';"
+           onerror="this.remove();">
+
+      <div class="slide-genetics">Hybrid &nbsp;·&nbsp; GMO × Zkittlez</div>
+      <div class="slide-num">02 / Collection</div>
+    </div>
+
+    <div class="slide-info">
+      <div class="bg-index">02</div>
+      <div class="slide-category">Bestseller</div>
+      <h2 class="slide-name">Baltazar's<br><em>Velvet Thunder</em></h2>
+      <div class="slide-lineage">GMO × Zkittlez · F5 Stable</div>
+      <p class="slide-desc">Power wrapped in silk. The first hit is soft and then the thunder rolls in deep. A heavyweight cross that delivers dense resinous flowers with a terpene architecture that refuses to be summarized or forgotten.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a href="https://buy.stripe.com/8x25kG9Y65g75b26w1gw00K" class="slide-cta" target="_blank" rel="noopener">
+        <span class="cta-inner">
+          Order Now
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </span>
+      </a>
+      <div class="thc-badge">
+        <div class="thc-val">31%</div>
+        <div class="thc-label">THC</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ▸ SLIDE 3 — Golden Ritual ───────────── -->
+  <div class="slide">
+    <div class="slide-image">
+      <svg class="botanical" viewBox="0 0 200 200" fill="none">
+        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.6"/>
+        <path d="M100 130C60 120 30 140 10 170C40 170 70 150 100 130Z" stroke="white" stroke-width="0.6"/>
+        <path d="M100 130C140 120 170 140 190 170C160 170 130 150 100 130Z" stroke="white" stroke-width="0.6"/>
+      </svg>
+
+      <div class="img-placeholder" id="ph-3">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+        </svg>
+        <span>Golden Ritual</span>
+      </div>
+
+      <img src="STRAIN3.JPG" alt="Baltazar's Golden Ritual"
+           onload="this.style.display='block'; document.getElementById('ph-3').style.display='none';"
+           onerror="this.remove();">
+
+      <div class="slide-genetics">Indica Dom. &nbsp;·&nbsp; GDP × OG Kush</div>
+      <div class="slide-num">03 / Collection</div>
+    </div>
+
+    <div class="slide-info">
+      <div class="bg-index">03</div>
+      <div class="slide-category">Limited</div>
+      <h2 class="slide-name">Baltazar's<br><em>Golden Ritual</em></h2>
+      <div class="slide-lineage">Granddaddy Purple × OG Kush · F4</div>
+      <p class="slide-desc">An evening ceremony for those who appreciate depth. Rich amber terpenes, old world structure. This is not a shortcut — it is a destination. Warm, full, and unmistakably alive in the hand.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a href="https://buy.stripe.com/14A8wSeem6kb46Yg6Bgw00L" class="slide-cta" target="_blank" rel="noopener">
+        <span class="cta-inner">
+          Order Now
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </span>
+      </a>
+      <div class="thc-badge">
+        <div class="thc-val">27%</div>
+        <div class="thc-label">THC</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ▸ SLIDE 4 — Midnight Oracle ─────────── -->
+  <div class="slide">
+    <div class="slide-image">
+      <svg class="botanical" viewBox="0 0 200 200" fill="none">
+        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.6"/>
+        <path d="M100 130C60 120 30 140 10 170C40 170 70 150 100 130Z" stroke="white" stroke-width="0.6"/>
+        <path d="M100 130C140 120 170 140 190 170C160 170 130 150 100 130Z" stroke="white" stroke-width="0.6"/>
+      </svg>
+
+      <div class="img-placeholder" id="ph-4">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+        </svg>
+        <span>Midnight Oracle</span>
+      </div>
+
+      <img src="STRAIN4.JPG" alt="Baltazar's Midnight Oracle"
+           onload="this.style.display='block'; document.getElementById('ph-4').style.display='none';"
+           onerror="this.remove();">
+
+      <div class="slide-genetics">Indica &nbsp;·&nbsp; Hindu Kush × Black Afghan</div>
+      <div class="slide-num">04 / Collection</div>
+    </div>
+
+    <div class="slide-info">
+      <div class="bg-index">04</div>
+      <div class="slide-category">Exclusive</div>
+      <h2 class="slide-name">Baltazar's<br><em>Midnight Oracle</em></h2>
+      <div class="slide-lineage">Hindu Kush × Black Afghan · F7</div>
+      <p class="slide-desc">She speaks only to those who are ready to listen. Ancient landrace genetics refined into a resinous meditative body of work. Dense. Dark. Wise. Seven generations in the making and worth every one of them.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a href="https://buy.stripe.com/dRmdRc9Y6gYPbzq2fLgw00M" class="slide-cta" target="_blank" rel="noopener">
+        <span class="cta-inner">
+          Order Now
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </span>
+      </a>
+      <div class="thc-badge">
+        <div class="thc-val">29%</div>
+        <div class="thc-label">THC</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ▸ SLIDE 5 — Crimson Protocol ───────── -->
+  <div class="slide">
+    <div class="slide-image">
+      <svg class="botanical" viewBox="0 0 200 200" fill="none">
+        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.6"/>
+        <path d="M100 130C60 120 30 140 10 170C40 170 70 150 100 130Z" stroke="white" stroke-width="0.6"/>
+        <path d="M100 130C140 120 170 140 190 170C160 170 130 150 100 130Z" stroke="white" stroke-width="0.6"/>
+      </svg>
+
+      <div class="img-placeholder" id="ph-5">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+        </svg>
+        <span>Crimson Protocol</span>
+      </div>
+
+      <img src="STRAIN5.JPG" alt="Baltazar's Crimson Protocol"
+           onload="this.style.display='block'; document.getElementById('ph-5').style.display='none';"
+           onerror="this.remove();">
+
+      <div class="slide-genetics">Hybrid &nbsp;·&nbsp; Cherry Punch × Gelato 41</div>
+      <div class="slide-num">05 / Collection</div>
+    </div>
+
+    <div class="slide-info">
+      <div class="bg-index">05</div>
+      <div class="slide-category">Incoming</div>
+      <h2 class="slide-name">Baltazar's<br><em>Crimson Protocol</em></h2>
+      <div class="slide-lineage">Cherry Punch × Gelato 41 · F4</div>
+      <p class="slide-desc">Structured like a system and beautiful like a crime. Cherry sweetness meets Gelato richness in a hybrid that plays both sides and wins every time. Precision breeding for precision minds who know exactly what they want.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a href="mailto:imanvanruler@freenet.de?subject=Pre-Order: Baltazar's Crimson Protocol" class="slide-cta soon">
+        <span class="cta-inner">
+          Coming Soon
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </span>
+      </a>
+      <div class="thc-badge">
+        <div class="thc-val">26%</div>
+        <div class="thc-label">THC</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ▸ SLIDE 6 — Silent Forest ───────────── -->
+  <div class="slide">
+    <div class="slide-image">
+      <svg class="botanical" viewBox="0 0 200 200" fill="none">
+        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.6"/>
+        <path d="M100 130C60 120 30 140 10 170C40 170 70 150 100 130Z" stroke="white" stroke-width="0.6"/>
+        <path d="M100 130C140 120 170 140 190 170C160 170 130 150 100 130Z" stroke="white" stroke-width="0.6"/>
+      </svg>
+
+      <div class="img-placeholder" id="ph-6">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+        </svg>
+        <span>Silent Forest</span>
+      </div>
+
+      <img src="STRAIN6.JPG" alt="Baltazar's Silent Forest"
+           onload="this.style.display='block'; document.getElementById('ph-6').style.display='none';"
+           onerror="this.remove();">
+
+      <div class="slide-genetics">Indica Dom. &nbsp;·&nbsp; Northern Lights × Afghan Kush</div>
+      <div class="slide-num">06 / Collection</div>
+    </div>
+
+    <div class="slide-info">
+      <div class="bg-index">06</div>
+      <div class="slide-category">Incoming</div>
+      <h2 class="slide-name">Baltazar's<br><em>Silent Forest</em></h2>
+      <div class="slide-lineage">Northern Lights × Afghan Kush · F6</div>
+      <p class="slide-desc">Stand in a grove at 3am and breathe deeply. That is this strain. Northern Lights heritage meets Afghan depth in a pure uncompromising Indica built entirely for rest and long quiet reflection.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a href="mailto:imanvanruler@freenet.de?subject=Pre-Order: Baltazar's Silent Forest" class="slide-cta soon">
+        <span class="cta-inner">
+          Coming Soon
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </span>
+      </a>
+      <div class="thc-badge">
+        <div class="thc-val">24%</div>
+        <div class="thc-label">THC</div>
+      </div>
+    </div>
+  </div>
+
+
+</div><!-- /slider-track -->
+
+
+<!-- ── CONTROLS ──────────────────────────────── -->
+<div class="controls">
+  <button class="arrow" id="prev" aria-label="Previous">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+
+  <div class="dots" id="dots"></div>
+
+  <button class="arrow" id="next" aria-label="Next">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+
+  <div class="slide-counter" id="counter">01 / 06</div>
+</div>
+
+
+<!-- ── CONTACT MODAL ─────────────────────────── -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Contact">
+  <div class="modal">
+    <button class="modal-close" id="closeModal" aria-label="Close">✕</button>
+
+    <div class="modal-eyebrow">Get in Touch</div>
+    <div class="modal-title">Reach<br><em>Baltazar</em></div>
+
+    <a class="modal-row" href="mailto:imanvanruler@freenet.de">
+      <div class="modal-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <polyline points="2,4 12,13 22,4"/>
+        </svg>
+      </div>
+      <div class="modal-row-body">
+        <div class="modal-row-label">Email</div>
+        <div class="modal-row-val">imanvanruler@freenet.de</div>
+      </div>
+    </a>
+
+    <a class="modal-row" href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener noreferrer">
+      <div class="modal-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="4.5"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <div class="modal-row-body">
+        <div class="modal-row-label">Instagram</div>
+        <div class="modal-row-val">@real_jack_james</div>
+      </div>
+    </a>
+
+    <p class="modal-note">For orders, questions, or wholesale inquiries reach out directly. We respond within 24 hours. All seeds are sold as collectibles only.</p>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     SCRIPTS
+     ════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Intro ─────────────────────────────────── */
+  setTimeout(function () {
+    document.getElementById('intro').classList.add('gone');
+  }, 2300);
+
+  /* ── Grain canvas ─────────────────────────── */
+  (function () {
+    var canvas = document.getElementById('grain');
+    var ctx    = canvas.getContext('2d');
+    var w, h, imgData;
+
+    function resize() {
+      w = canvas.width  = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      imgData = ctx.createImageData(w, h);
+    }
+
+    function renderGrain() {
+      var data = imgData.data;
+      for (var i = 0; i < data.length; i += 4) {
+        var v = (Math.random() * 255) | 0;
+        data[i] = data[i+1] = data[i+2] = v;
+        data[i+3] = 255;
+      }
+      ctx.putImageData(imgData, 0, 0);
+      requestAnimationFrame(renderGrain);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+    renderGrain();
+  }());
+
+  /* ── Slider ────────────────────────────────── */
+  var track    = document.getElementById('sliderTrack');
+  var slides   = Array.from(document.querySelectorAll('.slide'));
+  var dotsWrap = document.getElementById('dots');
+  var prevBtn  = document.getElementById('prev');
+  var nextBtn  = document.getElementById('next');
+  var counter  = document.getElementById('counter');
+  var progress = document.getElementById('progress');
+
+  var total   = slides.length;
+  var current = 0;
+  var isAnim  = false;
+
+  /* Build dots */
+  slides.forEach(function (_, i) {
+    var d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', 'Slide ' + (i + 1));
+    d.addEventListener('click', function () { goTo(i); });
+    dotsWrap.appendChild(d);
+  });
+
+  function getDots() { return dotsWrap.querySelectorAll('.dot'); }
+
+  function pad(n) { return String(n + 1).padStart(2, '0'); }
+
+  function goTo(index) {
+    if (isAnim || index === current || index < 0 || index >= total) return;
+    var next = index;
+    isAnim = true;
+
+    slides[current].classList.remove('active');
+    getDots()[current].classList.remove('active');
+
+    current = next;
+
+    slides[current].classList.add('active');
+    getDots()[current].classList.add('active');
+
+    track.style.transform = 'translateX(-' + (current * 100) + 'vw)';
+    counter.textContent   = pad(current) + ' / ' + pad(total - 1);
+    progress.style.width  = ((current + 1) / total * 100) + '%';
+    prevBtn.disabled      = (current === 0);
+    nextBtn.disabled      = (current === total - 1);
+
+    setTimeout(function () { isAnim = false; }, 1060);
+  }
+
+  prevBtn.addEventListener('click', function () { goTo(current - 1); });
+  nextBtn.addEventListener('click', function () { goTo(current + 1); });
+  prevBtn.disabled = true;
+
+  /* Init progress & counter */
+  progress.style.width = ((1 / total) * 100) + '%';
+  counter.textContent  = '01 / ' + pad(total - 1);
+
+  /* Keyboard */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+    if (e.key === 'Escape') closeModal();
+  });
+
+  /* Touch swipe */
+  var tx = 0, ty = 0;
+  track.addEventListener('touchstart', function (e) {
+    tx = e.touches[0].clientX;
+    ty = e.touches[0].clientY;
+  }, { passive: true });
+  track.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - tx;
+    var dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      goTo(dx < 0 ? current + 1 : current - 1);
+    }
+  }, { passive: true });
+
+  /* Mouse drag */
+  var mx = 0, dragging = false;
+  track.addEventListener('mousedown', function (e) { mx = e.clientX; dragging = true; });
+  track.addEventListener('mouseup', function (e) {
+    if (!dragging) return;
+    dragging = false;
+    var dx = e.clientX - mx;
+    if (Math.abs(dx) > 60) goTo(dx < 0 ? current + 1 : current - 1);
+  });
+  track.addEventListener('mouseleave', function () { dragging = false; });
+
+  /* Navigation helper */
+  window.scrollToSlide = function (i) { goTo(i); };
+
+  /* ── Contact modal ─────────────────────────── */
+  var overlay = document.getElementById('modalOverlay');
+
+  function openModal()  { overlay.classList.add('open'); }
+  function closeModal() { overlay.classList.remove('open'); }
+
+  document.getElementById('openContact').addEventListener('click', openModal);
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeModal();
+  });
+
+}());
+</script>
+</body>
+</html>
 
 /* ===================== INTRO SCREEN ===================== */
 #intro {
