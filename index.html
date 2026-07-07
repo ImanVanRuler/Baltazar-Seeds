@@ -1,102 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-
-<title>BALTAZAR SEEDS | Organic Universe</title>
-
+<title>BALTAZAR SEEDS | 420 Universe</title>
 
 <style>
 
 * {
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 
 html,
 body {
 
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
 
-    overflow:hidden;
+    overflow: hidden;
 
-    background:#020302;
-
-    font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 
 }
 
 
-canvas {
+/* Hintergrund */
 
-    position:fixed;
-
-    inset:0;
-
-    width:100%;
-    height:100%;
-
-}
-
-
-
-/*
-    Tiefe Nebelschicht
-*/
-
-
-.fog {
-
-    position:fixed;
-
-    inset:-20%;
-
-    pointer-events:none;
+body {
 
     background:
     radial-gradient(
-        circle at 50% 50%,
-        rgba(70,140,90,0.08),
-        transparent 45%
+        circle at center,
+        #314c35 0%,
+        #18271c 35%,
+        #091009 75%,
+        #030403 100%
+    );
+
+}
+
+
+/* gesamte Startfläche */
+
+.intro {
+
+    width: 100%;
+    height: 100vh;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    cursor: pointer;
+
+
+    opacity: 0;
+
+    animation:
+    introFade 3s ease forwards;
+
+}
+
+
+/* leichte Lichtstimmung */
+
+.intro::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 70vw;
+    height: 70vw;
+
+    max-width: 900px;
+    max-height: 900px;
+
+    background:
+    radial-gradient(
+        circle,
+        rgba(125,190,120,0.18),
+        transparent 65%
     );
 
 
-    filter:blur(80px);
+    filter: blur(60px);
 
     animation:
-    fogMove 25s infinite alternate ease-in-out;
+    pulse 8s ease-in-out infinite;
 
 }
 
 
 
-@keyframes fogMove {
+/* Inhalt */
 
+.content {
+
+    position: relative;
+
+    z-index: 2;
+
+    color: rgba(245,245,230,0.95);
+
+}
+
+
+
+h1 {
+
+    font-size:
+    clamp(35px, 7vw, 75px);
+
+    font-weight: 300;
+
+    letter-spacing:
+    clamp(5px, 1vw, 12px);
+
+    margin-bottom: 25px;
+
+
+}
+
+
+
+.subtitle {
+
+    font-size:
+    clamp(11px, 2vw, 17px);
+
+    letter-spacing:
+    clamp(3px, 0.7vw, 7px);
+
+    opacity: 0.65;
+
+}
+
+
+
+/* Animationen */
+
+
+@keyframes introFade {
 
     from {
 
+        opacity: 0;
+
         transform:
-        translate(-5%,-3%)
-        scale(1);
+        scale(1.03);
 
     }
 
 
     to {
 
+        opacity: 1;
+
         transform:
-        translate(5%,4%)
-        scale(1.15);
+        scale(1);
+
+    }
+
+}
+
+
+
+@keyframes pulse {
+
+
+    0%,
+    100% {
+
+        transform:
+        scale(0.95);
+
+        opacity:0.7;
+
+    }
+
+
+    50% {
+
+        transform:
+        scale(1.1);
+
+        opacity:1;
 
     }
 
@@ -105,84 +202,32 @@ canvas {
 
 
 
-/*
-    leichte Filmkörnung
-*/
+
+/* Handy Anpassung */
+
+@media(max-width:600px){
 
 
-.grain {
+    h1 {
 
-    position:fixed;
+        letter-spacing:
+        4px;
 
-    inset:-50%;
-
-    pointer-events:none;
-
-    opacity:.035;
+    }
 
 
-    background-image:url(
-    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23noise)'/%3E%3C/svg%3E"
-    );
+    .subtitle {
 
+        letter-spacing:
+        3px;
 
-    animation:
-    grain 7s steps(8) infinite;
-
-}
-
-
-
-@keyframes grain {
-
-
-0% {
-
-transform:
-translate(0,0);
-
-}
-
-
-25% {
-
-transform:
-translate(-4%,5%);
-
-}
-
-
-50% {
-
-transform:
-translate(5%,-3%);
-
-}
-
-
-75% {
-
-transform:
-translate(-3%,-5%);
-
-}
-
-
-100% {
-
-transform:
-translate(0,0);
-
-}
+    }
 
 
 }
-
-
 
 
 </style>
-
 
 </head>
 
@@ -191,853 +236,38 @@ translate(0,0);
 <body>
 
 
-
-<canvas id="universe"></canvas>
-
-
-<div class="fog"></div>
-
-<div class="grain"></div>
+<div class="intro" onclick="enterSite()">
 
 
+    <div class="content">
+
+
+        <h1>
+            BALTAZAR SEEDS
+        </h1>
+
+
+        <div class="subtitle">
+            ENTER THE 420 UNIVERSE
+        </div>
+
+
+    </div>
+
+
+</div>
 
 
 
 <script>
 
 
-const canvas =
-document.getElementById(
-"universe"
-);
+function enterSite(){
 
-
-const ctx =
-canvas.getContext(
-"2d",
-{
-alpha:true
-}
-);
-
-
-
-let width;
-let height;
-let ratio;
-
-
-
-function resize(){
-
-
-ratio =
-Math.min(
-window.devicePixelRatio || 1,
-2
-);
-
-
-
-width =
-window.innerWidth;
-
-
-height =
-window.innerHeight;
-
-
-
-canvas.width =
-width * ratio;
-
-
-canvas.height =
-height * ratio;
-
-
-
-canvas.style.width =
-width+"px";
-
-
-canvas.style.height =
-height+"px";
-
-
-
-ctx.setTransform(
-ratio,
-0,
-0,
-ratio,
-0,
-0
-);
-
-
+    window.location.href =
+    "hauptseite.html";
 
 }
-
-
-
-window.addEventListener(
-"resize",
-resize
-);
-
-
-
-resize();
-
-
-
-
-
-let pointer = {
-
-
-x:
-width/2,
-
-
-y:
-height/2
-
-
-};
-
-
-
-window.addEventListener(
-"mousemove",
-e=>{
-
-
-pointer.x =
-e.clientX;
-
-
-pointer.y =
-e.clientY;
-
-
-}
-
-);
-
-
-
-window.addEventListener(
-"touchmove",
-e=>{
-
-
-if(e.touches[0]){
-
-
-pointer.x =
-e.touches[0].clientX;
-
-
-pointer.y =
-e.touches[0].clientY;
-
-
-}
-
-
-},
-{
-passive:true
-}
-
-);
-
-
-
-
-let time = 0;
-
-
-
-const layers = [];
-
-
-
-
-function createLayer(i){
-
-
-return {
-
-
-x:
-width/2 +
-(Math.random()-0.5)*300,
-
-
-y:
-height/2 +
-(Math.random()-0.5)*300,
-
-
-size:
-220 +
-Math.random()*220,
-
-
-speed:
-0.0004 +
-Math.random()*0.0008,
-
-
-phase:
-Math.random()*Math.PI*2,
-
-
-points:
-180,
-
-
-depth:
-i
-
-
-};
-
-
-}
-
-
-
-
-for(
-let i=0;
-i<5;
-i++
-){
-
-layers.push(
-createLayer(i)
-);
-
-}
-
-
-
-
-
-
-// ==========================================
-// BALTAZAR SEEDS ORGANIC MORPH ENGINE
-// PART 2/3
-// ==========================================
-
-
-
-function noise(
-    angle,
-    phase,
-    intensity
-){
-
-    return (
-
-        Math.sin(angle * 3 + phase)
-        * intensity * 0.12
-
-        +
-
-        Math.sin(angle * 6 - phase * 1.4)
-        * intensity * 0.06
-
-        +
-
-        Math.cos(angle * 11 + phase)
-        * intensity * 0.035
-
-        +
-
-        Math.sin(angle * 17 - phase * 0.7)
-        * intensity * 0.02
-
-    );
-
-}
-
-
-
-
-
-
-
-function drawOrganicLayer(
-    layer,
-    index
-){
-
-
-    const points =
-    layer.points;
-
-
-
-    /*
-        Farbwelt:
-        dunkles organisches Licht
-    */
-
-
-    let colors = [
-
-        [
-        "rgba(80,160,100,0.18)",
-        "rgba(0,0,0,0)"
-        ],
-
-
-        [
-        "rgba(120,200,130,0.12)",
-        "rgba(0,0,0,0)"
-        ],
-
-
-        [
-        "rgba(180,130,70,0.10)",
-        "rgba(0,0,0,0)"
-        ],
-
-
-        [
-        "rgba(80,220,160,0.08)",
-        "rgba(0,0,0,0)"
-        ],
-
-
-        [
-        "rgba(255,255,255,0.05)",
-        "rgba(0,0,0,0)"
-        ]
-
-    ];
-
-
-
-    let gradient =
-    ctx.createRadialGradient(
-
-        layer.x,
-        layer.y,
-        0,
-
-        layer.x,
-        layer.y,
-        layer.size * 1.5
-
-    );
-
-
-
-    gradient.addColorStop(
-        0,
-        colors[index][0]
-    );
-
-
-    gradient.addColorStop(
-        1,
-        colors[index][1]
-    );
-
-
-
-
-    ctx.beginPath();
-
-
-
-    for(
-        let i=0;
-        i<=points;
-        i++
-    ){
-
-
-        let angle =
-        (Math.PI*2/points)*i;
-
-
-
-        let deformation =
-        noise(
-            angle,
-            layer.phase,
-            layer.size
-        );
-
-
-
-        let radius =
-        layer.size +
-        deformation;
-
-
-
-        /*
-            leichte Reaktion
-            auf Maus/Finger
-        */
-
-
-        let attractionX =
-        (
-            pointer.x -
-            width/2
-        )
-        *
-        0.015
-        *
-        (index+1);
-
-
-
-        let attractionY =
-        (
-            pointer.y -
-            height/2
-        )
-        *
-        0.015
-        *
-        (index+1);
-
-
-
-
-        let x =
-        layer.x +
-        Math.cos(angle)
-        *
-        radius
-        +
-        attractionX;
-
-
-
-        let y =
-        layer.y +
-        Math.sin(angle)
-        *
-        radius
-        +
-        attractionY;
-
-
-
-
-        if(i===0){
-
-            ctx.moveTo(
-                x,
-                y
-            );
-
-        }
-        else{
-
-            ctx.lineTo(
-                x,
-                y
-            );
-
-        }
-
-
-    }
-
-
-
-    ctx.closePath();
-
-
-
-    ctx.fillStyle =
-    gradient;
-
-
-    ctx.fill();
-
-
-
-    /*
-        weicher Lichtsaum
-    */
-
-
-    ctx.shadowBlur =
-    100;
-
-
-    ctx.shadowColor =
-    "rgba(100,220,130,0.08)";
-
-
-    ctx.fill();
-
-
-
-    ctx.shadowBlur = 0;
-
-
-
-}
-
-
-
-
-
-
-
-
-
-function updateLayers(){
-
-
-    layers.forEach(
-        (layer,index)=>{
-
-
-            layer.phase +=
-            layer.speed;
-
-
-
-            /*
-              langsames organisches Atmen
-            */
-
-
-            let breathe =
-            Math.sin(
-                time*0.002 +
-                index
-            )
-            *
-            0.15;
-
-
-
-            layer.size +=
-            breathe;
-
-
-
-
-            /*
-              Bewegung im Raum
-            */
-
-
-            layer.x +=
-            Math.sin(
-                time*0.0005+
-                index
-            )
-            *
-            0.15;
-
-
-
-            layer.y +=
-            Math.cos(
-                time*0.0004+
-                index
-            )
-            *
-            0.12;
-
-
-
-        }
-    );
-
-}
-
-
-
-
-
-
-
-
-
-function render(){
-
-
-
-    time++;
-
-
-
-    ctx.clearRect(
-        0,
-        0,
-        width,
-        height
-    );
-
-
-
-    /*
-        leichter schwarzer Schleier
-        für filmischen Effekt
-    */
-
-
-    ctx.fillStyle =
-    "rgba(0,0,0,0.12)";
-
-
-    ctx.fillRect(
-        0,
-        0,
-        width,
-        height
-    );
-
-
-
-    updateLayers();
-
-
-
-    /*
-        hintere Ebenen zuerst
-    */
-
-
-    layers
-    .slice()
-    .reverse()
-    .forEach(
-        (layer,index)=>{
-
-
-            drawOrganicLayer(
-                layer,
-                index
-            );
-
-
-        }
-    );
-
-
-
-    requestAnimationFrame(
-        render
-    );
-
-
-}
-
-
-
-
-render();
-
-
-
-// ==========================================
-// BALTAZAR SEEDS ATMOSPHERE FINISH
-// PART 3/3
-// ==========================================
-
-
-
-/*
-    Smooth Start Reveal
-
-    Die Szene erscheint nicht plötzlich,
-    sondern taucht langsam aus der Dunkelheit auf.
-*/
-
-
-let reveal = 0;
-
-
-
-function smoothReveal(){
-
-
-    if(reveal < 1){
-
-        reveal += 0.003;
-
-    }
-
-
-    canvas.style.opacity =
-    reveal;
-
-
-    requestAnimationFrame(
-        smoothReveal
-    );
-
-
-}
-
-
-
-smoothReveal();
-
-
-
-
-
-/*
-    Mobile Performance
-
-    Bei sehr kleinen Geräten
-    werden unnötige Berechnungen reduziert.
-*/
-
-
-function optimizeMobile(){
-
-
-    if(window.innerWidth < 600){
-
-
-        layers.forEach(
-            layer=>{
-
-
-                layer.points = 120;
-
-
-                layer.size *= 0.75;
-
-
-            }
-        );
-
-
-    }
-
-
-
-}
-
-
-
-optimizeMobile();
-
-
-
-
-
-
-
-/*
-    leichte automatische Kamerabewegung
-
-    Gibt dem Hintergrund das Gefühl,
-    nicht einfach "festzukleben",
-    sondern ein eigener Raum zu sein.
-*/
-
-
-let camera = {
-
-    x:0,
-
-    y:0
-
-};
-
-
-
-
-
-function updateCamera(){
-
-
-    camera.x =
-    Math.sin(time*0.0003)
-    *
-    15;
-
-
-    camera.y =
-    Math.cos(time*0.00025)
-    *
-    15;
-
-
-
-    ctx.translate(
-        camera.x,
-        camera.y
-    );
-
-
-}
-
-
-
-
-
-/*
-    kleine Anpassung:
-    Canvas bleibt immer scharf
-*/
-
-
-window.addEventListener(
-"resize",
-()=>{
-
-
-    optimizeMobile();
-
-
-});
-
-
-
-
-
-
-/*
-    Energie sparen,
-    wenn der Tab nicht sichtbar ist
-*/
-
-
-document.addEventListener(
-"visibilitychange",
-()=>{
-
-
-    if(document.hidden){
-
-        canvas.style.animationPlayState =
-        "paused";
-
-    }
-    else{
-
-        canvas.style.animationPlayState =
-        "running";
-
-    }
-
-
-});
-
 
 
 </script>
