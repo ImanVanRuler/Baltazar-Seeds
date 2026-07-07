@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>BALTAZAR SEEDS</title>
-<meta name="description" content="BALTAZAR KNOWS WHAT SMOKE IS" />
+<title>Baltazar Seeds — Couture Cultivation</title>
+<meta name="description" content="Rare genetics. Meticulously bred. Reserved for those who know." />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
-/* ===================== RESET & BASE ===================== */
+/* ===================== RESET ===================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:          #F9F8F6;
-  --ink:         #0F1A12;
-  --accent:      #8C6A4D;
-  --accent-soft: rgba(140,106,77,0.15);
-  --line:        rgba(15,26,18,0.07);
-  --white60:     rgba(255,255,255,0.6);
+  --bg:        #080D09;
+  --bg2:       #0E1510;
+  --ink:       #EAE6DF;
+  --ink-dim:   rgba(234,230,223,0.38);
+  --ink-faint: rgba(234,230,223,0.12);
+  --gold:      #B8873A;
+  --gold-soft: rgba(184,135,58,0.14);
+  --gold-line: rgba(184,135,58,0.22);
+  --line:      rgba(234,230,223,0.06);
 }
 
 html, body { height: 100%; overflow: hidden; }
@@ -32,9 +35,1117 @@ body {
   user-select: none;
 }
 
+/* ===================== INTRO SCREEN ===================== */
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  pointer-events: none;
+  transition: opacity 0.8s ease 0.2s, visibility 0.8s ease 0.2s;
+}
+#intro.gone { opacity: 0; visibility: hidden; }
+
+.intro-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  color: var(--ink);
+  opacity: 0;
+  animation: introFade 1s ease 0.3s forwards;
+}
+.intro-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0;
+  animation: introFade 1s ease 0.7s forwards;
+}
+.intro-line {
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.4;
+  animation: introLine 1.2s ease 0.5s forwards;
+}
+@keyframes introFade { to { opacity: 1; } }
+@keyframes introLine { to { width: 120px; } }
+
+/* ===================== GRAIN OVERLAY ===================== */
+.grain {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  z-index: 900;
+  pointer-events: none;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grainShift 0.5s steps(1) infinite;
+}
+@keyframes grainShift {
+  0%   { transform: translate(0,0); }
+  20%  { transform: translate(-2%,1%); }
+  40%  { transform: translate(1%,-2%); }
+  60%  { transform: translate(-1%,2%); }
+  80%  { transform: translate(2%,-1%); }
+  100% { transform: translate(0,0); }
+}
+
+/* ===================== AMBIENT LIGHT ===================== */
+.ambient {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 50%, rgba(184,135,58,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 50%, rgba(56,90,46,0.05) 0%, transparent 70%);
+}
+
+/* ===================== CORNER MARKS ===================== */
+.corners {
+  position: fixed;
+  inset: 18px;
+  pointer-events: none;
+  z-index: 50;
+}
+.corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: rgba(184,135,58,0.25);
+  border-style: solid;
+  transition: border-color 0.5s;
+}
+.corner.tl { top:0; left:0;   border-width: 1px 0 0 1px; }
+.corner.tr { top:0; right:0;  border-width: 1px 1px 0 0; }
+.corner.bl { bottom:0; left:0;  border-width: 0 0 1px 1px; }
+.corner.br { bottom:0; right:0; border-width: 0 1px 1px 0; }
+
+/* ===================== PROGRESS BAR ===================== */
+#progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 1px;
+  background: linear-gradient(to right, var(--gold), rgba(184,135,58,0.3));
+  z-index: 800;
+  transition: width 1s cubic-bezier(0.77,0,0.18,1);
+}
+
 /* ===================== NAV ===================== */
 nav {
   position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 52px;
+  pointer-events: none;
+}
+@media (max-width: 768px) { nav { padding: 22px 24px; } }
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  pointer-events: all;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-logo-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: inline-block;
+  animation: pulse 3s ease infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:0.4; transform:scale(0.6); }
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  pointer-events: all;
+}
+@media (max-width: 768px) { .nav-right { gap: 20px; } }
+
+.nav-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.nav-link:hover { color: var(--gold); }
+
+/* ===================== CENTER DIVIDER ===================== */
+.slide-divider {
+  position: fixed;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: var(--line);
+  z-index: 10;
+  pointer-events: none;
+}
+@media (max-width: 768px) { .slide-divider { display: none; } }
+
+/* ===================== SLIDER ===================== */
+.slider-track {
+  display: flex;
+  height: 100vh;
+  transition: transform 1s cubic-bezier(0.77,0,0.18,1);
+  will-change: transform;
+  cursor: grab;
+  position: relative;
+  z-index: 5;
+}
+.slider-track:active { cursor: grabbing; }
+
+/* ===================== SLIDE ===================== */
+.slide {
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .slide { grid-template-columns: 1fr; grid-template-rows: 55% 45%; }
+}
+
+/* ---- Image half ---- */
+.slide-image {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg2);
+}
+.slide-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 55%, rgba(8,13,9,0.6) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.slide-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.1);
+  transition: transform 1.4s cubic-bezier(0.16,1,0.3,1);
+  display: block;
+}
+.slide.active .slide-image img { transform: scale(1); }
+
+/* Botanical watermark */
+.slide-image .botanical {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  width: 220px;
+  height: 220px;
+  opacity: 0.04;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Image placeholder */
+.slide-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--ink-faint);
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+/* Hide placeholder when img loads */
+.slide-image img + .slide-image-placeholder { display: none; }
+.slide-image img[src=""] + .slide-image-placeholder,
+.slide-image img:not([src]) + .slide-image-placeholder { display: flex; }
+
+.slide-image-placeholder svg { opacity: 0.25; }
+.slide-image-placeholder span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* Slide number */
+.slide-num {
+  position: absolute;
+  bottom: 28px;
+  left: 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(234,230,223,0.3);
+  background: rgba(8,13,9,0.5);
+  padding: 5px 11px;
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  z-index: 3;
+}
+
+/* Genetics tag */
+.slide-genetics {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(184,135,58,0.08);
+  padding: 5px 11px;
+  border: 1px solid var(--gold-line);
+  backdrop-filter: blur(8px);
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.7s ease 0.5s, transform 0.7s ease 0.5s;
+}
+.slide.active .slide-genetics { opacity: 1; transform: translateY(0); }
+
+/* ---- Info half ---- */
+.slide-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 100px 72px 80px 64px;
+  position: relative;
+  background: var(--bg);
+}
+@media (max-width: 768px) { .slide-info { padding: 32px 28px 80px; } }
+
+/* Large background index number */
+.slide-info-bg-num {
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 240px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink-faint);
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: -0.05em;
+  opacity: 0.4;
+}
+@media (max-width: 768px) { .slide-info-bg-num { display: none; } }
+
+.slide-category {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
+}
+.slide-category::before {
+  content: '';
+  display: inline-block;
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+.slide.active .slide-category { opacity: 1; transform: translateX(0); }
+
+.slide-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(38px, 4.5vw, 68px);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 10px;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s,
+              transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.18s;
+}
+.slide-name em {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 300;
+}
+.slide.active .slide-name { opacity: 1; transform: translateY(0); }
+
+.slide-lineage {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: var(--ink-dim);
+  margin-bottom: 26px;
+  opacity: 0;
+  transition: opacity 0.8s ease 0.3s;
+}
+.slide.active .slide-lineage { opacity: 1; }
+
+.slide-desc {
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: rgba(234,230,223,0.4);
+  font-weight: 300;
+  max-width: 360px;
+  margin-bottom: 36px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.3s,
+              transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.3s;
+}
+.slide.active .slide-desc { opacity: 1; transform: translateY(0); }
+
+/* Price row */
+.slide-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 36px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.38s,
+              transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.38s;
+}
+.slide.active .slide-price-row { opacity: 1; transform: translateY(0); }
+
+.slide-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 300;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.slide-price-unit {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* CTA */
+.slide-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-decoration: none;
+  border: 1px solid var(--gold-line);
+  padding: 15px 30px;
+  align-self: flex-start;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.46s,
+              transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.46s,
+              color 0.4s, border-color 0.4s;
+}
+.slide-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: translateX(-101%);
+  transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
+}
+.slide-cta:hover::before { transform: translateX(0); }
+.slide-cta:hover { color: var(--bg); border-color: var(--gold); }
+.slide-cta span, .slide-cta svg { position: relative; z-index: 1; }
+.slide.active .slide-cta { opacity: 1; transform: translateY(0); }
+
+/* THC badge */
+.thc-badge {
+  position: absolute;
+  bottom: 36px;
+  right: 36px;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-line);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: rgba(184,135,58,0.05);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.7s ease 0.55s, transform 0.7s cubic-bezier(0.16,1,0.3,1) 0.55s;
+}
+.slide.active .thc-badge { opacity: 1; transform: scale(1); }
+.thc-badge-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--gold);
+  line-height: 1;
+}
+.thc-badge-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* ===================== CONTROLS ===================== */
+.controls {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.dots { display: flex; gap: 8px; align-items: center; }
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(234,230,223,0.15);
+  cursor: pointer;
+  transition: background 0.4s, transform 0.4s, width 0.4s;
+  border: none;
+  padding: 0;
+}
+.dot.active {
+  background: var(--gold);
+  transform: scale(1.6);
+}
+
+.arrow {
+  background: none;
+  border: 1px solid var(--ink-faint);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-dim);
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+}
+.arrow:hover {
+  border-color: var(--gold-line);
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+.arrow:disabled { opacity: 0.18; cursor: default; }
+
+.slide-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.4em;
+  color: var(--ink-dim);
+  text-transform: uppercase;
+  min-width: 48px;
+  text-align: center;
+}
+
+/* ===================== KEYBOARD HINT ===================== */
+.hint {
+  position: fixed;
+  bottom: 78px;
+  right: 52px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+@media (max-width: 768px) { .hint { display: none; } }
+
+/* ===================== CONTACT MODAL ===================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(8,13,9,0.92);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+.modal-overlay.open { opacity: 1; visibility: visible; }
+
+.modal {
+  max-width: 480px;
+  width: 90%;
+  border: 1px solid var(--gold-line);
+  background: var(--bg2);
+  padding: 56px 52px;
+  position: relative;
+  transform: translateY(20px);
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+
+.modal-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 4px 8px;
+  transition: color 0.3s;
+}
+.modal-close:hover { color: var(--gold); }
+
+.modal-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.modal-label::before { content:''; display:inline-block; width:24px; height:1px; background:var(--gold); opacity:0.5; }
+
+.modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 36px;
+  letter-spacing: -0.02em;
+}
+.modal-title em { font-style: italic; color: var(--gold); }
+
+.modal-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--ink-dim);
+  transition: color 0.3s;
+}
+.modal-row:first-of-type { border-top: 1px solid var(--line); }
+.modal-row:hover { color: var(--gold); }
+.modal-row:hover .modal-row-icon { border-color: var(--gold-line); color: var(--gold); }
+
+.modal-row-icon {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--ink-faint);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: border-color 0.3s, color 0.3s;
+}
+
+.modal-row-text { display: flex; flex-direction: column; gap: 3px; }
+.modal-row-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.modal-row-val {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.modal-note {
+  margin-top: 32px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--ink-faint);
+  font-weight: 300;
+}
+
+/* ===================== SCROLL INDICATOR ===================== */
+.scroll-side {
+  position: fixed;
+  right: 52px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+.scroll-side-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  opacity: 0.25;
+}
+.scroll-side-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+@media (max-width: 1024px) { .scroll-side { display: none; } }
+</style>
+</head>
+<body>
+
+<!-- Intro screen -->
+<div id="intro">
+  <div class="intro-logo">Baltazar Seeds</div>
+  <div class="intro-line"></div>
+  <div class="intro-sub">Couture Cultivation</div>
+</div>
+
+<!-- Grain -->
+<div class="grain"></div>
+
+<!-- Ambient -->
+<div class="ambient"></div>
+
+<!-- Corners -->
+<div class="corners">
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+</div>
+
+<!-- Progress -->
+<div id="progress"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    Baltazar Seeds
+  </div>
+  <div class="nav-right">
+    <a href="#" class="nav-link" onclick="return false;">Collection</a>
+    <a href="#" class="nav-link" onclick="return false;">The Craft</a>
+    <button class="nav-link" id="openContact">Contact</button>
+  </div>
+</nav>
+
+<!-- Divider -->
+<div class="slide-divider"></div>
+
+<!-- Side scroll hint -->
+<div class="scroll-side">
+  <div class="scroll-side-line"></div>
+  <div class="scroll-side-label">Swipe</div>
+</div>
+
+<!-- Keyboard hint -->
+<div class="hint">← → Navigate</div>
+
+<!-- ===================== SLIDER ===================== -->
+<div class="slider-track" id="sliderTrack">
+
+  <!-- ── SLIDE 1 ─────────────────────────────────────────── -->
+  <div class="slide active">
+    <div class="slide-image">
+      <img src="STRAIN1.JPG" alt="Baltazar's Phantom Haze" onerror="this.style.display='none'">
+      <div class="slide-image-placeholder">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8">
+          <path d="M12 2c-3 4-3 8 0 12 3-4 3-8 0-12z"/>
+          <path d="M12 14c-4 0-8 2-10 6 4 0 8-2 10-6z"/>
+          <path d="M12 14c4 0 8 2 10 6-4 0-8-2-10-6z"/>
+        </svg>
+        <span>Phantom Haze</span>
+      </div>
+      <!-- Botanical watermark -->
+      <svg class="botanical" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 10 C70 50 70 90 100 130 C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130 C60 120 30 140 10 170 C40 170 70 150 100 130Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130 C140 120 170 140 190 170 C160 170 130 150 100 130Z" stroke="white" stroke-width="0.5"/>
+      </svg>
+      <div class="slide-genetics">Sativa Dom. · Ghost Train × Silver Haze</div>
+      <div class="slide-num">01 / Collection</div>
+    </div>
+    <div class="slide-info">
+      <div class="slide-info-bg-num">01</div>
+      <div class="slide-category">New Drop</div>
+      <h2 class="slide-name">Baltazar's<br /><em>Phantom Haze</em></h2>
+      <div class="slide-lineage">Ghost Train Haze × Silver Haze · F6</div>
+      <p class="slide-desc">She rises like smoke — weightless, euphoric, impossible to hold. Six generations of refinement condensed into a cerebral clarity that sharpens the world around you. Born for the thinkers.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a href="mailto:imanvanruler@freenet.de?subject=Order: Baltazar's Phantom Haze" class="slide-cta">
+        <span>Acquire Seeds</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <div class="thc-badge">
+        <div class="thc-badge-val">28%</div>
+        <div class="thc-badge-label">THC</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 2 ─────────────────────────────────────────── -->
+  <div class="slide">
+    <div class="slide-image">
+      <img src="STRAIN2.JPG" alt="Baltazar's Velvet Thunder" onerror="this.style.display='none'">
+      <div class="slide-image-placeholder">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8">
+          <path d="M12 2c-3 4-3 8 0 12 3-4 3-8 0-12z"/>
+          <path d="M12 14c-4 0-8 2-10 6 4 0 8-2 10-6z"/>
+          <path d="M12 14c4 0 8 2 10 6-4 0-8-2-10-6z"/>
+        </svg>
+        <span>Velvet Thunder</span>
+      </div>
+      <svg class="botanical" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 10 C70 50 70 90 100 130 C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130 C60 120 30 140 10 170 C40 170 70 150 100 130Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130 C140 120 170 140 190 170 C160 170 130 150 100 130Z" stroke="white" stroke-width="0.5"/>
+      </svg>
+      <div class="slide-genetics">Hybrid · GMO × Zkittlez</div>
+      <div class="slide-num">02 / Collection</div>
+    </div>
+    <div class="slide-info">
+      <div class="slide-info-bg-num">02</div>
+      <div class="slide-category">Bestseller</div>
+      <h2 class="slide-name">Baltazar's<br /><em>Velvet Thunder</em></h2>
+      <div class="slide-lineage">GMO × Zkittlez · F5 Stable</div>
+      <p class="slide-desc">Power wrapped in silk. The first hit is soft — then the thunder rolls in. A heavyweight cross that delivers dense, resinous flowers with a terpene profile that refuses to be forgotten.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a href="mailto:imanvanruler@freenet.de?subject=Order: Baltazar's Velvet Thunder" class="slide-cta">
+        <span>Acquire Seeds</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <div class="thc-badge">
+        <div class="thc-badge-val">31%</div>
+        <div class="thc-badge-label">THC</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 3 ─────────────────────────────────────────── -->
+  <div class="slide">
+    <div class="slide-image">
+      <img src="STRAIN3.JPG" alt="Baltazar's Golden Ritual" onerror="this.style.display='none'">
+      <div class="slide-image-placeholder">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8">
+          <path d="M12 2c-3 4-3 8 0 12 3-4 3-8 0-12z"/>
+          <path d="M12 14c-4 0-8 2-10 6 4 0 8-2 10-6z"/>
+          <path d="M12 14c4 0 8 2 10 6-4 0-8-2-10-6z"/>
+        </svg>
+        <span>Golden Ritual</span>
+      </div>
+      <svg class="botanical" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 10 C70 50 70 90 100 130 C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130 C60 120 30 140 10 170 C40 170 70 150 100 130Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130 C140 120 170 140 190 170 C160 170 130 150 100 130Z" stroke="white" stroke-width="0.5"/>
+      </svg>
+      <div class="slide-genetics">Indica Dom. · GDP × OG Kush</div>
+      <div class="slide-num">03 / Collection</div>
+    </div>
+    <div class="slide-info">
+      <div class="slide-info-bg-num">03</div>
+      <div class="slide-category">Limited</div>
+      <h2 class="slide-name">Baltazar's<br /><em>Golden Ritual</em></h2>
+      <div class="slide-lineage">Granddaddy Purple × OG Kush · F4</div>
+      <p class="slide-desc">An evening ceremony for those who appreciate depth. Rich amber terpenes, old-world structure. This is not a shortcut — it is a destination. Warm, full, and unmistakably alive.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a href="mailto:imanvanruler@freenet.de?subject=Order: Baltazar's Golden Ritual" class="slide-cta">
+        <span>Acquire Seeds</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <div class="thc-badge">
+        <div class="thc-badge-val">27%</div>
+        <div class="thc-badge-label">THC</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 4 ─────────────────────────────────────────── -->
+  <div class="slide">
+    <div class="slide-image">
+      <img src="STRAIN4.JPG" alt="Baltazar's Midnight Oracle" onerror="this.style.display='none'">
+      <div class="slide-image-placeholder">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8">
+          <path d="M12 2c-3 4-3 8 0 12 3-4 3-8 0-12z"/>
+          <path d="M12 14c-4 0-8 2-10 6 4 0 8-2 10-6z"/>
+          <path d="M12 14c4 0 8 2 10 6-4 0-8-2-10-6z"/>
+        </svg>
+        <span>Midnight Oracle</span>
+      </div>
+      <svg class="botanical" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 10 C70 50 70 90 100 130 C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130 C60 120 30 140 10 170 C40 170 70 150 100 130Z" stroke="white" stroke-width="0.5"/>
+        <path d="M100 130 C140 120 170 140 190 170 C160 170 130 150 100 130Z" stroke="white" stroke-width="0.5"/>
+      </svg>
+      <div class="slide-genetics">Indica · Hindu Kush × Black Afghan</div>
+      <div class="slide-num">04 / Collection</div>
+    </div>
+    <div class="slide-info">
+      <div class="slide-info-bg-num">04</div>
+      <div class="slide-category">Exclusive</div>
+      <h2 class="slide-name">Baltazar's<br /><em>Midnight Oracle</em></h2>
+      <div class="slide-lineage">Hindu Kush × Black Afghan · F7</div>
+      <p class="slide-desc">She speaks only to those who are ready to listen. Ancient landrace genetics refined into a resinous, meditative body of work. Dense. Dark. Wise. Seven generations in the making.</p>
+      <div class="slide-price-row">
+        <div class="slide-price">€ 80</div>
+        <div class="slide-price-unit">12 Regular Seeds</div>
+      </div>
+      <a href="mailto:imanvanruler@freenet.de?subject=Order: Baltazar's Midnight Oracle" class="slide-cta">
+        <span>Acquire Seeds</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <div class="thc-badge">
+        <div class="thc-badge-val">29%</div>
+        <div class="thc-badge-label">THC</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /slider-track -->
+
+<!-- Controls -->
+<div class="controls">
+  <button class="arrow" id="prev" aria-label="Previous">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+  <div class="dots" id="dots"></div>
+  <button class="arrow" id="next" aria-label="Next">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+  <div class="slide-counter" id="counter">01 / 04</div>
+</div>
+
+<!-- ===================== CONTACT MODAL ===================== -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" id="closeModal">✕</button>
+    <div class="modal-label">Get in Touch</div>
+    <div class="modal-title">Reach<br /><em>Baltazar</em></div>
+
+    <a class="modal-row" href="mailto:imanvanruler@freenet.de">
+      <div class="modal-row-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <polyline points="2,4 12,13 22,4"/>
+        </svg>
+      </div>
+      <div class="modal-row-text">
+        <div class="modal-row-title">Email</div>
+        <div class="modal-row-val">imanvanruler@freenet.de</div>
+      </div>
+    </a>
+
+    <a class="modal-row" href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener noreferrer">
+      <div class="modal-row-icon">
+        <!-- Instagram SVG icon -->
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="2" width="20" height="20" rx="5"/>
+          <circle cx="12" cy="12" r="5"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <div class="modal-row-text">
+        <div class="modal-row-title">Instagram</div>
+        <div class="modal-row-val">@real_jack_james</div>
+      </div>
+    </a>
+
+    <p class="modal-note">
+      For orders, questions, or wholesale inquiries — reach out directly. We respond within 24 hours. All seeds are sold as collectibles only.
+    </p>
+  </div>
+</div>
+
+<script>
+(function () {
+
+  /* ---- Intro ---- */
+  setTimeout(() => {
+    document.getElementById('intro').classList.add('gone');
+  }, 2200);
+
+  /* ---- Slider ---- */
+  const track    = document.getElementById('sliderTrack');
+  const slides   = Array.from(document.querySelectorAll('.slide'));
+  const dotsWrap = document.getElementById('dots');
+  const prevBtn  = document.getElementById('prev');
+  const nextBtn  = document.getElementById('next');
+  const counter  = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+
+  const total = slides.length;
+  let current = 0;
+  let isAnim  = false;
+
+  /* Build dots */
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.setAttribute('aria-label', `Slide ${i + 1}`);
+    d.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(d);
+  });
+
+  function getDots() { return dotsWrap.querySelectorAll('.dot'); }
+
+  function pad(n) { return String(n + 1).padStart(2, '0'); }
+
+  function goTo(index) {
+    if (isAnim) return;
+    const next = (index + total) % total;
+    if (next === current) return;
+    isAnim = true;
+
+    slides[current].classList.remove('active');
+    getDots()[current].classList.remove('active');
+    current = next;
+    slides[current].classList.add('active');
+    getDots()[current].classList.add('active');
+
+    track.style.transform = `translateX(-${current * 100}vw)`;
+    counter.textContent   = `${pad(current)} / ${pad(total - 1)}`;
+    progress.style.width  = `${((current + 1) / total) * 100}%`;
+    prevBtn.disabled      = current === 0;
+    nextBtn.disabled      = current === total - 1;
+
+    setTimeout(() => { isAnim = false; }, 1050);
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+  prevBtn.disabled = true;
+
+  /* Keyboard */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goTo(current - 1);
+    if (e.key === 'Escape') closeModal();
+  });
+
+  /* Touch swipe */
+  let tx = 0, ty = 0;
+  track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+  track.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    const dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40)
+      goTo(dx < 0 ? current + 1 : current - 1);
+  }, { passive: true });
+
+  /* Mouse drag */
+  let mx = 0, dragging = false;
+  track.addEventListener('mousedown', e => { mx = e.clientX; dragging = true; });
+  track.addEventListener('mouseup',   e => {
+    if (!dragging) return; dragging = false;
+    const dx = e.clientX - mx;
+    if (Math.abs(dx) > 60) goTo(dx < 0 ? current + 1 : current - 1);
+  });
+  track.addEventListener('mouseleave', () => { dragging = false; });
+
+  /* Init */
+  progress.style.width = `${(1 / total) * 100}%`;
+  counter.textContent  = `01 / ${pad(total - 1)}`;
+
+  /* ---- Contact modal ---- */
+  const overlay = document.getElementById('modalOverlay');
+
+  function openModal()  { overlay.classList.add('open'); }
+  function closeModal() { overlay.classList.remove('open'); }
+
+  document.getElementById('openContact').addEventListener('click', openModal);
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+
+})();
+</script>
+</body>
+</html>  position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
   display: flex;
