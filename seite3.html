@@ -1,271 +1,5501 @@
+<!-- ==========================================================
+PART 1 — HEAD (SEO + PERFORMANCE + ACCESSIBILITY)
+Replace your current <head> with this optimized version.
+========================================================== -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MERCH | 420 Universe</title>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<title>
+Baltazar Seeds® | Premium Cannabis Genetics | Genetic Hunter
+</title>
+
+<meta
+name="description"
+content="Premium small-batch cannabis genetics by Baltazar Seeds. Exclusive handcrafted strains, collectible genetics, limited releases and premium breeding.">
+
+<meta
+name="keywords"
+content="
+Baltazar Seeds,
+Premium Cannabis Genetics,
+Cannabis Seeds,
+Collectible Seeds,
+Small Batch,
+Premium Breeder,
+Genetic Hunter,
+Cannabis,
+Breeding,
+Rare Genetics">
+
+<meta
+name="author"
+content="Baltazar Seeds">
+
+<meta
+name="robots"
+content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+
+<meta
+name="googlebot"
+content="index,follow">
+
+<meta
+name="bingbot"
+content="index,follow">
+
+<meta
+name="theme-color"
+content="#050A06">
+
+<meta
+name="color-scheme"
+content="dark">
+
+<meta
+name="referrer"
+content="strict-origin-when-cross-origin">
+
+<meta
+name="format-detection"
+content="telephone=no">
+
+<meta
+name="apple-mobile-web-app-capable"
+content="yes">
+
+<meta
+name="apple-mobile-web-app-status-bar-style"
+content="black-translucent">
+
+<meta
+name="apple-mobile-web-app-title"
+content="Baltazar Seeds">
+
+<meta
+name="mobile-web-app-capable"
+content="yes">
+
+<meta
+name="application-name"
+content="Baltazar Seeds">
+
+<meta
+name="msapplication-TileColor"
+content="#050A06">
+
+<meta
+property="og:type"
+content="website">
+
+<meta
+property="og:title"
+content="Baltazar Seeds">
+
+<meta
+property="og:site_name"
+content="Baltazar Seeds">
+
+<meta
+property="og:url"
+content="https://baltazarseeds.com">
+
+<meta
+property="og:image"
+content="https://baltazarseeds.com/social.jpg">
+
+<meta
+property="og:description"
+content="Premium handcrafted cannabis genetics.">
+
+<meta
+property="twitter:card"
+content="summary_large_image">
+
+<meta
+property="twitter:title"
+content="Baltazar Seeds">
+
+<meta
+property="twitter:description"
+content="Premium handcrafted cannabis genetics.">
+
+<meta
+property="twitter:image"
+content="https://baltazarseeds.com/social.jpg">
+
+<link
+rel="canonical"
+href="https://baltazarseeds.com/">
+
+<link
+rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link
+rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link
+rel="dns-prefetch"
+href="//fonts.googleapis.com">
+
+<link
+rel="dns-prefetch"
+href="//fonts.gstatic.com">
+
+<link
+rel="preload"
+href="CATLOGO.JPG"
+as="image"
+fetchpriority="high">
+
+<link
+rel="preload"
+href="STRAIN1.JPG"
+as="image"
+fetchpriority="high">
+
+<link
+rel="icon"
+href="favicon.ico">
+
+<link
+rel="apple-touch-icon"
+href="apple-touch-icon.png">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap"
+rel="stylesheet">
+
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"Organization",
+"name":"Baltazar Seeds",
+"url":"https://baltazarseeds.com",
+"logo":"https://baltazarseeds.com/CATLOGO.JPG",
+"description":"Premium handcrafted cannabis genetics.",
+"sameAs":[
+"https://www.instagram.com/real_jack_james"
+]
+}
+</script>
+
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"WebSite",
+"name":"Baltazar Seeds",
+"url":"https://baltazarseeds.com"
+}
+</script>
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;scroll-behavior:smooth;background:#090912;color:#fff;font-family:"Space Grotesk",sans-serif}
-body{overflow-x:hidden}
-body:before{
-content:"";position:fixed;inset:0;z-index:-2;
-background:
-radial-gradient(circle at 20% 20%,#00d8ff33,transparent 30%),
-radial-gradient(circle at 80% 25%,#ff58dc33,transparent 30%),
-linear-gradient(180deg,#0a0c18,#0b0822,#090912);
+
+/* ==========================================================
+RESET
+========================================================== */
+
+*,
+*::before,
+*::after{
+
+margin:0;
+padding:0;
+box-sizing:border-box;
+
 }
-body:after{
-content:"";position:fixed;inset:-30%;
-background:
-radial-gradient(circle,#6a2cff22 0%,transparent 60%);
-filter:blur(120px);
-animation:bg 18s linear infinite alternate;
-z-index:-1;
+
+html{
+
+scroll-behavior:smooth;
+
+text-rendering:optimizeLegibility;
+
+-webkit-text-size-adjust:100%;
+
+font-synthesis-weight:none;
+
+font-synthesis-style:none;
+
+font-kerning:normal;
+
 }
-@keyframes bg{to{transform:translate(8%,5%) rotate(12deg)}}
+
+body{
+
+background:#050A06;
+
+color:#ECE7DF;
+
+font-family:Inter,sans-serif;
+
+font-weight:300;
+
+overflow:hidden;
+
+overflow-x:hidden;
+
+min-height:100vh;
+
+-webkit-font-smoothing:antialiased;
+
+-moz-osx-font-smoothing:grayscale;
+
+}
+
+/* ==========================================================
+VARIABLES
+========================================================== */
+
+:root{
+
+--bg:#050A06;
+
+--bg2:#0B1209;
+
+--gold:#C4913E;
+
+--gold2:#E2B46B;
+
+--line:rgba(255,255,255,.08);
+
+--text:#ECE7DF;
+
+--text2:rgba(236,231,223,.68);
+
+--transition:.55s cubic-bezier(.2,.9,.25,1);
+
+--shadow:
+
+0 20px 60px rgba(0,0,0,.35);
+
+}
+
+/* ==========================================================
+IMAGES
+========================================================== */
+
+img{
+
+display:block;
+
+max-width:100%;
+
+height:auto;
+
+image-rendering:auto;
+
+backface-visibility:hidden;
+
+transform:translateZ(0);
+
+}
+
+img[loading="lazy"]{
+
+contain-intrinsic-size:1200px 1600px;
+
+}
+
+/* ==========================================================
+ACCESSIBILITY
+========================================================== */
+
+:focus-visible{
+
+outline:2px solid var(--gold);
+
+outline-offset:4px;
+
+}
+
+::selection{
+
+background:rgba(196,145,62,.35);
+
+color:#fff;
+
+}
+
+/* ==========================================================
+SCROLLBAR
+========================================================== */
+
+::-webkit-scrollbar{
+
+width:10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:
+
+linear-gradient(
+
+180deg,
+
+#775728,
+
+#C4913E
+
+);
+
+border-radius:30px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#050A06;
+
+}
+
+/* ==========================================================
+BODY GRAIN
+========================================================== */
+
+body::before{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+pointer-events:none;
+
+z-index:999;
+
+opacity:.28;
+
+mix-blend-mode:overlay;
+
+background-image:
+
+radial-gradient(circle at 20% 20%,rgba(255,255,255,.05) 1px,transparent 1px),
+
+radial-gradient(circle at 80% 60%,rgba(255,255,255,.03) 1px,transparent 1px),
+
+radial-gradient(circle at 60% 90%,rgba(255,255,255,.04) 1px,transparent 1px);
+
+background-size:
+
+180px 180px,
+
+240px 240px,
+
+320px 320px;
+
+}
+
+/* ==========================================================
+AMBIENT LIGHT
+========================================================== */
+
+#ambient{
+
+position:fixed;
+
+inset:0;
+
+pointer-events:none;
+
+z-index:0;
+
+background:
+
+radial-gradient(
+
+circle at 20% 40%,
+
+rgba(34,84,44,.12),
+
+transparent 65%
+
+),
+
+radial-gradient(
+
+circle at 80% 30%,
+
+rgba(196,145,62,.09),
+
+transparent 65%
+
+),
+
+radial-gradient(
+
+circle at 60% 100%,
+
+rgba(20,45,25,.10),
+
+transparent 70%
+
+);
+
+animation:
+
+ambientMove 16s ease-in-out infinite alternate;
+
+}
+
+@keyframes ambientMove{
+
+0%{
+
+transform:
+
+scale(1)
+
+translate3d(0,0,0);
+
+}
+
+100%{
+
+transform:
+
+scale(1.08)
+
+translate3d(-2%,2%,0);
+
+}
+
+}
+
+/* ==========================================================
+GPU HELPERS
+========================================================== */
+
+.slide,
+.slide-img,
+.slide-info,
+nav,
+#cat-logo{
+
+transform:translateZ(0);
+
+backface-visibility:hidden;
+
+will-change:transform,opacity;
+
+}
+
+/* ==========================================================
+REDUCED MOTION
+========================================================== */
+
+@media(prefers-reduced-motion:reduce){
+
+*{
+
+animation:none!important;
+
+transition:none!important;
+
+scroll-behavior:auto!important;
+
+}
+
+}
+
+</style>
+
+/* ==========================================================
+PART 2
+NAVIGATION • HERO • PREMIUM ANIMATIONS
+========================================================== */
+
+nav{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+right:0;
+
+z-index:900;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+padding:26px 48px;
+
+background:
+
+linear-gradient(
+
+180deg,
+
+rgba(5,10,6,.72),
+
+rgba(5,10,6,.05)
+
+);
+
+backdrop-filter:
+
+blur(18px)
+
+saturate(170%);
+
+border-bottom:
+
+1px solid rgba(255,255,255,.04);
+
+transition:
+
+padding .45s,
+
+background .45s,
+
+backdrop-filter .45s,
+
+border-color .45s;
+
+}
+
+nav.scrolled{
+
+padding:18px 48px;
+
+background:
+
+rgba(5,10,6,.88);
+
+border-bottom:
+
+1px solid rgba(196,145,62,.12);
+
+}
+
+.nav-logo{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+font-family:
+
+"JetBrains Mono",
+
+monospace;
+
+font-size:11px;
+
+letter-spacing:.32em;
+
+text-transform:uppercase;
+
+color:var(--text);
+
+user-select:none;
+
+}
+
+.nav-logo img{
+
+width:42px;
+
+height:42px;
+
+border-radius:50%;
+
+border:
+
+1px solid rgba(196,145,62,.18);
+
+transition:
+
+transform .45s,
+
+filter .45s,
+
+border-color .45s;
+
+}
+
+.nav-logo:hover img{
+
+transform:
+
+rotate(6deg)
+
+scale(1.08);
+
+border-color:
+
+rgba(196,145,62,.55);
+
+filter:
+
+drop-shadow(
+
+0 0 22px
+
+rgba(196,145,62,.35)
+
+);
+
+}
+
+.nav-links{
+
+display:flex;
+
+align-items:center;
+
+gap:34px;
+
+}
+
+.nav-link{
+
+position:relative;
+
+font-family:
+
+"JetBrains Mono",
+
+monospace;
+
+font-size:10px;
+
+letter-spacing:.32em;
+
+text-transform:uppercase;
+
+text-decoration:none;
+
+color:var(--text2);
+
+transition:
+
+color .35s;
+
+}
+
+.nav-link:hover{
+
+color:var(--text);
+
+}
+
+.nav-link::after{
+
+content:"";
+
+position:absolute;
+
+left:0;
+
+bottom:-8px;
+
+width:0;
+
+height:1px;
+
+background:
+
+linear-gradient(
+
+90deg,
+
+var(--gold),
+
+transparent
+
+);
+
+transition:
+
+width .45s;
+
+}
+
+.nav-link:hover::after{
+
+width:100%;
+
+}
+
+/* ==========================================================
+HERO
+========================================================== */
 
 .hero{
-position:sticky;
-top:0;
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
-}
-.hero h1{
-font-size:min(18vw,180px);
-font-weight:700;
-letter-spacing:.08em;
+
 position:relative;
-color:transparent;
--webkit-text-stroke:2px rgba(255,255,255,.85);
-filter:drop-shadow(0 0 25px rgba(180,90,255,.35));
-}
-.hero h1::before,
-.hero h1::after{
-content:"MERCH";
-position:absolute;
-left:0;top:0;
-width:100%;
-height:100%;
-}
-.hero h1::before{
-background:linear-gradient(90deg,#00e4ff,#8b5cff,#ff72d8,#00e4ff);
-background-size:300% 100%;
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-animation:flow 7s linear infinite;
-clip-path:polygon(0 0,100% 0,100% 48%,0 58%);
-transform:translateX(-2px);
-}
-.hero h1::after{
--webkit-text-fill-color:transparent;
--webkit-text-stroke:1px #fff4;
-clip-path:polygon(0 58%,100% 48%,100% 100%,0 100%);
-animation:drift 5s ease-in-out infinite;
-}
-@keyframes flow{to{background-position:300% 0}}
-@keyframes drift{
-50%{transform:translateX(4px) skewX(-4deg)}
-}
-.hint{
-position:absolute;bottom:40px;
-opacity:.7;
-letter-spacing:.3em;
-font-size:.8rem;
-}
 
-.track{position:relative}
-.panel{
-height:100vh;
-display:grid;
-grid-template-columns:1.1fr .9fr;
-align-items:center;
-padding:8vw;
-gap:6vw;
-position:sticky;
-top:0;
-background:linear-gradient(180deg,transparent,#090912 20%,#090912);
-}
-.panel:nth-child(even){grid-template-columns:.9fr 1.1fr}
-.card{
-height:72vh;
-border-radius:30px;
-overflow:hidden;
-background:#111;
-box-shadow:0 30px 80px rgba(0,0,0,.55);
-transform:perspective(1200px) rotateY(-8deg);
-transition:transform .5s ease;
-}
-.panel:nth-child(even) .card{transform:perspective(1200px) rotateY(8deg)}
-.card:hover{transform:perspective(1200px) rotateY(0) scale(1.02)}
-.card img{width:100%;height:100%;object-fit:cover}
-.copy h2{
-font-size:clamp(2rem,4vw,4rem);
-margin-bottom:20px;
-}
-.copy p{
-color:#d4d4de;
-line-height:1.9;
-font-size:1.05rem;
-max-width:560px;
-}
-.small{
-margin-top:30px;
-display:inline-block;
-padding:14px 24px;
-border:1px solid #fff5;
-border-radius:999px;
-text-decoration:none;
-color:white;
-backdrop-filter:blur(12px);
-}
-footer{
-height:100vh;
 display:flex;
+
 align-items:center;
+
 justify-content:center;
-flex-direction:column;
-gap:30px;
-}
-.enter{
-padding:18px 40px;
-border-radius:999px;
-border:2px solid white;
-text-decoration:none;
-color:white;
-transition:.35s;
-}
-.enter:hover{background:white;color:#111}
-@media(max-width:900px){
-.panel,.panel:nth-child(even){grid-template-columns:1fr}
-.card{height:45vh;transform:none}
-}
-</style>
-</head>
-<body>
 
-<section class="hero">
-<h1>MERCH</h1>
-<div class="hint">SCROLL TO EXPLORE</div>
-</section>
-
-<div class="track">
-
-<section class="panel">
-<div class="card"><img src="MERCH1.JPG" alt=""></div>
-<div class="copy">
-<h2>Designed to Be Collected</h2>
-<p>Every release is built around limited production runs, bold graphics and premium materials. Instead of following trends, each collection becomes part of the visual identity of the 420 Universe.</p>
-<a class="small" href="#">Limited Drop</a>
-</div>
-</section>
-
-<section class="panel">
-<div class="copy">
-<h2>Not Just Clothing</h2>
-<p>Merch becomes artwork. Every texture, print and detail is designed to feel like a collectible rather than an ordinary product. The presentation focuses on atmosphere instead of a traditional online shop.</p>
-<a class="small" href="#">Collector Edition</a>
-</div>
-<div class="card"><img src="MERCH2.JPG" alt=""></div>
-</section>
-
-<section class="panel">
-<div class="card"><img src="MERCH3.JPG" alt=""></div>
-<div class="copy">
-<h2>The Universe Continues</h2>
-<p>Future drops expand into accessories, artwork and exclusive collaborations. Every scroll reveals another chapter before entering the main experience.</p>
-<a class="small" href="hauptseite.html">Enter Main Page</a>
-</div>
-</section>
-
-</div>
-
-<footer>
-<h2 style="font-size:4rem">READY?</h2>
-<a class="enter" href="hauptseite.html">ENTER THE UNIVERSE</a>
-</footer>
-
-</body>
-</html>-webkit-background-clip:text;-webkit-text-fill-color:transparent;
-animation:flick 3s infinite}
-@keyframes flick{50%{filter:hue-rotate(25deg) drop-shadow(0 0 15px #fff)}}
-p{margin:24px 0;line-height:1.8;font-size:1.15rem}
-.btn{display:inline-block;padding:18px 34px;border:2px solid #fff;border-radius:40px;color:#fff;text-decoration:none}
-.scroll{position:absolute;bottom:25px;left:50%;transform:translateX(-50%);opacity:.8;animation:bounce 2s infinite}
-@keyframes bounce{50%{transform:translate(-50%,10px)}}
-.section{
 min-height:100vh;
-display:grid;
-grid-template-columns:1fr 1fr;
+
+overflow:hidden;
+
+isolation:isolate;
+
+}
+
+.hero::before{
+
+content:"";
+
+position:absolute;
+
+inset:0;
+
+background:
+
+radial-gradient(
+
+circle at center,
+
+rgba(196,145,62,.10),
+
+transparent 58%
+
+);
+
+filter:
+
+blur(120px);
+
+animation:
+
+heroPulse 10s ease-in-out infinite;
+
+}
+
+@keyframes heroPulse{
+
+0%{
+
+transform:
+
+scale(1);
+
+opacity:.6;
+
+}
+
+50%{
+
+transform:
+
+scale(1.18);
+
+opacity:1;
+
+}
+
+100%{
+
+transform:
+
+scale(1);
+
+opacity:.6;
+
+}
+
+}
+
+.hero-content{
+
+position:relative;
+
+z-index:20;
+
+max-width:820px;
+
+padding:0 30px;
+
+text-align:center;
+
+}
+
+.hero-sub{
+
+font-family:
+
+"JetBrains Mono",
+
+monospace;
+
+font-size:11px;
+
+letter-spacing:.42em;
+
+text-transform:uppercase;
+
+color:var(--gold);
+
+margin-bottom:24px;
+
+opacity:0;
+
+animation:
+
+fadeUp .9s .2s forwards;
+
+}
+
+.hero-title{
+
+font-family:
+
+"Cormorant Garamond",
+
+serif;
+
+font-size:
+
+clamp(
+
+64px,
+
+10vw,
+
+140px
+
+);
+
+font-weight:300;
+
+line-height:.95;
+
+letter-spacing:.02em;
+
+margin-bottom:24px;
+
+opacity:0;
+
+animation:
+
+fadeUp 1s .45s forwards;
+
+}
+
+.hero-title em{
+
+font-style:italic;
+
+color:var(--gold);
+
+}
+
+.hero-description{
+
+max-width:620px;
+
+margin:auto;
+
+font-size:16px;
+
+line-height:2;
+
+color:var(--text2);
+
+opacity:0;
+
+animation:
+
+fadeUp 1s .7s forwards;
+
+}
+
+@keyframes fadeUp{
+
+from{
+
+opacity:0;
+
+transform:
+
+translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:
+
+translateY(0);
+
+}
+
+}
+
+/* ==========================================================
+BUTTON
+========================================================== */
+
+.hero-button,
+
+.slide-cta{
+
+display:inline-flex;
+
 align-items:center;
-gap:50px;
-padding:8vw;
-background:#090912;
-border-top:1px solid rgba(255,255,255,.08);
+
+justify-content:center;
+
+gap:14px;
+
+margin-top:42px;
+
+padding:
+
+16px 36px;
+
+border:
+
+1px solid rgba(196,145,62,.22);
+
+background:
+
+rgba(196,145,62,.04);
+
+color:var(--text);
+
+font-family:
+
+"JetBrains Mono",
+
+monospace;
+
+font-size:11px;
+
+letter-spacing:.28em;
+
+text-transform:uppercase;
+
+text-decoration:none;
+
+overflow:hidden;
+
+position:relative;
+
+transition:
+
+transform .35s,
+
+border-color .35s,
+
+background .35s,
+
+box-shadow .35s;
+
 }
-.section:nth-child(even){background:#11111d}
-.img{
-height:70vh;border-radius:30px;
-background-size:cover;
-background-position:center;
-box-shadow:0 20px 60px rgba(0,0,0,.5);
-transition:.6s;
+
+.hero-button::before,
+
+.slide-cta::before{
+
+content:"";
+
+position:absolute;
+
+top:0;
+
+left:-160%;
+
+width:120%;
+
+height:100%;
+
+background:
+
+linear-gradient(
+
+110deg,
+
+transparent,
+
+rgba(255,255,255,.22),
+
+transparent
+
+);
+
+transition:
+
+left .9s;
+
 }
-.img:hover{transform:scale(1.03)}
-.text h2{font-size:3rem;margin-bottom:20px;color:#6fffb4}
-.text p{color:#ddd}
+
+.hero-button:hover::before,
+
+.slide-cta:hover::before{
+
+left:160%;
+
+}
+
+.hero-button:hover,
+
+.slide-cta:hover{
+
+transform:
+
+translateY(-4px);
+
+background:
+
+rgba(196,145,62,.10);
+
+border-color:
+
+rgba(196,145,62,.52);
+
+box-shadow:
+
+0 20px 40px
+
+rgba(196,145,62,.12);
+
+}
+
+/* ==========================================================
+SECTION TITLES
+========================================================== */
+
+.section-title{
+
+font-family:
+
+"Cormorant Garamond",
+
+serif;
+
+font-size:
+
+clamp(
+
+42px,
+
+6vw,
+
+74px
+
+);
+
+font-weight:300;
+
+line-height:1;
+
+margin-bottom:22px;
+
+}
+
+.section-title em{
+
+font-style:italic;
+
+color:var(--gold);
+
+}
+
+.section-sub{
+
+font-family:
+
+"JetBrains Mono",
+
+monospace;
+
+font-size:10px;
+
+letter-spacing:.35em;
+
+text-transform:uppercase;
+
+color:var(--gold);
+
+margin-bottom:18px;
+
+}
+
+/* ==========================================================
+SLIDES
+========================================================== */
+
+.slide{
+
+opacity:.45;
+
+transform:
+
+scale(.985);
+
+transition:
+
+opacity .65s,
+
+transform .8s;
+
+}
+
+.slide.active{
+
+opacity:1;
+
+transform:
+
+scale(1);
+
+}
+
+.slide-img{
+
+overflow:hidden;
+
+background:#0a100b;
+
+}
+
+.slide-img img{
+
+transition:
+
+transform 6s linear,
+
+filter .8s;
+
+}
+
+.slide.active img{
+
+transform:
+
+scale(1.06);
+
+filter:
+
+contrast(1.04)
+
+brightness(1.03)
+
+saturate(1.08);
+
+}
+
+.slide-info{
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+padding:
+
+90px
+
+72px;
+
+}
+
+.slide-tag{
+
+font-family:
+
+"JetBrains Mono",
+
+monospace;
+
+font-size:10px;
+
+letter-spacing:.38em;
+
+text-transform:uppercase;
+
+color:var(--gold);
+
+margin-bottom:18px;
+
+}
+
+.slide-name{
+
+font-family:
+
+"Cormorant Garamond",
+
+serif;
+
+font-size:
+
+clamp(
+
+46px,
+
+5vw,
+
+74px
+
+);
+
+font-weight:300;
+
+line-height:.98;
+
+margin-bottom:22px;
+
+}
+
+.slide-desc{
+
+font-size:15px;
+
+line-height:2;
+
+max-width:520px;
+
+color:var(--text2);
+
+margin-bottom:32px;
+
+}
+
+/* ==========================================================
+RESPONSIVE
+========================================================== */
+
 @media(max-width:900px){
-.section{grid-template-columns:1fr}
-.img{height:45vh}
+
+nav{
+
+padding:18px 24px;
+
 }
+
+.nav-links{
+
+gap:18px;
+
+}
+
+.slide{
+
+flex-direction:column;
+
+}
+
+.slide-img{
+
+width:100%;
+
+height:52vh;
+
+}
+
+.slide-info{
+
+padding:34px;
+
+}
+
+.hero-title{
+
+font-size:64px;
+
+}
+
+}
+
+@media(max-width:640px){
+
+.hero-title{
+
+font-size:48px;
+
+}
+
+.hero-description{
+
+font-size:14px;
+
+}
+
+.nav-links{
+
+gap:14px;
+
+}
+
+.nav-link{
+
+font-size:9px;
+
+}
+
+}
+
+/* ==========================================================
+PART 3
+AAA SLIDER • CINEMATIC FX • MICRO INTERACTIONS
+========================================================== */
+
+/* ==========================================================
+SLIDER CONTAINER
+========================================================== */
+
+#slider-track{
+
+position:fixed;
+
+inset:0;
+
+display:flex;
+
+transition:
+
+transform 1.15s cubic-bezier(.2,.9,.25,1);
+
+will-change:transform;
+
+contain:layout paint;
+
+}
+
+.slide{
+
+position:relative;
+
+min-width:100vw;
+
+height:100vh;
+
+display:flex;
+
+overflow:hidden;
+
+background:var(--bg);
+
+}
+
+/* ==========================================================
+IMAGE PANEL
+========================================================== */
+
+.slide-img{
+
+position:relative;
+
+width:52%;
+
+overflow:hidden;
+
+background:#081009;
+
+isolation:isolate;
+
+}
+
+.slide-img::before{
+
+content:"";
+
+position:absolute;
+
+inset:-15%;
+
+background:
+
+radial-gradient(
+
+circle,
+
+rgba(196,145,62,.10),
+
+transparent 72%
+
+);
+
+filter:
+
+blur(90px);
+
+opacity:0;
+
+transition:
+
+opacity .9s;
+
+z-index:2;
+
+}
+
+.slide.active .slide-img::before{
+
+opacity:1;
+
+}
+
+.slide-img::after{
+
+content:"";
+
+position:absolute;
+
+inset:0;
+
+pointer-events:none;
+
+z-index:5;
+
+background:
+
+linear-gradient(
+
+90deg,
+
+transparent 45%,
+
+rgba(5,10,6,.82)
+
+100%
+
+),
+
+linear-gradient(
+
+180deg,
+
+rgba(5,10,6,.42),
+
+transparent 22%,
+
+transparent 78%,
+
+rgba(5,10,6,.55)
+
+);
+
+}
+
+.slide-img img{
+
+position:absolute;
+
+inset:0;
+
+width:100%;
+
+height:100%;
+
+object-fit:cover;
+
+transform:
+
+scale(1.12);
+
+transition:
+
+transform 8s linear,
+
+filter 1.2s ease,
+
+opacity .8s;
+
+will-change:
+
+transform;
+
+}
+
+.slide.active img{
+
+transform:
+
+scale(1);
+
+filter:
+
+contrast(1.05)
+
+brightness(1.04)
+
+saturate(1.08);
+
+}
+
+/* ==========================================================
+IMAGE SHIMMER
+========================================================== */
+
+.slide.active .slide-img span.light-pass{
+
+position:absolute;
+
+inset:0;
+
+z-index:6;
+
+pointer-events:none;
+
+background:
+
+linear-gradient(
+
+110deg,
+
+transparent,
+
+rgba(255,255,255,.10),
+
+transparent
+
+);
+
+animation:
+
+lightPass 7s linear infinite;
+
+}
+
+@keyframes lightPass{
+
+0%{
+
+transform:
+
+translateX(-160%);
+
+}
+
+100%{
+
+transform:
+
+translateX(160%);
+
+}
+
+}
+
+/* ==========================================================
+TEXT PANEL
+========================================================== */
+
+.slide-info{
+
+position:relative;
+
+flex:1;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+padding:
+
+90px 72px;
+
+overflow:hidden;
+
+}
+
+.slide-info>*{
+
+opacity:0;
+
+transform:
+
+translateY(26px);
+
+transition:
+
+opacity .7s,
+
+transform .7s;
+
+}
+
+.slide.active .slide-info>*{
+
+opacity:1;
+
+transform:
+
+translateY(0);
+
+}
+
+.slide.active .slide-tag{
+
+transition-delay:.15s;
+
+}
+
+.slide.active .slide-name{
+
+transition-delay:.3s;
+
+}
+
+.slide.active .slide-lineage{
+
+transition-delay:.45s;
+
+}
+
+.slide.active .slide-desc{
+
+transition-delay:.6s;
+
+}
+
+.slide.active .slide-price-row{
+
+transition-delay:.75s;
+
+}
+
+.slide.active .slide-cta{
+
+transition-delay:.9s;
+
+}
+
+/* ==========================================================
+BACKGROUND NUMBER
+========================================================== */
+
+.ghost-num{
+
+position:absolute;
+
+right:-30px;
+
+top:50%;
+
+transform:
+
+translateY(-50%);
+
+font-family:
+
+"Cormorant Garamond",
+
+serif;
+
+font-size:
+
+clamp(
+
+160px,
+
+18vw,
+
+280px
+
+);
+
+font-weight:300;
+
+line-height:1;
+
+color:transparent;
+
+-webkit-text-stroke:
+
+1px rgba(255,255,255,.045);
+
+pointer-events:none;
+
+user-select:none;
+
+}
+
+/* ==========================================================
+CTA
+========================================================== */
+
+.slide-cta{
+
+position:relative;
+
+overflow:hidden;
+
+isolation:isolate;
+
+}
+
+.slide-cta::after{
+
+content:"";
+
+position:absolute;
+
+inset:0;
+
+background:
+
+radial-gradient(
+
+circle at center,
+
+rgba(255,255,255,.08),
+
+transparent 68%
+
+);
+
+opacity:0;
+
+transition:
+
+opacity .35s;
+
+}
+
+.slide-cta:hover::after{
+
+opacity:1;
+
+}
+
+/* ==========================================================
+DOTS
+========================================================== */
+
+#dots{
+
+display:flex;
+
+gap:10px;
+
+align-items:center;
+
+}
+
+.dot{
+
+width:6px;
+
+height:6px;
+
+border-radius:50%;
+
+background:
+
+rgba(255,255,255,.15);
+
+transition:
+
+transform .35s,
+
+background .35s,
+
+box-shadow .35s;
+
+}
+
+.dot.active{
+
+background:
+
+var(--gold);
+
+transform:
+
+scale(1.9);
+
+box-shadow:
+
+0 0 16px
+
+rgba(196,145,62,.35);
+
+}
+
+/* ==========================================================
+ARROWS
+========================================================== */
+
+.arrow{
+
+width:42px;
+
+height:42px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+border-radius:50%;
+
+border:
+
+1px solid rgba(255,255,255,.08);
+
+background:
+
+rgba(255,255,255,.02);
+
+transition:
+
+all .35s;
+
+}
+
+.arrow:hover{
+
+transform:
+
+translateY(-3px);
+
+border-color:
+
+rgba(196,145,62,.42);
+
+color:
+
+var(--gold);
+
+background:
+
+rgba(196,145,62,.05);
+
+}
+
+/* ==========================================================
+SLIDE PARALLAX
+========================================================== */
+
+.slide-img img{
+
+transform-origin:center center;
+
+}
+
+/* ==========================================================
+PAGE FADE
+========================================================== */
+
+.fade-enter{
+
+opacity:0;
+
+transform:
+
+translateY(28px);
+
+}
+
+.fade-enter-active{
+
+opacity:1;
+
+transform:
+
+translateY(0);
+
+transition:
+
+all .8s cubic-bezier(.2,.9,.25,1);
+
+}
+
+/* ==========================================================
+JS
+========================================================== */
+
+<script>
+
+const slides=
+
+document.querySelectorAll(
+
+".slide"
+
+);
+
+const images=
+
+document.querySelectorAll(
+
+".slide-img img"
+
+);
+
+window.addEventListener(
+
+"mousemove",
+
+e=>{
+
+const x=
+
+(e.clientX/window.innerWidth-.5)*10;
+
+const y=
+
+(e.clientY/window.innerHeight-.5)*10;
+
+requestAnimationFrame(()=>{
+
+images.forEach(img=>{
+
+img.style.transform=
+
+`translate3d(${x}px,${y}px,0) scale(1.04)`;
+
+});
+
+});
+
+},
+
+{
+
+passive:true
+
+});
+
+document
+
+.querySelectorAll(
+
+".slide-cta"
+
+)
+
+.forEach(btn=>{
+
+btn.addEventListener(
+
+"mouseenter",
+
+()=>{
+
+btn.animate([
+
+{
+
+transform:"translateY(0)"
+
+},
+
+{
+
+transform:"translateY(-4px)"
+
+},
+
+{
+
+transform:"translateY(0)"
+
+}
+
+],{
+
+duration:420,
+
+easing:"ease"
+
+});
+
+});
+
+});
+
+</script>
+
+/* ==========================================================
+RESPONSIVE
+========================================================== */
+
+@media(max-width:900px){
+
+.slide{
+
+flex-direction:column;
+
+}
+
+.slide-img{
+
+width:100%;
+
+height:54vh;
+
+}
+
+.slide-info{
+
+padding:34px;
+
+}
+
+.ghost-num{
+
+display:none;
+
+}
+
+}
+
+@media(max-width:640px){
+
+.slide-name{
+
+font-size:44px;
+
+}
+
+.slide-desc{
+
+font-size:14px;
+
+line-height:1.8;
+
+}
+
+.slide-info{
+
+padding:26px;
+
+}
+
+}
+
+/* ==========================================================
+END PART 3
+========================================================== */
+
+/* ==========================================================
+PART 4
+AAA EFFECTS • LOGO • AUDIO • GLITCH • PERFORMANCE
+========================================================== */
+
+/* ==========================================================
+LOGO
+========================================================== */
+
+#cat-logo{
+
+position:fixed;
+
+top:82px;
+
+right:26px;
+
+width:66px;
+
+height:66px;
+
+z-index:1200;
+
+border-radius:50%;
+
+overflow:visible;
+
+transform-style:preserve-3d;
+
+transition:
+
+transform .7s cubic-bezier(.2,.9,.25,1),
+
+filter .7s,
+
+opacity .5s;
+
+will-change:
+
+transform;
+
+}
+
+#cat-logo::before{
+
+content:"";
+
+position:absolute;
+
+inset:-12px;
+
+border-radius:50%;
+
+border:
+
+1px solid rgba(196,145,62,.18);
+
+animation:
+
+logoOrbit 8s linear infinite;
+
+}
+
+#cat-logo::after{
+
+content:"";
+
+position:absolute;
+
+inset:-26px;
+
+border-radius:50%;
+
+background:
+
+radial-gradient(
+
+circle,
+
+rgba(196,145,62,.18),
+
+transparent 70%
+
+);
+
+opacity:.5;
+
+filter:
+
+blur(30px);
+
+animation:
+
+logoGlow 4s ease-in-out infinite;
+
+z-index:-1;
+
+}
+
+@keyframes logoOrbit{
+
+0%{
+
+transform:
+
+rotate(0deg);
+
+}
+
+100%{
+
+transform:
+
+rotate(360deg);
+
+}
+
+}
+
+@keyframes logoGlow{
+
+0%,100%{
+
+transform:
+
+scale(.9);
+
+opacity:.35;
+
+}
+
+50%{
+
+transform:
+
+scale(1.15);
+
+opacity:.75;
+
+}
+
+}
+
+#cat-logo:hover{
+
+transform:
+
+translateY(-6px)
+
+rotate(4deg)
+
+scale(1.08);
+
+filter:
+
+drop-shadow(
+
+0 0 28px
+
+rgba(196,145,62,.45)
+
+);
+
+}
+
+/* ==========================================================
+GLITCH
+========================================================== */
+
+.glitch{
+
+animation:
+
+glitchMove .14s steps(2) infinite,
+
+glitchRGB .16s linear infinite;
+
+}
+
+@keyframes glitchMove{
+
+0%{
+
+transform:
+
+translate(0);
+
+}
+
+25%{
+
+transform:
+
+translate(-2px,2px);
+
+}
+
+50%{
+
+transform:
+
+translate(2px,-2px);
+
+}
+
+75%{
+
+transform:
+
+translate(-1px,-1px);
+
+}
+
+100%{
+
+transform:
+
+translate(0);
+
+}
+
+}
+
+@keyframes glitchRGB{
+
+0%{
+
+filter:
+
+drop-shadow(2px 0 red)
+
+drop-shadow(-2px 0 cyan);
+
+}
+
+100%{
+
+filter:none;
+
+}
+
+}
+
+/* ==========================================================
+CURSOR
+========================================================== */
+
+#cursorGlow{
+
+position:fixed;
+
+width:380px;
+
+height:380px;
+
+pointer-events:none;
+
+border-radius:50%;
+
+background:
+
+radial-gradient(
+
+circle,
+
+rgba(196,145,62,.16),
+
+transparent 70%
+
+);
+
+mix-blend-mode:screen;
+
+filter:
+
+blur(40px);
+
+transform:
+
+translate(-50%,-50%);
+
+z-index:20;
+
+opacity:.7;
+
+}
+
+/* ==========================================================
+GOLD PARTICLES
+========================================================== */
+
+.gold-particle{
+
+position:fixed;
+
+width:4px;
+
+height:4px;
+
+border-radius:50%;
+
+background:#D8A84B;
+
+box-shadow:
+
+0 0 12px #D8A84B;
+
+pointer-events:none;
+
+z-index:9999;
+
+animation:
+
+goldFloat 3.8s ease-out forwards;
+
+}
+
+@keyframes goldFloat{
+
+0%{
+
+opacity:0;
+
+transform:
+
+translateY(70px)
+
+scale(.2);
+
+}
+
+20%{
+
+opacity:1;
+
+}
+
+100%{
+
+opacity:0;
+
+transform:
+
+translateY(-260px)
+
+scale(1.7);
+
+}
+
+}
+
+/* ==========================================================
+SECRET MODE
+========================================================== */
+
+.secret-mode{
+
+filter:
+
+contrast(1.08)
+
+brightness(1.04)
+
+saturate(1.12);
+
+}
+
+.secret-mode body::before{
+
+opacity:.5;
+
+}
+
+/* ==========================================================
+FILM GRAIN BOOST
+========================================================== */
+
+.secret-mode::after{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+pointer-events:none;
+
+background:
+
+repeating-linear-gradient(
+
+0deg,
+
+rgba(255,255,255,.02) 0,
+
+rgba(255,255,255,.02) 1px,
+
+transparent 2px,
+
+transparent 4px
+
+);
+
+mix-blend-mode:overlay;
+
+opacity:.25;
+
+animation:
+
+grainMove .25s infinite;
+
+}
+
+@keyframes grainMove{
+
+0%{
+
+transform:
+
+translateY(0);
+
+}
+
+100%{
+
+transform:
+
+translateY(-4px);
+
+}
+
+}
+
+/* ==========================================================
+PREMIUM BUTTON HOVER
+========================================================== */
+
+.slide-cta{
+
+box-shadow:
+
+0 0 0 rgba(196,145,62,0);
+
+}
+
+.slide-cta:hover{
+
+box-shadow:
+
+0 18px 42px
+
+rgba(196,145,62,.18);
+
+}
+
+/* ==========================================================
+AUDIO
+========================================================== */
+
+<script>
+
+const AudioEngine={
+
+ctx:null,
+
+init(){
+
+if(!this.ctx){
+
+this.ctx=new(
+
+window.AudioContext||
+
+window.webkitAudioContext
+
+)();
+
+}
+
+},
+
+click(){
+
+this.init();
+
+const osc=this.ctx.createOscillator();
+
+const gain=this.ctx.createGain();
+
+osc.type="triangle";
+
+osc.frequency.value=680;
+
+gain.gain.value=.025;
+
+osc.connect(gain);
+
+gain.connect(this.ctx.destination);
+
+osc.start();
+
+osc.stop(
+
+this.ctx.currentTime+.08
+
+);
+
+},
+
+secret(){
+
+this.init();
+
+const o1=this.ctx.createOscillator();
+
+const o2=this.ctx.createOscillator();
+
+const g=this.ctx.createGain();
+
+o1.type="triangle";
+
+o2.type="sine";
+
+o1.frequency.value=523;
+
+o2.frequency.value=1046;
+
+g.gain.value=.03;
+
+o1.connect(g);
+
+o2.connect(g);
+
+g.connect(this.ctx.destination);
+
+o1.start();
+
+o2.start();
+
+o1.stop(
+
+this.ctx.currentTime+.25
+
+);
+
+o2.stop(
+
+this.ctx.currentTime+.35
+
+);
+
+}
+
+};
+
+document
+
+.querySelectorAll(
+
+".slide-cta,.arrow,.dot"
+
+)
+
+.forEach(el=>{
+
+el.addEventListener(
+
+"mouseenter",
+
+()=>AudioEngine.click()
+
+);
+
+});
+
+const logo=
+
+document.getElementById(
+
+"cat-logo"
+
+);
+
+let logoClicks=0;
+
+let clickTimer;
+
+logo.addEventListener(
+
+"click",
+
+()=>{
+
+clearTimeout(clickTimer);
+
+logoClicks++;
+
+if(logoClicks===3){
+
+document.body.classList.add(
+
+"secret-mode"
+
+);
+
+logo.classList.add(
+
+"glitch"
+
+);
+
+AudioEngine.secret();
+
+spawnParticles();
+
+setTimeout(()=>{
+
+document.body.classList.remove(
+
+"secret-mode"
+
+);
+
+logo.classList.remove(
+
+"glitch"
+
+);
+
+},6000);
+
+logoClicks=0;
+
+}
+
+clickTimer=
+
+setTimeout(()=>{
+
+logoClicks=0;
+
+},1800);
+
+});
+
+function spawnParticles(){
+
+for(
+
+let i=0;
+
+i<80;
+
+i++
+
+){
+
+const p=
+
+document.createElement("div");
+
+p.className="gold-particle";
+
+p.style.left=
+
+Math.random()*100+"vw";
+
+p.style.top=
+
+Math.random()*100+"vh";
+
+document.body.appendChild(p);
+
+setTimeout(
+
+()=>p.remove(),
+
+3800
+
+);
+
+}
+
+}
+
+const glow=
+
+document.createElement("div");
+
+glow.id="cursorGlow";
+
+document.body.appendChild(glow);
+
+window.addEventListener(
+
+"mousemove",
+
+e=>{
+
+requestAnimationFrame(()=>{
+
+glow.style.left=
+
+e.clientX+"px";
+
+glow.style.top=
+
+e.clientY+"px";
+
+});
+
+},
+
+{
+
+passive:true
+
+});
+
+</script>
+
+/* ==========================================================
+PERFORMANCE
+========================================================== */
+
+img{
+
+content-visibility:auto;
+
+contain:paint layout;
+
+}
+
+.slide{
+
+contain:layout paint;
+
+}
+
+.slide-img{
+
+contain:strict;
+
+}
+
+.slide-info{
+
+contain:layout;
+
+}
+
+/* ==========================================================
+MOBILE
+========================================================== */
+
+@media(max-width:768px){
+
+#cursorGlow{
+
+display:none;
+
+}
+
+#cat-logo{
+
+width:54px;
+
+height:54px;
+
+top:68px;
+
+right:16px;
+
+}
+
+.slide-cta{
+
+width:100%;
+
+justify-content:center;
+
+}
+
+}
+
+/* ==========================================================
+END PART 4
+========================================================== */
+
+/* ==========================================================
+PART 5
+PREMIUM FX • 3D DEPTH • CINEMATIC ATMOSPHERE
+========================================================== */
+
+/* ==========================================================
+3D ENVIRONMENT
+========================================================== */
+
+:root{
+
+--mouseX:0;
+--mouseY:0;
+
+--depth1:12px;
+--depth2:28px;
+--depth3:48px;
+
+--gold-glow:
+rgba(196,145,62,.22);
+
+--glass:
+rgba(255,255,255,.045);
+
+}
+
+/* ==========================================================
+SLIDE DEPTH
+========================================================== */
+
+.slide{
+
+perspective:2200px;
+
+transform-style:preserve-3d;
+
+}
+
+.slide-img{
+
+transform-style:preserve-3d;
+
+}
+
+.slide-info{
+
+transform-style:preserve-3d;
+
+}
+
+/* ==========================================================
+DEPTH LAYERS
+========================================================== */
+
+.slide-tag{
+
+transform:
+
+translateZ(var(--depth1));
+
+}
+
+.slide-name{
+
+transform:
+
+translateZ(var(--depth2));
+
+}
+
+.slide-lineage{
+
+transform:
+
+translateZ(var(--depth2));
+
+}
+
+.slide-desc{
+
+transform:
+
+translateZ(var(--depth2));
+
+}
+
+.slide-price-row{
+
+transform:
+
+translateZ(var(--depth3));
+
+}
+
+.slide-cta{
+
+transform:
+
+translateZ(calc(var(--depth3) + 20px));
+
+}
+
+/* ==========================================================
+PREMIUM GLASS
+========================================================== */
+
+.glass{
+
+background:
+
+linear-gradient(
+
+180deg,
+
+rgba(255,255,255,.06),
+
+rgba(255,255,255,.015)
+
+);
+
+backdrop-filter:
+
+blur(18px)
+
+saturate(170%)
+
+brightness(110%);
+
+border:
+
+1px solid rgba(255,255,255,.06);
+
+box-shadow:
+
+0 25px 70px rgba(0,0,0,.35),
+
+inset 0 1px 0 rgba(255,255,255,.08);
+
+}
+
+/* ==========================================================
+GOLD BORDER SHIMMER
+========================================================== */
+
+.gold-border{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.gold-border::before{
+
+content:"";
+
+position:absolute;
+
+inset:0;
+
+padding:1px;
+
+border-radius:inherit;
+
+background:
+
+linear-gradient(
+
+90deg,
+
+transparent,
+
+rgba(196,145,62,.7),
+
+transparent
+
+);
+
+mask:
+
+linear-gradient(#000 0 0)
+
+content-box,
+
+linear-gradient(#000 0 0);
+
+mask-composite:exclude;
+
+animation:
+
+goldSweep 5s linear infinite;
+
+}
+
+@keyframes goldSweep{
+
+0%{
+
+transform:
+
+translateX(-120%);
+
+}
+
+100%{
+
+transform:
+
+translateX(120%);
+
+}
+
+}
+
+/* ==========================================================
+IMAGE DEPTH SHADOW
+========================================================== */
+
+.slide-img img{
+
+box-shadow:
+
+0 60px 120px
+
+rgba(0,0,0,.35);
+
+}
+
+/* ==========================================================
+CINEMATIC VIGNETTE
+========================================================== */
+
+body::after{
+
+content:"";
+
+position:fixed;
+
+inset:0;
+
+pointer-events:none;
+
+background:
+
+radial-gradient(
+
+circle,
+
+transparent 58%,
+
+rgba(0,0,0,.18)
+
+100%
+
+);
+
+mix-blend-mode:multiply;
+
+z-index:850;
+
+}
+
+/* ==========================================================
+LIGHT RAYS
+========================================================== */
+
+.light-rays{
+
+position:fixed;
+
+inset:-20%;
+
+pointer-events:none;
+
+opacity:.08;
+
+background:
+
+conic-gradient(
+
+from 180deg,
+
+transparent,
+
+rgba(196,145,62,.35),
+
+transparent,
+
+transparent
+
+);
+
+filter:
+
+blur(120px);
+
+animation:
+
+rotateRays 26s linear infinite;
+
+z-index:5;
+
+}
+
+@keyframes rotateRays{
+
+100%{
+
+transform:
+
+rotate(360deg);
+
+}
+
+}
+
+/* ==========================================================
+FLOATING DUST
+========================================================== */
+
+.dust{
+
+position:fixed;
+
+width:2px;
+
+height:2px;
+
+border-radius:50%;
+
+background:#fff;
+
+opacity:.15;
+
+pointer-events:none;
+
+animation:
+
+dustFloat linear forwards;
+
+}
+
+@keyframes dustFloat{
+
+0%{
+
+transform:
+
+translateY(60px)
+
+scale(.2);
+
+opacity:0;
+
+}
+
+15%{
+
+opacity:.18;
+
+}
+
+100%{
+
+transform:
+
+translateY(-120vh)
+
+translateX(40px)
+
+scale(1.4);
+
+opacity:0;
+
+}
+
+}
+
+/* ==========================================================
+IMAGE GLOW
+========================================================== */
+
+.slide.active .slide-img{
+
+filter:
+
+drop-shadow(
+
+0 0 40px
+
+rgba(196,145,62,.08)
+
+);
+
+}
+
+/* ==========================================================
+SLIDE HOVER
+========================================================== */
+
+.slide:hover .slide-name{
+
+color:#fff;
+
+text-shadow:
+
+0 0 18px
+
+rgba(196,145,62,.15);
+
+}
+
+/* ==========================================================
+PREMIUM PANEL
+========================================================== */
+
+.slide-info{
+
+background:
+
+linear-gradient(
+
+180deg,
+
+rgba(255,255,255,.01),
+
+rgba(255,255,255,.015)
+
+);
+
+}
+
+/* ==========================================================
+PARALLAX ENGINE
+========================================================== */
+
+<script>
+
+const root=
+
+document.documentElement;
+
+window.addEventListener(
+
+"mousemove",
+
+e=>{
+
+const x=
+
+(e.clientX/window.innerWidth-.5);
+
+const y=
+
+(e.clientY/window.innerHeight-.5);
+
+root.style.setProperty(
+
+"--mouseX",
+
+x
+
+);
+
+root.style.setProperty(
+
+"--mouseY",
+
+y
+
+);
+
+requestAnimationFrame(()=>{
+
+document
+
+.querySelectorAll(
+
+".slide.active .slide-info"
+
+)
+
+.forEach(el=>{
+
+el.style.transform=
+
+`
+
+rotateY(${x*5}deg)
+
+rotateX(${-y*5}deg)
+
+translate3d(
+
+${x*18}px,
+
+${y*18}px,
+
+0)
+
+`;
+
+});
+
+document
+
+.querySelectorAll(
+
+".slide.active img"
+
+)
+
+.forEach(img=>{
+
+img.style.transform=
+
+`
+
+translate3d(
+
+${x*14}px,
+
+${y*14}px,
+
+0)
+
+scale(1.05)
+
+`;
+
+});
+
+});
+
+},
+
+{
+
+passive:true
+
+});
+
+/* ==========================================================
+DUST ENGINE
+========================================================== */
+
+function createDust(){
+
+const d=
+
+document.createElement("div");
+
+d.className="dust";
+
+d.style.left=
+
+Math.random()*100+"vw";
+
+d.style.top=
+
+"110vh";
+
+d.style.animationDuration=
+
+(8+Math.random()*8)+"s";
+
+document.body.appendChild(d);
+
+setTimeout(
+
+()=>d.remove(),
+
+16000
+
+);
+
+}
+
+setInterval(
+
+createDust,
+
+180
+
+);
+
+/* ==========================================================
+LIGHT RAYS
+========================================================== */
+
+const rays=
+
+document.createElement("div");
+
+rays.className="light-rays";
+
+document.body.appendChild(rays);
+
+/* ==========================================================
+IDLE CAMERA
+========================================================== */
+
+let idle=0;
+
+setInterval(()=>{
+
+idle+=0.002;
+
+document
+
+.querySelectorAll(
+
+".slide.active"
+
+)
+
+.forEach(slide=>{
+
+slide.style.transform=
+
+`
+
+perspective(2200px)
+
+rotateY(${Math.sin(idle)*1.2}deg)
+
+`;
+
+});
+
+},16);
+
+</script>
+
+/* ==========================================================
+MOBILE
+========================================================== */
+
+@media(max-width:900px){
+
+.light-rays{
+
+display:none;
+
+}
+
+body::after{
+
+opacity:.5;
+
+}
+
+.slide-info{
+
+transform:none!important;
+
+}
+
+}
+
+/* ==========================================================
+END PART 5
+========================================================== */
+
+<!-- ==========================================================
+PART 6
+ADVANCED JAVASCRIPT ENGINE
+========================================================== -->
+
+<script>
+
+"use strict";
+
+/* ==========================================================
+GLOBAL
+========================================================== */
+
+const $=(selector,parent=document)=>
+
+parent.querySelector(selector);
+
+const $$=(selector,parent=document)=>
+
+[...parent.querySelectorAll(selector)];
+
+const prefersReducedMotion=
+
+window.matchMedia(
+
+"(prefers-reduced-motion: reduce)"
+
+).matches;
+
+/* ==========================================================
+SLIDER
+========================================================== */
+
+const slides=
+
+$$(".slide");
+
+const slider=
+
+$("#slider-track");
+
+const dots=
+
+$$(".dot");
+
+const nextBtn=
+
+$("#next");
+
+const prevBtn=
+
+$("#prev");
+
+let currentSlide=0;
+
+let autoPlay=true;
+
+let slideDuration=9000;
+
+let slideInterval;
+
+/* ==========================================================
+GO TO SLIDE
+========================================================== */
+
+function goToSlide(index){
+
+if(index<0)
+
+index=slides.length-1;
+
+if(index>=slides.length)
+
+index=0;
+
+slides.forEach(slide=>
+
+slide.classList.remove("active")
+
+);
+
+dots.forEach(dot=>
+
+dot.classList.remove("active")
+
+);
+
+slides[index]
+
+.classList.add("active");
+
+if(dots[index])
+
+dots[index]
+
+.classList.add("active");
+
+slider.style.transform=
+
+`translateX(-${index*100}vw)`;
+
+currentSlide=index;
+
+updateAmbient(index);
+
+preloadSlide(index+1);
+
+}
+
+/* ==========================================================
+NEXT
+========================================================== */
+
+function nextSlide(){
+
+goToSlide(currentSlide+1);
+
+playTransition();
+
+}
+
+/* ==========================================================
+PREVIOUS
+========================================================== */
+
+function previousSlide(){
+
+goToSlide(currentSlide-1);
+
+playTransition();
+
+}
+
+/* ==========================================================
+AUTOPLAY
+========================================================== */
+
+function startSlider(){
+
+stopSlider();
+
+slideInterval=
+
+setInterval(()=>{
+
+if(autoPlay){
+
+nextSlide();
+
+}
+
+},
+
+slideDuration);
+
+}
+
+function stopSlider(){
+
+clearInterval(slideInterval);
+
+}
+
+startSlider();
+
+/* ==========================================================
+BUTTONS
+========================================================== */
+
+nextBtn?.addEventListener(
+
+"click",
+
+nextSlide
+
+);
+
+prevBtn?.addEventListener(
+
+"click",
+
+previousSlide
+
+);
+
+/* ==========================================================
+DOTS
+========================================================== */
+
+dots.forEach(
+
+(dot,index)=>{
+
+dot.addEventListener(
+
+"click",
+
+()=>{
+
+goToSlide(index);
+
+playTransition();
+
+});
+
+});
+
+/* ==========================================================
+KEYBOARD
+========================================================== */
+
+window.addEventListener(
+
+"keydown",
+
+event=>{
+
+switch(event.key){
+
+case"ArrowRight":
+
+nextSlide();
+
+break;
+
+case"ArrowLeft":
+
+previousSlide();
+
+break;
+
+case" ":
+
+event.preventDefault();
+
+autoPlay=!autoPlay;
+
+break;
+
+}
+
+});
+
+/* ==========================================================
+TOUCH
+========================================================== */
+
+let touchStart=0;
+
+let touchEnd=0;
+
+window.addEventListener(
+
+"touchstart",
+
+event=>{
+
+touchStart=
+
+event.changedTouches[0].screenX;
+
+},
+
+{
+
+passive:true
+
+});
+
+window.addEventListener(
+
+"touchend",
+
+event=>{
+
+touchEnd=
+
+event.changedTouches[0].screenX;
+
+handleSwipe();
+
+},
+
+{
+
+passive:true
+
+});
+
+function handleSwipe(){
+
+const delta=
+
+touchStart-touchEnd;
+
+if(Math.abs(delta)<60)
+
+return;
+
+if(delta>0)
+
+nextSlide();
+
+else
+
+previousSlide();
+
+}
+
+/* ==========================================================
+PAUSE WHEN HIDDEN
+========================================================== */
+
+document.addEventListener(
+
+"visibilitychange",
+
+()=>{
+
+if(document.hidden){
+
+stopSlider();
+
+}else{
+
+startSlider();
+
+}
+
+});
+
+/* ==========================================================
+INTERSECTION
+========================================================== */
+
+const revealObserver=
+
+new IntersectionObserver(
+
+entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.classList.add(
+
+"visible"
+
+);
+
+}
+
+});
+
+},
+
+{
+
+threshold:.18
+
+}
+
+);
+
+$$(".fade")
+
+.forEach(el=>
+
+revealObserver.observe(el)
+
+);
+
+/* ==========================================================
+SMOOTH COUNTER
+========================================================== */
+
+$$("[data-counter]").forEach(
+
+counter=>{
+
+let target=
+
+Number(
+
+counter.dataset.counter
+
+);
+
+let current=0;
+
+const step=
+
+target/80;
+
+function update(){
+
+current+=step;
+
+if(current<target){
+
+counter.textContent=
+
+Math.floor(current);
+
+requestAnimationFrame(update);
+
+}else{
+
+counter.textContent=target;
+
+}
+
+}
+
+update();
+
+});
+
+/* ==========================================================
+MAGNETIC BUTTON
+========================================================== */
+
+$$(".slide-cta").forEach(button=>{
+
+button.addEventListener(
+
+"mousemove",
+
+event=>{
+
+const rect=
+
+button.getBoundingClientRect();
+
+const x=
+
+event.clientX-
+
+rect.left-
+
+rect.width/2;
+
+const y=
+
+event.clientY-
+
+rect.top-
+
+rect.height/2;
+
+button.style.transform=
+
+`translate(${x*.15}px,${y*.15}px)`;
+
+});
+
+button.addEventListener(
+
+"mouseleave",
+
+()=>{
+
+button.style.transform="";
+
+});
+
+});
+
+/* ==========================================================
+PERFORMANCE
+========================================================== */
+
+const lazyImages=
+
+$$("img[data-src]");
+
+if("IntersectionObserver"in window){
+
+const lazyObserver=
+
+new IntersectionObserver(
+
+entries=>{
+
+entries.forEach(entry=>{
+
+if(!entry.isIntersecting)
+
+return;
+
+const img=
+
+entry.target;
+
+img.src=
+
+img.dataset.src;
+
+img.removeAttribute(
+
+"data-src"
+
+);
+
+lazyObserver.unobserve(img);
+
+});
+
+});
+
+lazyImages.forEach(img=>
+
+lazyObserver.observe(img)
+
+);
+
+}
+
+/* ==========================================================
+IDLE TASKS
+========================================================== */
+
+requestIdleCallback(()=>{
+
+console.log(
+
+"Idle optimizations loaded."
+
+);
+
+});
+
+/* ==========================================================
+SERVICE WORKER
+========================================================== */
+
+if(
+
+"serviceWorker"
+
+in navigator
+
+){
+
+window.addEventListener(
+
+"load",
+
+()=>{
+
+navigator.serviceWorker.register(
+
+"./sw.js"
+
+).catch(()=>{});
+
+});
+
+}
+
+/* ==========================================================
+FPS
+========================================================== */
+
+let fps=0;
+
+let last=performance.now();
+
+function monitor(now){
+
+fps++;
+
+if(now-last>=1000){
+
+document.body.dataset.fps=fps;
+
+fps=0;
+
+last=now;
+
+}
+
+requestAnimationFrame(
+
+monitor
+
+);
+
+}
+
+requestAnimationFrame(
+
+monitor);
+
+/* ==========================================================
+END PART 6
+========================================================== */
+
+</script>
+
+<!-- ==========================================================
+PART 7
+SEO • PWA • CORE WEB VITALS • ADVANCED OPTIMIZATION
+========================================================== -->
+
+<script>
+
+/* ==========================================================
+PERFORMANCE CLASS
+========================================================== */
+
+document.documentElement.classList.add("js");
+
+window.addEventListener(
+
+"load",
+
+()=>{
+
+document.body.classList.add(
+
+"loaded"
+
+);
+
+});
+
+/* ==========================================================
+PRELOAD NEXT IMAGES
+========================================================== */
+
+const preloadQueue=[
+
+"STRAIN2.JPG",
+"STRAIN3.JPG",
+"STRAIN4.JPG",
+"STRAIN5.JPG",
+"STRAIN6.JPG",
+"CATLOGO.JPG"
+
+];
+
+function preloadImages(){
+
+preloadQueue.forEach(src=>{
+
+const image=new Image();
+
+image.decoding="async";
+
+image.loading="eager";
+
+image.src=src;
+
+});
+
+}
+
+requestIdleCallback(
+
+preloadImages
+
+);
+
+/* ==========================================================
+RESOURCE HINTS
+========================================================== */
+
+function dnsPrefetch(url){
+
+const link=
+
+document.createElement(
+
+"link"
+
+);
+
+link.rel="dns-prefetch";
+
+link.href=url;
+
+document.head.appendChild(link);
+
+}
+
+dnsPrefetch("//fonts.gstatic.com");
+dnsPrefetch("//fonts.googleapis.com");
+dnsPrefetch("//buy.stripe.com");
+
+/* ==========================================================
+FONT READY
+========================================================== */
+
+document.fonts.ready.then(()=>{
+
+document.body.classList.add(
+
+"fonts-loaded"
+
+);
+
+});
+
+/* ==========================================================
+NETWORK
+========================================================== */
+
+const connection=
+
+navigator.connection||
+
+navigator.mozConnection||
+
+navigator.webkitConnection;
+
+if(connection){
+
+if(
+
+connection.saveData
+
+){
+
+document.body.classList.add(
+
+"save-data"
+
+);
+
+}
+
+}
+
+/* ==========================================================
+REDUCE EFFECTS
+========================================================== */
+
+if(
+
+prefersReducedMotion
+
+){
+
+document.body.classList.add(
+
+"reduce-motion"
+
+);
+
+}
+
+/* ==========================================================
+PAGE VISIBILITY
+========================================================== */
+
+document.addEventListener(
+
+"visibilitychange",
+
+()=>{
+
+if(document.hidden){
+
+stopSlider();
+
+}else{
+
+startSlider();
+
+}
+
+});
+
+/* ==========================================================
+CACHE IMAGES
+========================================================== */
+
+async function warmImageCache(){
+
+if(
+
+!"caches" in window
+
+)return;
+
+const cache=
+
+await caches.open(
+
+"baltazar-images-v1"
+
+);
+
+preloadQueue.forEach(async image=>{
+
+try{
+
+await cache.add(image);
+
+}catch(e){}
+
+});
+
+}
+
+requestIdleCallback(
+
+warmImageCache
+
+);
+
+/* ==========================================================
+OFFLINE
+========================================================== */
+
+window.addEventListener(
+
+"offline",
+
+()=>{
+
+document.body.classList.add(
+
+"offline"
+
+);
+
+});
+
+window.addEventListener(
+
+"online",
+
+()=>{
+
+document.body.classList.remove(
+
+"offline"
+
+);
+
+});
+
+/* ==========================================================
+SCROLL MEMORY
+========================================================== */
+
+window.addEventListener(
+
+"beforeunload",
+
+()=>{
+
+sessionStorage.setItem(
+
+"scrollY",
+
+window.scrollY
+
+);
+
+});
+
+window.addEventListener(
+
+"load",
+
+()=>{
+
+const y=
+
+sessionStorage.getItem(
+
+"scrollY"
+
+);
+
+if(y){
+
+window.scrollTo(
+
+0,
+
+parseInt(y)
+
+);
+
+}
+
+});
+
+/* ==========================================================
+LIGHTHOUSE
+========================================================== */
+
+window.addEventListener(
+
+"load",
+
+()=>{
+
+document.querySelectorAll(
+
+"img"
+
+)
+
+.forEach(img=>{
+
+img.setAttribute(
+
+"decoding",
+
+"async"
+
+);
+
+img.setAttribute(
+
+"loading",
+
+"lazy"
+
+);
+
+});
+
+});
+
+/* ==========================================================
+CLS
+========================================================== */
+
+document.querySelectorAll(
+
+"img"
+
+).forEach(img=>{
+
+if(!img.width){
+
+img.width=1200;
+
+}
+
+if(!img.height){
+
+img.height=1200;
+
+}
+
+});
+
+/* ==========================================================
+LINK SECURITY
+========================================================== */
+
+document
+
+.querySelectorAll(
+
+'a[target="_blank"]'
+
+)
+
+.forEach(link=>{
+
+link.rel=
+
+"noopener noreferrer";
+
+});
+
+/* ==========================================================
+SCROLLBAR
+========================================================== */
+
+const progress=
+
+document.createElement(
+
+"div"
+
+);
+
+progress.id="scroll-progress";
+
+document.body.appendChild(
+
+progress
+
+);
+
+window.addEventListener(
+
+"scroll",
+
+()=>{
+
+const h=
+
+document.documentElement;
+
+const value=
+
+(
+
+h.scrollTop/
+
+(h.scrollHeight-h.clientHeight)
+
+)*100;
+
+progress.style.width=
+
+value+"%";
+
+},
+
+{
+
+passive:true
+
+});
+
+/* ==========================================================
+END SCRIPT
+========================================================== */
+
+</script>
+
+<style>
+
+/* ==========================================================
+LOADED
+========================================================== */
+
+body{
+
+opacity:0;
+
+transition:
+
+opacity .8s ease;
+
+}
+
+body.loaded{
+
+opacity:1;
+
+}
+
+/* ==========================================================
+SCROLL PROGRESS
+========================================================== */
+
+#scroll-progress{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+height:2px;
+
+width:0;
+
+z-index:999999;
+
+background:
+
+linear-gradient(
+
+90deg,
+
+#C4913E,
+
+#EBC56E
+
+);
+
+box-shadow:
+
+0 0 20px
+
+rgba(196,145,62,.5);
+
+}
+
+/* ==========================================================
+SAVE DATA
+========================================================== */
+
+.save-data *{
+
+animation:none!important;
+
+transition:none!important;
+
+filter:none!important;
+
+}
+
+/* ==========================================================
+OFFLINE
+========================================================== */
+
+.offline::before{
+
+content:
+
+"OFFLINE MODE";
+
+position:fixed;
+
+top:18px;
+
+left:50%;
+
+transform:
+
+translateX(-50%);
+
+padding:
+
+8px 18px;
+
+background:#851414;
+
+color:white;
+
+font-size:11px;
+
+letter-spacing:.2em;
+
+font-family:
+
+JetBrains Mono,
+
+monospace;
+
+z-index:999999;
+
+}
+
+/* ==========================================================
+FONTS
+========================================================== */
+
+.fonts-loaded{
+
+text-rendering:
+
+optimizeLegibility;
+
+}
+
+/* ==========================================================
+IMAGE
+========================================================== */
+
+img{
+
+user-select:none;
+
+-webkit-user-drag:none;
+
+pointer-events:auto;
+
+}
+
+/* ==========================================================
+TEXT
+========================================================== */
+
+::selection{
+
+background:
+
+rgba(196,145,62,.45);
+
+color:white;
+
+}
+
+/* ==========================================================
+RESPONSIVE
+========================================================== */
+
+@media(max-width:900px){
+
+#scroll-progress{
+
+height:3px;
+
+}
+
+}
+
+@media(max-width:700px){
+
+body{
+
+font-size:15px;
+
+}
+
+}
+
+@media(prefers-reduced-motion:reduce){
+
+*{
+
+animation:none!important;
+
+transition:none!important;
+
+}
+
+}
+
+/* ==========================================================
+PRINT
+========================================================== */
+
+@media print{
+
+nav,
+video,
+audio,
+button{
+
+display:none!important;
+
+}
+
+body{
+
+background:white;
+
+color:black;
+
+}
+
+}
+
+/* ==========================================================
+END PART 7
+========================================================== */
+
 </style>
-</head>
-<body>
 
-<section class="hero">
-<div class="blob b1"></div>
-<div class="blob b2"></div>
-<div class="blob b3"></div>
+<!-- ==========================================================
+PART 8
+ADVANCED UI ENGINE • PRELOADER • CURSOR • AMBIENCE
+========================================================== -->
 
-<div class="content">
-<h1>420 Universe<br>Showroom</h1>
-<p>Scroll down and discover exclusive merchandise, artwork and limited collector pieces from the 420 Universe.</p>
-<a class="btn" href="hauptseite.html">ENTER MAIN PAGE</a>
+<style>
+
+/* ==========================================================
+PRELOADER
+========================================================== */
+
+#preloader{
+
+position:fixed;
+
+inset:0;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:#050A06;
+
+z-index:999999;
+
+transition:
+
+opacity 1s,
+
+visibility 1s;
+
+}
+
+#preloader.hide{
+
+opacity:0;
+
+visibility:hidden;
+
+}
+
+.loader-ring{
+
+position:relative;
+
+width:120px;
+
+height:120px;
+
+border-radius:50%;
+
+border:
+
+1px solid rgba(255,255,255,.05);
+
+}
+
+.loader-ring::before{
+
+content:"";
+
+position:absolute;
+
+inset:-2px;
+
+border-radius:50%;
+
+border-top:
+
+2px solid var(--gold);
+
+animation:
+
+loaderSpin 1.2s linear infinite;
+
+}
+
+@keyframes loaderSpin{
+
+100%{
+
+transform:rotate(360deg);
+
+}
+
+}
+
+.loader-logo{
+
+position:absolute;
+
+width:56px;
+
+height:56px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+animation:
+
+loaderPulse 2.5s ease-in-out infinite;
+
+}
+
+@keyframes loaderPulse{
+
+0%,100%{
+
+transform:
+
+scale(.95);
+
+opacity:.7;
+
+}
+
+50%{
+
+transform:
+
+scale(1.08);
+
+opacity:1;
+
+}
+
+}
+
+/* ==========================================================
+CUSTOM CURSOR
+========================================================== */
+
+.cursor{
+
+position:fixed;
+
+width:16px;
+
+height:16px;
+
+border-radius:50%;
+
+background:var(--gold);
+
+pointer-events:none;
+
+z-index:999999;
+
+transform:
+
+translate(-50%,-50%);
+
+mix-blend-mode:screen;
+
+transition:
+
+transform .15s,
+
+width .25s,
+
+height .25s,
+
+opacity .25s;
+
+box-shadow:
+
+0 0 20px rgba(196,145,62,.6);
+
+}
+
+.cursor-ring{
+
+position:fixed;
+
+width:48px;
+
+height:48px;
+
+border-radius:50%;
+
+border:
+
+1px solid rgba(196,145,62,.4);
+
+pointer-events:none;
+
+z-index:999998;
+
+transform:
+
+translate(-50%,-50%);
+
+transition:
+
+transform .22s,
+
+width .3s,
+
+height .3s,
+
+border-color .3s;
+
+}
+
+.cursor-hover{
+
+width:28px;
+
+height:28px;
+
+}
+
+.cursor-ring-hover{
+
+width:72px;
+
+height:72px;
+
+border-color:
+
+rgba(196,145,62,.8);
+
+}
+
+/* ==========================================================
+NOISE LAYER
+========================================================== */
+
+.noise{
+
+position:fixed;
+
+inset:0;
+
+pointer-events:none;
+
+opacity:.04;
+
+mix-blend-mode:soft-light;
+
+background-image:
+
+url("noise.png");
+
+background-size:220px;
+
+animation:
+
+noiseShift .25s infinite;
+
+}
+
+@keyframes noiseShift{
+
+0%{
+
+transform:
+
+translate(0,0);
+
+}
+
+25%{
+
+transform:
+
+translate(-2px,2px);
+
+}
+
+50%{
+
+transform:
+
+translate(1px,-1px);
+
+}
+
+75%{
+
+transform:
+
+translate(2px,1px);
+
+}
+
+100%{
+
+transform:
+
+translate(0,0);
+
+}
+
+}
+
+/* ==========================================================
+BACKGROUND GRID
+========================================================== */
+
+.grid-overlay{
+
+position:fixed;
+
+inset:0;
+
+pointer-events:none;
+
+opacity:.05;
+
+background-image:
+
+linear-gradient(
+
+rgba(255,255,255,.05) 1px,
+
+transparent 1px
+
+),
+
+linear-gradient(
+
+90deg,
+
+rgba(255,255,255,.05) 1px,
+
+transparent 1px
+
+);
+
+background-size:
+
+70px 70px;
+
+mask-image:
+
+radial-gradient(
+
+circle,
+
+white,
+
+transparent 85%
+
+);
+
+}
+
+/* ==========================================================
+FLOATING LABELS
+========================================================== */
+
+.floating-label{
+
+position:absolute;
+
+font-size:10px;
+
+letter-spacing:.4em;
+
+font-family:
+
+JetBrains Mono,
+
+monospace;
+
+color:
+
+rgba(255,255,255,.22);
+
+text-transform:uppercase;
+
+pointer-events:none;
+
+animation:
+
+floatLabel 10s ease-in-out infinite;
+
+}
+
+@keyframes floatLabel{
+
+0%,100%{
+
+transform:
+
+translateY(0);
+
+}
+
+50%{
+
+transform:
+
+translateY(-10px);
+
+}
+
+}
+
+</style>
+
+<!-- ==========================================================
+HTML
+========================================================== -->
+
+<div id="preloader">
+
+<div class="loader-ring">
+
+<img
+
+class="loader-logo"
+
+src="CATLOGO.JPG"
+
+alt="Baltazar Seeds Logo">
+
 </div>
 
-<div class="scroll">▼ SCROLL ▼</div>
-</section>
-
-<section class="section">
-<div class="img" style="background-image:url('MERCH1.JPG')"></div>
-<div class="text">
-<h2>MERCH DROP // 01</h2>
-<p>Every design is created to reflect the spirit of the 420 Universe: bold graphics, premium materials and a futuristic identity. Each collection is produced in limited quantities, making every piece part of an exclusive release.</p>
-<p>Discover oversized streetwear, accessories and collector items designed to stand out both online and in real life.</p>
 </div>
-</section>
 
-<section class="section">
-<div class="text">
-<h2>LIMITED EDITION</h2>
-<p>More than clothing—every release is part of a visual story inspired by music, cannabis culture, digital art and science fiction. Each product is designed to feel like a collectible rather than ordinary merchandise.</p>
-<p>Wear the Universe. Represent the movement.</p>
-</div>
-<div class="img" style="background-image:url('MERCH2.JPG')"></div>
-</section>
+<div class="cursor"></div>
 
-<section class="section">
-<div class="img" style="background-image:url('MERCH3.JPG')"></div>
-<div class="text">
-<h2>THE NEXT CHAPTER</h2>
-<p>The showroom continues with new drops, exclusive collaborations, artwork and premium genetics. Every scroll reveals another part of the expanding 420 Universe experience.</p>
-<a class="btn" href="hauptseite.html">ENTER THE UNIVERSE</a>
-</div>
-</section>
+<div class="cursor-ring"></div>
 
-</body>
-</html>
+<div class="noise"></div>
+
+<div class="grid-overlay"></div>
+
+<!-- ==========================================================
+SCRIPT
+========================================================== -->
+
+<script>
+
+const preloader=
+
+document.getElementById(
+
+"preloader"
+
+);
+
+window.addEventListener(
+
+"load",
+
+()=>{
+
+setTimeout(()=>{
+
+preloader.classList.add(
+
+"hide"
+
+);
+
+},700);
+
+});
+
+/* ==========================================================
+CURSOR
+========================================================== */
+
+const cursor=
+
+document.querySelector(
+
+".cursor"
+
+);
+
+const ring=
+
+document.querySelector(
+
+".cursor-ring"
+
+);
+
+window.addEventListener(
+
+"mousemove",
+
+e=>{
+
+requestAnimationFrame(()=>{
+
+cursor.style.left=
+
+e.clientX+"px";
+
+cursor.style.top=
+
+e.clientY+"px";
+
+ring.style.left=
+
+e.clientX+"px";
+
+ring.style.top=
+
+e.clientY+"px";
+
+});
+
+},
+
+{
+
+passive:true
+
+});
+
+document
+
+.querySelectorAll(
+
+"a,button,.slide-cta"
+
+)
+
+.forEach(el=>{
+
+el.addEventListener(
+
+"mouseenter",
+
+()=>{
+
+cursor.classList.add(
+
+"cursor-hover"
+
+);
+
+ring.classList.add(
+
+"cursor-ring-hover"
+
+);
+
+});
+
+el.addEventListener(
+
+"mouseleave",
+
+()=>{
+
+cursor.classList.remove(
+
+"cursor-hover"
+
+);
+
+ring.classList.remove(
+
+"cursor-ring-hover"
+
+);
+
+});
+
+});
+
+/* ==========================================================
+PARALLAX GRID
+========================================================== */
+
+const grid=
+
+document.querySelector(
+
+".grid-overlay"
+
+);
+
+window.addEventListener(
+
+"mousemove",
+
+e=>{
+
+const x=
+
+(e.clientX/
+
+window.innerWidth-.5)
+
+*18;
+
+const y=
+
+(e.clientY/
+
+window.innerHeight-.5)
+
+*18;
+
+grid.style.transform=
+
+`translate(${x}px,${y}px)`;
+
+},
+
+{
+
+passive:true
+
+});
+
+/* ==========================================================
+AUTO FLOAT LABELS
+========================================================== */
+
+const words=[
+
+"CRAFTED",
+
+"GENETICS",
+
+"SMALL BATCH",
+
+"PREMIUM",
+
+"LIMITED",
+
+"EXCLUSIVE"
+
+];
+
+setInterval(()=>{
+
+const label=
+
+document.createElement(
+
+"div"
+
+);
+
+label.className=
+
+"floating-label";
+
+label.textContent=
+
+words[
+
+Math.floor(
+
+Math.random()*words.length
+
+)
+
+];
+
+label.style.left=
+
+Math.random()*90+"vw";
+
+label.style.top=
+
+Math.random()*90+"vh";
+
+document.body.appendChild(
+
+label
+
+);
+
+setTimeout(
+
+()=>label.remove(),
+
+12000
+
+);
+
+},2500);
+
+/* ==========================================================
+END PART 8
+========================================================== */
+
+</script>
