@@ -1,588 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>BALTAZAR SEEDS | 420 Universe</title>
-  <meta name="description" content="BALTAZAR SEEDS 420 universe with apparel drops, framed hemp leaves, chains, pendants, sound and community.">
-  <meta name="theme-color" content="#030403">
-  <meta property="og:title" content="BALTAZAR SEEDS | 420 Universe">
-  <meta property="og:description" content="Underground world of clothing, framed hemp leaves, jewelry, sound and community.">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="CATLOGO.JPG">
-
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,600;6..96,700;6..96,800&family=Space+Grotesk:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-  <style>
-    :root {
-      --bg: #030403;
-      --panel: #090c09;
-      --panel2: #0d120d;
-      --soft: #121912;
-      --line: rgba(217,255,196,.15);
-      --line2: rgba(255,255,255,.09);
-      --text: #f4f3e8;
-      --muted: #aab39e;
-      --faint: #697160;
-      --green: #b8ff72;
-      --green2: #63d471;
-      --gold: #d7b56d;
-      --shadow: 0 30px 90px rgba(0,0,0,.55);
-      --radius: 28px;
-      --max: 1220px;
-      --nav-h: 78px;
-      --ease: cubic-bezier(.2,.8,.2,1);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; background: var(--bg); }
-    body {
-      font-family: "Space Grotesk", system-ui, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      min-height: 100vh;
-      overflow-x: hidden;
-      line-height: 1.6;
-    }
-
-    /* Background texture */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .22;
-      z-index: -1;
-      background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-      background-size: 70px 70px;
-      mask-image: linear-gradient(to bottom, rgba(0,0,0,.75), transparent 88%);
-    }
-
-    .page { width: min(var(--max), calc(100% - 34px)); margin: 0 auto; }
-
-    /* Top Navigation */
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid var(--line2);
-      background: rgba(3,4,3,.85);
-      backdrop-filter: blur(22px);
-    }
-
-    .nav-inner {
-      min-height: var(--nav-h);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 0 17px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .brand img {
-      width: 48px;
-      height: 48px;
-      object-fit: cover;
-      border-radius: 16px;
-      border: 1px solid rgba(184,255,114,.25);
-      box-shadow: 0 0 34px rgba(184,255,114,.12);
-    }
-
-    .brand-name {
-      font-weight: 900;
-      letter-spacing: .16em;
-      font-size: .9rem;
-      line-height: 1.1;
-    }
-
-    .brand-sub {
-      font-size: .69rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    nav a {
-      padding: 10px 16px;
-      border: 1px solid transparent;
-      border-radius: 999px;
-      color: #dfe5d5;
-      font-size: .78rem;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      transition: all .25s var(--ease);
-    }
-
-    nav a:hover {
-      color: var(--green);
-      border-color: rgba(184,255,114,.25);
-      background: rgba(184,255,114,.06);
-      transform: translateY(-1px);
-    }
-
-    .mobile-toggle {
-      display: none;
-      width: 46px;
-      height: 46px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      color: var(--text);
-      font-size: 1.2rem;
-      cursor: pointer;
-    }
-
-    /* HERO */
-    .hero {
-      padding: 58px 0 42px;
-    }
-
-    .hero-main {
-      border: 1px solid var(--line2);
-      background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
-      box-shadow: var(--shadow);
-      border-radius: 42px;
-      padding: clamp(30px, 5vw, 68px);
-      min-height: clamp(560px, 74vh, 760px);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: flex-end;
-      isolation: isolate;
-    }
-
-    .hero-main::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: -2;
-      background: linear-gradient(90deg, rgba(0,0,0,.84), rgba(0,0,0,.44) 48%, rgba(0,0,0,.72)),
-                  radial-gradient(circle at 20% 20%, rgba(184,255,114,.16), transparent 34rem),
-                  url('CATLOGO.JPG') center/cover no-repeat;
-      opacity: .74;
-      filter: saturate(.82) contrast(1.12);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 860px;
-    }
-
-    .kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      padding: 9px 13px;
-      border: 1px solid rgba(184,255,114,.22);
-      border-radius: 999px;
-      color: var(--green);
-      background: rgba(184,255,114,.055);
-      text-transform: uppercase;
-      letter-spacing: .16em;
-      font-size: .72rem;
-      font-weight: 800;
-    }
-
-    h1 {
-      font-family: "Bodoni Moda", serif;
-      font-size: clamp(4.4rem, 13vw, 10.8rem);
-      letter-spacing: -.085em;
-      line-height: .82;
-      text-transform: uppercase;
-      font-weight: 800;
-      margin: 24px 0 0;
-    }
-
-    h1 span {
-      display: block;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(244,243,232,.86);
-      text-shadow: 0 0 46px rgba(184,255,114,.18);
-    }
-
-    .hero-copy {
-      max-width: 680px;
-      margin: 26px 0 0;
-      color: #d7dece;
-      font-size: clamp(1rem, 1.45vw, 1.18rem);
-      line-height: 1.72;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
-
-    .btn {
-      min-height: 48px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 0 24px;
-      border-radius: 999px;
-      font-weight: 900;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: .78rem;
-      transition: all .25s var(--ease);
-      cursor: pointer;
-    }
-
-    .primary-btn {
-      background: linear-gradient(135deg, var(--green), var(--green2));
-      color: #061006;
-      border: 1px solid rgba(184,255,114,.44);
-      box-shadow: 0 20px 45px rgba(99,212,113,.16);
-    }
-
-    .ghost-btn {
-      border: 1px solid rgba(244,243,232,.18);
-      background: rgba(255,255,255,.055);
-      color: var(--text);
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 24px 70px rgba(0,0,0,.38);
-    }
-
-    /* Sections */
-    .section {
-      padding: 42px 0;
-      scroll-margin-top: calc(var(--nav-h) + 24px);
-    }
-
-    .section-shell {
-      border: 1px solid var(--line2);
-      background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
-      box-shadow: var(--shadow);
-      border-radius: 34px;
-      padding: 34px;
-    }
-
-    .section-kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      padding: 9px 13px;
-      border: 1px solid rgba(184,255,114,.22);
-      border-radius: 999px;
-      color: var(--green);
-      background: rgba(184,255,114,.055);
-      text-transform: uppercase;
-      letter-spacing: .16em;
-      font-size: .72rem;
-      font-weight: 800;
-    }
-
-    h2 {
-      font-family: "Unbounded", sans-serif;
-      font-size: clamp(1.65rem, 3.35vw, 2.85rem);
-      line-height: 1.05;
-      letter-spacing: -.05em;
-      margin: 22px 0 0;
-    }
-
-    /* Overview Cards */
-    .overview-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 13px;
-      margin-top: 28px;
-    }
-
-    .overview-card {
-      border: 1px solid var(--line2);
-      border-radius: 24px;
-      padding: 22px;
-      background: linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.022));
-      transition: all .25s var(--ease);
-    }
-
-    .overview-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(184,255,114,.3);
-      background: linear-gradient(145deg, rgba(184,255,114,.075), rgba(255,255,255,.026));
-    }
-
-    /* Product Grid */
-    .strain-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 17px;
-    }
-
-    .product-card {
-      border: 1px solid var(--line2);
-      border-radius: 28px;
-      overflow: hidden;
-      background: linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.025));
-      transition: all .25s var(--ease);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .product-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(184,255,114,.3);
-      box-shadow: 0 30px 80px rgba(0,0,0,.45);
-    }
-
-    .image-wrap {
-      position: relative;
-      aspect-ratio: 1 / 1;
-      background: #070907;
-    }
-
-    .image-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .35s var(--ease);
-    }
-
-    .product-card:hover img {
-      transform: scale(1.055);
-    }
-
-    .drop-chip, .class-chip {
-      position: absolute;
-      top: 12px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      font-size: .69rem;
-      font-weight: 950;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.48);
-    }
-
-    .drop-chip { left: 12px; color: var(--green); }
-    .class-chip { right: 12px; color: #f1e1b2; }
-
-    .info {
-      padding: 19px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .info h3 {
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-    }
-
-    /* Footer */
-    footer {
-      padding: 46px 0 54px;
-      text-align: center;
-      color: var(--muted);
-    }
-
-    .footer-socials {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .footer-socials a {
-      width: 44px;
-      height: 44px;
-      display: grid;
-      place-items: center;
-      border-radius: 999px;
-      border: 1px solid var(--line2);
-      background: rgba(255,255,255,.04);
-      transition: all .25s var(--ease);
-    }
-
-    .footer-socials a:hover {
-      color: var(--green);
-      border-color: rgba(184,255,114,.35);
-      transform: translateY(-3px);
-    }
-
-    /* Responsive */
-    @media (max-width: 1040px) {
-      nav { display: none; }
-      .mobile-toggle { display: grid; }
-    }
-
-    @media (max-width: 640px) {
-      .hero-main, .section-shell { border-radius: 26px; padding: 22px; }
-      h1 { font-size: clamp(3.25rem, 17vw, 5.4rem); }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>420 Universe Showroom</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Orbitron,Arial,sans-serif;background:#070710;color:#fff;overflow-x:hidden}
+.hero{
+height:100vh;display:flex;align-items:center;justify-content:center;
+background:
+radial-gradient(circle at 20% 20%,#21d4fd55,transparent 30%),
+radial-gradient(circle at 80% 30%,#d946ef55,transparent 30%),
+linear-gradient(180deg,#18bfff,#5368ff 45%,#c76bff);
+position:relative;
+}
+.blob{
+position:absolute;border-radius:50%;
+background:linear-gradient(135deg,#17d9ff,#7047ff,#ff73df,#2edcff);
+filter:blur(1px);
+box-shadow:inset -30px -30px 60px rgba(0,0,0,.15),inset 20px 20px 40px rgba(255,255,255,.2);
+animation:morph 8s ease-in-out infinite alternate;
+}
+.b1{width:340px;height:340px;left:-40px;bottom:60px}
+.b2{width:600px;height:600px;left:28%;top:18%}
+.b3{width:760px;height:760px;right:-140px;top:-80px}
+@keyframes morph{
+0%{border-radius:42% 58% 63% 37%/43% 38% 62% 57%;transform:rotate(0)}
+100%{border-radius:65% 35% 45% 55%/58% 63% 37% 42%;transform:rotate(14deg)}
+}
+.content{position:relative;z-index:2;max-width:800px;padding:30px}
+h1{font-size:clamp(4rem,8vw,7rem);line-height:.9;text-transform:uppercase;
+background:linear-gradient(90deg,#fff,#dff,#ffd3ff,#fff);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+animation:flick 3s infinite}
+@keyframes flick{50%{filter:hue-rotate(25deg) drop-shadow(0 0 15px #fff)}}
+p{margin:24px 0;line-height:1.8;font-size:1.15rem}
+.btn{display:inline-block;padding:18px 34px;border:2px solid #fff;border-radius:40px;color:#fff;text-decoration:none}
+.scroll{position:absolute;bottom:25px;left:50%;transform:translateX(-50%);opacity:.8;animation:bounce 2s infinite}
+@keyframes bounce{50%{transform:translate(-50%,10px)}}
+.section{
+min-height:100vh;
+display:grid;
+grid-template-columns:1fr 1fr;
+align-items:center;
+gap:50px;
+padding:8vw;
+background:#090912;
+border-top:1px solid rgba(255,255,255,.08);
+}
+.section:nth-child(even){background:#11111d}
+.img{
+height:70vh;border-radius:30px;
+background-size:cover;
+background-position:center;
+box-shadow:0 20px 60px rgba(0,0,0,.5);
+transition:.6s;
+}
+.img:hover{transform:scale(1.03)}
+.text h2{font-size:3rem;margin-bottom:20px;color:#6fffb4}
+.text p{color:#ddd}
+@media(max-width:900px){
+.section{grid-template-columns:1fr}
+.img{height:45vh}
+}
+</style>
 </head>
 <body>
 
-  <a class="skip-link" href="#drops" style="position:fixed;left:18px;top:14px;z-index:100;padding:12px 16px;border-radius:999px;color:#071006;background:linear-gradient(135deg,var(--green),var(--green2));font-weight:900;transform:translateY(-140%);transition:.2s ease;">Skip to Drops</a>
+<section class="hero">
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
 
-  <header class="topbar">
-    <div class="nav-inner page">
-      <a href="index.html" class="brand">
-        <img src="CATLOGO.JPG" alt="BALTAZAR SEEDS Logo" width="48" height="48">
-        <div>
-          <span class="brand-name">BALTAZAR SEEDS</span>
-          <span class="brand-sub">420 Universe</span>
-        </div>
-      </a>
+<div class="content">
+<h1>420 Universe<br>Showroom</h1>
+<p>Scroll down and discover exclusive merchandise, artwork and limited collector pieces from the 420 Universe.</p>
+<a class="btn" href="hauptseite.html">ENTER MAIN PAGE</a>
+</div>
 
-      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
-        <i class="fa-solid fa-bars"></i>
-      </button>
+<div class="scroll">▼ SCROLL ▼</div>
+</section>
 
-      <nav id="mainNav">
-        <a href="#drops">Drops</a>
-        <a href="#classes">Classes</a>
-        <a href="/community/">Community</a>
-        <a href="player.html">Sound</a>
-        <a href="fun.html">Fun</a>
-        <a href="impressum.html">Contact</a>
-      </nav>
-    </div>
-  </header>
+<section class="section">
+<div class="img" style="background-image:url('MERCH1.JPG')"></div>
+<div class="text">
+<h2>MERCH DROP // 01</h2>
+<p>Every design is created to reflect the spirit of the 420 Universe: bold graphics, premium materials and a futuristic identity. Each collection is produced in limited quantities, making every piece part of an exclusive release.</p>
+<p>Discover oversized streetwear, accessories and collector items designed to stand out both online and in real life.</p>
+</div>
+</section>
 
-  <main>
-    <!-- HERO -->
-    <section class="hero page" id="top">
-      <div class="hero-main">
-        <div class="hero-content">
-          <div class="kicker">NEW WORLD LIFE</div>
-          <h1>BALTAZAR<span>SEEDS</span></h1>
-          <p class="hero-copy">An underground world of clothing, framed hemp leaves, jewelry, sound and community.</p>
-          <div class="hero-actions">
-            <a href="#drops" class="btn primary-btn">Enter Drops</a>
-            <a href="/community/" class="btn ghost-btn">Community</a>
-          </div>
-        </div>
-      </div>
-    </section>
+<section class="section">
+<div class="text">
+<h2>LIMITED EDITION</h2>
+<p>More than clothing—every release is part of a visual story inspired by music, cannabis culture, digital art and science fiction. Each product is designed to feel like a collectible rather than ordinary merchandise.</p>
+<p>Wear the Universe. Represent the movement.</p>
+</div>
+<div class="img" style="background-image:url('MERCH2.JPG')"></div>
+</section>
 
-    <!-- PRODUCT FAMILIES -->
-    <section class="section page" id="classes">
-      <div class="section-shell">
-        <div class="section-kicker">Shop System</div>
-        <h2>Product families with clear prices and collector character</h2>
-        <p style="margin-top:16px;color:var(--muted);max-width:620px;">
-          BALTAZAR SEEDS works like a small 420 archive: every drop has its own identity, every category stays easy to understand, and every item is presented as a calm, mysterious and intentional artifact.
-        </p>
+<section class="section">
+<div class="img" style="background-image:url('MERCH3.JPG')"></div>
+<div class="text">
+<h2>THE NEXT CHAPTER</h2>
+<p>The showroom continues with new drops, exclusive collaborations, artwork and premium genetics. Every scroll reveals another part of the expanding 420 Universe experience.</p>
+<a class="btn" href="hauptseite.html">ENTER THE UNIVERSE</a>
+</div>
+</section>
 
-        <div class="overview-grid">
-          <div class="overview-card">
-            <i class="fa-solid fa-shirt" style="color:var(--green);font-size:1.8rem;"></i>
-            <h3>T-Shirts</h3>
-            <p>Numbered apparel drops with front and back visuals, smoke humor, underground mythology. Fixed price <strong>29,90 €</strong>.</p>
-          </div>
-          <div class="overview-card">
-            <i class="fa-solid fa-leaf" style="color:var(--green);font-size:1.8rem;"></i>
-            <h3>Leaf Frames</h3>
-            <p>Real hemp leaf art presented as botanical wall pieces. Fixed price <strong>19,90 €</strong>.</p>
-          </div>
-          <div class="overview-card">
-            <i class="fa-solid fa-gem" style="color:var(--green);font-size:1.8rem;"></i>
-            <h3>Chains & Pendants</h3>
-            <p>Wearable symbols from the 420 universe. Fixed price <strong>09,90 €</strong>.</p>
-          </div>
-          <div class="overview-card">
-            <i class="fa-solid fa-comments" style="color:var(--green);font-size:1.8rem;"></i>
-            <h3>Community</h3>
-            <p>Guestbook, smoke reports, music moods and underground notes.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- DROPS / PRODUCT GRID -->
-    <section class="section page" id="drops">
-      <div class="section-shell">
-        <h2>All Drops Archive</h2>
-        <p style="color:var(--muted);margin-bottom:24px;">Filter by category • Search • Sort</p>
-
-        <!-- Filters will go here (you can expand later) -->
-        <div class="strain-grid" id="productGrid">
-          <!-- Placeholder cards - replace with real products later -->
-          <div class="product-card">
-            <div class="image-wrap">
-              <span class="drop-chip">#01</span>
-              <span class="class-chip">APPAREL</span>
-              <img src="MERCH1.JPG" alt="TREASURE CHEST Hoodie" loading="lazy">
-            </div>
-            <div class="info">
-              <h3>TREASURE CHEST</h3>
-              <p>Black heavyweight hoodie with hidden wealth emblem.</p>
-              <strong style="margin-top:auto;display:block;color:var(--green);">49,90 €</strong>
-            </div>
-          </div>
-          <!-- Add more placeholder cards as needed -->
-        </div>
-      </div>
-    </section>
-
-    <!-- COMMUNITY -->
-    <section class="section page">
-      <div class="section-shell">
-        <div class="section-kicker">Community Wall</div>
-        <h2>Underground Feed</h2>
-        <p style="color:var(--muted);margin-bottom:24px;">
-          New York smoke reports • London rain moods • Amsterdam energy • Berlin baseline • Tehran street Ganja and digital 420 atmosphere.
-        </p>
-        <div style="border:1px solid var(--line2);border-radius:28px;overflow:hidden;min-height:520px;background:#050705;">
-          <iframe src="/community/" width="100%" height="620" style="border:none;" loading="lazy" title="BALTAZAR SEEDS Community"></iframe>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="page">
-    <div class="footer-socials">
-      <a href="impressum.html" aria-label="Contact"><i class="fas fa-envelope"></i></a>
-      <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fab fa-x-twitter"></i></a>
-      <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
-      <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
-    </div>
-
-    <p>© 2026 <strong>BALTAZAR SEEDS</strong> • Tehran • Berlin • Amsterdam • Watton Underground 420 Universe</p>
-    <p style="font-size:0.78rem;color:var(--faint);max-width:860px;margin:16px auto 0;">
-      Every item is prepared as a unique or limited artifact. Small differences may appear. Shipping takes time because every piece is handled with intention.
-    </p>
-  </footer>
-
-  <script>
-    // Mobile menu
-    document.getElementById('mobileToggle').addEventListener('click', () => {
-      const nav = document.getElementById('mainNav');
-      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-    });
-
-    // Future product filtering logic can be added here
-  </script>
 </body>
 </html>
