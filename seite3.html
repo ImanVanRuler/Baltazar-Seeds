@@ -1,5472 +1,985 @@
-<!-- ==========================================================
-PART 1 — HEAD (SEO + PERFORMANCE + ACCESSIBILITY)
-Replace your current <head> with this optimized version.
-========================================================== -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-<meta
-name="viewport"
-content="width=device-width,initial-scale=1,viewport-fit=cover">
-
-<title>
-Baltazar Seeds® | Premium Cannabis Genetics | Genetic Hunter
-</title>
-
-<meta
-name="description"
-content="Premium small-batch cannabis genetics by Baltazar Seeds. Exclusive handcrafted strains, collectible genetics, limited releases and premium breeding.">
-
-<meta
-name="keywords"
-content="
-Baltazar Seeds,
-Premium Cannabis Genetics,
-Cannabis Seeds,
-Collectible Seeds,
-Small Batch,
-Premium Breeder,
-Genetic Hunter,
-Cannabis,
-Breeding,
-Rare Genetics">
-
-<meta
-name="author"
-content="Baltazar Seeds">
-
-<meta
-name="robots"
-content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
-
-<meta
-name="googlebot"
-content="index,follow">
-
-<meta
-name="bingbot"
-content="index,follow">
-
-<meta
-name="theme-color"
-content="#050A06">
-
-<meta
-name="color-scheme"
-content="dark">
-
-<meta
-name="referrer"
-content="strict-origin-when-cross-origin">
-
-<meta
-name="format-detection"
-content="telephone=no">
-
-<meta
-name="apple-mobile-web-app-capable"
-content="yes">
-
-<meta
-name="apple-mobile-web-app-status-bar-style"
-content="black-translucent">
-
-<meta
-name="apple-mobile-web-app-title"
-content="Baltazar Seeds">
-
-<meta
-name="mobile-web-app-capable"
-content="yes">
-
-<meta
-name="application-name"
-content="Baltazar Seeds">
-
-<meta
-name="msapplication-TileColor"
-content="#050A06">
-
-<meta
-property="og:type"
-content="website">
-
-<meta
-property="og:title"
-content="Baltazar Seeds">
-
-<meta
-property="og:site_name"
-content="Baltazar Seeds">
-
-<meta
-property="og:url"
-content="https://baltazarseeds.com">
-
-<meta
-property="og:image"
-content="https://baltazarseeds.com/social.jpg">
-
-<meta
-property="og:description"
-content="Premium handcrafted cannabis genetics.">
-
-<meta
-property="twitter:card"
-content="summary_large_image">
-
-<meta
-property="twitter:title"
-content="Baltazar Seeds">
-
-<meta
-property="twitter:description"
-content="Premium handcrafted cannabis genetics.">
-
-<meta
-property="twitter:image"
-content="https://baltazarseeds.com/social.jpg">
-
-<link
-rel="canonical"
-href="https://baltazarseeds.com/">
-
-<link
-rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link
-rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
-
-<link
-rel="dns-prefetch"
-href="//fonts.googleapis.com">
-
-<link
-rel="dns-prefetch"
-href="//fonts.gstatic.com">
-
-<link
-rel="preload"
-href="CATLOGO.JPG"
-as="image"
-fetchpriority="high">
-
-<link
-rel="preload"
-href="STRAIN1.JPG"
-as="image"
-fetchpriority="high">
-
-<link
-rel="icon"
-href="favicon.ico">
-
-<link
-rel="apple-touch-icon"
-href="apple-touch-icon.png">
-
-<link
-href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap"
-rel="stylesheet">
-
-<script type="application/ld+json">
-{
-"@context":"https://schema.org",
-"@type":"Organization",
-"name":"Baltazar Seeds",
-"url":"https://baltazarseeds.com",
-"logo":"https://baltazarseeds.com/CATLOGO.JPG",
-"description":"Premium handcrafted cannabis genetics.",
-"sameAs":[
-"https://www.instagram.com/real_jack_james"
-]
-}
-</script>
-
-<script type="application/ld+json">
-{
-"@context":"https://schema.org",
-"@type":"WebSite",
-"name":"Baltazar Seeds",
-"url":"https://baltazarseeds.com"
-}
-</script>
-
-<style>
-
-/* ==========================================================
-RESET
-========================================================== */
-
-*,
-*::before,
-*::after{
-
-margin:0;
-padding:0;
-box-sizing:border-box;
-
-}
-
-html{
-
-scroll-behavior:smooth;
-
-text-rendering:optimizeLegibility;
-
--webkit-text-size-adjust:100%;
-
-font-synthesis-weight:none;
-
-font-synthesis-style:none;
-
-font-kerning:normal;
-
-}
-
-body{
-
-background:#050A06;
-
-color:#ECE7DF;
-
-font-family:Inter,sans-serif;
-
-font-weight:300;
-
-overflow:hidden;
-
-overflow-x:hidden;
-
-min-height:100vh;
-
--webkit-font-smoothing:antialiased;
-
--moz-osx-font-smoothing:grayscale;
-
-}
-
-/* ==========================================================
-VARIABLES
-========================================================== */
-
-:root{
-
---bg:#050A06;
-
---bg2:#0B1209;
-
---gold:#C4913E;
-
---gold2:#E2B46B;
-
---line:rgba(255,255,255,.08);
-
---text:#ECE7DF;
-
---text2:rgba(236,231,223,.68);
-
---transition:.55s cubic-bezier(.2,.9,.25,1);
-
---shadow:
-
-0 20px 60px rgba(0,0,0,.35);
-
-}
-
-/* ==========================================================
-IMAGES
-========================================================== */
-
-img{
-
-display:block;
-
-max-width:100%;
-
-height:auto;
-
-image-rendering:auto;
-
-backface-visibility:hidden;
-
-transform:translateZ(0);
-
-}
-
-img[loading="lazy"]{
-
-contain-intrinsic-size:1200px 1600px;
-
-}
-
-/* ==========================================================
-ACCESSIBILITY
-========================================================== */
-
-:focus-visible{
-
-outline:2px solid var(--gold);
-
-outline-offset:4px;
-
-}
-
-::selection{
-
-background:rgba(196,145,62,.35);
-
-color:#fff;
-
-}
-
-/* ==========================================================
-SCROLLBAR
-========================================================== */
-
-::-webkit-scrollbar{
-
-width:10px;
-
-}
-
-::-webkit-scrollbar-thumb{
-
-background:
-
-linear-gradient(
-
-180deg,
-
-#775728,
-
-#C4913E
-
-);
-
-border-radius:30px;
-
-}
-
-::-webkit-scrollbar-track{
-
-background:#050A06;
-
-}
-
-/* ==========================================================
-BODY GRAIN
-========================================================== */
-
-body::before{
-
-content:"";
-
-position:fixed;
-
-inset:0;
-
-pointer-events:none;
-
-z-index:999;
-
-opacity:.28;
-
-mix-blend-mode:overlay;
-
-background-image:
-
-radial-gradient(circle at 20% 20%,rgba(255,255,255,.05) 1px,transparent 1px),
-
-radial-gradient(circle at 80% 60%,rgba(255,255,255,.03) 1px,transparent 1px),
-
-radial-gradient(circle at 60% 90%,rgba(255,255,255,.04) 1px,transparent 1px);
-
-background-size:
-
-180px 180px,
-
-240px 240px,
-
-320px 320px;
-
-}
-
-/* ==========================================================
-AMBIENT LIGHT
-========================================================== */
-
-#ambient{
-
-position:fixed;
-
-inset:0;
-
-pointer-events:none;
-
-z-index:0;
-
-background:
-
-radial-gradient(
-
-circle at 20% 40%,
-
-rgba(34,84,44,.12),
-
-transparent 65%
-
-),
-
-radial-gradient(
-
-circle at 80% 30%,
-
-rgba(196,145,62,.09),
-
-transparent 65%
-
-),
-
-radial-gradient(
-
-circle at 60% 100%,
-
-rgba(20,45,25,.10),
-
-transparent 70%
-
-);
-
-animation:
-
-ambientMove 16s ease-in-out infinite alternate;
-
-}
-
-@keyframes ambientMove{
-
-0%{
-
-transform:
-
-scale(1)
-
-translate3d(0,0,0);
-
-}
-
-100%{
-
-transform:
-
-scale(1.08)
-
-translate3d(-2%,2%,0);
-
-}
-
-}
-
-/* ==========================================================
-GPU HELPERS
-========================================================== */
-
-.slide,
-.slide-img,
-.slide-info,
-nav,
-#cat-logo{
-
-transform:translateZ(0);
-
-backface-visibility:hidden;
-
-will-change:transform,opacity;
-
-}
-
-/* ==========================================================
-REDUCED MOTION
-========================================================== */
-
-@media(prefers-reduced-motion:reduce){
-
-*{
-
-animation:none!important;
-
-transition:none!important;
-
-scroll-behavior:auto!important;
-
-}
-
-}
-
-
-/* ==========================================================
-PART 2
-NAVIGATION • HERO • PREMIUM ANIMATIONS
-========================================================== */
-
-nav{
-
-position:fixed;
-
-top:0;
-
-left:0;
-
-right:0;
-
-z-index:900;
-
-display:flex;
-
-align-items:center;
-
-justify-content:space-between;
-
-padding:26px 48px;
-
-background:
-
-linear-gradient(
-
-180deg,
-
-rgba(5,10,6,.72),
-
-rgba(5,10,6,.05)
-
-);
-
-backdrop-filter:
-
-blur(18px)
-
-saturate(170%);
-
-border-bottom:
-
-1px solid rgba(255,255,255,.04);
-
-transition:
-
-padding .45s,
-
-background .45s,
-
-backdrop-filter .45s,
-
-border-color .45s;
-
-}
-
-nav.scrolled{
-
-padding:18px 48px;
-
-background:
-
-rgba(5,10,6,.88);
-
-border-bottom:
-
-1px solid rgba(196,145,62,.12);
-
-}
-
-.nav-logo{
-
-display:flex;
-
-align-items:center;
-
-gap:12px;
-
-font-family:
-
-"JetBrains Mono",
-
-monospace;
-
-font-size:11px;
-
-letter-spacing:.32em;
-
-text-transform:uppercase;
-
-color:var(--text);
-
-user-select:none;
-
-}
-
-.nav-logo img{
-
-width:42px;
-
-height:42px;
-
-border-radius:50%;
-
-border:
-
-1px solid rgba(196,145,62,.18);
-
-transition:
-
-transform .45s,
-
-filter .45s,
-
-border-color .45s;
-
-}
-
-.nav-logo:hover img{
-
-transform:
-
-rotate(6deg)
-
-scale(1.08);
-
-border-color:
-
-rgba(196,145,62,.55);
-
-filter:
-
-drop-shadow(
-
-0 0 22px
-
-rgba(196,145,62,.35)
-
-);
-
-}
-
-.nav-links{
-
-display:flex;
-
-align-items:center;
-
-gap:34px;
-
-}
-
-.nav-link{
-
-position:relative;
-
-font-family:
-
-"JetBrains Mono",
-
-monospace;
-
-font-size:10px;
-
-letter-spacing:.32em;
-
-text-transform:uppercase;
-
-text-decoration:none;
-
-color:var(--text2);
-
-transition:
-
-color .35s;
-
-}
-
-.nav-link:hover{
-
-color:var(--text);
-
-}
-
-.nav-link::after{
-
-content:"";
-
-position:absolute;
-
-left:0;
-
-bottom:-8px;
-
-width:0;
-
-height:1px;
-
-background:
-
-linear-gradient(
-
-90deg,
-
-var(--gold),
-
-transparent
-
-);
-
-transition:
-
-width .45s;
-
-}
-
-.nav-link:hover::after{
-
-width:100%;
-
-}
-
-/* ==========================================================
-HERO
-========================================================== */
-
-.hero{
-
-position:relative;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-min-height:100vh;
-
-overflow:hidden;
-
-isolation:isolate;
-
-}
-
-.hero::before{
-
-content:"";
-
-position:absolute;
-
-inset:0;
-
-background:
-
-radial-gradient(
-
-circle at center,
-
-rgba(196,145,62,.10),
-
-transparent 58%
-
-);
-
-filter:
-
-blur(120px);
-
-animation:
-
-heroPulse 10s ease-in-out infinite;
-
-}
-
-@keyframes heroPulse{
-
-0%{
-
-transform:
-
-scale(1);
-
-opacity:.6;
-
-}
-
-50%{
-
-transform:
-
-scale(1.18);
-
-opacity:1;
-
-}
-
-100%{
-
-transform:
-
-scale(1);
-
-opacity:.6;
-
-}
-
-}
-
-.hero-content{
-
-position:relative;
-
-z-index:20;
-
-max-width:820px;
-
-padding:0 30px;
-
-text-align:center;
-
-}
-
-.hero-sub{
-
-font-family:
-
-"JetBrains Mono",
-
-monospace;
-
-font-size:11px;
-
-letter-spacing:.42em;
-
-text-transform:uppercase;
-
-color:var(--gold);
-
-margin-bottom:24px;
-
-opacity:0;
-
-animation:
-
-fadeUp .9s .2s forwards;
-
-}
-
-.hero-title{
-
-font-family:
-
-"Cormorant Garamond",
-
-serif;
-
-font-size:
-
-clamp(
-
-64px,
-
-10vw,
-
-140px
-
-);
-
-font-weight:300;
-
-line-height:.95;
-
-letter-spacing:.02em;
-
-margin-bottom:24px;
-
-opacity:0;
-
-animation:
-
-fadeUp 1s .45s forwards;
-
-}
-
-.hero-title em{
-
-font-style:italic;
-
-color:var(--gold);
-
-}
-
-.hero-description{
-
-max-width:620px;
-
-margin:auto;
-
-font-size:16px;
-
-line-height:2;
-
-color:var(--text2);
-
-opacity:0;
-
-animation:
-
-fadeUp 1s .7s forwards;
-
-}
-
-@keyframes fadeUp{
-
-from{
-
-opacity:0;
-
-transform:
-
-translateY(40px);
-
-}
-
-to{
-
-opacity:1;
-
-transform:
-
-translateY(0);
-
-}
-
-}
-
-/* ==========================================================
-BUTTON
-========================================================== */
-
-.hero-button,
-
-.slide-cta{
-
-display:inline-flex;
-
-align-items:center;
-
-justify-content:center;
-
-gap:14px;
-
-margin-top:42px;
-
-padding:
-
-16px 36px;
-
-border:
-
-1px solid rgba(196,145,62,.22);
-
-background:
-
-rgba(196,145,62,.04);
-
-color:var(--text);
-
-font-family:
-
-"JetBrains Mono",
-
-monospace;
-
-font-size:11px;
-
-letter-spacing:.28em;
-
-text-transform:uppercase;
-
-text-decoration:none;
-
-overflow:hidden;
-
-position:relative;
-
-transition:
-
-transform .35s,
-
-border-color .35s,
-
-background .35s,
-
-box-shadow .35s;
-
-}
-
-.hero-button::before,
-
-.slide-cta::before{
-
-content:"";
-
-position:absolute;
-
-top:0;
-
-left:-160%;
-
-width:120%;
-
-height:100%;
-
-background:
-
-linear-gradient(
-
-110deg,
-
-transparent,
-
-rgba(255,255,255,.22),
-
-transparent
-
-);
-
-transition:
-
-left .9s;
-
-}
-
-.hero-button:hover::before,
-
-.slide-cta:hover::before{
-
-left:160%;
-
-}
-
-.hero-button:hover,
-
-.slide-cta:hover{
-
-transform:
-
-translateY(-4px);
-
-background:
-
-rgba(196,145,62,.10);
-
-border-color:
-
-rgba(196,145,62,.52);
-
-box-shadow:
-
-0 20px 40px
-
-rgba(196,145,62,.12);
-
-}
-
-/* ==========================================================
-SECTION TITLES
-========================================================== */
-
-.section-title{
-
-font-family:
-
-"Cormorant Garamond",
-
-serif;
-
-font-size:
-
-clamp(
-
-42px,
-
-6vw,
-
-74px
-
-);
-
-font-weight:300;
-
-line-height:1;
-
-margin-bottom:22px;
-
-}
-
-.section-title em{
-
-font-style:italic;
-
-color:var(--gold);
-
-}
-
-.section-sub{
-
-font-family:
-
-"JetBrains Mono",
-
-monospace;
-
-font-size:10px;
-
-letter-spacing:.35em;
-
-text-transform:uppercase;
-
-color:var(--gold);
-
-margin-bottom:18px;
-
-}
-
-/* ==========================================================
-SLIDES
-========================================================== */
-
-.slide{
-
-opacity:.45;
-
-transform:
-
-scale(.985);
-
-transition:
-
-opacity .65s,
-
-transform .8s;
-
-}
-
-.slide.active{
-
-opacity:1;
-
-transform:
-
-scale(1);
-
-}
-
-.slide-img{
-
-overflow:hidden;
-
-background:#0a100b;
-
-}
-
-.slide-img img{
-
-transition:
-
-transform 6s linear,
-
-filter .8s;
-
-}
-
-.slide.active img{
-
-transform:
-
-scale(1.06);
-
-filter:
-
-contrast(1.04)
-
-brightness(1.03)
-
-saturate(1.08);
-
-}
-
-.slide-info{
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:center;
-
-padding:
-
-90px
-
-72px;
-
-}
-
-.slide-tag{
-
-font-family:
-
-"JetBrains Mono",
-
-monospace;
-
-font-size:10px;
-
-letter-spacing:.38em;
-
-text-transform:uppercase;
-
-color:var(--gold);
-
-margin-bottom:18px;
-
-}
-
-.slide-name{
-
-font-family:
-
-"Cormorant Garamond",
-
-serif;
-
-font-size:
-
-clamp(
-
-46px,
-
-5vw,
-
-74px
-
-);
-
-font-weight:300;
-
-line-height:.98;
-
-margin-bottom:22px;
-
-}
-
-.slide-desc{
-
-font-size:15px;
-
-line-height:2;
-
-max-width:520px;
-
-color:var(--text2);
-
-margin-bottom:32px;
-
-}
-
-/* ==========================================================
-RESPONSIVE
-========================================================== */
-
-@media(max-width:900px){
-
-nav{
-
-padding:18px 24px;
-
-}
-
-.nav-links{
-
-gap:18px;
-
-}
-
-.slide{
-
-flex-direction:column;
-
-}
-
-.slide-img{
-
-width:100%;
-
-height:52vh;
-
-}
-
-.slide-info{
-
-padding:34px;
-
-}
-
-.hero-title{
-
-font-size:64px;
-
-}
-
-}
-
-@media(max-width:640px){
-
-.hero-title{
-
-font-size:48px;
-
-}
-
-.hero-description{
-
-font-size:14px;
-
-}
-
-.nav-links{
-
-gap:14px;
-
-}
-
-.nav-link{
-
-font-size:9px;
-
-}
-
-}
-
-/* ==========================================================
-PART 3
-AAA SLIDER • CINEMATIC FX • MICRO INTERACTIONS
-========================================================== */
-
-/* ==========================================================
-SLIDER CONTAINER
-========================================================== */
-
-#slider-track{
-
-position:fixed;
-
-inset:0;
-
-display:flex;
-
-transition:
-
-transform 1.15s cubic-bezier(.2,.9,.25,1);
-
-will-change:transform;
-
-contain:layout paint;
-
-}
-
-.slide{
-
-position:relative;
-
-min-width:100vw;
-
-height:100vh;
-
-display:flex;
-
-overflow:hidden;
-
-background:var(--bg);
-
-}
-
-/* ==========================================================
-IMAGE PANEL
-========================================================== */
-
-.slide-img{
-
-position:relative;
-
-width:52%;
-
-overflow:hidden;
-
-background:#081009;
-
-isolation:isolate;
-
-}
-
-.slide-img::before{
-
-content:"";
-
-position:absolute;
-
-inset:-15%;
-
-background:
-
-radial-gradient(
-
-circle,
-
-rgba(196,145,62,.10),
-
-transparent 72%
-
-);
-
-filter:
-
-blur(90px);
-
-opacity:0;
-
-transition:
-
-opacity .9s;
-
-z-index:2;
-
-}
-
-.slide.active .slide-img::before{
-
-opacity:1;
-
-}
-
-.slide-img::after{
-
-content:"";
-
-position:absolute;
-
-inset:0;
-
-pointer-events:none;
-
-z-index:5;
-
-background:
-
-linear-gradient(
-
-90deg,
-
-transparent 45%,
-
-rgba(5,10,6,.82)
-
-100%
-
-),
-
-linear-gradient(
-
-180deg,
-
-rgba(5,10,6,.42),
-
-transparent 22%,
-
-transparent 78%,
-
-rgba(5,10,6,.55)
-
-);
-
-}
-
-.slide-img img{
-
-position:absolute;
-
-inset:0;
-
-width:100%;
-
-height:100%;
-
-object-fit:cover;
-
-transform:
-
-scale(1.12);
-
-transition:
-
-transform 8s linear,
-
-filter 1.2s ease,
-
-opacity .8s;
-
-will-change:
-
-transform;
-
-}
-
-.slide.active img{
-
-transform:
-
-scale(1);
-
-filter:
-
-contrast(1.05)
-
-brightness(1.04)
-
-saturate(1.08);
-
-}
-
-/* ==========================================================
-IMAGE SHIMMER
-========================================================== */
-
-.slide.active .slide-img span.light-pass{
-
-position:absolute;
-
-inset:0;
-
-z-index:6;
-
-pointer-events:none;
-
-background:
-
-linear-gradient(
-
-110deg,
-
-transparent,
-
-rgba(255,255,255,.10),
-
-transparent
-
-);
-
-animation:
-
-lightPass 7s linear infinite;
-
-}
-
-@keyframes lightPass{
-
-0%{
-
-transform:
-
-translateX(-160%);
-
-}
-
-100%{
-
-transform:
-
-translateX(160%);
-
-}
-
-}
-
-/* ==========================================================
-TEXT PANEL
-========================================================== */
-
-.slide-info{
-
-position:relative;
-
-flex:1;
-
-display:flex;
-
-flex-direction:column;
-
-justify-content:center;
-
-padding:
-
-90px 72px;
-
-overflow:hidden;
-
-}
-
-.slide-info>*{
-
-opacity:0;
-
-transform:
-
-translateY(26px);
-
-transition:
-
-opacity .7s,
-
-transform .7s;
-
-}
-
-.slide.active .slide-info>*{
-
-opacity:1;
-
-transform:
-
-translateY(0);
-
-}
-
-.slide.active .slide-tag{
-
-transition-delay:.15s;
-
-}
-
-.slide.active .slide-name{
-
-transition-delay:.3s;
-
-}
-
-.slide.active .slide-lineage{
-
-transition-delay:.45s;
-
-}
-
-.slide.active .slide-desc{
-
-transition-delay:.6s;
-
-}
-
-.slide.active .slide-price-row{
-
-transition-delay:.75s;
-
-}
-
-.slide.active .slide-cta{
-
-transition-delay:.9s;
-
-}
-
-/* ==========================================================
-BACKGROUND NUMBER
-========================================================== */
-
-.ghost-num{
-
-position:absolute;
-
-right:-30px;
-
-top:50%;
-
-transform:
-
-translateY(-50%);
-
-font-family:
-
-"Cormorant Garamond",
-
-serif;
-
-font-size:
-
-clamp(
-
-160px,
-
-18vw,
-
-280px
-
-);
-
-font-weight:300;
-
-line-height:1;
-
-color:transparent;
-
--webkit-text-stroke:
-
-1px rgba(255,255,255,.045);
-
-pointer-events:none;
-
-user-select:none;
-
-}
-
-/* ==========================================================
-CTA
-========================================================== */
-
-.slide-cta{
-
-position:relative;
-
-overflow:hidden;
-
-isolation:isolate;
-
-}
-
-.slide-cta::after{
-
-content:"";
-
-position:absolute;
-
-inset:0;
-
-background:
-
-radial-gradient(
-
-circle at center,
-
-rgba(255,255,255,.08),
-
-transparent 68%
-
-);
-
-opacity:0;
-
-transition:
-
-opacity .35s;
-
-}
-
-.slide-cta:hover::after{
-
-opacity:1;
-
-}
-
-/* ==========================================================
-DOTS
-========================================================== */
-
-#dots{
-
-display:flex;
-
-gap:10px;
-
-align-items:center;
-
-}
-
-.dot{
-
-width:6px;
-
-height:6px;
-
-border-radius:50%;
-
-background:
-
-rgba(255,255,255,.15);
-
-transition:
-
-transform .35s,
-
-background .35s,
-
-box-shadow .35s;
-
-}
-
-.dot.active{
-
-background:
-
-var(--gold);
-
-transform:
-
-scale(1.9);
-
-box-shadow:
-
-0 0 16px
-
-rgba(196,145,62,.35);
-
-}
-
-/* ==========================================================
-ARROWS
-========================================================== */
-
-.arrow{
-
-width:42px;
-
-height:42px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-border-radius:50%;
-
-border:
-
-1px solid rgba(255,255,255,.08);
-
-background:
-
-rgba(255,255,255,.02);
-
-transition:
-
-all .35s;
-
-}
-
-.arrow:hover{
-
-transform:
-
-translateY(-3px);
-
-border-color:
-
-rgba(196,145,62,.42);
-
-color:
-
-var(--gold);
-
-background:
-
-rgba(196,145,62,.05);
-
-}
-
-/* ==========================================================
-SLIDE PARALLAX
-========================================================== */
-
-.slide-img img{
-
-transform-origin:center center;
-
-}
-
-/* ==========================================================
-PAGE FADE
-========================================================== */
-
-.fade-enter{
-
-opacity:0;
-
-transform:
-
-translateY(28px);
-
-}
-
-.fade-enter-active{
-
-opacity:1;
-
-transform:
-
-translateY(0);
-
-transition:
-
-all .8s cubic-bezier(.2,.9,.25,1);
-
-}
-
-/* ==========================================================
-JS
-========================================================== */
-
-<script>
-
-const slides=
-
-document.querySelectorAll(
-
-".slide"
-
-);
-
-const images=
-
-document.querySelectorAll(
-
-".slide-img img"
-
-);
-
-window.addEventListener(
-
-"mousemove",
-
-e=>{
-
-const x=
-
-(e.clientX/window.innerWidth-.5)*10;
-
-const y=
-
-(e.clientY/window.innerHeight-.5)*10;
-
-requestAnimationFrame(()=>{
-
-images.forEach(img=>{
-
-img.style.transform=
-
-`translate3d(${x}px,${y}px,0) scale(1.04)`;
-
-});
-
-});
-
-},
-
-{
-
-passive:true
-
-});
-
-document
-
-.querySelectorAll(
-
-".slide-cta"
-
-)
-
-.forEach(btn=>{
-
-btn.addEventListener(
-
-"mouseenter",
-
-()=>{
-
-btn.animate([
-
-{
-
-transform:"translateY(0)"
-
-},
-
-{
-
-transform:"translateY(-4px)"
-
-},
-
-{
-
-transform:"translateY(0)"
-
-}
-
-],{
-
-duration:420,
-
-easing:"ease"
-
-});
-
-});
-
-});
-
-</script>
-
-/* ==========================================================
-RESPONSIVE
-========================================================== */
-
-@media(max-width:900px){
-
-.slide{
-
-flex-direction:column;
-
-}
-
-.slide-img{
-
-width:100%;
-
-height:54vh;
-
-}
-
-.slide-info{
-
-padding:34px;
-
-}
-
-.ghost-num{
-
-display:none;
-
-}
-
-}
-
-@media(max-width:640px){
-
-.slide-name{
-
-font-size:44px;
-
-}
-
-.slide-desc{
-
-font-size:14px;
-
-line-height:1.8;
-
-}
-
-.slide-info{
-
-padding:26px;
-
-}
-
-}
-
-/* ==========================================================
-END PART 3
-========================================================== */
-
-/* ==========================================================
-PART 4
-AAA EFFECTS • LOGO • AUDIO • GLITCH • PERFORMANCE
-========================================================== */
-
-/* ==========================================================
-LOGO
-========================================================== */
-
-#cat-logo{
-
-position:fixed;
-
-top:82px;
-
-right:26px;
-
-width:66px;
-
-height:66px;
-
-z-index:1200;
-
-border-radius:50%;
-
-overflow:visible;
-
-transform-style:preserve-3d;
-
-transition:
-
-transform .7s cubic-bezier(.2,.9,.25,1),
-
-filter .7s,
-
-opacity .5s;
-
-will-change:
-
-transform;
-
-}
-
-#cat-logo::before{
-
-content:"";
-
-position:absolute;
-
-inset:-12px;
-
-border-radius:50%;
-
-border:
-
-1px solid rgba(196,145,62,.18);
-
-animation:
-
-logoOrbit 8s linear infinite;
-
-}
-
-#cat-logo::after{
-
-content:"";
-
-position:absolute;
-
-inset:-26px;
-
-border-radius:50%;
-
-background:
-
-radial-gradient(
-
-circle,
-
-rgba(196,145,62,.18),
-
-transparent 70%
-
-);
-
-opacity:.5;
-
-filter:
-
-blur(30px);
-
-animation:
-
-logoGlow 4s ease-in-out infinite;
-
-z-index:-1;
-
-}
-
-@keyframes logoOrbit{
-
-0%{
-
-transform:
-
-rotate(0deg);
-
-}
-
-100%{
-
-transform:
-
-rotate(360deg);
-
-}
-
-}
-
-@keyframes logoGlow{
-
-0%,100%{
-
-transform:
-
-scale(.9);
-
-opacity:.35;
-
-}
-
-50%{
-
-transform:
-
-scale(1.15);
-
-opacity:.75;
-
-}
-
-}
-
-#cat-logo:hover{
-
-transform:
-
-translateY(-6px)
-
-rotate(4deg)
-
-scale(1.08);
-
-filter:
-
-drop-shadow(
-
-0 0 28px
-
-rgba(196,145,62,.45)
-
-);
-
-}
-
-/* ==========================================================
-GLITCH
-========================================================== */
-
-.glitch{
-
-animation:
-
-glitchMove .14s steps(2) infinite,
-
-glitchRGB .16s linear infinite;
-
-}
-
-@keyframes glitchMove{
-
-0%{
-
-transform:
-
-translate(0);
-
-}
-
-25%{
-
-transform:
-
-translate(-2px,2px);
-
-}
-
-50%{
-
-transform:
-
-translate(2px,-2px);
-
-}
-
-75%{
-
-transform:
-
-translate(-1px,-1px);
-
-}
-
-100%{
-
-transform:
-
-translate(0);
-
-}
-
-}
-
-@keyframes glitchRGB{
-
-0%{
-
-filter:
-
-drop-shadow(2px 0 red)
-
-drop-shadow(-2px 0 cyan);
-
-}
-
-100%{
-
-filter:none;
-
-}
-
-}
-
-/* ==========================================================
-CURSOR
-========================================================== */
-
-#cursorGlow{
-
-position:fixed;
-
-width:380px;
-
-height:380px;
-
-pointer-events:none;
-
-border-radius:50%;
-
-background:
-
-radial-gradient(
-
-circle,
-
-rgba(196,145,62,.16),
-
-transparent 70%
-
-);
-
-mix-blend-mode:screen;
-
-filter:
-
-blur(40px);
-
-transform:
-
-translate(-50%,-50%);
-
-z-index:20;
-
-opacity:.7;
-
-}
-
-/* ==========================================================
-GOLD PARTICLES
-========================================================== */
-
-.gold-particle{
-
-position:fixed;
-
-width:4px;
-
-height:4px;
-
-border-radius:50%;
-
-background:#D8A84B;
-
-box-shadow:
-
-0 0 12px #D8A84B;
-
-pointer-events:none;
-
-z-index:9999;
-
-animation:
-
-goldFloat 3.8s ease-out forwards;
-
-}
-
-@keyframes goldFloat{
-
-0%{
-
-opacity:0;
-
-transform:
-
-translateY(70px)
-
-scale(.2);
-
-}
-
-20%{
-
-opacity:1;
-
-}
-
-100%{
-
-opacity:0;
-
-transform:
-
-translateY(-260px)
-
-scale(1.7);
-
-}
-
-}
-
-/* ==========================================================
-SECRET MODE
-========================================================== */
-
-.secret-mode{
-
-filter:
-
-contrast(1.08)
-
-brightness(1.04)
-
-saturate(1.12);
-
-}
-
-.secret-mode body::before{
-
-opacity:.5;
-
-}
-
-/* ==========================================================
-FILM GRAIN BOOST
-========================================================== */
-
-.secret-mode::after{
-
-content:"";
-
-position:fixed;
-
-inset:0;
-
-pointer-events:none;
-
-background:
-
-repeating-linear-gradient(
-
-0deg,
-
-rgba(255,255,255,.02) 0,
-
-rgba(255,255,255,.02) 1px,
-
-transparent 2px,
-
-transparent 4px
-
-);
-
-mix-blend-mode:overlay;
-
-opacity:.25;
-
-animation:
-
-grainMove .25s infinite;
-
-}
-
-@keyframes grainMove{
-
-0%{
-
-transform:
-
-translateY(0);
-
-}
-
-100%{
-
-transform:
-
-translateY(-4px);
-
-}
-
-}
-
-/* ==========================================================
-PREMIUM BUTTON HOVER
-========================================================== */
-
-.slide-cta{
-
-box-shadow:
-
-0 0 0 rgba(196,145,62,0);
-
-}
-
-.slide-cta:hover{
-
-box-shadow:
-
-0 18px 42px
-
-rgba(196,145,62,.18);
-
-}
-
-/* ==========================================================
-AUDIO
-========================================================== */
-
-<script>
-
-const AudioEngine={
-
-ctx:null,
-
-init(){
-
-if(!this.ctx){
-
-this.ctx=new(
-
-window.AudioContext||
-
-window.webkitAudioContext
-
-)();
-
-}
-
-},
-
-click(){
-
-this.init();
-
-const osc=this.ctx.createOscillator();
-
-const gain=this.ctx.createGain();
-
-osc.type="triangle";
-
-osc.frequency.value=680;
-
-gain.gain.value=.025;
-
-osc.connect(gain);
-
-gain.connect(this.ctx.destination);
-
-osc.start();
-
-osc.stop(
-
-this.ctx.currentTime+.08
-
-);
-
-},
-
-secret(){
-
-this.init();
-
-const o1=this.ctx.createOscillator();
-
-const o2=this.ctx.createOscillator();
-
-const g=this.ctx.createGain();
-
-o1.type="triangle";
-
-o2.type="sine";
-
-o1.frequency.value=523;
-
-o2.frequency.value=1046;
-
-g.gain.value=.03;
-
-o1.connect(g);
-
-o2.connect(g);
-
-g.connect(this.ctx.destination);
-
-o1.start();
-
-o2.start();
-
-o1.stop(
-
-this.ctx.currentTime+.25
-
-);
-
-o2.stop(
-
-this.ctx.currentTime+.35
-
-);
-
-}
-
-};
-
-document
-
-.querySelectorAll(
-
-".slide-cta,.arrow,.dot"
-
-)
-
-.forEach(el=>{
-
-el.addEventListener(
-
-"mouseenter",
-
-()=>AudioEngine.click()
-
-);
-
-});
-
-const logo=
-
-document.getElementById(
-
-"cat-logo"
-
-);
-
-let logoClicks=0;
-
-let clickTimer;
-
-logo.addEventListener(
-
-"click",
-
-()=>{
-
-clearTimeout(clickTimer);
-
-logoClicks++;
-
-if(logoClicks===3){
-
-document.body.classList.add(
-
-"secret-mode"
-
-);
-
-logo.classList.add(
-
-"glitch"
-
-);
-
-AudioEngine.secret();
-
-spawnParticles();
-
-setTimeout(()=>{
-
-document.body.classList.remove(
-
-"secret-mode"
-
-);
-
-logo.classList.remove(
-
-"glitch"
-
-);
-
-},6000);
-
-logoClicks=0;
-
-}
-
-clickTimer=
-
-setTimeout(()=>{
-
-logoClicks=0;
-
-},1800);
-
-});
-
-function spawnParticles(){
-
-for(
-
-let i=0;
-
-i<80;
-
-i++
-
-){
-
-const p=
-
-document.createElement("div");
-
-p.className="gold-particle";
-
-p.style.left=
-
-Math.random()*100+"vw";
-
-p.style.top=
-
-Math.random()*100+"vh";
-
-document.body.appendChild(p);
-
-setTimeout(
-
-()=>p.remove(),
-
-3800
-
-);
-
-}
-
-}
-
-const glow=
-
-document.createElement("div");
-
-glow.id="cursorGlow";
-
-document.body.appendChild(glow);
-
-window.addEventListener(
-
-"mousemove",
-
-e=>{
-
-requestAnimationFrame(()=>{
-
-glow.style.left=
-
-e.clientX+"px";
-
-glow.style.top=
-
-e.clientY+"px";
-
-});
-
-},
-
-{
-
-passive:true
-
-});
-
-</script>
-
-/* ==========================================================
-PERFORMANCE
-========================================================== */
-
-img{
-
-content-visibility:auto;
-
-contain:paint layout;
-
-}
-
-.slide{
-
-contain:layout paint;
-
-}
-
-.slide-img{
-
-contain:strict;
-
-}
-
-.slide-info{
-
-contain:layout;
-
-}
-
-/* ==========================================================
-MOBILE
-========================================================== */
-
-@media(max-width:768px){
-
-#cursorGlow{
-
-display:none;
-
-}
-
-#cat-logo{
-
-width:54px;
-
-height:54px;
-
-top:68px;
-
-right:16px;
-
-}
-
-.slide-cta{
-
-width:100%;
-
-justify-content:center;
-
-}
-
-}
-
-/* ==========================================================
-END PART 4
-========================================================== */
-
-/* ==========================================================
-PART 5
-PREMIUM FX • 3D DEPTH • CINEMATIC ATMOSPHERE
-========================================================== */
-
-/* ==========================================================
-3D ENVIRONMENT
-========================================================== */
-
-:root{
-
---mouseX:0;
---mouseY:0;
-
---depth1:12px;
---depth2:28px;
---depth3:48px;
-
---gold-glow:
-rgba(196,145,62,.22);
-
---glass:
-rgba(255,255,255,.045);
-
-}
-
-/* ==========================================================
-SLIDE DEPTH
-========================================================== */
-
-.slide{
-
-perspective:2200px;
-
-transform-style:preserve-3d;
-
-}
-
-.slide-img{
-
-transform-style:preserve-3d;
-
-}
-
-.slide-info{
-
-transform-style:preserve-3d;
-
-}
-
-/* ==========================================================
-DEPTH LAYERS
-========================================================== */
-
-.slide-tag{
-
-transform:
-
-translateZ(var(--depth1));
-
-}
-
-.slide-name{
-
-transform:
-
-translateZ(var(--depth2));
-
-}
-
-.slide-lineage{
-
-transform:
-
-translateZ(var(--depth2));
-
-}
-
-.slide-desc{
-
-transform:
-
-translateZ(var(--depth2));
-
-}
-
-.slide-price-row{
-
-transform:
-
-translateZ(var(--depth3));
-
-}
-
-.slide-cta{
-
-transform:
-
-translateZ(calc(var(--depth3) + 20px));
-
-}
-
-/* ==========================================================
-PREMIUM GLASS
-========================================================== */
-
-.glass{
-
-background:
-
-linear-gradient(
-
-180deg,
-
-rgba(255,255,255,.06),
-
-rgba(255,255,255,.015)
-
-);
-
-backdrop-filter:
-
-blur(18px)
-
-saturate(170%)
-
-brightness(110%);
-
-border:
-
-1px solid rgba(255,255,255,.06);
-
-box-shadow:
-
-0 25px 70px rgba(0,0,0,.35),
-
-inset 0 1px 0 rgba(255,255,255,.08);
-
-}
-
-/* ==========================================================
-GOLD BORDER SHIMMER
-========================================================== */
-
-.gold-border{
-
-position:relative;
-
-overflow:hidden;
-
-}
-
-.gold-border::before{
-
-content:"";
-
-position:absolute;
-
-inset:0;
-
-padding:1px;
-
-border-radius:inherit;
-
-background:
-
-linear-gradient(
-
-90deg,
-
-transparent,
-
-rgba(196,145,62,.7),
-
-transparent
-
-);
-
-mask:
-
-linear-gradient(#000 0 0)
-
-content-box,
-
-linear-gradient(#000 0 0);
-
-mask-composite:exclude;
-
-animation:
-
-goldSweep 5s linear infinite;
-
-}
-
-@keyframes goldSweep{
-
-0%{
-
-transform:
-
-translateX(-120%);
-
-}
-
-100%{
-
-transform:
-
-translateX(120%);
-
-}
-
-}
-
-/* ==========================================================
-IMAGE DEPTH SHADOW
-========================================================== */
-
-.slide-img img{
-
-box-shadow:
-
-0 60px 120px
-
-rgba(0,0,0,.35);
-
-}
-
-/* ==========================================================
-CINEMATIC VIGNETTE
-========================================================== */
-
-body::after{
-
-content:"";
-
-position:fixed;
-
-inset:0;
-
-pointer-events:none;
-
-background:
-
-radial-gradient(
-
-circle,
-
-transparent 58%,
-
-rgba(0,0,0,.18)
-
-100%
-
-);
-
-mix-blend-mode:multiply;
-
-z-index:850;
-
-}
-
-/* ==========================================================
-LIGHT RAYS
-========================================================== */
-
-.light-rays{
-
-position:fixed;
-
-inset:-20%;
-
-pointer-events:none;
-
-opacity:.08;
-
-background:
-
-conic-gradient(
-
-from 180deg,
-
-transparent,
-
-rgba(196,145,62,.35),
-
-transparent,
-
-transparent
-
-);
-
-filter:
-
-blur(120px);
-
-animation:
-
-rotateRays 26s linear infinite;
-
-z-index:5;
-
-}
-
-@keyframes rotateRays{
-
-100%{
-
-transform:
-
-rotate(360deg);
-
-}
-
-}
-
-/* ==========================================================
-FLOATING DUST
-========================================================== */
-
-.dust{
-
-position:fixed;
-
-width:2px;
-
-height:2px;
-
-border-radius:50%;
-
-background:#fff;
-
-opacity:.15;
-
-pointer-events:none;
-
-animation:
-
-dustFloat linear forwards;
-
-}
-
-@keyframes dustFloat{
-
-0%{
-
-transform:
-
-translateY(60px)
-
-scale(.2);
-
-opacity:0;
-
-}
-
-15%{
-
-opacity:.18;
-
-}
-
-100%{
-
-transform:
-
-translateY(-120vh)
-
-translateX(40px)
-
-scale(1.4);
-
-opacity:0;
-
-}
-
-}
-
-/* ==========================================================
-IMAGE GLOW
-========================================================== */
-
-.slide.active .slide-img{
-
-filter:
-
-drop-shadow(
-
-0 0 40px
-
-rgba(196,145,62,.08)
-
-);
-
-}
-
-/* ==========================================================
-SLIDE HOVER
-========================================================== */
-
-.slide:hover .slide-name{
-
-color:#fff;
-
-text-shadow:
-
-0 0 18px
-
-rgba(196,145,62,.15);
-
-}
-
-/* ==========================================================
-PREMIUM PANEL
-========================================================== */
-
-.slide-info{
-
-background:
-
-linear-gradient(
-
-180deg,
-
-rgba(255,255,255,.01),
-
-rgba(255,255,255,.015)
-
-);
-
-}
-
-/* ==========================================================
-PARALLAX ENGINE
-========================================================== */
-
-<script>
-
-const root=
-
-document.documentElement;
-
-window.addEventListener(
-
-"mousemove",
-
-e=>{
-
-const x=
-
-(e.clientX/window.innerWidth-.5);
-
-const y=
-
-(e.clientY/window.innerHeight-.5);
-
-root.style.setProperty(
-
-"--mouseX",
-
-x
-
-);
-
-root.style.setProperty(
-
-"--mouseY",
-
-y
-
-);
-
-requestAnimationFrame(()=>{
-
-document
-
-.querySelectorAll(
-
-".slide.active .slide-info"
-
-)
-
-.forEach(el=>{
-
-el.style.transform=
-
-`
-
-rotateY(${x*5}deg)
-
-rotateX(${-y*5}deg)
-
-translate3d(
-
-${x*18}px,
-
-${y*18}px,
-
-0)
-
-`;
-
-});
-
-document
-
-.querySelectorAll(
-
-".slide.active img"
-
-)
-
-.forEach(img=>{
-
-img.style.transform=
-
-`
-
-translate3d(
-
-${x*14}px,
-
-${y*14}px,
-
-0)
-
-scale(1.05)
-
-`;
-
-});
-
-});
-
-},
-
-{
-
-passive:true
-
-});
-
-/* ==========================================================
-DUST ENGINE
-========================================================== */
-
-function createDust(){
-
-const d=
-
-document.createElement("div");
-
-d.className="dust";
-
-d.style.left=
-
-Math.random()*100+"vw";
-
-d.style.top=
-
-"110vh";
-
-d.style.animationDuration=
-
-(8+Math.random()*8)+"s";
-
-document.body.appendChild(d);
-
-setTimeout(
-
-()=>d.remove(),
-
-16000
-
-);
-
-}
-
-setInterval(
-
-createDust,
-
-180
-
-);
-
-/* ==========================================================
-LIGHT RAYS
-========================================================== */
-
-const rays=
-
-document.createElement("div");
-
-rays.className="light-rays";
-
-document.body.appendChild(rays);
-
-/* ==========================================================
-IDLE CAMERA
-========================================================== */
-
-let idle=0;
-
-setInterval(()=>{
-
-idle+=0.002;
-
-document
-
-.querySelectorAll(
-
-".slide.active"
-
-)
-
-.forEach(slide=>{
-
-slide.style.transform=
-
-`
-
-perspective(2200px)
-
-rotateY(${Math.sin(idle)*1.2}deg)
-
-`;
-
-});
-
-},16);
-
-</script>
-
-/* ==========================================================
-MOBILE
-========================================================== */
-
-@media(max-width:900px){
-
-.light-rays{
-
-display:none;
-
-}
-
-body::after{
-
-opacity:.5;
-
-}
-
-.slide-info{
-
-transform:none!important;
-
-}
-
-}
-
-/* ==========================================================
-END PART 5
-========================================================== */
-
-<!-- ==========================================================
-PART 6
-ADVANCED JAVASCRIPT ENGINE
-========================================================== -->
-
-<script>
-
-"use strict";
-
-/* ==========================================================
-GLOBAL
-========================================================== */
-
-const $=(selector,parent=document)=>
-
-parent.querySelector(selector);
-
-const $$=(selector,parent=document)=>
-
-[...parent.querySelectorAll(selector)];
-
-const prefersReducedMotion=
-
-window.matchMedia(
-
-"(prefers-reduced-motion: reduce)"
-
-).matches;
-
-/* ==========================================================
-SLIDER
-========================================================== */
-
-const slides=
-
-$$(".slide");
-
-const slider=
-
-$("#slider-track");
-
-const dots=
-
-$$(".dot");
-
-const nextBtn=
-
-$("#next");
-
-const prevBtn=
-
-$("#prev");
-
-let currentSlide=0;
-
-let autoPlay=true;
-
-let slideDuration=9000;
-
-let slideInterval;
-
-/* ==========================================================
-GO TO SLIDE
-========================================================== */
-
-function goToSlide(index){
-
-if(index<0)
-
-index=slides.length-1;
-
-if(index>=slides.length)
-
-index=0;
-
-slides.forEach(slide=>
-
-slide.classList.remove("active")
-
-);
-
-dots.forEach(dot=>
-
-dot.classList.remove("active")
-
-);
-
-slides[index]
-
-.classList.add("active");
-
-if(dots[index])
-
-dots[index]
-
-.classList.add("active");
-
-slider.style.transform=
-
-`translateX(-${index*100}vw)`;
-
-currentSlide=index;
-
-updateAmbient(index);
-
-preloadSlide(index+1);
-
-}
-
-/* ==========================================================
-NEXT
-========================================================== */
-
-function nextSlide(){
-
-goToSlide(currentSlide+1);
-
-playTransition();
-
-}
-
-/* ==========================================================
-PREVIOUS
-========================================================== */
-
-function previousSlide(){
-
-goToSlide(currentSlide-1);
-
-playTransition();
-
-}
-
-/* ==========================================================
-AUTOPLAY
-========================================================== */
-
-function startSlider(){
-
-stopSlider();
-
-slideInterval=
-
-setInterval(()=>{
-
-if(autoPlay){
-
-nextSlide();
-
-}
-
-},
-
-slideDuration);
-
-}
-
-function stopSlider(){
-
-clearInterval(slideInterval);
-
-}
-
-startSlider();
-
-/* ==========================================================
-BUTTONS
-========================================================== */
-
-nextBtn?.addEventListener(
-
-"click",
-
-nextSlide
-
-);
-
-prevBtn?.addEventListener(
-
-"click",
-
-previousSlide
-
-);
-
-/* ==========================================================
-DOTS
-========================================================== */
-
-dots.forEach(
-
-(dot,index)=>{
-
-dot.addEventListener(
-
-"click",
-
-()=>{
-
-goToSlide(index);
-
-playTransition();
-
-});
-
-});
-
-/* ==========================================================
-KEYBOARD
-========================================================== */
-
-window.addEventListener(
-
-"keydown",
-
-event=>{
-
-switch(event.key){
-
-case"ArrowRight":
-
-nextSlide();
-
-break;
-
-case"ArrowLeft":
-
-previousSlide();
-
-break;
-
-case" ":
-
-event.preventDefault();
-
-autoPlay=!autoPlay;
-
-break;
-
-}
-
-});
-
-/* ==========================================================
-TOUCH
-========================================================== */
-
-let touchStart=0;
-
-let touchEnd=0;
-
-window.addEventListener(
-
-"touchstart",
-
-event=>{
-
-touchStart=
-
-event.changedTouches[0].screenX;
-
-},
-
-{
-
-passive:true
-
-});
-
-window.addEventListener(
-
-"touchend",
-
-event=>{
-
-touchEnd=
-
-event.changedTouches[0].screenX;
-
-handleSwipe();
-
-},
-
-{
-
-passive:true
-
-});
-
-function handleSwipe(){
-
-const delta=
-
-touchStart-touchEnd;
-
-if(Math.abs(delta)<60)
-
-return;
-
-if(delta>0)
-
-nextSlide();
-
-else
-
-previousSlide();
-
-}
-
-/* ==========================================================
-PAUSE WHEN HIDDEN
-========================================================== */
-
-document.addEventListener(
-
-"visibilitychange",
-
-()=>{
-
-if(document.hidden){
-
-stopSlider();
-
-}else{
-
-startSlider();
-
-}
-
-});
-
-/* ==========================================================
-INTERSECTION
-========================================================== */
-
-const revealObserver=
-
-new IntersectionObserver(
-
-entries=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-entry.target.classList.add(
-
-"visible"
-
-);
-
-}
-
-});
-
-},
-
-{
-
-threshold:.18
-
-}
-
-);
-
-$$(".fade")
-
-.forEach(el=>
-
-revealObserver.observe(el)
-
-);
-
-/* ==========================================================
-SMOOTH COUNTER
-========================================================== */
-
-$$("[data-counter]").forEach(
-
-counter=>{
-
-let target=
-
-Number(
-
-counter.dataset.counter
-
-);
-
-let current=0;
-
-const step=
-
-target/80;
-
-function update(){
-
-current+=step;
-
-if(current<target){
-
-counter.textContent=
-
-Math.floor(current);
-
-requestAnimationFrame(update);
-
-}else{
-
-counter.textContent=target;
-
-}
-
-}
-
-update();
-
-});
-
-/* ==========================================================
-MAGNETIC BUTTON
-========================================================== */
-
-$$(".slide-cta").forEach(button=>{
-
-button.addEventListener(
-
-"mousemove",
-
-event=>{
-
-const rect=
-
-button.getBoundingClientRect();
-
-const x=
-
-event.clientX-
-
-rect.left-
-
-rect.width/2;
-
-const y=
-
-event.clientY-
-
-rect.top-
-
-rect.height/2;
-
-button.style.transform=
-
-`translate(${x*.15}px,${y*.15}px)`;
-
-});
-
-button.addEventListener(
-
-"mouseleave",
-
-()=>{
-
-button.style.transform="";
-
-});
-
-});
-
-/* ==========================================================
-PERFORMANCE
-========================================================== */
-
-const lazyImages=
-
-$$("img[data-src]");
-
-if("IntersectionObserver"in window){
-
-const lazyObserver=
-
-new IntersectionObserver(
-
-entries=>{
-
-entries.forEach(entry=>{
-
-if(!entry.isIntersecting)
-
-return;
-
-const img=
-
-entry.target;
-
-img.src=
-
-img.dataset.src;
-
-img.removeAttribute(
-
-"data-src"
-
-);
-
-lazyObserver.unobserve(img);
-
-});
-
-});
-
-lazyImages.forEach(img=>
-
-lazyObserver.observe(img)
-
-);
-
-}
-
-/* ==========================================================
-IDLE TASKS
-========================================================== */
-
-requestIdleCallback(()=>{
-
-console.log(
-
-"Idle optimizations loaded."
-
-);
-
-});
-
-/* ==========================================================
-SERVICE WORKER
-========================================================== */
-
-if(
-
-"serviceWorker"
-
-in navigator
-
-){
-
-window.addEventListener(
-
-"load",
-
-()=>{
-
-navigator.serviceWorker.register(
-
-"./sw.js"
-
-).catch(()=>{});
-
-});
-
-}
-
-/* ==========================================================
-FPS
-========================================================== */
-
-let fps=0;
-
-let last=performance.now();
-
-function monitor(now){
-
-fps++;
-
-if(now-last>=1000){
-
-document.body.dataset.fps=fps;
-
-fps=0;
-
-last=now;
-
-}
-
-requestAnimationFrame(
-
-monitor
-
-);
-
-}
-
-requestAnimationFrame(
-
-monitor);
-
-/* ==========================================================
-END PART 6
-========================================================== */
-
-</script>
-
-<!-- ==========================================================
-PART 7
-SEO • PWA • CORE WEB VITALS • ADVANCED OPTIMIZATION
-========================================================== -->
-
-<script>
-
-/* ==========================================================
-PERFORMANCE CLASS
-========================================================== */
-
-document.documentElement.classList.add("js");
-
-window.addEventListener(
-
-"load",
-
-()=>{
-
-document.body.classList.add(
-
-"loaded"
-
-);
-
-});
-
-/* ==========================================================
-PRELOAD NEXT IMAGES
-========================================================== */
-
-const preloadQueue=[
-
-"STRAIN2.JPG",
-"STRAIN3.JPG",
-"STRAIN4.JPG",
-"STRAIN5.JPG",
-"STRAIN6.JPG",
-"CATLOGO.JPG"
-
-];
-
-function preloadImages(){
-
-preloadQueue.forEach(src=>{
-
-const image=new Image();
-
-image.decoding="async";
-
-image.loading="eager";
-
-image.src=src;
-
-});
-
-}
-
-requestIdleCallback(
-
-preloadImages
-
-);
-
-/* ==========================================================
-RESOURCE HINTS
-========================================================== */
-
-function dnsPrefetch(url){
-
-const link=
-
-document.createElement(
-
-"link"
-
-);
-
-link.rel="dns-prefetch";
-
-link.href=url;
-
-document.head.appendChild(link);
-
-}
-
-dnsPrefetch("//fonts.gstatic.com");
-dnsPrefetch("//fonts.googleapis.com");
-dnsPrefetch("//buy.stripe.com");
-
-/* ==========================================================
-FONT READY
-========================================================== */
-
-document.fonts.ready.then(()=>{
-
-document.body.classList.add(
-
-"fonts-loaded"
-
-);
-
-});
-
-/* ==========================================================
-NETWORK
-========================================================== */
-
-const connection=
-
-navigator.connection||
-
-navigator.mozConnection||
-
-navigator.webkitConnection;
-
-if(connection){
-
-if(
-
-connection.saveData
-
-){
-
-document.body.classList.add(
-
-"save-data"
-
-);
-
-}
-
-}
-
-/* ==========================================================
-REDUCE EFFECTS
-========================================================== */
-
-if(
-
-prefersReducedMotion
-
-){
-
-document.body.classList.add(
-
-"reduce-motion"
-
-);
-
-}
-
-/* ==========================================================
-PAGE VISIBILITY
-========================================================== */
-
-document.addEventListener(
-
-"visibilitychange",
-
-()=>{
-
-if(document.hidden){
-
-stopSlider();
-
-}else{
-
-startSlider();
-
-}
-
-});
-
-/* ==========================================================
-CACHE IMAGES
-========================================================== */
-
-async function warmImageCache(){
-
-if(
-
-!"caches" in window
-
-)return;
-
-const cache=
-
-await caches.open(
-
-"baltazar-images-v1"
-
-);
-
-preloadQueue.forEach(async image=>{
-
-try{
-
-await cache.add(image);
-
-}catch(e){}
-
-});
-
-}
-
-requestIdleCallback(
-
-warmImageCache
-
-);
-
-/* ==========================================================
-OFFLINE
-========================================================== */
-
-window.addEventListener(
-
-"offline",
-
-()=>{
-
-document.body.classList.add(
-
-"offline"
-
-);
-
-});
-
-window.addEventListener(
-
-"online",
-
-()=>{
-
-document.body.classList.remove(
-
-"offline"
-
-);
-
-});
-
-/* ==========================================================
-SCROLL MEMORY
-========================================================== */
-
-window.addEventListener(
-
-"beforeunload",
-
-()=>{
-
-sessionStorage.setItem(
-
-"scrollY",
-
-window.scrollY
-
-);
-
-});
-
-window.addEventListener(
-
-"load",
-
-()=>{
-
-const y=
-
-sessionStorage.getItem(
-
-"scrollY"
-
-);
-
-if(y){
-
-window.scrollTo(
-
-0,
-
-parseInt(y)
-
-);
-
-}
-
-});
-
-/* ==========================================================
-LIGHTHOUSE
-========================================================== */
-
-window.addEventListener(
-
-"load",
-
-()=>{
-
-document.querySelectorAll(
-
-"img"
-
-)
-
-.forEach(img=>{
-
-img.setAttribute(
-
-"decoding",
-
-"async"
-
-);
-
-img.setAttribute(
-
-"loading",
-
-"lazy"
-
-);
-
-});
-
-});
-
-/* ==========================================================
-CLS
-========================================================== */
-
-document.querySelectorAll(
-
-"img"
-
-).forEach(img=>{
-
-if(!img.width){
-
-img.width=1200;
-
-}
-
-if(!img.height){
-
-img.height=1200;
-
-}
-
-});
-
-/* ==========================================================
-LINK SECURITY
-========================================================== */
-
-document
-
-.querySelectorAll(
-
-'a[target="_blank"]'
-
-)
-
-.forEach(link=>{
-
-link.rel=
-
-"noopener noreferrer";
-
-});
-
-/* ==========================================================
-SCROLLBAR
-========================================================== */
-
-const progress=
-
-document.createElement(
-
-"div"
-
-);
-
-progress.id="scroll-progress";
-
-document.body.appendChild(
-
-progress
-
-);
-
-window.addEventListener(
-
-"scroll",
-
-()=>{
-
-const h=
-
-document.documentElement;
-
-const value=
-
-(
-
-h.scrollTop/
-
-(h.scrollHeight-h.clientHeight)
-
-)*100;
-
-progress.style.width=
-
-value+"%";
-
-},
-
-{
-
-passive:true
-
-});
-
-/* ==========================================================
-END SCRIPT
-========================================================== */
-
-</script>
-
-
-
-/* ==========================================================
-LOADED
-========================================================== */
-
-body{
-
-opacity:0;
-
-transition:
-
-opacity .8s ease;
-
-}
-
-body.loaded{
-
-opacity:1;
-
-}
-
-/* ==========================================================
-SCROLL PROGRESS
-========================================================== */
-
-#scroll-progress{
-
-position:fixed;
-
-top:0;
-
-left:0;
-
-height:2px;
-
-width:0;
-
-z-index:999999;
-
-background:
-
-linear-gradient(
-
-90deg,
-
-#C4913E,
-
-#EBC56E
-
-);
-
-box-shadow:
-
-0 0 20px
-
-rgba(196,145,62,.5);
-
-}
-
-/* ==========================================================
-SAVE DATA
-========================================================== */
-
-.save-data *{
-
-animation:none!important;
-
-transition:none!important;
-
-filter:none!important;
-
-}
-
-/* ==========================================================
-OFFLINE
-========================================================== */
-
-.offline::before{
-
-content:
-
-"OFFLINE MODE";
-
-position:fixed;
-
-top:18px;
-
-left:50%;
-
-transform:
-
-translateX(-50%);
-
-padding:
-
-8px 18px;
-
-background:#851414;
-
-color:white;
-
-font-size:11px;
-
-letter-spacing:.2em;
-
-font-family:
-
-JetBrains Mono,
-
-monospace;
-
-z-index:999999;
-
-}
-
-/* ==========================================================
-FONTS
-========================================================== */
-
-.fonts-loaded{
-
-text-rendering:
-
-optimizeLegibility;
-
-}
-
-/* ==========================================================
-IMAGE
-========================================================== */
-
-img{
-
-user-select:none;
-
--webkit-user-drag:none;
-
-pointer-events:auto;
-
-}
-
-/* ==========================================================
-TEXT
-========================================================== */
-
-::selection{
-
-background:
-
-rgba(196,145,62,.45);
-
-color:white;
-
-}
-
-/* ==========================================================
-RESPONSIVE
-========================================================== */
-
-@media(max-width:900px){
-
-#scroll-progress{
-
-height:3px;
-
-}
-
-}
-
-@media(max-width:700px){
-
-body{
-
-font-size:15px;
-
-}
-
-}
-
-@media(prefers-reduced-motion:reduce){
-
-*{
-
-animation:none!important;
-
-transition:none!important;
-
-}
-
-}
-
-/* ==========================================================
-PRINT
-========================================================== */
-
-@media print{
-
-nav,
-video,
-audio,
-button{
-
-display:none!important;
-
-}
-
-body{
-
-background:white;
-
-color:black;
-
-}
-
-}
-
-#preloader{
-
-position:fixed;
-
-inset:0;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-background:#050A06;
-
-z-index:999999;
-
-transition:
-
-opacity 1s,
-
-visibility 1s;
-
-}
-
-#preloader.hide{
-
-opacity:0;
-
-visibility:hidden;
-
-}
-
-.loader-ring{
-
-position:relative;
-
-width:120px;
-
-height:120px;
-
-border-radius:50%;
-
-border:
-
-1px solid rgba(255,255,255,.05);
-
-}
-
-.loader-ring::before{
-
-content:"";
-
-position:absolute;
-
-inset:-2px;
-
-border-radius:50%;
-
-border-top:
-
-2px solid var(--gold);
-
-animation:
-
-loaderSpin 1.2s linear infinite;
-
-}
-
-@keyframes loaderSpin{
-
-100%{
-
-transform:rotate(360deg);
-
-}
-
-}
-
-.loader-logo{
-
-position:absolute;
-
-width:56px;
-
-height:56px;
-
-border-radius:50%;
-
-object-fit:cover;
-
-animation:
-
-loaderPulse 2.5s ease-in-out infinite;
-
-}
-
-@keyframes loaderPulse{
-
-0%,100%{
-
-transform:
-
-scale(.95);
-
-opacity:.7;
-
-}
-
-50%{
-
-transform:
-
-scale(1.08);
-
-opacity:1;
-
-}
-
-}
-
-/* ==========================================================
-CUSTOM CURSOR
-========================================================== */
-
-.cursor{
-
-position:fixed;
-
-width:16px;
-
-height:16px;
-
-border-radius:50%;
-
-background:var(--gold);
-
-pointer-events:none;
-
-z-index:999999;
-
-transform:
-
-translate(-50%,-50%);
-
-mix-blend-mode:screen;
-
-transition:
-
-transform .15s,
-
-width .25s,
-
-height .25s,
-
-opacity .25s;
-
-box-shadow:
-
-0 0 20px rgba(196,145,62,.6);
-
-}
-
-.cursor-ring{
-
-position:fixed;
-
-width:48px;
-
-height:48px;
-
-border-radius:50%;
-
-border:
-
-1px solid rgba(196,145,62,.4);
-
-pointer-events:none;
-
-z-index:999998;
-
-transform:
-
-translate(-50%,-50%);
-
-transition:
-
-transform .22s,
-
-width .3s,
-
-height .3s,
-
-border-color .3s;
-
-}
-
-.cursor-hover{
-
-width:28px;
-
-height:28px;
-
-}
-
-.cursor-ring-hover{
-
-width:72px;
-
-height:72px;
-
-border-color:
-
-rgba(196,145,62,.8);
-
-}
-
-/* ==========================================================
-NOISE LAYER
-========================================================== */
-
-.noise{
-
-position:fixed;
-
-inset:0;
-
-pointer-events:none;
-
-opacity:.04;
-
-mix-blend-mode:soft-light;
-
-background-image:
-
-url("noise.png");
-
-background-size:220px;
-
-animation:
-
-noiseShift .25s infinite;
-
-}
-
-@keyframes noiseShift{
-
-0%{
-
-transform:
-
-translate(0,0);
-
-}
-
-25%{
-
-transform:
-
-translate(-2px,2px);
-
-}
-
-50%{
-
-transform:
-
-translate(1px,-1px);
-
-}
-
-75%{
-
-transform:
-
-translate(2px,1px);
-
-}
-
-100%{
-
-transform:
-
-translate(0,0);
-
-}
-
-}
-
-/* ==========================================================
-BACKGROUND GRID
-========================================================== */
-
-.grid-overlay{
-
-position:fixed;
-
-inset:0;
-
-pointer-events:none;
-
-opacity:.05;
-
-background-image:
-
-linear-gradient(
-
-rgba(255,255,255,.05) 1px,
-
-transparent 1px
-
-),
-
-linear-gradient(
-
-90deg,
-
-rgba(255,255,255,.05) 1px,
-
-transparent 1px
-
-);
-
-background-size:
-
-70px 70px;
-
-mask-image:
-
-radial-gradient(
-
-circle,
-
-white,
-
-transparent 85%
-
-);
-
-}
-
-/* ==========================================================
-FLOATING LABELS
-========================================================== */
-
-.floating-label{
-
-position:absolute;
-
-font-size:10px;
-
-letter-spacing:.4em;
-
-font-family:
-
-JetBrains Mono,
-
-monospace;
-
-color:
-
-rgba(255,255,255,.22);
-
-text-transform:uppercase;
-
-pointer-events:none;
-
-animation:
-
-floatLabel 10s ease-in-out infinite;
-
-}
-
-@keyframes floatLabel{
-
-0%,100%{
-
-transform:
-
-translateY(0);
-
-}
-
-50%{
-
-transform:
-
-translateY(-10px);
-
-}
-
-}
-
-
-
-
-<div id="preloader">
-
-<div class="loader-ring">
-
-<img
-
-class="loader-logo"
-
-src="CATLOGO.JPG"
-
-alt="Baltazar Seeds Logo">
-
-</div>
-
-</div>
-
-<div class="cursor"></div>
-
-<div class="cursor-ring"></div>
-
-<div class="noise"></div>
-
-<div class="grid-overlay"></div>
-
-<!-- ==========================================================
-SCRIPT
-========================================================== -->
-
-<script>
-
-const preloader=
-
-document.getElementById(
-
-"preloader"
-
-);
-
-window.addEventListener(
-
-"load",
-
-()=>{
-
-setTimeout(()=>{
-
-preloader.classList.add(
-
-"hide"
-
-);
-
-},700);
-
-});
-
-/* ==========================================================
-CURSOR
-========================================================== */
-
-const cursor=
-
-document.querySelector(
-
-".cursor"
-
-);
-
-const ring=
-
-document.querySelector(
-
-".cursor-ring"
-
-);
-
-window.addEventListener(
-
-"mousemove",
-
-e=>{
-
-requestAnimationFrame(()=>{
-
-cursor.style.left=
-
-e.clientX+"px";
-
-cursor.style.top=
-
-e.clientY+"px";
-
-ring.style.left=
-
-e.clientX+"px";
-
-ring.style.top=
-
-e.clientY+"px";
-
-});
-
-},
-
-{
-
-passive:true
-
-});
-
-document
-
-.querySelectorAll(
-
-"a,button,.slide-cta"
-
-)
-
-.forEach(el=>{
-
-el.addEventListener(
-
-"mouseenter",
-
-()=>{
-
-cursor.classList.add(
-
-"cursor-hover"
-
-);
-
-ring.classList.add(
-
-"cursor-ring-hover"
-
-);
-
-});
-
-el.addEventListener(
-
-"mouseleave",
-
-()=>{
-
-cursor.classList.remove(
-
-"cursor-hover"
-
-);
-
-ring.classList.remove(
-
-"cursor-ring-hover"
-
-);
-
-});
-
-});
-
-const grid=
-
-document.querySelector(
-
-".grid-overlay"
-
-);
-
-window.addEventListener(
-
-"mousemove",
-
-e=>{
-
-const x=
-
-(e.clientX/
-
-window.innerWidth-.5)
-
-*18;
-
-const y=
-
-(e.clientY/
-
-window.innerHeight-.5)
-
-*18;
-
-grid.style.transform=
-
-`translate(${x}px,${y}px)`;
-
-},
-
-{
-
-passive:true
-
-});
-
-
-const words=[
-
-"CRAFTED",
-
-"GENETICS",
-
-"SMALL BATCH",
-
-"PREMIUM",
-
-"LIMITED",
-
-"EXCLUSIVE"
-
-];
-
-setInterval(()=>{
-
-const label=
-
-document.createElement(
-
-"div"
-
-);
-
-label.className=
-
-"floating-label";
-
-label.textContent=
-
-words[
-
-Math.floor(
-
-Math.random()*words.length
-
-)
-
-];
-
-label.style.left=
-
-Math.random()*90+"vw";
-
-label.style.top=
-
-Math.random()*90+"vh";
-
-document.body.appendChild(
-
-label
-
-);
-
-setTimeout(
-
-()=>label.remove(),
-
-12000
-
-);
-
-},2500);
-
-</script>
-
-  
-</style>
+    <!-- Essential Meta Tags for SEO & Performance -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Baltazar Seeds® | Premium Cannabis Genetics | Genetic Hunter Collection</title>
+    <meta name="description" content="Premium small-batch cannabis genetics by Baltazar Seeds. Exclusive handcrafted strains, collectible genetics, limited releases and premium breeding. Discover rare Genetic Hunter collection.">
+    <meta name="keywords" content="Baltazar Seeds, premium cannabis genetics, cannabis seeds, collectible seeds, small batch, premium breeder, genetic hunter, cannabis breeding, rare genetics, cannabis strains">
+    <meta name="author" content="Baltazar Seeds">
+    <meta name="copyright" content="© 2024 Baltazar Seeds. All rights reserved.">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large">
+    <meta name="bingbot" content="index, follow">
+    <meta name="language" content="English">
+    
+    <!-- Mobile & App Meta Tags -->
+    <meta name="theme-color" content="#050A06">
+    <meta name="color-scheme" content="dark light">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Baltazar Seeds">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Baltazar Seeds">
+    <meta name="msapplication-TileColor" content="#050A06">
+    <meta name="msapplication-config" content="/browserconfig.xml">
+    
+    <!-- Open Graph & Social Media Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Baltazar Seeds - Premium Cannabis Genetics">
+    <meta property="og:site_name" content="Baltazar Seeds">
+    <meta property="og:url" content="https://baltazarseeds.com/seite3.html">
+    <meta property="og:image" content="https://baltazarseeds.com/social.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:description" content="Premium handcrafted cannabis genetics from Baltazar Seeds. Explore rare, collectible strains.">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Baltazar Seeds - Premium Cannabis Genetics">
+    <meta name="twitter:description" content="Premium handcrafted cannabis genetics from Baltazar Seeds.">
+    <meta name="twitter:image" content="https://baltazarseeds.com/social.jpg">
+    <meta name="twitter:creator" content="@baltazarseeds">
+    
+    <!-- Canonical & Link Tags -->
+    <link rel="canonical" href="https://baltazarseeds.com/seite3.html">
+    <link rel="alternate" hreflang="en" href="https://baltazarseeds.com/seite3.html">
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Preconnect & DNS Prefetch for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    
+    <!-- Preload Critical Images -->
+    <link rel="preload" href="/CATLOGO.JPG" as="image" fetchpriority="high" type="image/jpeg">
+    <link rel="preload" href="/STRAIN1.JPG" as="image" fetchpriority="high" type="image/jpeg">
+    
+    <!-- Web Fonts with font-display=swap -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Baltazar Seeds",
+      "url": "https://baltazarseeds.com",
+      "logo": "https://baltazarseeds.com/CATLOGO.JPG",
+      "description": "Premium handcrafted cannabis genetics.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "email": "contact@baltazarseeds.com"
+      },
+      "sameAs": [
+        "https://www.instagram.com/baltazarseeds",
+        "https://www.facebook.com/baltazarseeds",
+        "https://www.twitter.com/baltazarseeds"
+      ]
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Baltazar Seeds",
+      "url": "https://baltazarseeds.com",
+      "description": "Premium handcrafted cannabis genetics.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://baltazarseeds.com/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "Baltazar Seeds - Genetic Hunter",
+      "description": "Premium Cannabis Genetics Store",
+      "url": "https://baltazarseeds.com",
+      "image": "https://baltazarseeds.com/social.jpg",
+      "priceRange": "$$",
+      "areaServed": "US",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "00:00",
+        "closes": "23:59"
+      }
+    }
+    </script>
+    
+    <!-- Optimized Inline CSS -->
+    <style>
+        /* ═══════════════════════════════════════════════════
+           CSS VARIABLES & TOKENS
+        ═══════════════════════════════════════════════════ */
+        :root {
+            --bg: #050A06;
+            --bg2: #0B1209;
+            --gold: #C4913E;
+            --gold2: #E2B46B;
+            --line: rgba(255, 255, 255, 0.08);
+            --text: #ECE7DF;
+            --text2: rgba(236, 231, 223, 0.68);
+            --transition: 0.55s cubic-bezier(0.2, 0.9, 0.25, 1);
+            --transition-fast: 0.35s cubic-bezier(0.2, 0.9, 0.25, 1);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            --font-serif: "Cormorant Garamond", serif;
+            --font-sans: "Inter", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           RESET & BASE STYLES
+        ═══════════════════════════════════════════════════ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+            text-rendering: optimizeLegibility;
+            -webkit-text-size-adjust: 100%;
+            font-synthesis-weight: none;
+            font-synthesis-style: none;
+            font-kerning: normal;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-sans), sans-serif;
+            font-weight: 300;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+        
+        /* Accessibility: Focus Visible */
+        :focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 4px;
+        }
+        
+        ::selection {
+            background: rgba(196, 145, 62, 0.35);
+            color: #fff;
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           SCROLLBAR STYLING
+        ═══════════════════════════════════════════════════ */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #775728, var(--gold));
+            border-radius: 30px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           BODY GRAIN TEXTURE - Performance Optimized
+        ═══════════════════════════════════════════════════ */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.28;
+            mix-blend-mode: overlay;
+            background-image:
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                radial-gradient(circle at 80% 60%, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 60% 90%, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 180px 180px, 240px 240px, 320px 320px;
+            will-change: opacity;
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           AMBIENT LIGHT - Dynamic Background
+        ═══════════════════════════════════════════════════ */
+        #ambient {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(circle at 20% 40%, rgba(34, 84, 44, 0.12), transparent 65%),
+                radial-gradient(circle at 80% 30%, rgba(196, 145, 62, 0.09), transparent 65%),
+                radial-gradient(circle at 60% 100%, rgba(20, 45, 25, 0.10), transparent 70%);
+            animation: ambientMove 16s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+        
+        @keyframes ambientMove {
+            0% {
+                transform: scale(1) translate3d(0, 0, 0);
+            }
+            100% {
+                transform: scale(1.08) translate3d(-2%, 2%, 0);
+            }
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           GPU ACCELERATION HELPERS
+        ═══════════════════════════════════════════════════ */
+        .slide, .slide-img, .slide-info, nav, #cat-logo {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            will-change: transform, opacity;
+        }
+        
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            image-rendering: auto;
+            backface-visibility: hidden;
+            transform: translateZ(0);
+        }
+        
+        img[loading="lazy"] {
+            contain-intrinsic-size: 1200px 1600px;
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           REDUCED MOTION - Accessibility
+        ═══════════════════════════════════════════════════ */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           NAVIGATION - Sticky & Responsive
+        ═══════════════════════════════════════════════════ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 900;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 26px 48px;
+            background: linear-gradient(180deg, rgba(5, 10, 6, 0.72), rgba(5, 10, 6, 0.05));
+            backdrop-filter: blur(18px) saturate(170%);
+            -webkit-backdrop-filter: blur(18px) saturate(170%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: padding var(--transition-fast), background var(--transition-fast),
+                        backdrop-filter var(--transition-fast), border-color var(--transition-fast);
+            will-change: background, border-color;
+        }
+        
+        nav.scrolled {
+            padding: 18px 48px;
+            background: rgba(5, 10, 6, 0.88);
+            border-bottom: 1px solid rgba(196, 145, 62, 0.12);
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--text);
+            user-select: none;
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+        
+        .nav-logo:hover {
+            color: var(--gold);
+        }
+        
+        .nav-logo img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid rgba(196, 145, 62, 0.18);
+            transition: transform var(--transition-fast), filter var(--transition-fast), border-color var(--transition-fast);
+            will-change: transform, filter, border-color;
+        }
+        
+        .nav-logo:hover img {
+            transform: rotate(6deg) scale(1.08);
+            border-color: rgba(196, 145, 62, 0.55);
+            filter: drop-shadow(0 0 22px rgba(196, 145, 62, 0.35));
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+        }
+        
+        .nav-link {
+            position: relative;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text2);
+            transition: color var(--transition-fast);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px 0;
+        }
+        
+        .nav-link:hover {
+            color: var(--text);
+        }
+        
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 0;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            transition: width var(--transition-fast);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 4px;
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           HERO SECTION - Landing
+        ═══════════════════════════════════════════════════ */
+        .hero {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            isolation: isolate;
+            padding-top: 80px;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(196, 145, 62, 0.10), transparent 58%);
+            filter: blur(120px);
+            animation: heroPulse 10s ease-in-out infinite;
+            will-change: transform, opacity;
+        }
+        
+        @keyframes heroPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.18);
+                opacity: 1;
+            }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 20;
+            max-width: 820px;
+            padding: 0 30px;
+            text-align: center;
+        }
+        
+        .hero-sub {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.42em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 0.9s 0.2s forwards;
+            will-change: opacity, transform;
+        }
+        
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(48px, 9vw, 140px);
+            font-weight: 300;
+            line-height: 0.95;
+            letter-spacing: 0.02em;
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeUp 1s 0.45s forwards;
+            will-change: opacity, transform;
+        }
+        
+        .hero-title em {
+            font-style: italic;
+            color: var(--gold);
+        }
+        
+        .hero-description {
+            max-width: 620px;
+            margin: auto;
+            font-size: 16px;
+            line-height: 2;
+            color: var(--text2);
+            opacity: 0;
+            animation: fadeUp 1s 0.7s forwards;
+            will-change: opacity, transform;
+        }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           BUTTONS - CTA Elements
+        ═══════════════════════════════════════════════════ */
+        .hero-button, .slide-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 42px;
+            padding: 16px 36px;
+            border: 1px solid rgba(196, 145, 62, 0.22);
+            background: rgba(196, 145, 62, 0.04);
+            color: var(--text);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+            will-change: background, border-color, color;
+        }
+        
+        .hero-button::before, .slide-cta::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(196, 145, 62, 0.12);
+            transform: translateX(-101%);
+            transition: transform var(--transition-fast);
+            will-change: transform;
+        }
+        
+        .hero-button:hover::before, .slide-cta:hover::before {
+            transform: translateX(0);
+        }
+        
+        .hero-button:hover, .slide-cta:hover {
+            border-color: rgba(196, 145, 62, 0.55);
+        }
+        
+        .btn-label {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-button svg, .slide-cta svg {
+            position: relative;
+            z-index: 1;
+            transition: transform var(--transition-fast);
+            will-change: transform;
+        }
+        
+        .hero-button:hover svg, .slide-cta:hover svg {
+            transform: translateX(4px);
+        }
+        
+        .hero-button:focus-visible, .slide-cta:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 4px;
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           SECTIONS & LAYOUT
+        ═══════════════════════════════════════════════════ */
+        section {
+            position: relative;
+            z-index: 10;
+            padding: 120px 48px;
+            overflow: hidden;
+        }
+        
+        @media (max-width: 768px) {
+            section {
+                padding: 80px 24px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            section {
+                padding: 60px 16px;
+            }
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           CONTENT SECTIONS
+        ═══════════════════════════════════════════════════ */
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(36px, 6vw, 80px);
+            font-weight: 300;
+            line-height: 1.1;
+            margin-bottom: 32px;
+            letter-spacing: -0.01em;
+        }
+        
+        .section-title em {
+            font-style: italic;
+            color: var(--gold);
+        }
+        
+        .section-text {
+            font-size: 16px;
+            line-height: 1.95;
+            color: var(--text2);
+            max-width: 760px;
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           MODAL & OVERLAYS
+        ═══════════════════════════════════════════════════ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 800;
+            background: rgba(5, 10, 6, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-fast), visibility var(--transition-fast);
+            will-change: opacity, visibility;
+        }
+        
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--bg2);
+            border: 1px solid rgba(196, 145, 62, 0.22);
+            padding: 50px 46px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            transform: translateY(20px);
+            transition: transform var(--transition-fast);
+            will-change: transform;
+            position: relative;
+        }
+        
+        .modal-overlay.open .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text2);
+            font-size: 24px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color var(--transition-fast);
+            padding: 0;
+        }
+        
+        .modal-close:hover, .modal-close:focus-visible {
+            color: var(--text);
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           RESPONSIVE DESIGN - Mobile First
+        ═══════════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+            nav {
+                padding: 18px 24px;
+            }
+            
+            nav.scrolled {
+                padding: 14px 24px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .nav-link {
+                font-size: 9px;
+            }
+            
+            .hero {
+                padding-top: 60px;
+            }
+            
+            .hero-title {
+                font-size: clamp(36px, 7vw, 80px);
+            }
+            
+            .hero-description {
+                font-size: 14px;
+                line-height: 1.8;
+            }
+            
+            .section-title {
+                font-size: clamp(28px, 5vw, 60px);
+                margin-bottom: 24px;
+            }
+            
+            .section-text {
+                font-size: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            nav {
+                padding: 14px 16px;
+            }
+            
+            .nav-logo {
+                font-size: 9px;
+            }
+            
+            .nav-logo img {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .nav-links {
+                gap: 16px;
+            }
+            
+            .nav-link {
+                font-size: 8px;
+                letter-spacing: 0.25em;
+            }
+            
+            .hero {
+                padding-top: 50px;
+            }
+            
+            .hero-title {
+                font-size: clamp(28px, 5vw, 56px);
+                margin-bottom: 16px;
+            }
+            
+            .hero-sub {
+                font-size: 9px;
+                margin-bottom: 16px;
+            }
+            
+            .hero-description {
+                font-size: 13px;
+                line-height: 1.7;
+            }
+            
+            .hero-button {
+                margin-top: 32px;
+                padding: 14px 28px;
+                font-size: 9px;
+            }
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           DARK MODE SUPPORT
+        ═══════════════════════════════════════════════════ */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #050A06;
+                --bg2: #0B1209;
+            }
+        }
+        
+        /* ═══════════════════════════════════════════════════
+           PRINT STYLES
+        ═══════════════════════════════════════════════════ */
+        @media print {
+            nav, .modal-overlay {
+                display: none;
+            }
+            
+            section {
+                page-break-inside: avoid;
+            }
+            
+            a {
+                color: var(--gold);
+                text-decoration: underline;
+            }
+        }
+    </style>
+</head>
+
+<body role="application" aria-label="Baltazar Seeds Premium Cannabis Genetics">
+    <!-- Ambient Background -->
+    <div id="ambient" aria-hidden="true"></div>
+    
+    <!-- Navigation -->
+    <nav role="navigation" aria-label="Main navigation">
+        <button class="nav-logo" id="logo-btn" aria-label="Baltazar Seeds home">
+            <img src="/CATLOGO.JPG" alt="Baltazar Seeds logo" loading="eager" decoding="sync" width="42" height="42">
+            <span>Baltazar Seeds</span>
+        </button>
+        <div class="nav-links">
+            <a href="#" class="nav-link" id="shop-link">SHOP</a>
+            <button class="nav-link" id="contact-link" aria-label="Contact us">CONTACT</button>
+            <a href="index.html" class="nav-link">HOME</a>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero" role="banner">
+        <div class="hero-content">
+            <div class="hero-sub">Welcome to the Collection</div>
+            <h1 class="hero-title">Genetic <em>Hunter</em></h1>
+            <p class="hero-description">
+                Explore our exclusive collection of premium handcrafted cannabis genetics. Each strain is meticulously bred for exceptional quality and unique genetic profiles.
+            </p>
+            <button class="hero-button" id="explore-btn" aria-label="Explore collection">
+                <span class="btn-label">Explore Collection</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M8.5 1L14 8.5L8.5 16M1 8.5H13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section id="about" role="region" aria-label="About Baltazar Seeds">
+        <h2 class="section-title">About <em>Baltazar</em></h2>
+        <p class="section-text">
+            At Baltazar Seeds, we believe in the art and science of breeding premium cannabis genetics. Our dedication to excellence has resulted in some of the most sought-after strains in the industry. Every seed represents our commitment to quality, stability, and unique genetic expression.
+        </p>
+    </section>
+    
+    <!-- Premium Section -->
+    <section id="premium" role="region" aria-label="Premium genetics">
+        <h2 class="section-title">Premium <em>Genetics</em></h2>
+        <p class="section-text">
+            Our collection features handcrafted strains developed over years of meticulous breeding work. From rare phenotypes to award-winning crosses, each selection in our catalog has been carefully curated for connoisseurs and collectors who demand the finest genetics.
+        </p>
+    </section>
+    
+    <!-- Features Section -->
+    <section id="features" role="region" aria-label="Why choose Baltazar Seeds">
+        <h2 class="section-title">Why <em>Baltazar</em></h2>
+        <ul style="list-style: none; font-size: 16px; line-height: 2; color: var(--text2); max-width: 760px;">
+            <li style="margin-bottom: 16px;">✦ <strong style="color: var(--gold);">Small Batch</strong> — Limited releases ensure exclusivity and quality control</li>
+            <li style="margin-bottom: 16px;">✦ <strong style="color: var(--gold);">Expert Breeding</strong> — Years of cultivation expertise in every seed</li>
+            <li style="margin-bottom: 16px;">✦ <strong style="color: var(--gold);">Rare Genetics</strong> — Access to genetic lineages rarely available elsewhere</li>
+            <li style="margin-bottom: 16px;">✦ <strong style="color: var(--gold);">Quality Assurance</strong> — Rigorous testing and phenotype selection</li>
+        </ul>
+    </section>
+    
+    <!-- Contact Modal -->
+    <div class="modal-overlay" id="contact-modal" role="dialog" aria-labelledby="contact-title" aria-hidden="true">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close" aria-label="Close modal">✕</button>
+            <h2 id="contact-title" style="font-family: var(--font-serif); font-size: 28px; margin-bottom: 24px; color: var(--text);">Get in <em style="font-style: italic; color: var(--gold);">Touch</em></h2>
+            
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+                <a href="mailto:contact@baltazarseeds.com" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid rgba(196, 145, 62, 0.22); border-radius: 4px; color: var(--text); text-decoration: none; transition: all var(--transition-fast); background: rgba(196, 145, 62, 0.04);" aria-label="Send email to Baltazar Seeds">
+                    <span style="font-size: 18px;">✉</span>
+                    <div>
+                        <div style="font-family: var(--font-mono); font-size: 9px; color: var(--text2);">EMAIL</div>
+                        <div style="color: var(--text);">contact@baltazarseeds.com</div>
+                    </div>
+                </a>
+                
+                <a href="https://instagram.com/baltazarseeds" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid rgba(196, 145, 62, 0.22); border-radius: 4px; color: var(--text); text-decoration: none; transition: all var(--transition-fast); background: rgba(196, 145, 62, 0.04);" aria-label="Follow on Instagram">
+                    <span style="font-size: 18px;">@</span>
+                    <div>
+                        <div style="font-family: var(--font-mono); font-size: 9px; color: var(--text2);">INSTAGRAM</div>
+                        <div style="color: var(--text);">@baltazarseeds</div>
+                    </div>
+                </a>
+            </div>
+            
+            <p style="margin-top: 24px; font-size: 11px; line-height: 1.75; color: rgba(236, 231, 223, 0.22);">
+                We respond to inquiries within 24 hours. For urgent matters, reach out via Instagram for fastest response.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Main JavaScript -->
+    <script>
+        // Performance: Debounce function
+        function debounce(func, delay) {
+            let timeoutId;
+            return function (...args) {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => func(...args), delay);
+            };
+        }
+        
+        // DOM Elements
+        const nav = document.querySelector('nav');
+        const contactModal = document.getElementById('contact-modal');
+        const contactLink = document.getElementById('contact-link');
+        const modalClose = document.getElementById('modal-close');
+        const logoBtn = document.getElementById('logo-btn');
+        const exploreBtn = document.getElementById('explore-btn');
+        
+        // Navigation: Scroll Effect
+        function handleScroll() {
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        }
+        
+        // Optimized scroll listener with throttle
+        window.addEventListener('scroll', debounce(handleScroll, 10), { passive: true });
+        
+        // Modal Management
+        function openModal() {
+            contactModal.classList.add('open');
+            contactModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            contactModal.classList.remove('open');
+            contactModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+        
+        // Event Listeners
+        contactLink.addEventListener('click', openModal);
+        modalClose.addEventListener('click', closeModal);
+        
+        // Close modal on background click
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) closeModal();
+        });
+        
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && contactModal.classList.contains('open')) {
+                closeModal();
+            }
+        });
+        
+        // Navigation Links
+        logoBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+        
+        exploreBtn.addEventListener('click', () => {
+            const shopLink = document.getElementById('shop-link');
+            if (shopLink.href === '#') {
+                window.location.href = 'hauptseite.html';
+            }
+        });
+        
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '?') {
+                openModal();
+            }
+        });
+        
+        // Performance: Preload next page
+        window.addEventListener('load', () => {
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = 'hauptseite.html';
+            document.head.appendChild(link);
+        });
+        
+        // Web Vitals Monitoring (Optional)
+        if ('PerformanceObserver' in window) {
+            try {
+                const observer = new PerformanceObserver((list) => {
+                    for (const entry of list.getEntries()) {
+                        console.log('LCP:', entry.renderTime || entry.loadTime);
+                    }
+                });
+                observer.observe({ entryTypes: ['largest-contentful-paint'] });
+            } catch (e) {
+                console.log('LCP monitoring not available');
+            }
+        }
+        
+        // Accessibility: Announce page load to screen readers
+        if ('announce' in window) {
+            announce('Page loaded');
+        }
+    </script>
+</body>
+
+</html>
