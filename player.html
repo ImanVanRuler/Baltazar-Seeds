@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,1160 +11,1158 @@
             box-sizing: border-box;
         }
 
-    html, body {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background: #050A06;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        color: #ECE7DF;
-        user-select: none;
-        -webkit-user-select: none;
-    }
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #050A06;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #ECE7DF;
+            user-select: none;
+            -webkit-user-select: none;
+        }
 
-    /* Game Canvas */
-    canvas#gameCanvas {
-        display: block;
-        width: 100vw;
-        height: 100vh;
-        background: linear-gradient(135deg, #050A06 0%, #0a1a0d 50%, #050A06 100%);
-    }
+        /* Game Canvas */
+        canvas#gameCanvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #050A06 0%, #0a1a0d 50%, #050A06 100%);
+        }
 
-    /* UI Overlay */
-    #uiContainer {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 100;
-    }
+        /* UI Overlay */
+        #uiContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
 
-    /* HUD */
-    #hud {
-        position: fixed;
-        top: 20px;
-        left: 20px;
-        right: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 15px;
-        z-index: 1000;
-        font-size: 14px;
-        font-weight: bold;
-        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-        flex-wrap: wrap;
-    }
-
-    .hud-item {
-        background: rgba(5, 10, 6, 0.85);
-        border: 2px solid #C4913E;
-        padding: 10px 16px;
-        border-radius: 6px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 0 20px rgba(196, 145, 62, 0.25);
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    .hud-label {
-        font-size: 10px;
-        color: #C4913E;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-    }
-
-    .hud-value {
-        font-size: 18px;
-        color: #A8E6A8;
-        font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* Mobile HUD */
-    @media (max-width: 768px) {
+        /* HUD */
         #hud {
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            gap: 8px;
-        }
-        
-        .hud-item {
-            padding: 8px 12px;
-            font-size: 12px;
-        }
-        
-        .hud-label {
-            font-size: 9px;
-        }
-        
-        .hud-value {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
             font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+            flex-wrap: wrap;
         }
-    }
 
-    /* Screens */
-    #screenOverlay {
-        position: fixed;
-        inset: 0;
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: rgba(5, 10, 6, 0.96);
-        backdrop-filter: blur(8px);
-        z-index: 2000;
-        animation: fadeIn 0.3s ease;
-    }
-
-    #screenOverlay.active {
-        display: flex;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    .screen-box {
-        text-align: center;
-        max-width: 500px;
-        padding: 40px;
-        background: rgba(11, 18, 9, 0.9);
-        border: 2px solid #C4913E;
-        border-radius: 12px;
-        box-shadow: 0 0 50px rgba(196, 145, 62, 0.3);
-        animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    @keyframes slideUp {
-        from {
-            opacity: 0;
-            transform: translateY(40px);
+        .hud-item {
+            background: rgba(5, 10, 6, 0.85);
+            border: 2px solid #C4913E;
+            padding: 10px 16px;
+            border-radius: 6px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(196, 145, 62, 0.25);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
-        to {
-            opacity: 1;
+
+        .hud-label {
+            font-size: 10px;
+            color: #C4913E;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .hud-value {
+            font-size: 18px;
+            color: #A8E6A8;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Mobile HUD */
+        @media (max-width: 768px) {
+            #hud {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                gap: 8px;
+            }
+            
+            .hud-item {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            .hud-label {
+                font-size: 9px;
+            }
+            
+            .hud-value {
+                font-size: 14px;
+            }
+        }
+
+        /* Screens */
+        #screenOverlay {
+            position: fixed;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5, 10, 6, 0.96);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        #screenOverlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .screen-box {
+            text-align: center;
+            max-width: 500px;
+            padding: 40px;
+            background: rgba(11, 18, 9, 0.9);
+            border: 2px solid #C4913E;
+            border-radius: 12px;
+            box-shadow: 0 0 50px rgba(196, 145, 62, 0.3);
+            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .screen-title {
+            font-size: clamp(32px, 10vw, 80px);
+            font-weight: 300;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #C4913E, #E2B46B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .screen-title.error {
+            background: linear-gradient(135deg, #FF6B6B, #C92A2A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .screen-subtitle {
+            font-size: 18px;
+            color: #C4913E;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .screen-description {
+            font-size: 14px;
+            color: #A8E6A8;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        .screen-stats {
+            background: rgba(5, 10, 6, 0.6);
+            border: 1px solid rgba(196, 145, 62, 0.2);
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            font-size: 14px;
+            color: #ECE7DF;
+        }
+
+        .stat-label {
+            color: #C4913E;
+        }
+
+        .stat-value {
+            color: #A8E6A8;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+        }
+
+        button {
+            background: linear-gradient(135deg, #C4913E, #E2B46B);
+            border: none;
+            color: #050A06;
+            padding: 12px 32px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 25px rgba(196, 145, 62, 0.3);
+            pointer-events: all;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #E2B46B, #C4913E);
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(196, 145, 62, 0.5);
+        }
+
+        button:active {
             transform: translateY(0);
         }
-    }
 
-    .screen-title {
-        font-size: clamp(32px, 10vw, 80px);
-        font-weight: 300;
-        margin-bottom: 16px;
-        background: linear-gradient(135deg, #C4913E, #E2B46B);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        letter-spacing: -1px;
-    }
+        /* Tutorial */
+        .controls-list {
+            text-align: left;
+            display: inline-block;
+            margin: 16px 0;
+            font-size: 13px;
+            line-height: 1.8;
+        }
 
-    .screen-title.error {
-        background: linear-gradient(135deg, #FF6B6B, #C92A2A);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
+        .control-item {
+            margin: 8px 0;
+            color: #A8E6A8;
+        }
 
-    .screen-subtitle {
-        font-size: 18px;
-        color: #C4913E;
-        margin-bottom: 24px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-    }
+        .control-key {
+            color: #C4913E;
+            font-weight: bold;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(196, 145, 62, 0.1);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
 
-    .screen-description {
-        font-size: 14px;
-        color: #A8E6A8;
-        line-height: 1.6;
-        margin-bottom: 24px;
-    }
-
-    .screen-stats {
-        background: rgba(5, 10, 6, 0.6);
-        border: 1px solid rgba(196, 145, 62, 0.2);
-        border-radius: 6px;
-        padding: 16px;
-        margin-bottom: 24px;
-    }
-
-    .stat-row {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 0;
-        font-size: 14px;
-        color: #ECE7DF;
-    }
-
-    .stat-label {
-        color: #C4913E;
-    }
-
-    .stat-value {
-        color: #A8E6A8;
-        font-family: 'JetBrains Mono', monospace;
-        font-weight: bold;
-    }
-
-    button {
-        background: linear-gradient(135deg, #C4913E, #E2B46B);
-        border: none;
-        color: #050A06;
-        padding: 12px 32px;
-        font-size: 14px;
-        font-weight: bold;
-        border-radius: 6px;
-        cursor: pointer;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        transition: all 0.3s ease;
-        box-shadow: 0 0 25px rgba(196, 145, 62, 0.3);
-        pointer-events: all;
-    }
-
-    button:hover {
-        background: linear-gradient(135deg, #E2B46B, #C4913E);
-        transform: translateY(-2px);
-        box-shadow: 0 0 35px rgba(196, 145, 62, 0.5);
-    }
-
-    button:active {
-        transform: translateY(0);
-    }
-
-    /* Tutorial */
-    .controls-list {
-        text-align: left;
-        display: inline-block;
-        margin: 16px 0;
-        font-size: 13px;
-        line-height: 1.8;
-    }
-
-    .control-item {
-        margin: 8px 0;
-        color: #A8E6A8;
-    }
-
-    .control-key {
-        color: #C4913E;
-        font-weight: bold;
-        font-family: 'JetBrains Mono', monospace;
-        background: rgba(196, 145, 62, 0.1);
-        padding: 2px 6px;
-        border-radius: 3px;
-    }
-
-    /* Touch Controls */
-    #touchControls {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        width: 140px;
-        height: 140px;
-        display: none;
-        z-index: 500;
-    }
-
-    @media (max-width: 1024px) {
+        /* Touch Controls */
         #touchControls {
-            display: block;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 140px;
+            height: 140px;
+            display: none;
+            z-index: 500;
         }
-    }
 
-    .joystick-base {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(circle, rgba(196, 145, 62, 0.2), transparent);
-        border: 3px solid #C4913E;
-        border-radius: 50%;
-        box-shadow: 0 0 20px rgba(196, 145, 62, 0.3), inset 0 0 15px rgba(196, 145, 62, 0.1);
-    }
-
-    .joystick-stick {
-        position: absolute;
-        width: 50px;
-        height: 50px;
-        background: radial-gradient(circle at 30% 30%, #E2B46B, #8B6F47);
-        border: 2px solid #C4913E;
-        border-radius: 50%;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        box-shadow: 0 0 15px rgba(196, 145, 62, 0.6), inset -2px -2px 5px rgba(0, 0, 0, 0.4);
-        cursor: grab;
-        transition: box-shadow 0.2s;
-    }
-
-    .joystick-stick:active {
-        cursor: grabbing;
-        box-shadow: 0 0 25px rgba(196, 145, 62, 0.8), inset -2px -2px 5px rgba(0, 0, 0, 0.4);
-    }
-
-    /* Particles & Effects */
-    .particle {
-        position: absolute;
-        pointer-events: none;
-    }
-
-    /* Notifications */
-    .notification {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 20px 40px;
-        background: rgba(255, 215, 0, 0.95);
-        color: #050A06;
-        border: 2px solid #FFA500;
-        border-radius: 8px;
-        font-weight: bold;
-        font-size: 18px;
-        z-index: 3000;
-        pointer-events: none;
-        animation: notificationPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
-    }
-
-    @keyframes notificationPop {
-        from {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.5);
+        @media (max-width: 1024px) {
+            #touchControls {
+                display: block;
+            }
         }
-        to {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
+
+        .joystick-base {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(196, 145, 62, 0.2), transparent);
+            border: 3px solid #C4913E;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(196, 145, 62, 0.3), inset 0 0 15px rgba(196, 145, 62, 0.1);
         }
-    }
 
-    /* Loading */
-    .loading-spinner {
-        display: inline-block;
-        width: 30px;
-        height: 30px;
-        border: 3px solid rgba(196, 145, 62, 0.3);
-        border-top: 3px solid #C4913E;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-right: 10px;
-    }
+        .joystick-stick {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 30% 30%, #E2B46B, #8B6F47);
+            border: 2px solid #C4913E;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(196, 145, 62, 0.6), inset -2px -2px 5px rgba(0, 0, 0, 0.4);
+            cursor: grab;
+            transition: box-shadow 0.2s;
+        }
 
-    @keyframes spin {
-        to { transform: rotate(360deg); }
-    }
+        .joystick-stick:active {
+            cursor: grabbing;
+            box-shadow: 0 0 25px rgba(196, 145, 62, 0.8), inset -2px -2px 5px rgba(0, 0, 0, 0.4);
+        }
 
-    /* Debug Mode */
-    #debugInfo {
-        position: fixed;
-        top: 200px;
-        right: 10px;
-        font-size: 11px;
-        color: #C4913E;
-        font-family: 'JetBrains Mono', monospace;
-        background: rgba(5, 10, 6, 0.8);
-        border: 1px solid #C4913E;
-        padding: 10px;
-        border-radius: 4px;
-        max-width: 200px;
-        display: none;
-        line-height: 1.4;
-        z-index: 999;
-        pointer-events: none;
-    }
-</style>
+        /* Particles & Effects */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+        }
 
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px 40px;
+            background: rgba(255, 215, 0, 0.95);
+            color: #050A06;
+            border: 2px solid #FFA500;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 18px;
+            z-index: 3000;
+            pointer-events: none;
+            animation: notificationPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+        }
+
+        @keyframes notificationPop {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* Loading */
+        .loading-spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(196, 145, 62, 0.3);
+            border-top: 3px solid #C4913E;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Debug Mode */
+        #debugInfo {
+            position: fixed;
+            top: 200px;
+            right: 10px;
+            font-size: 11px;
+            color: #C4913E;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(5, 10, 6, 0.8);
+            border: 1px solid #C4913E;
+            padding: 10px;
+            border-radius: 4px;
+            max-width: 200px;
+            display: none;
+            line-height: 1.4;
+            z-index: 999;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
     <canvas id="gameCanvas"></canvas>
-
-<div id="uiContainer">
-    <div id="hud">
-        <div class="hud-item">
-            <span class="hud-label">Score</span>
-            <span class="hud-value" id="scoreValue">0</span>
-        </div>
-        <div class="hud-item">
-            <span class="hud-label">Time</span>
-            <span class="hud-value" id="timeValue">60</span>
-        </div>
-        <div class="hud-item">
-            <span class="hud-label">Lives</span>
-            <span class="hud-value" id="livesValue">❤️ 3</span>
-        </div>
-        <div class="hud-item">
-            <span class="hud-label">Level</span>
-            <span class="hud-value" id="levelValue">1</span>
-        </div>
-        <div class="hud-item">
-            <span class="hud-label">Distance</span>
-            <span class="hud-value" id="distanceValue">0m</span>
-        </div>
-    </div>
     
-    <div id="screenOverlay">
-        <div class="screen-box">
-            <h1 class="screen-title" id="screenTitle">Genetic Hunter</h1>
-            <div class="screen-subtitle" id="screenSubtitle">Vertical Maze Runner</div>
-            <div class="screen-description" id="screenDescription">
-                Navigate through deadly labyrinths. Avoid enemies, traps, and obstacles.
-                Reach the exit before time runs out!
+    <div id="uiContainer">
+        <div id="hud">
+            <div class="hud-item">
+                <span class="hud-label">Score</span>
+                <span class="hud-value" id="scoreValue">0</span>
             </div>
-            <div class="controls-list" id="controlsList">
-                <div class="control-item"><span class="control-key">WASD</span> or <span class="control-key">Arrow Keys</span> - Move</div>
-                <div class="control-item"><span class="control-key">Space</span> - Jump (if available)</div>
-                <div class="control-item"><span class="control-key">Joystick</span> - Mobile Control</div>
+            <div class="hud-item">
+                <span class="hud-label">Time</span>
+                <span class="hud-value" id="timeValue">60</span>
             </div>
-            <div class="screen-stats" id="statsBox" style="display: none;">
-                <div class="stat-row">
-                    <span class="stat-label">Final Score:</span>
-                    <span class="stat-value" id="finalScore">0</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Time Survived:</span>
-                    <span class="stat-value" id="finalTime">0s</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Distance:</span>
-                    <span class="stat-value" id="finalDistance">0m</span>
-                </div>
-                <div class="stat-row">
-                    <span class="stat-label">Level Reached:</span>
-                    <span class="stat-value" id="finalLevel">1</span>
-                </div>
+            <div class="hud-item">
+                <span class="hud-label">Lives</span>
+                <span class="hud-value" id="livesValue">❤️ 3</span>
             </div>
-            <button id="actionButton" onclick="game.handleScreenAction()">Start Game</button>
+            <div class="hud-item">
+                <span class="hud-label">Level</span>
+                <span class="hud-value" id="levelValue">1</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">Distance</span>
+                <span class="hud-value" id="distanceValue">0m</span>
+            </div>
         </div>
-    </div>
-    
-    <div id="touchControls">
-        <div class="joystick-base">
-            <div class="joystick-stick" id="joystick"></div>
-        </div>
-    </div>
-    
-    <div id="debugInfo"></div>
-</div>
-
-<script>
-    // ╔════════════════════════════════════════════════════════════════════════════╗
-    // ║                        GENETIC HUNTER - GAME ENGINE                       ║
-    // ║                     Vertical Maze Runner - Full Version                   ║
-    // ╚════════════════════════════════════════════════════════════════════════════╝
-
-    class GeneticHunterGame {
-        constructor() {
-            this.canvas = document.getElementById('gameCanvas');
-            this.ctx = this.canvas.getContext('2d', { alpha: false });
-            
-            // Set canvas size
-            this.resizeCanvas();
-            window.addEventListener('resize', () => this.resizeCanvas());
-            
-            // Game variables
-            this.gameState = 'start'; // start, playing, levelComplete, gameOver
-            this.score = 0;
-            this.lives = 3;
-            this.level = 1;
-            this.time = 60;
-            this.distance = 0;
-            this.startTime = 0;
-            this.isPaused = false;
-            
-            // World
-            this.cameraY = 0;
-            this.worldHeight = 10000;
-            
-            // Game objects
-            this.player = null;
-            this.walls = [];
-            this.enemies = [];
-            this.pickups = [];
-            this.particles = [];
-            this.hazards = [];
-            this.platform = null;
-            
-            // Input
-            this.keys = {};
-            this.touchInput = { x: 0, y: 0, active: false };
-            this.setupInputListeners();
-            
-            // Audio context (for potential sound effects)
-            this.audioContext = null;
-            
-            // Start game loop
-            this.lastFrameTime = Date.now();
-            this.gameLoop();
-        }
         
-        resizeCanvas() {
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = window.innerHeight;
-        }
+        <div id="screenOverlay">
+            <div class="screen-box">
+                <h1 class="screen-title" id="screenTitle">Genetic Hunter</h1>
+                <div class="screen-subtitle" id="screenSubtitle">Vertical Maze Runner</div>
+                <div class="screen-description" id="screenDescription">
+                    Navigate through deadly labyrinths. Avoid enemies, traps, and obstacles.
+                    Reach the exit before time runs out!
+                </div>
+                <div class="controls-list" id="controlsList">
+                    <div class="control-item"><span class="control-key">WASD</span> or <span class="control-key">Arrow Keys</span> - Move</div>
+                    <div class="control-item"><span class="control-key">Space</span> - Jump (if available)</div>
+                    <div class="control-item"><span class="control-key">Joystick</span> - Mobile Control</div>
+                </div>
+                <div class="screen-stats" id="statsBox" style="display: none;">
+                    <div class="stat-row">
+                        <span class="stat-label">Final Score:</span>
+                        <span class="stat-value" id="finalScore">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Time Survived:</span>
+                        <span class="stat-value" id="finalTime">0s</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Distance:</span>
+                        <span class="stat-value" id="finalDistance">0m</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Level Reached:</span>
+                        <span class="stat-value" id="finalLevel">1</span>
+                    </div>
+                </div>
+                <button id="actionButton" onclick="game.handleScreenAction()">Start Game</button>
+            </div>
+        </div>
         
-        setupInputListeners() {
-            // Keyboard
-            document.addEventListener('keydown', (e) => {
-                this.keys[e.key.toLowerCase()] = true;
-                if (e.key === ' ') e.preventDefault();
-            });
-            document.addEventListener('keyup', (e) => {
-                this.keys[e.key.toLowerCase()] = false;
-            });
-            
-            // Touch joystick
-            const joystick = document.getElementById('joystick');
-            const joystickBase = joystick.parentElement;
-            
-            joystick.addEventListener('touchstart', (e) => {
-                this.touchInput.active = true;
-                e.preventDefault();
-            });
-            
-            document.addEventListener('touchmove', (e) => {
-                if (!this.touchInput.active) return;
-                const touch = e.touches[0];
-                const rect = joystickBase.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
+        <div id="touchControls">
+            <div class="joystick-base">
+                <div class="joystick-stick" id="joystick"></div>
+            </div>
+        </div>
+        
+        <div id="debugInfo"></div>
+    </div>
+
+    <script>
+        // ╔════════════════════════════════════════════════════════════════════════════╗
+        // ║                        GENETIC HUNTER - GAME ENGINE                       ║
+        // ║                     Vertical Maze Runner - Full Version                   ║
+        // ╚════════════════════════════════════════════════════════════════════════════╝
+
+        class GeneticHunterGame {
+            constructor() {
+                this.canvas = document.getElementById('gameCanvas');
+                this.ctx = this.canvas.getContext('2d', { alpha: false });
                 
-                let x = (touch.clientX - centerX) / (rect.width / 2);
-                let y = (touch.clientY - centerY) / (rect.height / 2);
+                // Set canvas size
+                this.resizeCanvas();
+                window.addEventListener('resize', () => this.resizeCanvas());
                 
-                x = Math.max(-1, Math.min(1, x));
-                y = Math.max(-1, Math.min(1, y));
+                // Game variables
+                this.gameState = 'start'; // start, playing, levelComplete, gameOver
+                this.score = 0;
+                this.lives = 3;
+                this.level = 1;
+                this.time = 60;
+                this.distance = 0;
+                this.startTime = 0;
+                this.isPaused = false;
                 
-                const distance = Math.sqrt(x * x + y * y);
-                if (distance > 1) {
-                    x /= distance;
-                    y /= distance;
+                // World
+                this.cameraY = 0;
+                this.worldHeight = 10000;
+                
+                // Game objects
+                this.player = null;
+                this.walls = [];
+                this.enemies = [];
+                this.pickups = [];
+                this.particles = [];
+                this.hazards = [];
+                this.platform = null;
+                
+                // Input
+                this.keys = {};
+                this.touchInput = { x: 0, y: 0, active: false };
+                this.setupInputListeners();
+                
+                // Audio context (for potential sound effects)
+                this.audioContext = null;
+                
+                // Start game loop
+                this.lastFrameTime = Date.now();
+                this.gameLoop();
+            }
+            
+            resizeCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+            
+            setupInputListeners() {
+                // Keyboard
+                document.addEventListener('keydown', (e) => {
+                    this.keys[e.key.toLowerCase()] = true;
+                    if (e.key === ' ') e.preventDefault();
+                });
+                document.addEventListener('keyup', (e) => {
+                    this.keys[e.key.toLowerCase()] = false;
+                });
+                
+                // Touch joystick
+                const joystick = document.getElementById('joystick');
+                const joystickBase = joystick.parentElement;
+                
+                joystick.addEventListener('touchstart', (e) => {
+                    this.touchInput.active = true;
+                    e.preventDefault();
+                });
+                
+                document.addEventListener('touchmove', (e) => {
+                    if (!this.touchInput.active) return;
+                    const touch = e.touches[0];
+                    const rect = joystickBase.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    
+                    let x = (touch.clientX - centerX) / (rect.width / 2);
+                    let y = (touch.clientY - centerY) / (rect.height / 2);
+                    
+                    x = Math.max(-1, Math.min(1, x));
+                    y = Math.max(-1, Math.min(1, y));
+                    
+                    const distance = Math.sqrt(x * x + y * y);
+                    if (distance > 1) {
+                        x /= distance;
+                        y /= distance;
+                    }
+                    
+                    this.touchInput.x = x;
+                    this.touchInput.y = y;
+                    
+                    const maxOffset = rect.width / 2 - 30;
+                    joystick.style.transform = `translate(calc(-50% + ${x * maxOffset}px), calc(-50% + ${y * maxOffset}px))`;
+                });
+                
+                document.addEventListener('touchend', () => {
+                    this.touchInput.active = false;
+                    this.touchInput.x = 0;
+                    this.touchInput.y = 0;
+                    joystick.style.transform = 'translate(-50%, -50%)';
+                });
+            }
+            
+            handleScreenAction() {
+                if (this.gameState === 'start') {
+                    this.startGame();
+                } else if (this.gameState === 'levelComplete') {
+                    this.nextLevel();
+                } else if (this.gameState === 'gameOver') {
+                    this.restart();
+                }
+            }
+            
+            startGame() {
+                this.gameState = 'playing';
+                this.score = 0;
+                this.lives = 3;
+                this.level = 1;
+                this.distance = 0;
+                this.hideScreen();
+                this.generateLevel();
+                this.startTime = Date.now();
+            }
+            
+            generateLevel() {
+                this.walls = [];
+                this.enemies = [];
+                this.pickups = [];
+                this.hazards = [];
+                this.cameraY = 0;
+                
+                const levelSeed = this.level;
+                this.worldHeight = 3000 + (levelSeed - 1) * 1500;
+                
+                // Create maze
+                this.createMaze(levelSeed);
+                
+                // Create player
+                if (!this.player) {
+                    this.player = new Player(this.canvas.width / 2, this.canvas.height - 80, this);
+                } else {
+                    this.player.x = this.canvas.width / 2;
+                    this.player.y = this.canvas.height - 80;
+                    this.player.velocityY = 0;
+                    this.player.velocityX = 0;
                 }
                 
-                this.touchInput.x = x;
-                this.touchInput.y = y;
-                
-                const maxOffset = rect.width / 2 - 30;
-                joystick.style.transform = `translate(calc(-50% + ${x * maxOffset}px), calc(-50% + ${y * maxOffset}px))`;
-            });
+                // Set time limit
+                this.time = 60 + (levelSeed - 1) * 10;
+            }
             
-            document.addEventListener('touchend', () => {
-                this.touchInput.active = false;
-                this.touchInput.x = 0;
-                this.touchInput.y = 0;
-                joystick.style.transform = 'translate(-50%, -50%)';
-            });
-        }
-        
-        handleScreenAction() {
-            if (this.gameState === 'start') {
+            createMaze(level) {
+                const width = this.canvas.width;
+                
+                // Border walls
+                this.walls.push(new Wall(0, 0, 30, this.worldHeight));
+                this.walls.push(new Wall(width - 30, 0, 30, this.worldHeight));
+                
+                // Random maze generation
+                const platformWidth = 80 + level * 5;
+                const platformHeight = 20;
+                let y = 300;
+                
+                while (y < this.worldHeight) {
+                    const randomX = 50 + Math.random() * (width - 150 - platformWidth);
+                    const platformLength = platformWidth + Math.random() * 60;
+                    
+                    this.walls.push(new Wall(randomX, y, platformLength, platformHeight));
+                    
+                    // Add some vertical walls
+                    if (Math.random() > 0.6) {
+                        this.walls.push(new Wall(randomX + platformLength / 2, y + 40, 20, 100));
+                    }
+                    
+                    y += 150 + Math.random() * 100;
+                }
+                
+                // Add enemies
+                const enemyCount = 2 + level * 2;
+                for (let i = 0; i < enemyCount; i++) {
+                    const x = 100 + Math.random() * (width - 200);
+                    const y = 500 + Math.random() * (this.worldHeight - 1500);
+                    this.enemies.push(new Enemy(x, y, 1 + level * 0.3, this));
+                }
+                
+                // Add hazards (spikes, etc)
+                const hazardCount = 1 + level;
+                for (let i = 0; i < hazardCount; i++) {
+                    const x = 100 + Math.random() * (width - 200);
+                    const y = 800 + Math.random() * (this.worldHeight - 2000);
+                    this.hazards.push(new Hazard(x, y, 60, 20, this));
+                }
+                
+                // Add pickups (bonus points)
+                const pickupCount = 3 + level;
+                for (let i = 0; i < pickupCount; i++) {
+                    const x = 100 + Math.random() * (width - 200);
+                    const y = 600 + Math.random() * (this.worldHeight - 1500);
+                    this.pickups.push(new Pickup(x, y, this));
+                }
+                
+                // Goal platform
+                this.platform = new Wall(this.canvas.width / 2 - 50, this.worldHeight - 150, 100, 30);
+            }
+            
+            showScreen(title, subtitle, description, showStats = false) {
+                const screen = document.getElementById('screenOverlay');
+                document.getElementById('screenTitle').textContent = title;
+                document.getElementById('screenSubtitle').textContent = subtitle;
+                document.getElementById('screenDescription').textContent = description;
+                
+                const statsBox = document.getElementById('statsBox');
+                if (showStats) {
+                    document.getElementById('finalScore').textContent = this.score;
+                    document.getElementById('finalTime').textContent = Math.floor((Date.now() - this.startTime) / 1000);
+                    document.getElementById('finalDistance').textContent = Math.floor(this.distance) + 'm';
+                    document.getElementById('finalLevel').textContent = this.level;
+                    statsBox.style.display = 'block';
+                } else {
+                    statsBox.style.display = 'none';
+                }
+                
+                screen.classList.add('active');
+                this.gameState = 'paused';
+            }
+            
+            hideScreen() {
+                document.getElementById('screenOverlay').classList.remove('active');
+            }
+            
+            restart() {
                 this.startGame();
-            } else if (this.gameState === 'levelComplete') {
-                this.nextLevel();
-            } else if (this.gameState === 'gameOver') {
-                this.restart();
-            }
-        }
-        
-        startGame() {
-            this.gameState = 'playing';
-            this.score = 0;
-            this.lives = 3;
-            this.level = 1;
-            this.distance = 0;
-            this.hideScreen();
-            this.generateLevel();
-            this.startTime = Date.now();
-        }
-        
-        generateLevel() {
-            this.walls = [];
-            this.enemies = [];
-            this.pickups = [];
-            this.hazards = [];
-            this.cameraY = 0;
-            
-            const levelSeed = this.level;
-            this.worldHeight = 3000 + (levelSeed - 1) * 1500;
-            
-            // Create maze
-            this.createMaze(levelSeed);
-            
-            // Create player
-            if (!this.player) {
-                this.player = new Player(this.canvas.width / 2, this.canvas.height - 80, this);
-            } else {
-                this.player.x = this.canvas.width / 2;
-                this.player.y = this.canvas.height - 80;
-                this.player.velocityY = 0;
-                this.player.velocityX = 0;
             }
             
-            // Set time limit
-            this.time = 60 + (levelSeed - 1) * 10;
-        }
-        
-        createMaze(level) {
-            const width = this.canvas.width;
+            nextLevel() {
+                this.level++;
+                this.score += 500;
+                this.generateLevel();
+                this.gameState = 'playing';
+                this.hideScreen();
+                this.startTime = Date.now();
+            }
             
-            // Border walls
-            this.walls.push(new Wall(0, 0, 30, this.worldHeight));
-            this.walls.push(new Wall(width - 30, 0, 30, this.worldHeight));
-            
-            // Random maze generation
-            const platformWidth = 80 + level * 5;
-            const platformHeight = 20;
-            let y = 300;
-            
-            while (y < this.worldHeight) {
-                const randomX = 50 + Math.random() * (width - 150 - platformWidth);
-                const platformLength = platformWidth + Math.random() * 60;
+            update(deltaTime) {
+                if (this.gameState !== 'playing') return;
                 
-                this.walls.push(new Wall(randomX, y, platformLength, platformHeight));
+                // Update timer
+                this.time = 60 + (this.level - 1) * 10 - Math.floor((Date.now() - this.startTime) / 1000);
                 
-                // Add some vertical walls
-                if (Math.random() > 0.6) {
-                    this.walls.push(new Wall(randomX + platformLength / 2, y + 40, 20, 100));
+                if (this.time <= 0) {
+                    this.gameOver('Time\'s Up!');
+                    return;
                 }
                 
-                y += 150 + Math.random() * 100;
-            }
-            
-            // Add enemies
-            const enemyCount = 2 + level * 2;
-            for (let i = 0; i < enemyCount; i++) {
-                const x = 100 + Math.random() * (width - 200);
-                const y = 500 + Math.random() * (this.worldHeight - 1500);
-                this.enemies.push(new Enemy(x, y, 1 + level * 0.3, this));
-            }
-            
-            // Add hazards (spikes, etc)
-            const hazardCount = 1 + level;
-            for (let i = 0; i < hazardCount; i++) {
-                const x = 100 + Math.random() * (width - 200);
-                const y = 800 + Math.random() * (this.worldHeight - 2000);
-                this.hazards.push(new Hazard(x, y, 60, 20, this));
-            }
-            
-            // Add pickups (bonus points)
-            const pickupCount = 3 + level;
-            for (let i = 0; i < pickupCount; i++) {
-                const x = 100 + Math.random() * (width - 200);
-                const y = 600 + Math.random() * (this.worldHeight - 1500);
-                this.pickups.push(new Pickup(x, y, this));
-            }
-            
-            // Goal platform
-            this.platform = new Wall(this.canvas.width / 2 - 50, this.worldHeight - 150, 100, 30);
-        }
-        
-        showScreen(title, subtitle, description, showStats = false) {
-            const screen = document.getElementById('screenOverlay');
-            document.getElementById('screenTitle').textContent = title;
-            document.getElementById('screenSubtitle').textContent = subtitle;
-            document.getElementById('screenDescription').textContent = description;
-            
-            const statsBox = document.getElementById('statsBox');
-            if (showStats) {
-                document.getElementById('finalScore').textContent = this.score;
-                document.getElementById('finalTime').textContent = Math.floor((Date.now() - this.startTime) / 1000);
-                document.getElementById('finalDistance').textContent = Math.floor(this.distance) + 'm';
-                document.getElementById('finalLevel').textContent = this.level;
-                statsBox.style.display = 'block';
-            } else {
-                statsBox.style.display = 'none';
-            }
-            
-            screen.classList.add('active');
-            this.gameState = 'paused';
-        }
-        
-        hideScreen() {
-            document.getElementById('screenOverlay').classList.remove('active');
-        }
-        
-        restart() {
-            this.startGame();
-        }
-        
-        nextLevel() {
-            this.level++;
-            this.score += 500;
-            this.generateLevel();
-            this.gameState = 'playing';
-            this.hideScreen();
-            this.startTime = Date.now();
-        }
-        
-        update(deltaTime) {
-            if (this.gameState !== 'playing') return;
-            
-            // Update timer
-            this.time = 60 + (this.level - 1) * 10 - Math.floor((Date.now() - this.startTime) / 1000);
-            
-            if (this.time <= 0) {
-                this.gameOver('Time\'s Up!');
-                return;
-            }
-            
-            // Handle input
-            let moveX = 0;
-            if (this.keys['a'] || this.keys['arrowleft']) moveX = -1;
-            if (this.keys['d'] || this.keys['arrowright']) moveX = 1;
-            if (this.touchInput.active) moveX = this.touchInput.x;
-            
-            let moveY = 0;
-            if (this.keys['w'] || this.keys['arrowup']) moveY = -1;
-            if (this.keys['s'] || this.keys['arrowdown']) moveY = 1;
-            if (this.touchInput.active) moveY = this.touchInput.y;
-            
-            this.player.handleInput(moveX, moveY);
-            
-            // Update player
-            this.player.update(deltaTime);
-            
-            // Update camera
-            this.cameraY = Math.max(0, this.player.y - this.canvas.height / 3);
-            
-            // Auto-scroll (if player falls behind)
-            if (this.cameraY > this.player.y) {
-                this.gameOver('Left Behind!');
-                return;
-            }
-            
-            // Update distance
-            this.distance = this.worldHeight - this.cameraY;
-            
-            // Update enemies
-            for (let enemy of this.enemies) {
-                enemy.update(deltaTime);
-                if (this.player.collidesWith(enemy)) {
-                    this.playerHit();
+                // Handle input
+                let moveX = 0;
+                if (this.keys['a'] || this.keys['arrowleft']) moveX = -1;
+                if (this.keys['d'] || this.keys['arrowright']) moveX = 1;
+                if (this.touchInput.active) moveX = this.touchInput.x;
+                
+                let moveY = 0;
+                if (this.keys['w'] || this.keys['arrowup']) moveY = -1;
+                if (this.keys['s'] || this.keys['arrowdown']) moveY = 1;
+                if (this.touchInput.active) moveY = this.touchInput.y;
+                
+                this.player.handleInput(moveX, moveY);
+                
+                // Update player
+                this.player.update(deltaTime);
+                
+                // Update camera
+                this.cameraY = Math.max(0, this.player.y - this.canvas.height / 3);
+                
+                // Auto-scroll (if player falls behind)
+                if (this.cameraY > this.player.y) {
+                    this.gameOver('Left Behind!');
+                    return;
                 }
-            }
-            
-            // Update pickups
-            for (let i = this.pickups.length - 1; i >= 0; i--) {
-                if (this.player.collidesWith(this.pickups[i])) {
-                    this.score += 50;
-                    this.pickups.splice(i, 1);
-                }
-            }
-            
-            // Check hazards
-            for (let hazard of this.hazards) {
-                if (this.player.collidesWith(hazard)) {
-                    this.playerHit();
-                }
-            }
-            
-            // Check goal
-            if (this.player.collidesWith(this.platform) && this.cameraY > this.worldHeight - this.canvas.height) {
-                this.levelComplete();
-            }
-            
-            // Update particles
-            for (let i = this.particles.length - 1; i >= 0; i--) {
-                this.particles[i].update();
-                if (this.particles[i].dead) {
-                    this.particles.splice(i, 1);
-                }
-            }
-            
-            // Update score based on progress
-            const progress = Math.max(0, (this.worldHeight - this.distance) / this.worldHeight);
-            this.score = Math.max(this.score, Math.floor(progress * 1000));
-        }
-        
-        playerHit() {
-            this.lives--;
-            this.createExplosion(this.player.x, this.player.y, '#FF6B6B');
-            
-            if (this.lives <= 0) {
-                this.gameOver('No Lives Left!');
-            } else {
-                this.player.x = this.canvas.width / 2;
-                this.player.y = Math.max(this.cameraY + 100, this.canvas.height - 200);
-            }
-        }
-        
-        levelComplete() {
-            this.score += 1000;
-            this.gameState = 'levelComplete';
-            this.showScreen(
-                `Level ${this.level} Complete!`,
-                'Next →',
-                'You\'ve reached the exit! Ready for the next challenge?'
-            );
-        }
-        
-        gameOver(reason) {
-            this.gameState = 'gameOver';
-            document.querySelector('.screen-title').classList.add('error');
-            this.showScreen(
-                'Game Over',
-                reason,
-                'You reached level ' + this.level + ' with ' + this.score + ' points!',
-                true
-            );
-        }
-        
-        createExplosion(x, y, color = '#5FD95F') {
-            for (let i = 0; i < 10; i++) {
-                const angle = (Math.PI * 2 * i) / 10;
-                const velocity = 3 + Math.random() * 3;
-                this.particles.push(new Particle(
-                    x, y,
-                    Math.cos(angle) * velocity,
-                    Math.sin(angle) * velocity,
-                    color
-                ));
-            }
-        }
-        
-        render() {
-            // Clear canvas
-            this.ctx.fillStyle = '#050A06';
-            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-            
-            // Draw background gradient
-            const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-            gradient.addColorStop(0, '#0a1a0d');
-            gradient.addColorStop(0.5, '#050A06');
-            gradient.addColorStop(1, '#0a0f08');
-            this.ctx.fillStyle = gradient;
-            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-            
-            // Save context
-            this.ctx.save();
-            this.ctx.translate(0, -this.cameraY);
-            
-            // Draw walls
-            for (let wall of this.walls) {
-                wall.draw(this.ctx);
-            }
-            
-            // Draw goal
-            if (this.platform) {
-                this.ctx.fillStyle = '#FFD700';
-                this.ctx.shadowColor = 'rgba(255, 215, 0, 0.5)';
-                this.ctx.shadowBlur = 20;
-                this.ctx.fillRect(this.platform.x, this.platform.y, this.platform.w, this.platform.h);
-                this.ctx.fillStyle = '#FFA500';
-                this.ctx.font = 'bold 24px Arial';
-                this.ctx.textAlign = 'center';
-                this.ctx.textBaseline = 'middle';
-                this.ctx.fillText('EXIT', this.platform.x + this.platform.w / 2, this.platform.y + this.platform.h / 2);
-                this.ctx.shadowColor = 'transparent';
-            }
-            
-            // Draw hazards
-            for (let hazard of this.hazards) {
-                hazard.draw(this.ctx);
-            }
-            
-            // Draw pickups
-            for (let pickup of this.pickups) {
-                pickup.draw(this.ctx);
-            }
-            
-            // Draw enemies
-            for (let enemy of this.enemies) {
-                enemy.draw(this.ctx);
-            }
-            
-            // Draw particles
-            for (let particle of this.particles) {
-                particle.draw(this.ctx);
-            }
-            
-            // Draw player
-            this.player.draw(this.ctx);
-            
-            // Restore context
-            this.ctx.restore();
-            
-            // Update HUD
-            this.updateHUD();
-        }
-        
-        updateHUD() {
-            document.getElementById('scoreValue').textContent = Math.floor(this.score);
-            document.getElementById('timeValue').textContent = Math.max(0, this.time);
-            document.getElementById('livesValue').textContent = '❤️ ' + this.lives;
-            document.getElementById('levelValue').textContent = this.level;
-            document.getElementById('distanceValue').textContent = Math.floor(this.distance) + 'm';
-        }
-        
-        gameLoop() {
-            const now = Date.now();
-            const deltaTime = (now - this.lastFrameTime) / 1000;
-            this.lastFrameTime = now;
-            
-            this.update(Math.min(deltaTime, 0.016)); // Cap at 60fps
-            this.render();
-            
-            requestAnimationFrame(() => this.gameLoop());
-        }
-    }
-
-    // ╔════════════════════════════════════════════════════════════════════════════╗
-    // ║                            GAME ENTITIES                                   ║
-    // ╚════════════════════════════════════════════════════════════════════════════╝
-
-    class Player {
-        constructor(x, y, game) {
-            this.x = x;
-            this.y = y;
-            this.game = game;
-            this.width = 24;
-            this.height = 24;
-            this.velocityX = 0;
-            this.velocityY = 0;
-            this.speed = 4;
-            this.gravity = 0.5;
-            this.groundY = null;
-            this.onGround = false;
-        }
-        
-        handleInput(moveX, moveY) {
-            this.velocityX = moveX * this.speed;
-            this.velocityY += this.gravity;
-        }
-        
-        update(deltaTime) {
-            this.x += this.velocityX;
-            this.y += this.velocityY;
-            
-            // Boundaries
-            if (this.x < 30) this.x = 30;
-            if (this.x + this.width > this.game.canvas.width - 30) 
-                this.x = this.game.canvas.width - 30 - this.width;
-            
-            // Collision with walls
-            for (let wall of this.game.walls) {
-                if (this.collidesWith(wall)) {
-                    // Landing on top
-                    if (this.velocityY > 0 && this.y + this.height - this.velocityY <= wall.y) {
-                        this.y = wall.y - this.height;
-                        this.velocityY = 0;
-                        this.onGround = true;
+                
+                // Update distance
+                this.distance = this.worldHeight - this.cameraY;
+                
+                // Update enemies
+                for (let enemy of this.enemies) {
+                    enemy.update(deltaTime);
+                    if (this.player.collidesWith(enemy)) {
+                        this.playerHit();
                     }
-                    // Hit from bottom
-                    else if (this.velocityY < 0 && this.y - this.velocityY >= wall.y + wall.h) {
-                        this.y = wall.y + wall.h;
-                        this.velocityY = 0;
+                }
+                
+                // Update pickups
+                for (let i = this.pickups.length - 1; i >= 0; i--) {
+                    if (this.player.collidesWith(this.pickups[i])) {
+                        this.score += 50;
+                        this.pickups.splice(i, 1);
                     }
-                    // Side collision
-                    else {
-                        if (this.velocityX > 0) {
-                            this.x = wall.x - this.width;
-                        } else {
-                            this.x = wall.x + wall.w;
+                }
+                
+                // Check hazards
+                for (let hazard of this.hazards) {
+                    if (this.player.collidesWith(hazard)) {
+                        this.playerHit();
+                    }
+                }
+                
+                // Check goal
+                if (this.player.collidesWith(this.platform) && this.cameraY > this.worldHeight - this.canvas.height) {
+                    this.levelComplete();
+                }
+                
+                // Update particles
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    this.particles[i].update();
+                    if (this.particles[i].dead) {
+                        this.particles.splice(i, 1);
+                    }
+                }
+                
+                // Update score based on progress
+                const progress = Math.max(0, (this.worldHeight - this.distance) / this.worldHeight);
+                this.score = Math.max(this.score, Math.floor(progress * 1000));
+            }
+            
+            playerHit() {
+                this.lives--;
+                this.createExplosion(this.player.x, this.player.y, '#FF6B6B');
+                
+                if (this.lives <= 0) {
+                    this.gameOver('No Lives Left!');
+                } else {
+                    this.player.x = this.canvas.width / 2;
+                    this.player.y = Math.max(this.cameraY + 100, this.canvas.height - 200);
+                }
+            }
+            
+            levelComplete() {
+                this.score += 1000;
+                this.gameState = 'levelComplete';
+                this.showScreen(
+                    `Level ${this.level} Complete!`,
+                    'Next →',
+                    'You\'ve reached the exit! Ready for the next challenge?'
+                );
+            }
+            
+            gameOver(reason) {
+                this.gameState = 'gameOver';
+                document.querySelector('.screen-title').classList.add('error');
+                this.showScreen(
+                    'Game Over',
+                    reason,
+                    'You reached level ' + this.level + ' with ' + this.score + ' points!',
+                    true
+                );
+            }
+            
+            createExplosion(x, y, color = '#5FD95F') {
+                for (let i = 0; i < 10; i++) {
+                    const angle = (Math.PI * 2 * i) / 10;
+                    const velocity = 3 + Math.random() * 3;
+                    this.particles.push(new Particle(
+                        x, y,
+                        Math.cos(angle) * velocity,
+                        Math.sin(angle) * velocity,
+                        color
+                    ));
+                }
+            }
+            
+            render() {
+                // Clear canvas
+                this.ctx.fillStyle = '#050A06';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Draw background gradient
+                const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+                gradient.addColorStop(0, '#0a1a0d');
+                gradient.addColorStop(0.5, '#050A06');
+                gradient.addColorStop(1, '#0a0f08');
+                this.ctx.fillStyle = gradient;
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Save context
+                this.ctx.save();
+                this.ctx.translate(0, -this.cameraY);
+                
+                // Draw walls
+                for (let wall of this.walls) {
+                    wall.draw(this.ctx);
+                }
+                
+                // Draw goal
+                if (this.platform) {
+                    this.ctx.fillStyle = '#FFD700';
+                    this.ctx.shadowColor = 'rgba(255, 215, 0, 0.5)';
+                    this.ctx.shadowBlur = 20;
+                    this.ctx.fillRect(this.platform.x, this.platform.y, this.platform.w, this.platform.h);
+                    this.ctx.fillStyle = '#FFA500';
+                    this.ctx.font = 'bold 24px Arial';
+                    this.ctx.textAlign = 'center';
+                    this.ctx.textBaseline = 'middle';
+                    this.ctx.fillText('EXIT', this.platform.x + this.platform.w / 2, this.platform.y + this.platform.h / 2);
+                    this.ctx.shadowColor = 'transparent';
+                }
+                
+                // Draw hazards
+                for (let hazard of this.hazards) {
+                    hazard.draw(this.ctx);
+                }
+                
+                // Draw pickups
+                for (let pickup of this.pickups) {
+                    pickup.draw(this.ctx);
+                }
+                
+                // Draw enemies
+                for (let enemy of this.enemies) {
+                    enemy.draw(this.ctx);
+                }
+                
+                // Draw particles
+                for (let particle of this.particles) {
+                    particle.draw(this.ctx);
+                }
+                
+                // Draw player
+                this.player.draw(this.ctx);
+                
+                // Restore context
+                this.ctx.restore();
+                
+                // Update HUD
+                this.updateHUD();
+            }
+            
+            updateHUD() {
+                document.getElementById('scoreValue').textContent = Math.floor(this.score);
+                document.getElementById('timeValue').textContent = Math.max(0, this.time);
+                document.getElementById('livesValue').textContent = '❤️ ' + this.lives;
+                document.getElementById('levelValue').textContent = this.level;
+                document.getElementById('distanceValue').textContent = Math.floor(this.distance) + 'm';
+            }
+            
+            gameLoop() {
+                const now = Date.now();
+                const deltaTime = (now - this.lastFrameTime) / 1000;
+                this.lastFrameTime = now;
+                
+                this.update(Math.min(deltaTime, 0.016)); // Cap at 60fps
+                this.render();
+                
+                requestAnimationFrame(() => this.gameLoop());
+            }
+        }
+
+        // ╔════════════════════════════════════════════════════════════════════════════╗
+        // ║                            GAME ENTITIES                                   ║
+        // ╚════════════════════════════════════════════════════════════════════════════╝
+
+        class Player {
+            constructor(x, y, game) {
+                this.x = x;
+                this.y = y;
+                this.game = game;
+                this.width = 24;
+                this.height = 24;
+                this.velocityX = 0;
+                this.velocityY = 0;
+                this.speed = 4;
+                this.gravity = 0.5;
+                this.groundY = null;
+                this.onGround = false;
+            }
+            
+            handleInput(moveX, moveY) {
+                this.velocityX = moveX * this.speed;
+                this.velocityY += this.gravity;
+            }
+            
+            update(deltaTime) {
+                this.x += this.velocityX;
+                this.y += this.velocityY;
+                
+                // Boundaries
+                if (this.x < 30) this.x = 30;
+                if (this.x + this.width > this.game.canvas.width - 30) 
+                    this.x = this.game.canvas.width - 30 - this.width;
+                
+                // Collision with walls
+                for (let wall of this.game.walls) {
+                    if (this.collidesWith(wall)) {
+                        // Landing on top
+                        if (this.velocityY > 0 && this.y + this.height - this.velocityY <= wall.y) {
+                            this.y = wall.y - this.height;
+                            this.velocityY = 0;
+                            this.onGround = true;
+                        }
+                        // Hit from bottom
+                        else if (this.velocityY < 0 && this.y - this.velocityY >= wall.y + wall.h) {
+                            this.y = wall.y + wall.h;
+                            this.velocityY = 0;
+                        }
+                        // Side collision
+                        else {
+                            if (this.velocityX > 0) {
+                                this.x = wall.x - this.width;
+                            } else {
+                                this.x = wall.x + wall.w;
+                            }
                         }
                     }
                 }
             }
-        }
-        
-        collidesWith(obj) {
-            return this.x < obj.x + obj.width && 
-                   this.x + this.width > obj.x &&
-                   this.y < obj.y + obj.height &&
-                   this.y + this.height > obj.y;
-        }
-        
-        draw(ctx) {
-            // Draw player
-            ctx.fillStyle = '#5FD95F';
-            ctx.shadowColor = 'rgba(95, 217, 95, 0.6)';
-            ctx.shadowBlur = 15;
-            ctx.beginPath();
-            ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
-            ctx.fill();
             
-            // Draw border
-            ctx.strokeStyle = '#A8E6A8';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            
-            ctx.shadowColor = 'transparent';
-        }
-    }
-
-    class Enemy {
-        constructor(x, y, speed, game) {
-            this.x = x;
-            this.y = y;
-            this.game = game;
-            this.width = 22;
-            this.height = 22;
-            this.velocityX = (Math.random() > 0.5 ? 1 : -1) * speed;
-            this.minX = 50;
-            this.maxX = game.canvas.width - 50;
-            this.patrolRadius = 200;
-        }
-        
-        update(deltaTime) {
-            this.x += this.velocityX;
-            if (this.x < this.minX) this.velocityX = Math.abs(this.velocityX);
-            if (this.x > this.maxX) this.velocityX = -Math.abs(this.velocityX);
-        }
-        
-        collidesWith(obj) {
-            return this.x < obj.x + obj.width &&
-                   this.x + this.width > obj.x &&
-                   this.y < obj.y + obj.height &&
-                   this.y + this.height > obj.y;
-        }
-        
-        draw(ctx) {
-            ctx.fillStyle = '#FF6B6B';
-            ctx.shadowColor = 'rgba(255, 107, 107, 0.5)';
-            ctx.shadowBlur = 12;
-            ctx.beginPath();
-            ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.strokeStyle = '#FF8787';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            
-            // Eyes
-            ctx.fillStyle = 'white';
-            ctx.beginPath();
-            ctx.arc(this.x + 7, this.y + 7, 3, 0, Math.PI * 2);
-            ctx.fill();
-            
-            ctx.shadowColor = 'transparent';
-        }
-    }
-
-    class Wall {
-        constructor(x, y, w, h) {
-            this.x = x;
-            this.y = y;
-            this.w = w;
-            this.h = h;
-            this.width = w;
-            this.height = h;
-        }
-        
-        draw(ctx) {
-            const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.h);
-            gradient.addColorStop(0, '#E2B46B');
-            gradient.addColorStop(1, '#8B6F47');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(this.x, this.y, this.w, this.h);
-            
-            ctx.strokeStyle = '#C4913E';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(this.x, this.y, this.w, this.h);
-        }
-    }
-
-    class Hazard {
-        constructor(x, y, w, h, game) {
-            this.x = x;
-            this.y = y;
-            this.w = w;
-            this.h = h;
-            this.width = w;
-            this.height = h;
-            this.game = game;
-            this.animate = Math.random();
-        }
-        
-        draw(ctx) {
-            ctx.fillStyle = '#FF4444';
-            ctx.shadowColor = 'rgba(255, 0, 0, 0.5)';
-            ctx.shadowBlur = 10;
-            
-            // Spikes pattern
-            for (let i = 0; i < this.w / 15; i++) {
-                ctx.beginPath();
-                ctx.moveTo(this.x + i * 15, this.y + this.h);
-                ctx.lineTo(this.x + i * 15 + 7.5, this.y);
-                ctx.lineTo(this.x + (i + 1) * 15, this.y + this.h);
-                ctx.fill();
+            collidesWith(obj) {
+                return this.x < obj.x + obj.width && 
+                       this.x + this.width > obj.x &&
+                       this.y < obj.y + obj.height &&
+                       this.y + this.height > obj.y;
             }
             
-            ctx.shadowColor = 'transparent';
+            draw(ctx) {
+                // Draw player
+                ctx.fillStyle = '#5FD95F';
+                ctx.shadowColor = 'rgba(95, 217, 95, 0.6)';
+                ctx.shadowBlur = 15;
+                ctx.beginPath();
+                ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw border
+                ctx.strokeStyle = '#A8E6A8';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                ctx.shadowColor = 'transparent';
+            }
         }
-    }
 
-    class Pickup {
-        constructor(x, y, game) {
-            this.x = x;
-            this.y = y;
-            this.game = game;
-            this.width = 16;
-            this.height = 16;
-            this.rotation = 0;
-        }
-        
-        draw(ctx) {
-            ctx.save();
-            ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
-            ctx.rotate(this.rotation);
-            this.rotation += 0.05;
+        class Enemy {
+            constructor(x, y, speed, game) {
+                this.x = x;
+                this.y = y;
+                this.game = game;
+                this.width = 22;
+                this.height = 22;
+                this.velocityX = (Math.random() > 0.5 ? 1 : -1) * speed;
+                this.minX = 50;
+                this.maxX = game.canvas.width - 50;
+                this.patrolRadius = 200;
+            }
             
-            ctx.fillStyle = '#FFD700';
-            ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
-            ctx.shadowBlur = 10;
-            ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+            update(deltaTime) {
+                this.x += this.velocityX;
+                if (this.x < this.minX) this.velocityX = Math.abs(this.velocityX);
+                if (this.x > this.maxX) this.velocityX = -Math.abs(this.velocityX);
+            }
             
-            ctx.strokeStyle = '#FFA500';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(-this.width / 2, -this.height / 2, this.width, this.height);
+            collidesWith(obj) {
+                return this.x < obj.x + obj.width &&
+                       this.x + this.width > obj.x &&
+                       this.y < obj.y + obj.height &&
+                       this.y + this.height > obj.y;
+            }
             
-            ctx.restore();
+            draw(ctx) {
+                ctx.fillStyle = '#FF6B6B';
+                ctx.shadowColor = 'rgba(255, 107, 107, 0.5)';
+                ctx.shadowBlur = 12;
+                ctx.beginPath();
+                ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.strokeStyle = '#FF8787';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Eyes
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.arc(this.x + 7, this.y + 7, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.shadowColor = 'transparent';
+            }
         }
-    }
 
-    class Particle {
-        constructor(x, y, vx, vy, color) {
-            this.x = x;
-            this.y = y;
-            this.vx = vx;
-            this.vy = vy;
-            this.color = color;
-            this.life = 1;
-            this.size = 4;
-            this.gravity = 0.1;
+        class Wall {
+            constructor(x, y, w, h) {
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+                this.width = w;
+                this.height = h;
+            }
+            
+            draw(ctx) {
+                const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.h);
+                gradient.addColorStop(0, '#E2B46B');
+                gradient.addColorStop(1, '#8B6F47');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(this.x, this.y, this.w, this.h);
+                
+                ctx.strokeStyle = '#C4913E';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(this.x, this.y, this.w, this.h);
+            }
         }
-        
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-            this.vy += this.gravity;
-            this.life -= 0.02;
-            this.dead = this.life <= 0;
+
+        class Hazard {
+            constructor(x, y, w, h, game) {
+                this.x = x;
+                this.y = y;
+                this.w = w;
+                this.h = h;
+                this.width = w;
+                this.height = h;
+                this.game = game;
+                this.animate = Math.random();
+            }
+            
+            draw(ctx) {
+                ctx.fillStyle = '#FF4444';
+                ctx.shadowColor = 'rgba(255, 0, 0, 0.5)';
+                ctx.shadowBlur = 10;
+                
+                // Spikes pattern
+                for (let i = 0; i < this.w / 15; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(this.x + i * 15, this.y + this.h);
+                    ctx.lineTo(this.x + i * 15 + 7.5, this.y);
+                    ctx.lineTo(this.x + (i + 1) * 15, this.y + this.h);
+                    ctx.fill();
+                }
+                
+                ctx.shadowColor = 'transparent';
+            }
         }
-        
-        draw(ctx) {
-            ctx.fillStyle = this.color;
-            ctx.globalAlpha = this.life;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.globalAlpha = 1;
+
+        class Pickup {
+            constructor(x, y, game) {
+                this.x = x;
+                this.y = y;
+                this.game = game;
+                this.width = 16;
+                this.height = 16;
+                this.rotation = 0;
+            }
+            
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+                ctx.rotate(this.rotation);
+                this.rotation += 0.05;
+                
+                ctx.fillStyle = '#FFD700';
+                ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
+                ctx.shadowBlur = 10;
+                ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
+                
+                ctx.strokeStyle = '#FFA500';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(-this.width / 2, -this.height / 2, this.width, this.height);
+                
+                ctx.restore();
+            }
         }
-    }
 
-    // ╔════════════════════════════════════════════════════════════════════════════╗
-    // ║                          GAME INITIALIZATION                              ║
-    // ╚════════════════════════════════════════════════════════════════════════════╝
+        class Particle {
+            constructor(x, y, vx, vy, color) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.color = color;
+                this.life = 1;
+                this.size = 4;
+                this.gravity = 0.1;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += this.gravity;
+                this.life -= 0.02;
+                this.dead = this.life <= 0;
+            }
+            
+            draw(ctx) {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.life;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
 
-    let game = null;
-    window.addEventListener('DOMContentLoaded', () => {
-        game = new GeneticHunterGame();
-        window.game = game; // For debugging
-    });
-</script>
+        // ╔════════════════════════════════════════════════════════════════════════════╗
+        // ║                          GAME INITIALIZATION                              ║
+        // ╚════════════════════════════════════════════════════════════════════════════╝
 
+        let game = null;
+        window.addEventListener('DOMContentLoaded', () => {
+            game = new GeneticHunterGame();
+            window.game = game; // For debugging
+        });
+    </script>
 </body>
 </html>
