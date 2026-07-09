@@ -1,90 +1,894 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Maze Escape Deluxe</title>
-<style>
-html,body{margin:0;height:100%;overflow:hidden;background:#111;font-family:Arial;color:#fff}
-#ui{position:fixed;left:10px;top:10px;z-index:2;font-weight:bold}
-canvas{display:block;margin:auto;background:#000;image-rendering:pixelated}
-#msg{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-font-size:42px;background:#0009;visibility:hidden;z-index:3;text-align:center}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertical Maze Runner - The Genetic Hunter Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #050A06;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #ECE7DF;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(180deg, #0a1a0d 0%, #050A06 50%, #0a0f08 100%);
+        }
+
+        #gameViewport {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: linear-gradient(45deg, rgba(34, 84, 44, 0.08), transparent);
+        }
+
+        #gameWorld {
+            position: absolute;
+            width: 100%;
+            will-change: transform;
+        }
+
+        .wall {
+            position: absolute;
+            background: linear-gradient(135deg, #C4913E 0%, #8B6F47 100%);
+            border: 2px solid #E2B46B;
+            box-shadow: 0 0 15px rgba(196, 145, 62, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .wall::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 20px,
+                rgba(255, 255, 255, 0.05) 20px,
+                rgba(255, 255, 255, 0.05) 22px
+            );
+        }
+
+        .player {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            background: radial-gradient(circle at 30% 30%, #5FD95F, #2D7A2D);
+            border: 2px solid #A8E6A8;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(95, 217, 95, 0.8), inset -2px -2px 8px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+            transition: background 0.1s ease;
+            animation: playerPulse 1s infinite;
+        }
+
+        .player.hit {
+            animation: playerDamage 0.3s ease;
+        }
+
+        @keyframes playerPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(95, 217, 95, 0.8), inset -2px -2px 8px rgba(0, 0, 0, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(95, 217, 95, 1), inset -2px -2px 8px rgba(0, 0, 0, 0.4); }
+        }
+
+        @keyframes playerDamage {
+            0% { background: #FF6B6B; transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { background: radial-gradient(circle at 30% 30%, #5FD95F, #2D7A2D); transform: scale(1); }
+        }
+
+        .enemy {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle at 30% 30%, #FF6B6B, #C92A2A);
+            border: 2px solid #FF8787;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 107, 107, 0.6), inset -2px -2px 5px rgba(0, 0, 0, 0.4);
+            z-index: 50;
+        }
+
+        .enemy::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            top: 6px;
+            left: 6px;
+            animation: enemyLook 2s infinite;
+        }
+
+        @keyframes enemyLook {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(2px, -1px); }
+            50% { transform: translate(0, 2px); }
+            75% { transform: translate(-2px, -1px); }
+        }
+
+        .goal {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 30% 30%, #FFD700, #DAA520);
+            border: 3px solid #FFA500;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8), inset -3px -3px 10px rgba(0, 0, 0, 0.3);
+            z-index: 40;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 24px;
+            animation: goalPulse 1s infinite;
+        }
+
+        @keyframes goalPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.8), inset -3px -3px 10px rgba(0, 0, 0, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(255, 215, 0, 1), inset -3px -3px 10px rgba(0, 0, 0, 0.3); }
+        }
+
+        .trap {
+            position: absolute;
+            background: repeating-linear-gradient(
+                45deg,
+                #8B0000,
+                #8B0000 10px,
+                #FF0000 10px,
+                #FF0000 20px
+            );
+            border: 2px solid #FF4444;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            animation: trapFlash 0.5s infinite;
+        }
+
+        @keyframes trapFlash {
+            0%, 100% { background: repeating-linear-gradient(
+                45deg,
+                #8B0000,
+                #8B0000 10px,
+                #FF0000 10px,
+                #FF0000 20px
+            ); }
+            50% { background: repeating-linear-gradient(
+                45deg,
+                #FF6666,
+                #FF6666 10px,
+                #FFaaaa 10px,
+                #FFaaaa 20px
+            ); }
+        }
+
+        .movingPlatform {
+            position: absolute;
+            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            border: 2px solid #87CEEB;
+            box-shadow: 0 0 15px rgba(74, 144, 226, 0.4), inset 0 0 8px rgba(255, 255, 255, 0.2);
+        }
+
+        #hud {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            gap: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .hud-item {
+            background: rgba(5, 10, 6, 0.8);
+            border: 2px solid #C4913E;
+            padding: 8px 16px;
+            border-radius: 8px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 15px rgba(196, 145, 62, 0.3);
+        }
+
+        .hud-label {
+            font-size: 11px;
+            color: #C4913E;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .hud-value {
+            font-size: 16px;
+            color: #ECE7DF;
+        }
+
+        #screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5, 10, 6, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+        }
+
+        #screen.active {
+            display: flex;
+        }
+
+        .screen-content {
+            text-align: center;
+            color: #ECE7DF;
+        }
+
+        .screen-title {
+            font-size: clamp(32px, 8vw, 80px);
+            font-weight: 300;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #C4913E, #E2B46B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .screen-subtitle {
+            font-size: clamp(16px, 4vw, 28px);
+            color: #C4913E;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .screen-stats {
+            font-size: 18px;
+            margin: 20px 0;
+            color: #A8E6A8;
+        }
+
+        .screen-stats div {
+            margin: 10px 0;
+        }
+
+        button {
+            background: linear-gradient(135deg, #C4913E, #E2B46B);
+            border: none;
+            color: #050A06;
+            padding: 14px 40px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(196, 145, 62, 0.4);
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #E2B46B, #C4913E);
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(196, 145, 62, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #touchControls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 120px;
+            height: 120px;
+            display: none;
+            z-index: 500;
+        }
+
+        @media (max-width: 768px) {
+            #touchControls {
+                display: block;
+            }
+
+            #hud {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .hud-item {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .hud-label {
+                font-size: 9px;
+            }
+
+            .hud-value {
+                font-size: 14px;
+            }
+        }
+
+        .joystick-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(196, 145, 62, 0.2);
+            border: 2px solid #C4913E;
+            border-radius: 50%;
+        }
+
+        .joystick-stick {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 30% 30%, #C4913E, #8B6F47);
+            border: 2px solid #E2B46B;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(196, 145, 62, 0.6);
+            cursor: grab;
+        }
+
+        .joystick-stick:active {
+            cursor: grabbing;
+        }
+
+        .game-over-content {
+            background: rgba(11, 18, 9, 0.9);
+            padding: 40px;
+            border-radius: 16px;
+            border: 2px solid #C4913E;
+            max-width: 500px;
+            box-shadow: 0 0 50px rgba(196, 145, 62, 0.3);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .screen-content {
+            animation: slideIn 0.5s ease;
+        }
+
+        .warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px 30px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 18px;
+            z-index: 1500;
+            pointer-events: none;
+            animation: warningFlash 0.5s ease;
+        }
+
+        @keyframes warningFlash {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(0.8); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+        }
+    </style>
 </head>
 <body>
-<div id="ui">Level <span id=lvl>1</span> | Punkte <span id=s>0</span></div>
-<div id="msg"></div>
-<canvas id="c"></canvas>
-<script>
-const cv=c,ctx=cv.getContext("2d");
-function rs(){cv.width=innerWidth;cv.height=innerHeight;}rs();onresize=rs;
-const tile=32;
-let level=1,score=0;
-const uiS=s,uiL=lvl,msg=document.getElementById("msg");
-const p={x:1,y:1};
-let maze=[],coins=[],exit={x:1,y:1};
+    <div id="gameContainer">
+        <div id="gameViewport">
+            <div id="gameWorld"></div>
+        </div>
+    </div>
 
-function makeMaze(w,h){
- maze=Array.from({length:h},()=>Array(w).fill(1));
- function carve(x,y){
-   maze[y][x]=0;
-   [[2,0],[-2,0],[0,2],[0,-2]].sort(()=>Math.random()-.5).forEach(d=>{
-     let nx=x+d[0],ny=y+d[1];
-     if(nx>0&&ny>0&&nx<w-1&&ny<h-1&&maze[ny][nx]){
-       maze[y+d[1]/2][x+d[0]/2]=0;
-       carve(nx,ny);
-     }
-   });
- }
- carve(1,1);
- exit={x:w-2,y:h-2};
- maze[exit.y][exit.x]=0;
- coins=[];
- for(let i=0;i<12;i++){
-   let x,y;
-   do{x=1+2*(Math.random()*((w-2)/2)|0);y=1+2*(Math.random()*((h-2)/2)|0);}
-   while(maze[y][x]);
-   coins.push({x,y});
- }
- p.x=1;p.y=1;
-}
-makeMaze(31,21);
+    <div id="hud">
+        <div class="hud-item">
+            <span class="hud-label">Score</span>
+            <span class="hud-value" id="score">0</span>
+        </div>
+        <div class="hud-item">
+            <span class="hud-label">Time</span>
+            <span class="hud-value" id="time">0</span>
+        </div>
+        <div class="hud-item">
+            <span class="hud-label">Lives</span>
+            <span class="hud-value" id="lives">3</span>
+        </div>
+        <div class="hud-item">
+            <span class="hud-label">Level</span>
+            <span class="hud-value" id="level">1</span>
+        </div>
+    </div>
 
-addEventListener("keydown",e=>{
- let dx=0,dy=0;
- if(e.key=="ArrowLeft"||e.key=="a")dx=-1;
- if(e.key=="ArrowRight"||e.key=="d")dx=1;
- if(e.key=="ArrowUp"||e.key=="w")dy=-1;
- if(e.key=="ArrowDown"||e.key=="s")dy=1;
- let nx=p.x+dx,ny=p.y+dy;
- if(maze[ny]&&maze[ny][nx]===0){p.x=nx;p.y=ny;}
- coins=coins.filter(c=>{
-   if(c.x===p.x&&c.y===p.y){score+=10;uiS.textContent=score;return false;}
-   return true;
- });
- if(p.x===exit.x&&p.y===exit.y){
-   level++;uiL.textContent=level;score+=100;uiS.textContent=score;
-   makeMaze(31,21);
- }
-});
+    <div id="touchControls">
+        <div class="joystick-bg">
+            <div class="joystick-stick" id="joystick"></div>
+        </div>
+    </div>
 
-function draw(){
- ctx.fillStyle="#000";ctx.fillRect(0,0,cv.width,cv.height);
- const ox=(cv.width-31*tile)/2, oy=(cv.height-21*tile)/2;
- for(let y=0;y<21;y++)for(let x=0;x<31;x++){
-   ctx.fillStyle=maze[y][x]?"#234":"#ddd";
-   ctx.fillRect(ox+x*tile,oy+y*tile,tile-1,tile-1);
- }
- ctx.fillStyle="gold";
- coins.forEach(c=>{ctx.beginPath();ctx.arc(ox+c.x*tile+16,oy+c.y*tile+16,6,0,7);ctx.fill();});
- ctx.fillStyle="#0f0";
- ctx.fillRect(ox+p.x*tile+6,oy+p.y*tile+6,20,20);
- ctx.fillStyle="#0af";
- ctx.fillRect(ox+exit.x*tile+4,oy+exit.y*tile+4,24,24);
- requestAnimationFrame(draw);
-}
-draw();
-</script>
+    <div id="screen">
+        <div class="game-over-content">
+            <div class="screen-content">
+                <div class="screen-title" id="screenTitle">Game Over</div>
+                <div class="screen-subtitle" id="screenSubtitle">You Lost</div>
+                <div class="screen-stats">
+                    <div>Final Score: <span id="finalScore">0</span></div>
+                    <div>Time Played: <span id="finalTime">0</span>s</div>
+                    <div>Level Reached: <span id="finalLevel">1</span></div>
+                </div>
+                <button id="restartBtn">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== GAME ENGINE ====================
+        
+        class GameEngine {
+            constructor() {
+                this.canvas = document.getElementById('gameContainer');
+                this.viewport = document.getElementById('gameViewport');
+                this.world = document.getElementById('gameWorld');
+                this.screen = document.getElementById('screen');
+                
+                this.gameWidth = window.innerWidth;
+                this.gameHeight = window.innerHeight;
+                
+                this.cameraY = 0;
+                this.worldHeight = 0;
+                this.gameRunning = false;
+                this.gamePaused = false;
+                
+                this.player = null;
+                this.enemies = [];
+                this.walls = [];
+                this.traps = [];
+                this.movingPlatforms = [];
+                this.goal = null;
+                
+                this.keys = {};
+                this.score = 0;
+                this.lives = 3;
+                this.level = 1;
+                this.time = 0;
+                this.timeLimit = 60;
+                this.startTime = 0;
+                
+                this.joystickActive = false;
+                this.joystickX = 0;
+                this.joystickY = 0;
+                
+                this.setupEventListeners();
+                this.showStartScreen();
+            }
+            
+            setupEventListeners() {
+                // Keyboard
+                document.addEventListener('keydown', (e) => {
+                    this.keys[e.key.toLowerCase()] = true;
+                    if (e.key === ' ') e.preventDefault();
+                });
+                document.addEventListener('keyup', (e) => {
+                    this.keys[e.key.toLowerCase()] = false;
+                });
+                
+                // Touch Joystick
+                const joystick = document.getElementById('joystick');
+                joystick.addEventListener('touchstart', (e) => {
+                    this.joystickActive = true;
+                    e.preventDefault();
+                });
+                joystick.addEventListener('touchmove', (e) => {
+                    if (!this.joystickActive) return;
+                    const touch = e.touches[0];
+                    const rect = joystick.parentElement.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    this.joystickX = (touch.clientX - centerX) / (rect.width / 2);
+                    this.joystickY = (touch.clientY - centerY) / (rect.height / 2);
+                    this.joystickX = Math.max(-1, Math.min(1, this.joystickX));
+                    this.joystickY = Math.max(-1, Math.min(1, this.joystickY));
+                });
+                document.addEventListener('touchend', () => {
+                    this.joystickActive = false;
+                    this.joystickX = 0;
+                    this.joystickY = 0;
+                });
+                
+                window.addEventListener('resize', () => {
+                    this.gameWidth = window.innerWidth;
+                    this.gameHeight = window.innerHeight;
+                });
+            }
+            
+            showStartScreen() {
+                this.screen.classList.add('active');
+                document.querySelector('.screen-content').innerHTML = `
+                    <div class="screen-title">Genetic Hunter</div>
+                    <div class="screen-subtitle">Vertical Maze Runner</div>
+                    <div style="font-size: 16px; margin: 20px 0; color: #A8E6A8; max-width: 400px;">
+                        Navigate through the labyrinth! Avoid enemies and traps.
+                    </div>
+                    <button id="startBtn" style="margin-top: 30px;">Start Game</button>
+                `;
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    this.screen.classList.remove('active');
+                    this.startGame();
+                });
+            }
+            
+            startGame() {
+                this.gameRunning = true;
+                this.score = 0;
+                this.lives = 3;
+                this.level = 1;
+                this.time = 0;
+                this.startTime = Date.now() / 1000;
+                this.cameraY = 0;
+                this.world.innerHTML = '';
+                this.enemies = [];
+                this.walls = [];
+                this.traps = [];
+                this.movingPlatforms = [];
+                
+                this.generateLevel(this.level);
+                this.createPlayer();
+                this.gameLoop();
+            }
+            
+            generateLevel(levelNum) {
+                const levelHeight = 3000 + (levelNum - 1) * 1000;
+                this.worldHeight = levelHeight;
+                
+                // Outer walls
+                this.createWall(0, 0, 30, levelHeight);
+                this.createWall(this.gameWidth - 30, 0, 30, levelHeight);
+                
+                // Platforms and maze structure
+                let currentY = 500;
+                const platformWidth = 80;
+                const platformHeight = 20;
+                const gapSize = 150 + levelNum * 20;
+                
+                for (let i = 0; i < Math.floor(levelHeight / 300); i++) {
+                    const randomSide = Math.random() > 0.5 ? 'left' : 'right';
+                    const randomX = randomSide === 'left' ? 
+                        50 + Math.random() * (this.gameWidth / 2 - 150) : 
+                        this.gameWidth / 2 + Math.random() * (this.gameWidth / 2 - 150);
+                    
+                    this.createWall(randomX, currentY, platformWidth, platformHeight);
+                    currentY += gapSize;
+                }
+                
+                // Enemies
+                const enemyCount = 3 + levelNum;
+                for (let i = 0; i < enemyCount; i++) {
+                    const x = 100 + Math.random() * (this.gameWidth - 200);
+                    const y = 800 + Math.random() * (levelHeight - 1500);
+                    this.createEnemy(x, y);
+                }
+                
+                // Traps
+                const trapCount = 2 + levelNum;
+                for (let i = 0; i < trapCount; i++) {
+                    const x = 100 + Math.random() * (this.gameWidth - 200);
+                    const y = 1000 + Math.random() * (levelHeight - 2000);
+                    this.createTrap(x, y, 100 + Math.random() * 50, 30);
+                }
+                
+                // Moving platforms
+                for (let i = 0; i < levelNum + 1; i++) {
+                    const x = 100 + Math.random() * (this.gameWidth - 200);
+                    const y = 1500 + Math.random() * (levelHeight - 2500);
+                    this.createMovingPlatform(x, y, 80, 20);
+                }
+                
+                // Goal
+                this.goal = {
+                    x: this.gameWidth / 2 - 25,
+                    y: levelHeight - 200,
+                    width: 50,
+                    height: 50
+                };
+            }
+            
+            createPlayer() {
+                this.player = {
+                    x: this.gameWidth / 2 - 16,
+                    y: this.gameHeight - 100,
+                    width: 32,
+                    height: 32,
+                    velocityY: 0,
+                    velocityX: 0,
+                    speed: 5,
+                    jumpPower: 15,
+                    isJumping: false,
+                    element: document.createElement('div')
+                };
+                
+                this.player.element.className = 'player';
+                this.world.appendChild(this.player.element);
+            }
+            
+            createWall(x, y, width, height) {
+                const wall = { x, y, width, height };
+                this.walls.push(wall);
+                
+                const element = document.createElement('div');
+                element.className = 'wall';
+                element.style.left = x + 'px';
+                element.style.top = y + 'px';
+                element.style.width = width + 'px';
+                element.style.height = height + 'px';
+                this.world.appendChild(element);
+            }
+            
+            createEnemy(x, y) {
+                const enemy = {
+                    x,
+                    y,
+                    width: 24,
+                    height: 24,
+                    velocityX: (Math.random() > 0.5 ? 1 : -1) * (1 + this.level * 0.5),
+                    minX: 50,
+                    maxX: this.gameWidth - 50,
+                    element: document.createElement('div')
+                };
+                
+                enemy.element.className = 'enemy';
+                enemy.element.style.left = x + 'px';
+                enemy.element.style.top = y + 'px';
+                this.world.appendChild(enemy.element);
+                this.enemies.push(enemy);
+            }
+            
+            createTrap(x, y, width, height) {
+                const trap = { x, y, width, height };
+                this.traps.push(trap);
+                
+                const element = document.createElement('div');
+                element.className = 'trap';
+                element.style.left = x + 'px';
+                element.style.top = y + 'px';
+                element.style.width = width + 'px';
+                element.style.height = height + 'px';
+                this.world.appendChild(element);
+            }
+            
+            createMovingPlatform(x, y, width, height) {
+                const platform = {
+                    x,
+                    y,
+                    width,
+                    height,
+                    velocityX: (Math.random() > 0.5 ? 1 : -1) * 2,
+                    minX: 50,
+                    maxX: this.gameWidth - 50 - width,
+                    element: document.createElement('div')
+                };
+                
+                platform.element.className = 'movingPlatform';
+                platform.element.style.left = x + 'px';
+                platform.element.style.top = y + 'px';
+                platform.element.style.width = width + 'px';
+                platform.element.style.height = height + 'px';
+                this.world.appendChild(platform.element);
+                this.movingPlatforms.push(platform);
+            }
+            
+            update() {
+                if (!this.gameRunning || this.gamePaused) return;
+                
+                // Update time
+                this.time = Math.floor((Date.now() / 1000) - this.startTime);
+                
+                // Check time limit
+                if (this.time > this.timeLimit) {
+                    this.gameOver('Time Over!');
+                    return;
+                }
+                
+                // Player movement
+                const moveSpeed = 5;
+                let moveX = 0;
+                let moveY = 0;
+                
+                if (this.keys['a'] || this.keys['arrowleft']) moveX = -moveSpeed;
+                if (this.keys['d'] || this.keys['arrowright']) moveX = moveSpeed;
+                if (this.keys['w'] || this.keys['arrowup']) moveY = -moveSpeed;
+                if (this.keys['s'] || this.keys['arrowdown']) moveY = moveSpeed;
+                
+                // Joystick movement
+                if (this.joystickActive) {
+                    moveX = this.joystickX * moveSpeed;
+                    moveY = this.joystickY * moveSpeed;
+                }
+                
+                this.player.x += moveX;
+                this.player.y += moveY;
+                
+                // Boundaries
+                if (this.player.x < 40) this.player.x = 40;
+                if (this.player.x + this.player.width > this.gameWidth - 40) 
+                    this.player.x = this.gameWidth - 40 - this.player.width;
+                if (this.player.y < this.cameraY) this.gameOver('Left Behind!');
+                if (this.player.y > this.gameHeight + this.cameraY) this.gameOver('Fell Off!');
+                
+                // Camera scroll
+                this.cameraY += 1.5 + this.level * 0.3;
+                
+                // Collision with walls
+                for (let wall of this.walls) {
+                    if (this.isColliding(this.player, wall)) {
+                        this.player.y = wall.y - this.player.height;
+                    }
+                }
+                
+                // Update moving platforms
+                for (let platform of this.movingPlatforms) {
+                    platform.x += platform.velocityX;
+                    if (platform.x < platform.minX) platform.velocityX *= -1;
+                    if (platform.x > platform.maxX) platform.velocityX *= -1;
+                    
+                    platform.element.style.left = platform.x + 'px';
+                    
+                    if (this.isColliding(this.player, platform)) {
+                        this.player.y = platform.y - this.player.height;
+                    }
+                }
+                
+                // Update enemies
+                for (let enemy of this.enemies) {
+                    enemy.x += enemy.velocityX;
+                    if (enemy.x < enemy.minX) enemy.velocityX *= -1;
+                    if (enemy.x > enemy.maxX) enemy.velocityX *= -1;
+                    
+                    enemy.element.style.left = enemy.x + 'px';
+                    
+                    if (this.isColliding(this.player, enemy)) {
+                        this.playerHit();
+                    }
+                }
+                
+                // Check traps
+                for (let trap of this.traps) {
+                    if (this.isColliding(this.player, trap)) {
+                        this.playerHit();
+                    }
+                }
+                
+                // Check goal
+                if (this.isColliding(this.player, this.goal)) {
+                    this.levelComplete();
+                }
+                
+                // Update score based on height
+                const newScore = Math.floor((this.worldHeight - (this.cameraY + this.gameHeight)) / 10);
+                this.score = Math.max(this.score, newScore);
+                
+                this.render();
+            }
+            
+            playerHit() {
+                this.lives--;
+                this.player.element.classList.add('hit');
+                setTimeout(() => {
+                    this.player.element.classList.remove('hit');
+                }, 300);
+                
+                if (this.lives <= 0) {
+                    this.gameOver('No Lives Left!');
+                }
+                
+                // Reset player position
+                this.player.x = this.gameWidth / 2 - 16;
+                this.player.y = this.cameraY + this.gameHeight - 100;
+            }
+            
+            levelComplete() {
+                this.score += 500;
+                this.level++;
+                this.timeLimit += 20;
+                this.generateLevel(this.level);
+                this.player.x = this.gameWidth / 2 - 16;
+                this.player.y = this.cameraY + this.gameHeight - 100;
+                this.showNotification('Level Complete!', 2000);
+            }
+            
+            gameOver(reason) {
+                this.gameRunning = false;
+                this.screen.classList.add('active');
+                document.querySelector('.screen-content').innerHTML = `
+                    <div class="screen-title" style="color: #FF6B6B;">Game Over</div>
+                    <div class="screen-subtitle">${reason}</div>
+                    <div class="screen-stats">
+                        <div>Final Score: ${this.score}</div>
+                        <div>Time: ${this.time}s</div>
+                        <div>Level: ${this.level}</div>
+                    </div>
+                    <button id="restartBtn">Play Again</button>
+                `;
+                document.getElementById('restartBtn').addEventListener('click', () => {
+                    this.screen.classList.remove('active');
+                    this.startGame();
+                });
+            }
+            
+            showNotification(text, duration) {
+                const notification = document.createElement('div');
+                notification.className = 'warning';
+                notification.textContent = text;
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), duration);
+            }
+            
+            isColliding(obj1, obj2) {
+                return obj1.x < obj2.x + obj2.width &&
+                       obj1.x + obj1.width > obj2.x &&
+                       obj1.y < obj2.y + obj2.height &&
+                       obj1.y + obj1.height > obj2.y;
+            }
+            
+            render() {
+                // Update camera
+                this.world.style.transform = `translateY(${-this.cameraY}px)`;
+                
+                // Update player
+                this.player.element.style.left = this.player.x + 'px';
+                this.player.element.style.top = (this.player.y - this.cameraY) + 'px';
+                
+                // Update goal
+                const goalElement = document.querySelector('[data-goal]');
+                if (goalElement) {
+                    goalElement.style.top = (this.goal.y - this.cameraY) + 'px';
+                }
+                
+                // Update HUD
+                document.getElementById('score').textContent = this.score;
+                document.getElementById('time').textContent = this.time;
+                document.getElementById('lives').textContent = this.lives;
+                document.getElementById('level').textContent = this.level;
+            }
+            
+            gameLoop() {
+                this.update();
+                requestAnimationFrame(() => this.gameLoop());
+            }
+        }
+        
+        // ==================== INITIALIZATION ====================
+        
+        const game = new GameEngine();
+    </script>
 </body>
 </html>
