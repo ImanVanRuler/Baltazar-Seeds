@@ -537,7 +537,7 @@
                     <div class="screen-title">Genetic Hunter</div>
                     <div class="screen-subtitle">Vertical Maze Runner</div>
                     <div style="font-size: 16px; margin: 20px 0; color: #A8E6A8; max-width: 400px;">
-                        Navigate through the labyrinth! Avoid enemies and traps.
+                        Navigate through the labyrinth! Avoid enemies and traps. Reach the goal before time runs out!
                     </div>
                     <button id="startBtn" style="margin-top: 30px;">Start Game</button>
                 `;
@@ -614,12 +614,7 @@
                 }
                 
                 // Goal
-                this.goal = {
-                    x: this.gameWidth / 2 - 25,
-                    y: levelHeight - 200,
-                    width: 50,
-                    height: 50
-                };
+                this.createGoal(this.gameWidth / 2 - 25, levelHeight - 200);
             }
             
             createPlayer() {
@@ -704,6 +699,16 @@
                 platform.element.style.height = height + 'px';
                 this.world.appendChild(platform.element);
                 this.movingPlatforms.push(platform);
+            }
+            
+            createGoal(x, y) {
+                this.goal = { x, y, width: 50, height: 50 };
+                const element = document.createElement('div');
+                element.className = 'goal';
+                element.style.left = x + 'px';
+                element.style.top = y + 'px';
+                element.textContent = '🎯';
+                this.world.appendChild(element);
             }
             
             update() {
@@ -822,14 +827,14 @@
                 this.generateLevel(this.level);
                 this.player.x = this.gameWidth / 2 - 16;
                 this.player.y = this.cameraY + this.gameHeight - 100;
-                this.showNotification('Level Complete!', 2000);
+                this.showNotification('Level ' + this.level + ' - GO!');
             }
             
             gameOver(reason) {
                 this.gameRunning = false;
                 this.screen.classList.add('active');
                 document.querySelector('.screen-content').innerHTML = `
-                    <div class="screen-title" style="color: #FF6B6B;">Game Over</div>
+                    <div class="screen-title" style="background: linear-gradient(135deg, #FF6B6B, #C92A2A); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Game Over</div>
                     <div class="screen-subtitle">${reason}</div>
                     <div class="screen-stats">
                         <div>Final Score: ${this.score}</div>
@@ -844,12 +849,12 @@
                 });
             }
             
-            showNotification(text, duration) {
+            showNotification(text) {
                 const notification = document.createElement('div');
                 notification.className = 'warning';
                 notification.textContent = text;
                 document.body.appendChild(notification);
-                setTimeout(() => notification.remove(), duration);
+                setTimeout(() => notification.remove(), 1000);
             }
             
             isColliding(obj1, obj2) {
@@ -867,12 +872,6 @@
                 this.player.element.style.left = this.player.x + 'px';
                 this.player.element.style.top = (this.player.y - this.cameraY) + 'px';
                 
-                // Update goal
-                const goalElement = document.querySelector('[data-goal]');
-                if (goalElement) {
-                    goalElement.style.top = (this.goal.y - this.cameraY) + 'px';
-                }
-                
                 // Update HUD
                 document.getElementById('score').textContent = this.score;
                 document.getElementById('time').textContent = this.time;
@@ -888,7 +887,9 @@
         
         // ==================== INITIALIZATION ====================
         
-        const game = new GameEngine();
+        window.addEventListener('load', () => {
+            const game = new GameEngine();
+        });
     </script>
 </body>
 </html>
