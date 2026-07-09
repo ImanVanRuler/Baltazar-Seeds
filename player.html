@@ -1,1168 +1,804 @@
+```html name=player.html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genetic Hunter - Vertical Maze Runner</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Genetic Hunter — Endless Vertical Runner</title>
+  <style>
+    /* Basisreset & Layout */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html,body { width:100%; height:100%; background:#050A06; color:#ECE7DF; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; user-select:none; -webkit-user-select:none; overflow:hidden; }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #050A06;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #ECE7DF;
-            user-select: none;
-            -webkit-user-select: none;
-        }
+    /* Canvas */
+    canvas#gameCanvas { display:block; width:100vw; height:100vh; background:linear-gradient(180deg,#050A06 0%, #08160f 60%); }
 
-        /* Game Canvas */
-        canvas#gameCanvas {
-            display: block;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(135deg, #050A06 0%, #0a1a0d 50%, #050A06 100%);
-        }
+    /* UI */
+    #uiContainer { position:fixed; inset:0; pointer-events:none; z-index:50; }
+    #hud { position:fixed; top:18px; left:18px; right:18px; display:flex; gap:12px; justify-content:flex-start; align-items:center; pointer-events:none; z-index:60; }
+    .hud-item { pointer-events:all; background:rgba(5,10,6,0.85); border:2px solid #C4913E; color:#ECE7DF; padding:8px 12px; border-radius:8px; box-shadow:0 6px 18px rgba(196,145,62,0.12); font-weight:600; display:flex; flex-direction:column; gap:2px; }
+    .hud-label{ font-size:11px; color:#C4913E; text-transform:uppercase; letter-spacing:1px; }
+    .hud-value{ font-family:'JetBrains Mono', monospace; color:#A8E6A8; font-size:16px; }
 
-        /* UI Overlay */
-        #uiContainer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 100;
-        }
+    /* Small center highscore / notifications */
+    #centerInfo { position:fixed; top:18px; left:50%; transform:translateX(-50%); pointer-events:none; z-index:61; color:#C4913E; font-weight:700; }
 
-        /* HUD */
-        #hud {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            z-index: 1000;
-            font-size: 14px;
-            font-weight: bold;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-            flex-wrap: wrap;
-        }
+    /* Touch joystick */
+    #touchControls{ position:fixed; right:22px; bottom:22px; width:140px; height:140px; display:none; z-index:55; pointer-events:all; }
+    @media(max-width:1024px){ #touchControls{ display:block; } }
+    .joystick-base{ width:100%; height:100%; border-radius:50%; border:3px solid #C4913E; background:radial-gradient(circle, rgba(196,145,62,0.08), transparent); position:relative; }
+    .joystick-stick{ width:56px; height:56px; border-radius:50%; background:linear-gradient(180deg,#E2B46B,#8B6F47); border:2px solid #C4913E; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); transition:box-shadow 0.08s; touch-action:none; }
 
-        .hud-item {
-            background: rgba(5, 10, 6, 0.85);
-            border: 2px solid #C4913E;
-            padding: 10px 16px;
-            border-radius: 6px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(196, 145, 62, 0.25);
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+    /* Screen overlay (paused / start) */
+    #screenOverlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:100; pointer-events:none; }
+    #screenBox { pointer-events:all; width:480px; max-width:92%; padding:28px; border-radius:12px; background:rgba(11,18,9,0.95); border:2px solid #C4913E; box-shadow:0 20px 60px rgba(0,0,0,0.6); text-align:center; color:#ECE7DF; }
+    #screenBox h1{ margin-bottom:6px; font-weight:300; font-size:40px; background:linear-gradient(135deg,#C4913E,#E2B46B); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    #screenBox p{ color:#A8E6A8; margin:12px 0 20px; }
+    button.primary{ background:linear-gradient(135deg,#C4913E,#E2B46B); border:none; color:#050A06; padding:12px 22px; border-radius:8px; font-weight:800; cursor:pointer; text-transform:uppercase; letter-spacing:1px; box-shadow:0 10px 30px rgba(196,145,62,0.18); }
+    button.ghost{ background:transparent; border:1px solid rgba(196,145,62,0.18); color:#A8E6A8; padding:8px 12px; border-radius:8px; cursor:pointer; }
 
-        .hud-label {
-            font-size: 10px;
-            color: #C4913E;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
+    /* Debug */
+    #debugInfo{ position:fixed; right:10px; bottom:10px; font-family:monospace; font-size:12px; color:#C4913E; z-index:70; display:none; pointer-events:none; background:rgba(5,10,6,0.7); padding:8px; border-radius:6px; border:1px solid #C4913E; }
 
-        .hud-value {
-            font-size: 18px;
-            color: #A8E6A8;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* Mobile HUD */
-        @media (max-width: 768px) {
-            #hud {
-                top: 10px;
-                left: 10px;
-                right: 10px;
-                gap: 8px;
-            }
-            
-            .hud-item {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-            
-            .hud-label {
-                font-size: 9px;
-            }
-            
-            .hud-value {
-                font-size: 14px;
-            }
-        }
-
-        /* Screens */
-        #screenOverlay {
-            position: fixed;
-            inset: 0;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(5, 10, 6, 0.96);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            animation: fadeIn 0.3s ease;
-        }
-
-        #screenOverlay.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .screen-box {
-            text-align: center;
-            max-width: 500px;
-            padding: 40px;
-            background: rgba(11, 18, 9, 0.9);
-            border: 2px solid #C4913E;
-            border-radius: 12px;
-            box-shadow: 0 0 50px rgba(196, 145, 62, 0.3);
-            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .screen-title {
-            font-size: clamp(32px, 10vw, 80px);
-            font-weight: 300;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #C4913E, #E2B46B);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -1px;
-        }
-
-        .screen-title.error {
-            background: linear-gradient(135deg, #FF6B6B, #C92A2A);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .screen-subtitle {
-            font-size: 18px;
-            color: #C4913E;
-            margin-bottom: 24px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .screen-description {
-            font-size: 14px;
-            color: #A8E6A8;
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-
-        .screen-stats {
-            background: rgba(5, 10, 6, 0.6);
-            border: 1px solid rgba(196, 145, 62, 0.2);
-            border-radius: 6px;
-            padding: 16px;
-            margin-bottom: 24px;
-        }
-
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            font-size: 14px;
-            color: #ECE7DF;
-        }
-
-        .stat-label {
-            color: #C4913E;
-        }
-
-        .stat-value {
-            color: #A8E6A8;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: bold;
-        }
-
-        button {
-            background: linear-gradient(135deg, #C4913E, #E2B46B);
-            border: none;
-            color: #050A06;
-            padding: 12px 32px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 25px rgba(196, 145, 62, 0.3);
-            pointer-events: all;
-        }
-
-        button:hover {
-            background: linear-gradient(135deg, #E2B46B, #C4913E);
-            transform: translateY(-2px);
-            box-shadow: 0 0 35px rgba(196, 145, 62, 0.5);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        /* Tutorial */
-        .controls-list {
-            text-align: left;
-            display: inline-block;
-            margin: 16px 0;
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .control-item {
-            margin: 8px 0;
-            color: #A8E6A8;
-        }
-
-        .control-key {
-            color: #C4913E;
-            font-weight: bold;
-            font-family: 'JetBrains Mono', monospace;
-            background: rgba(196, 145, 62, 0.1);
-            padding: 2px 6px;
-            border-radius: 3px;
-        }
-
-        /* Touch Controls */
-        #touchControls {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 140px;
-            height: 140px;
-            display: none;
-            z-index: 500;
-        }
-
-        @media (max-width: 1024px) {
-            #touchControls {
-                display: block;
-            }
-        }
-
-        .joystick-base {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(196, 145, 62, 0.2), transparent);
-            border: 3px solid #C4913E;
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(196, 145, 62, 0.3), inset 0 0 15px rgba(196, 145, 62, 0.1);
-        }
-
-        .joystick-stick {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle at 30% 30%, #E2B46B, #8B6F47);
-            border: 2px solid #C4913E;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 15px rgba(196, 145, 62, 0.6), inset -2px -2px 5px rgba(0, 0, 0, 0.4);
-            cursor: grab;
-            transition: box-shadow 0.2s;
-        }
-
-        .joystick-stick:active {
-            cursor: grabbing;
-            box-shadow: 0 0 25px rgba(196, 145, 62, 0.8), inset -2px -2px 5px rgba(0, 0, 0, 0.4);
-        }
-
-        /* Particles & Effects */
-        .particle {
-            position: absolute;
-            pointer-events: none;
-        }
-
-        /* Notifications */
-        .notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px 40px;
-            background: rgba(255, 215, 0, 0.95);
-            color: #050A06;
-            border: 2px solid #FFA500;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 18px;
-            z-index: 3000;
-            pointer-events: none;
-            animation: notificationPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
-        }
-
-        @keyframes notificationPop {
-            from {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.5);
-            }
-            to {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-
-        /* Loading */
-        .loading-spinner {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            border: 3px solid rgba(196, 145, 62, 0.3);
-            border-top: 3px solid #C4913E;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Debug Mode */
-        #debugInfo {
-            position: fixed;
-            top: 200px;
-            right: 10px;
-            font-size: 11px;
-            color: #C4913E;
-            font-family: 'JetBrains Mono', monospace;
-            background: rgba(5, 10, 6, 0.8);
-            border: 1px solid #C4913E;
-            padding: 10px;
-            border-radius: 4px;
-            max-width: 200px;
-            display: none;
-            line-height: 1.4;
-            z-index: 999;
-            pointer-events: none;
-        }
-    </style>
+    /* Particle absolute fallback (for DOM particles if used) */
+    .particle{ position:absolute; pointer-events:none; }
+  </style>
 </head>
 <body>
-    <canvas id="gameCanvas"></canvas>
-    
-    <div id="uiContainer">
-        <div id="hud">
-            <div class="hud-item">
-                <span class="hud-label">Score</span>
-                <span class="hud-value" id="scoreValue">0</span>
-            </div>
-            <div class="hud-item">
-                <span class="hud-label">Time</span>
-                <span class="hud-value" id="timeValue">60</span>
-            </div>
-            <div class="hud-item">
-                <span class="hud-label">Lives</span>
-                <span class="hud-value" id="livesValue">❤️ 3</span>
-            </div>
-            <div class="hud-item">
-                <span class="hud-label">Level</span>
-                <span class="hud-value" id="levelValue">1</span>
-            </div>
-            <div class="hud-item">
-                <span class="hud-label">Distance</span>
-                <span class="hud-value" id="distanceValue">0m</span>
-            </div>
-        </div>
-        
-        <div id="screenOverlay">
-            <div class="screen-box">
-                <h1 class="screen-title" id="screenTitle">Genetic Hunter</h1>
-                <div class="screen-subtitle" id="screenSubtitle">Vertical Maze Runner</div>
-                <div class="screen-description" id="screenDescription">
-                    Navigate through deadly labyrinths. Avoid enemies, traps, and obstacles.
-                    Reach the exit before time runs out!
-                </div>
-                <div class="controls-list" id="controlsList">
-                    <div class="control-item"><span class="control-key">WASD</span> or <span class="control-key">Arrow Keys</span> - Move</div>
-                    <div class="control-item"><span class="control-key">Space</span> - Jump (if available)</div>
-                    <div class="control-item"><span class="control-key">Joystick</span> - Mobile Control</div>
-                </div>
-                <div class="screen-stats" id="statsBox" style="display: none;">
-                    <div class="stat-row">
-                        <span class="stat-label">Final Score:</span>
-                        <span class="stat-value" id="finalScore">0</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Time Survived:</span>
-                        <span class="stat-value" id="finalTime">0s</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Distance:</span>
-                        <span class="stat-value" id="finalDistance">0m</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Level Reached:</span>
-                        <span class="stat-value" id="finalLevel">1</span>
-                    </div>
-                </div>
-                <button id="actionButton" onclick="game.handleScreenAction()">Start Game</button>
-            </div>
-        </div>
-        
-        <div id="touchControls">
-            <div class="joystick-base">
-                <div class="joystick-stick" id="joystick"></div>
-            </div>
-        </div>
-        
-        <div id="debugInfo"></div>
+  <canvas id="gameCanvas" width="1280" height="720"></canvas>
+
+  <div id="uiContainer">
+    <div id="hud">
+      <div class="hud-item">
+        <div class="hud-label">Score</div>
+        <div class="hud-value" id="scoreValue">0</div>
+      </div>
+      <div class="hud-item">
+        <div class="hud-label">Speed</div>
+        <div class="hud-value" id="speedValue">0.0</div>
+      </div>
+      <div class="hud-item">
+        <div class="hud-label">Distance</div>
+        <div class="hud-value" id="distanceValue">0m</div>
+      </div>
+      <div class="hud-item">
+        <div class="hud-label">Highscore</div>
+        <div class="hud-value" id="highscoreValue">0</div>
+      </div>
     </div>
 
-    <script>
-        // ╔════════════════════════════════════════════════════════════════════════════╗
-        // ║                        GENETIC HUNTER - GAME ENGINE                       ║
-        // ║                     Vertical Maze Runner - Full Version                   ║
-        // ╚════════════════════════════════════════════════════════════════════════════╝
+    <div id="centerInfo"></div>
 
-        class GeneticHunterGame {
-            constructor() {
-                this.canvas = document.getElementById('gameCanvas');
-                this.ctx = this.canvas.getContext('2d', { alpha: false });
-                
-                // Set canvas size
-                this.resizeCanvas();
-                window.addEventListener('resize', () => this.resizeCanvas());
-                
-                // Game variables
-                this.gameState = 'start'; // start, playing, levelComplete, gameOver
-                this.score = 0;
-                this.lives = 3;
-                this.level = 1;
-                this.time = 60;
-                this.distance = 0;
-                this.startTime = 0;
-                this.isPaused = false;
-                
-                // World
-                this.cameraY = 0;
-                this.worldHeight = 10000;
-                
-                // Game objects
-                this.player = null;
-                this.walls = [];
-                this.enemies = [];
-                this.pickups = [];
-                this.particles = [];
-                this.hazards = [];
-                this.platform = null;
-                
-                // Input
-                this.keys = {};
-                this.touchInput = { x: 0, y: 0, active: false };
-                this.setupInputListeners();
-                
-                // Audio context (for potential sound effects)
-                this.audioContext = null;
-                
-                // Start game loop
-                this.lastFrameTime = Date.now();
-                this.gameLoop();
+    <div id="touchControls" aria-hidden="true">
+      <div class="joystick-base">
+        <div class="joystick-stick" id="joystick"></div>
+      </div>
+    </div>
+
+    <div id="screenOverlay">
+      <div id="screenBox">
+        <h1>Genetic Hunter</h1>
+        <p>Endloser Vertical Runner — Bleib oben. Weiche Hindernissen aus. Steigere dein Tempo. Erreiche die höchste Punktzahl.</p>
+        <div style="display:flex;gap:8px;justify-content:center;">
+          <button class="primary" id="startBtn">Start</button>
+          <button class="ghost" id="toggleDebugBtn">Debug</button>
+        </div>
+        <p style="margin-top:14px; font-size:13px; color:#A8E6A8;">Steuerung: WASD / Pfeiltasten / Touch-Joystick</p>
+      </div>
+    </div>
+
+    <div id="debugInfo"></div>
+  </div>
+
+  <script>
+    /* =========================================================================
+       Endloser Vertical Runner
+       Vollständige Überarbeitung basierend auf der gelieferten player.html.
+       Ziel: unendliches, performantes Spiel mit kontinuierlichem Aufwärts-Scroll,
+       ansteigender Geschwindigkeit, sauberen, wiederverwendbaren Strukturen.
+       ========================================================================= */
+
+    (function() {
+      'use strict';
+
+      /* ---------------------------
+         Konfigurierbare Spielparameter
+         --------------------------- */
+      const CONFIG = {
+        spawnBuffer: 1200,          // Abstand oberhalb der Ansicht, an dem neue Objekte gespawnt werden
+        objectRemoveBuffer: 600,    // Abstand unterhalb der Ansicht, an dem Objekte entfernt werden
+        initialScrollSpeed: 120,    // px / sek (Anfangsgeschwindigkeit des Bildlaufs)
+        speedIncreasePerSecond: 0.8,// px / sek^2 (Beschleunigung - sorgt für Tempo / Schwierigkeit)
+        maxScrollSpeed: 1600,       // Begrenzung, um physikalische/frametime Probleme zu vermeiden
+        playerStartXRatio: 0.5,     // Startposition relativ zur Breite
+        playerStartYOffset: 140,    // Abstand vom unteren Bildschirmrand in px
+        obstacleMinGap: 120,        // Mindestabstand zwischen Hindernissen (vertikal)
+        obstacleMaxGap: 320,        // Maximaler Abstand
+        chunksPrSpawn: 1,           // how many obstacles per batch (tune difficulty)
+        maxParticles: 180,
+        particleTrail: true,
+        poolSizes: { obstacle: 200, enemy: 80, pickup: 80, particle: 200 },
+        debug: false
+      };
+
+      /* ---------------------------
+         Hilfsfunktionen
+         --------------------------- */
+      const rand = (min, max) => Math.random() * (max - min) + min;
+      const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+      const nowMs = () => performance.now();
+
+      /* ---------------------------
+         Game Classes & Pools
+         --------------------------- */
+
+      class Pool {
+        constructor(factory, size = 100) {
+          this.factory = factory;
+          this.items = [];
+          for (let i = 0; i < size; i++) this.items.push(this.factory());
+        }
+        acquire() { return this.items.length ? this.items.pop() : this.factory(); }
+        release(item) { if (this.items.length < 10000) this.items.push(item); }
+      }
+
+      class Game {
+        constructor(canvas) {
+          this.canvas = canvas;
+          this.ctx = canvas.getContext('2d', { alpha: false });
+          this.width = canvas.width;
+          this.height = canvas.height;
+
+          // World state
+          this.cameraY = 0;         // Top of viewport in world coordinates
+          this.scroll = 0;         // cumulative scrolled distance (for score)
+          this.scrollSpeed = CONFIG.initialScrollSpeed;
+          this.score = 0;
+          this.highscore = this.loadHighscore();
+          this.paused = true;
+          this.lastTime = nowMs();
+          this.accumulator = 0;
+
+          // Collections
+          this.obstacles = [];
+          this.enemies = [];
+          this.pickups = [];
+          this.particles = [];
+          this.pools = {
+            obstacle: new Pool(() => new Obstacle(), CONFIG.poolSizes.obstacle),
+            enemy: new Pool(() => new Enemy(), CONFIG.poolSizes.enemy),
+            pickup: new Pool(() => new Pickup(), CONFIG.poolSizes.pickup),
+            particle: new Pool(() => new Particle(), CONFIG.poolSizes.particle)
+          };
+
+          // Player
+          this.player = new Player(this.width * CONFIG.playerStartXRatio, this.cameraY + (this.height - CONFIG.playerStartYOffset), this);
+
+          // Input
+          this.keys = {};
+          this.touch = { active:false, x:0, y:0 };
+
+          // Generation tracking
+          this.highestSpawnY = this.cameraY - CONFIG.spawnBuffer; // start spawning above
+          this.frameCounter = 0;
+
+          // Performance tuning
+          this.maxObjectsSeen = 0;
+
+          // Setup
+          this.setupInput();
+          this.resize();
+          window.addEventListener('resize', () => this.resize());
+        }
+
+        loadHighscore(){ try { return parseInt(localStorage.getItem('gh_highscore')||'0',10) || 0; } catch(e){ return 0; } }
+        saveHighscore(){ try { localStorage.setItem('gh_highscore', String(this.highscore)); } catch(e){} }
+
+        start() {
+          this.paused = false;
+          this.lastTime = nowMs();
+          this.cameraY = 0;
+          this.scroll = 0;
+          this.score = 0;
+          this.scrollSpeed = CONFIG.initialScrollSpeed;
+          this.player.reset(this.width * CONFIG.playerStartXRatio, this.cameraY + (this.height - CONFIG.playerStartYOffset));
+          this.clearWorld();
+          this.highestSpawnY = this.cameraY - CONFIG.spawnBuffer;
+          this.loop();
+        }
+
+        clearWorld() {
+          // release to pools
+          for (let o of this.obstacles) this.pools.obstacle.release(o);
+          for (let e of this.enemies) this.pools.enemy.release(e);
+          for (let p of this.pickups) this.pools.pickup.release(p);
+          for (let pa of this.particles) this.pools.particle.release(pa);
+          this.obstacles.length = 0; this.enemies.length = 0; this.pickups.length = 0; this.particles.length = 0;
+        }
+
+        resize() {
+          // Keep canvas resolution large for crisp rendering (devicePixelRatio)
+          const dpr = Math.max(1, window.devicePixelRatio || 1);
+          const cssW = Math.max(320, window.innerWidth);
+          const cssH = Math.max(240, window.innerHeight);
+          this.canvas.style.width = cssW + 'px';
+          this.canvas.style.height = cssH + 'px';
+          this.canvas.width = Math.floor(cssW * dpr);
+          this.canvas.height = Math.floor(cssH * dpr);
+          this.width = this.canvas.width;
+          this.height = this.canvas.height;
+          this.ctx.setTransform(dpr,0,0,dpr,0,0);
+        }
+
+        setupInput() {
+          // Keyboard
+          window.addEventListener('keydown', (e) => {
+            this.keys[e.key.toLowerCase()] = true;
+            // prevent page scroll on space
+            if ([' ', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(e.key.toLowerCase())) e.preventDefault();
+          });
+          window.addEventListener('keyup', (e) => { this.keys[e.key.toLowerCase()] = false; });
+
+          // Touch joystick
+          const joystick = document.getElementById('joystick');
+          const base = joystick && joystick.parentElement;
+          if (joystick && base) {
+            const rect = () => base.getBoundingClientRect();
+            joystick.addEventListener('touchstart', (ev) => {
+              this.touch.active = true;
+              ev.preventDefault();
+            }, { passive:false });
+            window.addEventListener('touchmove', (ev) => {
+              if (!this.touch.active) return;
+              const t = ev.touches[0];
+              const r = rect();
+              const cx = r.left + r.width / 2;
+              const cy = r.top + r.height / 2;
+              let x = (t.clientX - cx) / (r.width/2);
+              let y = (t.clientY - cy) / (r.height/2);
+              x = clamp(x, -1, 1);
+              y = clamp(y, -1, 1);
+              const dist = Math.sqrt(x*x + y*y);
+              if (dist > 1) { x/=dist; y/=dist; }
+              this.touch.x = x; this.touch.y = y;
+              joystick.style.transform = `translate(calc(-50% + ${x*(r.width/2-30)}px), calc(-50% + ${y*(r.height/2-30)}px))`;
+            }, { passive:false });
+            window.addEventListener('touchend', () => {
+              this.touch.active = false;
+              this.touch.x = 0; this.touch.y = 0;
+              joystick.style.transform = 'translate(-50%,-50%)';
+            });
+          }
+        }
+
+        loop() {
+          if (this.paused) return;
+          const current = nowMs();
+          let dt = (current - this.lastTime) / 1000;
+          this.lastTime = current;
+          // clamp dt to avoid physics explosions on tab switch
+          dt = Math.min(0.05, dt);
+
+          // Update world physics & logic
+          this.update(dt);
+          // Render
+          this.render();
+
+          requestAnimationFrame(() => this.loop());
+        }
+
+        update(dt) {
+          // Increase scroll speed gradually
+          this.scrollSpeed += CONFIG.speedIncreasePerSecond * dt;
+          this.scrollSpeed = Math.min(this.scrollSpeed, CONFIG.maxScrollSpeed);
+
+          // Advance camera upward (cameraY increases => world moves upward)
+          const deltaScroll = this.scrollSpeed * dt;
+          this.cameraY += deltaScroll;
+          this.scroll += deltaScroll;
+          this.score = Math.floor(this.scroll * 0.2); // scale for fun; tune as needed
+
+          // Player input & update
+          let moveX = 0, moveY = 0;
+          if (this.keys['a'] || this.keys['arrowleft']) moveX = -1;
+          if (this.keys['d'] || this.keys['arrowright']) moveX = 1;
+          if (this.keys['w'] || this.keys['arrowup']) moveY = -1;
+          if (this.keys['s'] || this.keys['arrowdown']) moveY = 1;
+          if (this.touch.active) { moveX = this.touch.x; moveY = this.touch.y; }
+
+          this.player.handleInput(moveX, moveY, dt);
+          this.player.update(dt);
+
+          // Adjust player so they can't drift below bottom: allow penalty but no death/end
+          const playerScreenY = this.player.y - this.cameraY;
+          if (playerScreenY > this.height - 8) {
+            // Player would disappear: apply immediate reposition with penalty
+            this.player.y = this.cameraY + this.height - 120;
+            this.player.velocityY = Math.max(this.player.velocityY, -6);
+            // create visible feedback
+            this.spawnParticles(this.player.x + this.player.width/2, this.player.y + this.player.height/2, 12, '#FF6B6B');
+            // small score penalty
+            this.scroll = Math.max(0, this.scroll - 120);
+          }
+
+          // Spawn new objects above as needed (worldY values are absolute, increases with cameraY)
+          while (this.highestSpawnY > this.cameraY - CONFIG.spawnBuffer) {
+            // We spawn at decreasing Y (because cameraY increases)
+            this.highestSpawnY -= rand(CONFIG.obstacleMinGap, CONFIG.obstacleMaxGap) * rand(0.9, 1.6);
+            this.spawnChunk(this.highestSpawnY);
+          }
+
+          // Update enemies, obstacles, pickups, particles
+          this.updateCollections(dt);
+
+          // Remove objects that fell far below the view
+          this.cleanup();
+
+          // Update highscore
+          if (this.score > this.highscore) {
+            this.highscore = this.score;
+            this.saveHighscore();
+          }
+
+          // Update HUD DOM (throttled via frameCounter)
+          this.frameCounter = (this.frameCounter + 1) % 3;
+          if (this.frameCounter === 0) this.updateHUD();
+        }
+
+        updateCollections(dt) {
+          // Obstacles
+          for (let o of this.obstacles) o.update(dt, this);
+          // Enemies
+          for (let e of this.enemies) e.update(dt, this);
+          // Pickups
+          for (let p of this.pickups) p.update(dt, this);
+          // Particles
+          for (let i = this.particles.length - 1; i >= 0; i--) {
+            const pa = this.particles[i];
+            pa.update(dt);
+            if (pa.dead) {
+              this.pools.particle.release(pa);
+              this.particles.splice(i, 1);
             }
-            
-            resizeCanvas() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-            }
-            
-            setupInputListeners() {
-                // Keyboard
-                document.addEventListener('keydown', (e) => {
-                    this.keys[e.key.toLowerCase()] = true;
-                    if (e.key === ' ') e.preventDefault();
-                });
-                document.addEventListener('keyup', (e) => {
-                    this.keys[e.key.toLowerCase()] = false;
-                });
-                
-                // Touch joystick
-                const joystick = document.getElementById('joystick');
-                const joystickBase = joystick.parentElement;
-                
-                joystick.addEventListener('touchstart', (e) => {
-                    this.touchInput.active = true;
-                    e.preventDefault();
-                });
-                
-                document.addEventListener('touchmove', (e) => {
-                    if (!this.touchInput.active) return;
-                    const touch = e.touches[0];
-                    const rect = joystickBase.getBoundingClientRect();
-                    const centerX = rect.left + rect.width / 2;
-                    const centerY = rect.top + rect.height / 2;
-                    
-                    let x = (touch.clientX - centerX) / (rect.width / 2);
-                    let y = (touch.clientY - centerY) / (rect.height / 2);
-                    
-                    x = Math.max(-1, Math.min(1, x));
-                    y = Math.max(-1, Math.min(1, y));
-                    
-                    const distance = Math.sqrt(x * x + y * y);
-                    if (distance > 1) {
-                        x /= distance;
-                        y /= distance;
-                    }
-                    
-                    this.touchInput.x = x;
-                    this.touchInput.y = y;
-                    
-                    const maxOffset = rect.width / 2 - 30;
-                    joystick.style.transform = `translate(calc(-50% + ${x * maxOffset}px), calc(-50% + ${y * maxOffset}px))`;
-                });
-                
-                document.addEventListener('touchend', () => {
-                    this.touchInput.active = false;
-                    this.touchInput.x = 0;
-                    this.touchInput.y = 0;
-                    joystick.style.transform = 'translate(-50%, -50%)';
-                });
-            }
-            
-            handleScreenAction() {
-                if (this.gameState === 'start') {
-                    this.startGame();
-                } else if (this.gameState === 'levelComplete') {
-                    this.nextLevel();
-                } else if (this.gameState === 'gameOver') {
-                    this.restart();
-                }
-            }
-            
-            startGame() {
-                this.gameState = 'playing';
-                this.score = 0;
-                this.lives = 3;
-                this.level = 1;
-                this.distance = 0;
-                this.hideScreen();
-                this.generateLevel();
-                this.startTime = Date.now();
-            }
-            
-            generateLevel() {
-                this.walls = [];
-                this.enemies = [];
-                this.pickups = [];
-                this.hazards = [];
-                this.cameraY = 0;
-                
-                const levelSeed = this.level;
-                this.worldHeight = 3000 + (levelSeed - 1) * 1500;
-                
-                // Create maze
-                this.createMaze(levelSeed);
-                
-                // Create player
-                if (!this.player) {
-                    this.player = new Player(this.canvas.width / 2, this.canvas.height - 80, this);
+          }
+
+          // Collisions: player <-> obstacles/enemies/pickups
+          // Simple AABB tests; number of objects is limited by spawn spacing + pool size
+          for (let o of this.obstacles) {
+            if (AABBIntersect(this.player, o)) {
+              // If hitting top of obstacle, stand on it (helpful to stay up)
+              if (this.player.velocityY > 0 && (this.player.y + this.player.height - this.player.velocityY) <= o.y) {
+                this.player.y = o.y - this.player.height;
+                this.player.velocityY = 0;
+                this.player.onGround = true;
+              } else {
+                // side collision or hitting from below: nudge horizontally away
+                if (this.player.x + this.player.width/2 < o.x + o.width/2) {
+                  this.player.x = o.x - this.player.width - 2;
                 } else {
-                    this.player.x = this.canvas.width / 2;
-                    this.player.y = this.canvas.height - 80;
-                    this.player.velocityY = 0;
-                    this.player.velocityX = 0;
+                  this.player.x = o.x + o.width + 2;
                 }
-                
-                // Set time limit
-                this.time = 60 + (levelSeed - 1) * 10;
+                this.player.velocityX *= 0.25;
+              }
             }
-            
-            createMaze(level) {
-                const width = this.canvas.width;
-                
-                // Border walls
-                this.walls.push(new Wall(0, 0, 30, this.worldHeight));
-                this.walls.push(new Wall(width - 30, 0, 30, this.worldHeight));
-                
-                // Random maze generation
-                const platformWidth = 80 + level * 5;
-                const platformHeight = 20;
-                let y = 300;
-                
-                while (y < this.worldHeight) {
-                    const randomX = 50 + Math.random() * (width - 150 - platformWidth);
-                    const platformLength = platformWidth + Math.random() * 60;
-                    
-                    this.walls.push(new Wall(randomX, y, platformLength, platformHeight));
-                    
-                    // Add some vertical walls
-                    if (Math.random() > 0.6) {
-                        this.walls.push(new Wall(randomX + platformLength / 2, y + 40, 20, 100));
-                    }
-                    
-                    y += 150 + Math.random() * 100;
-                }
-                
-                // Add enemies
-                const enemyCount = 2 + level * 2;
-                for (let i = 0; i < enemyCount; i++) {
-                    const x = 100 + Math.random() * (width - 200);
-                    const y = 500 + Math.random() * (this.worldHeight - 1500);
-                    this.enemies.push(new Enemy(x, y, 1 + level * 0.3, this));
-                }
-                
-                // Add hazards (spikes, etc)
-                const hazardCount = 1 + level;
-                for (let i = 0; i < hazardCount; i++) {
-                    const x = 100 + Math.random() * (width - 200);
-                    const y = 800 + Math.random() * (this.worldHeight - 2000);
-                    this.hazards.push(new Hazard(x, y, 60, 20, this));
-                }
-                
-                // Add pickups (bonus points)
-                const pickupCount = 3 + level;
-                for (let i = 0; i < pickupCount; i++) {
-                    const x = 100 + Math.random() * (width - 200);
-                    const y = 600 + Math.random() * (this.worldHeight - 1500);
-                    this.pickups.push(new Pickup(x, y, this));
-                }
-                
-                // Goal platform
-                this.platform = new Wall(this.canvas.width / 2 - 50, this.worldHeight - 150, 100, 30);
+          }
+
+          for (let e of this.enemies) {
+            if (AABBIntersect(this.player, e)) {
+              // enemy collision results in bounce and temporary invulnerability
+              if (!this.player.invulnerable) {
+                this.player.invulnerable = 0.9; // seconds
+                this.player.velocityY = -8;
+                this.spawnParticles(this.player.x + this.player.width/2, this.player.y + this.player.height/2, 16, '#FF6B6B');
+                // penalty to distance
+                this.scroll = Math.max(0, this.scroll - 180);
+              }
             }
-            
-            showScreen(title, subtitle, description, showStats = false) {
-                const screen = document.getElementById('screenOverlay');
-                document.getElementById('screenTitle').textContent = title;
-                document.getElementById('screenSubtitle').textContent = subtitle;
-                document.getElementById('screenDescription').textContent = description;
-                
-                const statsBox = document.getElementById('statsBox');
-                if (showStats) {
-                    document.getElementById('finalScore').textContent = this.score;
-                    document.getElementById('finalTime').textContent = Math.floor((Date.now() - this.startTime) / 1000);
-                    document.getElementById('finalDistance').textContent = Math.floor(this.distance) + 'm';
-                    document.getElementById('finalLevel').textContent = this.level;
-                    statsBox.style.display = 'block';
-                } else {
-                    statsBox.style.display = 'none';
-                }
-                
-                screen.classList.add('active');
-                this.gameState = 'paused';
+          }
+
+          for (let i = this.pickups.length - 1; i >= 0; i--) {
+            const p = this.pickups[i];
+            if (AABBIntersect(this.player, p)) {
+              // collect
+              this.score += p.value;
+              // spawn celebratory particles
+              this.spawnParticles(p.x + p.width/2, p.y + p.height/2, 18, '#FFD700');
+              this.pools.pickup.release(p);
+              this.pickups.splice(i, 1);
             }
-            
-            hideScreen() {
-                document.getElementById('screenOverlay').classList.remove('active');
-            }
-            
-            restart() {
-                this.startGame();
-            }
-            
-            nextLevel() {
-                this.level++;
-                this.score += 500;
-                this.generateLevel();
-                this.gameState = 'playing';
-                this.hideScreen();
-                this.startTime = Date.now();
-            }
-            
-            update(deltaTime) {
-                if (this.gameState !== 'playing') return;
-                
-                // Update timer
-                this.time = 60 + (this.level - 1) * 10 - Math.floor((Date.now() - this.startTime) / 1000);
-                
-                if (this.time <= 0) {
-                    this.gameOver('Time\'s Up!');
-                    return;
-                }
-                
-                // Handle input
-                let moveX = 0;
-                if (this.keys['a'] || this.keys['arrowleft']) moveX = -1;
-                if (this.keys['d'] || this.keys['arrowright']) moveX = 1;
-                if (this.touchInput.active) moveX = this.touchInput.x;
-                
-                let moveY = 0;
-                if (this.keys['w'] || this.keys['arrowup']) moveY = -1;
-                if (this.keys['s'] || this.keys['arrowdown']) moveY = 1;
-                if (this.touchInput.active) moveY = this.touchInput.y;
-                
-                this.player.handleInput(moveX, moveY);
-                
-                // Update player
-                this.player.update(deltaTime);
-                
-                // Update camera
-                this.cameraY = Math.max(0, this.player.y - this.canvas.height / 3);
-                
-                // Auto-scroll (if player falls behind)
-                if (this.cameraY > this.player.y) {
-                    this.gameOver('Left Behind!');
-                    return;
-                }
-                
-                // Update distance
-                this.distance = this.worldHeight - this.cameraY;
-                
-                // Update enemies
-                for (let enemy of this.enemies) {
-                    enemy.update(deltaTime);
-                    if (this.player.collidesWith(enemy)) {
-                        this.playerHit();
-                    }
-                }
-                
-                // Update pickups
-                for (let i = this.pickups.length - 1; i >= 0; i--) {
-                    if (this.player.collidesWith(this.pickups[i])) {
-                        this.score += 50;
-                        this.pickups.splice(i, 1);
-                    }
-                }
-                
-                // Check hazards
-                for (let hazard of this.hazards) {
-                    if (this.player.collidesWith(hazard)) {
-                        this.playerHit();
-                    }
-                }
-                
-                // Check goal
-                if (this.player.collidesWith(this.platform) && this.cameraY > this.worldHeight - this.canvas.height) {
-                    this.levelComplete();
-                }
-                
-                // Update particles
-                for (let i = this.particles.length - 1; i >= 0; i--) {
-                    this.particles[i].update();
-                    if (this.particles[i].dead) {
-                        this.particles.splice(i, 1);
-                    }
-                }
-                
-                // Update score based on progress
-                const progress = Math.max(0, (this.worldHeight - this.distance) / this.worldHeight);
-                this.score = Math.max(this.score, Math.floor(progress * 1000));
-            }
-            
-            playerHit() {
-                this.lives--;
-                this.createExplosion(this.player.x, this.player.y, '#FF6B6B');
-                
-                if (this.lives <= 0) {
-                    this.gameOver('No Lives Left!');
-                } else {
-                    this.player.x = this.canvas.width / 2;
-                    this.player.y = Math.max(this.cameraY + 100, this.canvas.height - 200);
-                }
-            }
-            
-            levelComplete() {
-                this.score += 1000;
-                this.gameState = 'levelComplete';
-                this.showScreen(
-                    `Level ${this.level} Complete!`,
-                    'Next →',
-                    'You\'ve reached the exit! Ready for the next challenge?'
-                );
-            }
-            
-            gameOver(reason) {
-                this.gameState = 'gameOver';
-                document.querySelector('.screen-title').classList.add('error');
-                this.showScreen(
-                    'Game Over',
-                    reason,
-                    'You reached level ' + this.level + ' with ' + this.score + ' points!',
-                    true
-                );
-            }
-            
-            createExplosion(x, y, color = '#5FD95F') {
-                for (let i = 0; i < 10; i++) {
-                    const angle = (Math.PI * 2 * i) / 10;
-                    const velocity = 3 + Math.random() * 3;
-                    this.particles.push(new Particle(
-                        x, y,
-                        Math.cos(angle) * velocity,
-                        Math.sin(angle) * velocity,
-                        color
-                    ));
-                }
-            }
-            
-            render() {
-                // Clear canvas
-                this.ctx.fillStyle = '#050A06';
-                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                // Draw background gradient
-                const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-                gradient.addColorStop(0, '#0a1a0d');
-                gradient.addColorStop(0.5, '#050A06');
-                gradient.addColorStop(1, '#0a0f08');
-                this.ctx.fillStyle = gradient;
-                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                // Save context
-                this.ctx.save();
-                this.ctx.translate(0, -this.cameraY);
-                
-                // Draw walls
-                for (let wall of this.walls) {
-                    wall.draw(this.ctx);
-                }
-                
-                // Draw goal
-                if (this.platform) {
-                    this.ctx.fillStyle = '#FFD700';
-                    this.ctx.shadowColor = 'rgba(255, 215, 0, 0.5)';
-                    this.ctx.shadowBlur = 20;
-                    this.ctx.fillRect(this.platform.x, this.platform.y, this.platform.w, this.platform.h);
-                    this.ctx.fillStyle = '#FFA500';
-                    this.ctx.font = 'bold 24px Arial';
-                    this.ctx.textAlign = 'center';
-                    this.ctx.textBaseline = 'middle';
-                    this.ctx.fillText('EXIT', this.platform.x + this.platform.w / 2, this.platform.y + this.platform.h / 2);
-                    this.ctx.shadowColor = 'transparent';
-                }
-                
-                // Draw hazards
-                for (let hazard of this.hazards) {
-                    hazard.draw(this.ctx);
-                }
-                
-                // Draw pickups
-                for (let pickup of this.pickups) {
-                    pickup.draw(this.ctx);
-                }
-                
-                // Draw enemies
-                for (let enemy of this.enemies) {
-                    enemy.draw(this.ctx);
-                }
-                
-                // Draw particles
-                for (let particle of this.particles) {
-                    particle.draw(this.ctx);
-                }
-                
-                // Draw player
-                this.player.draw(this.ctx);
-                
-                // Restore context
-                this.ctx.restore();
-                
-                // Update HUD
-                this.updateHUD();
-            }
-            
-            updateHUD() {
-                document.getElementById('scoreValue').textContent = Math.floor(this.score);
-                document.getElementById('timeValue').textContent = Math.max(0, this.time);
-                document.getElementById('livesValue').textContent = '❤️ ' + this.lives;
-                document.getElementById('levelValue').textContent = this.level;
-                document.getElementById('distanceValue').textContent = Math.floor(this.distance) + 'm';
-            }
-            
-            gameLoop() {
-                const now = Date.now();
-                const deltaTime = (now - this.lastFrameTime) / 1000;
-                this.lastFrameTime = now;
-                
-                this.update(Math.min(deltaTime, 0.016)); // Cap at 60fps
-                this.render();
-                
-                requestAnimationFrame(() => this.gameLoop());
-            }
+          }
         }
 
-        // ╔════════════════════════════════════════════════════════════════════════════╗
-        // ║                            GAME ENTITIES                                   ║
-        // ╚════════════════════════════════════════════════════════════════════════════╝
-
-        class Player {
-            constructor(x, y, game) {
-                this.x = x;
-                this.y = y;
-                this.game = game;
-                this.width = 24;
-                this.height = 24;
-                this.velocityX = 0;
-                this.velocityY = 0;
-                this.speed = 4;
-                this.gravity = 0.5;
-                this.groundY = null;
-                this.onGround = false;
+        cleanup() {
+          const removeBelow = this.cameraY + this.height + CONFIG.objectRemoveBuffer;
+          // Obstacles
+          for (let i = this.obstacles.length - 1; i >= 0; i--) {
+            if (this.obstacles[i].y > removeBelow) {
+              this.pools.obstacle.release(this.obstacles[i]);
+              this.obstacles.splice(i, 1);
             }
-            
-            handleInput(moveX, moveY) {
-                this.velocityX = moveX * this.speed;
-                this.velocityY += this.gravity;
+          }
+          // Enemies
+          for (let i = this.enemies.length - 1; i >= 0; i--) {
+            if (this.enemies[i].y > removeBelow) {
+              this.pools.enemy.release(this.enemies[i]);
+              this.enemies.splice(i, 1);
             }
-            
-            update(deltaTime) {
-                this.x += this.velocityX;
-                this.y += this.velocityY;
-                
-                // Boundaries
-                if (this.x < 30) this.x = 30;
-                if (this.x + this.width > this.game.canvas.width - 30) 
-                    this.x = this.game.canvas.width - 30 - this.width;
-                
-                // Collision with walls
-                for (let wall of this.game.walls) {
-                    if (this.collidesWith(wall)) {
-                        // Landing on top
-                        if (this.velocityY > 0 && this.y + this.height - this.velocityY <= wall.y) {
-                            this.y = wall.y - this.height;
-                            this.velocityY = 0;
-                            this.onGround = true;
-                        }
-                        // Hit from bottom
-                        else if (this.velocityY < 0 && this.y - this.velocityY >= wall.y + wall.h) {
-                            this.y = wall.y + wall.h;
-                            this.velocityY = 0;
-                        }
-                        // Side collision
-                        else {
-                            if (this.velocityX > 0) {
-                                this.x = wall.x - this.width;
-                            } else {
-                                this.x = wall.x + wall.w;
-                            }
-                        }
-                    }
-                }
+          }
+          // Pickups
+          for (let i = this.pickups.length - 1; i >= 0; i--) {
+            if (this.pickups[i].y > removeBelow) {
+              this.pools.pickup.release(this.pickups[i]);
+              this.pickups.splice(i, 1);
             }
-            
-            collidesWith(obj) {
-                return this.x < obj.x + obj.width && 
-                       this.x + this.width > obj.x &&
-                       this.y < obj.y + obj.height &&
-                       this.y + this.height > obj.y;
-            }
-            
-            draw(ctx) {
-                // Draw player
-                ctx.fillStyle = '#5FD95F';
-                ctx.shadowColor = 'rgba(95, 217, 95, 0.6)';
-                ctx.shadowBlur = 15;
-                ctx.beginPath();
-                ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // Draw border
-                ctx.strokeStyle = '#A8E6A8';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                
-                ctx.shadowColor = 'transparent';
-            }
+          }
         }
 
-        class Enemy {
-            constructor(x, y, speed, game) {
-                this.x = x;
-                this.y = y;
-                this.game = game;
-                this.width = 22;
-                this.height = 22;
-                this.velocityX = (Math.random() > 0.5 ? 1 : -1) * speed;
-                this.minX = 50;
-                this.maxX = game.canvas.width - 50;
-                this.patrolRadius = 200;
-            }
-            
-            update(deltaTime) {
-                this.x += this.velocityX;
-                if (this.x < this.minX) this.velocityX = Math.abs(this.velocityX);
-                if (this.x > this.maxX) this.velocityX = -Math.abs(this.velocityX);
-            }
-            
-            collidesWith(obj) {
-                return this.x < obj.x + obj.width &&
-                       this.x + this.width > obj.x &&
-                       this.y < obj.y + obj.height &&
-                       this.y + this.height > obj.y;
-            }
-            
-            draw(ctx) {
-                ctx.fillStyle = '#FF6B6B';
-                ctx.shadowColor = 'rgba(255, 107, 107, 0.5)';
-                ctx.shadowBlur = 12;
-                ctx.beginPath();
-                ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
-                ctx.fill();
-                
-                ctx.strokeStyle = '#FF8787';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                
-                // Eyes
-                ctx.fillStyle = 'white';
-                ctx.beginPath();
-                ctx.arc(this.x + 7, this.y + 7, 3, 0, Math.PI * 2);
-                ctx.fill();
-                
-                ctx.shadowColor = 'transparent';
-            }
+        spawnChunk(y) {
+          // spawn obstacles and occasionally enemies/pickups in a horizontal band centered at y
+          const bandTop = y - 20;
+          const bandBottom = y + 20;
+
+          // Determine how many obstacles to create in this band (1-3)
+          const count = Math.round(rand(1, 2 + (this.scrollSpeed / 600)));
+          const separation = this.width / (count + 1);
+
+          for (let i = 0; i < count; i++) {
+            const w = Math.round(rand(80, 260) * (1 + Math.min(1, this.scrollSpeed/800)));
+            const h = Math.round(rand(18, 28));
+            const x = clamp(Math.round((i+1) * separation + rand(-separation*0.25, separation*0.25) - w/2), 40, (this.width/1) - 40 - w);
+            const o = this.pools.obstacle.acquire();
+            o.init(x, y + rand(-40,40), w, h, rand(0,1) > 0.85 ? 'moving' : 'static', rand(-40,40)*0.02);
+            this.obstacles.push(o);
+          }
+
+          // spawn enemy sometimes
+          if (Math.random() < 0.35 + Math.min(0.35, this.scrollSpeed/1500)) {
+            const e = this.pools.enemy.acquire();
+            e.init(rand(60, this.width-60), y + rand(-20,40), rand(30,100) * (1 + this.scrollSpeed/1500));
+            this.enemies.push(e);
+          }
+
+          // spawn pickups occasionally
+          if (Math.random() < 0.45) {
+            const p = this.pools.pickup.acquire();
+            p.init(rand(60, this.width-60), y + rand(-30, 30), Math.round(rand(40, 120)));
+            this.pickups.push(p);
+          }
         }
 
-        class Wall {
-            constructor(x, y, w, h) {
-                this.x = x;
-                this.y = y;
-                this.w = w;
-                this.h = h;
-                this.width = w;
-                this.height = h;
-            }
-            
-            draw(ctx) {
-                const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.h);
-                gradient.addColorStop(0, '#E2B46B');
-                gradient.addColorStop(1, '#8B6F47');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(this.x, this.y, this.w, this.h);
-                
-                ctx.strokeStyle = '#C4913E';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(this.x, this.y, this.w, this.h);
-            }
+        spawnParticles(x, y, count = 10, color = '#A8E6A8') {
+          for (let i = 0; i < count && this.particles.length < CONFIG.maxParticles; i++) {
+            const pa = this.pools.particle.acquire();
+            pa.init(x + rand(-12,12), y + rand(-12,12), rand(-120,120), rand(-220,220), color);
+            this.particles.push(pa);
+          }
         }
 
-        class Hazard {
-            constructor(x, y, w, h, game) {
-                this.x = x;
-                this.y = y;
-                this.w = w;
-                this.h = h;
-                this.width = w;
-                this.height = h;
-                this.game = game;
-                this.animate = Math.random();
-            }
-            
-            draw(ctx) {
-                ctx.fillStyle = '#FF4444';
-                ctx.shadowColor = 'rgba(255, 0, 0, 0.5)';
-                ctx.shadowBlur = 10;
-                
-                // Spikes pattern
-                for (let i = 0; i < this.w / 15; i++) {
-                    ctx.beginPath();
-                    ctx.moveTo(this.x + i * 15, this.y + this.h);
-                    ctx.lineTo(this.x + i * 15 + 7.5, this.y);
-                    ctx.lineTo(this.x + (i + 1) * 15, this.y + this.h);
-                    ctx.fill();
-                }
-                
-                ctx.shadowColor = 'transparent';
-            }
+        render() {
+          const ctx = this.ctx;
+          const w = this.canvas.width / (window.devicePixelRatio || 1);
+          const h = this.canvas.height / (window.devicePixelRatio || 1);
+
+          // clear
+          ctx.clearRect(0,0,w,h);
+
+          // background gradient
+          const g = ctx.createLinearGradient(0,0,0,h);
+          g.addColorStop(0, '#07160f');
+          g.addColorStop(0.5, '#061009');
+          g.addColorStop(1, '#021005');
+          ctx.fillStyle = g;
+          ctx.fillRect(0,0,w,h);
+
+          // subtle parallax stars / noise based on scroll (keeps visual dynamism)
+          drawParallaxBackground(ctx, this.cameraY, w, h);
+
+          // Save and translate for camera
+          ctx.save();
+          ctx.translate(0, -this.cameraY);
+
+          // draw obstacles
+          for (let o of this.obstacles) {
+            if (o.y + o.height < this.cameraY - 200) continue;
+            if (o.y > this.cameraY + h + 200) continue;
+            o.draw(ctx);
+          }
+
+          // pickups
+          for (let p of this.pickups) {
+            if (p.y + p.height < this.cameraY - 200) continue;
+            if (p.y > this.cameraY + h + 200) continue;
+            p.draw(ctx);
+          }
+
+          // enemies
+          for (let e of this.enemies) {
+            if (e.y + e.height < this.cameraY - 200) continue;
+            if (e.y > this.cameraY + h + 200) continue;
+            e.draw(ctx);
+          }
+
+          // player
+          this.player.draw(ctx);
+
+          // particles
+          for (let pa of this.particles) pa.draw(ctx);
+
+          ctx.restore();
+
+          // HUD on top drawn by DOM; draw simple speed indicator
+          if (CONFIG.debug) {
+            const dbg = document.getElementById('debugInfo');
+            dbg.style.display = 'block';
+            dbg.textContent = `scroll:${Math.round(this.scroll)} camY:${Math.round(this.cameraY)} objs:${this.obstacles.length + this.enemies.length + this.pickups.length} spd:${Math.round(this.scrollSpeed)}`;
+          }
         }
 
-        class Pickup {
-            constructor(x, y, game) {
-                this.x = x;
-                this.y = y;
-                this.game = game;
-                this.width = 16;
-                this.height = 16;
-                this.rotation = 0;
-            }
-            
-            draw(ctx) {
-                ctx.save();
-                ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
-                ctx.rotate(this.rotation);
-                this.rotation += 0.05;
-                
-                ctx.fillStyle = '#FFD700';
-                ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
-                ctx.shadowBlur = 10;
-                ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
-                
-                ctx.strokeStyle = '#FFA500';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(-this.width / 2, -this.height / 2, this.width, this.height);
-                
-                ctx.restore();
-            }
+        updateHUD() {
+          document.getElementById('scoreValue').textContent = String(Math.floor(this.score));
+          document.getElementById('speedValue').textContent = (this.scrollSpeed/100).toFixed(2);
+          document.getElementById('distanceValue').textContent = String(Math.floor(this.scroll)) + 'm';
+          document.getElementById('highscoreValue').textContent = String(this.highscore);
+        }
+      }
+
+      /* =========================
+         Game Entities
+         ========================= */
+
+      class Entity {
+        constructor() { this.x = 0; this.y = 0; this.width = 0; this.height = 0; }
+      }
+
+      class Player extends Entity {
+        constructor(x, y, game) {
+          super();
+          this.game = game;
+          this.width = 36;
+          this.height = 36;
+          this.reset(x,y);
         }
 
-        class Particle {
-            constructor(x, y, vx, vy, color) {
-                this.x = x;
-                this.y = y;
-                this.vx = vx;
-                this.vy = vy;
-                this.color = color;
-                this.life = 1;
-                this.size = 4;
-                this.gravity = 0.1;
-            }
-            
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.vy += this.gravity;
-                this.life -= 0.02;
-                this.dead = this.life <= 0;
-            }
-            
-            draw(ctx) {
-                ctx.fillStyle = this.color;
-                ctx.globalAlpha = this.life;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.globalAlpha = 1;
-            }
+        reset(x,y){
+          this.x = x || 300;
+          this.y = y || 500;
+          this.velocityX = 0;
+          this.velocityY = 0;
+          this.speed = 320; // px/s lateral
+          this.jumpStrength = -10; // vertical impulse when jump
+          this.gravity = 28; // px/s^2
+          this.maxFall = 1100;
+          this.onGround = false;
+          this.invulnerable = 0;
         }
 
-        // ╔════════════════════════════════════════════════════════════════════════════╗
-        // ║                          GAME INITIALIZATION                              ║
-        // ╚════════════════════════════════════════════════════════════════════════════╝
+        handleInput(moveX, moveY, dt) {
+          // moveX in [-1,1]
+          this.desiredVX = moveX * this.speed;
+          // quick jump when pressing up and standing
+          if ((moveY < -0.5 || moveY === -1 || moveKeyPressed(' ')) && this.onGround) {
+            this.velocityY = this.jumpStrength;
+            this.onGround = false;
+          }
+        }
 
-        let game = null;
-        window.addEventListener('DOMContentLoaded', () => {
-            game = new GeneticHunterGame();
-            window.game = game; // For debugging
-        });
-    </script>
+        update(dt) {
+          // Horizontal
+          const targetVX = this.desiredVX || 0;
+          // smooth approach
+          this.velocityX += (targetVX - (this.velocityX||0)) * clamp(10*dt, 0, 1);
+          this.x += this.velocityX * dt;
+
+          // Gravity
+          this.velocityY += this.game.scrollSpeed * 0.0 * dt; // intentional placeholder (camera provides the upward motion)
+          this.velocityY += this.gravity * dt;
+          this.velocityY = clamp(this.velocityY, -600, this.maxFall);
+          this.y += this.velocityY;
+
+          // Screen wrap horizontally with margins
+          if (this.x < 12) this.x = 12;
+          if (this.x + this.width > this.game.width - 12) this.x = this.game.width - 12 - this.width;
+
+          // Reduce invulnerability
+          if (this.invulnerable > 0) this.invulnerable = Math.max(0, this.invulnerable - dt);
+
+          // ground detection against obstacles handled in Game.updateCollections via collision
+        }
+
+        draw(ctx) {
+          // draw player relative to world
+          const px = Math.round(this.x);
+          const py = Math.round(this.y);
+          ctx.save();
+          ctx.lineJoin = 'round';
+          ctx.fillStyle = '#5FD95F';
+          ctx.shadowColor = 'rgba(95, 217, 95, 0.55)';
+          ctx.shadowBlur = 18;
+          ctx.beginPath();
+          ctx.arc(px + this.width/2, py + this.height/2, this.width/2, 0, Math.PI*2);
+          ctx.fill();
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = '#A8E6A8';
+          ctx.stroke();
+          if (this.invulnerable > 0) {
+            ctx.globalAlpha = 0.7;
+            ctx.strokeStyle = '#FFD700';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(px + this.width/2, py + this.height/2, this.width/2 + 4, 0, Math.PI*2);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+          }
+          ctx.restore();
+        }
+      }
+
+      class Obstacle extends Entity {
+        constructor() { super(); this.type = 'static'; this.moveDir = 0; this.moveRange = 0; this.baseX = 0; this.width = 120; this.height = 22; }
+        init(x,y,w,h,type = 'static', moveDir = 0) {
+          this.x = x; this.y = y; this.width = w; this.height = h; this.type = type; this.baseX = x; this.moveDir = moveDir; this.moveRange = rand(40,160);
+          this.speed = rand(10,80);
+        }
+        update(dt, game) {
+          if (this.type === 'moving') {
+            // horizontal movement for some obstacles
+            this.x = this.baseX + Math.sin((game.scroll + this.y) * 0.002 * (1+Math.abs(this.moveDir))) * this.moveRange;
+          }
+        }
+        draw(ctx) {
+          ctx.save();
+          // gradient fill
+          const grad = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.height);
+          grad.addColorStop(0, '#E2B46B');
+          grad.addColorStop(1, '#8B6F47');
+          ctx.fillStyle = grad;
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+          ctx.strokeStyle = '#C4913E';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(this.x+1, this.y+1, this.width-2, this.height-2);
+          ctx.restore();
+        }
+      }
+
+      class Enemy extends Entity {
+        constructor() { super(); this.width = 28; this.height = 28; this.vx = 0; this.patrolSpeed = 40; this.baseX = 0; this.range = 120; }
+        init(x,y,speed) {
+          this.x = x; this.y = y; this.vx = Math.random() > 0.5 ? 1 : -1; this.patrolSpeed = clamp(speed*0.02, 20, 320); this.baseX = x; this.range = rand(60,200);
+        }
+        update(dt, game) {
+          this.x += this.vx * this.patrolSpeed * dt;
+          if (this.x < 40) this.vx = Math.abs(this.vx);
+          if (this.x > game.width - 40 - this.width) this.vx = -Math.abs(this.vx);
+          // oscillate vertically slightly
+          this.y += Math.sin((game.scroll + this.x) * 0.001) * 0.2;
+        }
+        draw(ctx) {
+          ctx.save();
+          ctx.fillStyle = '#FF6B6B';
+          ctx.shadowColor = 'rgba(255,107,107,0.4)';
+          ctx.shadowBlur = 12;
+          ctx.beginPath();
+          ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI*2);
+          ctx.fill();
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = '#FF8787';
+          ctx.stroke();
+          // eyes
+          ctx.fillStyle = '#fff';
+          ctx.beginPath(); ctx.arc(this.x + 8, this.y + 10, 3, 0, Math.PI*2); ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      class Pickup extends Entity {
+        constructor(){ super(); this.width = 20; this.height = 20; this.value = 50; this.rotation = 0; }
+        init(x,y,value=50){ this.x = x; this.y = y; this.value = value; this.rotation = rand(0,Math.PI*2); }
+        update(dt){ this.rotation += dt * 2.5; }
+        draw(ctx){
+          ctx.save();
+          ctx.translate(this.x + this.width/2, this.y + this.height/2);
+          ctx.rotate(this.rotation);
+          ctx.fillStyle = '#FFD700';
+          ctx.shadowColor = 'rgba(255,215,0,0.55)';
+          ctx.shadowBlur = 12;
+          ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+          ctx.strokeStyle = '#FFA500';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(-this.width/2, -this.height/2, this.width, this.height);
+          ctx.restore();
+        }
+      }
+
+      class Particle {
+        constructor(){ this.dead = true; }
+        init(x,y,vx,vy,color='#A8E6A8'){ this.x=x; this.y=y; this.vx=vx; this.vy=vy; this.color=color; this.life=1; this.size=rand(2,6); this.gravity=rand(80,260); this.dead=false; }
+        update(dt){
+          this.vy += this.gravity * dt;
+          this.x += this.vx * dt;
+          this.y += this.vy * dt;
+          this.life -= dt * 2.2;
+          if (this.life <= 0) this.dead = true;
+        }
+        draw(ctx){
+          ctx.save();
+          ctx.globalAlpha = Math.max(0, this.life);
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+          ctx.fill();
+          ctx.globalAlpha = 1;
+          ctx.restore();
+        }
+      }
+
+      /* ---------------------------
+         Utilities
+         --------------------------- */
+      function AABBIntersect(a, b) {
+        const aw = a.width, ah = a.height, bw = b.width || b.w || b.width, bh = b.height || b.h || b.height;
+        return a.x < b.x + bw && a.x + aw > b.x && a.y < b.y + bh && a.y + ah > b.y;
+      }
+
+      function moveKeyPressed(k) {
+        return !!(game && game.keys && game.keys[k]);
+      }
+
+      function drawParallaxBackground(ctx, cameraY, w, h) {
+        // subtle moving bands or stars for depth with low cost
+        ctx.save();
+        const t = cameraY * 0.03;
+        for (let i = 0; i < 6; i++) {
+          const alpha = 0.03 + (i * 0.01);
+          ctx.fillStyle = `rgba(10,20,12,${alpha})`;
+          const y = ((t * (0.2 + i*0.1)) % (h * 1.5)) - h*0.5;
+          ctx.fillRect(0, y, w, (h/12));
+        }
+        ctx.restore();
+      }
+
+      /* ---------------------------
+         Bootstrap & Event Wiring
+         --------------------------- */
+      const canvas = document.getElementById('gameCanvas');
+      const game = new Game(canvas);
+      window.game = game; // debug hook
+
+      // Button wiring
+      document.getElementById('startBtn').addEventListener('click', () => {
+        document.getElementById('screenOverlay').style.display = 'none';
+        game.start();
+      });
+      const dbgBtn = document.getElementById('toggleDebugBtn');
+      dbgBtn.addEventListener('click', () => {
+        CONFIG.debug = !CONFIG.debug;
+        document.getElementById('debugInfo').style.display = CONFIG.debug ? 'block' : 'none';
+      });
+
+      // Persist highscore display on load
+      document.getElementById('highscoreValue').textContent = String(game.highscore);
+
+      // Expose pause/resume via keyboard (P)
+      window.addEventListener('keydown', (e) => {
+        if (e.key.toLowerCase() === 'p') {
+          game.paused = !game.paused;
+          if (!game.paused) { game.lastTime = nowMs(); game.loop(); }
+          document.getElementById('centerInfo').textContent = game.paused ? 'Paused' : '';
+          setTimeout(()=>document.getElementById('centerInfo').textContent = '', 900);
+        }
+      });
+
+      // Prevent page scrolling on spacebar & arrow keys
+      window.addEventListener('keydown', (e) => {
+        if ([' ', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(e.key.toLowerCase())) e.preventDefault();
+      });
+
+      // show start overlay by default (already visible in HTML)
+      // update HUD initially
+      game.updateHUD();
+
+    })();
+  </script>
 </body>
 </html>
+```
