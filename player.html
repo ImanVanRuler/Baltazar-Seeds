@@ -328,56 +328,57 @@
 
 
            // Generiert Wände und Objekte basierend auf der vertikalen Höhe (y-Achse)
-        function generateSegment(startY, endY) {
-            // Generiert alle 150 Pixel neue Barrieren/Plattformen
-            for (let y = startY; y > endY; y -= 150) {
-                const wallWidth = 100 + Math.random() * 120;
-                const side = Math.random() > 0.5 ? 'left' : 'right';
-                
-                // Labyrinth-Wand links oder rechts platzieren
-                segments.push({
-                    x: side === 'left' ? 0 : VIRTUAL_WIDTH - wallWidth,
-                    y: y,
-                    width: wallWidth,
-                    height: 25,
-                    color: '#00f2fe'
-                });
+     function generateSegment(startY, endY) {
+    // Alle 220 Pixel ein neuer Abschnitt statt alle 150
+    for (let y = startY; y > endY; y -= 220) {
 
-                // Hindernisse in der Mitte generieren
-                if (Math.random() > 0.4) {
-                    obstacles.push({
-                        x: 80 + Math.random() * (VIRTUAL_WIDTH - 160),
-                        y: y - 75,
-                        width: 40 + Math.random() * 60,
-                        height: 20,
-                        color: '#ff0055'
-                    });
-                }
+        // Etwas kleinere Wände
+        const wallWidth = 80 + Math.random() * 100;
+        const side = Math.random() > 0.5 ? 'left' : 'right';
 
-                // Zeit-Zellen (Sammelobjekt) platzieren
-                if (Math.random() > 0.3) {
-                    items.push({
-                        x: 50 + Math.random() * (VIRTUAL_WIDTH - 100),
-                        y: y - 40,
-                        radius: 8,
-                        color: '#00ffaa',
-                        pulse: 0
-                    });
-                }
+        segments.push({
+            x: side === 'left' ? 0 : VIRTUAL_WIDTH - wallWidth,
+            y: y,
+            width: wallWidth,
+            height: 25,
+            color: '#00f2fe'
+        });
 
-                // Feindliche Drohnen hinzufügen (bewegen sich horizontal)
-                if (Math.random() > 0.5 && y < 500) {
-                    enemies.push({
-                        x: 50 + Math.random() * (VIRTUAL_WIDTH - 100),
-                        y: y - 110,
-                        radius: 12,
-                        speed: 2 + Math.random() * 3,
-                        dir: Math.random() > 0.5 ? 1 : -1,
-                        color: '#ff007f'
-                    });
-                }
-            }
+        // Weniger Hindernisse
+        if (Math.random() > 0.6) {
+            obstacles.push({
+                x: 80 + Math.random() * (VIRTUAL_WIDTH - 160),
+                y: y - 90,
+                width: 35 + Math.random() * 40,
+                height: 20,
+                color: '#ff0055'
+            });
         }
+
+        // Mehr Zeit-Zellen
+        if (Math.random() > 0.15) {
+            items.push({
+                x: 50 + Math.random() * (VIRTUAL_WIDTH - 100),
+                y: y - 50,
+                radius: 8,
+                color: '#00ffaa',
+                pulse: 0
+            });
+        }
+
+        // Gegner erst deutlich später
+        if (Math.random() > 0.75 && y < -1000) {
+            enemies.push({
+                x: 50 + Math.random() * (VIRTUAL_WIDTH - 100),
+                y: y - 130,
+                radius: 12,
+                speed: 1.5 + Math.random() * 2,
+                dir: Math.random() > 0.5 ? 1 : -1,
+                color: '#ff007f'
+            });
+        }
+    }
+}
 
         // Bereinigt alte Objekte, die außerhalb des Bildschirms liegen, um Speicher zu sparen
         function cleanupEntities() {
