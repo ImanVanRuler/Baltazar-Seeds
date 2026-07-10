@@ -808,12 +808,12 @@ if (player.x === exitCell.x && player.y === exitCell.y) {
             player.animX = 1;
             player.animY = 1;
 
-            hunter.x = COLS - 2;
-            hunter.y = ROWS - 2;
-            hunter.targetX = COLS - 2;
-            hunter.targetY = COLS - 2;
-            hunter.animX = COLS - 2;
-            hunter.animY = COLS - 2;
+hunter.x = COLS - 2;
+hunter.y = ROWS - 2;
+hunter.targetX = COLS - 2;
+hunter.targetY = ROWS - 2;
+hunter.animX = COLS - 2;
+hunter.animY = ROWS - 2;
 
             hunter.moveCooldown = isBossMode ? 180 : 450;
 
@@ -910,10 +910,16 @@ if (player.x === exitCell.x && player.y === exitCell.y) {
             .getElementById('startBtn')
             .addEventListener('click', initGame);
 
-        requestAnimationFrame(timestamp => {
-            lastTime = timestamp;
-            requestAnimationFrame(gameLoop);
-        });
+     let gameStarted = false;
+
+document.getElementById('startBtn').addEventListener('click', () => {
+    initGame();
+
+    if (!gameStarted) {
+        gameStarted = true;
+        requestAnimationFrame(gameLoop);
+    }
+});
     </script>
 </body>
 </html>
