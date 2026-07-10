@@ -41,7 +41,9 @@
             position: absolute; inset: 0; background: rgba(6,2,20,0.97);
             backdrop-filter: blur(12px); display: flex; justify-content: center; align-items: center; z-index: 100;
         }
-        .screen-overlay.hidden { opacity: 0; pointer-events: none; }
+        .screen-overlay.hidden {
+    display: none !important;
+}
         .menu-box {
             text-align: center; padding: 50px 40px; background: rgba(20,10,45,0.95);
             border: 3px solid #00f2fe; border-radius: 20px; box-shadow: 0 0 60px rgba(0,242,254,0.4);
