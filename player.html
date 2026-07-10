@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -558,19 +558,27 @@
         }
  
 
-        // Die Render-Pipeline für alle visuellen Elemente auf dem Canvas
+               // Die Render-Pipeline für alle visuellen Elemente auf dem Canvas
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Matrix-Verschiebung basierend auf der Kamera-Höhe aktivieren
             ctx.save();
             
-            // Berechne Skalierungsfaktor, um das Spiel auf allen Bildschirmgrößen korrekt anzuzeigen
+            // Berechne Skalierungsfaktor und horizontale Zentrierung
             const scale = canvas.height / VIRTUAL_HEIGHT;
+            const viewportOffsetX = (canvas.width - (VIRTUAL_WIDTH * scale)) / 2;
+            
+            // Spielfeld auf dem physischen Bildschirm zentrieren und skalieren
+            ctx.translate(viewportOffsetX, 0);
             ctx.scale(scale, scale);
             
-            // Kamera-Bewegung auf der Y-Achse anwenden (X bleibt zentriert)
+            // Kamera-Bewegung auf der Y-Achse anwenden
             ctx.translate(0, -cameraY);
+
+            // Spielfeld-Hintergrundbegrenzung zeichnen (Visueller Rahmen)
+            ctx.fillStyle = '#05020a';
+            ctx.fillRect(0, cameraY, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 
             // 1. Labyrinth-Wände zeichnen (Neon-Glow-Optik)
             segments.forEach(seg => {
@@ -601,17 +609,19 @@
 
             // 4. Feindliche Drohnen zeichnen
             enemies.forEach(enemy => {
+                // Wenn der Gegner auf Cooldown ist, blinkt er leicht transparent
+                ctx.globalAlpha = enemy.hitCooldown > 0 ? 0.4 : 1.0;
                 ctx.fillStyle = enemy.color;
                 ctx.beginPath();
                 ctx.arc(enemy.x, enemy.y, enemy.radius, 0, Math.PI * 2);
                 ctx.fill();
                 
-                // Kleiner innerer Kern für bedrohlichen Effekt
                 ctx.fillStyle = '#ffffff';
                 ctx.beginPath();
                 ctx.arc(enemy.x, enemy.y, enemy.radius * 0.4, 0, Math.PI * 2);
                 ctx.fill();
             });
+            ctx.globalAlpha = 1.0;
 
             // 5. Partikel-Effekte zeichnen
             particles.forEach(p => {
@@ -643,16 +653,12 @@
             const deltaTime = timestamp - lastTime;
             lastTime = timestamp;
 
-            // Engine-Updates und Zeichnen triggern
             update(deltaTime);
             draw();
 
             requestAnimationFrame(gameLoop);
         }
-
-
-
-    // Initialisiert ein komplett neues Spiel
+        // Initialisiert ein komplett neues Spiel
         function initGame() {
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
@@ -665,7 +671,7 @@
             enemies = [];
             particles = [];
 
-            // Spieler zurücksetzen
+            // Spieler-Eigenschaften zurücksetzen
             player.x = VIRTUAL_WIDTH / 2;
             player.y = 700;
             score = 0;
@@ -703,3 +709,4 @@
     </script>
 </body>
 </html>
+
