@@ -1,252 +1,853 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>BALTAZAR MERCH - Baltazar Seeds</title>
-
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
-
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-<style>
-:root{
-  --bg:#0f0f10;
-  --accent:#c79a00;
-  --gold:#d4af37;
-  --darkred:#8B0000;
-  --muted:#bbb;
-  --light:#fff;
-  --transition:0.45s cubic-bezier(.2,.9,.2,1);
-  --glow:0 0 16px rgba(199,154,0,0.18);
-}
-
-/* Reset & Basics */
-html, body {
-  height:100%; margin:0; padding:0;
-  background: linear-gradient(180deg,#0b0b0b,#111);
-  color: var(--accent);
-  font-family: "Bebas Neue", "Arial", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  letter-spacing:0.6px;
-}
-a { color:inherit; text-decoration:none; }
-img { display:block; max-width:100%; height:auto; border-radius:10px; cursor:pointer; }
-
-/* Header */
-header {
-  position:sticky; top:0; z-index:120;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0.9rem 4vw;
-  background:rgba(0,0,0,0.82);
-  backdrop-filter: blur(6px);
-  box-shadow:0 6px 18px rgba(0,0,0,0.6);
-}
-header h1 {
-  margin:0;
-  font-family:"Nosifer",cursive;
-  font-size:1.9rem;
-  color:var(--accent);
-  text-shadow: 3px 3px 0 var(--darkred), 0 0 10px rgba(199,154,0,0.08);
-  animation: headerPulse 3s infinite alternate;
-}
-@keyframes headerPulse{
-  from { text-shadow: 3px 3px 0 var(--darkred), 0 0 10px rgba(199,154,0,0.06); transform:translateZ(0);}
-  to { text-shadow: 4px 4px 0 var(--darkred), 0 0 18px rgba(199,154,0,0.18); transform:translateY(-1px);}
-}
-nav { display:flex; gap:1.2rem; align-items:center; }
-nav a {
-  color:var(--accent); padding:0.25rem 0.5rem; border-radius:6px;
-  transition:var(--transition); font-weight:500;
-}
-nav a:hover { background:var(--accent); color:#111; box-shadow:var(--glow); }
-
-/* Page container */
-main {
-  max-width:1200px; margin:3rem auto; padding:0 2rem; display:grid; gap:2.5rem;
-}
-
-/* Product showcase */
-.product-showcase {
-  display:flex; gap:2.5rem; flex-wrap:wrap;
-  align-items:flex-start;
-}
-
-/* Slideshow & Lightbox */
-.slideshow-container {
-  display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;
-}
-.slide img {
-  max-width:200px;
-  border-radius:12px;
-  border:2px solid rgba(199,154,0,0.9);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 18px rgba(199,154,0,0.06);
-  background:#000;
-  object-fit:contain;
-  transition: transform 0.3s;
-}
-.slide img:hover { transform:scale(1.05); }
-#lightbox-overlay {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  background:rgba(0,0,0,0.85); display:none;
-  justify-content:center; align-items:center; z-index:999;
-}
-#lightbox-overlay img {
-  max-width:90%; max-height:90%; border-radius:12px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-}
-
-/* Product info */
-.product-info {
-  flex:1 1 400px;
-  padding:1.2rem 1.6rem;
-  color:var(--light);
-  background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.12));
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.03);
-  box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
-}
-.product-info h2 {
-  margin:0 0 1rem;
-  font-size:2.6rem; color:var(--accent);
-  text-shadow: 3px 3px 0 var(--darkred), 0 0 12px rgba(199,154,0,0.06);
-}
-.product-info p.description { color:#f5f5f5; font-weight:300; line-height:1.8; margin-bottom:1rem; }
-.product-details { list-style:none; padding:0; margin:1rem 0 0; color:var(--muted); }
-.product-details li {
-  padding-left:2.2rem; position:relative; margin-bottom:.9rem; transition:var(--transition);
-}
-.product-details li::before {
-  content:'\f058'; font-family:"Font Awesome 6 Free"; font-weight:900;
-  position:absolute; left:0; top:0; color:var(--gold); text-shadow:1px 1px 0 var(--darkred);
-}
-.product-details li:hover {
-  color:var(--light); text-shadow:0 0 10px rgba(199,154,0,0.12); transform:translateX(6px);
-}
-
-/* Price & CTA */
-.product-summary { margin-top:1.6rem; padding:1rem; border-radius:10px; background:rgba(0,0,0,0.45); font-weight:700;color:var(--accent); display:inline-block; box-shadow: inset 0 0 10px rgba(199,154,0,0.04); }
-.btn {
-  display:inline-block; padding:.9rem 1.6rem; border-radius:10px; border:2px solid var(--accent);
-  background:transparent; color:var(--accent); cursor:pointer; font-weight:700; letter-spacing:1px; transition:var(--transition);
-}
-.btn:hover { background:var(--accent); color:#111; box-shadow:0 10px 30px rgba(199,154,0,0.12); }
-
-/* Payment Box rechts neben Beschreibung */
-.payment-box {
-  flex:1 1 300px;
-  text-align:center;
-  background:#222;
-  padding:30px;
-  border-radius:15px;
-  color:#fff;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
-  min-width:280px;
-}
-.payment-icon { font-size:50px; color:var(--accent); margin-bottom:15px; }
-.box-title { font-size:28px; margin-bottom:15px; color:var(--accent); }
-.description, .product-summary, .wallet-text, .note { margin-bottom:20px; line-height:1.5; }
-.wallet-option { margin-bottom:25px; }
-.btn-wallet {
-  display:inline-block; padding:12px 25px; background-color:var(--accent); color:#222; font-weight:bold;
-  border-radius:8px; text-decoration:none; transition:all 0.3s ease;
-}
-.btn-wallet:hover { background-color:#d4af37; }
-.wallet-logo { width:100px; margin:20px auto; display:block; }
-.note { font-size:14px; color:#ccc; }
-
-/* Footer */
-footer { padding:2.5rem 1rem; text-align:center; color:var(--muted); margin-top:3rem; background:rgba(0,0,0,0.7); }
-
-/* Responsive */
-@media (max-width:980px){
-  .product-showcase { flex-direction:column; }
-  .slideshow-container { justify-content:center; }
-  .payment-box { margin-top:1.8rem; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baltazar's Run - Epic Grower Adventure (Remastered)</title>
+    <style>
+        html, body {
+            height: 100%; margin: 0;
+            background: #05070d; display: flex;
+            align-items: center; justify-content: center;
+            font-family: system-ui, Arial, sans-serif; color: #e6eef8;
+            overflow: hidden;
+        }
+        #stage { perspective: 1400px; }
+        #wrap {
+            width: 900px; max-width: 100%; text-align: center; position: relative;
+            transition: transform 0.15s ease-out;
+            transform-style: preserve-3d;
+        }
+        canvas {
+            display: block; margin: 8px auto;
+            background: url('baltirunbackground.jpg') center/cover no-repeat, #0b1220;
+            border-radius: 10px; image-rendering: pixelated;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 2px rgba(255,255,255,0.05) inset;
+            cursor: pointer;
+        }
+        .info, .hint {font-size: 14px; opacity: 0.9;}
+        .hint {margin-top: 6px; color: #dfeffb;}
+        .btn {
+            padding: 9px 16px; margin: 4px; font-size: 15px; cursor: pointer;
+            border: none; border-radius: 6px; background: #1a73e8; color: #fff;
+            transition: transform 0.1s ease, background 0.15s ease;
+        }
+        .btn:hover {background: #155ab6; transform: translateY(-1px);}
+        .btn:active {transform: translateY(0px) scale(0.97);}
+        a.back-button {padding: 9px 16px; margin: 4px; font-size: 15px; text-decoration: none; background: #555b66; color: #fff; border-radius: 6px; display: inline-block;}
+        a.back-button:hover {background: #40454d;}
+        #mute {background: #ff9900;}
+        #mute:hover {background: #cc6600;}
+        #touch-controls { display: none; position: absolute; inset: 0; pointer-events: none; z-index: 20; }
+        #touch-controls button {
+            pointer-events: auto; position: absolute; width: 70px; height: 70px; border-radius: 50%;
+            border: none; background: rgba(255,255,255,0.18); color: #fff; font-size: 26px;
+            display: flex; align-items: center; justify-content: center; user-select: none;
+            -webkit-user-select: none; touch-action: none; backdrop-filter: blur(2px);
+        }
+        #touch-controls button:active { background: rgba(255,255,255,0.35); }
+        #btn-left { left: 18px; bottom: 90px; }
+        #btn-right { left: 100px; bottom: 90px; }
+        #btn-jump { right: 24px; bottom: 90px; width: 86px; height: 86px; }
+        .overlay-card {
+            position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 900px; max-width: 100%; height: 600px;
+            background: rgba(4,8,16,0.82); display: none; flex-direction: column;
+            justify-content: center; align-items: center; color: #fff; z-index: 30;
+            border-radius: 10px; text-align: center; backdrop-filter: blur(3px);
+        }
+        .card-box {
+            background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.15); border-radius: 14px;
+            padding: 28px 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            animation: pop-in 0.35s cubic-bezier(.2,1.4,.4,1);
+        }
+        @keyframes pop-in { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .card-box h2 { margin: 0 0 8px; font-size: 30px; letter-spacing: 0.5px; }
+        .card-box p { margin: 4px 0; font-size: 16px; opacity: 0.9; }
+        .card-box .accent { color: #ffd166; font-weight: bold; }
+        .card-box button { margin-top: 14px; }
+    </style>
 </head>
 <body>
-
-<header>
-  <h1>Baltazar Seeds</h1>
-  <nav aria-label="Hauptnavigation">
-    <a href="index.html">Entrance</a>
-    <a href="seite3.html">Menu</a>
-    <a href="mailto:imanvanruler@freenet.de">Contact</a>
-    <a href="https://x.com/BALTAZARSEEDS" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
-    <a href="https://www.instagram.com/real_jack_james" target="_blank"><i class="fab fa-instagram"></i></a>
-    <a href="https://www.youtube.com/@IMANVANRULER" target="_blank"><i class="fab fa-youtube"></i></a>
-    <a href="https://soundcloud.com/jackjames-2" target="_blank"><i class="fab fa-soundcloud"></i></a>
-  </nav>
-</header>
-
-<main>
-  <section class="product-showcase" aria-labelledby="product-title">
-    <div class="product-info" id="product-info">
-      <h2 id="product-title">XL White Shirt with a Big Hemp Leaf & Waves</h2>
-      <div class="slideshow-container" role="region" aria-label="Produktbilder">
-        <div class="slide"><img src="MERCH2.JPG" alt="XL White Shirt Front"></div>
-      </div>
-      <p class="description">
-        Cool & Creative design featuring a big hemp leaf and waves. Crafted from premium, breathable organic cotton for ultimate comfort and durability.
-      </p>
-      <ul class="product-details" aria-label="Produktdetails">
-        <li>Size: XL (Optimized European fit for perfect seating)</li>
-        <li>Material: 100% Certified Organic Cotton, environmentally friendly produced</li>
-        <li>Production: Handcrafted in the EU with the highest quality standards</li>
-        <li>Design: Exclusive Big Hemp Leaf & Waves motif – a statement of creativity</li>
-        <li>Care: Machine washable at 30°C, colorfast and shape-retaining</li>
-      </ul>
-      <div class="product-summary">1X XL White Shirt with a Big Hemp Leaf & Waves for 49.99€</div>
-
-      <!-- Absatz und Buttons nebeneinander -->
-      <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start; margin-top:1.6rem;">
-        <p style="flex:1; color:var(--muted); font-size:.95rem; margin:0;">
-          Purchasing "BALTAZAR MERCH" empowers the brand and champions independent artistry.
-        </p>
-        <div style="flex:1; display:flex; gap:1rem; flex-wrap:wrap;">
-          <a href="formular1a.html" class="btn btn-wallet">Buy with Crypto</a>
-          <a href="seite3.html" class="btn">Back to Menu</a>
+<div id="stage">
+<div id="wrap">
+    <canvas id="game" width="900" height="600" tabindex="0"></canvas>
+    <div id="touch-controls">
+        <button id="btn-left">◀</button>
+        <button id="btn-right">▶</button>
+        <button id="btn-jump">⤒</button>
+    </div>
+    <div id="overlay-levelcomplete" class="overlay-card">
+        <div class="card-box">
+            <h2>Level geschafft! 🌱</h2>
+            <p>Samen: <span class="accent" id="oc-seeds"></span></p>
+            <p>Bester Combo: <span class="accent" id="oc-combo"></span></p>
         </div>
-      </div>
     </div>
-
-    <!-- Payment Box rechts -->
-    <div class="payment-box">
-      <i class="fa-solid fa-bolt payment-icon"></i>
-      <h3 class="box-title">Payment with Crypto</h3>
-      <p class="wallet-text">Connect MetaMask or your preferred wallet for a lightning-fast payment</p>
-      <a href="formular1a.html" class="btn-wallet">Complete Order</a>
-      <img src="METAMASK.png" alt="MetaMask Logo" class="wallet-logo">
-      <p class="note">⚠️ Important Note: Only crypto payments accepted. Recommended: Polygon. Discreet international shipping included.</p>
+    <div id="overlay-gameover" class="overlay-card">
+        <div class="card-box">
+            <h2>Game Over</h2>
+            <p>Gesammelte Samen: <span class="accent" id="go-seeds"></span></p>
+            <p>Highscore: <span class="accent" id="go-hs"></span></p>
+            <button class="btn" id="go-restart">Nochmal versuchen</button>
+        </div>
     </div>
-  </section>
-</main>
-
-<footer>
-  &copy; 2025 Baltazar Seeds - Badfarmers Genetics. All rights reserved.
-</footer>
+    <div id="overlay-victory" class="overlay-card">
+        <div class="card-box">
+            <h2>🏆 Baltazar's Run gemeistert!</h2>
+            <p>Gesamt-Samen: <span class="accent" id="vc-seeds"></span></p>
+            <p>Highscore: <span class="accent" id="vc-hs"></span></p>
+            <button class="btn" id="vc-restart">Nochmal spielen</button>
+        </div>
+    </div>
+    <div id="pause-overlay" class="overlay-card">
+        <div class="card-box">
+            <h2>Pause</h2>
+            <p>P drücken zum Weitermachen</p>
+        </div>
+    </div>
+    <div class="info">Steuerung: ← → bewegen, ↑ oder Leertaste springen (Doppelsprung). P = Pause. Klick aufs Feld falls Tasten nicht reagieren.</div>
+    <div class="hint">Epic Grower Adventure: Sammle Samen, besiege Gegner, meistere Level in Baltazars Welt — jetzt mit Combos, beweglichen Plattformen, Geheimwegen und Boss!</div>
+    <div>
+        <a href="seite3.html" class="back-button">Back To Menu</a>
+        <button class="btn" id="restart">Restart</button>
+        <button class="btn" id="mute">Mute Music</button>
+        <button class="btn" id="show-highscore">Highscore</button>
+    </div>
+</div>
+</div>
 
 <script>
-const slides = document.querySelectorAll('.slide img');
-const overlay = document.createElement('div');
-overlay.id = 'lightbox-overlay';
-overlay.innerHTML = '<img src="" alt="Product Lightbox">';
-document.body.appendChild(overlay);
-const overlayImg = overlay.querySelector('img');
+/* =========================================================
+   Baltazar's Run — Remastered Engine
+   Gleiche Assets (Bilder/Sounds), gleiche Grund-Level, aber
+   massiv aufgepimpte Engine: Coyote-Time, Jump-Buffer, Combos,
+   bewegliche Plattformen, versteckte Blöcke, Schalter/Tore,
+   Bosslevel, Partikel, Licht/Vignette, Parallax-Tiefe,
+   Screen-Shake, Kamera-Zoom, 3D-Tilt des Spielfelds, Touch.
 
-slides.forEach(img => {
-  img.addEventListener('click', () => {
-    overlayImg.src = img.src;
-    overlay.style.display = 'flex';
-  });
+   WICHTIG: Ersetzt keine Assets. Es werden weiterhin exakt
+   die gleichen Dateinamen genutzt wie im Original:
+   baltirunbackground.jpg, baltirun.png, enemyA.png, enemyB.png,
+   spike.png, jump.wav, collect_seed.wav, enemy_kill.wav,
+   death.mp3, level_complete.wav, background_music.wav
+   Lege diese Dateien einfach neben diese HTML-Datei.
+   ========================================================= */
+
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const CSS_W = 900, CSS_H = 600;
+const DPR = Math.min(window.devicePixelRatio || 1, 2);
+canvas.width = Math.floor(CSS_W * DPR);
+canvas.height = Math.floor(CSS_H * DPR);
+canvas.style.width = CSS_W + 'px';
+canvas.style.height = CSS_H + 'px';
+ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+const W = CSS_W, H = CSS_H, TILE = 60;
+
+/* -------------------------
+   Levels
+   Gleiche Tile-Sprache wie im Original (#, ?, E, F, S, G),
+   plus neue rein code-gezeichnete Elemente (keine neuen
+   Bild-Dateien nötig):
+   M = bewegliche Plattform, ~ = verstecker Block (Bonus-Samen),
+   K = Schalter, D = Tor (öffnet sich durch K), B = Boss-Spawn
+   ------------------------- */
+const levels = [
+    [
+        '.........................................................................................................................................................................................',
+        '.........................................................................................................................................................................................',
+        '.........................................................................................................................................................................................',
+        '...................?.................................................................?.................................................?.........................................',
+        '....................................#####..........................................................#####............................#......#..........................',
+        '.........................................#####..............................................#####................................#.............#####...............',
+        '...............#######.................................................#######.........................#######...............##..............................#######...',
+        '...........................................................M...........................................................................................................',
+        '................................E..............................................................E................................................................G........',
+        '#########################################################################################################################################################################'
+    ],
+    [
+        '.........................................................................................................................................................................................',
+        '..................................................................~....................................................................................................',
+        '................................?...................................?...................................?...................................?..................................',
+        '................#####.................................................#####.................................................#####...............................................',
+        '.............................S........E..................................................................................................................................................',
+        '..............................................#####.........F.........#####.........E.........#####.........F.........#####.........E.........#####.........S......S...',
+        '.......#######...........................M...............................................................................................................................',
+        '.......................#######.........#######.........#######.........#######.........#######.........#######.........#######.........#######.........#######.........',
+        '....................................................................................................................................................................G............',
+        '#########################################################################################################################################################################'
+    ],
+    [
+        '.........................................................................................................................................................................................',
+        '................?..................?..................?..................?..................?..................?..................?..................?...............',
+        '.......F..........#####...........#####...........#####...........#####...........#####...........#####...........#####...........#####...........#####...........F.....',
+        '.................................K.......................................................................D.............................................................',
+        '.......E.........................................................................................................................................................E...............',
+        '................S..................S..................S..................S..................S..................S..................S..................S...............',
+        '.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####..',
+        '.........................................................................................................................................................................................',
+        '.........................................................................................................................................................G.......................',
+        '#########################################################################################################################################################################'
+    ],
+    [
+        '.........................................................................................................................................................................................',
+        '................?..................?..................~..................?..................?..................?..................?..................?...............',
+        '.......F..........#####...........#####...........#####...........#####...........#####...........#####...........#####...........#####...........#####...........F.....',
+        '..........................................M.......................................................M.............................................................',
+        '.......E..................E..................E..................E..................E..................E..................E..................E..................E.......',
+        '................S..................S..................S..................S..................S..................S..................S..................S...............',
+        '.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####..',
+        '........................................................................................................................................................................',
+        '.........................................................................................................................................................G.......................',
+        '#########################################################################################################################################################################'
+    ],
+    [
+        '.........................................................................................................................................................................................',
+        '................?..................?..................?..................?..................?..................?..................?..................?...............',
+        '.......F..........#####...........#####...........#####...........#####...........#####...........#####...........#####...........#####...........#####...........F.....',
+        '.......E.........................................................................................................................................................E...............',
+        '................S..................S..................S..................S..................S..................S..................S..................S...............',
+        '.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####.......#####..',
+        '........................................................................................................................................................................',
+        '.......F..........E................S..................F..................E..................S..................F..................E..................................',
+        '.........................................................................................................................................................G.......................',
+        '#########################################################################################################################################################################'
+    ],
+    // Level 6: Boss-Arena (rein code-gezeichnet, braucht keine neue Grafikdatei)
+    [
+        '.................................................................................',
+        '.................................................................................',
+        '.................................................................................',
+        '.................................................................................',
+        '.................................................................................',
+        '.................................................................................',
+        '.......#####.....................B.........................................#####..',
+        '#################################################################################'
+    ]
+];
+const BOSS_LEVEL = levels.length - 1;
+
+/* -------------------------
+   State
+   ------------------------- */
+let currentLevel = 0;
+let levelRaw = levels[currentLevel];
+let MAP_W = levelRaw[0].length;
+let MAP_H = levelRaw.length;
+let level = levelRaw.map(r => r.split(''));
+
+let seeds = [], enemies = [], goalTiles = [], spikes = [], platforms = [], hiddenBlocks = [], switches = [], gates = [], boss = null;
+let startPos = {x: 100, y: H - TILE - 80};
+
+const playerImg = new Image(); playerImg.src = 'baltirun.png';
+const enemyAImg = new Image(); enemyAImg.src = 'enemyA.png';
+const enemyBImg = new Image(); enemyBImg.src = 'enemyB.png';
+const spikeImg = new Image(); spikeImg.src = 'spike.png';
+
+function spawnEntities() {
+    seeds = []; enemies = []; goalTiles = []; spikes = []; platforms = []; hiddenBlocks = []; switches = []; gates = []; boss = null;
+    for (let y = 0; y < MAP_H; y++) {
+        for (let x = 0; x < MAP_W; x++) {
+            const ch = level[y][x];
+            const px = x * TILE, py = y * TILE;
+            if (ch === '?') seeds.push({x: px + TILE / 4, y: py + TILE / 4, w: TILE / 2, h: TILE / 2, col: false});
+            if (ch === 'E') enemies.push({x: px, y: py, w: TILE, h: TILE, dir: Math.random() < 0.5 ? -1 : 1, speed: 80 + currentLevel * 20, type: 'walker', vy: 0, grounded: false, spawnTime: Date.now(), hopTimer: 1 + Math.random()});
+            if (ch === 'F') enemies.push({x: px, y: py, w: TILE, h: TILE, dir: Math.random() < 0.5 ? -1 : 1, speed: 80 + currentLevel * 10, type: 'flyer', vy: 0, spawnTime: Date.now(), diveTimer: 2 + Math.random() * 2, diving: false});
+            if (ch === 'S') spikes.push({x: px, y: py, w: TILE, h: TILE});
+            if (ch === 'G') goalTiles.push({x: px, y: py, w: TILE, h: TILE});
+            if (ch === 'M') platforms.push({baseX: px, baseY: py, x: px, y: py, w: TILE * 1.3, h: 18, range: 130, speed: 60, t: Math.random() * 10});
+            if (ch === '~') hiddenBlocks.push({x: px, y: py, w: TILE, h: TILE, broken: false, shake: 0});
+            if (ch === 'K') switches.push({x: px, y: py, w: TILE * 0.6, h: TILE * 0.6, ox: px + TILE * 0.2, oy: py + TILE * 0.2, hit: false});
+            if (ch === 'D') gates.push({x: px, y: 0, w: TILE * 0.5, h: py + TILE, open: false});
+            if (ch === 'B') boss = {x: px - 40, y: py - 60, w: 140, h: 140, hp: 6, maxHp: 6, state: 'idle', stateT: 0, dir: -1, vy: 0, grounded: false, invuln: 0, shakeOnLand: false};
+        }
+    }
+}
+spawnEntities();
+
+const player = {
+    x: startPos.x, y: startPos.y, w: 80, h: 80, vx: 0, vy: 0,
+    speed: 250, jumpVel: 850, grounded: false, jumps: 0, maxJumps: 2,
+    seeds: 0, lives: 3, alive: true, facingRight: true,
+    coyote: 0, jumpBuffer: 0, squash: 1, stretch: 1, hurtFlash: 0
+};
+
+const GRAV = 1600, ENEMY_GRAV = 1400;
+const COYOTE_TIME = 0.1, JUMP_BUFFER = 0.12;
+const keys = {};
+let paused = false, levelCompleting = false, last = performance.now();
+
+/* -------------------------
+   Combo-System
+   ------------------------- */
+let combo = 0, comboTimer = 0, bestCombo = 0;
+const COMBO_WINDOW = 1.4;
+
+/* -------------------------
+   Sounds / Music (gleiche Dateien wie im Original)
+   ------------------------- */
+const jumpSound = new Audio('jump.wav');
+const collectSound = new Audio('collect_seed.wav');
+const killSound = new Audio('enemy_kill.wav');
+const deathSound = new Audio('death.mp3');
+const levelCompleteSound = new Audio('level_complete.wav');
+const bgMusic = new Audio('background_music.wav');
+bgMusic.loop = true; bgMusic.volume = 0.2;
+let musicPlaying = false;
+function safePlay(a){ try { a.currentTime = 0; a.play().catch(()=>{}); } catch(e){} }
+function startMusic() { if (!musicPlaying) bgMusic.play().then(() => musicPlaying = true).catch(()=>{}); }
+document.getElementById('mute').addEventListener('click', () => {
+    if (musicPlaying) { bgMusic.pause(); musicPlaying = false; document.getElementById('mute').textContent = 'Unmute Music'; }
+    else { bgMusic.play().then(()=>musicPlaying=true).catch(()=>{}); document.getElementById('mute').textContent = 'Mute Music'; }
 });
-overlay.addEventListener('click', () => overlay.style.display = 'none');
-</script>
 
+/* -------------------------
+   Highscore (localStorage)
+   ------------------------- */
+const HS_KEY = 'baltazar_highscore_v1';
+function getHighscore() { const v = localStorage.getItem(HS_KEY); return v ? parseInt(v,10) : 0; }
+function setHighscore(val) { const cur = getHighscore(); if (val > cur) localStorage.setItem(HS_KEY, String(val)); }
+document.getElementById('show-highscore').addEventListener('click', () => alert('Highscore (meiste Samen): ' + getHighscore()));
+
+/* -------------------------
+   Input: Tastatur + Touch
+   ------------------------- */
+window.addEventListener('keydown', e => {
+    keys[e.code] = true;
+    if (['Space', 'ArrowUp'].includes(e.code)) e.preventDefault();
+    if (e.code === 'KeyP') togglePause();
+});
+window.addEventListener('keyup', e => { keys[e.code] = false; });
+
+if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+    document.getElementById('touch-controls').style.display = 'block';
+}
+function bindHold(id, code) {
+    const el = document.getElementById(id);
+    const set = v => e => { e.preventDefault(); keys[code] = v; };
+    el.addEventListener('touchstart', set(true), {passive:false});
+    el.addEventListener('touchend', set(false), {passive:false});
+    el.addEventListener('touchcancel', set(false), {passive:false});
+    el.addEventListener('mousedown', set(true));
+    el.addEventListener('mouseup', set(false));
+    el.addEventListener('mouseleave', set(false));
+}
+bindHold('btn-left', 'ArrowLeft');
+bindHold('btn-right', 'ArrowRight');
+bindHold('btn-jump', 'Space');
+
+/* -------------------------
+   3D-Tilt-Effekt des Spielfelds (Maus-Parallax)
+   ------------------------- */
+const wrapEl = document.getElementById('wrap');
+document.getElementById('stage').addEventListener('mousemove', e => {
+    const r = wrapEl.getBoundingClientRect();
+    const nx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+    const ny = ((e.clientY - r.top) / r.height - 0.5) * 2;
+    wrapEl.style.transform = `rotateY(${nx * 3}deg) rotateX(${-ny * 3}deg)`;
+});
+document.getElementById('stage').addEventListener('mouseleave', () => { wrapEl.style.transform = 'rotateY(0deg) rotateX(0deg)'; });
+
+/* -------------------------
+   Tile utilities & collisions
+   ------------------------- */
+function isSolidTile(tx, ty) { if (tx < 0 || tx >= MAP_W || ty < 0 || ty >= MAP_H) return false; return level[ty][tx] === '#'; }
+function tilesOverlappingRect(x, y, w, h) {
+    const left = Math.floor(x / TILE), right = Math.floor((x + w - 1) / TILE);
+    const top = Math.floor(y / TILE), bottom = Math.floor((y + h - 1) / TILE);
+    const out = [];
+    for (let ty = top; ty <= bottom; ty++) for (let tx = left; tx <= right; tx++) if (isSolidTile(tx, ty)) out.push({tx, ty, x: tx * TILE, y: ty * TILE, w: TILE, h: TILE});
+    return out;
+}
+function rectsOverlap(a, b) { return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
+function solidRects() {
+    const out = tilesOverlappingRect(player.x, player.y, player.w, player.h).map(t=>({x:t.x,y:t.y,w:t.w,h:t.h}));
+    for (const p of platforms) out.push({x:p.x,y:p.y,w:p.w,h:p.h});
+    for (const g of gates) if (!g.open) out.push(g);
+    for (const b of hiddenBlocks) if (!b.broken) out.push(b);
+    return out;
+}
+
+/* -------------------------
+   Kamera
+   ------------------------- */
+let camX = 0, camTargetX = 0, camZoom = 1, camZoomTarget = 1;
+let shakeT = 0, shakeMag = 0;
+function updateCamera(dt) {
+    camTargetX = player.x - W * 0.4;
+    camTargetX = Math.max(0, Math.min(camTargetX, MAP_W * TILE - W));
+    camX += (camTargetX - camX) * Math.min(12 * dt, 1);
+    camZoom += (camZoomTarget - camZoom) * Math.min(6 * dt, 1);
+    if (shakeT > 0) shakeT -= dt;
+}
+function shake(mag, dur) { shakeMag = mag; shakeT = dur; }
+
+/* -------------------------
+   Partikel & Floating Text
+   ------------------------- */
+const particles = [];
+const floatTexts = [];
+function spawnTrail(x,y) { particles.push({x, y, vx: (Math.random()-0.5)*30, vy: -Math.random()*40 - 10, life: 0.45 + Math.random()*0.25, size: 4 + Math.random()*6, col:'#fff'}); }
+function spawnBurst(x, y, col, n=14, spread=220) {
+    for (let i=0;i<n;i++){
+        const a = Math.random()*Math.PI*2;
+        particles.push({x, y, vx: Math.cos(a)*spread*(0.4+Math.random()), vy: Math.sin(a)*spread*(0.4+Math.random())-80, life: 0.4+Math.random()*0.5, size: 3+Math.random()*5, col});
+    }
+}
+function spawnFloatText(x, y, text, col) { floatTexts.push({x, y, text, col, life: 1.0}); }
+function updateParticles(dt) {
+    for (let i = particles.length -1; i >=0; i--) {
+        const p = particles[i]; p.life -= dt; p.vy += 800 * dt; p.x += p.vx * dt; p.y += p.vy * dt;
+        if (p.life <= 0) particles.splice(i,1);
+    }
+    for (let i = floatTexts.length -1; i >=0; i--) {
+        const f = floatTexts[i]; f.life -= dt * 0.9; f.y -= 40*dt;
+        if (f.life <= 0) floatTexts.splice(i,1);
+    }
+}
+
+/* -------------------------
+   Level control
+   ------------------------- */
+function nextLevel() {
+    currentLevel++;
+    if (currentLevel >= levels.length) {
+        showOverlay('overlay-victory');
+        document.getElementById('vc-seeds').textContent = player.seeds;
+        setHighscore(player.seeds);
+        document.getElementById('vc-hs').textContent = getHighscore();
+        return;
+    }
+    loadLevel(currentLevel);
+}
+function loadLevel(i) {
+    levelCompleting = false; currentLevel = i;
+    levelRaw = levels[currentLevel]; MAP_W = levelRaw[0].length; MAP_H = levelRaw.length;
+    level = levelRaw.map(r => r.split(''));
+    respawn(true);
+    camZoomTarget = currentLevel === BOSS_LEVEL ? 1.08 : 1;
+}
+function respawn(noClearKeys=false) {
+    player.x = startPos.x; player.y = startPos.y; player.vx = 0; player.vy = 0;
+    player.grounded = false; player.jumps = 0; player.alive = true; combo = 0; comboTimer = 0;
+    if (!noClearKeys) for (const k in keys) keys[k] = false;
+    spawnEntities();
+}
+function gameOver() {
+    setHighscore(player.seeds);
+    document.getElementById('go-seeds').textContent = player.seeds;
+    document.getElementById('go-hs').textContent = getHighscore();
+    showOverlay('overlay-gameover');
+    player.seeds = 0; player.lives = 3;
+}
+function killPlayer() {
+    if (!player.alive) return;
+    player.alive = false; safePlay(deathSound); player.lives--; shake(10, 0.3);
+    spawnBurst(player.x+player.w/2, player.y+player.h/2, '#ff5566', 20, 260);
+    if (player.lives <= 0) setTimeout(gameOver, 450);
+    else setTimeout(()=>{ respawn(false); hideOverlays(); loadLevel(currentLevel); }, 450);
+}
+function showOverlay(id) { hideOverlays(); document.getElementById(id).style.display = 'flex'; }
+function hideOverlays() { document.querySelectorAll('.overlay-card').forEach(o => o.style.display = 'none'); }
+
+/* -------------------------
+   Update Loop
+   ------------------------- */
+function update(dt) {
+    if (!player.alive || paused) return;
+
+    if (comboTimer > 0) { comboTimer -= dt; if (comboTimer <= 0) combo = 0; }
+
+    let dir = 0;
+    if (keys['ArrowLeft'] || keys['KeyA']) { dir -= 1; player.facingRight = false; }
+    if (keys['ArrowRight'] || keys['KeyD']) { dir += 1; player.facingRight = true; }
+    player.vx = dir * player.speed;
+
+    if (player.grounded && dir !== 0) spawnTrail(player.x + player.w/2, player.y + player.h - 8);
+
+    // Coyote time + Jump buffer
+    if (player.grounded) player.coyote = COYOTE_TIME; else player.coyote = Math.max(0, player.coyote - dt);
+    if (keys['Space'] || keys['ArrowUp']) player.jumpBuffer = JUMP_BUFFER; else player.jumpBuffer = Math.max(0, player.jumpBuffer - dt);
+
+    const canGroundJump = player.jumps === 0 && player.coyote > 0;
+    if (player.jumpBuffer > 0 && (canGroundJump || player.jumps < player.maxJumps)) {
+        player.vy = -player.jumpVel;
+        player.jumps = canGroundJump ? 1 : player.jumps + 1;
+        player.grounded = false; player.coyote = 0; player.jumpBuffer = 0;
+        player.squash = 1.25; player.stretch = 0.8;
+        safePlay(jumpSound);
+    }
+
+    player.vy += GRAV * dt;
+
+    player.x += player.vx * dt;
+    let collTiles = solidRects();
+    for (const t of collTiles) if (rectsOverlap(player, t)) { if (player.vx > 0) player.x = t.x - player.w; else if (player.vx < 0) player.x = t.x + t.w; }
+    if (collTiles.some(t=>rectsOverlap(player,t))) player.vx = 0;
+
+    // Bewegliche Plattformen mitfahren
+    let onPlatform = null;
+    for (const p of platforms) {
+        p.t += dt;
+        p.x = p.baseX + Math.sin(p.t * (p.speed/60)) * p.range;
+        const feet = {x: player.x, y: player.y + player.h, w: player.w, h: 6};
+        if (player.vy >= 0 && rectsOverlap(feet, p)) onPlatform = p;
+    }
+
+    player.y += player.vy * dt;
+    collTiles = solidRects();
+    player.grounded = false;
+    for (const t of collTiles) {
+        if (!rectsOverlap(player, t)) continue;
+        if (player.vy > 0) { player.y = t.y - player.h; player.vy = 0; player.grounded = true; player.jumps = 0; player.squash = 0.8; player.stretch = 1.2; }
+        else if (player.vy < 0) { player.y = t.y + t.h; player.vy = 0; }
+    }
+    if (onPlatform && player.y + player.h <= onPlatform.y + 10) {
+        player.y = onPlatform.y - player.h; player.vy = 0; player.grounded = true; player.jumps = 0;
+        player.x += Math.cos(onPlatform.t * (onPlatform.speed/60)) * onPlatform.range * (onPlatform.speed/60) * dt;
+    }
+
+    player.squash += (1 - player.squash) * Math.min(10*dt,1);
+    player.stretch += (1 - player.stretch) * Math.min(10*dt,1);
+    if (player.hurtFlash > 0) player.hurtFlash -= dt;
+
+    if (player.y > H + 200) killPlayer();
+
+    // Hidden blocks: von unten anstoßen zum Zerbrechen
+    for (const b of hiddenBlocks) {
+        if (b.broken) continue;
+        if (player.vy < 0 && rectsOverlap(player, {x:b.x,y:b.y,w:b.w,h:b.h})) {
+            b.broken = true; spawnBurst(b.x+b.w/2, b.y+b.h/2, '#c9a06a', 16, 200);
+            seeds.push({x: b.x + TILE/4, y: b.y - 20, w: TILE/2, h: TILE/2, col: false, bonus: true});
+            safePlay(collectSound);
+        }
+    }
+
+    // Schalter -> Tore öffnen
+    for (const s of switches) if (!s.hit && rectsOverlap(player, {x:s.ox,y:s.oy,w:s.w,h:s.h})) { s.hit = true; for (const g of gates) g.open = true; spawnFloatText(s.ox, s.oy, 'Tor offen!', '#7CFC9A'); safePlay(collectSound); }
+
+    // Gegner-Update
+    for (let i = enemies.length -1; i >=0; i--) {
+        const e = enemies[i];
+        if (e.type === 'walker') {
+            e.vy += ENEMY_GRAV * dt; e.y += e.vy * dt;
+            let eColl = tilesOverlappingRect(e.x, e.y, e.w, e.h);
+            e.grounded = false;
+            for (const t of eColl) { if (e.vy > 0) { e.y = t.y - e.h; e.vy = 0; e.grounded = true; } else if (e.vy < 0) { e.y = t.y + TILE; e.vy = 0; } }
+            const nearPlayer = Math.abs((e.x+e.w/2) - (player.x+player.w/2)) < 260;
+            const spd = nearPlayer ? e.speed * 1.6 : e.speed;
+            if (e.grounded) e.x += spd * dt * e.dir;
+            const frontX = Math.floor((e.dir > 0 ? e.x + e.w + 2 : e.x - 2) / TILE);
+            const footY = Math.floor((e.y + e.h + 2) / TILE);
+            const wallCheck = tilesOverlappingRect(e.x, e.y, e.w, e.h);
+            if (!isSolidTile(frontX, footY) || wallCheck.length > 0) { e.dir *= -1; e.x += e.dir * 2; }
+        } else if (e.type === 'flyer') {
+            e.diveTimer -= dt;
+            if (!e.diving && e.diveTimer <= 0 && Math.abs(e.x - player.x) < 300) { e.diving = true; e.diveTimer = 1.2; }
+            if (e.diving) {
+                e.y += 260 * dt; e.diveTimer -= dt;
+                if (e.diveTimer <= 0) { e.diving = false; e.diveTimer = 2 + Math.random()*2; }
+            } else {
+                e.x += e.speed * dt * e.dir;
+                const t = (Date.now() - e.spawnTime) / 500;
+                e.vy = Math.sin(t) * 150; e.y += e.vy * dt;
+            }
+            if (e.x < 0) { e.x = 0; e.dir = 1; }
+            if (e.x + e.w > MAP_W * TILE) { e.x = MAP_W * TILE - e.w; e.dir = -1; }
+            if (e.y < 0) e.y = 0;
+            if (e.y + e.h > H - TILE/2) e.y = H - TILE/2 - e.h;
+        }
+
+        if (rectsOverlap(player, e)) {
+            const overlapY = (player.y + player.h) - e.y;
+            if (player.vy > 200 && overlapY > 10 && overlapY < 80) {
+                enemies.splice(i,1); player.vy = -320; safePlay(killSound);
+                spawnBurst(e.x+e.w/2, e.y+e.h/2, '#ffb454', 14, 200);
+                addCombo(e.x+e.w/2, e.y);
+                continue;
+            } else { killPlayer(); break; }
+        }
+    }
+
+    // Boss
+    if (boss) updateBoss(dt);
+
+    // Spikes
+    for (const s of spikes) if (rectsOverlap(player, s)) { killPlayer(); break; }
+
+    // Samen
+    for (let i = seeds.length -1; i >=0; i--) {
+        const s = seeds[i];
+        if (!s.col && rectsOverlap(player, s)) {
+            s.col = true; player.seeds += 1; safePlay(collectSound); setHighscore(player.seeds);
+            addCombo(s.x, s.y);
+        }
+    }
+
+    if (!levelCompleting) {
+        for (const g of goalTiles) {
+            if (rectsOverlap(player, g)) {
+                if (boss && boss.hp > 0) break; // Boss muss erst besiegt werden
+                levelCompleting = true; safePlay(levelCompleteSound); shake(6, 0.2); camZoomTarget = 1.15;
+                document.getElementById('oc-seeds').textContent = player.seeds;
+                document.getElementById('oc-combo').textContent = 'x' + bestCombo;
+                showOverlay('overlay-levelcomplete');
+                setTimeout(() => { hideOverlays(); camZoomTarget = 1; bestCombo = 0; nextLevel(); }, 1400);
+                break;
+            }
+        }
+    }
+
+    updateParticles(dt);
+    updateCamera(dt);
+}
+
+function addCombo(x, y) {
+    combo++; comboTimer = COMBO_WINDOW; bestCombo = Math.max(bestCombo, combo);
+    if (combo > 1) spawnFloatText(x, y - 10, 'Combo x' + combo + '!', '#ffd166');
+}
+
+function updateBoss(dt) {
+    const b = boss;
+    if (b.hp <= 0) { if (b.state !== 'dead') { b.state = 'dead'; shake(14, 0.5); spawnBurst(b.x+b.w/2, b.y+b.h/2, '#c084fc', 40, 320); } return; }
+    b.invuln = Math.max(0, b.invuln - dt);
+    b.vy += ENEMY_GRAV * dt; b.y += b.vy * dt;
+    const groundY = H - TILE - b.h;
+    if (b.y >= groundY) { b.y = groundY; b.vy = 0; b.grounded = true; } else b.grounded = false;
+    b.stateT -= dt;
+    b.dir = player.x > b.x ? 1 : -1;
+    if (b.stateT <= 0) {
+        const r = Math.random();
+        if (r < 0.4) { b.state = 'charge'; b.stateT = 1.1; }
+        else if (r < 0.75) { b.state = 'slam'; b.stateT = 0.9; }
+        else { b.state = 'idle'; b.stateT = 0.8; }
+    }
+    if (b.state === 'charge') b.x += b.dir * 180 * dt;
+    if (b.state === 'slam' && b.stateT < 0.15 && !b.shakeOnLand) { shake(8, 0.25); b.shakeOnLand = true; }
+    if (b.state !== 'slam') b.shakeOnLand = false;
+    b.x = Math.max(TILE, Math.min(b.x, MAP_W*TILE - TILE - b.w));
+
+    if (rectsOverlap(player, b)) {
+        const overlapY = (player.y + player.h) - b.y;
+        if (player.vy > 200 && overlapY > 10 && overlapY < 90 && b.invuln <= 0) {
+            b.hp--; b.invuln = 0.6; player.vy = -420; safePlay(killSound); shake(10, 0.3);
+            spawnBurst(b.x+b.w/2, b.y+30, '#c084fc', 16, 240);
+            spawnFloatText(b.x+b.w/2, b.y, 'Treffer!', '#ff6b6b');
+        } else if (b.invuln <= 0) killPlayer();
+    }
+}
+
+/* -------------------------
+   Render
+   ------------------------- */
+function drawVignette() {
+    const g = ctx.createRadialGradient(W/2,H/2,H*0.25,W/2,H/2,H*0.75);
+    g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,0.45)');
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+}
+function drawParallax() {
+    const hueByLevel = [200, 260, 30, 190, 350, 280];
+    const hue = hueByLevel[currentLevel] || 200;
+    ctx.fillStyle = `hsla(${hue},40%,12%,0.35)`;
+    ctx.fillRect(0,0,W,H);
+    ctx.fillStyle = `hsla(${hue},35%,20%,0.4)`;
+    for (let i=-1;i<6;i++){
+        const bx = i*260 - (camX*0.25)%260;
+        ctx.beginPath();
+        ctx.moveTo(bx,H*0.55); ctx.quadraticCurveTo(bx+130,H*0.30,bx+260,H*0.55); ctx.lineTo(bx+260,H); ctx.lineTo(bx,H); ctx.fill();
+    }
+    ctx.fillStyle = `hsla(${hue},30%,26%,0.45)`;
+    for (let i=-1;i<8;i++){
+        const bx = i*180 - (camX*0.5)%180;
+        ctx.beginPath();
+        ctx.moveTo(bx,H*0.7); ctx.quadraticCurveTo(bx+90,H*0.5,bx+180,H*0.7); ctx.lineTo(bx+180,H); ctx.lineTo(bx,H); ctx.fill();
+    }
+}
+function render() {
+    ctx.save();
+    ctx.clearRect(0,0,W,H);
+    ctx.translate(W/2, H/2); ctx.scale(camZoom, camZoom); ctx.translate(-W/2, -H/2);
+    if (shakeT > 0) ctx.translate((Math.random()-0.5)*shakeMag, (Math.random()-0.5)*shakeMag);
+
+    drawParallax();
+
+    const startCol = Math.floor(camX / TILE), endCol = Math.min(MAP_W, Math.ceil((camX + W) / TILE));
+
+    for (let y = 0; y < MAP_H; y++) {
+        for (let x = startCol; x < endCol; x++) {
+            const ch = level[y][x];
+            const sx = x * TILE - camX, sy = y * TILE;
+            if (ch === '#') {
+                ctx.fillStyle = '#fff';
+                ctx.beginPath(); ctx.ellipse(sx + TILE/2, sy + TILE/2, TILE/2, TILE/3, 0, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(sx + TILE/4, sy + TILE/4, TILE/4, 0, Math.PI*2); ctx.fill();
+                ctx.beginPath(); ctx.arc(sx + TILE*3/4, sy + TILE/4, TILE/4, 0, Math.PI*2); ctx.fill();
+            }
+            if (ch === 'G') {
+                ctx.fillStyle = '#333'; ctx.fillRect(sx + TILE/2 - 4, sy - 40, 8, 40);
+                const pulse = (boss && boss.hp>0) ? '#888' : '#2ecc71';
+                ctx.fillStyle = pulse;
+                ctx.beginPath(); ctx.moveTo(sx+TILE/2, sy-35); ctx.lineTo(sx+TILE/2+30, sy-25); ctx.lineTo(sx+TILE/2, sy-15); ctx.fill();
+            }
+        }
+    }
+
+    // Schalter & Tore
+    for (const s of switches) {
+        const sx = s.ox - camX, sy = s.oy;
+        const glow = ctx.createRadialGradient(sx+s.w/2, sy+s.h/2, 2, sx+s.w/2, sy+s.h/2, 26);
+        glow.addColorStop(0, s.hit ? 'rgba(120,255,150,0.9)' : 'rgba(255,220,120,0.9)');
+        glow.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = glow; ctx.fillRect(sx-20, sy-20, s.w+40, s.h+40);
+        ctx.fillStyle = s.hit ? '#7CFC9A' : '#ffd166';
+        ctx.beginPath(); ctx.arc(sx+s.w/2, sy+s.h/2, s.w/2, 0, Math.PI*2); ctx.fill();
+    }
+    for (const g of gates) if (!g.open) { ctx.fillStyle = '#555b66'; ctx.fillRect(g.x-camX, g.y, g.w, g.h); }
+
+    // Versteckte Blöcke
+    for (const b of hiddenBlocks) {
+        if (b.broken) continue;
+        const sx = b.x - camX;
+        ctx.fillStyle = '#c9a06a'; ctx.fillRect(sx, b.y, b.w, b.h);
+        ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.strokeRect(sx+4, b.y+4, b.w-8, b.h-8);
+    }
+
+    // Bewegliche Plattformen
+    for (const p of platforms) {
+        const sx = p.x - camX;
+        ctx.fillStyle = '#dfe9ff';
+        ctx.beginPath(); ctx.roundRect ? ctx.roundRect(sx, p.y, p.w, p.h, 8) : ctx.rect(sx, p.y, p.w, p.h); ctx.fill();
+    }
+
+    for (const s of spikes) {
+        const sx = s.x - camX, sy = s.y;
+        if (spikeImg.complete && spikeImg.naturalWidth !== 0) ctx.drawImage(spikeImg, sx, sy, s.w, s.h);
+        else { ctx.fillStyle = '#aa0000'; ctx.fillRect(sx, sy, s.w, s.h); }
+    }
+
+    for (const s of seeds) {
+        if (s.col) continue;
+        const sx = s.x - camX + s.w/2, sy = s.y + s.h/2 + Math.sin(Date.now()/200)*2;
+        const glow = ctx.createRadialGradient(sx,sy,2,sx,sy,22);
+        glow.addColorStop(0, s.bonus ? 'rgba(255,214,102,0.6)' : 'rgba(255,255,255,0.35)');
+        glow.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = glow; ctx.fillRect(sx-22,sy-22,44,44);
+        ctx.fillStyle = s.bonus ? '#ffd166' : '#8b4513';
+        ctx.beginPath(); ctx.ellipse(sx, sy, 15, 10, 0, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(sx+5, sy-5, 3, 0, Math.PI*2); ctx.fill();
+    }
+
+    for (const e of enemies) {
+        const sx = e.x - camX, sy = e.y;
+        ctx.save();
+        if (e.dir < 0) { ctx.translate(sx + e.w, sy); ctx.scale(-1,1); drawEnemySprite(e, 0, 0); }
+        else drawEnemySprite(e, sx, sy);
+        ctx.restore();
+    }
+
+    if (boss && boss.state !== 'dead') drawBoss();
+
+    // Spieler mit Squash/Stretch & Hurt-Flash
+    ctx.save();
+    const cx = player.x - camX + player.w/2, cy = player.y + player.h;
+    ctx.translate(cx, cy); ctx.scale(player.squash, player.stretch); ctx.translate(-player.w/2, -player.h);
+    if (!player.facingRight) { ctx.translate(player.w, 0); ctx.scale(-1,1); }
+    if (playerImg.complete && playerImg.naturalWidth !== 0) ctx.drawImage(playerImg, 0, 0, player.w, player.h);
+    else { ctx.fillStyle = '#88ff88'; ctx.fillRect(0,0,player.w,player.h); }
+    ctx.restore();
+
+    for (const p of particles) {
+        const px = p.x - camX, alpha = Math.max(0, p.life / 0.8);
+        ctx.globalAlpha = alpha; ctx.fillStyle = p.col;
+        ctx.fillRect(px - p.size/2, p.y - p.size/2, p.size, p.size);
+        ctx.globalAlpha = 1;
+    }
+    for (const f of floatTexts) {
+        ctx.globalAlpha = Math.max(0, f.life);
+        ctx.fillStyle = f.col; ctx.font = 'bold 18px system-ui'; ctx.textAlign = 'center';
+        ctx.fillText(f.text, f.x - camX, f.y);
+        ctx.globalAlpha = 1; ctx.textAlign = 'left';
+    }
+
+    drawVignette();
+
+    // HUD
+    ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.fillRect(12, 12, 430, 46);
+    ctx.fillStyle = '#000'; ctx.font = '18px system-ui';
+    const totalSeeds = seeds.length;
+    ctx.fillText('Samen: ' + player.seeds + '/' + totalSeeds + '  |  Leben: ' + player.lives + '  |  Level: ' + (currentLevel+1) + (currentLevel===BOSS_LEVEL?' (BOSS)':''), 22, 40);
+    if (combo > 1) { ctx.fillStyle = '#ffd166'; ctx.font = 'bold 16px system-ui'; ctx.fillText('Combo x' + combo, 22, 58); }
+
+    ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fillRect(W-200, 12, 188, 36);
+    ctx.fillStyle = '#000'; ctx.font = '16px system-ui'; ctx.fillText('Highscore: ' + getHighscore(), W-188, 36);
+
+    if (boss && boss.state !== 'dead') {
+        ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(W/2-150, 12, 300, 18);
+        ctx.fillStyle = '#e74c3c'; ctx.fillRect(W/2-148, 14, 296*(boss.hp/boss.maxHp), 14);
+        ctx.fillStyle = '#fff'; ctx.font = '12px system-ui'; ctx.textAlign='center'; ctx.fillText('BOSS', W/2, 25); ctx.textAlign='left';
+    }
+
+    ctx.restore();
+}
+
+function drawEnemySprite(e, sx, sy) {
+    if (e.type === 'walker') {
+        if (enemyAImg.complete && enemyAImg.naturalWidth !== 0) ctx.drawImage(enemyAImg, sx, sy, e.w, e.h);
+        else { ctx.fillStyle='#ff5555'; ctx.fillRect(sx,sy,e.w,e.h); }
+    } else {
+        if (enemyBImg.complete && enemyBImg.naturalWidth !== 0) ctx.drawImage(enemyBImg, sx, sy, e.w, e.h);
+        else { ctx.fillStyle='#55aaff'; ctx.fillRect(sx,sy,e.w,e.h); }
+        if (e.diving) { ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.beginPath(); ctx.moveTo(sx+e.w/2, sy); ctx.lineTo(sx+e.w/2, sy-30); ctx.stroke(); }
+    }
+}
+function drawBoss() {
+    const b = boss, sx = b.x - camX, sy = b.y;
+    ctx.save();
+    if (b.invuln > 0.3) ctx.globalAlpha = 0.6;
+    const grad = ctx.createRadialGradient(sx+b.w/2, sy+b.h/2, 10, sx+b.w/2, sy+b.h/2, b.w*0.7);
+    grad.addColorStop(0, 'rgba(192,132,252,0.35)'); grad.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle = grad; ctx.fillRect(sx-40, sy-40, b.w+80, b.h+80);
+    ctx.fillStyle = b.state === 'charge' ? '#a855f7' : '#7e22ce';
+    ctx.beginPath(); ctx.ellipse(sx+b.w/2, sy+b.h/2, b.w/2, b.h/2.2, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#fff';
+    const eyeDx = b.dir * 14;
+    ctx.beginPath(); ctx.arc(sx+b.w/2-24+eyeDx, sy+b.h/2-10, 10, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(sx+b.w/2+24+eyeDx, sy+b.h/2-10, 10, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#000';
+    ctx.beginPath(); ctx.arc(sx+b.w/2-24+eyeDx*1.4, sy+b.h/2-10, 5, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(sx+b.w/2+24+eyeDx*1.4, sy+b.h/2-10, 5, 0, Math.PI*2); ctx.fill();
+    ctx.restore();
+}
+
+/* -------------------------
+   Main loop
+   ------------------------- */
+function loop(now) {
+    const dt = Math.min((now - last) / 1000, 1/30);
+    last = now;
+    if (!paused) update(dt);
+    render();
+    requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+canvas.addEventListener('click', () => { canvas.focus(); startMusic(); });
+
+function togglePause() {
+    paused = !paused;
+    document.getElementById('pause-overlay').style.display = paused ? 'flex' : 'none';
+    if (paused) bgMusic.pause(); else if (musicPlaying) bgMusic.play();
+}
+
+document.getElementById('restart').addEventListener('click', () => { hideOverlays(); player.seeds = 0; player.lives = 3; bestCombo = 0; loadLevel(0); });
+document.getElementById('go-restart').addEventListener('click', () => { hideOverlays(); player.seeds = 0; player.lives = 3; bestCombo = 0; loadLevel(0); });
+document.getElementById('vc-restart').addEventListener('click', () => { hideOverlays(); player.seeds = 0; player.lives = 3; bestCombo = 0; loadLevel(0); });
+
+window.addEventListener('blur', () => { for (const k in keys) keys[k] = false; });
+
+canvas.focus();
+</script>
 </body>
 </html>
