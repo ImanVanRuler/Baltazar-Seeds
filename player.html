@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genetic Hunter - Advanced Maze Runner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Neon Vertical Escape</title>
     <style>
         * {
             margin: 0;
@@ -15,911 +15,691 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #050A06;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #ECE7DF;
+            background: #06020f;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #ffffff;
             user-select: none;
             -webkit-user-select: none;
         }
 
-        canvas#gameCanvas {
-            display: block;
+        /* Spielfeld-Zentrierung */
+        #gameContainer {
+            position: relative;
             width: 100vw;
             height: 100vh;
-            background: #050A06;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #110724 0%, #06020f 100%);
         }
 
-        #uiContainer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        canvas#gameCanvas {
+            display: block;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 242, 254, 0.1);
+            background: #090414;
+        }
+
+
+    /* Interface Layer */
+        #uiLayer {
+            position: absolute;
+            inset: 0;
             pointer-events: none;
-            z-index: 100;
+            z-index: 10;
         }
 
+        /* HUD oben */
         #hud {
-            position: fixed;
+            position: absolute;
             top: 20px;
             left: 20px;
             right: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            z-index: 1000;
-            font-size: 14px;
-            font-weight: bold;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-            flex-wrap: wrap;
         }
 
-        .hud-item {
-            background: rgba(5, 10, 6, 0.85);
-            border: 2px solid #C4913E;
-            padding: 10px 16px;
-            border-radius: 6px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(196, 145, 62, 0.25);
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            transition: border-color 0.5s ease;
-        }
-
-        .hud-item.boss-mode {
-            border-color: #FF3333;
-            box-shadow: 0 0 20px rgba(255, 51, 51, 0.4);
+        .hud-panel {
+            background: rgba(13, 6, 28, 0.85);
+            border: 2px solid #00f2fe;
+            padding: 8px 16px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+            backdrop-filter: blur(5px);
         }
 
         .hud-label {
-            font-size: 10px;
-            color: #C4913E;
+            font-size: 11px;
+            color: #00f2fe;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-        
-        .hud-item.boss-mode .hud-label {
-            color: #FF3333;
+            letter-spacing: 1px;
+            display: block;
         }
 
         .hud-value {
-            font-size: 18px;
-            color: #A8E6A8;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        
-        .hud-item.boss-mode .hud-value {
-            color: #FF8888;
+            font-size: 20px;
+            font-family: monospace;
+            font-weight: bold;
+            color: #ffffff;
         }
 
-        @media (max-width: 768px) {
-            #hud { top: 10px; left: 10px; right: 10px; gap: 8px; }
-            .hud-item { padding: 8px 12px; font-size: 12px; }
-            .hud-label { font-size: 9px; }
-            .hud-value { font-size: 14px; }
+        #timerPanel {
+            border-color: #ff007f;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.2);
         }
-        /* Screens & Overlays */
-        #screenOverlay {
-            position: fixed;
+
+        #timerPanel .hud-label {
+            color: #ff007f;
+        }
+
+        /* Overlays (Start / Game Over) */
+        .screen-overlay {
+            position: absolute;
             inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: rgba(5, 10, 6, 0.96);
+            background: rgba(6, 2, 15, 0.95);
             backdrop-filter: blur(8px);
-            z-index: 2000;
-            animation: fadeIn 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            pointer-events: auto;
+            transition: opacity 0.3s ease;
         }
 
-        #screenOverlay:not(.active) {
-            display: none;
+        .screen-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .screen-box {
+        .menu-box {
             text-align: center;
-            max-width: 500px;
             padding: 40px;
-            background: rgba(11, 18, 9, 0.9);
-            border: 2px solid #C4913E;
-            border-radius: 12px;
-            box-shadow: 0 0 50px rgba(196, 145, 62, 0.3);
-            animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: rgba(17, 7, 36, 0.9);
+            border: 2px solid #00f2fe;
+            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(0, 242, 254, 0.3);
+            max-width: 400px;
+            width: 90%;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .screen-title {
-            font-size: clamp(32px, 8vw, 54px);
-            font-weight: 300;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #C4913E, #E2B46B);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
-        }
-
-        .screen-title.error {
-            background: linear-gradient(135deg, #FF6B6B, #C92A2A);
-            -webkit-background-clip: text;
-        }
-        
-        .screen-title.victory {
-            background: linear-gradient(135deg, #51cf66, #2b8a3e);
-            -webkit-background-clip: text;
-        }
-
-        .screen-subtitle {
-            font-size: 16px;
-            color: #C4913E;
-            margin-bottom: 24px;
+        .menu-title {
+            font-size: 32px;
+            margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
+            background: linear-gradient(135deg, #00f2fe, #ff007f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .screen-description {
+        .menu-desc {
             font-size: 14px;
-            color: #A8E6A8;
-            line-height: 1.6;
-            margin-bottom: 24px;
+            color: #a59cb8;
+            line-height: 1.5;
+            margin-bottom: 30px;
         }
 
-        .screen-stats {
-            background: rgba(5, 10, 6, 0.6);
-            border: 1px solid rgba(196, 145, 62, 0.2);
-            border-radius: 6px;
-            padding: 16px;
-            margin-bottom: 24px;
-        }
-
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            font-size: 14px;
-        }
-
-        .stat-label { color: #C4913E; }
-        .stat-value { color: #A8E6A8; font-family: 'JetBrains Mono', monospace; font-weight: bold; }
-
-        button {
-            background: linear-gradient(135deg, #C4913E, #E2B46B);
+        button.action-btn {
+            background: linear-gradient(135deg, #00f2fe, #ff007f);
             border: none;
-            color: #050A06;
-            padding: 12px 32px;
-            font-size: 14px;
+            color: #ffffff;
+            padding: 12px 30px;
+            font-size: 16px;
             font-weight: bold;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 25px rgba(196, 145, 62, 0.3);
-            pointer-events: all;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+            transition: transform 0.1s, box-shadow 0.2s;
         }
 
-        button:hover {
-            background: linear-gradient(135deg, #E2B46B, #C4913E);
+        button.action-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 35px rgba(196, 145, 62, 0.5);
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.6);
         }
 
-        .controls-list { text-align: left; display: inline-block; margin: 16px 0; font-size: 13px; line-height: 1.8; }
-        .control-item { margin: 8px 0; color: #A8E6A8; }
-        .control-key { color: #C4913E; font-weight: bold; font-family: 'JetBrains Mono', monospace; background: rgba(196, 145, 62, 0.1); padding: 2px 6px; border-radius: 3px; }
-
-        /* Touch Controls */
+        /* Touch-Steuerung */
         #touchControls {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            width: 150px;
-            height: 150px;
-            display: none;
-            z-index: 500;
-            pointer-events: all;
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 20px;
+            display: none; /* Wird per JS auf Mobilgeräten aktiviert */
         }
 
-        @media (max-width: 1024px) { #touchControls { display: block; } }
-
-        .joystick-base {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(196, 145, 62, 0.15), transparent);
-            border: 2px solid rgba(196, 145, 62, 0.4);
+        .touch-btn {
+            width: 70px;
+            height: 70px;
+            background: rgba(17, 7, 36, 0.8);
+            border: 2px solid #00f2fe;
             border-radius: 50%;
-        }
-
-        .joystick-stick {
-            position: absolute;
-            width: 55px;
-            height: 55px;
-            background: radial-gradient(circle at 30% 30%, #E2B46B, #8B6F47);
-            border: 2px solid #C4913E;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #00f2fe;
+            font-size: 24px;
+            font-weight: bold;
         }
     </style>
 </head>
+
+
 <body>
-    <canvas id="gameCanvas"></canvas>
+    <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
 
-    <div id="uiContainer">
-        <div id="hud">
-            <div class="hud-item" id="hudScore">
-                <span class="hud-label">Score</span>
-                <span id="scoreVal" class="hud-value">0</span>
-            </div>
-            <div class="hud-item" id="hudGen">
-                <span class="hud-label">Generation</span>
-                <span id="genVal" class="hud-value">1 / 10</span>
-            </div>
-            <div class="hud-item" id="hudSpeed">
-                <span class="hud-label">Hunter Status</span>
-                <span id="speedVal" class="hud-value">Normal</span>
-            </div>
-        </div>
-
-        <div id="screenOverlay" class="active">
-            <div class="screen-box" id="menuContent">
-                <h1 class="screen-title" id="mainTitle">Genetic Hunter</h1>
-                <p class="screen-subtitle" id="mainSubtitle">Vertical Advanced Maze Runner</p>
-                
-                <div id="dynamicStats" class="screen-stats" style="display: none;">
-                    <div class="stat-row">
-                        <span class="stat-label">Endstand Score:</span>
-                        <span id="finalScore" class="stat-value">0</span>
-                    </div>
-                    <div class="stat-row">
-                        <span class="stat-label">Ebenen gesäubert:</span>
-                        <span id="finalMazes" class="stat-value">0</span>
-                    </div>
+        <!-- UI Layer -->
+        <div id="uiLayer">
+            <!-- HUD -->
+            <div id="hud">
+                <div class="hud-panel" id="scorePanel">
+                    <span class="hud-label">Distanz</span>
+                    <span id="scoreVal" class="hud-value">0m</span>
                 </div>
-
-                <p class="screen-description" id="mainDescription">
-                    Überlebe 10 Generationen im sich verändernden Labyrinth. Erreiche den Ausgang. In Generation 10 erwartet dich das finale Koloss-Subsystem!
-                </p>
-
-                <div class="controls-list" id="tutorialControls">
-                    <div class="control-item"><span class="control-key">W, A, S, D</span> / <span class="control-key">Pfeiltasten</span> - Bewegen</div>
-                    <div class="control-item"><span class="control-key">Mobile Touch</span> - Dynamischer Analog-Joystick</div>
+                <div class="hud-panel" id="timerPanel">
+                    <span class="hud-label">Zeit übrig</span>
+                    <span id="timerVal" class="hud-value">30.0s</span>
                 </div>
-                
-                <br>
-                <button id="startBtn">System starten</button>
             </div>
-        </div>
 
-        <div id="touchControls">
-            <div class="joystick-base"></div>
-            <div class="joystick-stick" id="joystickStick"></div>
+            <!-- Start- / Game Over-Bildschirm -->
+            <div id="screenOverlay" class="screen-overlay">
+                <div class="menu-box">
+                    <h1 class="menu-title" id="menuTitle">Neon Escape</h1>
+                    <p class="menu-desc" id="menuDesc">
+                        Weiche den Hindernissen aus und entkomme nach oben! Sammle Zeitzellen, um den Countdown aufzuhalten, und passe auf die feindlichen Drohnen auf.
+                    </p>
+                    <button class="action-btn" id="startBtn">Starten</button>
+                </div>
+            </div>
+
+            <!-- Mobile Touch-Tasten -->
+            <div id="touchControls" class="hidden">
+                <div class="touch-btn" id="btnLeft">◀</div>
+                <div class="touch-btn" id="btnRight">▶</div>
+            </div>
         </div>
     </div>
-    <script>
 
+
+         <script>
         const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-        
-        // Realtime Web Audio Engine (Keine externen MP3-Dateien benötigt)
-        const AudioFX = {
-            ctx: null,
-            init() {
-                if (!this.ctx) {
-                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-            },
-            playStep() {
-                this.init();
-                let osc = this.ctx.createOscillator();
-                let gain = this.ctx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(60, this.ctx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(10, this.ctx.currentTime + 0.08);
-                gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.08);
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start();
-                osc.stop(this.ctx.currentTime + 0.08);
-            },
-            playHunterStep() {
-                this.init();
-                let osc = this.ctx.createOscillator();
-                let gain = this.ctx.createGain();
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(45, this.ctx.currentTime);
-                osc.frequency.linearRampToValueAtTime(25, this.ctx.currentTime + 0.15);
-                gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.15);
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start();
-                osc.stop(this.ctx.currentTime + 0.15);
-            },
-            playLevelUp() {
-                this.init();
-                let now = this.ctx.currentTime;
-                [261.63, 329.63, 392.00, 523.25].forEach((f, i) => {
-                    let osc = this.ctx.createOscillator();
-                    let gain = this.ctx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(f, now + i * 0.08);
-                    gain.gain.setValueAtTime(0.2, now + i * 0.08);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.08 + 0.2);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start(now + i * 0.08);
-                    osc.stop(now + i * 0.08 + 0.2);
-                });
-            },
-            playGameOver() {
-                this.init();
-                let osc = this.ctx.createOscillator();
-                let gain = this.ctx.createGain();
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(150, this.ctx.currentTime);
-                osc.frequency.linearRampToValueAtTime(40, this.ctx.currentTime + 0.6);
-                gain.gain.setValueAtTime(0.4, this.ctx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.6);
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start();
-                osc.stop(this.ctx.currentTime + 0.6);
-            },
-            playVictory() {
-                this.init();
-                let now = this.ctx.currentTime;
-                [196, 293, 392, 587, 784].forEach((f, i) => {
-                    let osc = this.ctx.createOscillator();
-                    let gain = this.ctx.createGain();
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(f, now + i * 0.1);
-                    gain.gain.setValueAtTime(0.25, now + i * 0.1);
-                    gain.gain.exponentialRampToValueAtTime(0.02, now + i * 0.1 + 0.4);
-                    osc.connect(gain);
-                    gain.connect(this.ctx.destination);
-                    osc.start(now + i * 0.1);
-                    osc.stop(now + i * 0.1 + 0.4);
-                });
-            }
+        const ctx = canvas.getContext('2d');
+
+        // Konstanten für das Spielfeld
+        const VIRTUAL_WIDTH = 480;
+        const VIRTUAL_HEIGHT = 800;
+
+        // Spielzustand
+        let gameState = 'MENU'; // MENU, PLAYING, GAMEOVER
+        let score = 0;
+        let timeRemaining = 30.0;
+        let cameraY = 0; // Folgt dem Spieler nach oben
+
+        // Entitäten-Listen
+        let player = {
+            x: VIRTUAL_WIDTH / 2,
+            y: 700,
+            radius: 14,
+            speed: 6,
+            vx: 0,
+            vy: -3 // Permanente Aufwärtsbewegung
         };
-        // Particle Engine
-        class ParticleSystem {
-            constructor() { this.particles = []; }
-            spawn(x, y, color, size, vx, vy, maxLife) {
-                this.particles.push({ x, y, color, size, vx, vy, life: maxLife, maxLife });
-            }
-            update(dt) {
-                for (let i = this.particles.length - 1; i >= 0; i--) {
-                    let p = this.particles[i];
-                    p.x += p.vx * (dt / 16.66);
-                    p.y += p.vy * (dt / 16.66);
-                    p.life -= dt;
-                    if (p.life <= 0) this.particles.splice(i, 1);
-                }
-            }
-            draw(ctx) {
-                for (let p of this.particles) {
-                    ctx.fillStyle = p.color;
-                    ctx.globalAlpha = p.life / p.maxLife;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-                ctx.globalAlpha = 1.0;
-            }
-        }
+        let segments = []; // Labyrinth-Wände segmentweise generiert
+        let obstacles = [];
+        let items = [];
+        let enemies = [];
+        let particles = [];
 
-        // Game Configuration & Engine Properties
-        let gameState = 'MENU';
-        let score = 0, generation = 1, mazesCleared = 0;
-        let isBossMode = false;
-        const COLS = 15, ROWS = 15;
-        let cellSize = 40, offsetX = 0, offsetY = 0;
-
-        let grid = [];
-        let particles = new ParticleSystem();
-
-        let player = { x: 1, y: 1, targetX: 1, targetY: 1, animX: 1, animY: 1 };
-        let hunter = { x: COLS-2, y: ROWS-2, targetX: COLS-2, targetY: ROWS-2, animX: COLS-2, animY: ROWS-2, moveCooldown: 0 };
-        let exitCell = { x: COLS-2, y: ROWS-2 };
-
+        // Eingabe-Tracker
         let keys = {};
-        let touchStart = null, joystickActive = false, joystickVector = { x: 0, y: 0 };
 
+        // Canvas-Skalierung für scharfe Render-Optik
         function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const minDim = Math.min(canvas.width, canvas.height);
-            cellSize = Math.floor((minDim * 0.82) / Math.max(COLS, ROWS));
-            offsetX = (canvas.width - COLS * cellSize) / 2;
-            offsetY = (canvas.height - ROWS * cellSize) / 2;
+            const windowHeight = window.innerHeight;
+            const targetWidth = (windowHeight * VIRTUAL_WIDTH) / VIRTUAL_HEIGHT;
+            
+            canvas.height = windowHeight;
+            canvas.width = Math.min(window.innerWidth, targetWidth);
+            
+            // Erkennung für Mobilgeräte für Touch-Steuerung
+            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                document.getElementById('touchControls').style.display = 'flex';
+            }
         }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        function generateMaze() {
-            grid = Array.from({ length: ROWS }, () => Array(COLS).fill(1));
-            const stack = [];
-            grid[1][1] = 0;
-            stack.push({ x: 1, y: 1 });
+        // --- WEB AUDIO ENGINE ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-            while (stack.length > 0) {
-                const current = stack[stack.length - 1];
-                const neighbors = [];
-                const dirs = [{x:0, y:-2}, {x:2, y:0}, {x:0, y:2}, {x:-2, y:0}];
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const now = audioCtx.currentTime;
 
-                for (const d of dirs) {
-                    const nx = current.x + d.x, ny = current.y + d.y;
-                    if (nx > 0 && nx < COLS - 1 && ny > 0 && ny < ROWS - 1 && grid[ny][nx] === 1) {
-                        neighbors.push({ nx, ny, wallX: current.x + d.x/2, wallY: current.y + d.y/2 });
-                    }
+            if (type === 'pickup') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(440, now);
+                osc.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.15);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            } 
+            else if (type === 'hit') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.linearRampToValueAtTime(40, now + 0.3);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            }
+            else if (type === 'start') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(261.63, now); // C4
+                osc.frequency.setValueAtTime(329.63, now + 0.1); // E4
+                osc.frequency.setValueAtTime(392.00, now + 0.2); // G4
+                osc.frequency.setValueAtTime(523.25, now + 0.3); // C5
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.45);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.45);
+            }
+        }
+
+
+           // Generiert Wände und Objekte basierend auf der vertikalen Höhe (y-Achse)
+        function generateSegment(startY, endY) {
+            // Generiert alle 150 Pixel neue Barrieren/Plattformen
+            for (let y = startY; y > endY; y -= 150) {
+                const wallWidth = 100 + Math.random() * 120;
+                const side = Math.random() > 0.5 ? 'left' : 'right';
+                
+                // Labyrinth-Wand links oder rechts platzieren
+                segments.push({
+                    x: side === 'left' ? 0 : VIRTUAL_WIDTH - wallWidth,
+                    y: y,
+                    width: wallWidth,
+                    height: 25,
+                    color: '#00f2fe'
+                });
+
+                // Hindernisse in der Mitte generieren
+                if (Math.random() > 0.4) {
+                    obstacles.push({
+                        x: 80 + Math.random() * (VIRTUAL_WIDTH - 160),
+                        y: y - 75,
+                        width: 40 + Math.random() * 60,
+                        height: 20,
+                        color: '#ff0055'
+                    });
                 }
 
-                if (neighbors.length > 0) {
-                    const next = neighbors[Math.floor(Math.random() * neighbors.length)];
-                    grid[next.wallY][next.wallX] = 0;
-                    grid[next.ny][next.nx] = 0;
-                    stack.push({ x: next.nx, y: next.ny });
-                } else {
-                    stack.pop();
+                // Zeit-Zellen (Sammelobjekt) platzieren
+                if (Math.random() > 0.3) {
+                    items.push({
+                        x: 50 + Math.random() * (VIRTUAL_WIDTH - 100),
+                        y: y - 40,
+                        radius: 8,
+                        color: '#00ffaa',
+                        pulse: 0
+                    });
+                }
+
+                // Feindliche Drohnen hinzufügen (bewegen sich horizontal)
+                if (Math.random() > 0.5 && y < 500) {
+                    enemies.push({
+                        x: 50 + Math.random() * (VIRTUAL_WIDTH - 100),
+                        y: y - 110,
+                        radius: 12,
+                        speed: 2 + Math.random() * 3,
+                        dir: Math.random() > 0.5 ? 1 : -1,
+                        color: '#ff007f'
+                    });
                 }
             }
-            grid[1][1] = 0;
-            grid[ROWS-2][COLS-2] = 0;
-            exitCell = { x: COLS-2, y: ROWS-2 };
         }
-        // Optimized A* Pathfinding using Fast Priority Queue simulation
-        function findHunterPath(start, target) {
-            const openSet = [];
-            const closedSet = new Set();
-            
-            const startNode = {
-                x: start.x, y: start.y, g: 0,
-                h: Math.abs(start.x - target.x) + Math.abs(start.y - target.y),
-                parent: null
-            };
-            startNode.f = startNode.g + startNode.h;
-            openSet.push(startNode);
 
-            while (openSet.length > 0) {
-                // Instantly extract node with lowest f-score (Fast replacement for array.sort)
-                let bestIdx = 0;
-                for (let i = 1; i < openSet.length; i++) {
-                    if (openSet[i].f < openSet[bestIdx].f) bestIdx = i;
-                }
-                const current = openSet.splice(bestIdx, 1)[0];
-                
-                if (current.x === target.x && current.y === target.y) {
-                    const path = [];
-                    let curr = current;
-                    while (curr !== null) {
-                        path.push({ x: curr.x, y: curr.y });
-                        curr = curr.parent;
-                    }
-                    return path.reverse();
-                }
+        // Bereinigt alte Objekte, die außerhalb des Bildschirms liegen, um Speicher zu sparen
+        function cleanupEntities() {
+            segments = segments.filter(s => s.y > cameraY - 100);
+            obstacles = obstacles.filter(o => o.y > cameraY - 100);
+            items = items.filter(i => i.y > cameraY - 100);
+            enemies = enemies.filter(e => e.y > cameraY - 100);
+            particles = particles.filter(p => p.alpha > 0);
+        }
 
-                closedSet.add(`${current.x},${current.y}`);
-                const dirs = [{x:0, y:-1}, {x:1, y:0}, {x:0, y:1}, {x:-1, y:0}];
-                
-                for (const d of dirs) {
-                    const nx = current.x + d.x, ny = current.y + d.y;
 
-                    if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS || grid[ny][nx] === 1) continue;
-                    if (closedSet.has(`${nx},${ny}`)) continue;
-
-                    const gScore = current.g + 1;
-                    let existingNode = openSet.find(n => n.x === nx && n.y === ny);
-
-                    if (!existingNode) {
-                        const hScore = Math.abs(nx - target.x) + Math.abs(ny - target.y);
-                        openSet.push({
-                            x: nx, y: ny, g: gScore, h: hScore, f: gScore + hScore, parent: current
-                        });
-                    } else if (gScore < existingNode.g) {
-                        existingNode.g = gScore;
-                        existingNode.f = gScore + existingNode.h;
-                        existingNode.parent = current;
-                    }
-                }
+    // Erzeugt Partikel-Explosionen bei Kollisionen oder Sammel-Aktionen
+        function spawnParticles(x, y, color, count = 10) {
+            for (let i = 0; i < count; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 1 + Math.random() * 4;
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    size: 2 + Math.random() * 4,
+                    color: color,
+                    alpha: 1.0,
+                    decay: 0.02 + Math.random() * 0.03
+                });
             }
-            return [];
         }
+
+        // Aktualisiert die Bewegung und Transparenz der Partikel
+        function updateParticles() {
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.alpha -= p.decay;
+            });
+        }
+
+
+      // Tastatur-Events registrieren
         window.addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; });
         window.addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
 
-        const stick = document.getElementById('joystickStick');
-        const touchZone = document.getElementById('touchControls');
+        // Touch-Steuerung für mobile Geräte (Weiche Abfrage)
+        let touchLeft = false;
+        let touchRight = false;
 
-        touchZone.addEventListener('touchstart', e => {
-            joystickActive = true;
-            const rect = touchZone.getBoundingClientRect();
-            touchStart = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
-        }, { passive: true });
+        const btnLeft = document.getElementById('btnLeft');
+        const btnRight = document.getElementById('btnRight');
 
-        touchZone.addEventListener('touchmove', e => {
-            if (!joystickActive || !touchStart) return;
-            const touch = e.touches[0];
-            const distX = touch.clientX - touchStart.x;
-            const distY = touch.clientY - touchStart.y;
-            const maxDist = 55;
-            const distance = Math.min(maxDist, Math.sqrt(distX * distX + distY * distY));
-            const angle = Math.atan2(distY, distX);
+        btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); touchLeft = true; }, { passive: false });
+        btnLeft.addEventListener('touchend', () => { touchLeft = false; });
+        btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); touchRight = true; }, { passive: false });
+        btnRight.addEventListener('touchend', () => { touchRight = false; });
 
-            const moveX = Math.cos(angle) * distance;
-            const moveY = Math.sin(angle) * distance;
-            stick.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
-
-            // Ultra-Weiche Schwellenwert-Zuweisung für Grid-Ausrichtung
-            if (distance > 12) {
-                if (Math.abs(moveX) > Math.abs(moveY) * 1.2) {
-                    joystickVector = { x: moveX > 0 ? 1 : -1, y: 0 };
-                } else if (Math.abs(moveY) > Math.abs(moveX) * 1.2) {
-                    joystickVector = { x: 0, y: moveY > 0 ? 1 : -1 };
-                }
-            } else {
-                joystickVector = { x: 0, y: 0 };
-            }
-        }, { passive: true });
-
-        touchZone.addEventListener('touchend', () => {
-            joystickActive = false;
-            joystickVector = { x: 0, y: 0 };
-            stick.style.transform = 'translate(-50%, -50%)';
-        });
-
+        // Berechnet die aktuelle Bewegungsrichtung des Spielers
         function handleInput() {
-            // Erst Eingabe annehmen, sobald die vorherige Animation komplett abgeschlossen ist!
-            if (player.animX !== player.targetX || player.animY !== player.targetY) return;
-
-            let moveX = 0, moveY = 0;
-            if (keys['w'] || keys['arrowup']) moveY = -1;
-            else if (keys['s'] || keys['arrowdown']) moveY = 1;
-            else if (keys['a'] || keys['arrowleft']) moveX = -1;
-            else if (keys['d'] || keys['arrowright']) moveX = 1;
-            else if (joystickVector.x !== 0 || joystickVector.y !== 0) {
-                moveX = joystickVector.x;
-                moveY = joystickVector.y;
+            player.vx = 0;
+            
+            if (keys['a'] || keys['arrowleft'] || touchLeft) {
+                player.vx = -player.speed;
             }
-
-            if (moveX !== 0 || moveY !== 0) {
-                const nextX = player.x + moveX;
-                const nextY = player.y + moveY;
-                if (nextX >= 0 && nextX < COLS && nextY >= 0 && nextY < ROWS && grid[nextY][nextX] === 0) {
-                    player.targetX = nextX;
-                    player.targetY = nextY;
-                    AudioFX.playStep();
-                }
+            if (keys['d'] || keys['arrowright'] || touchRight) {
+                player.vx = player.speed;
             }
         }
+
+
+          // Hilfsfunktion zur Kollisionserkennung zwischen Kreis und Rechteck
+        function checkCircleRectCollision(circle, rect) {
+            const closestX = Math.max(rect.x, Math.min(circle.x, rect.x + rect.width));
+            const closestY = Math.max(rect.y, Math.min(circle.y, rect.y + rect.height));
+            
+            const distanceX = circle.x - closestX;
+            const distanceY = circle.y - closestY;
+            const distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+            
+            return distanceSquared < (circle.radius * circle.radius);
+        }
+
+        // Kern-Spiellogik und Updates pro Frame
         function update(deltaTime) {
             if (gameState !== 'PLAYING') return;
 
-            handleInput();
-            particles.update(deltaTime);
-
-            // 1. Fix: Spieler-Positionsabgleich basierend auf fertiger Animation
-            player.animX += (player.targetX - player.animX) * 0.22;
-            player.animY += (player.targetY - player.animY) * 0.22;
-            
-            if (Math.abs(player.animX - player.targetX) < 0.005) {
-                player.animX = player.targetX; player.x = player.targetX;
-            }
-            if (Math.abs(player.animY - player.targetY) < 0.005) {
-                player.animY = player.targetY; player.y = player.targetY;
-            }
-
-            // Spieler-Lichtpartikel erzeugen
-            if (Math.random() < 0.15) {
-                const px = offsetX + player.animX * cellSize + cellSize/2;
-                const py = offsetY + player.animY * cellSize + cellSize/2;
-                particles.spawn(px, py, 'rgba(168,230,168,0.4)', Math.random()*2+1, (Math.random()-0.5)*0.5, (Math.random()-0.5)*0.5, 400);
-            }
-
-            // 2. Fix: Jäger-Positionsabgleich verhindert unerwünschte Teleportation
-            hunter.animX += (hunter.targetX - hunter.animX) * (isBossMode ? 0.18 : 0.13);
-            hunter.animY += (hunter.targetY - hunter.animY) * (isBossMode ? 0.18 : 0.13);
-
-            if (Math.abs(hunter.animX - hunter.targetX) < 0.005) {
-                hunter.animX = hunter.targetX; hunter.x = hunter.targetX;
-            }
-            if (Math.abs(hunter.animY - hunter.targetY) < 0.005) {
-                hunter.animY = hunter.targetY; hunter.y = hunter.targetY;
-            }
-
-            // Hunter Gluteffekt-Partikel
-            if (Math.random() < 0.3) {
-                const hx = offsetX + hunter.animX * cellSize + cellSize/2;
-                const hy = offsetY + hunter.animY * cellSize + cellSize/2;
-                particles.spawn(hx, hy, isBossMode ? '#FF1111' : '#FF6B6B', Math.random()*3+2, (Math.random()-0.5)*0.8, (Math.random()-0.5)*0.8, 500);
-            }
-
-            hunter.moveCooldown -= deltaTime;
-            if (hunter.moveCooldown <= 0 && hunter.x === hunter.targetX && hunter.y === hunter.targetY) {
-                const path = findHunterPath(hunter, player);
-                if (path.length > 1) {
-                    hunter.targetX = path[1].x;
-                    hunter.targetY = path[1].y;
-                    AudioFX.playHunterStep();
-                }
-                        let baseDelay = isBossMode ? 180 : 320;
-                baseDelay -= Math.min((generation - 1) * 12, 120);
-                hunter.moveCooldown = Math.max(80, baseDelay);
-            }
-
-      // Level abgeschlossen
-if (player.x === exitCell.x && player.y === exitCell.y) {
-
-    // Boss wurde besiegt -> Spiel gewonnen
-    if (isBossMode) {
-        score += 5000;
-        mazesCleared++;
-        triggerVictory();
-        return;
-    }
-
-    AudioFX.playLevelUp();
-
-    score += 1000 + generation * 250;
-    mazesCleared++;
-
-    generation++;
-
-    // Nach Generation 10 beginnt das Boss-Level
-    if (generation >= 10) {
-        isBossMode = true;
-    }
-
-    document.getElementById('scoreVal').innerText = score;
-    document.getElementById('genVal').innerText =
-        isBossMode ? 'BOSS' : `${generation} / 10`;
-
-    document.getElementById('speedVal').innerText =
-        isBossMode ? 'BOSS MODE' : 'Normal';
-
-    startNewLevel();
-    return;
-}
-
-            // Kollision mit Hunter
-            const hunterDistance = Math.hypot(
-                player.animX - hunter.animX,
-                player.animY - hunter.animY
-            );
-
-            if (hunterDistance < 0.45) {
-                AudioFX.playGameOver();
+            // Zeit-Countdown reduzieren (in Sekunden)
+            timeRemaining -= deltaTime / 1000;
+            if (timeRemaining <= 0) {
+                timeRemaining = 0;
                 endGame();
                 return;
             }
-        }
 
-                function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Spieler bewegen
+            handleInput();
+            player.x += player.vx;
+            player.y += player.vy;
 
-            // Labyrinth zeichnen
-            for (let y = 0; y < ROWS; y++) {
-                for (let x = 0; x < COLS; x++) {
-                    const drawX = offsetX + x * cellSize;
-                    const drawY = offsetY + y * cellSize;
+            // Spielfeldrand-Kollision (Seitlich einperren)
+            if (player.x - player.radius < 0) player.x = player.radius;
+            if (player.x + player.radius > VIRTUAL_WIDTH) player.x = VIRTUAL_WIDTH - player.radius;
 
-                    if (grid[y][x] === 1) {
-                        ctx.fillStyle = isBossMode ? '#220A0A' : '#0F1A11';
-                        ctx.fillRect(drawX, drawY, cellSize, cellSize);
+            // Kamera folgt dem Spieler flüssig nach oben
+            const targetCameraY = player.y - VIRTUAL_HEIGHT * 0.7;
+            cameraY += (targetCameraY - cameraY) * 0.1;
 
-                        ctx.strokeStyle = isBossMode ? '#551111' : '#1E3322';
-                        ctx.lineWidth = 1;
-                        ctx.strokeRect(drawX, drawY, cellSize, cellSize);
-                    } else {
-                        ctx.fillStyle = 'rgba(20,35,22,0.25)';
-                        ctx.fillRect(drawX, drawY, cellSize, cellSize);
-                    }
-                }
+            // Endlose Labyrinth-Generierung triggern
+            const lowestGeneratedY = segments.length > 0 ? segments[segments.length - 1].y : 800;
+            if (cameraY < lowestGeneratedY + VIRTUAL_HEIGHT) {
+                generateSegment(lowestGeneratedY, lowestGeneratedY - 1000);
             }
 
-            // Partikel
-            particles.draw(ctx);
+            // 1. Kollision: Labyrinth-Wände (Stoppt Aufwärtsbewegung / wirft zurück)
+            segments.forEach(seg => {
+                if (checkCircleRectCollision(player, seg)) {
+                    player.y += 8; // Zurückwerfen
+                    playSound('hit');
+                    spawnParticles(player.x, player.y, '#00f2fe', 8);
+                }
+            });
 
-            // Ausgang
-            const exitX = offsetX + exitCell.x * cellSize + cellSize / 2;
-            const exitY = offsetY + exitCell.y * cellSize + cellSize / 2;
+            // 2. Kollision: Hindernisse (Zeitabzug bei Treffer)
+            obstacles.forEach(obs => {
+                if (checkCircleRectCollision(player, obs)) {
+                    timeRemaining -= 3; // 3 Sekunden Strafe
+                    player.y += 15; // Starker Rückstoß
+                    playSound('hit');
+                    spawnParticles(player.x, player.y, '#ff0055', 12);
+                }
+            });
 
+            // 3. Kollision: Gegner-Drohnen (Bewegung und Treffer)
+            enemies.forEach(enemy => {
+                // Horizontale Patrouille
+                enemy.x += enemy.speed * enemy.dir;
+                if (enemy.x - enemy.radius < 20 || enemy.x + enemy.radius > VIRTUAL_WIDTH - 20) {
+                    enemy.dir *= -1; // Richtung wechseln
+                }
+
+                // Spieler-Distanz prüfen
+                const dist = Math.hypot(player.x - enemy.x, player.y - enemy.y);
+                if (dist < player.radius + enemy.radius) {
+                    timeRemaining -= 5; // 5 Sekunden Strafe
+                    player.y += 20;
+                    playSound('hit');
+                    spawnParticles(enemy.x, enemy.y, '#ff007f', 15);
+                }
+            });
+
+            // 4. Kollision: Zeit-Zellen aufsammeln
+            items.forEach((item, index) => {
+                item.pulse += 0.1;
+                const dist = Math.hypot(player.x - item.x, player.y - item.y);
+                if (dist < player.radius + item.radius) {
+                    timeRemaining = Math.min(45, timeRemaining + 6); // Max 45s aufladen
+                    playSound('pickup');
+                    spawnParticles(item.x, item.y, '#00ffaa', 10);
+                    items.splice(index, 1); // Objekt entfernen
+                }
+            });
+
+            // Partikel aktualisieren und aufräumen
+            updateParticles();
+            cleanupEntities();
+
+            // Score berechnen anhand der erreichten Höhe
+            const currentScore = Math.floor((700 - player.y) / 10);
+            if (currentScore > score) score = currentScore;
+
+            // HUD UI aktualisieren
+            document.getElementById('scoreVal').innerText = score + 'm';
+            document.getElementById('timerVal').innerText = timeRemaining.toFixed(1) + 's';
+        }
+
+
+       .screen-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+            display: none !important;
+        }
+ 
+
+        // Die Render-Pipeline für alle visuellen Elemente auf dem Canvas
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Matrix-Verschiebung basierend auf der Kamera-Höhe aktivieren
             ctx.save();
-            ctx.shadowBlur = 18 + Math.sin(performance.now() * 0.01) * 6;
-            ctx.shadowColor = isBossMode ? '#FF2222' : '#C4913E';
-            ctx.fillStyle = isBossMode ? '#FF3333' : '#C4913E';
+            
+            // Berechne Skalierungsfaktor, um das Spiel auf allen Bildschirmgrößen korrekt anzuzeigen
+            const scale = canvas.height / VIRTUAL_HEIGHT;
+            ctx.scale(scale, scale);
+            
+            // Kamera-Bewegung auf der Y-Achse anwenden (X bleibt zentriert)
+            ctx.translate(0, -cameraY);
 
+            // 1. Labyrinth-Wände zeichnen (Neon-Glow-Optik)
+            segments.forEach(seg => {
+                ctx.fillStyle = seg.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = seg.color;
+                ctx.fillRect(seg.x, seg.y, seg.width, seg.height);
+            });
+            ctx.shadowBlur = 0; // Glow zurücksetzen
+
+            // 2. Hindernisse zeichnen
+            obstacles.forEach(obs => {
+                ctx.fillStyle = obs.color;
+                ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+            });
+
+            // 3. Zeit-Zellen zeichnen (mit leichtem Pulsieren)
+            items.forEach(item => {
+                const pulseRadius = item.radius + Math.sin(item.pulse) * 2;
+                ctx.fillStyle = item.color;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = item.color;
+                ctx.beginPath();
+                ctx.arc(item.x, item.y, pulseRadius, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.shadowBlur = 0;
+
+            // 4. Feindliche Drohnen zeichnen
+            enemies.forEach(enemy => {
+                ctx.fillStyle = enemy.color;
+                ctx.beginPath();
+                ctx.arc(enemy.x, enemy.y, enemy.radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Kleiner innerer Kern für bedrohlichen Effekt
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(enemy.x, enemy.y, enemy.radius * 0.4, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            // 5. Partikel-Effekte zeichnen
+            particles.forEach(p => {
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.alpha;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1.0; // Alpha zurücksetzen
+
+            // 6. Spieler zeichnen (mit eigenem Lichtradius)
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = '#00f2fe';
             ctx.beginPath();
-            ctx.arc(exitX, exitY, cellSize * 0.28, 0, Math.PI * 2);
+            ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
             ctx.fill();
-            ctx.restore();
+            ctx.shadowBlur = 0;
 
-            // Spieler
-            const px = offsetX + player.animX * cellSize + cellSize / 2;
-            const py = offsetY + player.animY * cellSize + cellSize / 2;
-
-            ctx.save();
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = '#A8E6A8';
-            ctx.fillStyle = '#A8E6A8';
-
-            ctx.beginPath();
-            ctx.arc(px, py, cellSize * 0.32, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-
-            // Hunter
-            const hx = offsetX + hunter.animX * cellSize + cellSize / 2;
-            const hy = offsetY + hunter.animY * cellSize + cellSize / 2;
-
-            ctx.save();
-            ctx.shadowBlur = isBossMode ? 22 : 12;
-            ctx.shadowColor = '#FF3333';
-            ctx.fillStyle = isBossMode ? '#FF2222' : '#FF6B6B';
-
-            ctx.beginPath();
-            ctx.arc(
-                hx,
-                hy,
-                isBossMode ? cellSize * 0.42 : cellSize * 0.36,
-                0,
-                Math.PI * 2
-            );
-            ctx.fill();
+            // Kamera-Matrix-Verschiebung wieder aufheben
             ctx.restore();
         }
 
+        // Haupt-Zeitschleife (Game-Loop)
         let lastTime = 0;
-
         function gameLoop(timestamp) {
+            if (!lastTime) lastTime = timestamp;
             const deltaTime = timestamp - lastTime;
             lastTime = timestamp;
 
+            // Engine-Updates und Zeichnen triggern
             update(deltaTime);
             draw();
 
             requestAnimationFrame(gameLoop);
         }
 
-        function startNewLevel() {
-            generateMaze();
 
-            particles = new ParticleSystem();
 
-            player.x = 1;
-            player.y = 1;
-            player.targetX = 1;
-            player.targetY = 1;
-            player.animX = 1;
-            player.animY = 1;
+    // Initialisiert ein komplett neues Spiel
+        function initGame() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
 
-hunter.x = COLS - 2;
-hunter.y = ROWS - 2;
-hunter.targetX = COLS - 2;
-hunter.targetY = ROWS - 2;
-hunter.animX = COLS - 2;
-hunter.animY = ROWS - 2;
+            // Alle Listen leeren
+            segments = [];
+            obstacles = [];
+            items = [];
+            enemies = [];
+            particles = [];
 
-            hunter.moveCooldown = isBossMode ? 180 : 450;
-
-            document.getElementById('scoreVal').innerText = score;
-            document.getElementById('genVal').innerText =
-                isBossMode ? 'BOSS' : `${generation} / 10`;
-            document.getElementById('speedVal').innerText =
-                isBossMode ? 'BOSS MODE' : 'Normal';
-        }
-
-                function initGame() {
+            // Spieler zurücksetzen
+            player.x = VIRTUAL_WIDTH / 2;
+            player.y = 700;
             score = 0;
-            generation = 1;
-            mazesCleared = 0;
-            isBossMode = false;
+            timeRemaining = 30.0;
+            cameraY = 0;
 
-            document.getElementById('scoreVal').innerText = score;
-            document.getElementById('genVal').innerText = '1 / 10';
-            document.getElementById('speedVal').innerText = 'Normal';
+            // Erstes Start-Segment generieren
+            generateSegment(600, -400);
 
-            document.getElementById('mainTitle').innerText = 'Genetic Hunter';
-            document.getElementById('mainTitle').className = 'screen-title';
-
-            document.getElementById('mainSubtitle').innerText =
-                'Vertical Advanced Maze Runner';
-
-            document.getElementById('mainDescription').innerText =
-                'Überlebe alle Generationen und entkomme dem adaptiven Hunter.';
-
-            document.getElementById('dynamicStats').style.display = 'none';
-            document.getElementById('tutorialControls').style.display = 'block';
-            document.getElementById('startBtn').innerText = 'System starten';
-
-            startNewLevel();
-
+            // Interface ausblenden und Spiel starten
+            document.getElementById('screenOverlay').classList.add('hidden');
             gameState = 'PLAYING';
-            document.getElementById('screenOverlay').classList.remove('active');
+            playSound('start');
         }
 
+        // Beendet das Spiel bei Zeitablauf
         function endGame() {
             gameState = 'GAMEOVER';
+            playSound('hit');
 
-            document.getElementById('mainTitle').innerText = 'System Failure';
-            document.getElementById('mainTitle').className = 'screen-title error';
-
-            document.getElementById('mainSubtitle').innerText =
-                'Der Hunter war schneller';
-
-            document.getElementById('mainDescription').innerText =
-                'Der adaptive Algorithmus hat deine Bewegungsmuster vollständig analysiert.';
-
-            document.getElementById('finalScore').innerText = score;
-            document.getElementById('finalMazes').innerText = mazesCleared;
-
-            document.getElementById('dynamicStats').style.display = 'block';
-            document.getElementById('tutorialControls').style.display = 'none';
-
-            document.getElementById('startBtn').innerText =
-                'Erneut versuchen';
-
-            document.getElementById('screenOverlay').classList.add('active');
+            document.getElementById('menuTitle').innerText = 'Game Over';
+            document.getElementById('menuDesc').innerHTML = `Deine Energie ist instabil geworden.<br><br><strong>Erreichte Distanz: ${score} Meter</strong>`;
+            document.getElementById('startBtn').innerText = 'Erneut versuchen';
+            document.getElementById('screenOverlay').classList.remove('hidden');
         }
 
-        function triggerVictory() {
-            gameState = 'VICTORY';
+        // Event-Listener für den Start-Button
+        document.getElementById('startBtn').addEventListener('click', initGame);
 
-            AudioFX.playVictory();
-
-            document.getElementById('mainTitle').innerText =
-                'Evolution Beaten';
-
-            document.getElementById('mainTitle').className =
-                'screen-title victory';
-
-            document.getElementById('mainSubtitle').innerText =
-                'Mission erfolgreich';
-
-            document.getElementById('mainDescription').innerText =
-                'Du hast den adaptiven Hunter besiegt und alle Generationen abgeschlossen.';
-
-            document.getElementById('finalScore').innerText = score;
-            document.getElementById('finalMazes').innerText = mazesCleared;
-
-            document.getElementById('dynamicStats').style.display = 'block';
-            document.getElementById('tutorialControls').style.display = 'none';
-
-            document.getElementById('startBtn').innerText =
-                'Neues Spiel';
-
-            document.getElementById('screenOverlay').classList.add('active');
-        }
-
-        document
-            .getElementById('startBtn')
-            .addEventListener('click', initGame);
-
-     let gameStarted = false;
-
-document.getElementById('startBtn').addEventListener('click', () => {
-    initGame();
-
-    if (!gameStarted) {
-        gameStarted = true;
-        requestAnimationFrame(gameLoop);
-    }
-});
+        // Core Launch: Startet die Grafik-Schleife im Hintergrund
+        requestAnimationFrame((timestamp) => {
+            lastTime = timestamp;
+            requestAnimationFrame(gameLoop);
+        });
     </script>
 </body>
 </html>
