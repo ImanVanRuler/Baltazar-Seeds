@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genetic Hunter - Vertical Maze Runner</title>
+    <title>Genetic Hunter - Advanced Maze Runner</title>
     <style>
         * {
             margin: 0;
@@ -22,15 +22,13 @@
             -webkit-user-select: none;
         }
 
-        /* Game Canvas */
         canvas#gameCanvas {
             display: block;
             width: 100vw;
             height: 100vh;
-            background: linear-gradient(135deg, #050A06 0%, #0a1a0d 50%, #050A06 100%);
+            background: #050A06;
         }
 
-        /* UI Overlay */
         #uiContainer {
             position: fixed;
             top: 0;
@@ -41,7 +39,6 @@
             z-index: 100;
         }
 
-        /* HUD */
         #hud {
             position: fixed;
             top: 20px;
@@ -68,6 +65,12 @@
             display: flex;
             flex-direction: column;
             gap: 4px;
+            transition: border-color 0.5s ease;
+        }
+
+        .hud-item.boss-mode {
+            border-color: #FF3333;
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.4);
         }
 
         .hud-label {
@@ -76,36 +79,28 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
+        
+        .hud-item.boss-mode .hud-label {
+            color: #FF3333;
+        }
 
         .hud-value {
             font-size: 18px;
             color: #A8E6A8;
             font-family: 'JetBrains Mono', monospace;
         }
-
-        /* Mobile HUD */
-        @media (max-width: 768px) {
-            #hud {
-                top: 10px;
-                left: 10px;
-                right: 10px;
-                gap: 8px;
-            }
-            
-            .hud-item {
-                padding: 8px 12px;
-                font-size: 12px;
-            }
-            
-            .hud-label {
-                font-size: 9px;
-            }
-            
-            .hud-value {
-                font-size: 14px;
-            }
+        
+        .hud-item.boss-mode .hud-value {
+            color: #FF8888;
         }
-        /* Screens */
+
+        @media (max-width: 768px) {
+            #hud { top: 10px; left: 10px; right: 10px; gap: 8px; }
+            .hud-item { padding: 8px 12px; font-size: 12px; }
+            .hud-label { font-size: 9px; }
+            .hud-value { font-size: 14px; }
+        }
+        /* Screens & Overlays */
         #screenOverlay {
             position: fixed;
             inset: 0;
@@ -140,36 +135,32 @@
         }
 
         @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .screen-title {
-            font-size: clamp(32px, 8vw, 60px);
+            font-size: clamp(32px, 8vw, 54px);
             font-weight: 300;
             margin-bottom: 16px;
             background: linear-gradient(135deg, #C4913E, #E2B46B);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
             letter-spacing: -1px;
         }
 
         .screen-title.error {
             background: linear-gradient(135deg, #FF6B6B, #C92A2A);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        }
+        
+        .screen-title.victory {
+            background: linear-gradient(135deg, #51cf66, #2b8a3e);
+            -webkit-background-clip: text;
         }
 
         .screen-subtitle {
-            font-size: 18px;
+            font-size: 16px;
             color: #C4913E;
             margin-bottom: 24px;
             text-transform: uppercase;
@@ -196,18 +187,10 @@
             justify-content: space-between;
             padding: 8px 0;
             font-size: 14px;
-            color: #ECE7DF;
         }
 
-        .stat-label {
-            color: #C4913E;
-        }
-
-        .stat-value {
-            color: #A8E6A8;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: bold;
-        }
+        .stat-label { color: #C4913E; }
+        .stat-value { color: #A8E6A8; font-family: 'JetBrains Mono', monospace; font-weight: bold; }
 
         button {
             background: linear-gradient(135deg, #C4913E, #E2B46B);
@@ -231,209 +214,255 @@
             box-shadow: 0 0 35px rgba(196, 145, 62, 0.5);
         }
 
-        button:active {
-            transform: translateY(0);
-        }
-
-        /* Tutorial */
-        .controls-list {
-            text-align: left;
-            display: inline-block;
-            margin: 16px 0;
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .control-item {
-            margin: 8px 0;
-            color: #A8E6A8;
-        }
-
-        .control-key {
-            color: #C4913E;
-            font-weight: bold;
-            font-family: 'JetBrains Mono', monospace;
-            background: rgba(196, 145, 62, 0.1);
-            padding: 2px 6px;
-            border-radius: 3px;
-        }
+        .controls-list { text-align: left; display: inline-block; margin: 16px 0; font-size: 13px; line-height: 1.8; }
+        .control-item { margin: 8px 0; color: #A8E6A8; }
+        .control-key { color: #C4913E; font-weight: bold; font-family: 'JetBrains Mono', monospace; background: rgba(196, 145, 62, 0.1); padding: 2px 6px; border-radius: 3px; }
 
         /* Touch Controls */
         #touchControls {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 140px;
-            height: 140px;
+            bottom: 40px;
+            right: 40px;
+            width: 150px;
+            height: 150px;
             display: none;
             z-index: 500;
             pointer-events: all;
         }
 
-        @media (max-width: 1024px) {
-            #touchControls {
-                display: block;
-            }
-        }
+        @media (max-width: 1024px) { #touchControls { display: block; } }
 
         .joystick-base {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(196, 145, 62, 0.2), transparent);
-            border: 3px solid #C4913E;
+            background: radial-gradient(circle, rgba(196, 145, 62, 0.15), transparent);
+            border: 2px solid rgba(196, 145, 62, 0.4);
             border-radius: 50%;
-            box-shadow: 0 0 20px rgba(196, 145, 62, 0.3), inset 0 0 15px rgba(196, 145, 62, 0.1);
         }
 
         .joystick-stick {
             position: absolute;
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             background: radial-gradient(circle at 30% 30%, #E2B46B, #8B6F47);
             border: 2px solid #C4913E;
             border-radius: 50%;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
     </style>
 </head>
-
 <body>
     <canvas id="gameCanvas"></canvas>
 
     <div id="uiContainer">
-        <!-- HUD -->
         <div id="hud">
-            <div class="hud-item">
+            <div class="hud-item" id="hudScore">
                 <span class="hud-label">Score</span>
                 <span id="scoreVal" class="hud-value">0</span>
             </div>
-            <div class="hud-item">
+            <div class="hud-item" id="hudGen">
                 <span class="hud-label">Generation</span>
-                <span id="genVal" class="hud-value">1</span>
+                <span id="genVal" class="hud-value">1 / 10</span>
             </div>
-            <div class="hud-item">
-                <span class="hud-label">Hunter Speed</span>
-                <span id="speedVal" class="hud-value">1.0x</span>
+            <div class="hud-item" id="hudSpeed">
+                <span class="hud-label">Hunter Status</span>
+                <span id="speedVal" class="hud-value">Normal</span>
             </div>
         </div>
 
-        <!-- Dynamic Overlay Screens -->
         <div id="screenOverlay" class="active">
             <div class="screen-box" id="menuContent">
                 <h1 class="screen-title" id="mainTitle">Genetic Hunter</h1>
-                <p class="screen-subtitle" id="mainSubtitle">Vertical Maze Runner</p>
+                <p class="screen-subtitle" id="mainSubtitle">Vertical Advanced Maze Runner</p>
                 
                 <div id="dynamicStats" class="screen-stats" style="display: none;">
                     <div class="stat-row">
-                        <span class="stat-label">Final Score:</span>
+                        <span class="stat-label">Endstand Score:</span>
                         <span id="finalScore" class="stat-value">0</span>
                     </div>
                     <div class="stat-row">
-                        <span class="stat-label">Mazes Cleared:</span>
+                        <span class="stat-label">Ebenen gesäubert:</span>
                         <span id="finalMazes" class="stat-value">0</span>
                     </div>
                 </div>
 
                 <p class="screen-description" id="mainDescription">
-                    Überlebe im endlosen, vertikalen Labyrinth. Der "Hunter" lernt aus deinen Bewegungen und wird mit jeder Generation schneller und unberechenbarer.
+                    Überlebe 10 Generationen im sich verändernden Labyrinth. Erreiche den Ausgang. In Generation 10 erwartet dich das finale Koloss-Subsystem!
                 </p>
 
                 <div class="controls-list" id="tutorialControls">
-                    <div class="control-item"><span class="control-key">W, A, S, D</span> oder <span class="control-key">Pfeiltasten</span> - Bewegen</div>
-                    <div class="control-item"><span class="control-key">Touch</span> - Joystick nutzen (Mobile)</div>
+                    <div class="control-item"><span class="control-key">W, A, S, D</span> / <span class="control-key">Pfeiltasten</span> - Bewegen</div>
+                    <div class="control-item"><span class="control-key">Mobile Touch</span> - Dynamischer Analog-Joystick</div>
                 </div>
                 
                 <br>
-                <button id="startBtn">Spiel Starten</button>
+                <button id="startBtn">System starten</button>
             </div>
         </div>
 
-        <!-- Touch Controls for Mobile -->
         <div id="touchControls">
             <div class="joystick-base"></div>
             <div class="joystick-stick" id="joystickStick"></div>
         </div>
     </div>
-
-
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+        // Realtime Web Audio Engine (Keine externen MP3-Dateien benötigt)
+        const AudioFX = {
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            },
+            playStep() {
+                this.init();
+                let osc = this.ctx.createOscillator();
+                let gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(60, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(10, this.ctx.currentTime + 0.08);
+                gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.08);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.08);
+            },
+            playHunterStep() {
+                this.init();
+                let osc = this.ctx.createOscillator();
+                let gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(45, this.ctx.currentTime);
+                osc.frequency.linearRampToValueAtTime(25, this.ctx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.15);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.15);
+            },
+            playLevelUp() {
+                this.init();
+                let now = this.ctx.currentTime;
+                [261.63, 329.63, 392.00, 523.25].forEach((f, i) => {
+                    let osc = this.ctx.createOscillator();
+                    let gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(f, now + i * 0.08);
+                    gain.gain.setValueAtTime(0.2, now + i * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.08 + 0.2);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + i * 0.08);
+                    osc.stop(now + i * 0.08 + 0.2);
+                });
+            },
+            playGameOver() {
+                this.init();
+                let osc = this.ctx.createOscillator();
+                let gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, this.ctx.currentTime);
+                osc.frequency.linearRampToValueAtTime(40, this.ctx.currentTime + 0.6);
+                gain.gain.setValueAtTime(0.4, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.6);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 0.6);
+            },
+            playVictory() {
+                this.init();
+                let now = this.ctx.currentTime;
+                [196, 293, 392, 587, 784].forEach((f, i) => {
+                    let osc = this.ctx.createOscillator();
+                    let gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(f, now + i * 0.1);
+                    gain.gain.setValueAtTime(0.25, now + i * 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.02, now + i * 0.1 + 0.4);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + i * 0.1);
+                    osc.stop(now + i * 0.1 + 0.4);
+                });
+            }
+        };
+        // Particle Engine
+        class ParticleSystem {
+            constructor() { this.particles = []; }
+            spawn(x, y, color, size, vx, vy, maxLife) {
+                this.particles.push({ x, y, color, size, vx, vy, life: maxLife, maxLife });
+            }
+            update(dt) {
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    let p = this.particles[i];
+                    p.x += p.vx * (dt / 16.66);
+                    p.y += p.vy * (dt / 16.66);
+                    p.life -= dt;
+                    if (p.life <= 0) this.particles.splice(i, 1);
+                }
+            }
+            draw(ctx) {
+                for (let p of this.particles) {
+                    ctx.fillStyle = p.color;
+                    ctx.globalAlpha = p.life / p.maxLife;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.globalAlpha = 1.0;
+            }
+        }
 
-        // Game State Variables
-        let gameState = 'MENU'; // MENU, PLAYING, GAMEOVER
-        let score = 0;
-        let generation = 1;
-        let hunterSpeedMultiplier = 1.0;
-        let mazesCleared = 0;
-
-        // Configuration
-        const COLS = 13;
-        const ROWS = 13;
-        let cellSize = 40;
-        let offsetX = 0;
-        let offsetY = 0;
+        // Game Configuration & Engine Properties
+        let gameState = 'MENU';
+        let score = 0, generation = 1, mazesCleared = 0;
+        let isBossMode = false;
+        const COLS = 15, ROWS = 15;
+        let cellSize = 40, offsetX = 0, offsetY = 0;
 
         let grid = [];
-        let player = { x: 1, y: 1, targetX: 1, targetY: 1, animX: 1, animY: 1 };
-        let hunter = { x: COLS - 2, y: ROWS - 2, targetX: COLS - 2, targetY: ROWS - 2, animX: COLS - 2, animY: ROWS - 2, moveCooldown: 0 };
-        let exitCell = { x: COLS - 2, y: ROWS - 2 };
+        let particles = new ParticleSystem();
 
-        // Input Systems
+        let player = { x: 1, y: 1, targetX: 1, targetY: 1, animX: 1, animY: 1 };
+        let hunter = { x: COLS-2, y: ROWS-2, targetX: COLS-2, targetY: ROWS-2, animX: COLS-2, animY: ROWS-2, moveCooldown: 0 };
+        let exitCell = { x: COLS-2, y: ROWS-2 };
+
         let keys = {};
-        let touchStart = null;
-        let joystickActive = false;
-        let joystickVector = { x: 0, y: 0 };
+        let touchStart = null, joystickActive = false, joystickVector = { x: 0, y: 0 };
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            
-            // Calculate optimal cell size based on screen dimensions
             const minDim = Math.min(canvas.width, canvas.height);
-            cellSize = Math.floor((minDim * 0.85) / Math.max(COLS, ROWS));
-            
+            cellSize = Math.floor((minDim * 0.82) / Math.max(COLS, ROWS));
             offsetX = (canvas.width - COLS * cellSize) / 2;
             offsetY = (canvas.height - ROWS * cellSize) / 2;
         }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        // Maze Generation Algorithm (Depth-First Search)
         function generateMaze() {
-            grid = [];
-            for (let y = 0; y < ROWS; y++) {
-                grid[y] = [];
-                for (let x = 0; x < COLS; x++) {
-                    grid[y][x] = 1; // 1 = Wall
-                }
-            }
-
+            grid = Array.from({ length: ROWS }, () => Array(COLS).fill(1));
             const stack = [];
-            const startX = 1;
-            const startY = 1;
-            grid[startY][startX] = 0; // 0 = Path
-            stack.push({ x: startX, y: startY });
+            grid[1][1] = 0;
+            stack.push({ x: 1, y: 1 });
 
             while (stack.length > 0) {
                 const current = stack[stack.length - 1];
                 const neighbors = [];
-
-                const dirs = [
-                    { x: 0, y: -2 },
-                    { x: 2, y: 0 },
-                    { x: 0, y: 2 },
-                    { x: -2, y: 0 }
-                ];
+                const dirs = [{x:0, y:-2}, {x:2, y:0}, {x:0, y:2}, {x:-2, y:0}];
 
                 for (const d of dirs) {
-                    const nx = current.x + d.x;
-                    const ny = current.y + d.y;
+                    const nx = current.x + d.x, ny = current.y + d.y;
                     if (nx > 0 && nx < COLS - 1 && ny > 0 && ny < ROWS - 1 && grid[ny][nx] === 1) {
-                        neighbors.push({ nx, ny, wallX: current.x + d.x / 2, wallY: current.y + d.y / 2 });
+                        neighbors.push({ nx, ny, wallX: current.x + d.x/2, wallY: current.y + d.y/2 });
                     }
                 }
 
@@ -446,23 +475,17 @@
                     stack.pop();
                 }
             }
-
-            // Secure Spawn points and exit path
             grid[1][1] = 0;
-            grid[ROWS - 2][COLS - 2] = 0;
-            exitCell = { x: COLS - 2, y: ROWS - 2 };
+            grid[ROWS-2][COLS-2] = 0;
+            exitCell = { x: COLS-2, y: ROWS-2 };
         }
-
-
-            // Pathfinding Algorithm for the Intelligent Hunter (A* Implementation)
+        // Optimized A* Pathfinding using Fast Priority Queue simulation
         function findHunterPath(start, target) {
             const openSet = [];
             const closedSet = new Set();
             
             const startNode = {
-                x: start.x,
-                y: start.y,
-                g: 0,
+                x: start.x, y: start.y, g: 0,
                 h: Math.abs(start.x - target.x) + Math.abs(start.y - target.y),
                 parent: null
             };
@@ -470,8 +493,12 @@
             openSet.push(startNode);
 
             while (openSet.length > 0) {
-                openSet.sort((a, b) => a.f - b.f);
-                const current = openSet.shift();
+                // Instantly extract node with lowest f-score (Fast replacement for array.sort)
+                let bestIdx = 0;
+                for (let i = 1; i < openSet.length; i++) {
+                    if (openSet[i].f < openSet[bestIdx].f) bestIdx = i;
+                }
+                const current = openSet.splice(bestIdx, 1)[0];
                 
                 if (current.x === target.x && current.y === target.y) {
                     const path = [];
@@ -483,13 +510,11 @@
                     return path.reverse();
                 }
 
-                const key = `${current.x},${current.y}`;
-                closedSet.add(key);
-
-                const dirs = [{ x: 0, y: -1 }, { x: 1, y: 0 }, { x: 0, y: 1 }, { x: -1, y: 0 }];
+                closedSet.add(`${current.x},${current.y}`);
+                const dirs = [{x:0, y:-1}, {x:1, y:0}, {x:0, y:1}, {x:-1, y:0}];
+                
                 for (const d of dirs) {
-                    const nx = current.x + d.x;
-                    const ny = current.y + d.y;
+                    const nx = current.x + d.x, ny = current.y + d.y;
 
                     if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS || grid[ny][nx] === 1) continue;
                     if (closedSet.has(`${nx},${ny}`)) continue;
@@ -499,15 +524,9 @@
 
                     if (!existingNode) {
                         const hScore = Math.abs(nx - target.x) + Math.abs(ny - target.y);
-                        const newNode = {
-                            x: nx,
-                            y: ny,
-                            g: gScore,
-                            h: hScore,
-                            f: gScore + hScore,
-                            parent: current
-                        };
-                        openSet.push(newNode);
+                        openSet.push({
+                            x: nx, y: ny, g: gScore, h: hScore, f: gScore + hScore, parent: current
+                        });
                     } else if (gScore < existingNode.g) {
                         existingNode.g = gScore;
                         existingNode.f = gScore + existingNode.h;
@@ -515,15 +534,11 @@
                     }
                 }
             }
-            return []; // Path fallback
+            return [];
         }
-
-
-            // Input Management System
         window.addEventListener('keydown', e => { keys[e.key.toLowerCase()] = true; });
         window.addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
 
-        // Joystick Engine Event Listeners
         const stick = document.getElementById('joystickStick');
         const touchZone = document.getElementById('touchControls');
 
@@ -538,19 +553,19 @@
             const touch = e.touches[0];
             const distX = touch.clientX - touchStart.x;
             const distY = touch.clientY - touchStart.y;
-            const maxDist = 50;
-            const angle = Math.atan2(distY, distX);
+            const maxDist = 55;
             const distance = Math.min(maxDist, Math.sqrt(distX * distX + distY * distY));
+            const angle = Math.atan2(distY, distX);
 
             const moveX = Math.cos(angle) * distance;
             const moveY = Math.sin(angle) * distance;
-
             stick.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
 
-            if (distance > 15) {
-                if (Math.abs(moveX) > Math.abs(moveY)) {
+            // Ultra-Weiche Schwellenwert-Zuweisung für Grid-Ausrichtung
+            if (distance > 12) {
+                if (Math.abs(moveX) > Math.abs(moveY) * 1.2) {
                     joystickVector = { x: moveX > 0 ? 1 : -1, y: 0 };
-                } else {
+                } else if (Math.abs(moveY) > Math.abs(moveX) * 1.2) {
                     joystickVector = { x: 0, y: moveY > 0 ? 1 : -1 };
                 }
             } else {
@@ -565,11 +580,10 @@
         });
 
         function handleInput() {
-            if (player.x !== player.targetX || player.y !== player.targetY) return;
+            // Erst Eingabe annehmen, sobald die vorherige Animation komplett abgeschlossen ist!
+            if (player.animX !== player.targetX || player.animY !== player.targetY) return;
 
-            let moveX = 0;
-            let moveY = 0;
-
+            let moveX = 0, moveY = 0;
             if (keys['w'] || keys['arrowup']) moveY = -1;
             else if (keys['s'] || keys['arrowdown']) moveY = 1;
             else if (keys['a'] || keys['arrowleft']) moveX = -1;
@@ -585,30 +599,51 @@
                 if (nextX >= 0 && nextX < COLS && nextY >= 0 && nextY < ROWS && grid[nextY][nextX] === 0) {
                     player.targetX = nextX;
                     player.targetY = nextY;
+                    AudioFX.playStep();
                 }
             }
         }
-
-
         function update(deltaTime) {
             if (gameState !== 'PLAYING') return;
 
             handleInput();
+            particles.update(deltaTime);
 
-            // Smooth interpolation movements for player
-            player.animX += (player.targetX - player.animX) * 0.25;
-            player.animY += (player.targetY - player.animY) * 0.25;
-            if (Math.abs(player.animX - player.targetX) < 0.01) player.animX = player.targetX;
-            if (Math.abs(player.animY - player.targetY) < 0.01) player.animY = player.targetY;
+            // 1. Fix: Spieler-Positionsabgleich basierend auf fertiger Animation
+            player.animX += (player.targetX - player.animX) * 0.22;
+            player.animY += (player.targetY - player.animY) * 0.22;
             
-            if (player.x === player.targetX && player.y === player.targetY) {
-                player.x = player.targetX;
-                player.y = player.targetY;
+            if (Math.abs(player.animX - player.targetX) < 0.005) {
+                player.animX = player.targetX; player.x = player.targetX;
+            }
+            if (Math.abs(player.animY - player.targetY) < 0.005) {
+                player.animY = player.targetY; player.y = player.targetY;
             }
 
-            // Hunter logic and action updates
-            hunter.animX += (hunter.targetX - hunter.animX) * 0.15;
-            hunter.animY += (hunter.targetY - hunter.animY) * 0.15;
+            // Spieler-Lichtpartikel erzeugen
+            if (Math.random() < 0.15) {
+                const px = offsetX + player.animX * cellSize + cellSize/2;
+                const py = offsetY + player.animY * cellSize + cellSize/2;
+                particles.spawn(px, py, 'rgba(168,230,168,0.4)', Math.random()*2+1, (Math.random()-0.5)*0.5, (Math.random()-0.5)*0.5, 400);
+            }
+
+            // 2. Fix: Jäger-Positionsabgleich verhindert unerwünschte Teleportation
+            hunter.animX += (hunter.targetX - hunter.animX) * (isBossMode ? 0.18 : 0.13);
+            hunter.animY += (hunter.targetY - hunter.animY) * (isBossMode ? 0.18 : 0.13);
+
+            if (Math.abs(hunter.animX - hunter.targetX) < 0.005) {
+                hunter.animX = hunter.targetX; hunter.x = hunter.targetX;
+            }
+            if (Math.abs(hunter.animY - hunter.targetY) < 0.005) {
+                hunter.animY = hunter.targetY; hunter.y = hunter.targetY;
+            }
+
+            // Hunter Gluteffekt-Partikel
+            if (Math.random() < 0.3) {
+                const hx = offsetX + hunter.animX * cellSize + cellSize/2;
+                const hy = offsetY + hunter.animY * cellSize + cellSize/2;
+                particles.spawn(hx, hy, isBossMode ? '#FF1111' : '#FF6B6B', Math.random()*3+2, (Math.random()-0.5)*0.8, (Math.random()-0.5)*0.8, 500);
+            }
 
             hunter.moveCooldown -= deltaTime;
             if (hunter.moveCooldown <= 0 && hunter.x === hunter.targetX && hunter.y === hunter.targetY) {
@@ -616,141 +651,6 @@
                 if (path.length > 1) {
                     hunter.targetX = path[1].x;
                     hunter.targetY = path[1].y;
-                    hunter.x = path[1].x;
-                    hunter.y = path[1].y;
+                    AudioFX.playHunterStep();
                 }
-                // Base delay reduced by current genetic mutation multiplier
-                hunter.moveCooldown = Math.max(120, 450 - (hunterSpeedMultiplier * 35));
-            }
-
-            // Check game win conditions (Exit door reached)
-            if (player.targetX === exitCell.x && player.targetY === exitCell.y) {
-                mazesCleared++;
-                score += 1000 + (generation * 200);
-                generation++;
-                hunterSpeedMultiplier += 0.25;
-                
-                document.getElementById('scoreVal').innerText = score;
-                document.getElementById('genVal').innerText = generation;
-                document.getElementById('speedVal').innerText = hunterSpeedMultiplier.toFixed(1) + 'x';
-                
-                startNewLevel();
-            }
-
-            // Game over logic check
-            const distToHunter = Math.hypot(player.animX - hunter.animX, player.animY - hunter.animY);
-            if (distToHunter < 0.5) {
-                endGame();
-            }
-        }
-
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Render Arena Maze Walls and floor lanes
-            for (let y = 0; y < ROWS; y++) {
-                for (let x = 0; x < COLS; x++) {
-                    const posX = offsetX + x * cellSize;
-                    const posY = offsetY + y * cellSize;
-
-                    if (grid[y][x] === 1) {
-                        ctx.fillStyle = '#0F1A11';
-                        ctx.fillRect(posX, posY, cellSize, cellSize);
-                        ctx.strokeStyle = '#1E3322';
-                        ctx.lineWidth = 1;
-                        ctx.strokeRect(posX, posY, cellSize, cellSize);
-                    } else {
-                        ctx.fillStyle = 'rgba(20, 35, 22, 0.4)';
-                        ctx.fillRect(posX, posY, cellSize, cellSize);
-                    }
-                }
-            }
-
-            // Render Level Finish Escape Point
-            const exitX = offsetX + exitCell.x * cellSize;
-            const exitY = offsetY + exitCell.y * cellSize;
-            ctx.fillStyle = '#C4913E';
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = '#C4913E';
-            ctx.fillRect(exitX + cellSize * 0.2, exitY + cellSize * 0.2, cellSize * 0.6, cellSize * 0.6);
-            ctx.shadowBlur = 0; // reset effects
-
-            // Render Player Avatar
-            const pX = offsetX + player.animX * cellSize + cellSize / 2;
-            const pY = offsetY + player.animY * cellSize + cellSize / 2;
-            ctx.fillStyle = '#A8E6A8';
-            ctx.beginPath();
-            ctx.arc(pX, pY, cellSize * 0.35, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Render Hunter AI Avatar
-            const hX = offsetX + hunter.animX * cellSize + cellSize / 2;
-            const hY = offsetY + hunter.animY * cellSize + cellSize / 2;
-            ctx.fillStyle = '#FF6B6B';
-            ctx.beginPath();
-            ctx.arc(hX, hY, cellSize * 0.38, 0, Math.PI * 2);
-            ctx.fill();
-        }
-
-        let lastTime = 0;
-        function gameLoop(timestamp) {
-            const deltaTime = timestamp - lastTime;
-            lastTime = timestamp;
-
-            update(deltaTime);
-            draw();
-
-            requestAnimationFrame(gameLoop);
-        }
-
-        function startNewLevel() {
-            generateMaze();
-            player.x = 1; player.y = 1; player.targetX = 1; player.targetY = 1; player.animX = 1; player.animY = 1;
-            hunter.x = COLS - 2; hunter.y = ROWS - 2; hunter.targetX = COLS - 2; hunter.targetY = ROWS - 2; hunter.animX = COLS - 2; hunter.animY = ROWS - 2;
-            hunter.moveCooldown = 500;
-        }
-
-        function initGame() {
-            score = 0;
-            generation = 1;
-            hunterSpeedMultiplier = 1.0;
-            mazesCleared = 0;
-            
-            document.getElementById('scoreVal').innerText = score;
-            document.getElementById('genVal').innerText = generation;
-            document.getElementById('speedVal').innerText = '1.0x';
-
-            startNewLevel();
-            gameState = 'PLAYING';
-            document.getElementById('screenOverlay').classList.remove('active');
-        }
-
-        function endGame() {
-            gameState = 'GAMEOVER';
-            document.getElementById('mainTitle').innerText = 'Game Over';
-            document.getElementById('mainTitle').classList.add('error');
-            document.getElementById('mainSubtitle').innerText = 'Der Jäger hat dich erwischt';
-            document.getElementById('mainDescription').innerText = 'Deine genetischen Daten wurden analysiert und vom Algorithmus absorbiert.';
-            
-            document.getElementById('finalScore').innerText = score;
-            document.getElementById('finalMazes').innerText = mazesCleared;
-            document.getElementById('dynamicStats').style.display = 'block';
-            document.getElementById('tutorialControls').style.display = 'none';
-            document.getElementById('startBtn').innerText = 'Erneut Versuchen';
-            
-            document.getElementById('screenOverlay').classList.add('active');
-        }
-
-        document.getElementById('startBtn').addEventListener('click', initGame);
-
-        // Core Launch Trigger
-        requestAnimationFrame((timestamp) => {
-            lastTime = timestamp;
-            requestAnimationFrame(gameLoop);
-        });
-    </script>
-</body>
-</html>
-
-        
+                let baseDelay = isBoss
