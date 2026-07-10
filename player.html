@@ -653,4 +653,253 @@
                     hunter.targetY = path[1].y;
                     AudioFX.playHunterStep();
                 }
-                let baseDelay = isBoss
+                        let baseDelay = isBossMode ? 180 : 320;
+                baseDelay -= Math.min((generation - 1) * 12, 120);
+                hunter.moveCooldown = Math.max(80, baseDelay);
+            }
+
+            // Level abgeschlossen
+            if (player.x === exitCell.x && player.y === exitCell.y) {
+                AudioFX.playLevelUp();
+
+                score += 1000 + generation * 250;
+                mazesCleared++;
+
+                if (generation >= 10) {
+                    isBossMode = true;
+                } else {
+                    generation++;
+                }
+
+                document.getElementById('scoreVal').innerText = score;
+                document.getElementById('genVal').innerText =
+                    isBossMode ? 'BOSS' : `${generation} / 10`;
+
+                document.getElementById('speedVal').innerText =
+                    isBossMode ? 'BOSS MODE' : 'Normal';
+
+                startNewLevel();
+                return;
+            }
+
+            // Kollision mit Hunter
+            const hunterDistance = Math.hypot(
+                player.animX - hunter.animX,
+                player.animY - hunter.animY
+            );
+
+            if (hunterDistance < 0.45) {
+                AudioFX.playGameOver();
+                endGame();
+                return;
+            }
+        }
+
+                function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Labyrinth zeichnen
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    const drawX = offsetX + x * cellSize;
+                    const drawY = offsetY + y * cellSize;
+
+                    if (grid[y][x] === 1) {
+                        ctx.fillStyle = isBossMode ? '#220A0A' : '#0F1A11';
+                        ctx.fillRect(drawX, drawY, cellSize, cellSize);
+
+                        ctx.strokeStyle = isBossMode ? '#551111' : '#1E3322';
+                        ctx.lineWidth = 1;
+                        ctx.strokeRect(drawX, drawY, cellSize, cellSize);
+                    } else {
+                        ctx.fillStyle = 'rgba(20,35,22,0.25)';
+                        ctx.fillRect(drawX, drawY, cellSize, cellSize);
+                    }
+                }
+            }
+
+            // Partikel
+            particles.draw(ctx);
+
+            // Ausgang
+            const exitX = offsetX + exitCell.x * cellSize + cellSize / 2;
+            const exitY = offsetY + exitCell.y * cellSize + cellSize / 2;
+
+            ctx.save();
+            ctx.shadowBlur = 18 + Math.sin(performance.now() * 0.01) * 6;
+            ctx.shadowColor = isBossMode ? '#FF2222' : '#C4913E';
+            ctx.fillStyle = isBossMode ? '#FF3333' : '#C4913E';
+
+            ctx.beginPath();
+            ctx.arc(exitX, exitY, cellSize * 0.28, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            // Spieler
+            const px = offsetX + player.animX * cellSize + cellSize / 2;
+            const py = offsetY + player.animY * cellSize + cellSize / 2;
+
+            ctx.save();
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = '#A8E6A8';
+            ctx.fillStyle = '#A8E6A8';
+
+            ctx.beginPath();
+            ctx.arc(px, py, cellSize * 0.32, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            // Hunter
+            const hx = offsetX + hunter.animX * cellSize + cellSize / 2;
+            const hy = offsetY + hunter.animY * cellSize + cellSize / 2;
+
+            ctx.save();
+            ctx.shadowBlur = isBossMode ? 22 : 12;
+            ctx.shadowColor = '#FF3333';
+            ctx.fillStyle = isBossMode ? '#FF2222' : '#FF6B6B';
+
+            ctx.beginPath();
+            ctx.arc(
+                hx,
+                hy,
+                isBossMode ? cellSize * 0.42 : cellSize * 0.36,
+                0,
+                Math.PI * 2
+            );
+            ctx.fill();
+            ctx.restore();
+        }
+
+        let lastTime = 0;
+
+        function gameLoop(timestamp) {
+            const deltaTime = timestamp - lastTime;
+            lastTime = timestamp;
+
+            update(deltaTime);
+            draw();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        function startNewLevel() {
+            generateMaze();
+
+            particles = new ParticleSystem();
+
+            player.x = 1;
+            player.y = 1;
+            player.targetX = 1;
+            player.targetY = 1;
+            player.animX = 1;
+            player.animY = 1;
+
+            hunter.x = COLS - 2;
+            hunter.y = ROWS - 2;
+            hunter.targetX = COLS - 2;
+            hunter.targetY = COLS - 2;
+            hunter.animX = COLS - 2;
+            hunter.animY = COLS - 2;
+
+            hunter.moveCooldown = isBossMode ? 180 : 450;
+
+            document.getElementById('scoreVal').innerText = score;
+            document.getElementById('genVal').innerText =
+                isBossMode ? 'BOSS' : `${generation} / 10`;
+            document.getElementById('speedVal').innerText =
+                isBossMode ? 'BOSS MODE' : 'Normal';
+        }
+
+                function initGame() {
+            score = 0;
+            generation = 1;
+            mazesCleared = 0;
+            isBossMode = false;
+
+            document.getElementById('scoreVal').innerText = score;
+            document.getElementById('genVal').innerText = '1 / 10';
+            document.getElementById('speedVal').innerText = 'Normal';
+
+            document.getElementById('mainTitle').innerText = 'Genetic Hunter';
+            document.getElementById('mainTitle').className = 'screen-title';
+
+            document.getElementById('mainSubtitle').innerText =
+                'Vertical Advanced Maze Runner';
+
+            document.getElementById('mainDescription').innerText =
+                'Überlebe alle Generationen und entkomme dem adaptiven Hunter.';
+
+            document.getElementById('dynamicStats').style.display = 'none';
+            document.getElementById('tutorialControls').style.display = 'block';
+            document.getElementById('startBtn').innerText = 'System starten';
+
+            startNewLevel();
+
+            gameState = 'PLAYING';
+            document.getElementById('screenOverlay').classList.remove('active');
+        }
+
+        function endGame() {
+            gameState = 'GAMEOVER';
+
+            document.getElementById('mainTitle').innerText = 'System Failure';
+            document.getElementById('mainTitle').className = 'screen-title error';
+
+            document.getElementById('mainSubtitle').innerText =
+                'Der Hunter war schneller';
+
+            document.getElementById('mainDescription').innerText =
+                'Der adaptive Algorithmus hat deine Bewegungsmuster vollständig analysiert.';
+
+            document.getElementById('finalScore').innerText = score;
+            document.getElementById('finalMazes').innerText = mazesCleared;
+
+            document.getElementById('dynamicStats').style.display = 'block';
+            document.getElementById('tutorialControls').style.display = 'none';
+
+            document.getElementById('startBtn').innerText =
+                'Erneut versuchen';
+
+            document.getElementById('screenOverlay').classList.add('active');
+        }
+
+        function triggerVictory() {
+            gameState = 'VICTORY';
+
+            AudioFX.playVictory();
+
+            document.getElementById('mainTitle').innerText =
+                'Evolution Beaten';
+
+            document.getElementById('mainTitle').className =
+                'screen-title victory';
+
+            document.getElementById('mainSubtitle').innerText =
+                'Mission erfolgreich';
+
+            document.getElementById('mainDescription').innerText =
+                'Du hast den adaptiven Hunter besiegt und alle Generationen abgeschlossen.';
+
+            document.getElementById('finalScore').innerText = score;
+            document.getElementById('finalMazes').innerText = mazesCleared;
+
+            document.getElementById('dynamicStats').style.display = 'block';
+            document.getElementById('tutorialControls').style.display = 'none';
+
+            document.getElementById('startBtn').innerText =
+                'Neues Spiel';
+
+            document.getElementById('screenOverlay').classList.add('active');
+        }
+
+        document
+            .getElementById('startBtn')
+            .addEventListener('click', initGame);
+
+        requestAnimationFrame(timestamp => {
+            lastTime = timestamp;
+            requestAnimationFrame(gameLoop);
+        });
+    </script>
+</body>
+</html>
