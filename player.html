@@ -310,6 +310,10 @@
         </div>
     </div>
     <script>
+
+        const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+        
         // Realtime Web Audio Engine (Keine externen MP3-Dateien benötigt)
         const AudioFX = {
             ctx: null,
@@ -658,29 +662,39 @@
                 hunter.moveCooldown = Math.max(80, baseDelay);
             }
 
-            // Level abgeschlossen
-            if (player.x === exitCell.x && player.y === exitCell.y) {
-                AudioFX.playLevelUp();
+      // Level abgeschlossen
+if (player.x === exitCell.x && player.y === exitCell.y) {
 
-                score += 1000 + generation * 250;
-                mazesCleared++;
+    // Boss wurde besiegt -> Spiel gewonnen
+    if (isBossMode) {
+        score += 5000;
+        mazesCleared++;
+        triggerVictory();
+        return;
+    }
 
-                if (generation >= 10) {
-                    isBossMode = true;
-                } else {
-                    generation++;
-                }
+    AudioFX.playLevelUp();
 
-                document.getElementById('scoreVal').innerText = score;
-                document.getElementById('genVal').innerText =
-                    isBossMode ? 'BOSS' : `${generation} / 10`;
+    score += 1000 + generation * 250;
+    mazesCleared++;
 
-                document.getElementById('speedVal').innerText =
-                    isBossMode ? 'BOSS MODE' : 'Normal';
+    generation++;
 
-                startNewLevel();
-                return;
-            }
+    // Nach Generation 10 beginnt das Boss-Level
+    if (generation >= 10) {
+        isBossMode = true;
+    }
+
+    document.getElementById('scoreVal').innerText = score;
+    document.getElementById('genVal').innerText =
+        isBossMode ? 'BOSS' : `${generation} / 10`;
+
+    document.getElementById('speedVal').innerText =
+        isBossMode ? 'BOSS MODE' : 'Normal';
+
+    startNewLevel();
+    return;
+}
 
             // Kollision mit Hunter
             const hunterDistance = Math.hypot(
