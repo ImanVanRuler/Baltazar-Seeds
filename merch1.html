@@ -1,259 +1,1442 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>BALTAZAR MERCH - Baltazar Seeds</title>
+    <!-- ═══════════════════════════════════════════════
+         ESSENTIAL META TAGS
+    ═══════════════════════════════════════════════ -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5.0">
 
-<!-- Fonts: Logo = Nosifer, Rest = Bebas Neue -->
-<link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <!-- SEO -->
+    <title>Baltazar Seeds® | Premium Cannabis Genetics | Genetic Hunter Collection</title>
+    <meta name="description" content="Premium small-batch cannabis genetics by Baltazar Seeds. Exclusive handcrafted strains, collectible genetics, limited releases and premium breeding. Discover rare Genetic Hunter collection.">
+    <meta name="keywords" content="Baltazar Seeds, premium cannabis genetics, cannabis seeds, collectible seeds, small batch, premium breeder, genetic hunter, cannabis breeding, rare genetics">
+    <meta name="author" content="Baltazar Seeds">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="theme-color" content="#050A06">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Baltazar Seeds">
 
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Baltazar Seeds® — Premium Cannabis Genetics">
+    <meta property="og:site_name" content="Baltazar Seeds">
+    <meta property="og:url" content="https://baltazarseeds.com/hauptseite.html">
+    <meta property="og:image" content="https://baltazarseeds.com/social.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:description" content="Premium handcrafted cannabis genetics. Explore rare, collectible strains.">
+    <meta property="og:locale" content="en_US">
 
-<style>
-:root{
-  --bg:#0f0f10;
-  --accent:#c79a00;
-  --gold:#d4af37;
-  --darkred:#8B0000;
-  --muted:#bbb;
-  --light:#fff;
-  --transition:0.45s cubic-bezier(.2,.9,.2,1);
-  --glow:0 0 16px rgba(199,154,0,0.18);
-}
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Baltazar Seeds® — Premium Cannabis Genetics">
+    <meta name="twitter:description" content="Premium handcrafted cannabis genetics from Baltazar Seeds.">
+    <meta name="twitter:image" content="https://baltazarseeds.com/social.jpg">
+    <meta name="twitter:creator" content="@baltazarseeds">
 
-/* Reset & Basics */
-html, body {
-  height:100%; margin:0; padding:0;
-  background: linear-gradient(180deg,#0b0b0b,#111);
-  color: var(--accent);
-  font-family: "Bebas Neue", "Arial", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  letter-spacing:0.6px;
-}
-a { color:inherit; text-decoration:none; }
-img { display:block; max-width:100%; height:auto; border-radius:10px; cursor:pointer; }
+    <!-- Canonical -->
+    <link rel="canonical" href="https://baltazarseeds.com/hauptseite.html">
 
-/* Header */
-header {
-  position:sticky; top:0; z-index:120;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0.9rem 4vw;
-  background:rgba(0,0,0,0.82);
-  backdrop-filter: blur(6px);
-  box-shadow:0 6px 18px rgba(0,0,0,0.6);
-}
-header h1 {
-  margin:0;
-  font-family:"Nosifer",cursive;
-  font-size:1.9rem;
-  color:var(--accent);
-  text-shadow: 3px 3px 0 var(--darkred), 0 0 10px rgba(199,154,0,0.08);
-  animation: headerPulse 3s infinite alternate;
-}
-@keyframes headerPulse{
-  from { text-shadow: 3px 3px 0 var(--darkred), 0 0 10px rgba(199,154,0,0.06); transform:translateZ(0);}
-  to { text-shadow: 4px 4px 0 var(--darkred), 0 0 18px rgba(199,154,0,0.18); transform:translateY(-1px);}
-}
-nav { display:flex; gap:1.2rem; align-items:center; }
-nav a {
-  color:var(--accent); padding:0.25rem 0.5rem; border-radius:6px;
-  transition:var(--transition); font-weight:500;
-}
-nav a:hover { background:var(--accent); color:#111; box-shadow:var(--glow); }
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
 
-/* Page container */
-main {
-  max-width:1200px; margin:3rem auto; padding:0 2rem; display:grid; gap:2.5rem;
-}
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
-/* Product showcase */
-.product-showcase {
-  display:flex; gap:2.5rem; flex-wrap:wrap;
-  align-items:flex-start;
-}
+    <!-- Preload critical images -->
+    <link rel="preload" href="/CATLOGO.JPG" as="image" fetchpriority="high" type="image/jpeg">
 
-/* Slideshow & Lightbox */
-.slideshow-container {
-  display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;
-}
-.slide img {
-  max-width:200px;
-  border-radius:12px;
-  border:2px solid rgba(199,154,0,0.9);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.6), 0 0 18px rgba(199,154,0,0.06);
-  background:#000;
-  object-fit:contain;
-  transition: transform 0.3s;
-}
-.slide img:hover { transform:scale(1.05); }
-#lightbox-overlay {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  background:rgba(0,0,0,0.85); display:none;
-  justify-content:center; align-items:center; z-index:999;
-}
-#lightbox-overlay img {
-  max-width:90%; max-height:90%; border-radius:12px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-}
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Baltazar Seeds",
+      "url": "https://baltazarseeds.com",
+      "logo": "https://baltazarseeds.com/CATLOGO.JPG",
+      "description": "Premium handcrafted cannabis genetics.",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "email": "contact@baltazarseeds.com"
+      },
+      "sameAs": [
+        "https://www.instagram.com/baltazarseeds",
+        "https://www.twitter.com/baltazarseeds"
+      ]
+    }
+    </script>
 
-/* Product info */
-.product-info {
-  flex:1 1 400px;
-  padding:1.2rem 1.6rem;
-  color:var(--light);
-  background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.12));
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.03);
-  box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
-}
-.product-info h2 {
-  margin:0 0 1rem;
-  font-size:2.6rem; color:var(--accent);
-  text-shadow: 3px 3px 0 var(--darkred), 0 0 12px rgba(199,154,0,0.06);
-}
-.product-info p.description { color:#f5f5f5; font-weight:300; line-height:1.8; margin-bottom:1rem; }
-.product-details { list-style:none; padding:0; margin:1rem 0 0; color:var(--muted); }
-.product-details li {
-  padding-left:2.2rem; position:relative; margin-bottom:.9rem; transition:var(--transition);
-}
-.product-details li::before {
-  content:'\f058'; font-family:"Font Awesome 6 Free"; font-weight:900;
-  position:absolute; left:0; top:0; color:var(--gold); text-shadow:1px 1px 0 var(--darkred);
-}
-.product-details li:hover {
-  color:var(--light); text-shadow:0 0 10px rgba(199,154,0,0.12); transform:translateX(6px);
-}
+    <style>
+        /* ═══════════════════════════════════════════════
+           TOKENS & VARIABLES
+        ═══════════════════════════════════════════════ */
+        :root {
+            --bg:            #050A06;
+            --bg2:           #0B1209;
+            --bg3:           #0f1a0d;
+            --gold:          #C4913E;
+            --gold2:         #E2B46B;
+            --gold-dim:      rgba(196, 145, 62, 0.18);
+            --text:          #ECE7DF;
+            --text2:         rgba(236, 231, 223, 0.62);
+            --text3:         rgba(236, 231, 223, 0.36);
+            --line:          rgba(255, 255, 255, 0.07);
+            --ease:          cubic-bezier(0.22, 1, 0.36, 1);
+            --t-fast:        0.3s;
+            --t-med:         0.55s;
+            --font-serif:    "Cormorant Garamond", Georgia, serif;
+            --font-sans:     "Inter", system-ui, sans-serif;
+            --font-mono:     "JetBrains Mono", "Fira Code", monospace;
+            --nav-h:         80px;
+            --nav-h-sm:      64px;
+        }
 
-/* Price & CTA */
-.product-summary { margin-top:1.6rem; padding:1rem; border-radius:10px; background:rgba(0,0,0,0.45); font-weight:700;color:var(--accent); display:inline-block; box-shadow: inset 0 0 10px rgba(199,154,0,0.04); }
-.btn {
-  display:inline-block; padding:.9rem 1.6rem; border-radius:10px; border:2px solid var(--accent);
-  background:transparent; color:var(--accent); cursor:pointer; font-weight:700; letter-spacing:1px; transition:var(--transition);
-}
-.btn:hover { background:var(--accent); color:#111; box-shadow:0 10px 30px rgba(199,154,0,0.12); }
+        /* ═══════════════════════════════════════════════
+           RESET
+        ═══════════════════════════════════════════════ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* Payment Box rechts neben Beschreibung */
-.payment-box {
-  flex:1 1 300px;
-  text-align:center;
-  background:#222;
-  padding:30px;
-  border-radius:15px;
-  color:#fff;
-  box-shadow:0 0 20px rgba(0,0,0,0.5);
-  min-width:280px;
-}
-.payment-icon { font-size:50px; color:var(--accent); margin-bottom:15px; }
-.box-title { font-size:28px; margin-bottom:15px; color:var(--accent); }
-.description, .product-summary, .wallet-text, .note { margin-bottom:20px; line-height:1.5; }
-.wallet-option { margin-bottom:25px; }
-.btn-wallet {
-  display:inline-block; padding:12px 25px; background-color:var(--accent); color:#222; font-weight:bold;
-  border-radius:8px; text-decoration:none; transition:all 0.3s ease;
-}
-.btn-wallet:hover { background-color:var(--gold); }
-.wallet-logo { width:100px; margin:20px auto; display:block; }
-.note { font-size:14px; color:#ccc; }
+        html {
+            scroll-behavior: smooth;
+            text-rendering: optimizeLegibility;
+            -webkit-text-size-adjust: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-/* Footer */
-footer { padding:2.5rem 1rem; text-align:center; color:var(--muted); margin-top:3rem; background:rgba(0,0,0,0.7); }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-sans);
+            font-weight: 300;
+            line-height: 1.65;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-/* Responsive */
-@media (max-width:980px){
-  .product-showcase { flex-direction:column; }
-  .slideshow-container { justify-content:center; }
-  .payment-box { margin-top:1.8rem; }
-}
-</style>
+        img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        ::selection {
+            background: rgba(196, 145, 62, 0.32);
+            color: #fff;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 4px;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #6b4a22, var(--gold));
+            border-radius: 20px;
+        }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+            html { scroll-behavior: auto; }
+        }
+
+        /* ═══════════════════════════════════════════════
+           AMBIENT BACKGROUND
+        ═══════════════════════════════════════════════ */
+        #ambient {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse at 20% 40%, rgba(34, 84, 44, 0.11) 0%, transparent 65%),
+                radial-gradient(ellipse at 80% 25%, rgba(196, 145, 62, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 55% 95%, rgba(20, 50, 28, 0.10) 0%, transparent 70%);
+            animation: ambientFloat 18s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+
+        @keyframes ambientFloat {
+            from { transform: scale(1) translate3d(0, 0, 0); }
+            to   { transform: scale(1.07) translate3d(-2%, 2%, 0); }
+        }
+
+        /* Film grain */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 998;
+            opacity: 0.22;
+            mix-blend-mode: overlay;
+            background-image:
+                radial-gradient(circle at 15% 25%, rgba(255,255,255,0.06) 1px, transparent 1px),
+                radial-gradient(circle at 75% 55%, rgba(255,255,255,0.04) 1px, transparent 1px),
+                radial-gradient(circle at 55% 85%, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 160px 160px, 220px 220px, 300px 300px;
+        }
+
+        /* ═══════════════════════════════════════════════
+           NAVIGATION
+        ═══════════════════════════════════════════════ */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 900;
+            height: var(--nav-h);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 48px;
+            background: linear-gradient(180deg, rgba(5,10,6,0.75) 0%, rgba(5,10,6,0.02) 100%);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border-bottom: 1px solid transparent;
+            transition:
+                height var(--t-fast) var(--ease),
+                background var(--t-fast) var(--ease),
+                border-color var(--t-fast) var(--ease);
+            will-change: height, background;
+        }
+
+        nav.scrolled {
+            height: var(--nav-h-sm);
+            background: rgba(5, 10, 6, 0.92);
+            border-bottom-color: rgba(196, 145, 62, 0.10);
+        }
+
+        /* Logo */
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--text);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            text-decoration: none;
+            transition: color var(--t-fast) var(--ease);
+            flex-shrink: 0;
+        }
+
+        .nav-logo:hover { color: var(--gold); }
+
+        .nav-logo img {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(196, 145, 62, 0.20);
+            transition:
+                transform var(--t-fast) var(--ease),
+                border-color var(--t-fast) var(--ease),
+                filter var(--t-fast) var(--ease);
+            flex-shrink: 0;
+        }
+
+        .nav-logo:hover img {
+            transform: rotate(8deg) scale(1.08);
+            border-color: rgba(196, 145, 62, 0.55);
+            filter: drop-shadow(0 0 20px rgba(196, 145, 62, 0.30));
+        }
+
+        /* Desktop nav links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-link {
+            position: relative;
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text2);
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 6px 0;
+            text-decoration: none;
+            transition: color var(--t-fast) var(--ease);
+            white-space: nowrap;
+        }
+
+        .nav-link:hover { color: var(--text); }
+
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0; bottom: -4px;
+            width: 0; height: 1px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            transition: width var(--t-fast) var(--ease);
+        }
+
+        .nav-link:hover::after { width: 100%; }
+
+        /* Game links get a subtle tint */
+        .nav-link--game {
+            color: rgba(196, 145, 62, 0.65);
+        }
+
+        .nav-link--game:hover { color: var(--gold2); }
+
+        .nav-link--game::before {
+            content: "▶";
+            font-size: 7px;
+            margin-right: 6px;
+            opacity: 0.7;
+            vertical-align: 1px;
+        }
+
+        /* Hamburger button (mobile only) */
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 40px; height: 40px;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 6px;
+            cursor: pointer;
+            padding: 0;
+            transition: border-color var(--t-fast);
+            flex-shrink: 0;
+        }
+
+        .nav-hamburger:hover { border-color: rgba(196,145,62,0.35); }
+
+        .nav-hamburger span {
+            display: block;
+            width: 18px; height: 1px;
+            background: var(--text2);
+            border-radius: 1px;
+            transition:
+                transform var(--t-fast) var(--ease),
+                opacity var(--t-fast),
+                background var(--t-fast);
+        }
+
+        .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+        .nav-hamburger.open span { background: var(--gold); }
+
+        /* ═══════════════════════════════════════════════
+           MOBILE MENU OVERLAY
+        ═══════════════════════════════════════════════ */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 850;
+            background: rgba(5, 10, 6, 0.97);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-12px);
+            transition:
+                opacity var(--t-med) var(--ease),
+                visibility var(--t-med),
+                transform var(--t-med) var(--ease);
+            pointer-events: none;
+        }
+
+        .mobile-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .mobile-menu-link {
+            font-family: var(--font-serif);
+            font-size: clamp(30px, 7vw, 52px);
+            font-weight: 300;
+            letter-spacing: 0.06em;
+            color: var(--text2);
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color var(--t-fast) var(--ease);
+        }
+
+        .mobile-menu-link:hover { color: var(--text); }
+        .mobile-menu-link.gold { color: var(--gold); }
+        .mobile-menu-link.gold:hover { color: var(--gold2); }
+
+        .mobile-menu-sub {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            color: var(--text3);
+            text-transform: uppercase;
+            margin-top: -28px;
+            text-align: center;
+        }
+
+        .mobile-menu-divider {
+            width: 1px;
+            height: 40px;
+            background: var(--line);
+        }
+
+        /* ═══════════════════════════════════════════════
+           HERO
+        ═══════════════════════════════════════════════ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            isolation: isolate;
+            padding-top: var(--nav-h);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 60%, rgba(196, 145, 62, 0.09) 0%, transparent 60%);
+            filter: blur(100px);
+            animation: heroPulse 11s ease-in-out infinite;
+            will-change: transform, opacity;
+        }
+
+        @keyframes heroPulse {
+            0%, 100% { transform: scale(1); opacity: 0.55; }
+            50%       { transform: scale(1.2); opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 860px;
+            padding: 0 32px;
+            text-align: center;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.44em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 28px;
+            opacity: 0;
+            animation: fadeUp 0.9s 0.2s var(--ease) forwards;
+        }
+
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(52px, 10vw, 148px);
+            font-weight: 300;
+            line-height: 0.93;
+            letter-spacing: 0.01em;
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeUp 1s 0.45s var(--ease) forwards;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .hero-desc {
+            max-width: 580px;
+            margin: 0 auto;
+            font-size: 16px;
+            line-height: 2;
+            color: var(--text2);
+            opacity: 0;
+            animation: fadeUp 1s 0.7s var(--ease) forwards;
+        }
+
+        .hero-actions {
+            margin-top: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 1s 0.95s var(--ease) forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(36px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scroll indicator */
+        .hero-scroll {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            animation: fadeUp 1s 1.4s var(--ease) forwards;
+        }
+
+        .hero-scroll span {
+            font-family: var(--font-mono);
+            font-size: 8px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text3);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(180deg, var(--gold), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { transform: scaleY(1); opacity: 0.6; }
+            50%       { transform: scaleY(0.6); opacity: 1; }
+        }
+
+        /* ═══════════════════════════════════════════════
+           BUTTONS
+        ═══════════════════════════════════════════════ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 32px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition:
+                border-color var(--t-fast) var(--ease),
+                color var(--t-fast) var(--ease);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(196, 145, 62, 0.10);
+            transform: translateX(-101%);
+            transition: transform var(--t-fast) var(--ease);
+        }
+
+        .btn:hover::before { transform: translateX(0); }
+
+        .btn-primary {
+            border: 1px solid rgba(196, 145, 62, 0.30);
+            background: rgba(196, 145, 62, 0.05);
+            color: var(--text);
+        }
+
+        .btn-primary:hover { border-color: rgba(196, 145, 62, 0.60); }
+
+        .btn-ghost {
+            border: 1px solid rgba(255,255,255,0.10);
+            background: transparent;
+            color: var(--text2);
+        }
+
+        .btn-ghost:hover {
+            color: var(--text);
+            border-color: rgba(255,255,255,0.22);
+        }
+
+        .btn svg, .btn span { position: relative; z-index: 1; }
+        .btn svg { transition: transform var(--t-fast) var(--ease); }
+        .btn:hover svg { transform: translateX(4px); }
+
+        /* ═══════════════════════════════════════════════
+           SECTIONS BASE
+        ═══════════════════════════════════════════════ */
+        section {
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 48px;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .section-label::after {
+            content: "";
+            flex: 1;
+            max-width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(36px, 6vw, 88px);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            margin-bottom: 36px;
+        }
+
+        .section-title em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .section-text {
+            font-size: 16px;
+            line-height: 2;
+            color: var(--text2);
+            max-width: 680px;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition:
+                opacity 0.8s var(--ease),
+                transform 0.8s var(--ease);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ═══════════════════════════════════════════════
+           DIVIDER
+        ═══════════════════════════════════════════════ */
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--line) 30%, var(--line) 70%, transparent);
+        }
+
+        /* ═══════════════════════════════════════════════
+           FEATURES GRID
+        ═══════════════════════════════════════════════ */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--line);
+            border: 1px solid var(--line);
+            margin-top: 64px;
+        }
+
+        .feature-item {
+            background: var(--bg);
+            padding: 40px 36px;
+            transition: background var(--t-fast);
+        }
+
+        .feature-item:hover { background: var(--bg2); }
+
+        .feature-mark {
+            font-size: 20px;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        .feature-name {
+            font-family: var(--font-serif);
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            line-height: 1.85;
+            color: var(--text2);
+        }
+
+        /* ═══════════════════════════════════════════════
+           GAMES SECTION
+        ═══════════════════════════════════════════════ */
+        #games {
+            background: linear-gradient(180deg, transparent 0%, rgba(5,10,6,0.5) 50%, transparent 100%);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 64px;
+        }
+
+        .game-card {
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.07);
+            background: var(--bg2);
+            padding: 44px 36px 36px;
+            overflow: hidden;
+            transition:
+                border-color var(--t-fast) var(--ease),
+                transform var(--t-fast) var(--ease);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .game-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            opacity: 0;
+            transition: opacity var(--t-fast);
+        }
+
+        .game-card:hover {
+            border-color: rgba(196, 145, 62, 0.22);
+            transform: translateY(-4px);
+        }
+
+        .game-card:hover::before { opacity: 1; }
+
+        .game-card--neon::before {
+            background: linear-gradient(90deg, transparent, #00e8ff, transparent);
+        }
+
+        .game-card--run::before {
+            background: linear-gradient(90deg, transparent, #ff007f, transparent);
+        }
+
+        .game-card--neon { border-top-color: rgba(0, 232, 255, 0.18); }
+        .game-card--run  { border-top-color: rgba(255, 0, 127, 0.18); }
+
+        .game-tag {
+            font-family: var(--font-mono);
+            font-size: 8.5px;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 2px;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .game-tag--neon {
+            color: #00e8ff;
+            background: rgba(0, 232, 255, 0.07);
+            border: 1px solid rgba(0, 232, 255, 0.18);
+        }
+
+        .game-tag--run {
+            color: #ff6699;
+            background: rgba(255, 0, 127, 0.07);
+            border: 1px solid rgba(255, 0, 127, 0.18);
+        }
+
+        .game-title {
+            font-family: var(--font-serif);
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 300;
+            line-height: 1.1;
+            color: var(--text);
+        }
+
+        .game-title em { font-style: italic; }
+        .game-card--neon .game-title em { color: #00e8ff; }
+        .game-card--run  .game-title em { color: #ff6699; }
+
+        .game-desc {
+            font-size: 14px;
+            line-height: 1.85;
+            color: var(--text2);
+            flex: 1;
+        }
+
+        .game-meta {
+            display: flex;
+            gap: 20px;
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            color: var(--text3);
+            text-transform: uppercase;
+        }
+
+        .game-play-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 28px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition:
+                border-color var(--t-fast) var(--ease),
+                color var(--t-fast) var(--ease);
+            margin-top: 8px;
+            width: fit-content;
+        }
+
+        .game-play-btn::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            transform: translateX(-101%);
+            transition: transform var(--t-fast) var(--ease);
+        }
+
+        .game-play-btn:hover::before { transform: translateX(0); }
+        .game-play-btn span, .game-play-btn svg { position: relative; z-index: 1; }
+        .game-play-btn svg { transition: transform var(--t-fast) var(--ease); }
+        .game-play-btn:hover svg { transform: translateX(4px); }
+
+        .game-play-btn--neon {
+            border: 1px solid rgba(0, 232, 255, 0.25);
+            color: #00e8ff;
+            background: rgba(0, 232, 255, 0.04);
+        }
+        .game-play-btn--neon::before { background: rgba(0, 232, 255, 0.08); }
+        .game-play-btn--neon:hover { border-color: rgba(0, 232, 255, 0.55); }
+
+        .game-play-btn--run {
+            border: 1px solid rgba(255, 0, 127, 0.25);
+            color: #ff6699;
+            background: rgba(255, 0, 127, 0.04);
+        }
+        .game-play-btn--run::before { background: rgba(255, 0, 127, 0.08); }
+        .game-play-btn--run:hover { border-color: rgba(255, 0, 127, 0.55); }
+
+        .game-card-bg {
+            position: absolute;
+            right: -20px; bottom: -20px;
+            font-family: var(--font-serif);
+            font-size: 120px;
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .game-card--neon .game-card-bg { color: rgba(0, 232, 255, 0.03); }
+        .game-card--run  .game-card-bg { color: rgba(255, 0, 127, 0.03); }
+
+        /* ═══════════════════════════════════════════════
+           CONTACT MODAL
+        ═══════════════════════════════════════════════ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 800;
+            background: rgba(4, 8, 5, 0.94);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition:
+                opacity var(--t-fast) var(--ease),
+                visibility var(--t-fast);
+            will-change: opacity, visibility;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--bg2);
+            border: 1px solid rgba(196, 145, 62, 0.18);
+            padding: 50px 44px;
+            border-radius: 10px;
+            max-width: 480px;
+            width: 90%;
+            transform: translateY(18px);
+            transition: transform var(--t-med) var(--ease);
+            position: relative;
+        }
+
+        .modal-overlay.open .modal-content { transform: translateY(0); }
+
+        .modal-close {
+            position: absolute;
+            top: 18px; right: 18px;
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 4px;
+            color: var(--text3);
+            font-size: 16px;
+            cursor: pointer;
+            transition: color var(--t-fast), border-color var(--t-fast);
+            padding: 0;
+        }
+
+        .modal-close:hover {
+            color: var(--text);
+            border-color: rgba(255,255,255,0.22);
+        }
+
+        .modal-title {
+            font-family: var(--font-serif);
+            font-size: 30px;
+            font-weight: 300;
+            margin-bottom: 28px;
+            color: var(--text);
+        }
+
+        .modal-title em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border: 1px solid rgba(196, 145, 62, 0.15);
+            border-radius: 6px;
+            background: rgba(196, 145, 62, 0.03);
+            color: var(--text);
+            text-decoration: none;
+            transition: background var(--t-fast), border-color var(--t-fast);
+        }
+
+        .contact-item:hover {
+            background: rgba(196, 145, 62, 0.07);
+            border-color: rgba(196, 145, 62, 0.30);
+        }
+
+        .contact-icon {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(196,145,62,0.22);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .contact-label {
+            font-family: var(--font-mono);
+            font-size: 8px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text3);
+            margin-bottom: 3px;
+        }
+
+        .contact-value { font-size: 14px; color: var(--text); }
+
+        .modal-note {
+            margin-top: 22px;
+            font-size: 11px;
+            line-height: 1.75;
+            color: var(--text3);
+        }
+
+        /* ═══════════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════════ */
+        footer {
+            position: relative;
+            z-index: 10;
+            border-top: 1px solid var(--line);
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 48px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .footer-brand {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: var(--text3);
+        }
+
+        .footer-brand strong {
+            display: block;
+            font-size: 11px;
+            color: var(--text2);
+            margin-bottom: 6px;
+            font-weight: 400;
+            letter-spacing: 0.25em;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .footer-link {
+            font-family: var(--font-mono);
+            font-size: 8.5px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--text3);
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: color var(--t-fast);
+        }
+
+        .footer-link:hover { color: var(--gold); }
+
+        .footer-bottom {
+            padding: 20px 48px;
+            border-top: 1px solid var(--line);
+            display: flex;
+            justify-content: center;
+        }
+
+        .footer-copy {
+            font-family: var(--font-mono);
+            font-size: 8px;
+            letter-spacing: 0.2em;
+            color: var(--text3);
+            text-align: center;
+        }
+
+        /* ═══════════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════════ */
+        @media (max-width: 900px) {
+            .nav-links { display: none; }
+            .nav-hamburger { display: flex; }
+            nav { padding: 0 24px; }
+            .section-inner { padding: 80px 28px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .games-grid { grid-template-columns: 1fr; }
+            .footer-inner { grid-template-columns: 1fr; text-align: center; }
+            .footer-links { justify-content: center; }
+            .footer-bottom { padding: 20px 24px; }
+        }
+
+        @media (max-width: 600px) {
+            :root { --nav-h: 64px; --nav-h-sm: 56px; }
+            .section-inner { padding: 60px 20px; }
+            .hero-actions { flex-direction: column; align-items: stretch; }
+            .btn { justify-content: center; }
+            .game-card { padding: 32px 24px 28px; }
+            .footer-inner { padding: 40px 20px; }
+            .footer-bottom { padding: 18px 20px; }
+        }
+    </style>
 </head>
+
 <body>
+    <div id="ambient" aria-hidden="true"></div>
 
-<header>
-  <h1>Baltazar Seeds</h1>
-  <nav aria-label="Hauptnavigation">
-    <a href="index.html">Entrance</a>
-    <a href="seite3.html">Menu</a>
-    <a href="mailto:imanvanruler@freenet.de">Contact</a>
-    <a href="https://x.com/BALTAZARSEEDS" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i></a>
-    <a href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-    <a href="https://www.youtube.com/@IMANVANRULER" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
-    <a href="https://soundcloud.com/jackjames-2" target="_blank" rel="noopener"><i class="fab fa-soundcloud"></i></a>
-  </nav>
-</header>
+    <!-- NAVIGATION -->
+    <nav id="main-nav" role="navigation" aria-label="Main navigation">
+        <a href="index.html" class="nav-logo" aria-label="Baltazar Seeds — Home">
+            <img src="/CATLOGO.JPG" alt="Baltazar Seeds" width="40" height="40" loading="eager" decoding="sync">
+            <span>Baltazar Seeds</span>
+        </a>
 
-<main>
-  <section class="product-showcase" aria-labelledby="product-title">
-    <div class="product-info" id="product-info">
-      <h2 id="product-title">XL Black Hoody with Brand Logo</h2>
-      <div class="slideshow-container" role="region" aria-label="Produktbilder">
-        <div class="slide"><img src="MERCH1.JPG" alt="BALTAZAR MERCH - XL Black Hoody Front"></div>
-        <div class="slide"><img src="MERCH1A.JPG" alt="BALTAZAR MERCH - XL Black Hoody Side"></div>
-      </div>
-      <p class="description">
-        Elevate your style with this designer hoody, featuring the iconic brand logo. Made from premium, breathable organic cotton.
-      </p>
-      <ul class="product-details" aria-label="Produktdetails">
-        <li>Size: XL (Tailored European fit)</li>
-        <li>Material: 100% Certified Organic Cotton</li>
-        <li>Production: Handcrafted in the EU</li>
-        <li>Design: Exclusive Brand Logo</li>
-        <li>Care: Machine wash at 30°C</li>
-      </ul>
-      <div class="product-summary">1X XL Black Hoody with Brand Logo for 79.99€</div>
-
-      <!-- Absatz und Buttons -->
-      <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start; margin-top:1.6rem;">
-        <p style="flex:1; color:var(--muted); font-size:.95rem; margin:0;">
-          Purchasing "BALTAZAR MERCH" empowers the brand and champions independent artistry.
-        </p>
-        <div style="flex:1; display:flex; gap:1rem; flex-wrap:wrap;">
-          <a href="seite3.html" class="btn" role="button" aria-label="Back to Menu">Back to Menu</a>
-          <a href="formular1.html" class="btn" style="border-color:var(--gold); color:var(--gold)" role="button" aria-label="Complete Order">Order with Crypto</a>
+        <div class="nav-links" role="list">
+            <a href="#genetics"          class="nav-link" role="listitem">Genetics</a>
+            <a href="seite3.html"        class="nav-link" role="listitem">Merch</a>
+            <a href="player.html"        class="nav-link nav-link--game" role="listitem">Neon Escape</a>
+            <a href="baltazarsrun.html"  class="nav-link nav-link--game" role="listitem">Baltazar's Run</a>
+            <button class="nav-link" id="contact-link" aria-label="Open contact" role="listitem">Contact</button>
         </div>
-      </div>
+
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Mobile navigation" aria-hidden="true">
+        <a href="#genetics"         class="mobile-menu-link"      onclick="closeMobileMenu()">Genetics</a>
+        <a href="seite3.html"       class="mobile-menu-link gold" onclick="closeMobileMenu()">Merch</a>
+        <div class="mobile-menu-divider" aria-hidden="true"></div>
+        <a href="player.html"       class="mobile-menu-link">Neon Escape ▶</a>
+        <div class="mobile-menu-sub">Browser Game</div>
+        <a href="baltazarsrun.html" class="mobile-menu-link">Baltazar's Run ▶</a>
+        <div class="mobile-menu-sub">Browser Game</div>
+        <div class="mobile-menu-divider" aria-hidden="true"></div>
+        <button class="mobile-menu-link" onclick="closeMobileMenu(); openModal();">Contact</button>
+        <a href="index.html"        class="mobile-menu-link">Home</a>
     </div>
 
-    <!-- Payment Box rechts -->
-   Payment & Contact
-Since I currently run this shop by myself, the smoothest and fastest way to complete your order is by getting in touch with me directly.
-Preferred contact method:
-Please send me a message on Instagram – it’s the quickest way for me to reply and arrange everything with you.
-You can also reach me via email.
-Once I receive your message, I’ll guide you through the payment process and confirm your order right away.
-Thank you for your understanding and support!
-I’m looking forward to hearing from you.
+    <!-- HERO -->
+    <section class="hero" role="banner">
+        <div class="hero-content">
+            <div class="hero-eyebrow">Welcome to the Collection</div>
+            <h1 class="hero-title">Genetic <em>Hunter</em></h1>
+            <p class="hero-desc">
+                Exclusive small-batch cannabis genetics, meticulously bred for exceptional quality and unique expression. Each strain is a chapter in the art of cultivation.
+            </p>
+            <div class="hero-actions">
+                <a href="#genetics" class="btn btn-primary">
+                    <span>Explore Genetics</span>
+                    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M8.5 1L14 8.5L8.5 16M1 8.5H13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <a href="seite3.html" class="btn btn-ghost">
+                    <span>Visit Merch Store</span>
+                </a>
+            </div>
+        </div>
+        <div class="hero-scroll" aria-hidden="true">
+            <div class="scroll-line"></div>
+            <span>Scroll</span>
+        </div>
+    </section>
 
-  <!-- Lightbox -->
-  <div id="lightbox-overlay" onclick="closeLightbox()">
-    <img id="lightbox-img" src="" alt="Preview">
-  </div>
-</main>
+    <!-- GENETICS / ABOUT -->
+    <section id="genetics" aria-label="About Baltazar Seeds">
+        <div class="divider"></div>
+        <div class="section-inner">
+            <div class="section-label reveal">Lineage</div>
+            <h2 class="section-title reveal">About <em>Baltazar</em></h2>
+            <p class="section-text reveal">
 
-<footer>
-  &copy; 2025 Baltazar Seeds - Badfarmers Genetics. All rights reserved.
-</footer>
+              At Baltazar Seeds, we believe in the art and science of breeding premium cannabis genetics.
+              Our dedication to excellence has resulted in some of the most sought-after strains in the industry.
+              Every seed represents our commitment to quality, stability and unique genetic expression.
+              Cultivated with patience and precision.
+          </p>
+        </div>
+    </section>
 
-<script>
-// Lightbox Funktion
-const slides = document.querySelectorAll('.slide img');
-const lightboxOverlay = document.getElementById('lightbox-overlay');
-const lightboxImg = document.getElementById('lightbox-img');
+    <!-- PREMIUM GENETICS -->
+    <section id="premium" aria-label="Premium genetics">
+        <div class="divider"></div>
+        <div class="section-inner">
+            <div class="section-label reveal">Collection</div>
+            <h2 class="section-title reveal">Premium <em>Genetics</em></h2>
+            <p class="section-text reveal">
+                Our collection features handcrafted strains developed over years of meticulous breeding work.
+              From rare phenotypes to award-winning crosses, each selection in our catalog has been carefully curated for connoisseurs and collectors who demand only the finest genetics.
+            </p>
 
-slides.forEach(img => {
-  img.addEventListener('click', () => {
-    lightboxImg.src = img.src;
-    lightboxOverlay.style.display = 'flex';
-  });
-});
+            <div class="features-grid reveal" style="transition-delay:0.1s">
+                <div class="feature-item">
+                    <div class="feature-mark">✦</div>
+                    <div class="feature-name">Small Batch</div>
+                    <div class="feature-desc">Limited releases ensure exclusivity, personal attention, and uncompromising quality control at every stage.</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-mark">✦</div>
+                    <div class="feature-name">Expert Breeding</div>
+                    <div class="feature-desc">Years of cultivation expertise and deep genetic knowledge poured into every seed we release.</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-mark">✦</div>
+                    <div class="feature-name">Rare Genetics</div>
+                    <div class="feature-desc">Access to genetic lineages rarely available elsewhere — sourced, hunted, and preserved with care.</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-mark">✦</div>
+                    <div class="feature-name">Quality Assurance</div>
+                    <div class="feature-desc">Rigorous phenotype selection and testing ensure every pack meets the Baltazar standard.</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-function closeLightbox() {
-  lightboxOverlay.style.display = 'none';
-  lightboxImg.src = '';
-}
-</script>
+    <!-- GAMES -->
+    <section id="games" aria-label="Baltazar Games">
+        <div class="divider"></div>
+        <div class="section-inner">
+            <div class="section-label reveal">Interactive</div>
+            <h2 class="section-title reveal">Baltazar <em>Games</em></h2>
+            <p class="section-text reveal">
+                Two browser games built for the community. No download, no install — play directly in your browser.
+            </p>
 
+            <div class="games-grid">
+                <!-- Neon Escape -->
+                <div class="game-card game-card--neon reveal" style="transition-delay:0.05s">
+                    <div class="game-card-bg" aria-hidden="true">Neon</div>
+                    <div class="game-tag game-tag--neon">Browser Game</div>
+                    <div class="game-title">Neon <em>Escape</em></div>
+                    <p class="game-desc">
+                        Steer your neon ship upward through an endless vertical gauntlet. Dodge rotating drone enemies, collect energy orbs, shield pickups, and speed boosts. How far can you go before the energy runs out?
+                    </p>
+                    <div class="game-meta">
+                        <span>Keyboard / Touch</span>
+                        <span>Infinite Vertical</span>
+                        <span>High Score</span>
+                    </div>
+                    <a href="player.html" class="game-play-btn game-play-btn--neon" aria-label="Play Neon Escape">
+                        <span>Play Now</span>
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path d="M8.5 1L14 8.5L8.5 16M1 8.5H13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- Baltazar's Run -->
+                <div class="game-card game-card--run reveal" style="transition-delay:0.15s">
+                    <div class="game-card-bg" aria-hidden="true">Run</div>
+                    <div class="game-tag game-tag--run">Browser Game</div>
+                    <div class="game-title">Baltazar's <em>Run</em></div>
+                    <p class="game-desc">
+                        A fast-paced side-scrolling runner set in the Baltazar universe. Jump, slide, and dash your way through procedurally generated obstacles. Built for speed — and for those who refuse to stop running.
+                    </p>
+                    <div class="game-meta">
+                        <span>Keyboard / Touch</span>
+                        <span>Side-Scroller</span>
+                        <span>High Score</span>
+                    </div>
+                    <a href="baltazarsrun.html" class="game-play-btn game-play-btn--run" aria-label="Play Baltazar's Run">
+                        <span>Play Now</span>
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                            <path d="M8.5 1L14 8.5L8.5 16M1 8.5H13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <strong>Baltazar Seeds®</strong>
+                Premium Cannabis Genetics · Genetic Hunter Collection
+            </div>
+            <nav class="footer-links" aria-label="Footer navigation">
+                <a href="#genetics"          class="footer-link">Genetics</a>
+                <a href="seite3.html"        class="footer-link">Merch</a>
+                <a href="player.html"        class="footer-link">Neon Escape</a>
+                <a href="baltazarsrun.html"  class="footer-link">Baltazar's Run</a>
+                <button class="footer-link" id="footer-contact">Contact</button>
+                <a href="index.html"         class="footer-link">Home</a>
+            </nav>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">© 2024 Baltazar Seeds. All rights reserved. · For educational and collecting purposes only.</p>
+        </div>
+    </footer>
+
+    <!-- CONTACT MODAL -->
+    <div class="modal-overlay" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="contact-title" aria-hidden="true">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+            <h2 class="modal-title" id="contact-title">Get in <em>Touch</em></h2>
+            <div class="contact-list">
+                <a href="mailto:contact@baltazarseeds.com" class="contact-item" aria-label="Email Baltazar Seeds">
+                    <div class="contact-icon" aria-hidden="true">✉</div>
+                    <div>
+                        <div class="contact-label">Email</div>
+                        <div class="contact-value">contact@baltazarseeds.com</div>
+                    </div>
+                </a>
+                <a href="https://instagram.com/baltazarseeds" target="_blank" rel="noopener noreferrer" class="contact-item" aria-label="Follow on Instagram">
+                    <div class="contact-icon" aria-hidden="true">@</div>
+                    <div>
+                        <div class="contact-label">Instagram</div>
+                        <div class="contact-value">@baltazarseeds</div>
+                    </div>
+                </a>
+            </div>
+            <p class="modal-note">We respond within 24 hours. For fastest replies, reach us via Instagram.</p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+    'use strict';
+
+    // Nav scroll effect
+    const nav = document.getElementById('main-nav');
+    let ticking = false;
+
+    function updateNav() {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+        if (!ticking) { requestAnimationFrame(updateNav); ticking = true; }
+    }, { passive: true });
+
+    // Mobile Menu
+    const hamburger  = document.getElementById('nav-hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let menuOpen = false;
+
+    function openMobileMenu() {
+        menuOpen = true;
+        hamburger.classList.add('open');
+        hamburger.setAttribute('aria-expanded', 'true');
+        mobileMenu.classList.add('open');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+        menuOpen = false;
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', () => menuOpen ? closeMobileMenu() : openMobileMenu());
+
+    // Contact Modal
+    const contactModal  = document.getElementById('contact-modal');
+    const modalCloseBtn = document.getElementById('modal-close');
+    const contactLink   = document.getElementById('contact-link');
+    const footerContact = document.getElementById('footer-contact');
+    let modalOpen = false;
+
+    function openModal() {
+        modalOpen = true;
+        contactModal.classList.add('open');
+        contactModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        modalCloseBtn.focus();
+    }
+
+    function closeModal() {
+        modalOpen = false;
+        contactModal.classList.remove('open');
+        contactModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+
+    contactLink.addEventListener('click', openModal);
+    if (footerContact) footerContact.addEventListener('click', openModal);
+    modalCloseBtn.addEventListener('click', closeModal);
+    contactModal.addEventListener('click', e => { if (e.target === contactModal) closeModal(); });
+
+    // ESC key closes everything
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            if (menuOpen)  closeMobileMenu();
+            if (modalOpen) closeModal();
+        }
+    });
+
+    // Scroll Reveal
+    const revealEls = document.querySelectorAll('.reveal');
+
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        revealEls.forEach(el => io.observe(el));
+    } else {
+        revealEls.forEach(el => el.classList.add('visible'));
+    }
+
+    // Prefetch linked pages for instant navigation
+    window.addEventListener('load', () => {
+        ['seite3.html', 'player.html', 'baltazarsrun.html', 'index.html'].forEach(href => {
+            const link = document.createElement('link');
+            link.rel = 'prefetch';
+            link.href = href;
+            document.head.appendChild(link);
+        });
+    });
+    </script>
 </body>
 </html>
