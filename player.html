@@ -106,10 +106,11 @@
             transition: opacity 0.3s ease;
         }
 
-        .screen-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
+    .screen-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: none !important;
+}
 
         .menu-box {
             text-align: center;
@@ -548,13 +549,6 @@
             // HUD UI aktualisieren
             document.getElementById('scoreVal').innerText = score + 'm';
             document.getElementById('timerVal').innerText = timeRemaining.toFixed(1) + 's';
-        }
-
-
-       .screen-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-            display: none !important;
         }
  
 
