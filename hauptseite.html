@@ -50,7 +50,7 @@ body::before {
   inset: 0;
   z-index: 900;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='200' height='200' fill='none'/><g fill='white' opacity='.055'><rect x='7' y='18' width='1' height='1'/><rect x='29' y='44' width='1' height='1'/><rect x='53' y='9' width='1' height='1'/><rect x='78' y='61' width='1' height='1'/><rect x='14' y='83' width='1' height='1'/><rect x='99' y='27' width='1' height='1'/><rect x='122' y='71' width='1' height='1'/><rect x='148' y='14' width='1' height='1'/><rect x='173' y='55' width='1' height='1'/><rect x='191' y='88' width='1' height='1'/><rect x='38' y='108' width='1' height='1'/><rect x='66' y='132' width='1' height='1'/><rect x='91' y='155' width='1' height='1'/><rect x='117' y='99' width='1' height='1'/><rect x='142' y='143' width='1' height='1'/><rect x='163' y='119' width='1' height='1'/><rect x='185' y='168' width='1' height='1'/><rect x='22' y='167' width='1' height='1'/><rect x='48' y='188' width='1' height='1'/><rect x='76' y='5' width='1' height='1'/><rect x='3' y='136' width='1' height='1'/><rect x='108' y='181' width='1' height='1'/><rect x='132' y='37' width='1' height='1'/><rect x='157' y='192' width='1' height='1'/><rect x='175' y='142' width='1' height='1'/></g></svg>");
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='200' height='200' fill='none'/><g fill='white' opacity='.055'><rect x='7' y='18' width='1' height='1'/><rect x='29' y='44' width='1' height='1'/><rect x='53' y='9' width='1' height='1'/><rect x='78' y='61' width='1' height='1'/><rect x='14' y='83' width='1' height='1'/><rect x='99' y='27' width='1' height='1'/><rect x='122' y='71' width='1' height='1'/><rect x='148' y='12' width='1' height='1'/><rect x='167' y='55' width='1' height='1'/><rect x='188' y='88' width='1' height='1'/><rect x='33' y='120' width='1' height='1'/><rect x='61' y='144' width='1' height='1'/><rect x='87' y='177' width='1' height='1'/><rect x='110' y='133' width='1' height='1'/><rect x='135' y='160' width='1' height='1'/><rect x='162' y='109' width='1' height='1'/><rect x='183' y='142' width='1' height='1'/><rect x='44' y='190' width='1' height='1'/><rect x='71' y='99' width='1' height='1'/><rect x='156' y='181' width='1' height='1'/></g></svg>");
   background-size: 200px 200px;
   opacity: 0.65;
   mix-blend-mode: overlay;
@@ -110,15 +110,6 @@ body::before {
 #iw2 span {
   color: var(--gold);
   animation: letterDrop 0.45s var(--ease-out) forwards;
-}
-
-.intro-rule {
-  width: 1px;
-  height: 0;
-  background: var(--gold-line);
-  margin: 0 auto;
-  animation: ruleGrow 0.5s ease 0.65s forwards;
-  display: none; /* hidden, timing only */
 }
 
 .intro-sub {
@@ -238,9 +229,11 @@ nav {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 28px;
   pointer-events: all;
 }
+
+/* Shared styles for both <button> and <a> nav links */
 .nav-link {
   background: none;
   border: none;
@@ -253,8 +246,24 @@ nav {
   cursor: none;
   transition: color 0.3s ease;
   padding: 4px 0;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
 }
 .nav-link:hover { color: var(--ink); }
+
+/* Game links — gold tint + arrow prefix */
+.nav-link--game {
+  color: rgba(196,145,62,0.50);
+}
+.nav-link--game:hover { color: var(--gold); }
+.nav-link--game::before {
+  content: '▶';
+  font-size: 6px;
+  margin-right: 5px;
+  opacity: 0.7;
+  vertical-align: 1px;
+}
 
 /* ═══════════════════════════════════════════════════
    DIVIDER
@@ -453,8 +462,8 @@ nav {
 
 /* ── DUAL IMAGE CROSSFADE ── */
 .img-b {
-  z-index: 3; /* sits above img-a (z-index 2), below vignette (z-index 4) */
-  transition: opacity 0.85s ease; /* smooth when animation is removed */
+  z-index: 3;
+  transition: opacity 0.85s ease;
 }
 .slide.active .img-b.loaded {
   animation: imgCycle 11s ease-in-out 1.8s infinite;
@@ -878,7 +887,6 @@ nav {
 ════════════════════════════════════════════════════ */
 body, body *, body *::before, body *::after { cursor: none !important; }
 
-/* The crosshair element — follows mouse immediately */
 #cursor {
   position: fixed;
   pointer-events: none;
@@ -892,15 +900,12 @@ body, body *, body *::before, body *::after { cursor: none !important; }
   opacity: 0.72;
   transition: height 0.2s ease, width 0.2s ease, opacity 0.2s ease;
 }
-/* Vertical bars */
 .c-top, .c-bottom { width: 1px; left: 50%; transform: translateX(-50%); }
 .c-top    { height: 9px; bottom: calc(50% + 4px); }
 .c-bottom { height: 9px; top:    calc(50% + 4px); }
-/* Horizontal bars */
 .c-left, .c-right { height: 1px; top: 50%; transform: translateY(-50%); }
 .c-left  { width: 9px; right: calc(50% + 4px); }
 .c-right { width: 9px; left:  calc(50% + 4px); }
-/* Center dot */
 .c-center {
   position: absolute;
   width: 2px; height: 2px;
@@ -910,7 +915,6 @@ body, body *, body *::before, body *::after { cursor: none !important; }
   transform: translate(-50%, -50%);
 }
 
-/* Trailing ring — follows mouse with lag (set in JS) */
 #cursor-ring {
   position: fixed;
   width: 34px; height: 34px;
@@ -927,12 +931,10 @@ body, body *, body *::before, body *::after { cursor: none !important; }
   will-change: left, top;
 }
 
-/* Hover: bars extend, ring grows */
 body.cur-hover .c-top, body.cur-hover .c-bottom { height: 14px; opacity: 1; }
 body.cur-hover .c-left, body.cur-hover .c-right { width: 14px; opacity: 1; }
 body.cur-hover #cursor-ring { width: 52px; height: 52px; border-color: rgba(196,145,62,0.65); }
 
-/* Press: ring snaps in */
 body.cur-press #cursor-ring {
   width: 20px; height: 20px;
   border-color: var(--gold);
@@ -944,6 +946,9 @@ body.cur-press #cursor-ring {
 ════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
   nav { padding: 22px 20px; }
+  .nav-links { gap: 16px; }
+  .nav-link { font-size: 9px; letter-spacing: 0.18em; }
+  .nav-link--game { display: none; } /* hide game links on mobile — too many items */
 
   .slide { flex-direction: column; }
   .slide-img { width: 100%; height: 55vh; }
@@ -958,7 +963,6 @@ body.cur-press #cursor-ring {
   #cat-logo { top: 64px; right: 14px; width: 50px; height: 50px; }
   #cat-logo-inner { width: 50px; height: 50px; }
 
-  /* Hide crosshair on touch devices */
   #cursor, #cursor-ring { display: none; }
 }
 </style>
@@ -1000,7 +1004,9 @@ body.cur-press #cursor-ring {
   </div>
   <div class="nav-links">
     <button class="nav-link" id="nav-collection">Collection</button>
-        <button class="nav-link" href="https://baltazarseeds.com/seite3.html">Merch</button>
+    <a class="nav-link" href="seite3.html">Merch</a>
+    <a class="nav-link nav-link--game" href="player.html">Neon Escape</a>
+    <a class="nav-link nav-link--game" href="baltazarsrun.html">Baltazar's Run</a>
     <button class="nav-link" id="nav-contact">Contact</button>
   </div>
 </nav>
@@ -1024,9 +1030,9 @@ body.cur-press #cursor-ring {
 <div id="kb-hint">← → Navigate</div>
 
 
-<!-- ═══════════════════════════════════════════
+<!-- ═══════════════════════════════════════
      SLIDER
-════════════════════════════════════════════ -->
+════════════════════════════════════════ -->
 <div id="slider-track">
 
 
@@ -1218,11 +1224,9 @@ body.cur-press #cursor-ring {
         </svg>
         <span>Crimson Protocol</span>
       </div>
-      <!-- Primary image -->
       <img class="img-a" src="STRAIN5.JPG" alt="Baltazar's Crimson Protocol"
            onload="this.classList.add('loaded'); document.getElementById('ph5').style.display='none';"
            onerror="this.remove();">
-      <!-- Secondary image — auto-crossfades when slide is active -->
       <img class="img-b" src="STRAIN5A.JPG" alt="Baltazar's Crimson Protocol — view 2"
            onload="this.classList.add('loaded');"
            onerror="this.remove();">
@@ -1266,11 +1270,9 @@ body.cur-press #cursor-ring {
         </svg>
         <span>Silent Forest</span>
       </div>
-      <!-- Primary image -->
       <img class="img-a" src="STRAIN6.JPG" alt="Baltazar's Silent Forest"
            onload="this.classList.add('loaded'); document.getElementById('ph6').style.display='none';"
            onerror="this.remove();">
-      <!-- Secondary image — auto-crossfades when slide is active -->
       <img class="img-b" src="STRAIN6A.JPG" alt="Baltazar's Silent Forest — view 2"
            onload="this.classList.add('loaded');"
            onerror="this.remove();">
@@ -1380,8 +1382,8 @@ body.cur-press #cursor-ring {
 
   (function buildLetters() {
     var words  = ['GENETIC', 'HUNTER'];
-    var delays = [0.12, 0.10];      /* per-letter delay for each word */
-    var starts = [0.20, 0.95];      /* when each word starts */
+    var delays = [0.12, 0.10];
+    var starts = [0.20, 0.95];
 
     words.forEach(function (word, wi) {
       var div = document.getElementById(wi === 0 ? 'iw1' : 'iw2');
@@ -1394,7 +1396,6 @@ body.cur-press #cursor-ring {
     });
   })();
 
-  /* Dismiss after all letters have appeared */
   setTimeout(function () { intro.classList.add('gone'); }, 2800);
 
 
@@ -1510,13 +1511,11 @@ body.cur-press #cursor-ring {
   var cur  = document.getElementById('cursor');
   var ring = document.getElementById('cursor-ring');
 
-  /* Guard: if cursor elements missing (shouldn't happen), bail */
   if (!cur || !ring) return;
 
   var mx = window.innerWidth / 2,  my = window.innerHeight / 2;
   var rx = mx, ry = my;
 
-  /* Crosshair follows instantly */
   document.addEventListener('mousemove', function (e) {
     mx = e.clientX;
     my = e.clientY;
@@ -1524,7 +1523,6 @@ body.cur-press #cursor-ring {
     cur.style.top  = my + 'px';
   });
 
-  /* Ring follows with smooth lag (lerp) */
   (function animRing() {
     rx += (mx - rx) * 0.11;
     ry += (my - ry) * 0.11;
@@ -1533,7 +1531,7 @@ body.cur-press #cursor-ring {
     requestAnimationFrame(animRing);
   })();
 
-  /* Hover state on interactive elements */
+  /* Hover state — includes new <a> nav links */
   Array.from(document.querySelectorAll(
     'a, button, .slide-cta-soon, #cat-logo, .dot, .arrow, .nav-link'
   )).forEach(function (el) {
@@ -1541,11 +1539,9 @@ body.cur-press #cursor-ring {
     el.addEventListener('mouseleave', function () { document.body.classList.remove('cur-hover'); });
   });
 
-  /* Press state */
   document.addEventListener('mousedown', function () { document.body.classList.add('cur-press'); });
   document.addEventListener('mouseup',   function () { document.body.classList.remove('cur-press'); });
 
-  /* Hide when mouse leaves viewport */
   document.addEventListener('mouseleave', function () { cur.style.opacity = '0'; ring.style.opacity = '0'; });
   document.addEventListener('mouseenter', function () { cur.style.opacity = '1'; ring.style.opacity = '1'; });
 
@@ -1563,13 +1559,11 @@ body.cur-press #cursor-ring {
       var cx   = rect.left + rect.width  / 2;
       var cy   = rect.top  + rect.height / 2;
 
-      /* Spin */
       logo.classList.remove('logo-clicked');
-      void logo.offsetWidth; /* force reflow */
+      void logo.offsetWidth;
       logo.classList.add('logo-clicked');
       setTimeout(function () { logo.classList.remove('logo-clicked'); }, 800);
 
-      /* Sparks */
       var count = 18;
       for (var i = 0; i < count; i++) {
         (function (i) {
@@ -1592,7 +1586,6 @@ body.cur-press #cursor-ring {
         })(i);
       }
 
-      /* Web Audio — C-major chord (singleton context) */
       try {
         var AC = window.AudioContext || window.webkitAudioContext;
         if (AC) {
