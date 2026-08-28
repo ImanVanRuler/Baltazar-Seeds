@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Baltazar Seeds — Genetic Hunter</title>
 <meta name="description" content="Premium cannabis genetics. Meticulously bred. Reserved for those who know where to look.">
+<meta name="theme-color" content="#050A06">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23C4913E' d='M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z'/><path fill='%23C4913E' d='M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z'/><path fill='%23C4913E' d='M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@200;300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
@@ -19,7 +21,7 @@
   --bg:          #050A06;
   --bg2:         #0B1209;
   --ink:         #E9E5DD;
-  --ink-dim:     rgba(233,229,221,0.40);
+  --ink-dim:     rgba(233,229,221,0.62);
   --ink-faint:   rgba(233,229,221,0.10);
   --gold:        #C4913E;
   --gold-line:   rgba(196,145,62,0.22);
@@ -38,7 +40,33 @@ body {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Only the draggable slider chrome and decorative marks block selection;
+   real content (prices, lineage, email) stays selectable/copyable. */
+#slider-track, nav, #controls, #cat-logo, .ghost-num, .slide-num, .slide-genetics {
   user-select: none;
+}
+
+::selection { background: var(--gold-soft); color: var(--ink); }
+
+/* Visible keyboard focus — the custom cursor hides the native outline,
+   so keyboard users need an explicit, high-contrast focus ring. */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Respect reduced-motion preference: kill decorative/looping animations,
+   keep instant state changes. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -797,7 +825,7 @@ nav {
   font-size: 11px;
   line-height: 1.75;
   font-weight: 300;
-  color: rgba(233,229,221,0.22);
+  color: var(--ink-dim);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -970,6 +998,23 @@ body.cur-press #cursor-ring {
 
 <body>
 
+<!-- Reusable icon sprite (referenced via <use> to avoid repeating the same
+     SVG paths 6x per slide — smaller HTML, one place to edit each icon) -->
+<svg style="position:absolute; width:0; height:0; overflow:hidden" aria-hidden="true">
+  <defs>
+    <symbol id="icon-botanical" viewBox="0 0 200 200" fill="none">
+      <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
+      <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
+      <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
+    </symbol>
+    <symbol id="icon-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
+      <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
+      <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
+      <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
+    </symbol>
+  </defs>
+</svg>
+
 <!-- ───────────────────────────────────────────────────
      INTRO
 ──────────────────────────────────────────────────── -->
@@ -1005,8 +1050,7 @@ body.cur-press #cursor-ring {
   <div class="nav-links">
     <button class="nav-link" id="nav-collection">Collection</button>
     <a class="nav-link" href="seite3.html">Merch</a>
-        <a class="nav-link" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/">GROWER.CH</a>
-     
+    <a class="nav-link" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener noreferrer">GROWER.CH</a>
     <a class="nav-link nav-link--game" href="player.html">Neon Escape</a>
     <a class="nav-link nav-link--game" href="baltazarsrun.html">Baltazar's Run</a>
     <button class="nav-link" id="nav-contact">Contact</button>
@@ -1035,26 +1079,19 @@ body.cur-press #cursor-ring {
 <!-- ═══════════════════════════════════════
      SLIDER
 ════════════════════════════════════════ -->
-<div id="slider-track">
+<div id="slider-track" role="region" aria-roledescription="carousel" aria-label="Strain collection">
 
 
   <!-- SLIDE 1 — Phantom Haze ──────────────── -->
-  <div class="slide active" data-index="0">
+  <div class="slide active" data-index="0" role="group" aria-roledescription="slide" aria-label="Slide 1 of 6: Phantom Haze">
     <div class="slide-img">
-      <svg class="botanical" viewBox="0 0 200 200" fill="none">
-        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
-        <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
-        <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
-      </svg>
+      <svg class="botanical" aria-hidden="true"><use href="#icon-botanical"></use></svg>
       <div class="img-ph" id="ph1">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
-          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
-          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
-        </svg>
+        <svg width="40" height="40" aria-hidden="true"><use href="#icon-leaf"></use></svg>
         <span>Phantom Haze</span>
       </div>
       <img src="STRAIN1.JPG" alt="Baltazar's Phantom Haze"
+           loading="eager" fetchpriority="high" decoding="async"
            onload="this.classList.add('loaded'); document.getElementById('ph1').style.display='none';"
            onerror="this.remove();">
       <div class="slide-genetics">Sativa Dom. · Ghost Train × Silver Haze</div>
@@ -1082,22 +1119,15 @@ body.cur-press #cursor-ring {
 
 
   <!-- SLIDE 2 — Velvet Thunder ────────────── -->
-  <div class="slide" data-index="1">
+  <div class="slide" data-index="1" role="group" aria-roledescription="slide" aria-label="Slide 2 of 6: Velvet Thunder">
     <div class="slide-img">
-      <svg class="botanical" viewBox="0 0 200 200" fill="none">
-        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
-        <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
-        <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
-      </svg>
+      <svg class="botanical" aria-hidden="true"><use href="#icon-botanical"></use></svg>
       <div class="img-ph" id="ph2">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
-          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
-          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
-        </svg>
+        <svg width="40" height="40" aria-hidden="true"><use href="#icon-leaf"></use></svg>
         <span>Velvet Thunder</span>
       </div>
       <img src="STRAIN2.JPG" alt="Baltazar's Velvet Thunder"
+           loading="lazy" decoding="async"
            onload="this.classList.add('loaded'); document.getElementById('ph2').style.display='none';"
            onerror="this.remove();">
       <div class="slide-genetics">Hybrid · Purple Punch × Trainwreck</div>
@@ -1125,22 +1155,15 @@ body.cur-press #cursor-ring {
 
 
   <!-- SLIDE 3 — Golden Ritual ─────────────── -->
-  <div class="slide" data-index="2">
+  <div class="slide" data-index="2" role="group" aria-roledescription="slide" aria-label="Slide 3 of 6: Golden Ritual">
     <div class="slide-img">
-      <svg class="botanical" viewBox="0 0 200 200" fill="none">
-        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
-        <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
-        <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
-      </svg>
+      <svg class="botanical" aria-hidden="true"><use href="#icon-botanical"></use></svg>
       <div class="img-ph" id="ph3">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
-          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
-          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
-        </svg>
+        <svg width="40" height="40" aria-hidden="true"><use href="#icon-leaf"></use></svg>
         <span>Golden Ritual</span>
       </div>
       <img src="STRAIN3.JPG" alt="Baltazar's Golden Ritual"
+           loading="lazy" decoding="async"
            onload="this.classList.add('loaded'); document.getElementById('ph3').style.display='none';"
            onerror="this.remove();">
       <div class="slide-genetics">Sativa Dom. · Gold Leaf × Super Lemon Haze</div>
@@ -1168,22 +1191,15 @@ body.cur-press #cursor-ring {
 
 
   <!-- SLIDE 4 — Midnight Oracle ───────────── -->
-  <div class="slide" data-index="3">
+  <div class="slide" data-index="3" role="group" aria-roledescription="slide" aria-label="Slide 4 of 6: Midnight Oracle">
     <div class="slide-img">
-      <svg class="botanical" viewBox="0 0 200 200" fill="none">
-        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
-        <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
-        <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
-      </svg>
+      <svg class="botanical" aria-hidden="true"><use href="#icon-botanical"></use></svg>
       <div class="img-ph" id="ph4">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
-          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
-          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
-        </svg>
+        <svg width="40" height="40" aria-hidden="true"><use href="#icon-leaf"></use></svg>
         <span>Midnight Oracle</span>
       </div>
       <img src="STRAIN4.JPG" alt="Baltazar's Midnight Oracle"
+           loading="lazy" decoding="async"
            onload="this.classList.add('loaded'); document.getElementById('ph4').style.display='none';"
            onerror="this.remove();">
       <div class="slide-genetics">Indica Dom. · Hindu Kush × Black Afghan</div>
@@ -1211,25 +1227,19 @@ body.cur-press #cursor-ring {
 
 
   <!-- SLIDE 5 — Crimson Protocol ──────────── -->
-  <div class="slide" data-index="4">
+  <div class="slide" data-index="4" role="group" aria-roledescription="slide" aria-label="Slide 5 of 6: Crimson Protocol">
     <div class="slide-img">
-      <svg class="botanical" viewBox="0 0 200 200" fill="none">
-        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
-        <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
-        <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
-      </svg>
+      <svg class="botanical" aria-hidden="true"><use href="#icon-botanical"></use></svg>
       <div class="img-ph" id="ph5">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
-          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
-          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
-        </svg>
+        <svg width="40" height="40" aria-hidden="true"><use href="#icon-leaf"></use></svg>
         <span>Crimson Protocol</span>
       </div>
       <img class="img-a" src="STRAIN5.JPG" alt="Baltazar's Crimson Protocol"
+           loading="lazy" decoding="async"
            onload="this.classList.add('loaded'); document.getElementById('ph5').style.display='none';"
            onerror="this.remove();">
       <img class="img-b" src="STRAIN5A.JPG" alt="Baltazar's Crimson Protocol — view 2"
+           loading="lazy" decoding="async"
            onload="this.classList.add('loaded');"
            onerror="this.remove();">
       <div class="slide-genetics">Hybrid · Cherry Punch × Gelato 41</div>
@@ -1257,25 +1267,19 @@ body.cur-press #cursor-ring {
 
 
   <!-- SLIDE 6 — Silent Forest ─────────────── -->
-  <div class="slide" data-index="5">
+  <div class="slide" data-index="5" role="group" aria-roledescription="slide" aria-label="Slide 6 of 6: Silent Forest">
     <div class="slide-img">
-      <svg class="botanical" viewBox="0 0 200 200" fill="none">
-        <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
-        <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
-        <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
-      </svg>
+      <svg class="botanical" aria-hidden="true"><use href="#icon-botanical"></use></svg>
       <div class="img-ph" id="ph6">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-          <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
-          <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
-          <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
-        </svg>
+        <svg width="40" height="40" aria-hidden="true"><use href="#icon-leaf"></use></svg>
         <span>Silent Forest</span>
       </div>
       <img class="img-a" src="STRAIN6.JPG" alt="Baltazar's Silent Forest"
+           loading="lazy" decoding="async"
            onload="this.classList.add('loaded'); document.getElementById('ph6').style.display='none';"
            onerror="this.remove();">
       <img class="img-b" src="STRAIN6A.JPG" alt="Baltazar's Silent Forest — view 2"
+           loading="lazy" decoding="async"
            onload="this.classList.add('loaded');"
            onerror="this.remove();">
       <div class="slide-genetics">Indica Dom. · Northern Lights × Afghan Kush</div>
@@ -1421,9 +1425,25 @@ body.cur-press #cursor-ring {
     var btn = document.createElement('button');
     btn.className = 'dot' + (i === 0 ? ' active' : '');
     btn.setAttribute('aria-label', 'Slide ' + (i + 1));
+    if (i === 0) btn.setAttribute('aria-current', 'true');
     btn.addEventListener('click', function () { goTo(i); });
     dotsEl.appendChild(btn);
   });
+
+  /* Keep off-screen slides out of the tab order so keyboard users
+     don't tab into invisible "Order Now" links. */
+  function setInertState() {
+    slides.forEach(function (slide, i) {
+      if (i === current) {
+        slide.removeAttribute('inert');
+        slide.removeAttribute('aria-hidden');
+      } else {
+        slide.setAttribute('inert', '');
+        slide.setAttribute('aria-hidden', 'true');
+      }
+    });
+  }
+  setInertState();
 
   function getDots() { return dotsEl.querySelectorAll('.dot'); }
   function fmt(n)    { return String(n + 1).padStart(2, '0'); }
@@ -1434,11 +1454,14 @@ body.cur-press #cursor-ring {
 
     slides[current].classList.remove('active');
     getDots()[current].classList.remove('active');
+    getDots()[current].removeAttribute('aria-current');
 
     current = idx;
 
     slides[current].classList.add('active');
     getDots()[current].classList.add('active');
+    getDots()[current].setAttribute('aria-current', 'true');
+    setInertState();
 
     track.style.transform  = 'translateX(-' + (current * 100) + 'vw)';
     counter.textContent    = fmt(current) + ' / ' + fmt(total - 1);
@@ -1497,13 +1520,24 @@ body.cur-press #cursor-ring {
      NAV + MODAL
   ════════════════════════════════════════ */
   document.getElementById('nav-collection').addEventListener('click', function () { goTo(0); });
-  document.getElementById('nav-contact').addEventListener('click', openModal);
 
-  var overlay = document.getElementById('modal-overlay');
-  function openModal()  { overlay.classList.add('open'); }
-  function closeModal() { overlay.classList.remove('open'); }
+  var overlay      = document.getElementById('modal-overlay');
+  var modalClose    = document.getElementById('modal-close');
+  var contactBtn    = document.getElementById('nav-contact');
+  var lastFocused    = null;
 
-  document.getElementById('modal-close').addEventListener('click', closeModal);
+  function openModal() {
+    lastFocused = document.activeElement;
+    overlay.classList.add('open');
+    modalClose.focus();
+  }
+  function closeModal() {
+    overlay.classList.remove('open');
+    if (lastFocused) lastFocused.focus();
+  }
+
+  contactBtn.addEventListener('click', openModal);
+  modalClose.addEventListener('click', closeModal);
   overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
 
 
