@@ -1,1520 +1,400 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>BALTAZAR SEEDS | 420 Universe <br>
-    
-    Adults Only (21+) <br>
-
-By clicking again, you confirm that you are over 21; otherwise, please close this page now or go directly to another site suitable for all ages.</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
-
-
-<style>
-
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-
-
-html,
-body{
-
-width:100%;
-height:100%;
-
-overflow:hidden;
-
-background:#050805;
-
-}
-
-
-
-body{
-
-cursor:pointer;
-
-}
-
-
-
-
-
-.intro{
-
-position:relative;
-
-width:100%;
-height:100vh;
-
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-text-align:center;
-
-
-background:
-
-radial-gradient(
-circle at center,
-
-rgba(90,130,70,.35),
-
-rgba(20,35,20,.7) 40%,
-
-#030403 90%
-
-);
-
-
-animation:
-pageReveal 3s ease forwards;
-
-
-}
-
-
-
-
-/* lebender Lichtkern */
-
-
-.intro::before{
-
-
-content:"";
-
-
-position:absolute;
-
-
-width:65vw;
-
-height:65vw;
-
-
-background:
-
-radial-gradient(
-circle,
-
-rgba(160,210,110,.22),
-
-transparent 65%
-
-);
-
-
-filter:blur(90px);
-
-
-animation:
-
-pulse 10s infinite ease-in-out;
-
-
-}
-
-
-
-
-
-
-
-.content{
-
-
-position:relative;
-
-z-index:2;
-
-
-}
-
-
-
-
-h1{
-
-
-font-family:
-"Bodoni Moda",
-serif;
-
-
-font-size:
-clamp(42px,8vw,105px);
-
-
-
-font-weight:500;
-
-
-
-letter-spacing:
-clamp(8px,2vw,25px);
-
-
-
-text-transform:uppercase;
-
-
-
-color:
-
-#eee6c9;
-
-
-
-position:relative;
-
-
-
-animation:
-
-logoReveal 4s ease forwards,
-
-glitch 9s infinite;
-
-
-
-}
-
-
-
-/*
-Licht über Schrift
-*/
-
-
-h1::after{
-
-
-content:"BALTAZAR SEEDS";
-
-
-position:absolute;
-
-left:0;
-
-top:0;
-
-
-width:100%;
-
-
-background:
-
-linear-gradient(
-
-120deg,
-
-transparent 20%,
-
-rgba(255,255,255,.8),
-
-transparent 80%
-
-);
-
-
-background-size:200%;
-
-
--webkit-background-clip:text;
-
-color:transparent;
-
-
-animation:
-
-shine 7s infinite;
-
-
-}
-
-
-
-
-
-.subtitle{
-
-
-margin-top:35px;
-
-
-font-family:
-
-"Montserrat",
-sans-serif;
-
-
-font-size:
-
-clamp(11px,1.5vw,17px);
-
-
-
-letter-spacing:
-
-clamp(5px,1vw,10px);
-
-
-
-font-weight:300;
-
-
-
-color:
-
-rgba(240,230,200,.65);
-
-
-
-animation:
-
-subtitle 5s ease forwards;
-
-
-}
-
-
-
-
-
-
-
-@keyframes pageReveal{
-
-
-from{
-
-opacity:0;
-
-}
-
-to{
-
-opacity:1;
-
-}
-
-}
-
-
-
-@keyframes pulse{
-
-
-0%,100%{
-
-transform:scale(.85);
-
-opacity:.5;
-
-}
-
-
-50%{
-
-transform:scale(1.15);
-
-opacity:1;
-
-}
-
-}
-
-
-
-@keyframes logoReveal{
-
-
-from{
-
-
-opacity:0;
-
-
-filter:blur(25px);
-
-
-transform:
-
-translateY(20px);
-
-
-letter-spacing:60px;
-
-
-}
-
-
-to{
-
-
-opacity:1;
-
-
-filter:blur(0);
-
-
-transform:
-
-translateY(0);
-
-
-}
-
-
-}
-
-
-
-
-@keyframes shine{
-
-
-0%{
-
-background-position:-200% center;
-
-}
-
-
-30%,
-100%{
-
-background-position:200% center;
-
-}
-
-
-}
-
-
-
-
-@keyframes subtitle{
-
-
-from{
-
-opacity:0;
-
-transform:translateY(20px);
-
-}
-
-
-to{
-
-opacity:.65;
-
-transform:translateY(0);
-
-}
-
-
-}
-
-
-
-
-
-@keyframes glitch{
-
-
-0%,
-92%,
-100%{
-
-transform:none;
-
-}
-
-
-94%{
-
-transform:
-
-translate(-2px,1px);
-
-}
-
-
-96%{
-
-transform:
-
-translate(2px,-1px);
-
-}
-
-
-}
-
-
-
-
-
-
-@media(max-width:600px){
-
-
-h1{
-
-letter-spacing:8px;
-
-}
-
-
-}
-
-
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BALTAZAR SEEDS | 420 Universe – Adults Only (21+)</title>
+    <meta name="description" content="Baltazar Seeds – Premium Genetik. Nur für Erwachsene ab 21 Jahren. Betreten Sie das 420 Universum.">
+    <meta name="theme-color" content="#050805">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========== RESET ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #050805;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            cursor: none; /* eigener Cursor */
+        }
+
+        /* ========== HINTERGRUND ========== */
+        .intro {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(90, 130, 70, 0.35),
+                    rgba(20, 35, 20, 0.7) 40%,
+                    #030403 90%
+                );
+            animation: introFade 3s ease forwards;
+            cursor: none;
+        }
+
+        /* Lebender Lichtkern */
+        .intro::before {
+            content: "";
+            position: absolute;
+            width: 70vw;
+            height: 70vw;
+            max-width: 900px;
+            max-height: 900px;
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(160, 210, 110, 0.22),
+                    transparent 65%
+                );
+            filter: blur(90px);
+            animation: pulse 10s ease-in-out infinite;
+        }
+
+        /* ========== INHALT ========== */
+        .content {
+            position: relative;
+            z-index: 2;
+            color: #eee8d0;
+        }
+
+        h1 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: clamp(42px, 8vw, 105px);
+            font-weight: 500;
+            letter-spacing: clamp(8px, 2vw, 25px);
+            text-transform: uppercase;
+            color: #eee6c9;
+            position: relative;
+            animation:
+                titleReveal 4s ease forwards,
+                glitch 9s infinite;
+        }
+
+        /* Licht-Überblendung auf dem Titel */
+        h1::after {
+            content: "BALTAZAR SEEDS";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background:
+                linear-gradient(
+                    120deg,
+                    transparent 20%,
+                    rgba(255, 255, 255, 0.8),
+                    transparent 80%
+                );
+            background-size: 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shine 7s infinite;
+            pointer-events: none;
+        }
+
+        .subtitle {
+            margin-top: 35px;
+            font-size: clamp(11px, 1.5vw, 17px);
+            letter-spacing: clamp(5px, 1vw, 10px);
+            font-weight: 300;
+            color: rgba(240, 230, 200, 0.65);
+            animation: subtitleReveal 5s ease forwards;
+        }
+
+        /* ========== ALTERS-OVERLAY ========== */
+        .age-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(3, 4, 3, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .age-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .age-box {
+            background: #0b1209;
+            border: 1px solid rgba(196, 145, 62, 0.3);
+            padding: 50px 40px;
+            max-width: 420px;
+            text-align: center;
+            color: #eee6c9;
+        }
+
+        .age-title {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 32px;
+            margin-bottom: 16px;
+            color: #c4913e;
+        }
+
+        .age-text {
+            font-size: 14px;
+            line-height: 1.7;
+            color: rgba(233, 229, 221, 0.7);
+            margin-bottom: 30px;
+        }
+
+        .age-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .age-btn {
+            padding: 12px 28px;
+            border: 1px solid rgba(196, 145, 62, 0.4);
+            background: none;
+            color: #eee6c9;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .age-btn:hover {
+            background: rgba(196, 145, 62, 0.1);
+            border-color: #c4913e;
+        }
+
+        .age-btn--primary {
+            background: #c4913e;
+            color: #050805;
+            border-color: #c4913e;
+        }
+
+        .age-btn--primary:hover {
+            background: #d4a04e;
+        }
+
+        /* ========== CUSTOM CURSOR ========== */
+        .cursor {
+            position: fixed;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 1px solid rgba(220, 240, 200, 0.7);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+            transition:
+                width 0.3s ease,
+                height 0.3s ease,
+                background 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor.active {
+            width: 60px;
+            height: 60px;
+            background: rgba(120, 200, 120, 0.15);
+        }
+
+        /* ========== ANIMATIONEN ========== */
+        @keyframes introFade {
+            from {
+                opacity: 0;
+                transform: scale(1.03);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(0.95);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes titleReveal {
+            from {
+                opacity: 0;
+                filter: blur(20px);
+                letter-spacing: 50px;
+            }
+            to {
+                opacity: 1;
+                filter: blur(0);
+                letter-spacing: clamp(5px, 1vw, 12px);
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                background-position: -200% center;
+            }
+            30%, 100% {
+                background-position: 200% center;
+            }
+        }
+
+        @keyframes subtitleReveal {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 0.65;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% {
+                transform: none;
+            }
+            92% {
+                transform: translate(-2px, 1px);
+            }
+            94% {
+                transform: translate(2px, -1px);
+            }
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 600px) {
+            h1 {
+                letter-spacing: 6px;
+            }
+            .age-box {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
-
-
 <body>
 
-
-<div class="intro" onclick="enterSite()">
-
-
-<div class="content">
-
-
-<h1>
-BALTAZAR SEEDS
-</h1>
-
-
-<div class="subtitle">
-ENTER THE 420 UNIVERSE
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-<script>
-
-
-function enterSite(){
-
-window.location.href =
-"hauptseite.html";
-
-}
-
-
-</script>
-
-
-
-</body>
-
-</html>}
-
-
-
-/* Hintergrund */
-
-.intro{
-
-    position:relative;
-
-    width:100%;
-    height:100vh;
-
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    text-align:center;
-
-    cursor:none;
-
-    opacity:0;
-
-    animation:
-    entrance 3s ease forwards;
-
-}
-
-
-
-
-.intro::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:80vw;
-    height:80vw;
-
-    max-width:900px;
-    max-height:900px;
-
-
-    background:
-
-    radial-gradient(
-        circle,
-        rgba(140,190,95,.22),
-        rgba(60,110,60,.12) 35%,
-        transparent 70%
-    );
-
-
-    filter:blur(70px);
-
-
-    animation:
-
-    breathing 9s infinite ease-in-out;
-
-
-}
-
-
-
-
-.content{
-
-    position:relative;
-
-    z-index:2;
-
-    color:#eee8d0;
-
-}
-
-
-
-
-h1{
-
-
-    position:relative;
-
-
-    font-size:
-    clamp(35px,7vw,90px);
-
-
-    font-weight:500;
-
-
-    letter-spacing:
-    clamp(8px,1.5vw,18px);
-
-
-    text-transform:uppercase;
-
-
-    animation:
-
-    revealText 3s ease forwards,
-
-    glitch 8s infinite;
-
-
-
-}
-
-
-
-h1::after{
-
-
-    content:"BALTAZAR SEEDS";
-
-
-    position:absolute;
-
-    left:0;
-    top:0;
-
-
-    width:100%;
-
-
-    color:#9bc47a;
-
-
-    opacity:.35;
-
-
-    clip-path:
-    inset(0 0 50% 0);
-
-
-    transform:
-    translate(-2px,0);
-
-
-    animation:
-
-    glitchLayer 5s infinite;
-
-
-}
-
-
-
-.subtitle{
-
-
-    margin-top:25px;
-
-
-    font-family:Arial, sans-serif;
-
-
-    font-size:
-    clamp(10px,1.8vw,16px);
-
-
-    letter-spacing:
-    clamp(4px,1vw,8px);
-
-
-    color:
-    rgba(240,230,200,.65);
-
-
-    animation:
-
-    subtitleReveal 4s ease forwards;
-
-
-}
-
-
-
-
-/* Cursor */
-
-
-.cursor{
-
-
-    position:fixed;
-
-
-    width:25px;
-    height:25px;
-
-
-    border-radius:50%;
-
-
-    border:
-
-    1px solid rgba(220,240,180,.8);
-
-
-    pointer-events:none;
-
-
-    transform:
-    translate(-50%,-50%);
-
-
-    z-index:99;
-
-
-    transition:
-
-    width .3s ease,
-    height .3s ease,
-    background .3s ease;
-
-
-    mix-blend-mode:difference;
-
-
-}
-
-
-
-
-.cursor.active{
-
-
-    width:70px;
-    height:70px;
-
-
-    background:
-
-    rgba(140,200,100,.15);
-
-
-}
-
-
-
-
-
-
-
-@keyframes entrance{
-
-
-from{
-
-opacity:0;
-
-transform:scale(1.05);
-
-}
-
-
-to{
-
-opacity:1;
-
-transform:scale(1);
-
-}
-
-
-}
-
-
-
-@keyframes breathing{
-
-
-0%,100%{
-
-transform:scale(.9);
-
-opacity:.5;
-
-}
-
-
-50%{
-
-transform:scale(1.15);
-
-opacity:1;
-
-}
-
-
-}
-
-
-
-@keyframes revealText{
-
-
-from{
-
-opacity:0;
-
-filter:blur(20px);
-
-letter-spacing:50px;
-
-}
-
-
-to{
-
-opacity:1;
-
-filter:blur(0);
-
-}
-
-
-}
-
-
-
-@keyframes subtitleReveal{
-
-
-from{
-
-opacity:0;
-
-transform:translateY(20px);
-
-}
-
-
-to{
-
-opacity:.65;
-
-transform:translateY(0);
-
-}
-
-
-}
-
-
-
-@keyframes glitch{
-
-
-0%,90%,100%{
-
-transform:none;
-
-}
-
-
-92%{
-
-transform:
-translate(-3px,1px);
-
-}
-
-
-94%{
-
-transform:
-translate(3px,-1px);
-
-}
-
-
-}
-
-
-
-@keyframes glitchLayer{
-
-
-0%,85%,100%{
-
-clip-path:
-inset(0 0 50% 0);
-
-}
-
-
-88%{
-
-clip-path:
-inset(20% 0 30% 0);
-
-transform:
-translate(3px,-2px);
-
-}
-
-
-}
-
-
-
-@media(max-width:600px){
-
-h1{
-
-letter-spacing:6px;
-
-}
-
-}
-
-
-
-</style>
-
-</head>
-
-
-
-<body>
-
-
-<div class="intro" onclick="enterSite()">
-
-
-<div class="content">
-
-
-<h1>
-BALTAZAR SEEDS
-</h1>
-
-
-<div class="subtitle">
-ENTER THE 420 UNIVERSE
-</div>
-
-
-</div>
-
-
-</div>
-
-
-<div class="cursor"></div>
-
-
-
-<script>
-
-
-const cursor =
-document.querySelector(".cursor");
-
-
-document.addEventListener(
-"mousemove",
-(e)=>{
-
-cursor.style.left =
-e.clientX+"px";
-
-
-cursor.style.top =
-e.clientY+"px";
-
-});
-
-
-const intro =
-document.querySelector(".intro");
-
-
-intro.addEventListener(
-"mouseenter",
-()=>{
-
-cursor.classList.add("active");
-
-});
-
-
-intro.addEventListener(
-"mouseleave",
-()=>{
-
-cursor.classList.remove("active");
-
-});
-
-
-
-function enterSite(){
-
-window.location.href =
-"hauptseite.html";
-
-}
-
-
-</script>
-
-
-
-</body>
-
-</html>/* Hintergrund */
-
-body {
-
-    background:
-    radial-gradient(
-        circle at center,
-        #314c35 0%,
-        #18271c 35%,
-        #091009 75%,
-        #030403 100%
-    );
-
-}
-
-
-/* gesamte Startfläche */
-
-.intro {
-
-    width: 100%;
-    height: 100vh;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    text-align: center;
-
-    cursor: none;
-/* eigener mystischer Cursor */
-
-.cursor {
-
-    position: fixed;
-
-    width: 22px;
-    height: 22px;
-
-    border-radius: 50%;
-
-    border: 1px solid rgba(220,240,200,0.7);
-
-    pointer-events: none;
-
-    transform: translate(-50%, -50%);
-
-    z-index: 999;
-
-    transition:
-    width .3s ease,
-    height .3s ease,
-    background .3s ease;
-
-    mix-blend-mode: difference;
-
-}
-
-
-.cursor.active {
-
-    width: 60px;
-    height: 60px;
-
-    background:
-    rgba(120,200,120,0.15);
-
-}
-
-
-
-/* neue Schrift */
-
-.content {
-
-    font-family:
-    "Cormorant Garamond",
-    serif;
-
-}
-
-
-
-/* Titel */
-
-h1 {
-
-    position: relative;
-
-    font-weight: 400;
-
-    text-transform: uppercase;
-
-    animation:
-
-    titleReveal
-    3s
-    ease forwards,
-
-    subtleGlitch
-    7s
-    infinite;
-
-}
-
-
-
-/* elegante Einblendung */
-
-@keyframes titleReveal {
-
-
-0% {
-
-    opacity:0;
-
-    letter-spacing:40px;
-
-    filter:
-    blur(15px);
-
-}
-
-
-100% {
-
-    opacity:1;
-
-    letter-spacing:
-    clamp(5px,1vw,12px);
-
-    filter:
-    blur(0);
-
-}
-
-
-}
-
-
-
-/* sehr dezenter Glitch */
-
-@keyframes subtleGlitch {
-
-
-0%,
-90%,
-100% {
-
-    transform:
-    translate(0);
-
-}
-
-
-92% {
-
-    transform:
-    translate(-2px,1px);
-
-}
-
-
-94% {
-
-    transform:
-    translate(2px,-1px);
-
-}
-
-
-}
-
-
-
-.subtitle {
-
-    animation:
-
-    fadeSubtitle
-    4s
-    ease forwards;
-
-}
-
-
-
-@keyframes fadeSubtitle {
-
-
-from {
-
-    opacity:0;
-
-    transform:
-    translateY(20px);
-
-}
-
-
-to {
-
-    opacity:.65;
-
-    transform:
-    translateY(0);
-
-}
-
-
-}
-
-    opacity: 0;
-
-    animation:
-    introFade 3s ease forwards;
-
-}
-
-
-/* leichte Lichtstimmung */
-
-.intro::before {
-
-    content: "";
-
-    position: absolute;
-
-    width: 70vw;
-    height: 70vw;
-
-    max-width: 900px;
-    max-height: 900px;
-
-    background:
-    radial-gradient(
-        circle,
-        rgba(125,190,120,0.18),
-        transparent 65%
-    );
-
-
-    filter: blur(60px);
-
-    animation:
-    pulse 8s ease-in-out infinite;
-
-}
-
-
-
-/* Inhalt */
-
-.content {
-
-    position: relative;
-
-    z-index: 2;
-
-    color: rgba(245,245,230,0.95);
-
-}
-
-
-
-h1 {
-
-    font-size:
-    clamp(35px, 7vw, 75px);
-
-    font-weight: 300;
-
-    letter-spacing:
-    clamp(5px, 1vw, 12px);
-
-    margin-bottom: 25px;
-
-
-}
-
-
-
-.subtitle {
-
-    font-size:
-    clamp(11px, 2vw, 17px);
-
-    letter-spacing:
-    clamp(3px, 0.7vw, 7px);
-
-    opacity: 0.65;
-
-}
-
-
-
-/* Animationen */
-
-
-@keyframes introFade {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-        scale(1.03);
-
-    }
-
-
-    to {
-
-        opacity: 1;
-
-        transform:
-        scale(1);
-
-    }
-
-}
-
-
-
-@keyframes pulse {
-
-
-    0%,
-    100% {
-
-        transform:
-        scale(0.95);
-
-        opacity:0.7;
-
-    }
-
-
-    50% {
-
-        transform:
-        scale(1.1);
-
-        opacity:1;
-
-    }
-
-
-}
-
-
-
-
-/* Handy Anpassung */
-
-@media(max-width:600px){
-
-
-    h1 {
-
-        letter-spacing:
-        4px;
-
-    }
-
-
-    .subtitle {
-
-        letter-spacing:
-        3px;
-
-    }
-
-
-}
-
-
-</style>
-
-</head>
-
-
-
-<body>
-
-
-<div class="intro" onclick="enterSite()">
-
-
-    <div class="content">
-
-
-        <h1>
-            BALTAZAR SEEDS
-        </h1>
-
-
-        <div class="subtitle">
-            ENTER THE 420 UNIVERSE
+    <!-- Intro-Fläche -->
+    <div class="intro" id="intro">
+        <div class="content">
+            <h1>BALTAZAR SEEDS</h1>
+            <div class="subtitle">ENTER THE 420 UNIVERSE</div>
         </div>
-
-
     </div>
 
+    <!-- Altersabfrage-Overlay -->
+    <div class="age-overlay" id="ageOverlay">
+        <div class="age-box">
+            <div class="age-title">Nur für Erwachsene</div>
+            <p class="age-text">
+                Du musst mindestens 21 Jahre alt sein, um fortzufahren.<br>
+                Mit einem Klick auf „Ich bin 21+“ bestätigst du dein Alter.
+            </p>
+            <div class="age-buttons">
+                <button class="age-btn age-btn--primary" id="ageYes">Ich bin 21+</button>
+                <button class="age-btn" id="ageNo">Verlassen</button>
+            </div>
+        </div>
+    </div>
 
-</div>
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
 
-<div class="cursor"></div>
+    <script>
+        (function() {
+            'use strict';
 
-<script>
+            // Elemente
+            const intro       = document.getElementById('intro');
+            const ageOverlay  = document.getElementById('ageOverlay');
+            const ageYes      = document.getElementById('ageYes');
+            const ageNo       = document.getElementById('ageNo');
+            const cursor      = document.getElementById('cursor');
 
-const cursor =
-document.querySelector(".cursor");
+            // Prüfen, ob Alter bereits bestätigt wurde
+            let ageVerified = false;
+            try {
+                ageVerified = localStorage.getItem('baltazar_age_21') === 'true';
+            } catch (e) {}
 
+            // Wenn bereits bestätigt, direkt beim Klick weiterleiten
+            if (ageVerified) {
+                intro.addEventListener('click', function() {
+                    window.location.href = 'hauptseite.html';
+                });
+            }
 
-document.addEventListener(
-"mousemove",
-(e)=>{
+            // Klick auf Intro zeigt Altersabfrage
+            intro.addEventListener('click', function() {
+                if (!ageVerified) {
+                    ageOverlay.classList.add('visible');
+                }
+            });
 
+            // Button "Ich bin 21+"
+            ageYes.addEventListener('click', function() {
+                try {
+                    localStorage.setItem('baltazar_age_21', 'true');
+                } catch (e) {}
+                window.location.href = 'hauptseite.html';
+            });
 
-cursor.style.left =
-e.clientX + "px";
+            // Button "Verlassen"
+            ageNo.addEventListener('click', function() {
+                window.location.href = 'https://www.google.com';
+            });
 
+            // Custom Cursor
+            document.addEventListener('mousemove', function(e) {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top  = e.clientY + 'px';
+            });
 
-cursor.style.top =
-e.clientY + "px";
+            // Cursor vergrößern bei Hover über Intro
+            intro.addEventListener('mouseenter', function() {
+                cursor.classList.add('active');
+            });
+            intro.addEventListener('mouseleave', function() {
+                cursor.classList.remove('active');
+            });
 
+            // Tastatur-Navigation: Enter/Space öffnet Altersabfrage
+            intro.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    intro.click();
+                }
+            });
+            intro.setAttribute('tabindex', '0'); // fokussierbar machen
 
-});
-
-
-const intro =
-document.querySelector(".intro");
-
-
-intro.addEventListener(
-"mouseenter",
-()=>{
-
-cursor.classList.add("active");
-
-});
-
-
-intro.addEventListener(
-"mouseleave",
-()=>{
-
-cursor.classList.remove("active");
-
-});
-
-
-
-function enterSite(){
-
-window.location.href =
-"hauptseite.html";
-
-}
-
-
-</script>
-
-
+        })();
+    </script>
 </body>
-
 </html>
