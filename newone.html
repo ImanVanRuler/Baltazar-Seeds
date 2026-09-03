@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <meta name="theme-color" content="#0a0b09">
-<meta name="description" content="Baltazar Seeds — Field Archive. Documented history, old genetics, new experiments and the road between them.">
+<meta name="description" content="Baltazar Seeds — Field Archive. Documented history, local image archive, original source routes and current chapters.">
 <title>BALTAZAR SEEDS — FIELD ARCHIVE</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,8 +47,8 @@
   --muted:#72796e;
   --line:rgba(231,238,222,.17);
   --line2:rgba(231,238,222,.30);
-  --acid:#c6e85a;
-  --acid2:#96bd38;
+  --acid:#d4f35c;
+  --acid2:#9fcf3d;
   --green:#5f8750;
   --green2:#87aa5e;
   --orange:#b87946;
@@ -2597,638 +2597,439 @@ img{
 }
 
 /* =========================================================
-   FIELD ARCHIVE — COLOR + IMAGE ENHANCEMENT
+   V2 VISUAL ARCHIVE — restrained color / real assets
    ========================================================= */
 
 :root{
-  --accent:#c6e85a;
-  --accent-rgb:198,232,90;
-  --accent-soft:rgba(198,232,90,.12);
-  --violet:#ad8cff;
-  --amber:#ffb34f;
-  --ice:#72ddff;
+  --v2-accent:#d4f35c;
+  --v2-accent-rgb:212,243,92;
+  --v2-orange:#ff9f43;
+  --v2-violet:#9b83ff;
+  --v2-cyan:#6ee7ff;
 }
 
-body{
-  --pointer-x:50%;
-  --pointer-y:50%;
-  background:
-    radial-gradient(650px circle at var(--pointer-x) var(--pointer-y),
-      rgba(var(--accent-rgb),.055),
-      transparent 65%),
-    linear-gradient(180deg,#080907 0%,#050605 100%);
-}
-
-.uiHeader{
-  border-bottom:1px solid rgba(255,255,255,.035);
-}
-
-.colorControl{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  padding:5px 7px;
-  border:1px solid rgba(255,255,255,.13);
-  background:rgba(6,7,5,.62);
-  backdrop-filter:blur(12px);
-}
-
-.colorDot{
-  width:12px;
-  height:12px;
-  border:1px solid rgba(255,255,255,.35);
-  border-radius:50%;
-  padding:0;
-  cursor:pointer;
-  opacity:.48;
-  transition:transform .25s var(--ease),opacity .25s,border-color .25s;
-}
-
-.colorDot:hover,
-.colorDot.active{
-  opacity:1;
-  transform:scale(1.22);
-  border-color:#fff;
-}
-
-.colorDot[data-tone="acid"]{background:#c6e85a}
-.colorDot[data-tone="amber"]{background:#ffb34f}
-.colorDot[data-tone="violet"]{background:#ad8cff}
-.colorDot[data-tone="ice"]{background:#72ddff}
-
-body[data-tone="amber"]{
-  --accent:#ffb34f;
-  --accent-rgb:255,179,79;
-}
-body[data-tone="violet"]{
-  --accent:#ad8cff;
-  --accent-rgb:173,140,255;
-}
-body[data-tone="ice"]{
-  --accent:#72ddff;
-  --accent-rgb:114,221,255;
-}
-
-.statusDot{
-  background:var(--accent)!important;
-  box-shadow:0 0 14px rgba(var(--accent-rgb),.65)!important;
-}
-
-.eraLink,
-.worldLink,
-.supportButton,
-.journalInfo small,
-.eraCode,
-.archiveIntro .eyebrow,
-.sourcesTitle small,
-.continuityHeader small,
-.notesBig span{
-  color:var(--accent)!important;
-}
-
-.progressRail span{
-  background:var(--accent)!important;
-}
-
-.brandMark{
-  color:var(--accent)!important;
-}
-
-.introGrid{
-  background:
-    linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
-}
-
-.introGrid::after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  height:1px;
-  top:var(--scan-y,50%);
-  background:linear-gradient(90deg,transparent,var(--accent),transparent);
-  opacity:.18;
-}
-
-body::before{
-  opacity:.055;
-}
-
-body::after{
-  opacity:.12;
-}
-
-/* ---------------------------------------------------------
-   FIELD CONTACT SHEET
-   --------------------------------------------------------- */
-
-.fieldArchiveScene{
-  min-height:260vh;
-  background:#070806;
+.visualArchive{
   position:relative;
-}
-
-.fieldArchiveStage{
-  position:sticky;
-  top:0;
-  height:100vh;
+  min-height:180vh;
+  padding:11vh 5vw 7vh;
+  background:
+    radial-gradient(700px circle at 80% 20%,rgba(var(--v2-accent-rgb),.08),transparent 65%),
+    #080907;
   overflow:hidden;
-  padding:8vh 5vw 4vh;
 }
 
-.fieldArchiveHeader{
+.visualArchive::before{
+  content:"IMAGE / IMAGE / IMAGE / IMAGE / IMAGE";
+  position:absolute;
+  top:5%;
+  left:-2%;
+  font:800 clamp(60px,12vw,180px)/.7 Syne,sans-serif;
+  letter-spacing:-.1em;
+  color:rgba(255,255,255,.025);
+  white-space:nowrap;
+  pointer-events:none;
+}
+
+.visualArchiveHead{
+  position:relative;
+  z-index:2;
   display:flex;
   justify-content:space-between;
-  align-items:flex-end;
-  gap:40px;
-  position:relative;
-  z-index:5;
+  align-items:end;
+  gap:50px;
+  max-width:1500px;
+  margin:0 auto 28px;
 }
 
-.fieldArchiveHeader small{
-  color:var(--accent);
+.visualArchiveHead small,
+.sourceIndexHead small{
+  color:var(--v2-accent);
   font:8px "DM Mono",monospace;
   letter-spacing:.16em;
-  text-transform:uppercase;
 }
 
-.fieldArchiveHeader h2{
-  margin-top:12px;
-  font:800 clamp(55px,8vw,125px)/.68 Syne,sans-serif;
-  letter-spacing:-.1em;
+.visualArchiveHead h2,
+.sourceIndexHead h2{
+  margin-top:15px;
+  font:800 clamp(65px,10vw,145px)/.68 Syne,sans-serif;
+  letter-spacing:-.105em;
 }
 
-.fieldArchiveHeader h2 span{
-  color:var(--accent);
+.visualArchiveHead h2 span,
+.sourceIndexHead h2 span{
+  color:var(--v2-accent);
 }
 
-.fieldArchiveIntro{
-  width:min(360px,30vw);
+.visualArchiveLead{
+  width:min(390px,32vw);
 }
 
-.fieldArchiveIntro p{
-  color:rgba(255,255,255,.42);
-  font:9px/1.75 "DM Mono",monospace;
+.visualArchiveLead p,
+.sourceIndexHead p{
+  color:rgba(255,255,255,.43);
+  font:10px/1.8 "DM Mono",monospace;
 }
 
-.fieldCount{
+.assetStats{
   display:flex;
   align-items:baseline;
-  gap:8px;
-  margin-top:15px;
-  color:rgba(255,255,255,.3);
-  font:8px "DM Mono",monospace;
+  gap:10px;
+  margin-top:18px;
+}
+
+.assetStats strong{
+  color:var(--v2-accent);
+  font:800 42px/.7 Syne,sans-serif;
+}
+
+.assetStats span{
+  color:rgba(255,255,255,.28);
+  font:7px "DM Mono",monospace;
   text-transform:uppercase;
 }
 
-.fieldCount strong{
-  color:var(--accent);
-  font:700 26px Syne,sans-serif;
-}
-
-.fieldFilters{
-  display:flex;
-  gap:4px;
-  margin:24px 0 14px;
+.assetFilters{
   position:relative;
-  z-index:6;
+  z-index:5;
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px;
+  max-width:1500px;
+  margin:0 auto 10px;
 }
 
-.fieldFilter{
-  border:1px solid rgba(255,255,255,.13);
+.assetFilter{
+  border:1px solid rgba(255,255,255,.14);
   background:rgba(5,6,5,.55);
-  color:rgba(255,255,255,.4);
+  color:rgba(255,255,255,.42);
   padding:8px 11px;
   cursor:pointer;
   font:7px "DM Mono",monospace;
   letter-spacing:.1em;
-  text-transform:uppercase;
   transition:.25s var(--ease);
 }
 
-.fieldFilter:hover{
+.assetFilter:hover{
   color:#fff;
-  border-color:rgba(255,255,255,.3);
+  border-color:rgba(255,255,255,.35);
 }
 
-.fieldFilter.active{
-  color:#050605;
-  background:var(--accent);
-  border-color:var(--accent);
+.assetFilter.active{
+  color:#070806;
+  background:var(--v2-accent);
+  border-color:var(--v2-accent);
 }
 
-.fieldGrid{
-  height:66vh;
-  overflow:hidden;
-  display:grid;
-  grid-template-columns:repeat(6,minmax(0,1fr));
-  grid-auto-rows:1fr;
-  gap:5px;
+.assetWall{
   position:relative;
-  z-index:3;
-  mask-image:linear-gradient(to bottom,#000 0%,#000 87%,transparent 100%);
+  z-index:2;
+  max-width:1500px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(8,minmax(0,1fr));
+  grid-auto-rows:130px;
+  gap:4px;
 }
 
-.fieldCard{
+.assetTile{
   position:relative;
   min-width:0;
   min-height:0;
   padding:0;
-  border:1px solid rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.08);
   background:#11130f;
   overflow:hidden;
   cursor:zoom-in;
-  opacity:1;
-  transform:translateZ(0);
   transition:
-    opacity .3s ease,
     transform .45s var(--ease),
-    border-color .3s ease;
+    border-color .3s ease,
+    opacity .3s ease;
 }
 
-.fieldCard.hidden{
+.assetTile.isHidden{
   display:none;
 }
 
-.fieldCard:hover{
-  z-index:10;
-  border-color:rgba(var(--accent-rgb),.65);
-  transform:scale(1.025);
+.assetTile:hover{
+  z-index:5;
+  transform:scale(1.035);
+  border-color:rgba(var(--v2-accent-rgb),.75);
 }
 
-.fieldCardImage{
+.assetPicture{
   position:absolute;
   inset:0;
 }
 
-.fieldCardImage img{
+.assetPicture img{
   width:100%;
   height:100%;
-  display:block;
   object-fit:cover;
-  filter:brightness(.66) contrast(1.08) saturate(.82);
-  transform:scale(1.035);
-  transition:
-    transform .8s var(--ease),
-    filter .5s ease;
+  display:block;
+  filter:brightness(.62) saturate(.72) contrast(1.1);
+  transition:transform .65s var(--ease),filter .4s ease;
 }
 
-.fieldCard:hover .fieldCardImage img{
-  transform:scale(1);
-  filter:brightness(.86) contrast(1.1) saturate(1.08);
+.assetTile:hover img{
+  transform:scale(1.06);
+  filter:brightness(.86) saturate(1.05) contrast(1.08);
 }
 
-.fieldCard::after{
+.assetTile::after{
   content:"";
   position:absolute;
   inset:0;
-  background:
-    linear-gradient(0deg,rgba(0,0,0,.68),transparent 52%),
-    linear-gradient(135deg,rgba(var(--accent-rgb),.08),transparent 45%);
+  background:linear-gradient(0deg,rgba(0,0,0,.75),transparent 55%);
   pointer-events:none;
 }
 
-.fieldCardMeta{
+.assetCaption{
   position:absolute;
-  left:8px;
-  right:8px;
-  bottom:7px;
   z-index:2;
+  left:7px;
+  right:7px;
+  bottom:6px;
   display:flex;
   justify-content:space-between;
-  gap:8px;
-  color:rgba(255,255,255,.6);
+  gap:5px;
+  color:rgba(255,255,255,.62);
   font:6px "DM Mono",monospace;
-  letter-spacing:.08em;
   text-transform:uppercase;
+  letter-spacing:.05em;
+  text-align:left;
 }
 
-.fieldCardMeta b{
-  color:var(--accent);
+.assetCaption b{
+  color:var(--v2-accent);
   font-weight:400;
 }
 
-.fieldBottom{
-  position:absolute;
-  z-index:7;
-  left:5vw;
-  right:5vw;
-  bottom:3vh;
-  display:flex;
-  justify-content:space-between;
+/* Source index */
+
+.sourceIndex{
+  position:relative;
+  min-height:120vh;
+  padding:13vh 5vw;
+  background:#ecefe6;
+  color:#080907;
+}
+
+.sourceIndexHead{
+  max-width:1500px;
+  margin:0 auto 45px;
+}
+
+.sourceIndexHead small{
+  color:#4e6c3f;
+}
+
+.sourceIndexHead h2{
+  color:#0a0c09;
+}
+
+.sourceIndexHead h2 span{
+  color:#4f793b;
+}
+
+.sourceIndexHead p{
+  width:min(520px,80vw);
+  margin-top:25px;
+  color:#687064;
+}
+
+.sourceList{
+  max-width:1500px;
+  margin:auto;
+  border-top:1px solid rgba(0,0,0,.2);
+}
+
+.sourceTile{
+  min-height:80px;
+  display:grid;
+  grid-template-columns:55px 1fr 30px;
+  gap:15px;
   align-items:center;
-  gap:20px;
-  color:rgba(255,255,255,.25);
+  border-bottom:1px solid rgba(0,0,0,.16);
+  transition:.3s var(--ease);
+}
+
+.sourceTile:hover{
+  padding-left:15px;
+  background:rgba(0,0,0,.025);
+}
+
+.sourceNo{
+  color:#92988f;
+  font:8px "DM Mono",monospace;
+}
+
+.sourceTile strong{
+  display:block;
+  color:#11140f;
+  font:700 clamp(15px,1.8vw,25px)/1 Syne,sans-serif;
+  letter-spacing:-.04em;
+}
+
+.sourceTile small{
+  display:block;
+  margin-top:5px;
+  max-width:900px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#8a9187;
   font:7px "DM Mono",monospace;
-  letter-spacing:.11em;
-  text-transform:uppercase;
 }
 
-#fieldMore{
-  border:0;
-  border-bottom:1px solid rgba(var(--accent-rgb),.55);
-  background:transparent;
-  color:var(--accent);
-  padding:0 0 4px;
-  cursor:pointer;
-  font:7px "DM Mono",monospace;
-  letter-spacing:.11em;
+.sourceTile > b{
+  color:#50743f;
+  font:14px "DM Mono",monospace;
 }
 
-#fieldMore:hover{
-  border-color:var(--accent);
-}
+/* Viewer */
 
-/* ---------------------------------------------------------
-   Fullscreen viewer
-   --------------------------------------------------------- */
-
-.fieldViewer{
+.frameViewer{
   position:fixed;
   inset:0;
-  z-index:60000;
+  z-index:100000;
   display:grid;
   place-items:center;
   visibility:hidden;
   opacity:0;
   pointer-events:none;
-  transition:opacity .35s ease,visibility .35s;
+  transition:opacity .3s ease,visibility .3s;
 }
 
-.fieldViewer.open{
+.frameViewer.open{
   visibility:visible;
   opacity:1;
   pointer-events:auto;
 }
 
-.fieldViewerBackdrop{
+.frameShade{
   position:absolute;
   inset:0;
-  background:rgba(2,3,2,.91);
-  backdrop-filter:blur(12px);
+  background:rgba(2,3,2,.94);
+  backdrop-filter:blur(14px);
 }
 
-.fieldViewerPanel{
+.framePanel{
   position:relative;
   z-index:2;
-  width:min(1180px,calc(100% - 36px));
-  height:min(850px,calc(100% - 44px));
+  width:min(1200px,calc(100% - 30px));
+  height:min(850px,calc(100% - 30px));
   display:grid;
-  grid-template-rows:48px 1fr 62px;
-  border:1px solid rgba(255,255,255,.16);
-  background:#080a08;
-  box-shadow:0 35px 120px rgba(0,0,0,.7);
-  transform:translateY(14px) scale(.985);
-  transition:transform .55s var(--ease);
+  grid-template-rows:48px 1fr 58px;
+  background:#070806;
+  border:1px solid rgba(255,255,255,.18);
+  box-shadow:0 40px 120px rgba(0,0,0,.7);
+  transform:translateY(15px) scale(.985);
+  transition:transform .45s var(--ease);
 }
 
-.fieldViewer.open .fieldViewerPanel{
-  transform:translateY(0) scale(1);
+.frameViewer.open .framePanel{
+  transform:none;
 }
 
-.fieldViewerTop{
+.frameTop,
+.frameBottom{
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   padding:0 15px;
+}
+
+.frameTop{
   border-bottom:1px solid rgba(255,255,255,.1);
   color:rgba(255,255,255,.35);
   font:7px "DM Mono",monospace;
-  letter-spacing:.13em;
+  letter-spacing:.14em;
 }
 
-#fieldViewerClose{
+#frameClose{
   width:32px;
   height:32px;
-  border:1px solid rgba(255,255,255,.17);
+  border:1px solid rgba(255,255,255,.18);
   background:transparent;
   color:#fff;
   cursor:pointer;
   font-size:18px;
 }
 
-#fieldViewerClose:hover{
-  background:var(--accent);
-  color:#050605;
-  border-color:var(--accent);
+#frameClose:hover{
+  background:var(--v2-accent);
+  color:#080907;
+  border-color:var(--v2-accent);
 }
 
-.fieldViewerImage{
+.frameImage{
   position:relative;
   min-height:0;
   display:grid;
   place-items:center;
   overflow:hidden;
   background:
-    radial-gradient(circle,rgba(var(--accent-rgb),.055),transparent 50%),
+    radial-gradient(circle at 50% 50%,rgba(var(--v2-accent-rgb),.055),transparent 55%),
     #050605;
 }
 
-.fieldViewerImage::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background:repeating-linear-gradient(
-    0deg,
-    transparent 0 4px,
-    rgba(255,255,255,.025) 5px
-  );
-}
-
-.fieldViewerImage img{
+.frameImage img{
   width:100%;
   height:100%;
   object-fit:contain;
-  padding:20px;
-  filter:contrast(1.06) saturate(1.02);
+  padding:18px;
 }
 
-.viewerCorner{
+.frameImage i{
   position:absolute;
-  width:25px;
-  height:25px;
-  border:1px solid rgba(var(--accent-rgb),.55);
-  pointer-events:none;
+  width:24px;
+  height:24px;
+  border-color:var(--v2-accent);
+  opacity:.6;
 }
 
-.viewerCornerA{
-  left:15px;
-  top:15px;
-  border-right:0;
-  border-bottom:0;
-}
+.frameImage i:nth-child(2){left:12px;top:12px;border-left:1px solid;border-top:1px solid}
+.frameImage i:nth-child(3){right:12px;top:12px;border-right:1px solid;border-top:1px solid}
+.frameImage i:nth-child(4){left:12px;bottom:12px;border-left:1px solid;border-bottom:1px solid}
+.frameImage i:nth-child(5){right:12px;bottom:12px;border-right:1px solid;border-bottom:1px solid}
 
-.viewerCornerB{
-  right:15px;
-  bottom:15px;
-  border-left:0;
-  border-top:0;
-}
-
-.fieldViewerBottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-  padding:0 17px;
+.frameBottom{
   border-top:1px solid rgba(255,255,255,.1);
 }
 
-#fieldViewerName{
-  color:var(--accent);
-  font:700 clamp(18px,3vw,30px)/1 Syne,sans-serif;
-  letter-spacing:-.04em;
+.frameBottom strong{
+  color:var(--v2-accent);
+  font:800 24px/.8 Syne,sans-serif;
 }
 
-.fieldViewerBottom button{
-  border:1px solid rgba(255,255,255,.15);
+.frameBottom button{
+  width:36px;
+  height:30px;
+  margin-left:4px;
+  border:1px solid rgba(255,255,255,.16);
   background:transparent;
-  color:rgba(255,255,255,.5);
-  padding:8px 10px;
+  color:rgba(255,255,255,.55);
   cursor:pointer;
-  font:7px "DM Mono",monospace;
-  letter-spacing:.1em;
 }
 
-.fieldViewerBottom button:hover{
-  color:var(--accent);
-  border-color:var(--accent);
+.frameBottom button:hover{
+  color:var(--v2-accent);
+  border-color:var(--v2-accent);
 }
 
-/* ---------------------------------------------------------
-   Small reactive details on existing visuals
-   --------------------------------------------------------- */
-
-.eraVisual,
-.journalCard,
-.diptychImage,
-.chapterCard{
-  transition:border-color .35s ease,box-shadow .5s ease;
+@media(max-width:1050px){
+  .assetWall{grid-template-columns:repeat(6,minmax(0,1fr))}
 }
 
-.eraVisual:hover,
-.journalCard:hover,
-.diptychImage:hover,
-.chapterCard:hover{
-  box-shadow:0 25px 80px rgba(0,0,0,.35),0 0 35px rgba(var(--accent-rgb),.055);
-}
-
-.eraVisual::before,
-.journalCard::before,
-.diptychImage::before,
-.chapterCard::before{
-  content:"";
-  position:absolute;
-  z-index:4;
-  inset:0;
-  pointer-events:none;
-  opacity:0;
-  background:linear-gradient(
-    115deg,
-    transparent 35%,
-    rgba(var(--accent-rgb),.13) 49%,
-    transparent 62%
-  );
-  transform:translateX(-100%);
-}
-
-.eraVisual:hover::before,
-.journalCard:hover::before,
-.diptychImage:hover::before,
-.chapterCard:hover::before{
-  opacity:1;
-  animation:archiveSweep 1s var(--ease);
-}
-
-@keyframes archiveSweep{
-  from{transform:translateX(-100%)}
-  to{transform:translateX(100%)}
-}
-
-@media(max-width:1000px){
-  .colorControl{
-    display:none;
-  }
-
-  .fieldGrid{
-    grid-template-columns:repeat(4,minmax(0,1fr));
-  }
-
-  .fieldArchiveHeader{
-    align-items:flex-start;
-  }
-
-  .fieldArchiveIntro{
-    width:min(320px,38vw);
-  }
-}
-
-@media(max-width:700px){
-  .fieldArchiveScene{
-    min-height:220vh;
-  }
-
-  .fieldArchiveStage{
-    padding:9vh 15px 3vh;
-  }
-
-  .fieldArchiveHeader{
-    display:block;
-  }
-
-  .fieldArchiveHeader h2{
-    font-size:19vw;
-  }
-
-  .fieldArchiveIntro{
-    width:auto;
-    max-width:300px;
-    margin-top:15px;
-  }
-
-  .fieldFilters{
-    overflow:auto;
-    padding-bottom:2px;
-  }
-
-  .fieldFilter{
-    white-space:nowrap;
-  }
-
-  .fieldGrid{
-    height:61vh;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:3px;
-  }
-
-  .fieldBottom{
-    left:15px;
-    right:15px;
-  }
-
-  .fieldBottom > span:first-child{
-    display:none;
-  }
-
-  .fieldViewerPanel{
-    width:calc(100% - 14px);
-    height:calc(100% - 18px);
-  }
-
-  .fieldViewerImage img{
-    padding:8px;
-  }
-}
-
-@media(prefers-reduced-motion:reduce){
-  .eraVisual:hover::before,
-  .journalCard:hover::before,
-  .diptychImage:hover::before,
-  .chapterCard:hover::before{
-    animation:none;
-  }
+@media(max-width:760px){
+  .visualArchive{padding-left:15px;padding-right:15px}
+  .visualArchiveHead{display:block}
+  .visualArchiveLead{width:auto;max-width:360px;margin-top:20px}
+  .assetWall{grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:105px}
+  .sourceIndex{padding-left:15px;padding-right:15px}
+  .sourceTile{grid-template-columns:38px 1fr 20px}
+  .sourceTile small{display:none}
+  .framePanel{width:calc(100% - 12px);height:calc(100% - 12px)}
 }
 
 </style>
@@ -3296,13 +3097,6 @@ body::after{
       Archive online
     </div>
 
-    <div class="colorControl" aria-label="Visual atmosphere">
-      <button class="colorDot active" data-tone="acid" aria-label="Acid"></button>
-      <button class="colorDot" data-tone="amber" aria-label="Amber"></button>
-      <button class="colorDot" data-tone="violet" aria-label="Violet"></button>
-      <button class="colorDot" data-tone="ice" aria-label="Ice"></button>
-    </div>
-
     <button class="headerButton" id="supportTop" type="button">
       Support
     </button>
@@ -3319,7 +3113,7 @@ body::after{
   <span id="progressBar"></span>
 </div>
 
-<div class="progressLabel" id="progressLabel">01 / 15</div>
+<div class="progressLabel" id="progressLabel">01 / 14</div>
 
 <div class="cursorDot" id="cursorDot"></div>
 
@@ -4653,29 +4447,478 @@ body::after{
 
 
 <!-- =========================================================
-     FIELD IMAGE VIEWER
+     VISUAL ARCHIVE / COMPLETE LOCAL CONTACT SHEET
      ========================================================= -->
 
-<div class="fieldViewer" id="fieldViewer" aria-hidden="true">
-  <div class="fieldViewerBackdrop" data-field-close></div>
+<section class="visualArchive" id="visual-archive">
 
-  <div class="fieldViewerPanel" role="dialog" aria-modal="true" aria-label="Archive image viewer">
-    <div class="fieldViewerTop">
-      <span id="fieldViewerCounter">FRAME 01</span>
-      <button id="fieldViewerClose" type="button" aria-label="Close image viewer">×</button>
+  <div class="visualArchiveHead">
+    <div>
+      <small>LOCAL IMAGE INDEX / FIELD MATERIAL</small>
+      <h2>EVERY<br><span>FRAME.</span></h2>
     </div>
-
-    <div class="fieldViewerImage">
-      <img id="fieldViewerImg" src="" alt="">
-      <span class="viewerCorner viewerCornerA"></span>
-      <span class="viewerCorner viewerCornerB"></span>
+    <div class="visualArchiveLead">
+      <p>
+        The image files supplied with the project are treated as an archive
+        rather than decoration. Filter them or open any frame full screen.
+      </p>
+      <div class="assetStats">
+        <strong>83</strong>
+        <span>indexed image assets</span>
+      </div>
     </div>
+  </div>
 
-    <div class="fieldViewerBottom">
-      <strong id="fieldViewerName">ARCHIVE</strong>
+  <div class="assetFilters">
+    <button class="assetFilter active" data-filter="ALL">ALL</button>
+    <button class="assetFilter" data-filter="ARCHIVE">ARCHIVE</button>
+    <button class="assetFilter" data-filter="STRAINS">STRAINS</button>
+    <button class="assetFilter" data-filter="BALTazar">BALT / WORLD</button>
+    <button class="assetFilter" data-filter="MERCH">MERCH</button>
+    <button class="assetFilter" data-filter="FIELD">FIELD</button>
+    <button class="assetFilter" data-filter="LIFE">LIFE</button>
+  </div>
+
+  <div class="assetWall" id="assetWall">
+    
+      <button class="assetTile" data-file="1.jpg" data-cat="ARCHIVE" data-i="1" type="button">
+        <span class="assetPicture"><img src="1.jpg" alt="1.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>1.jpg</span><b>01</b></span>
+      </button>
+      <button class="assetTile" data-file="1-1.jpg" data-cat="ARCHIVE" data-i="2" type="button">
+        <span class="assetPicture"><img src="1-1.jpg" alt="1-1.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>1-1.jpg</span><b>02</b></span>
+      </button>
+      <button class="assetTile" data-file="1-2.jpg" data-cat="ARCHIVE" data-i="3" type="button">
+        <span class="assetPicture"><img src="1-2.jpg" alt="1-2.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>1-2.jpg</span><b>03</b></span>
+      </button>
+      <button class="assetTile" data-file="1-3.jpg" data-cat="ARCHIVE" data-i="4" type="button">
+        <span class="assetPicture"><img src="1-3.jpg" alt="1-3.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>1-3.jpg</span><b>04</b></span>
+      </button>
+      <button class="assetTile" data-file="1-4.jpg" data-cat="ARCHIVE" data-i="5" type="button">
+        <span class="assetPicture"><img src="1-4.jpg" alt="1-4.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>1-4.jpg</span><b>05</b></span>
+      </button>
+      <button class="assetTile" data-file="1-5.jpg" data-cat="ARCHIVE" data-i="6" type="button">
+        <span class="assetPicture"><img src="1-5.jpg" alt="1-5.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>1-5.jpg</span><b>06</b></span>
+      </button>
+      <button class="assetTile" data-file="1-6.jpg" data-cat="ARCHIVE" data-i="7" type="button">
+        <span class="assetPicture"><img src="1-6.jpg" alt="1-6.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>1-6.jpg</span><b>07</b></span>
+      </button>
+      <button class="assetTile" data-file="2.jpg" data-cat="ARCHIVE" data-i="8" type="button">
+        <span class="assetPicture"><img src="2.jpg" alt="2.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>2.jpg</span><b>08</b></span>
+      </button>
+      <button class="assetTile" data-file="2-1.jpg" data-cat="ARCHIVE" data-i="9" type="button">
+        <span class="assetPicture"><img src="2-1.jpg" alt="2-1.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>2-1.jpg</span><b>09</b></span>
+      </button>
+      <button class="assetTile" data-file="2-2.jpg" data-cat="ARCHIVE" data-i="10" type="button">
+        <span class="assetPicture"><img src="2-2.jpg" alt="2-2.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>2-2.jpg</span><b>10</b></span>
+      </button>
+      <button class="assetTile" data-file="3.jpg" data-cat="ARCHIVE" data-i="11" type="button">
+        <span class="assetPicture"><img src="3.jpg" alt="3.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>3.jpg</span><b>11</b></span>
+      </button>
+      <button class="assetTile" data-file="3-1.jpg" data-cat="ARCHIVE" data-i="12" type="button">
+        <span class="assetPicture"><img src="3-1.jpg" alt="3-1.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>3-1.jpg</span><b>12</b></span>
+      </button>
+      <button class="assetTile" data-file="3-2.jpg" data-cat="ARCHIVE" data-i="13" type="button">
+        <span class="assetPicture"><img src="3-2.jpg" alt="3-2.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>3-2.jpg</span><b>13</b></span>
+      </button>
+      <button class="assetTile" data-file="3-3.jpg" data-cat="ARCHIVE" data-i="14" type="button">
+        <span class="assetPicture"><img src="3-3.jpg" alt="3-3.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>3-3.jpg</span><b>14</b></span>
+      </button>
+      <button class="assetTile" data-file="3-4.jpg" data-cat="ARCHIVE" data-i="15" type="button">
+        <span class="assetPicture"><img src="3-4.jpg" alt="3-4.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>3-4.jpg</span><b>15</b></span>
+      </button>
+      <button class="assetTile" data-file="3-5.jpg" data-cat="ARCHIVE" data-i="16" type="button">
+        <span class="assetPicture"><img src="3-5.jpg" alt="3-5.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>3-5.jpg</span><b>16</b></span>
+      </button>
+      <button class="assetTile" data-file="4.jpg" data-cat="ARCHIVE" data-i="17" type="button">
+        <span class="assetPicture"><img src="4.jpg" alt="4.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>4.jpg</span><b>17</b></span>
+      </button>
+      <button class="assetTile" data-file="4-1.jpg" data-cat="ARCHIVE" data-i="18" type="button">
+        <span class="assetPicture"><img src="4-1.jpg" alt="4-1.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>4-1.jpg</span><b>18</b></span>
+      </button>
+      <button class="assetTile" data-file="4-2.jpg" data-cat="ARCHIVE" data-i="19" type="button">
+        <span class="assetPicture"><img src="4-2.jpg" alt="4-2.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>4-2.jpg</span><b>19</b></span>
+      </button>
+      <button class="assetTile" data-file="4-3.jpg" data-cat="ARCHIVE" data-i="20" type="button">
+        <span class="assetPicture"><img src="4-3.jpg" alt="4-3.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>4-3.jpg</span><b>20</b></span>
+      </button>
+      <button class="assetTile" data-file="4-4.jpg" data-cat="ARCHIVE" data-i="21" type="button">
+        <span class="assetPicture"><img src="4-4.jpg" alt="4-4.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>4-4.jpg</span><b>21</b></span>
+      </button>
+      <button class="assetTile" data-file="5.jpg" data-cat="ARCHIVE" data-i="22" type="button">
+        <span class="assetPicture"><img src="5.jpg" alt="5.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>5.jpg</span><b>22</b></span>
+      </button>
+      <button class="assetTile" data-file="5-1.jpg" data-cat="ARCHIVE" data-i="23" type="button">
+        <span class="assetPicture"><img src="5-1.jpg" alt="5-1.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>5-1.jpg</span><b>23</b></span>
+      </button>
+      <button class="assetTile" data-file="5-2.jpg" data-cat="ARCHIVE" data-i="24" type="button">
+        <span class="assetPicture"><img src="5-2.jpg" alt="5-2.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>5-2.jpg</span><b>24</b></span>
+      </button>
+      <button class="assetTile" data-file="5-3.jpg" data-cat="ARCHIVE" data-i="25" type="button">
+        <span class="assetPicture"><img src="5-3.jpg" alt="5-3.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>5-3.jpg</span><b>25</b></span>
+      </button>
+      <button class="assetTile" data-file="5-4.jpg" data-cat="ARCHIVE" data-i="26" type="button">
+        <span class="assetPicture"><img src="5-4.jpg" alt="5-4.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>5-4.jpg</span><b>26</b></span>
+      </button>
+      <button class="assetTile" data-file="5-5.jpg" data-cat="ARCHIVE" data-i="27" type="button">
+        <span class="assetPicture"><img src="5-5.jpg" alt="5-5.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>5-5.jpg</span><b>27</b></span>
+      </button>
+      <button class="assetTile" data-file="6.jpg" data-cat="ARCHIVE" data-i="28" type="button">
+        <span class="assetPicture"><img src="6.jpg" alt="6.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>6.jpg</span><b>28</b></span>
+      </button>
+      <button class="assetTile" data-file="6-1.jpg" data-cat="ARCHIVE" data-i="29" type="button">
+        <span class="assetPicture"><img src="6-1.jpg" alt="6-1.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>6-1.jpg</span><b>29</b></span>
+      </button>
+      <button class="assetTile" data-file="6-2.jpg" data-cat="ARCHIVE" data-i="30" type="button">
+        <span class="assetPicture"><img src="6-2.jpg" alt="6-2.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>6-2.jpg</span><b>30</b></span>
+      </button>
+      <button class="assetTile" data-file="7.jpg" data-cat="ARCHIVE" data-i="31" type="button">
+        <span class="assetPicture"><img src="7.jpg" alt="7.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>7.jpg</span><b>31</b></span>
+      </button>
+      <button class="assetTile" data-file="7-1.jpg" data-cat="ARCHIVE" data-i="32" type="button">
+        <span class="assetPicture"><img src="7-1.jpg" alt="7-1.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>7-1.jpg</span><b>32</b></span>
+      </button>
+      <button class="assetTile" data-file="7-2.jpg" data-cat="ARCHIVE" data-i="33" type="button">
+        <span class="assetPicture"><img src="7-2.jpg" alt="7-2.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>7-2.jpg</span><b>33</b></span>
+      </button>
+      <button class="assetTile" data-file="7-3.jpg" data-cat="ARCHIVE" data-i="34" type="button">
+        <span class="assetPicture"><img src="7-3.jpg" alt="7-3.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>7-3.jpg</span><b>34</b></span>
+      </button>
+      <button class="assetTile" data-file="8.jpg" data-cat="ARCHIVE" data-i="35" type="button">
+        <span class="assetPicture"><img src="8.jpg" alt="8.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>8.jpg</span><b>35</b></span>
+      </button>
+      <button class="assetTile" data-file="8-1.jpg" data-cat="ARCHIVE" data-i="36" type="button">
+        <span class="assetPicture"><img src="8-1.jpg" alt="8-1.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>8-1.jpg</span><b>36</b></span>
+      </button>
+      <button class="assetTile" data-file="8-2.jpg" data-cat="ARCHIVE" data-i="37" type="button">
+        <span class="assetPicture"><img src="8-2.jpg" alt="8-2.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>8-2.jpg</span><b>37</b></span>
+      </button>
+      <button class="assetTile" data-file="9.jpg" data-cat="ARCHIVE" data-i="38" type="button">
+        <span class="assetPicture"><img src="9.jpg" alt="9.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>9.jpg</span><b>38</b></span>
+      </button>
+      <button class="assetTile" data-file="9-1.jpg" data-cat="ARCHIVE" data-i="39" type="button">
+        <span class="assetPicture"><img src="9-1.jpg" alt="9-1.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>9-1.jpg</span><b>39</b></span>
+      </button>
+      <button class="assetTile" data-file="9-2.jpg" data-cat="ARCHIVE" data-i="40" type="button">
+        <span class="assetPicture"><img src="9-2.jpg" alt="9-2.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>9-2.jpg</span><b>40</b></span>
+      </button>
+      <button class="assetTile" data-file="9-3.jpg" data-cat="ARCHIVE" data-i="41" type="button">
+        <span class="assetPicture"><img src="9-3.jpg" alt="9-3.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>9-3.jpg</span><b>41</b></span>
+      </button>
+      <button class="assetTile" data-file="10.jpg" data-cat="ARCHIVE" data-i="42" type="button">
+        <span class="assetPicture"><img src="10.jpg" alt="10.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>10.jpg</span><b>42</b></span>
+      </button>
+      <button class="assetTile" data-file="10-1.jpg" data-cat="ARCHIVE" data-i="43" type="button">
+        <span class="assetPicture"><img src="10-1.jpg" alt="10-1.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>10-1.jpg</span><b>43</b></span>
+      </button>
+      <button class="assetTile" data-file="11.jpg" data-cat="ARCHIVE" data-i="44" type="button">
+        <span class="assetPicture"><img src="11.jpg" alt="11.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>11.jpg</span><b>44</b></span>
+      </button>
+      <button class="assetTile" data-file="12.jpg" data-cat="ARCHIVE" data-i="45" type="button">
+        <span class="assetPicture"><img src="12.jpg" alt="12.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>12.jpg</span><b>45</b></span>
+      </button>
+      <button class="assetTile" data-file="13.jpg" data-cat="ARCHIVE" data-i="46" type="button">
+        <span class="assetPicture"><img src="13.jpg" alt="13.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>13.jpg</span><b>46</b></span>
+      </button>
+      <button class="assetTile" data-file="13-1.jpg" data-cat="ARCHIVE" data-i="47" type="button">
+        <span class="assetPicture"><img src="13-1.jpg" alt="13-1.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>13-1.jpg</span><b>47</b></span>
+      </button>
+      <button class="assetTile" data-file="20.jpg" data-cat="ARCHIVE" data-i="48" type="button">
+        <span class="assetPicture"><img src="20.jpg" alt="20.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>20.jpg</span><b>48</b></span>
+      </button>
+      <button class="assetTile" data-file="BALT1.JPG" data-cat="BALTAZAR" data-i="49" type="button">
+        <span class="assetPicture"><img src="BALT1.JPG" alt="BALT1.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>BALT1.JPG</span><b>49</b></span>
+      </button>
+      <button class="assetTile" data-file="BALT11.JPG" data-cat="BALTAZAR" data-i="50" type="button">
+        <span class="assetPicture"><img src="BALT11.JPG" alt="BALT11.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>BALT11.JPG</span><b>50</b></span>
+      </button>
+      <button class="assetTile" data-file="BALT12.JPG" data-cat="BALTAZAR" data-i="51" type="button">
+        <span class="assetPicture"><img src="BALT12.JPG" alt="BALT12.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>BALT12.JPG</span><b>51</b></span>
+      </button>
+      <button class="assetTile" data-file="BALT13.JPG" data-cat="BALTAZAR" data-i="52" type="button">
+        <span class="assetPicture"><img src="BALT13.JPG" alt="BALT13.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>BALT13.JPG</span><b>52</b></span>
+      </button>
+      <button class="assetTile" data-file="BALT14.JPG" data-cat="BALTAZAR" data-i="53" type="button">
+        <span class="assetPicture"><img src="BALT14.JPG" alt="BALT14.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>BALT14.JPG</span><b>53</b></span>
+      </button>
+      <button class="assetTile" data-file="CATLOGO.JPG" data-cat="BALTAZAR" data-i="54" type="button">
+        <span class="assetPicture"><img src="CATLOGO.JPG" alt="CATLOGO.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>CATLOGO.JPG</span><b>54</b></span>
+      </button>
+      <button class="assetTile" data-file="CATLOGO1.JPG" data-cat="BALTAZAR" data-i="55" type="button">
+        <span class="assetPicture"><img src="CATLOGO1.JPG" alt="CATLOGO1.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>CATLOGO1.JPG</span><b>55</b></span>
+      </button>
+      <button class="assetTile" data-file="ELEFANTOG.jpg" data-cat="BALTAZAR" data-i="56" type="button">
+        <span class="assetPicture"><img src="ELEFANTOG.jpg" alt="ELEFANTOG.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>ELEFANTOG.jpg</span><b>56</b></span>
+      </button>
+      <button class="assetTile" data-file="F1.JPG" data-cat="FIELD" data-i="57" type="button">
+        <span class="assetPicture"><img src="F1.JPG" alt="F1.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>F1.JPG</span><b>57</b></span>
+      </button>
+      <button class="assetTile" data-file="F2.JPG" data-cat="FIELD" data-i="58" type="button">
+        <span class="assetPicture"><img src="F2.JPG" alt="F2.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>F2.JPG</span><b>58</b></span>
+      </button>
+      <button class="assetTile" data-file="F3.JPG" data-cat="FIELD" data-i="59" type="button">
+        <span class="assetPicture"><img src="F3.JPG" alt="F3.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>F3.JPG</span><b>59</b></span>
+      </button>
+      <button class="assetTile" data-file="First Brownies.jpg" data-cat="LIFE" data-i="60" type="button">
+        <span class="assetPicture"><img src="First Brownies.jpg" alt="First Brownies.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>First Brownies.jpg</span><b>60</b></span>
+      </button>
+      <button class="assetTile" data-file="First Joint.jpg" data-cat="LIFE" data-i="61" type="button">
+        <span class="assetPicture"><img src="First Joint.jpg" alt="First Joint.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>First Joint.jpg</span><b>61</b></span>
+      </button>
+      <button class="assetTile" data-file="ICON.PNG" data-cat="BALTAZAR" data-i="62" type="button">
+        <span class="assetPicture"><img src="ICON.PNG" alt="ICON.PNG" loading="lazy"></span>
+        <span class="assetCaption"><span>ICON.PNG</span><b>62</b></span>
+      </button>
+      <button class="assetTile" data-file="IMG_7975.PNG" data-cat="ARCHIVE" data-i="63" type="button">
+        <span class="assetPicture"><img src="IMG_7975.PNG" alt="IMG_7975.PNG" loading="lazy"></span>
+        <span class="assetCaption"><span>IMG_7975.PNG</span><b>63</b></span>
+      </button>
+      <button class="assetTile" data-file="MERCH1.JPG" data-cat="MERCH" data-i="64" type="button">
+        <span class="assetPicture"><img src="MERCH1.JPG" alt="MERCH1.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>MERCH1.JPG</span><b>64</b></span>
+      </button>
+      <button class="assetTile" data-file="MERCH1A.JPG" data-cat="MERCH" data-i="65" type="button">
+        <span class="assetPicture"><img src="MERCH1A.JPG" alt="MERCH1A.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>MERCH1A.JPG</span><b>65</b></span>
+      </button>
+      <button class="assetTile" data-file="MERCH2.JPG" data-cat="MERCH" data-i="66" type="button">
+        <span class="assetPicture"><img src="MERCH2.JPG" alt="MERCH2.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>MERCH2.JPG</span><b>66</b></span>
+      </button>
+      <button class="assetTile" data-file="MERCH3.JPG" data-cat="MERCH" data-i="67" type="button">
+        <span class="assetPicture"><img src="MERCH3.JPG" alt="MERCH3.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>MERCH3.JPG</span><b>67</b></span>
+      </button>
+      <button class="assetTile" data-file="MERCH4.JPG" data-cat="MERCH" data-i="68" type="button">
+        <span class="assetPicture"><img src="MERCH4.JPG" alt="MERCH4.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>MERCH4.JPG</span><b>68</b></span>
+      </button>
+      <button class="assetTile" data-file="MERCH5.JPG" data-cat="MERCH" data-i="69" type="button">
+        <span class="assetPicture"><img src="MERCH5.JPG" alt="MERCH5.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>MERCH5.JPG</span><b>69</b></span>
+      </button>
+      <button class="assetTile" data-file="MERCH6.JPG" data-cat="MERCH" data-i="70" type="button">
+        <span class="assetPicture"><img src="MERCH6.JPG" alt="MERCH6.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>MERCH6.JPG</span><b>70</b></span>
+      </button>
+      <button class="assetTile" data-file="MERCH6A.JPG" data-cat="MERCH" data-i="71" type="button">
+        <span class="assetPicture"><img src="MERCH6A.JPG" alt="MERCH6A.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>MERCH6A.JPG</span><b>71</b></span>
+      </button>
+      <button class="assetTile" data-file="MERCH6B.JPG" data-cat="MERCH" data-i="72" type="button">
+        <span class="assetPicture"><img src="MERCH6B.JPG" alt="MERCH6B.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>MERCH6B.JPG</span><b>72</b></span>
+      </button>
+      <button class="assetTile" data-file="STRAIN1.JPG" data-cat="STRAINS" data-i="73" type="button">
+        <span class="assetPicture"><img src="STRAIN1.JPG" alt="STRAIN1.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>STRAIN1.JPG</span><b>73</b></span>
+      </button>
+      <button class="assetTile" data-file="STRAIN2.JPG" data-cat="STRAINS" data-i="74" type="button">
+        <span class="assetPicture"><img src="STRAIN2.JPG" alt="STRAIN2.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>STRAIN2.JPG</span><b>74</b></span>
+      </button>
+      <button class="assetTile" data-file="STRAIN3.JPG" data-cat="STRAINS" data-i="75" type="button">
+        <span class="assetPicture"><img src="STRAIN3.JPG" alt="STRAIN3.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>STRAIN3.JPG</span><b>75</b></span>
+      </button>
+      <button class="assetTile" data-file="STRAIN4.JPG" data-cat="STRAINS" data-i="76" type="button">
+        <span class="assetPicture"><img src="STRAIN4.JPG" alt="STRAIN4.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>STRAIN4.JPG</span><b>76</b></span>
+      </button>
+      <button class="assetTile" data-file="STRAIN5.JPG" data-cat="STRAINS" data-i="77" type="button">
+        <span class="assetPicture"><img src="STRAIN5.JPG" alt="STRAIN5.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>STRAIN5.JPG</span><b>77</b></span>
+      </button>
+      <button class="assetTile" data-file="STRAIN5A.JPG" data-cat="STRAINS" data-i="78" type="button">
+        <span class="assetPicture"><img src="STRAIN5A.JPG" alt="STRAIN5A.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>STRAIN5A.JPG</span><b>78</b></span>
+      </button>
+      <button class="assetTile" data-file="STRAIN6.JPG" data-cat="STRAINS" data-i="79" type="button">
+        <span class="assetPicture"><img src="STRAIN6.JPG" alt="STRAIN6.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>STRAIN6.JPG</span><b>79</b></span>
+      </button>
+      <button class="assetTile" data-file="STRAIN6A.JPG" data-cat="STRAINS" data-i="80" type="button">
+        <span class="assetPicture"><img src="STRAIN6A.JPG" alt="STRAIN6A.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>STRAIN6A.JPG</span><b>80</b></span>
+      </button>
+      <button class="assetTile" data-file="ULTRASTYLE.JPG" data-cat="ARCHIVE" data-i="81" type="button">
+        <span class="assetPicture"><img src="ULTRASTYLE.JPG" alt="ULTRASTYLE.JPG" loading="lazy"></span>
+        <span class="assetCaption"><span>ULTRASTYLE.JPG</span><b>81</b></span>
+      </button>
+      <button class="assetTile" data-file="intro-poster.jpg" data-cat="ARCHIVE" data-i="82" type="button">
+        <span class="assetPicture"><img src="intro-poster.jpg" alt="intro-poster.jpg" loading="lazy"></span>
+        <span class="assetCaption"><span>intro-poster.jpg</span><b>82</b></span>
+      </button>
+      <button class="assetTile" data-file="spike.png" data-cat="ARCHIVE" data-i="83" type="button">
+        <span class="assetPicture"><img src="spike.png" alt="spike.png" loading="lazy"></span>
+        <span class="assetCaption"><span>spike.png</span><b>83</b></span>
+      </button>
+  </div>
+
+</section>
+
+<!-- =========================================================
+     SOURCE INDEX / USE THE ACTUAL LINKS
+     ========================================================= -->
+
+<section class="sourceIndex" id="source-index">
+
+  <div class="sourceIndexHead">
+    <small>DIRECT ROUTES / SOURCE DATABASE</small>
+    <h2>FOLLOW<br><span>THE SOURCE.</span></h2>
+    <p>
+      The original destinations stay clickable. No fake buttons.
+      No replacement pages. The archive points back to the actual routes
+      already present in the project.
+    </p>
+  </div>
+
+  <div class="sourceList">
+    
+      <a class="sourceTile" href="https://www.grower.ch/forum/threads/first-grow-hindu-kush-400w-coco-63-bt-beendet.33441/" target="_blank" rel="noopener noreferrer">
+        <span class="sourceNo">01</span>
+        <span><strong>FIRST GROW / HINDU KUSH</strong><small>www.grower.ch/forum/threads/first-grow-hindu-kush-400w-coco-63-bt-beendet.33441/</small></span>
+        <b>↗</b>
+      </a>
+      <a class="sourceTile" href="https://www.grower.ch/forum/threads/mazar-euforia.30/" target="_blank" rel="noopener noreferrer">
+        <span class="sourceNo">02</span>
+        <span><strong>MAZAR / EUFORIA</strong><small>www.grower.ch/forum/threads/mazar-euforia.30/</small></span>
+        <b>↗</b>
+      </a>
+      <a class="sourceTile" href="https://www.grower.ch/forum/threads/chocolope-g13-haze-hawaiian-snow.40558/" target="_blank" rel="noopener noreferrer">
+        <span class="sourceNo">03</span>
+        <span><strong>CHOCOLOPE / G13 HAZE / HAWAIIAN SNOW</strong><small>www.grower.ch/forum/threads/chocolope-g13-haze-hawaiian-snow.40558/</small></span>
+        <b>↗</b>
+      </a>
+      <a class="sourceTile" href="https://www.grower.ch/forum/threads/blueberry.408/" target="_blank" rel="noopener noreferrer">
+        <span class="sourceNo">04</span>
+        <span><strong>BLUEBERRY</strong><small>www.grower.ch/forum/threads/blueberry.408/</small></span>
+        <b>↗</b>
+      </a>
+      <a class="sourceTile" href="https://www.grower.ch/forum/threads/jorges-diamonds-perplex.955/" target="_blank" rel="noopener noreferrer">
+        <span class="sourceNo">05</span>
+        <span><strong>JORGE&#x27;S DIAMONDS / PERPLEX</strong><small>www.grower.ch/forum/threads/jorges-diamonds-perplex.955/</small></span>
+        <b>↗</b>
+      </a>
+      <a class="sourceTile" href="https://www.grower.ch/forum/threads/blue-moonshine-pure-afghan.1497/" target="_blank" rel="noopener noreferrer">
+        <span class="sourceNo">06</span>
+        <span><strong>BLUE MOONSHINE / PURE AFGHAN</strong><small>www.grower.ch/forum/threads/blue-moonshine-pure-afghan.1497/</small></span>
+        <b>↗</b>
+      </a>
+      <a class="sourceTile" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener noreferrer">
+        <span class="sourceNo">07</span>
+        <span><strong>STRAIN MIX / PART ONE</strong><small>www.grower.ch/forum/threads/strainmix-part-1.174488/</small></span>
+        <b>↗</b>
+      </a>
+      <a class="sourceTile" href="https://www.grower.ch/forum/threads/strainmix-part-2.179085/" target="_blank" rel="noopener noreferrer">
+        <span class="sourceNo">08</span>
+        <span><strong>STRAIN MIX / PART TWO</strong><small>www.grower.ch/forum/threads/strainmix-part-2.179085/</small></span>
+        <b>↗</b>
+      </a>
+      <a class="sourceTile" href="https://www.grower.ch/forum/threads/baltazars-hell-kitchen.187410/" target="_blank" rel="noopener noreferrer">
+        <span class="sourceNo">09</span>
+        <span><strong>BALTAZAR&#x27;S HELL KITCHEN</strong><small>www.grower.ch/forum/threads/baltazars-hell-kitchen.187410/</small></span>
+        <b>↗</b>
+      </a>
+      <a class="sourceTile" href="https://www.grower.ch/forum/threads/strain-mix-part-3.193044/" target="_blank" rel="noopener noreferrer">
+        <span class="sourceNo">10</span>
+        <span><strong>STRAIN MIX / PART THREE</strong><small>www.grower.ch/forum/threads/strain-mix-part-3.193044/</small></span>
+        <b>↗</b>
+      </a>
+      <a class="sourceTile" href="https://www.grower.ch/" target="_blank" rel="noopener noreferrer">
+        <span class="sourceNo">11</span>
+        <span><strong>GROWER.CH / ROOT</strong><small>www.grower.ch/</small></span>
+        <b>↗</b>
+      </a>
+      <a class="sourceTile" href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" target="_blank" rel="noopener noreferrer">
+        <span class="sourceNo">12</span>
+        <span><strong>SUPPORT / STRIPE</strong><small>buy.stripe.com/dRmaF04DMdMD6f61bHgw00I</small></span>
+        <b>↗</b>
+      </a>
+  </div>
+
+</section>
+
+<!-- =========================================================
+     FULL FRAME VIEWER
+     ========================================================= -->
+
+<div class="frameViewer" id="frameViewer" aria-hidden="true">
+  <div class="frameShade" data-close-frame></div>
+  <div class="framePanel" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <div class="frameTop">
+      <span id="frameNumber">FRAME 01</span>
+      <button id="frameClose" type="button">×</button>
+    </div>
+    <div class="frameImage">
+      <img id="frameImage" src="" alt="">
+      <i></i><i></i><i></i><i></i>
+    </div>
+    <div class="frameBottom">
+      <strong id="frameName">ARCHIVE</strong>
       <div>
-        <button id="fieldPrev" type="button">← PREV</button>
-        <button id="fieldNext" type="button">NEXT →</button>
+        <button id="framePrev" type="button">←</button>
+        <button id="frameNext" type="button">→</button>
       </div>
     </div>
   </div>
@@ -5489,241 +5732,115 @@ window.addEventListener("resize",()=>{
 
 <script>
 /* =========================================================
-   FIELD ARCHIVE — SMALL INTERACTION LAYER
+   V2 — IMAGE FILTER + FULL FRAME + SOURCE INTERACTION
    ========================================================= */
 (() => {
+  const $ = (s,r=document) => r.querySelector(s);
+  const $$ = (s,r=document) => [...r.querySelectorAll(s)];
 
-  const qs = (s, root=document) => root.querySelector(s);
-  const qsa = (s, root=document) => [...root.querySelectorAll(s)];
+  const tiles = $$(".assetTile");
+  const filters = $$(".assetFilter");
+  const viewer = $("#frameViewer");
+  const image = $("#frameImage");
+  const name = $("#frameName");
+  const number = $("#frameNumber");
+  const close = $("#frameClose");
+  const prev = $("#framePrev");
+  const next = $("#frameNext");
 
-  /* -------------------------------------------------------
-     Color tone
-     ------------------------------------------------------- */
+  let activeFilter = "ALL";
+  let pool = [];
+  let position = 0;
 
-  const toneButtons = qsa(".colorDot");
-  const savedTone = localStorage.getItem("baltazar-tone") || "acid";
+  function matches(tile){
+    return activeFilter === "ALL" || tile.dataset.cat === activeFilter;
+  }
 
-  function setTone(tone){
-    const allowed = ["acid","amber","violet","ice"];
-    if(!allowed.includes(tone)) tone = "acid";
+  function render(){
+    pool = tiles.filter(matches);
 
-    document.body.dataset.tone = tone;
-
-    toneButtons.forEach(btn => {
-      btn.classList.toggle("active", btn.dataset.tone === tone);
+    tiles.forEach(tile => {
+      tile.classList.toggle("isHidden", !matches(tile));
     });
-
-    localStorage.setItem("baltazar-tone", tone);
   }
 
-  toneButtons.forEach(btn => {
-    btn.addEventListener("click", () => setTone(btn.dataset.tone));
-  });
-
-  setTone(savedTone);
-
-  /* -------------------------------------------------------
-     Mouse field
-     ------------------------------------------------------- */
-
-  window.addEventListener("mousemove", e => {
-    document.body.style.setProperty("--pointer-x", e.clientX + "px");
-    document.body.style.setProperty("--pointer-y", e.clientY + "px");
-
-    const y = (e.clientY / window.innerHeight) * 100;
-    document.documentElement.style.setProperty("--scan-y", y + "%");
-  }, {passive:true});
-
-  /* -------------------------------------------------------
-     Contact sheet
-     ------------------------------------------------------- */
-
-  const grid = qs("#fieldGrid");
-  const cards = qsa(".fieldCard", grid);
-  const filters = qsa(".fieldFilter");
-  const more = qs("#fieldMore");
-  const visibleCount = qs("#fieldVisibleCount");
-
-  let activeFilter = "all";
-  let visibleLimit = 18;
-
-  function filteredCards(){
-    return cards.filter(card =>
-      activeFilter === "all" ||
-      card.dataset.category === activeFilter
-    );
-  }
-
-  function renderGrid(){
-
-    const matching = filteredCards();
-
-    cards.forEach(card => {
-      const isMatching = matching.includes(card);
-      const index = matching.indexOf(card);
-
-      card.classList.toggle(
-        "hidden",
-        !isMatching || index >= visibleLimit
-      );
-    });
-
-    if(visibleCount){
-      visibleCount.textContent =
-        String(Math.min(visibleLimit, matching.length)).padStart(2,"0");
-    }
-
-    if(more){
-      const remaining = Math.max(0, matching.length - visibleLimit);
-      more.querySelector("b").textContent = remaining;
-      more.style.display = remaining ? "block" : "none";
-    }
-  }
-
-  filters.forEach(filter => {
-    filter.addEventListener("click", () => {
-
-      activeFilter = filter.dataset.filter;
-      visibleLimit = 18;
-
-      filters.forEach(btn =>
-        btn.classList.toggle("active", btn === filter)
-      );
-
-      renderGrid();
+  filters.forEach(btn => {
+    btn.addEventListener("click", () => {
+      activeFilter = btn.dataset.filter;
+      filters.forEach(x => x.classList.toggle("active", x === btn));
+      render();
     });
   });
 
-  more?.addEventListener("click", () => {
-    visibleLimit += 18;
-    renderGrid();
-  });
+  function show(){
+    const tile = pool[position];
+    if(!tile) return;
 
-  renderGrid();
-
-  /* -------------------------------------------------------
-     Fullscreen image viewer
-     ------------------------------------------------------- */
-
-  const viewer = qs("#fieldViewer");
-  const viewerImg = qs("#fieldViewerImg");
-  const viewerName = qs("#fieldViewerName");
-  const viewerCounter = qs("#fieldViewerCounter");
-  const viewerClose = qs("#fieldViewerClose");
-  const prev = qs("#fieldPrev");
-  const next = qs("#fieldNext");
-
-  let viewerPool = [];
-  let viewerPosition = 0;
-
-  function refreshPool(){
-    viewerPool = filteredCards().slice(0, visibleLimit);
-  }
-
-  function openViewer(card){
-    refreshPool();
-
-    const position = viewerPool.indexOf(card);
-    viewerPosition = position >= 0 ? position : 0;
-
-    showViewer();
-  }
-
-  function showViewer(){
-
-    const card = viewerPool[viewerPosition];
-    if(!card || !viewer) return;
-
-    const src = card.dataset.src;
-    const img = card.querySelector("img");
-
-    viewerImg.src = src;
-    viewerImg.alt = img?.alt || "Archive image";
-    viewerName.textContent = card.dataset.src.replace(/\.[^.]+$/,"").toUpperCase();
-
-    viewerCounter.textContent =
-      "FRAME " +
-      String(viewerPosition + 1).padStart(2,"0") +
-      " / " +
-      String(viewerPool.length).padStart(2,"0");
+    const img = $("img",tile);
+    image.src = tile.dataset.file;
+    image.alt = img?.alt || tile.dataset.file;
+    name.textContent = tile.dataset.file.toUpperCase();
+    number.textContent =
+      "FRAME " + String(position + 1).padStart(2,"0") +
+      " / " + String(pool.length).padStart(2,"0");
 
     viewer.classList.add("open");
     viewer.setAttribute("aria-hidden","false");
     document.body.style.overflow = "hidden";
   }
 
-  function closeViewer(){
-
-    viewer?.classList.remove("open");
-    viewer?.setAttribute("aria-hidden","true");
-
-    if(!document.querySelector(".menuOverlay.open") &&
-       !document.querySelector(".drawer.open")){
-      document.body.style.overflow = "";
-    }
+  function open(tile){
+    render();
+    const idx = pool.indexOf(tile);
+    position = idx < 0 ? 0 : idx;
+    show();
   }
 
-  function moveViewer(direction){
-
-    if(!viewerPool.length) return;
-
-    viewerPosition =
-      (viewerPosition + direction + viewerPool.length) %
-      viewerPool.length;
-
-    showViewer();
+  function shut(){
+    viewer.classList.remove("open");
+    viewer.setAttribute("aria-hidden","true");
+    document.body.style.overflow = "";
   }
 
-  cards.forEach(card => {
-    card.addEventListener("click", () => openViewer(card));
-  });
+  function move(delta){
+    if(!pool.length) return;
+    position = (position + delta + pool.length) % pool.length;
+    show();
+  }
 
-  viewerClose?.addEventListener("click", closeViewer);
-  prev?.addEventListener("click", () => moveViewer(-1));
-  next?.addEventListener("click", () => moveViewer(1));
+  tiles.forEach(tile => {
+    tile.addEventListener("click", () => open(tile));
 
-  qsa("[data-field-close]").forEach(el => {
-    el.addEventListener("click", closeViewer);
-  });
+    tile.addEventListener("mousemove", e => {
+      if(window.innerWidth < 900) return;
 
-  document.addEventListener("keydown", event => {
+      const r = tile.getBoundingClientRect();
+      const x = (e.clientX-r.left)/r.width-.5;
+      const y = (e.clientY-r.top)/r.height-.5;
 
-    if(!viewer?.classList.contains("open")) return;
-
-    if(event.key === "Escape") closeViewer();
-    if(event.key === "ArrowLeft") moveViewer(-1);
-    if(event.key === "ArrowRight") moveViewer(1);
-
-  });
-
-  /* -------------------------------------------------------
-     Subtle tilt only on the contact sheet.
-     ------------------------------------------------------- */
-
-  cards.forEach(card => {
-
-    card.addEventListener("mousemove", e => {
-
-      if(window.innerWidth < 800) return;
-
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - .5;
-      const y = (e.clientY - rect.top) / rect.height - .5;
-
-      card.style.transform =
-        "perspective(700px) rotateX(" +
-        (-y * 3) +
-        "deg) rotateY(" +
-        (x * 3) +
-        "deg) scale(1.025)";
+      tile.style.transform =
+        `perspective(650px) rotateX(${-y*2.5}deg) rotateY(${x*2.5}deg) scale(1.035)`;
     });
 
-    card.addEventListener("mouseleave", () => {
-      card.style.transform = "";
+    tile.addEventListener("mouseleave", () => {
+      tile.style.transform = "";
     });
-
   });
 
+  close?.addEventListener("click", shut);
+  prev?.addEventListener("click", () => move(-1));
+  next?.addEventListener("click", () => move(1));
+
+  $$("[data-close-frame]").forEach(x => x.addEventListener("click", shut));
+
+  document.addEventListener("keydown", e => {
+    if(!viewer.classList.contains("open")) return;
+    if(e.key === "Escape") shut();
+    if(e.key === "ArrowLeft") move(-1);
+    if(e.key === "ArrowRight") move(1);
+  });
+
+  render();
 })();
 </script>
 
