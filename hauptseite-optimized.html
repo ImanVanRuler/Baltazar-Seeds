@@ -3,1839 +3,743 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Baltazar Seeds — Genetic Hunter</title>
-<meta name="description" content="A grower’s return. A search for interesting genetics. Documented from the beginning.">
-<meta name="theme-color" content="#050A06">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='%23C4913E' d='M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z'/><path fill='%23C4913E' d='M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z'/><path fill='%23C4913E' d='M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z'/></svg>">
+<title>Baltazar Seeds — The Comeback Run</title>
+<meta name="description" content="Baltazar Seeds — dokumentierter Comeback Grow, Strainmix Part One.">
+<meta name="theme-color" content="#050806">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@200;300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 
 <style>
-/* ═══════════════════════════════════════════════════
-   RESET + TOKENS
-════════════════════════════════════════════════════ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after { box-sizing:border-box; margin:0; padding:0; }
 
-:root {
-  --bg:          #050A06;
-  --bg2:         #0B1209;
-  --ink:         #E9E5DD;
-  --ink-dim:     rgba(233,229,221,0.62);
-  --ink-faint:   rgba(233,229,221,0.10);
-  --gold:        #C4913E;
-  --gold-line:   rgba(196,145,62,0.22);
-  --gold-glow:   rgba(196,145,62,0.30);
-  --gold-soft:   rgba(196,145,62,0.10);
-  --line:        rgba(233,229,221,0.06);
-  --dur:         1s;
-  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+:root{
+  --bg:#050806;
+  --panel:#09100a;
+  --ink:#eeeae1;
+  --dim:rgba(238,234,225,.62);
+  --faint:rgba(238,234,225,.12);
+  --gold:#c4913e;
+  --gold-soft:rgba(196,145,62,.11);
+  --gold-line:rgba(196,145,62,.28);
+  --line:rgba(238,234,225,.075);
+  --ease:cubic-bezier(.16,1,.3,1);
 }
 
-html, body { height: 100%; overflow: hidden; }
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);}
+body{
+  font-family:Inter,sans-serif;
+  font-weight:300;
+  -webkit-font-smoothing:antialiased;
+  cursor:none;
+}
+body::before{
+  content:""; position:fixed; inset:0; z-index:900; pointer-events:none;
+  opacity:.45; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='white' opacity='.05'><rect x='8' y='14' width='1' height='1'/><rect x='37' y='61' width='1' height='1'/><rect x='74' y='27' width='1' height='1'/><rect x='119' y='88' width='1' height='1'/><rect x='153' y='41' width='1' height='1'/><rect x='23' y='130' width='1' height='1'/><rect x='91' y='151' width='1' height='1'/><rect x='162' y='126' width='1' height='1'/></g></svg>");
+}
+::selection{background:var(--gold-soft);color:var(--ink);}
+a,button{font:inherit;color:inherit;}
+a:focus-visible,button:focus-visible{outline:1px solid var(--gold);outline-offset:4px;}
+button{border:0;background:none;}
 
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
-  -webkit-font-smoothing: antialiased;
+#age-gate{
+  position:fixed;inset:0;z-index:20000;display:grid;place-items:center;padding:24px;
+  background:rgba(5,8,6,.975);backdrop-filter:blur(20px);
+  transition:opacity .5s ease,visibility .5s ease;
 }
+#age-gate.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.age-card{
+  width:min(440px,100%);padding:48px 42px 42px;text-align:center;
+  background:linear-gradient(145deg,rgba(12,20,13,.98),rgba(6,11,7,.98));
+  border:1px solid var(--gold-line);
+  box-shadow:0 35px 100px rgba(0,0,0,.55);
+}
+.age-mark{
+  width:44px;height:44px;margin:0 auto 24px;border:1px solid var(--gold-line);
+  border-radius:50%;display:grid;place-items:center;
+  color:var(--gold);font:10px 'JetBrains Mono',monospace;letter-spacing:.08em;
+}
+.eyebrow,.micro{
+  font:9px 'JetBrains Mono',monospace;letter-spacing:.32em;text-transform:uppercase;
+}
+.age-eyebrow{color:var(--gold);margin-bottom:12px;}
+.age-title{
+  font:300 clamp(38px,7vw,54px)/.95 'Cormorant Garamond',serif;margin-bottom:18px;
+}
+.age-title em{color:var(--gold);}
+.age-copy{color:var(--dim);font-size:12px;line-height:1.75;max-width:330px;margin:0 auto 28px;}
+.age-actions{display:flex;gap:10px;justify-content:center;}
+.age-btn{
+  min-width:130px;padding:13px 18px;border:1px solid var(--gold-line);
+  color:var(--ink);font:10px 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;
+  cursor:none;transition:.3s ease;
+}
+.age-btn:hover{border-color:var(--gold);background:var(--gold-soft);color:var(--gold);}
+.age-btn--no{border-color:var(--line);color:var(--dim);}
 
-/* Only the draggable slider chrome and decorative marks block selection;
-   real content (prices, lineage, email) stays selectable/copyable. */
-#slider-track, nav, #controls, #cat-logo, .ghost-num, .slide-num, .slide-genetics {
-  user-select: none;
+#intro{
+  position:fixed;inset:0;z-index:800;display:grid;place-items:center;
+  background:var(--bg);transition:opacity .9s ease,visibility .9s ease;
 }
+#intro.gone{opacity:0;visibility:hidden;pointer-events:none;}
+.intro-inner{text-align:center;}
+.intro-brand{color:var(--gold);margin-bottom:20px;opacity:0;animation:fadeUp .6s ease .15s forwards;}
+.intro-word{display:flex;justify-content:center;line-height:.9;}
+.intro-word span{
+  font:300 clamp(58px,10vw,110px) 'Cormorant Garamond',serif;
+  letter-spacing:.13em;opacity:0;display:inline-block;
+}
+#iw2 span{color:var(--gold);}
+#iw1 span{animation:rise .5s var(--ease) forwards;}
+#iw2 span{animation:drop .45s var(--ease) forwards;}
+.intro-sub{margin-top:22px;color:var(--dim);opacity:0;animation:fadeUp .5s ease 1.5s forwards;}
+@keyframes rise{from{opacity:0;transform:translateY(16px) skewY(2deg)}to{opacity:1;transform:none}}
+@keyframes drop{from{opacity:0;transform:translateY(-12px) scale(1.05);filter:blur(2px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-::selection { background: var(--gold-soft); color: var(--ink); }
-
-/* Visible keyboard focus — the custom cursor hides the native outline,
-   so keyboard users need an explicit, high-contrast focus ring. */
-a:focus-visible, button:focus-visible {
-  outline: 2px solid var(--gold);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
-
-/* Respect reduced-motion preference: kill decorative/looping animations,
-   keep instant state changes. */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* ═══════════════════════════════════════════════════
-   GRAIN TEXTURE
-════════════════════════════════════════════════════ */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 900;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><rect width='200' height='200' fill='none'/><g fill='white' opacity='.055'><rect x='7' y='18' width='1' height='1'/><rect x='29' y='44' width='1' height='1'/><rect x='53' y='9' width='1' height='1'/><rect x='78' y='61' width='1' height='1'/><rect x='14' y='83' width='1' height='1'/><rect x='99' y='27' width='1' height='1'/><rect x='122' y='71' width='1' height='1'/><rect x='148' y='12' width='1' height='1'/><rect x='167' y='55' width='1' height='1'/><rect x='188' y='88' width='1' height='1'/><rect x='33' y='120' width='1' height='1'/><rect x='61' y='144' width='1' height='1'/><rect x='87' y='177' width='1' height='1'/><rect x='110' y='133' width='1' height='1'/><rect x='135' y='160' width='1' height='1'/><rect x='162' y='109' width='1' height='1'/><rect x='183' y='142' width='1' height='1'/><rect x='44' y='190' width='1' height='1'/><rect x='71' y='99' width='1' height='1'/><rect x='156' y='181' width='1' height='1'/></g></svg>");
-  background-size: 200px 200px;
-  opacity: 0.65;
-  mix-blend-mode: overlay;
-}
-
-
-
-/* ═══════════════════════════════════════════════════
-   AGE GATE — 18+
-════════════════════════════════════════════════════ */
-#age-gate {
-  position: fixed;
-  inset: 0;
-  z-index: 20000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background: rgba(5,10,6,0.97);
-  backdrop-filter: blur(18px);
-  transition: opacity 0.55s ease, visibility 0.55s ease;
-}
-#age-gate.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-
-.age-card {
-  width: min(460px, 100%);
-  padding: 54px 46px 48px;
-  text-align: center;
-  background: var(--bg2);
-  border: 1px solid var(--gold-line);
-  box-shadow: 0 30px 100px rgba(0,0,0,0.45);
-}
-.age-mark {
-  width: 46px; height: 46px;
-  margin: 0 auto 26px;
-  border: 1px solid var(--gold-line);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--gold);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-}
-.age-eyebrow {
-  margin-bottom: 13px;
-  color: var(--gold);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-}
-.age-title {
-  margin-bottom: 18px;
-  color: var(--ink);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(38px, 7vw, 52px);
-  font-weight: 300;
-  line-height: 1;
-}
-.age-title em { font-style: italic; color: var(--gold); }
-.age-copy {
-  max-width: 340px;
-  margin: 0 auto 30px;
-  color: var(--ink-dim);
-  font-size: 12px;
-  line-height: 1.75;
-}
-.age-actions { display: flex; gap: 10px; justify-content: center; }
-.age-btn {
-  min-width: 128px;
-  padding: 14px 20px;
-  border: 1px solid var(--gold-line);
-  background: transparent;
-  color: var(--ink);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  cursor: pointer !important;
-  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-}
-.age-btn--yes:hover { background: var(--gold-soft); border-color: var(--gold); color: var(--gold); }
-.age-btn--no { border-color: var(--line); color: var(--ink-dim); }
-.age-btn--no:hover { border-color: rgba(233,229,221,0.18); color: var(--ink); }
-.age-denied {
-  display: none;
-  margin-top: 22px;
-  color: var(--ink-dim);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  line-height: 1.7;
-  text-transform: uppercase;
-}
-.age-denied.show { display: block; }
-
-@media (max-width: 520px) {
-  .age-card { padding: 42px 24px 38px; }
-  .age-actions { flex-direction: column; }
-  .age-btn { width: 100%; }
-}
-
-/* ═══════════════════════════════════════════════════
-   INTRO SCREEN
-════════════════════════════════════════════════════ */
-#intro {
-  position: fixed;
-  inset: 0;
-  z-index: 800;
-  background: var(--bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 0;
-  transition: opacity 0.9s ease, visibility 0.9s ease;
-}
-#intro.gone { opacity: 0; visibility: hidden; }
-
-.intro-brand {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 0.35em;
-  color: var(--gold);
-  text-transform: uppercase;
-  opacity: 0;
-  animation: fadeUp 0.6s ease 0.15s forwards;
-  margin-bottom: 22px;
-}
-
-.intro-word {
-  display: flex;
-  gap: 0.04em;
-  line-height: 1;
-}
-#iw1 { margin-bottom: 4px; }
-
-.intro-word span {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(60px, 10vw, 108px);
-  font-weight: 300;
-  letter-spacing: 0.12em;
-  opacity: 0;
-  display: inline-block;
-  text-transform: uppercase;
-  color: var(--ink);
-}
-
-/* GENETIC — letters glide up */
-#iw1 span { animation: letterRise 0.5s var(--ease-out) forwards; }
-
-/* HUNTER — letters drop in with weight */
-#iw2 span {
-  color: var(--gold);
-  animation: letterDrop 0.45s var(--ease-out) forwards;
-}
-
-.intro-sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  color: var(--ink-dim);
-  text-transform: uppercase;
-  margin-top: 24px;
-  opacity: 0;
-  animation: fadeUp 0.5s ease 1.4s forwards;
-}
-
-@keyframes letterRise {
-  from { opacity: 0; transform: translateY(16px) skewY(2deg); }
-  to   { opacity: 1; transform: translateY(0)    skewY(0deg); }
-}
-@keyframes letterDrop {
-  from { opacity: 0; transform: translateY(-12px) scale(1.06); filter: blur(2px); }
-  to   { opacity: 1; transform: translateY(0)      scale(1);    filter: blur(0); }
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ═══════════════════════════════════════════════════
-   CORNER MARKS
-════════════════════════════════════════════════════ */
-#corners {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  pointer-events: none;
-}
-.corner {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  opacity: 0.35;
-}
-.corner.tl { top: 22px;    left: 22px;    border-top: 1px solid var(--gold);  border-left:  1px solid var(--gold); }
-.corner.tr { top: 22px;    right: 22px;   border-top: 1px solid var(--gold);  border-right: 1px solid var(--gold); }
-.corner.bl { bottom: 22px; left: 22px;    border-bottom: 1px solid var(--gold); border-left:  1px solid var(--gold); }
-.corner.br { bottom: 22px; right: 22px;   border-bottom: 1px solid var(--gold); border-right: 1px solid var(--gold); }
-
-/* ═══════════════════════════════════════════════════
-   PROGRESS BAR
-════════════════════════════════════════════════════ */
-#progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 1px;
-  background: var(--gold);
-  width: 0;
-  z-index: 200;
-  transition: width 0.9s var(--ease-out);
-  opacity: 0.7;
-}
-
-/* ═══════════════════════════════════════════════════
-   AMBIENT LIGHT
-════════════════════════════════════════════════════ */
-#ambient {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
+#progress{position:fixed;top:0;left:0;height:1px;width:0;background:var(--gold);z-index:1000;opacity:.8;transition:width .9s var(--ease);}
+#ambient{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
   background:
-    radial-gradient(ellipse 60% 50% at 25% 50%, rgba(58,90,58,0.06) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 60% at 75% 50%, rgba(196,145,62,0.04) 0%, transparent 70%);
+    radial-gradient(ellipse 55% 75% at 22% 50%,rgba(63,91,58,.08),transparent 70%),
+    radial-gradient(ellipse 45% 70% at 82% 45%,rgba(196,145,62,.055),transparent 72%);
 }
+#corners{position:fixed;inset:0;z-index:950;pointer-events:none;}
+.corner{position:absolute;width:18px;height:18px;opacity:.5;}
+.corner.tl{top:20px;left:20px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);}
+.corner.tr{top:20px;right:20px;border-top:1px solid var(--gold);border-right:1px solid var(--gold);}
+.corner.bl{bottom:20px;left:20px;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold);}
+.corner.br{bottom:20px;right:20px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);}
 
-/* ═══════════════════════════════════════════════════
-   NAVIGATION
-════════════════════════════════════════════════════ */
-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 400;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 28px 48px;
-  pointer-events: none;
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1200;
+  height:84px;padding:0 42px;display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(to bottom,rgba(5,8,6,.86),rgba(5,8,6,0));
+  pointer-events:none;
 }
+.nav-logo,.nav-links{pointer-events:auto;}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;color:var(--dim);
+  font:10px 'JetBrains Mono',monospace;letter-spacing:.27em;text-transform:uppercase;
+}
+.nav-pulse{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px rgba(196,145,62,.08);}
+.nav-links{display:flex;align-items:center;gap:22px;}
+.nav-link{
+  position:relative;padding:5px 0;color:var(--dim);text-decoration:none;cursor:none;
+  font:9px 'JetBrains Mono',monospace;letter-spacing:.23em;text-transform:uppercase;
+  transition:color .25s ease;
+}
+.nav-link::after{
+  content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--gold);
+  transition:right .35s var(--ease);
+}
+.nav-link:hover{color:var(--ink);}
+.nav-link:hover::after{right:0;}
+.nav-link--game{color:rgba(196,145,62,.52);}
+.nav-link--game:hover{color:var(--gold);}
+.nav-link--game::before{content:"▶";font-size:5px;margin-right:5px;vertical-align:1px;}
 
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  font-weight: 300;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  pointer-events: all;
-  cursor: none;
-}
-.nav-pulse {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--gold);
-  animation: pulse 2.5s ease infinite;
-  flex-shrink: 0;
-}
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 var(--gold-glow); }
-  50%       { box-shadow: 0 0 0 5px transparent; }
-}
+#divider{position:fixed;top:84px;bottom:0;left:48%;width:1px;background:var(--line);z-index:80;pointer-events:none;}
 
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-  pointer-events: all;
+#slider-track{
+  position:fixed;inset:0;display:flex;z-index:10;
+  transition:transform .95s var(--ease);will-change:transform;
 }
-
-/* Shared styles for both <button> and <a> nav links */
-.nav-link {
-  background: none;
-  border: none;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  font-weight: 300;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  cursor: none;
-  transition: color 0.3s ease;
-  padding: 4px 0;
-  text-decoration: none;
-  display: inline-block;
-  position: relative;
+.slide{
+  min-width:100vw;height:100vh;position:relative;display:flex;overflow:hidden;
+  background:var(--bg);
 }
-.nav-link:hover { color: var(--ink); }
-
-/* Game links — gold tint + arrow prefix */
-.nav-link--game {
-  color: rgba(196,145,62,0.50);
+.slide-img{
+  width:48%;height:100%;position:relative;overflow:hidden;flex-shrink:0;background:#071008;
 }
-.nav-link--game:hover { color: var(--gold); }
-.nav-link--game::before {
-  content: '▶';
-  font-size: 6px;
-  margin-right: 5px;
-  opacity: 0.7;
-  vertical-align: 1px;
-}
-
-/* ═══════════════════════════════════════════════════
-   DIVIDER
-════════════════════════════════════════════════════ */
-#divider {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 1px;
-  background: var(--line);
-  z-index: 50;
-  pointer-events: none;
-}
-
-/* ═══════════════════════════════════════════════════
-   SWIPE + KEYBOARD HINTS
-════════════════════════════════════════════════════ */
-#swipe-hint {
-  position: fixed;
-  bottom: 72px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 200;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  opacity: 0.3;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  animation: swipePulse 2s ease infinite;
-}
-@media (max-width: 768px) { #swipe-hint { display: flex; } }
-@keyframes swipePulse {
-  0%, 100% { opacity: 0.3; }
-  50%       { opacity: 0.6; }
-}
-
-#kb-hint {
-  position: fixed;
-  bottom: 28px;
-  right: 48px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.25em;
-  color: var(--ink-faint);
-  z-index: 200;
-  pointer-events: none;
-}
-@media (max-width: 768px) { #kb-hint { display: none; } }
-
-/* ═══════════════════════════════════════════════════
-   SLIDER TRACK
-════════════════════════════════════════════════════ */
-#slider-track {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  z-index: 10;
-  transition: transform 0.95s var(--ease-out);
-  will-change: transform;
-}
-
-/* ═══════════════════════════════════════════════════
-   SLIDE
-════════════════════════════════════════════════════ */
-.slide {
-  min-width: 100vw;
-  height: 100vh;
-  display: flex;
-  position: relative;
-  overflow: hidden;
-}
-
-/* ── IMAGE PANEL ── */
-.slide-img {
-  position: relative;
-  width: 52%;
-  height: 100%;
-  overflow: hidden;
-  background: var(--bg2);
-  flex-shrink: 0;
-}
-
-/* Vignette overlay */
-.slide-img::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 4;
+.slide-img::before{
+  content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
   background:
-    linear-gradient(to right,  rgba(5,10,6,0.0) 60%, rgba(5,10,6,0.85) 100%),
-    linear-gradient(to bottom, rgba(5,10,6,0.4) 0%,  rgba(5,10,6,0.0) 30%),
-    linear-gradient(to top,    rgba(5,10,6,0.5) 0%,  rgba(5,10,6,0.0) 30%);
-  pointer-events: none;
+    linear-gradient(90deg,rgba(5,8,6,0) 50%,rgba(5,8,6,.98) 100%),
+    linear-gradient(180deg,rgba(5,8,6,.48),transparent 25%,transparent 72%,rgba(5,8,6,.72));
+}
+.slide-img::after{
+  content:"";position:absolute;left:0;right:0;top:0;height:1px;z-index:5;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;
+}
+.slide.active .slide-img::after{animation:scan 1.15s ease .15s forwards;}
+@keyframes scan{from{opacity:.7;transform:translateY(0)}to{opacity:0;transform:translateY(100vh)}}
+.slide-img img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;visibility:hidden;transform:scale(1.055);
+  transition:opacity .65s ease,transform 1.8s var(--ease);
+}
+.slide-img img.loaded{opacity:1;visibility:visible;}
+.slide.active .slide-img img{transform:scale(1);}
+.img-ph{
+  position:absolute;inset:0;z-index:2;display:grid;place-items:center;
+  color:var(--dim);font:10px 'JetBrains Mono',monospace;letter-spacing:.24em;text-transform:uppercase;
+}
+.slide-meta{
+  position:absolute;z-index:7;left:28px;right:28px;bottom:28px;
+  display:flex;justify-content:space-between;align-items:end;
+}
+.slide-genetics{color:var(--gold);opacity:.78;}
+.slide-num{color:rgba(238,234,225,.38);}
+.slide-meta span{font:8px 'JetBrains Mono',monospace;letter-spacing:.23em;text-transform:uppercase;}
+.slide-index{
+  position:absolute;left:24px;top:105px;z-index:7;
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  color:rgba(238,234,225,.32);font:8px 'JetBrains Mono',monospace;letter-spacing:.28em;
 }
 
-/* Scan-line on active slide */
-.slide-img::before {
-  content: '';
-  position: absolute;
-  left: 0; right: 0; top: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
-  z-index: 5;
-  opacity: 0;
-  pointer-events: none;
+.slide-info{
+  flex:1;min-width:0;position:relative;z-index:20;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:105px clamp(34px,5vw,82px) 92px clamp(46px,5vw,76px);
+  overflow:hidden;
 }
-.slide.active .slide-img::before {
-  animation: scanLine 1.1s cubic-bezier(0.4, 0, 0.6, 1) 0.15s forwards;
+.slide-info::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 78% 46%,rgba(196,145,62,.045),transparent 34%),
+    linear-gradient(135deg,rgba(255,255,255,.012),transparent 35%);
 }
-@keyframes scanLine {
-  0%   { opacity: 0.7; transform: translateY(0); }
-  100% { opacity: 0;   transform: translateY(100vh); }
+.ghost-num{
+  position:absolute;right:-10px;top:50%;transform:translateY(-50%);
+  color:transparent;-webkit-text-stroke:1px rgba(238,234,225,.035);
+  font:300 clamp(150px,18vw,250px)/1 'Cormorant Garamond',serif;pointer-events:none;
 }
-
-/* Botanical SVG watermark */
-.botanical {
-  position: absolute;
-  bottom: -40px;
-  right: -40px;
-  width: 220px;
-  height: 220px;
-  z-index: 3;
-  opacity: 0.04;
-  pointer-events: none;
+.story-kicker{position:relative;color:var(--gold);margin-bottom:15px;}
+.story-title{
+  position:relative;max-width:700px;margin-bottom:16px;
+  font:300 clamp(39px,5vw,70px)/.92 'Cormorant Garamond',serif;
+  letter-spacing:.005em;
 }
-
-/* Image placeholder */
-.img-ph {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  color: var(--ink-dim);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.2em;
+.story-title em{color:var(--gold);font-style:italic;}
+.story-line{
+  position:relative;display:flex;align-items:center;gap:10px;
+  color:var(--dim);margin-bottom:26px;
 }
-
-.slide-img img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 2;
-  visibility: hidden;
-  opacity: 0;
-  transform: scale(1.08);
-  transition: opacity 0.6s ease, transform 1.6s var(--ease-out);
+.story-line::before{content:"";width:28px;height:1px;background:var(--gold-line);}
+.story-copy{
+  position:relative;max-width:590px;color:var(--dim);
+  font-size:14px;line-height:1.85;margin-bottom:27px;
 }
-.slide-img img.loaded {
-  visibility: visible;
-  opacity: 1;
+.story-copy strong{color:var(--ink);font-weight:400;}
+.fact-row{
+  position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;
 }
-.slide.active .slide-img img {
-  transform: scale(1.0);
+.fact{
+  padding:9px 12px;border:1px solid var(--line);
+  color:rgba(238,234,225,.55);font:8px 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;
+  background:rgba(255,255,255,.012);
+}
+.fact b{color:var(--gold);font-weight:400;}
+.story-cta{
+  position:relative;align-self:flex-start;display:inline-flex;align-items:center;gap:12px;
+  padding:13px 20px;border:1px solid var(--gold-line);text-decoration:none;
+  font:9px 'JetBrains Mono',monospace;letter-spacing:.23em;text-transform:uppercase;
+  transition:.35s var(--ease);overflow:hidden;
+}
+.story-cta::before{
+  content:"";position:absolute;inset:0;background:var(--gold-soft);
+  transform:translateX(-101%);transition:transform .45s var(--ease);
+}
+.story-cta:hover{border-color:var(--gold);color:var(--gold);}
+.story-cta:hover::before{transform:none;}
+.story-cta span,.story-cta svg{position:relative;z-index:1;}
+.source-note{
+  position:absolute;left:clamp(46px,5vw,76px);bottom:30px;
+  color:rgba(238,234,225,.25);font:8px 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;
 }
 
-/* Genetics label */
-.slide-genetics {
-  position: absolute;
-  bottom: 28px;
-  left: 24px;
-  z-index: 6;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--gold);
-  opacity: 0.7;
+#controls{
+  position:fixed;left:48%;bottom:28px;transform:translateX(-50%);
+  z-index:1300;display:flex;align-items:center;gap:15px;
+}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(238,234,225,.16);padding:0;cursor:none;transition:.3s;}
+.dot.active{background:var(--gold);transform:scale(1.65);}
+.arrow{
+  width:34px;height:34px;border:1px solid var(--faint);border-radius:50%;
+  display:grid;place-items:center;color:var(--dim);cursor:none;transition:.3s;
+}
+.arrow:hover:not(:disabled){border-color:var(--gold-line);color:var(--gold);}
+.arrow:disabled{opacity:.2;}
+#counter{min-width:45px;text-align:center;color:var(--dim);font:9px 'JetBrains Mono',monospace;letter-spacing:.18em;}
+
+#modal-overlay{
+  position:fixed;inset:0;z-index:5000;display:grid;place-items:center;padding:24px;
+  background:rgba(5,8,6,.92);backdrop-filter:blur(16px);
+  opacity:0;visibility:hidden;transition:.35s ease;
+}
+#modal-overlay.open{opacity:1;visibility:visible;}
+#modal{
+  width:min(460px,100%);padding:48px 44px;background:var(--panel);
+  border:1px solid var(--gold-line);transform:translateY(18px);transition:.45s var(--ease);
+}
+#modal-overlay.open #modal{transform:none;}
+.modal-title{font:300 42px/.95 'Cormorant Garamond',serif;margin:10px 0 30px;}
+.modal-title em{color:var(--gold);}
+#modal-close{
+  position:absolute;top:20px;right:20px;width:32px;height:32px;color:var(--dim);
+  cursor:none;font-size:14px;
+}
+.modal-row{
+  display:flex;gap:14px;align-items:center;padding:15px 0;
+  border-top:1px solid var(--line);text-decoration:none;
+}
+.modal-row:last-of-type{border-bottom:1px solid var(--line);}
+.modal-row:hover .modal-row-val{color:var(--gold);}
+.modal-icon{
+  width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--gold-line);color:var(--gold);
+}
+.modal-row-label{color:var(--dim);font:8px 'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;margin-bottom:3px;}
+.modal-row-val{font-size:13px;transition:.25s;}
+.modal-note{margin-top:20px;color:var(--dim);font-size:10px;line-height:1.75;}
+
+#cursor{
+  position:fixed;z-index:10001;pointer-events:none;transform:translate(-50%,-50%);
+}
+.c-bar{position:absolute;background:var(--gold);opacity:.72;}
+.c-top,.c-bottom{width:1px;left:50%;transform:translateX(-50%);}
+.c-top{height:9px;bottom:calc(50% + 4px);}
+.c-bottom{height:9px;top:calc(50% + 4px);}
+.c-left,.c-right{height:1px;top:50%;transform:translateY(-50%);}
+.c-left{width:9px;right:calc(50% + 4px);}
+.c-right{width:9px;left:calc(50% + 4px);}
+.c-center{position:absolute;width:2px;height:2px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:var(--gold);}
+#cursor-ring{
+  position:fixed;z-index:10000;pointer-events:none;width:34px;height:34px;
+  border:1px solid rgba(196,145,62,.3);border-radius:50%;transform:translate(-50%,-50%);
+  transition:width .38s var(--ease),height .38s var(--ease),border-color .3s,opacity .3s;
+}
+body.cur-hover #cursor-ring{width:50px;height:50px;border-color:rgba(196,145,62,.62);}
+body.cur-hover .c-top,body.cur-hover .c-bottom{height:14px;}
+body.cur-hover .c-left,body.cur-hover .c-right{width:14px;}
+body.cur-press #cursor-ring{width:20px;height:20px;border-color:var(--gold);}
+
+.logo-spark{
+  position:fixed;z-index:9999;border-radius:50%;background:var(--gold);pointer-events:none;
+  transform:translate(-50%,-50%);animation:spark .85s ease-out forwards;
+}
+@keyframes spark{
+  from{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  to{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.15)}
 }
 
-/* Slide number (image corner) */
-.slide-num {
-  position: absolute;
-  top: 90px;
-  left: 24px;
-  z-index: 6;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-}
+#swipe-hint{display:none;}
 
-/* ── DUAL IMAGE CROSSFADE ── */
-.img-b {
-  z-index: 3;
-  transition: opacity 0.85s ease;
+@media (max-width:900px){
+  nav{padding:0 22px;}
+  .nav-links{gap:15px;}
+  .nav-link{font-size:8px;letter-spacing:.17em;}
+  #divider{left:45%;}
+  .slide-img{width:45%;}
+  .slide-info{padding-left:42px;padding-right:28px;}
+  .story-copy{font-size:13px;line-height:1.72;}
+  #controls{left:45%;}
 }
-.slide.active .img-b.loaded {
-  animation: imgCycle 11s ease-in-out 1.8s infinite;
-}
-@keyframes imgCycle {
-  0%, 38%  { opacity: 1; }
-  48%, 88% { opacity: 0; }
-  100%     { opacity: 1; }
-}
-
-/* ── INFO PANEL ── */
-.slide-info {
-  position: relative;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 90px 52px 90px 60px;
-  overflow: hidden;
-  z-index: 10;
-}
-
-/* Ghost number watermark */
-.ghost-num {
-  position: absolute;
-  top: 50%;
-  right: -24px;
-  transform: translateY(-50%);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(120px, 16vw, 200px);
-  font-weight: 300;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(233,229,221,0.04);
-  line-height: 1;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Tag / label */
-.slide-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 16px;
-}
-
-/* Strain name */
-.slide-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(34px, 4.5vw, 58px);
-  font-weight: 300;
-  line-height: 1.05;
-  letter-spacing: 0.01em;
-  margin-bottom: 14px;
-}
-.slide-name em {
-  font-style: italic;
-  color: var(--gold);
-}
-
-/* Lineage */
-.slide-lineage {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  color: var(--ink-dim);
-  text-transform: uppercase;
-  margin-bottom: 22px;
-}
-
-/* Description */
-.slide-desc {
-  font-size: 14px;
-  line-height: 1.85;
-  font-weight: 300;
-  color: var(--ink-dim);
-  max-width: 380px;
-  margin-bottom: 30px;
-}
-
-/* Price row */
-.slide-price-row {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  margin-bottom: 28px;
-}
-.slide-price {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px;
-  font-weight: 300;
-  letter-spacing: 0.05em;
-}
-.slide-price-unit {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.22em;
-  color: var(--ink-dim);
-  text-transform: uppercase;
-}
-
-/* CTA — active order button */
-.slide-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 26px;
-  border: 1px solid var(--gold-line);
-  color: var(--ink);
-  text-decoration: none;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  transition: background 0.35s ease, border-color 0.35s ease, color 0.35s ease;
-  position: relative;
-  overflow: hidden;
-  align-self: flex-start;
-}
-.slide-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--gold-soft);
-  transform: translateX(-101%);
-  transition: transform 0.45s var(--ease-out);
-}
-.slide-cta:hover::before { transform: translateX(0); }
-.slide-cta:hover { border-color: var(--gold); }
-.cta-label { position: relative; z-index: 1; }
-.slide-cta svg { position: relative; z-index: 1; transition: transform 0.3s ease; }
-.slide-cta:hover svg { transform: translateX(3px); }
-
-/* CTA — coming soon */
-.slide-cta-soon {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 26px;
-  border: 1px solid var(--line);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  align-self: flex-start;
-}
-
-/* THC badge */
-.thc-badge {
-  position: absolute;
-  top: 26px;
-  right: 52px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  border: 1px solid var(--gold-line);
-  padding: 8px 12px;
-}
-.thc-val {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px;
-  font-weight: 300;
-  color: var(--gold);
-  line-height: 1;
-}
-.thc-lbl {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px;
-  letter-spacing: 0.25em;
-  color: var(--ink-dim);
-}
-@media (max-width: 768px) { .thc-badge { display: none; } }
-
-/* ═══════════════════════════════════════════════════
-   CONTROLS
-════════════════════════════════════════════════════ */
-#controls {
-  position: fixed;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-#dots { display: flex; gap: 7px; align-items: center; }
-.dot {
-  width: 4px; height: 4px;
-  border-radius: 50%;
-  background: rgba(233,229,221,0.14);
-  border: none;
-  padding: 0;
-  cursor: none;
-  transition: background 0.3s, transform 0.3s, width 0.3s;
-}
-.dot.active {
-  background: var(--gold);
-  transform: scale(1.75);
-}
-
-.arrow {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--ink-faint);
-  background: none;
-  color: var(--ink-dim);
-  cursor: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-color 0.3s, color 0.3s;
-}
-.arrow:hover:not(:disabled) { border-color: var(--gold-line); color: var(--gold); }
-.arrow:disabled { opacity: 0.2; }
-
-#counter {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  color: var(--ink-dim);
-  min-width: 44px;
-  text-align: center;
-}
-
-/* ═══════════════════════════════════════════════════
-   CONTACT MODAL
-════════════════════════════════════════════════════ */
-#modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 600;
-  background: rgba(5,10,6,0.92);
-  backdrop-filter: blur(14px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.4s ease, visibility 0.4s ease;
-}
-#modal-overlay.open { opacity: 1; visibility: visible; }
-
-#modal {
-  width: 92%;
-  max-width: 440px;
-  background: var(--bg2);
-  border: 1px solid var(--gold-line);
-  padding: 50px 46px;
-  position: relative;
-  transform: translateY(20px);
-  transition: transform 0.45s var(--ease-out);
-}
-#modal-overlay.open #modal { transform: translateY(0); }
-
-#modal-close {
-  position: absolute;
-  top: 20px; right: 20px;
-  background: none;
-  border: none;
-  color: var(--ink-dim);
-  font-size: 14px;
-  cursor: none;
-  width: 32px; height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.3s;
-}
-#modal-close:hover { color: var(--ink); }
-
-.modal-eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 12px;
-}
-.modal-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 36px;
-  font-weight: 300;
-  line-height: 1.05;
-  margin-bottom: 36px;
-}
-.modal-title em { font-style: italic; color: var(--gold); }
-
-.modal-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 0;
-  border-top: 1px solid var(--line);
-  color: var(--ink);
-  text-decoration: none;
-  transition: border-color 0.3s;
-}
-.modal-row:hover { border-color: var(--gold-line); }
-.modal-row:last-of-type { border-bottom: 1px solid var(--line); }
-
-.modal-icon {
-  width: 34px; height: 34px;
-  border: 1px solid var(--gold-line);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold);
-  flex-shrink: 0;
-}
-.modal-row-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  margin-bottom: 3px;
-}
-.modal-row-val {
-  font-size: 13px;
-  font-weight: 300;
-  color: var(--ink);
-}
-.modal-note {
-  margin-top: 24px;
-  font-size: 11px;
-  line-height: 1.75;
-  font-weight: 300;
-  color: var(--ink-dim);
-}
-
-/* ═══════════════════════════════════════════════════
-   LOGO MARK
-════════════════════════════════════════════════════ */
-#cat-logo {
-  position: fixed;
-  top: 84px;
-  right: 22px;
-  z-index: 500;
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-  overflow: visible;
-  animation: logoFloat 4.5s ease-in-out infinite;
-  cursor: none;
-}
-#cat-logo-inner {
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 1px solid var(--gold-line);
-  position: relative;
-  transition: border-color 0.5s ease, box-shadow 0.5s ease;
-}
-#cat-logo:hover #cat-logo-inner {
-  border-color: var(--gold);
-  box-shadow: 0 0 22px rgba(196,145,62,0.30), 0 0 48px rgba(196,145,62,0.10);
-}
-#cat-logo img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.7s var(--ease-out), filter 0.5s ease;
-}
-#cat-logo:hover img { transform: scale(1.08); filter: brightness(1.1); }
-
-/* Orbit ring */
-#cat-logo-ring {
-  position: absolute;
-  inset: -9px;
-  border-radius: 50%;
-  border: 1px solid rgba(196,145,62,0);
-  transition: border-color 0.5s ease, transform 1.8s var(--ease-out);
-  pointer-events: none;
-}
-#cat-logo:hover #cat-logo-ring {
-  border-color: rgba(196,145,62,0.20);
-  transform: rotate(72deg) scale(1.06);
-}
-
-/* Click spin */
-#cat-logo.logo-clicked #cat-logo-inner {
-  animation: logoSpin 0.7s var(--ease-out);
-}
-@keyframes logoSpin {
-  0%   { transform: rotate(0deg)   scale(1); }
-  30%  { transform: rotate(-20deg) scale(0.88); }
-  65%  { transform: rotate(14deg)  scale(1.1); }
-  100% { transform: rotate(0deg)   scale(1); }
-}
-
-@keyframes logoFloat {
-  0%, 100% { transform: translateY(0px);  }
-  42%       { transform: translateY(-5px); }
-  72%       { transform: translateY(-2px); }
-}
-
-/* ── SPARK PARTICLES ── */
-.logo-spark {
-  position: fixed;
-  border-radius: 50%;
-  background: var(--gold);
-  pointer-events: none;
-  z-index: 9990;
-  transform: translate(-50%, -50%);
-  animation: sparkFly 0.85s ease-out forwards;
-}
-@keyframes sparkFly {
-  0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.15); }
-}
-
-/* ═══════════════════════════════════════════════════
-   CUSTOM CURSOR — crosshair
-════════════════════════════════════════════════════ */
-body, body *, body *::before, body *::after { cursor: none !important; }
-
-#cursor {
-  position: fixed;
-  pointer-events: none;
-  z-index: 10001;
-  transform: translate(-50%, -50%);
-  will-change: left, top;
-}
-.c-bar {
-  position: absolute;
-  background: var(--gold);
-  opacity: 0.72;
-  transition: height 0.2s ease, width 0.2s ease, opacity 0.2s ease;
-}
-.c-top, .c-bottom { width: 1px; left: 50%; transform: translateX(-50%); }
-.c-top    { height: 9px; bottom: calc(50% + 4px); }
-.c-bottom { height: 9px; top:    calc(50% + 4px); }
-.c-left, .c-right { height: 1px; top: 50%; transform: translateY(-50%); }
-.c-left  { width: 9px; right: calc(50% + 4px); }
-.c-right { width: 9px; left:  calc(50% + 4px); }
-.c-center {
-  position: absolute;
-  width: 2px; height: 2px;
-  background: var(--gold);
-  border-radius: 50%;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-#cursor-ring {
-  position: fixed;
-  width: 34px; height: 34px;
-  border: 1px solid rgba(196,145,62,0.35);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10000;
-  transform: translate(-50%, -50%);
-  transition:
-    width  0.38s var(--ease-out),
-    height 0.38s var(--ease-out),
-    border-color 0.35s ease,
-    opacity 0.25s ease;
-  will-change: left, top;
-}
-
-body.cur-hover .c-top, body.cur-hover .c-bottom { height: 14px; opacity: 1; }
-body.cur-hover .c-left, body.cur-hover .c-right { width: 14px; opacity: 1; }
-body.cur-hover #cursor-ring { width: 52px; height: 52px; border-color: rgba(196,145,62,0.65); }
-
-body.cur-press #cursor-ring {
-  width: 20px; height: 20px;
-  border-color: var(--gold);
-  transition-duration: 0.08s;
-}
-
-/* ═══════════════════════════════════════════════════
-   RESPONSIVE — mobile
-════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  nav { padding: 22px 20px; }
-  .nav-links { gap: 16px; }
-  .nav-link { font-size: 9px; letter-spacing: 0.18em; }
-  .nav-link--game { display: none; } /* hide game links on mobile — too many items */
-
-  .slide { flex-direction: column; }
-  .slide-img { width: 100%; height: 55vh; }
-  .slide-info {
-    padding: 24px 24px 90px;
-    justify-content: flex-start;
+@media (max-width:720px){
+  body{cursor:auto;}
+  nav{height:70px;background:linear-gradient(to bottom,rgba(5,8,6,.95),rgba(5,8,6,.5));}
+  .nav-logo{font-size:9px;}
+  .nav-links{gap:11px;}
+  .nav-link{font-size:7px;letter-spacing:.13em;}
+  .nav-link--game{display:none;}
+  .slide{display:block;overflow:auto;overflow-x:hidden;}
+  .slide-img{width:100%;height:43vh;}
+  .slide-img::before{
+    background:linear-gradient(180deg,rgba(5,8,6,.2),transparent 45%,rgba(5,8,6,.98) 100%);
   }
-  .slide-name { font-size: 28px; }
-  .slide-desc { font-size: 13px; margin-bottom: 20px; }
-  .ghost-num { display: none; }
-  #divider { display: none; }
-  #cat-logo { top: 64px; right: 14px; width: 50px; height: 50px; }
-  #cat-logo-inner { width: 50px; height: 50px; }
-
-  #cursor, #cursor-ring { display: none; }
+  .slide-info{
+    min-height:57vh;padding:25px 24px 100px;justify-content:flex-start;overflow:visible;
+  }
+  .ghost-num{font-size:140px;top:20%;right:-10px;}
+  .story-title{font-size:38px;max-width:95%;}
+  .story-copy{font-size:12px;}
+  .source-note{left:24px;bottom:18px;}
+  #divider{display:none;}
+  #controls{left:50%;bottom:18px;}
+  #cursor,#cursor-ring{display:none;}
+  .slide-index{top:83px;}
+}
+@media (max-width:480px){
+  .nav-logo{max-width:120px;}
+  .nav-links{gap:8px;}
+  .nav-link{font-size:6.5px;}
+  .age-actions{flex-direction:column;}
+  .age-btn{width:100%;}
+  .age-card{padding:40px 24px 34px;}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;}
 }
 </style>
 </head>
 
 <body>
-
-<!-- Age verification -->
 <div id="age-gate" role="dialog" aria-modal="true" aria-labelledby="age-heading">
   <div class="age-card">
     <div class="age-mark">18+</div>
-    <div class="age-eyebrow">Baltazar Seeds</div>
+    <div class="age-eyebrow eyebrow">Baltazar Seeds</div>
     <h1 class="age-title" id="age-heading">Are you <em>18+</em>?</h1>
-    <p class="age-copy">Baltazar Seeds documents a personal journey through cannabis genetics and is intended only for adults aged 18 and over.</p>
+    <p class="age-copy">This site contains cannabis-related documentation and is intended for adults aged 18 and over.</p>
     <div class="age-actions">
-      <button class="age-btn age-btn--yes" id="age-yes" type="button">Yes, enter</button>
+      <button class="age-btn" id="age-yes" type="button">Yes, enter</button>
       <button class="age-btn age-btn--no" id="age-no" type="button">No, leave</button>
     </div>
-    <div class="age-denied" id="age-denied">Access is restricted to visitors aged 18 and over.</div>
   </div>
 </div>
 
-<!-- Reusable icon sprite (referenced via <use> to avoid repeating the same
-     SVG paths 6x per slide — smaller HTML, one place to edit each icon) -->
-<svg style="position:absolute; width:0; height:0; overflow:hidden" aria-hidden="true">
-  <defs>
-    <symbol id="icon-botanical" viewBox="0 0 200 200" fill="none">
-      <path d="M100 10C70 50 70 90 100 130C130 90 130 50 100 10Z" stroke="white" stroke-width="0.5"/>
-      <path d="M100 130C60 118 28 138 10 170C42 170 72 150 100 130Z" stroke="white" stroke-width="0.5"/>
-      <path d="M100 130C140 118 172 138 190 170C158 170 128 150 100 130Z" stroke="white" stroke-width="0.5"/>
-    </symbol>
-    <symbol id="icon-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.7">
-      <path d="M12 2C9 6 9 10 12 14C15 10 15 6 12 2Z"/>
-      <path d="M12 14C8 14 4 16 2 20C6 20 9 18 12 14Z"/>
-      <path d="M12 14C16 14 20 16 22 20C18 20 15 18 12 14Z"/>
-    </symbol>
-  </defs>
-</svg>
-
-<!-- ───────────────────────────────────────────────────
-     INTRO
-──────────────────────────────────────────────────── -->
 <div id="intro">
-  <div class="intro-brand">Baltazar Seeds</div>
-  <div id="intro-title">
+  <div class="intro-inner">
+    <div class="intro-brand eyebrow">Baltazar Seeds</div>
     <div class="intro-word" id="iw1"></div>
     <div class="intro-word" id="iw2"></div>
+    <div class="intro-sub micro">The Comeback Run · Strainmix Part One</div>
   </div>
-  <div class="intro-sub">A Grower’s Journey · A Search for Genetics</div>
 </div>
 
-<!-- Ambient -->
 <div id="ambient"></div>
-
-<!-- Corner marks -->
+<div id="progress"></div>
 <div id="corners">
-  <div class="corner tl"></div>
-  <div class="corner tr"></div>
-  <div class="corner bl"></div>
-  <div class="corner br"></div>
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
 </div>
 
-<!-- Progress bar -->
-<div id="progress"></div>
-
-<!-- Nav -->
 <nav>
-  <div class="nav-logo">
-    <span class="nav-pulse"></span>
-    Baltazar Seeds
-  </div>
+  <div class="nav-logo"><span class="nav-pulse"></span>Baltazar Seeds</div>
   <div class="nav-links">
-    <button class="nav-link" id="nav-collection">The Story</button>
+    <button class="nav-link" id="nav-story" type="button">The Story</button>
     <a class="nav-link" href="seite3.html">Merch</a>
-    <a class="nav-link" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener noreferrer">GROWER.CH</a>
+    <a class="nav-link" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener noreferrer">Grower.ch</a>
     <a class="nav-link nav-link--game" href="player.html">Neon Escape</a>
     <a class="nav-link nav-link--game" href="baltazarsrun.html">Baltazar's Run</a>
-    <button class="nav-link" id="nav-contact">Contact</button>
+    <button class="nav-link" id="nav-contact" type="button">Contact</button>
   </div>
 </nav>
 
-<!-- Logo mark -->
-<div id="cat-logo">
-  <div id="cat-logo-ring"></div>
-  <div id="cat-logo-inner">
-    <img src="CATLOGO.JPG" alt="Baltazar Seeds"
-         onerror="document.getElementById('cat-logo').style.display='none';">
-  </div>
-</div>
-
-<!-- Center divider -->
 <div id="divider"></div>
 
-<!-- Swipe hint (mobile) -->
-<div id="swipe-hint"><span>Swipe</span></div>
+<div id="slider-track" role="region" aria-roledescription="carousel" aria-label="Baltazar Seeds — The Comeback Run">
 
-<!-- KB hint (desktop) -->
-<div id="kb-hint">← → Navigate</div>
-
-
-<!-- ═══════════════════════════════════════
-     SLIDER
-════════════════════════════════════════ -->
-
-<!-- ═══════════════════════════════════════
-     ORIGIN STORY
-════════════════════════════════════════ -->
-<div id="story-panel" aria-hidden="true">
-  <button id="story-close" type="button" aria-label="Close story">×</button>
-  <div class="story-panel-inner">
-    <div class="story-eyebrow">The Beginning</div>
-    <h2>It didn't start with a catalogue.<br><em>It started with a grow.</em></h2>
-    <p>After more than ten years away from growing, the comeback began as a simple experiment. More than fifty seeds from mixed and uncertain origins were tested. Some germinated. Some didn't. Some plants disappeared from the selection. A few stood out.</p>
-    <p>The first run became the starting point for a bigger idea: observe what the plants actually give you, keep what is interesting and build from there.</p>
-    <p>The entire first chapter was documented publicly on GROWER.CH from January 2025 onward.</p>
-    <a href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener noreferrer">Read the original grow report ↗</a>
-  </div>
-</div>
-
-<div id="slider-track" role="region" aria-roledescription="carousel" aria-label="Strain collection">
-
-
-  <!-- SLIDE 1 — Phantom Haze ──────────────── -->
-  <div class="slide active" data-index="0" role="group" aria-roledescription="slide" aria-label="Slide 1 of 6: Phantom Haze">
+  <section class="slide active" data-index="0" aria-label="1 of 6 — The Return">
     <div class="slide-img">
-      <svg class="botanical" aria-hidden="true"><use href="#icon-botanical"></use></svg>
-      <div class="img-ph" id="ph1">
-        <svg width="40" height="40" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-        <span>Phantom Haze</span>
-      </div>
-      <img src="STRAIN1.JPG" alt="Baltazar's Phantom Haze"
-           loading="eager" fetchpriority="high" decoding="async"
-           onload="this.classList.add('loaded'); document.getElementById('ph1').style.display='none';"
+      <div class="img-ph">The Return</div>
+      <img src="STRAIN1.JPG" alt="Baltazar Seeds — documented grow image" loading="eager" fetchpriority="high" decoding="async"
+           onload="this.classList.add('loaded');this.previousElementSibling.style.display='none';"
            onerror="this.remove();">
-      <div class="slide-genetics">The first comeback grow · Mixed origin</div>
-      <div class="slide-num">01 / Collection</div>
+      <div class="slide-index">01 / DOCUMENTED ORIGIN</div>
+      <div class="slide-meta"><span class="slide-genetics">10+ YEARS AWAY · COMEBACK RUN</span><span class="slide-num">01 / 06</span></div>
     </div>
     <div class="slide-info">
       <div class="ghost-num">01</div>
-      <div class="slide-tag">Documented Origin</div>
-      <h2 class="slide-name">Baltazar's<br><em>Phantom Haze</em></h2>
-      <div class="slide-lineage">The first comeback grow · Mixed / uncertain origin</div>
-      <p class="slide-desc">The comeback began after more than ten years away from growing. There was no breeding program and no master plan — just a grow, a mixed selection of seeds and the curiosity to see what would happen.</p>
-      <div class="slide-price-row">
-        <div class="slide-price">€ 80</div>
-        <div class="slide-price-unit">12 Regular Seeds</div>
+      <div class="story-kicker eyebrow">10.01.2025 · THE RETURN</div>
+      <h2 class="story-title">Back after<br><em>more than ten years.</em></h2>
+      <div class="story-line micro">Strainmix Part One</div>
+      <p class="story-copy">After more than a decade away from growing, the project begins again. Not as a polished breeding program and not as a high-end production run — but as a <strong>comeback</strong>. The stated goal from the start was simple: <strong>quality over quantity</strong> and the curiosity to see what an unpredictable seed mix would become.</p>
+      <div class="fact-row">
+        <div class="fact"><b>01</b> Comeback</div>
+        <div class="fact"><b>50+</b> seeds planned</div>
+        <div class="fact"><b>01</b> experiment</div>
       </div>
-      <a class="slide-cta" href="https://buy.stripe.com/dRm4gCdai9wn46Y7A5gw00J" target="_blank" rel="noopener">
-        <span class="cta-label">Order Now</span>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-        </svg>
-      </a>
-      <div class="thc-badge"><div class="thc-val">28%</div><div class="thc-lbl">THC</div></div>
+      <a class="story-cta" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener"><span>Read the original report</span><span>↗</span></a>
+      <div class="source-note">Source · Grower.ch · Strainmix Part One</div>
     </div>
-  </div>
+  </section>
 
-
-  <!-- SLIDE 2 — Velvet Thunder ────────────── -->
-  <div class="slide" data-index="1" role="group" aria-roledescription="slide" aria-label="Slide 2 of 6: Velvet Thunder">
+  <section class="slide" data-index="1" aria-label="2 of 6 — The Mix">
     <div class="slide-img">
-      <svg class="botanical" aria-hidden="true"><use href="#icon-botanical"></use></svg>
-      <div class="img-ph" id="ph2">
-        <svg width="40" height="40" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-        <span>Velvet Thunder</span>
-      </div>
-      <img src="STRAIN2.JPG" alt="Baltazar's Velvet Thunder"
-           loading="lazy" decoding="async"
-           onload="this.classList.add('loaded'); document.getElementById('ph2').style.display='none';"
+      <div class="img-ph">The Mix</div>
+      <img src="STRAIN2.JPG" alt="Baltazar Seeds — documented grow image" loading="lazy" decoding="async"
+           onload="this.classList.add('loaded');this.previousElementSibling.style.display='none';"
            onerror="this.remove();">
-      <div class="slide-genetics">Selection · Observed in the first run</div>
-      <div class="slide-num">02 / Collection</div>
+      <div class="slide-index">02 / DOCUMENTED ORIGIN</div>
+      <div class="slide-meta"><span class="slide-genetics">BAGSEEDS · MIXED ORIGINS</span><span class="slide-num">02 / 06</span></div>
     </div>
     <div class="slide-info">
       <div class="ghost-num">02</div>
-      <div class="slide-tag">The Selection</div>
-      <h2 class="slide-name">Baltazar's<br><em>Velvet Thunder</em></h2>
-      <div class="slide-lineage">Selected through observation · First experimental run</div>
-      <p class="slide-desc">More than fifty seeds were put to the test. Not every seed germinated and not every plant earned a place in the final selection. Strength, growth, structure and smell became the things worth paying attention to.</p>
-      <div class="slide-price-row">
-        <div class="slide-price">€ 80</div>
-        <div class="slide-price-unit">12 Regular Seeds</div>
+      <div class="story-kicker eyebrow">THE MIX · UNKNOWN BY DESIGN</div>
+      <h2 class="story-title">A box full of<br><em>questions.</em></h2>
+      <div class="story-line micro">Seed origin was part of the experiment</div>
+      <p class="story-copy">The mix was built from seeds collected over <strong>three years or longer</strong>. Most were older seeds from flowers — mainly Gelato — alongside seeds from a coffee-shop seed vending machine. The report also names <strong>Cali Orange, Gelato and Purple Tangie</strong>. Some seeds were free or cost about two euros.</p>
+      <div class="fact-row">
+        <div class="fact"><b>3+ YRS</b> collected</div>
+        <div class="fact"><b>Gelato</b> main source</div>
+        <div class="fact"><b>€2</b> some seeds</div>
       </div>
-      <a class="slide-cta" href="https://buy.stripe.com/8x25kG9Y65g75b26w1gw00K" target="_blank" rel="noopener">
-        <span class="cta-label">Order Now</span>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-        </svg>
-      </a>
-      <div class="thc-badge"><div class="thc-val">31%</div><div class="thc-lbl">THC</div></div>
+      <div class="source-note">Documented origin · no invented lineage</div>
     </div>
-  </div>
+  </section>
 
-
-  <!-- SLIDE 3 — Golden Ritual ─────────────── -->
-  <div class="slide" data-index="2" role="group" aria-roledescription="slide" aria-label="Slide 3 of 6: Golden Ritual">
+  <section class="slide" data-index="2" aria-label="3 of 6 — The Struggle">
     <div class="slide-img">
-      <svg class="botanical" aria-hidden="true"><use href="#icon-botanical"></use></svg>
-      <div class="img-ph" id="ph3">
-        <svg width="40" height="40" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-        <span>Golden Ritual</span>
-      </div>
-      <img src="STRAIN3.JPG" alt="Baltazar's Golden Ritual"
-           loading="lazy" decoding="async"
-           onload="this.classList.add('loaded'); document.getElementById('ph3').style.display='none';"
+      <div class="img-ph">The Struggle</div>
+      <img src="STRAIN3.JPG" alt="Baltazar Seeds — documented grow image" loading="lazy" decoding="async"
+           onload="this.classList.add('loaded');this.previousElementSibling.style.display='none';"
            onerror="this.remove();">
-      <div class="slide-genetics">Observation · Learning by doing</div>
-      <div class="slide-num">03 / Collection</div>
+      <div class="slide-index">03 / DOCUMENTED ORIGIN</div>
+      <div class="slide-meta"><span class="slide-genetics">OLD SEED · WINTER · DRY AIR</span><span class="slide-num">03 / 06</span></div>
     </div>
     <div class="slide-info">
       <div class="ghost-num">03</div>
-      <div class="slide-tag">What We Learned</div>
-      <h2 class="slide-name">Baltazar's<br><em>Golden Ritual</em></h2>
-      <div class="slide-lineage">Observed during the comeback grow · Learning by doing</div>
-      <p class="slide-desc">The run was as much about learning as it was about the flowers. Different plants behaved differently and some revealed characteristics worth remembering. The uncertainty of the seed mix became part of the experiment.</p>
-      <div class="slide-price-row">
-        <div class="slide-price">€ 80</div>
-        <div class="slide-price-unit">12 Regular Seeds</div>
+      <div class="story-kicker eyebrow">JANUARY · THE STRUGGLE</div>
+      <h2 class="story-title">It didn't start<br><em>smoothly.</em></h2>
+      <div class="story-line micro">23 planted · only 3 initially emerged</div>
+      <p class="story-copy">The first attempt used <strong>23 seeds</strong> and only three small plants had emerged at first. Around thirty more seeds were then prepared. The report describes dry winter air, heating, lamp heat and suboptimal climate as part of the challenge. More than fifty seeds had been put through the process overall.</p>
+      <div class="fact-row">
+        <div class="fact"><b>23</b> first seeds</div>
+        <div class="fact"><b>3</b> early survivors</div>
+        <div class="fact"><b>50+</b> total mix</div>
       </div>
-      <a class="slide-cta" href="https://buy.stripe.com/14A8wSeem6kb46Yg6Bgw00L" target="_blank" rel="noopener">
-        <span class="cta-label">Order Now</span>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-        </svg>
-      </a>
-      <div class="thc-badge"><div class="thc-val">26%</div><div class="thc-lbl">THC</div></div>
+      <div class="source-note">Personal grow observation · not presented as a general rule</div>
     </div>
-  </div>
+  </section>
 
-
-  <!-- SLIDE 4 — Midnight Oracle ───────────── -->
-  <div class="slide" data-index="3" role="group" aria-roledescription="slide" aria-label="Slide 4 of 6: Midnight Oracle">
+  <section class="slide" data-index="3" aria-label="4 of 6 — Selection">
     <div class="slide-img">
-      <svg class="botanical" aria-hidden="true"><use href="#icon-botanical"></use></svg>
-      <div class="img-ph" id="ph4">
-        <svg width="40" height="40" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-        <span>Midnight Oracle</span>
-      </div>
-      <img src="STRAIN4.JPG" alt="Baltazar's Midnight Oracle"
-           loading="lazy" decoding="async"
-           onload="this.classList.add('loaded'); document.getElementById('ph4').style.display='none';"
+      <div class="img-ph">Selection</div>
+      <img src="STRAIN4.JPG" alt="Baltazar Seeds — documented grow image" loading="lazy" decoding="async"
+           onload="this.classList.add('loaded');this.previousElementSibling.style.display='none';"
            onerror="this.remove();">
-      <div class="slide-genetics">Mixed seed · Variable origin</div>
-      <div class="slide-num">04 / Collection</div>
+      <div class="slide-index">04 / DOCUMENTED ORIGIN</div>
+      <div class="slide-meta"><span class="slide-genetics">SELECTION · PHENOTYPE WATCH</span><span class="slide-num">04 / 06</span></div>
     </div>
     <div class="slide-info">
       <div class="ghost-num">04</div>
-      <div class="slide-tag">The Wundertüte</div>
-      <h2 class="slide-name">Baltazar's<br><em>Midnight Oracle</em></h2>
-      <div class="slide-lineage">Mixed seed · Variable origin · Different results</div>
-      <p class="slide-desc">Old seeds, bagseed and seeds from different sources made the original mix a genuine Wundertüte. Every plant had its own story and the results could not be predicted in advance.</p>
-      <div class="slide-price-row">
-        <div class="slide-price">€ 80</div>
-        <div class="slide-price-unit">12 Regular Seeds</div>
+      <div class="story-kicker eyebrow">22. VEG · SELECTION</div>
+      <h2 class="story-title">Let the plants<br><em>show themselves.</em></h2>
+      <div class="story-line micro">Strong · fast · interesting</div>
+      <p class="story-copy">As the number of plants grew, selection became unavoidable. The aim was to keep the plants that developed best and to watch how differently the unknown genetics expressed themselves. One unusual plant became <strong>number 18 in the Zwergenbattle 2025</strong> — a trifoliate with three cotyledons.</p>
+      <div class="fact-row">
+        <div class="fact"><b>22. VEG</b> selection</div>
+        <div class="fact"><b>#18</b> Zwergenbattle</div>
+        <div class="fact"><b>3</b> cotyledons</div>
       </div>
-      <a class="slide-cta" href="https://buy.stripe.com/dRmdRc9Y6gYPbzq2fLgw00M" target="_blank" rel="noopener">
-        <span class="cta-label">Order Now</span>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-        </svg>
-      </a>
-      <div class="thc-badge"><div class="thc-val">29%</div><div class="thc-lbl">THC</div></div>
+      <div class="source-note">Selection documented in the original thread</div>
     </div>
-  </div>
+  </section>
 
-
-  <!-- SLIDE 5 — Crimson Protocol ──────────── -->
-  <div class="slide" data-index="4" role="group" aria-roledescription="slide" aria-label="Slide 5 of 6: Crimson Protocol">
+  <section class="slide" data-index="4" aria-label="5 of 6 — Flower">
     <div class="slide-img">
-      <svg class="botanical" aria-hidden="true"><use href="#icon-botanical"></use></svg>
-      <div class="img-ph" id="ph5">
-        <svg width="40" height="40" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-        <span>Crimson Protocol</span>
-      </div>
-      <img class="img-a" src="STRAIN5.JPG" alt="Baltazar's Crimson Protocol"
-           loading="lazy" decoding="async"
-           onload="this.classList.add('loaded'); document.getElementById('ph5').style.display='none';"
+      <div class="img-ph">Flower</div>
+      <img src="STRAIN5.JPG" class="img-a" alt="Baltazar Seeds — documented flower image" loading="lazy" decoding="async"
+           onload="this.classList.add('loaded');this.previousElementSibling.style.display='none';"
            onerror="this.remove();">
-      <img class="img-b" src="STRAIN5A.JPG" alt="Baltazar's Crimson Protocol — view 2"
-           loading="lazy" decoding="async"
-           onload="this.classList.add('loaded');"
-           onerror="this.remove();">
-      <div class="slide-genetics">Development · Future genetics</div>
-      <div class="slide-num">05 / Collection</div>
+      <img src="STRAIN5A.JPG" class="img-b" alt="Baltazar Seeds — documented flower image, second view" loading="lazy" decoding="async"
+           onload="this.classList.add('loaded');" onerror="this.remove();">
+      <div class="slide-index">05 / DOCUMENTED ORIGIN</div>
+      <div class="slide-meta"><span class="slide-genetics">BT. 37 · DIFFERENT SCENTS</span><span class="slide-num">05 / 06</span></div>
     </div>
     <div class="slide-info">
       <div class="ghost-num">05</div>
-      <div class="slide-tag">Where It Leads</div>
-      <h2 class="slide-name">Baltazar's<br><em>Crimson Protocol</em></h2>
-      <div class="slide-lineage">Development in progress · Future chapter</div>
-      <p class="slide-desc">The first run made one thing clear: genetics matter. Unknown and unstable seed can produce very different results. The next step is to work more deliberately with known genetics and compare what different lines can really do.</p>
-      <div class="slide-price-row">
-        <div class="slide-price">€ 80</div>
-        <div class="slide-price-unit">12 Regular Seeds</div>
+      <div class="story-kicker eyebrow">BT. 37 → BT. 53 · FLOWER</div>
+      <h2 class="story-title">Different plants.<br><em>Different stories.</em></h2>
+      <div class="story-line micro">The mix became a catalogue of variation</div>
+      <p class="story-copy">By day 37 the plants were being tentatively identified by smell and appearance: possible Gelato, Skunk, Purple Tangie and Cali Orange among them. Later the report notes that <strong>every plant was different</strong>. The aromas ranged from sweet and herbal to intensely pungent, citrus and lemon.</p>
+      <div class="fact-row">
+        <div class="fact"><b>BT. 37</b> first IDs</div>
+        <div class="fact"><b>BT. 42</b> 600W NDL</div>
+        <div class="fact"><b>BT. 53</b> all different</div>
       </div>
-      <div class="slide-cta-soon">
-        <span>Coming Soon</span>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-        </svg>
-      </div>
-      <div class="thc-badge"><div class="thc-val">26%</div><div class="thc-lbl">THC</div></div>
+      <div class="source-note">Strain names remain hypotheses where the original report says “wahrscheinlich” or “ich tippe”</div>
     </div>
-  </div>
+  </section>
 
-
-  <!-- SLIDE 6 — Silent Forest ─────────────── -->
-  <div class="slide" data-index="5" role="group" aria-roledescription="slide" aria-label="Slide 6 of 6: Silent Forest">
+  <section class="slide" data-index="5" aria-label="6 of 6 — The Finish">
     <div class="slide-img">
-      <svg class="botanical" aria-hidden="true"><use href="#icon-botanical"></use></svg>
-      <div class="img-ph" id="ph6">
-        <svg width="40" height="40" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-        <span>Silent Forest</span>
-      </div>
-      <img class="img-a" src="STRAIN6.JPG" alt="Baltazar's Silent Forest"
-           loading="lazy" decoding="async"
-           onload="this.classList.add('loaded'); document.getElementById('ph6').style.display='none';"
+      <div class="img-ph">The Finish</div>
+      <img src="STRAIN6.JPG" class="img-a" alt="Baltazar Seeds — documented final flower image" loading="lazy" decoding="async"
+           onload="this.classList.add('loaded');this.previousElementSibling.style.display='none';"
            onerror="this.remove();">
-      <img class="img-b" src="STRAIN6A.JPG" alt="Baltazar's Silent Forest — view 2"
-           loading="lazy" decoding="async"
-           onload="this.classList.add('loaded');"
-           onerror="this.remove();">
-      <div class="slide-genetics">Future genetics · Work in progress</div>
-      <div class="slide-num">06 / Collection</div>
+      <img src="STRAIN6A.JPG" class="img-b" alt="Baltazar Seeds — documented final flower image, second view" loading="lazy" decoding="async"
+           onload="this.classList.add('loaded');" onerror="this.remove();">
+      <div class="slide-index">06 / DOCUMENTED ORIGIN</div>
+      <div class="slide-meta"><span class="slide-genetics">BT. 57 · HARVEST · NEXT RUN</span><span class="slide-num">06 / 06</span></div>
     </div>
     <div class="slide-info">
       <div class="ghost-num">06</div>
-      <div class="slide-tag">Incoming</div>
-      <h2 class="slide-name">Baltazar's<br><em>Silent Forest</em></h2>
-      <div class="slide-lineage">Future genetics · Work in progress</div>
-      <p class="slide-desc">Baltazar Seeds is the continuation of that search. Keep growing, keep observing and eventually work toward a line that can genuinely be called our own. Every run adds another piece to the picture.</p>
-      <div class="slide-price-row">
-        <div class="slide-price">€ 80</div>
-        <div class="slide-price-unit">12 Regular Seeds</div>
+      <div class="story-kicker eyebrow">15.04.2025 · BT. 57 · FINALE</div>
+      <h2 class="story-title">Not the end.<br><em>The next experiment.</em></h2>
+      <div class="story-line micro">A comeback run becomes a direction</div>
+      <p class="story-copy">The harvest came at BT. 57. Some plants could have stood longer but the run was intentionally brought to a close. The conclusion was clear: this was a <strong>learning run</strong> and the unstable genetics made the outcome unpredictable. The next seed mix was planned with ordered seeds from official breeders — followed later by a focused single-strain run and eventually the long-term goal of developing something of its own.</p>
+      <div class="fact-row">
+        <div class="fact"><b>BT. 57</b> harvest</div>
+        <div class="fact"><b>~120g</b> later estimate</div>
+        <div class="fact"><b>NEXT</b> seed mix</div>
       </div>
-      <div class="slide-cta-soon">
-        <span>Coming Soon</span>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-        </svg>
-      </div>
-      <div class="thc-badge"><div class="thc-val">24%</div><div class="thc-lbl">THC</div></div>
+      <a class="story-cta" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener"><span>Follow the full documentation</span><span>↗</span></a>
+      <div class="source-note">Grower.ch · original report · continued experimentation</div>
     </div>
-  </div>
+  </section>
 
+</div>
 
-</div><!-- /slider-track -->
-
-
-<!-- Controls -->
 <div id="controls">
   <button class="arrow" id="btn-prev" aria-label="Previous" disabled>
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <polyline points="15 18 9 12 15 6"/>
-    </svg>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
   </button>
-  <div id="dots"></div>
+  <div id="dots" aria-label="Story navigation"></div>
   <button class="arrow" id="btn-next" aria-label="Next">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <polyline points="9 18 15 12 9 6"/>
-    </svg>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg>
   </button>
   <div id="counter">01 / 06</div>
 </div>
 
-
-<!-- Contact modal -->
 <div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
-  <div id="modal">
-    <button id="modal-close" aria-label="Close">&#10005;</button>
-
-    <div class="modal-eyebrow">Get in Touch</div>
+  <div id="modal" style="position:relative;">
+    <button id="modal-close" aria-label="Close">×</button>
+    <div class="eyebrow" style="color:var(--gold);">Get in Touch</div>
     <div class="modal-title" id="modal-heading">Reach<br><em>Baltazar</em></div>
-
     <a class="modal-row" href="mailto:imanvanruler@freenet.de">
-      <div class="modal-icon">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="2" y="4" width="20" height="16" rx="2"/>
-          <polyline points="2,4 12,13 22,4"/>
-        </svg>
-      </div>
-      <div>
-        <div class="modal-row-label">Email</div>
-        <div class="modal-row-val">imanvanruler@freenet.de</div>
-      </div>
+      <div class="modal-icon">✉</div>
+      <div><div class="modal-row-label">Email</div><div class="modal-row-val">imanvanruler@freenet.de</div></div>
     </a>
-
     <a class="modal-row" href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener noreferrer">
-      <div class="modal-icon">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="2" y="2" width="20" height="20" rx="5"/>
-          <circle cx="12" cy="12" r="4.5"/>
-          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-        </svg>
-      </div>
-      <div>
-        <div class="modal-row-label">Instagram</div>
-        <div class="modal-row-val">@real_jack_james</div>
-      </div>
+      <div class="modal-icon">◎</div>
+      <div><div class="modal-row-label">Instagram</div><div class="modal-row-val">@real_jack_james</div></div>
     </a>
-
-    <p class="modal-note">For orders, questions, or wholesale inquiries reach out directly. We respond within 24 hours. All seeds are sold as collectibles only.</p>
+    <p class="modal-note">For questions, collaborations or general inquiries reach out directly.</p>
   </div>
 </div>
 
-
-<!-- Custom cursor — must be in DOM before script -->
 <div id="cursor">
-  <div class="c-bar c-top"></div>
-  <div class="c-bar c-bottom"></div>
-  <div class="c-bar c-left"></div>
-  <div class="c-bar c-right"></div>
-  <div class="c-center"></div>
+  <div class="c-bar c-top"></div><div class="c-bar c-bottom"></div>
+  <div class="c-bar c-left"></div><div class="c-bar c-right"></div><div class="c-center"></div>
 </div>
 <div id="cursor-ring"></div>
 
-
 <script>
-(function () {
+(function(){
   'use strict';
 
-  /* ════════════════════════════════════════
-     INTRO — letter stagger
-  ════════════════════════════════════════ */
-  var intro = document.getElementById('intro');
-
-  (function buildLetters() {
-    var words  = ['GENETIC', 'HUNTER'];
-    var delays = [0.12, 0.10];
-    var starts = [0.20, 0.95];
-
-    words.forEach(function (word, wi) {
-      var div = document.getElementById(wi === 0 ? 'iw1' : 'iw2');
-      word.split('').forEach(function (ch, li) {
-        var span = document.createElement('span');
-        span.textContent = ch === ' ' ? '\u00A0' : ch;
-        span.style.animationDelay = (starts[wi] + li * delays[wi]) + 's';
-        div.appendChild(span);
-      });
+  var intro=document.getElementById('intro');
+  ['GENETIC','HUNTER'].forEach(function(word,wi){
+    var target=document.getElementById(wi===0?'iw1':'iw2');
+    word.split('').forEach(function(ch,i){
+      var s=document.createElement('span');
+      s.textContent=ch;
+      s.style.animationDelay=((wi===0?.18:.92)+i*(wi===0?.11:.10))+'s';
+      target.appendChild(s);
     });
-  })();
-
-  /* Age gate — the intro starts only after verification */
-  var ageGate   = document.getElementById('age-gate');
-  var ageYes    = document.getElementById('age-yes');
-  var ageNo     = document.getElementById('age-no');
-  var ageDenied = document.getElementById('age-denied');
-  var AGE_KEY   = 'baltazar_age_verified';
-
-  function enterSite() {
-    try { localStorage.setItem(AGE_KEY, 'true'); } catch (e) {}
-    ageGate.classList.add('hidden');
-    setTimeout(function () { intro.classList.add('gone'); }, 2800);
-  }
-
-  function denyAccess() {
-    ageDenied.classList.add('show');
-    ageNo.blur();
-  }
-
-  var alreadyVerified = false;
-  try { alreadyVerified = localStorage.getItem(AGE_KEY) === 'true'; } catch (e) {}
-
-  if (alreadyVerified) {
-    ageGate.classList.add('hidden');
-    setTimeout(function () { intro.classList.add('gone'); }, 2800);
-  } else {
-    ageYes.focus();
-    ageYes.addEventListener('click', enterSite);
-    ageNo.addEventListener('click', denyAccess);
-  }
-
-
-  /* ════════════════════════════════════════
-     SLIDER
-  ════════════════════════════════════════ */
-  var track   = document.getElementById('slider-track');
-  var slides  = Array.from(document.querySelectorAll('.slide'));
-  var dotsEl  = document.getElementById('dots');
-  var btnPrev = document.getElementById('btn-prev');
-  var btnNext = document.getElementById('btn-next');
-  var counter = document.getElementById('counter');
-  var progress = document.getElementById('progress');
-
-  var total   = slides.length;
-  var current = 0;
-  var locked  = false;
-
-  /* Build dots */
-  slides.forEach(function (_, i) {
-    var btn = document.createElement('button');
-    btn.className = 'dot' + (i === 0 ? ' active' : '');
-    btn.setAttribute('aria-label', 'Slide ' + (i + 1));
-    if (i === 0) btn.setAttribute('aria-current', 'true');
-    btn.addEventListener('click', function () { goTo(i); });
-    dotsEl.appendChild(btn);
   });
 
-  /* Keep off-screen slides out of the tab order so keyboard users
-     don't tab into invisible "Order Now" links. */
-  function setInertState() {
-    slides.forEach(function (slide, i) {
-      if (i === current) {
-        slide.removeAttribute('inert');
-        slide.removeAttribute('aria-hidden');
-      } else {
-        slide.setAttribute('inert', '');
-        slide.setAttribute('aria-hidden', 'true');
-      }
+  var ageGate=document.getElementById('age-gate');
+  var yes=document.getElementById('age-yes');
+  var no=document.getElementById('age-no');
+  var AGE_KEY='baltazar_age_verified';
+
+  function enterSite(){
+    try{localStorage.setItem(AGE_KEY,'true');}catch(e){}
+    ageGate.classList.add('hidden');
+    setTimeout(function(){intro.classList.add('gone');},2500);
+  }
+  yes.addEventListener('click',enterSite);
+  no.addEventListener('click',function(){no.textContent='18+ required';no.blur();});
+  var verified=false;
+  try{verified=localStorage.getItem(AGE_KEY)==='true';}catch(e){}
+  if(verified){
+    ageGate.classList.add('hidden');
+    setTimeout(function(){intro.classList.add('gone');},2500);
+  }else yes.focus();
+
+  var track=document.getElementById('slider-track');
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var dotsEl=document.getElementById('dots');
+  var prev=document.getElementById('btn-prev');
+  var next=document.getElementById('btn-next');
+  var counter=document.getElementById('counter');
+  var progress=document.getElementById('progress');
+  var current=0,locked=false,total=slides.length;
+
+  slides.forEach(function(_,i){
+    var d=document.createElement('button');
+    d.className='dot'+(i===0?' active':'');
+    d.setAttribute('aria-label','Go to slide '+(i+1));
+    d.addEventListener('click',function(){goTo(i);});
+    dotsEl.appendChild(d);
+  });
+  function dots(){return dotsEl.querySelectorAll('.dot');}
+  function fmt(n){return String(n+1).padStart(2,'0');}
+  function inert(){
+    slides.forEach(function(s,i){
+      if(i===current){s.removeAttribute('inert');s.removeAttribute('aria-hidden');}
+      else{s.setAttribute('inert','');s.setAttribute('aria-hidden','true');}
     });
   }
-  setInertState();
-
-  function getDots() { return dotsEl.querySelectorAll('.dot'); }
-  function fmt(n)    { return String(n + 1).padStart(2, '0'); }
-
-  function goTo(idx) {
-    if (locked || idx === current || idx < 0 || idx >= total) return;
-    locked = true;
-
+  function goTo(i){
+    if(locked||i<0||i>=total||i===current)return;
+    locked=true;
+    dots()[current].classList.remove('active');
     slides[current].classList.remove('active');
-    getDots()[current].classList.remove('active');
-    getDots()[current].removeAttribute('aria-current');
-
-    current = idx;
-
+    current=i;
     slides[current].classList.add('active');
-    getDots()[current].classList.add('active');
-    getDots()[current].setAttribute('aria-current', 'true');
-    setInertState();
-
-    track.style.transform  = 'translateX(-' + (current * 100) + 'vw)';
-    counter.textContent    = fmt(current) + ' / ' + fmt(total - 1);
-    progress.style.width   = ((current + 1) / total * 100) + '%';
-    btnPrev.disabled       = current === 0;
-    btnNext.disabled       = current === total - 1;
-
-    setTimeout(function () { locked = false; }, 1000);
+    dots()[current].classList.add('active');
+    track.style.transform='translateX(-'+(current*100)+'vw)';
+    counter.textContent=fmt(current)+' / '+fmt(total-1);
+    progress.style.width=((current+1)/total*100)+'%';
+    prev.disabled=current===0;
+    next.disabled=current===total-1;
+    inert();
+    setTimeout(function(){locked=false;},950);
   }
+  inert();
+  progress.style.width=(100/total)+'%';
+  prev.addEventListener('click',function(){goTo(current-1);});
+  next.addEventListener('click',function(){goTo(current+1);});
+  document.getElementById('nav-story').addEventListener('click',function(){goTo(0);});
 
-  /* Init */
-  progress.style.width = ((1 / total) * 100) + '%';
-  counter.textContent  = '01 / ' + fmt(total - 1);
-
-  /* Arrow buttons */
-  btnPrev.addEventListener('click', function () { goTo(current - 1); });
-  btnNext.addEventListener('click', function () { goTo(current + 1); });
-
-  /* Keyboard */
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown')  goTo(current + 1);
-    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')    goTo(current - 1);
-    if (e.key === 'Escape') closeModal();
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='ArrowDown')goTo(current+1);
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp')goTo(current-1);
+    if(e.key==='Escape')closeModal();
   });
 
-  /* Touch swipe */
-  var tx = 0, ty = 0;
-  track.addEventListener('touchstart', function (e) {
-    tx = e.touches[0].clientX; ty = e.touches[0].clientY;
-  }, { passive: true });
-  track.addEventListener('touchend', function (e) {
-    var dx = e.changedTouches[0].clientX - tx;
-    var dy = e.changedTouches[0].clientY - ty;
-    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 44) {
-      goTo(dx < 0 ? current + 1 : current - 1);
-    }
-  }, { passive: true });
+  var tx=0,ty=0;
+  track.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+  track.addEventListener('touchend',function(e){
+    var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>44)goTo(dx<0?current+1:current-1);
+  },{passive:true});
 
-  /* Mouse drag */
-  var dragX = 0, dragging = false;
-  track.addEventListener('mousedown', function (e) {
-    if (e.target.closest('a, button')) return;
-    dragX = e.clientX;
-    dragging = true;
+  var dragX=0,dragging=false;
+  track.addEventListener('mousedown',function(e){
+    if(e.target.closest('a,button'))return;
+    dragX=e.clientX;dragging=true;
   });
-  document.addEventListener('mouseup', function (e) {
-    if (!dragging) return;
-    dragging = false;
-    var dx = e.clientX - dragX;
-    if (Math.abs(dx) > 60) goTo(dx < 0 ? current + 1 : current - 1);
-  });
-  track.addEventListener('mouseleave', function () { dragging = false; });
-
-
-  /* ════════════════════════════════════════
-     NAV + MODAL
-  ════════════════════════════════════════ */
-  document.getElementById('nav-collection').addEventListener('click', function () { goTo(0); });
-
-  var overlay      = document.getElementById('modal-overlay');
-  var modalClose    = document.getElementById('modal-close');
-  var contactBtn    = document.getElementById('nav-contact');
-  var lastFocused    = null;
-
-  function openModal() {
-    lastFocused = document.activeElement;
-    overlay.classList.add('open');
-    modalClose.focus();
-  }
-  function closeModal() {
-    overlay.classList.remove('open');
-    if (lastFocused) lastFocused.focus();
-  }
-
-  contactBtn.addEventListener('click', openModal);
-  modalClose.addEventListener('click', closeModal);
-  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeModal(); });
-
-
-  /* ════════════════════════════════════════
-     CUSTOM CURSOR
-  ════════════════════════════════════════ */
-  var cur  = document.getElementById('cursor');
-  var ring = document.getElementById('cursor-ring');
-
-  if (!cur || !ring) return;
-
-  var mx = window.innerWidth / 2,  my = window.innerHeight / 2;
-  var rx = mx, ry = my;
-
-  document.addEventListener('mousemove', function (e) {
-    mx = e.clientX;
-    my = e.clientY;
-    cur.style.left = mx + 'px';
-    cur.style.top  = my + 'px';
+  document.addEventListener('mouseup',function(e){
+    if(!dragging)return;
+    dragging=false;
+    var dx=e.clientX-dragX;
+    if(Math.abs(dx)>60)goTo(dx<0?current+1:current-1);
   });
 
-  (function animRing() {
-    rx += (mx - rx) * 0.11;
-    ry += (my - ry) * 0.11;
-    ring.style.left = rx + 'px';
-    ring.style.top  = ry + 'px';
-    requestAnimationFrame(animRing);
-  })();
+  var overlay=document.getElementById('modal-overlay');
+  var close=document.getElementById('modal-close');
+  var contact=document.getElementById('nav-contact');
+  var lastFocus=null;
+  function openModal(){lastFocus=document.activeElement;overlay.classList.add('open');close.focus();}
+  function closeModal(){overlay.classList.remove('open');if(lastFocus)lastFocus.focus();}
+  contact.addEventListener('click',openModal);
+  close.addEventListener('click',closeModal);
+  overlay.addEventListener('click',function(e){if(e.target===overlay)closeModal();});
 
-  /* Hover state — includes new <a> nav links */
-  Array.from(document.querySelectorAll(
-    'a, button, .slide-cta-soon, #cat-logo, .dot, .arrow, .nav-link'
-  )).forEach(function (el) {
-    el.addEventListener('mouseenter', function () { document.body.classList.add('cur-hover'); });
-    el.addEventListener('mouseleave', function () { document.body.classList.remove('cur-hover'); });
+  var cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+  var mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+  document.addEventListener('mousemove',function(e){
+    mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';
   });
-
-  document.addEventListener('mousedown', function () { document.body.classList.add('cur-press'); });
-  document.addEventListener('mouseup',   function () { document.body.classList.remove('cur-press'); });
-
-  document.addEventListener('mouseleave', function () { cur.style.opacity = '0'; ring.style.opacity = '0'; });
-  document.addEventListener('mouseenter', function () { cur.style.opacity = '1'; ring.style.opacity = '1'; });
-
-
-  /* ════════════════════════════════════════
-     LOGO CLICK — spin + sparks + chime
-  ════════════════════════════════════════ */
-  var sharedAudio = null;
-
-  var catLogo = document.getElementById('cat-logo');
-  if (catLogo) {
-    catLogo.addEventListener('click', function () {
-      var logo = this;
-      var rect = logo.getBoundingClientRect();
-      var cx   = rect.left + rect.width  / 2;
-      var cy   = rect.top  + rect.height / 2;
-
-      logo.classList.remove('logo-clicked');
-      void logo.offsetWidth;
-      logo.classList.add('logo-clicked');
-      setTimeout(function () { logo.classList.remove('logo-clicked'); }, 800);
-
-      var count = 18;
-      for (var i = 0; i < count; i++) {
-        (function (i) {
-          var angle = (i / count) * Math.PI * 2 + (Math.random() - 0.5) * 0.45;
-          var dist  = 60 + Math.random() * 50;
-          var dx    = Math.cos(angle) * dist;
-          var dy    = Math.sin(angle) * dist;
-          var size  = 2 + Math.random() * 4;
-          var delay = Math.random() * 80;
-
-          var spark = document.createElement('div');
-          spark.className = 'logo-spark';
-          spark.style.cssText =
-            'left:' + cx + 'px;top:' + cy + 'px;' +
-            'width:' + size + 'px;height:' + size + 'px;' +
-            'animation-delay:' + delay + 'ms;' +
-            '--dx:' + dx + 'px;--dy:' + dy + 'px;';
-          document.body.appendChild(spark);
-          setTimeout(function () { spark.remove(); }, 950 + delay);
-        })(i);
-      }
-
-      try {
-        var AC = window.AudioContext || window.webkitAudioContext;
-        if (AC) {
-          if (!sharedAudio) sharedAudio = new AC();
-          if (sharedAudio.state === 'suspended') sharedAudio.resume();
-          var ctx = sharedAudio;
-          [523.25, 659.25, 783.99].forEach(function (freq, i) {
-            var osc  = ctx.createOscillator();
-            var gain = ctx.createGain();
-            var t    = ctx.currentTime + i * 0.08;
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, t);
-            gain.gain.setValueAtTime(0, t);
-            gain.gain.linearRampToValueAtTime(0.06, t + 0.04);
-            gain.gain.exponentialRampToValueAtTime(0.0001, t + 1.8);
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start(t);
-            osc.stop(t + 2.0);
-            osc.onended = function () { try { osc.disconnect(); gain.disconnect(); } catch (e) {} };
-          });
-        }
-      } catch (e) {}
-    });
-  }
-
-}());
-
-// Origin story overlay
-(function () {
-  var panel = document.getElementById('story-panel');
-  var close = document.getElementById('story-close');
-  var nav = document.getElementById('nav-collection');
-  if (!panel || !close || !nav) return;
-
-  function openStory() {
-    panel.classList.add('open');
-    panel.setAttribute('aria-hidden', 'false');
-  }
-
-  function closeStory() {
-    panel.classList.remove('open');
-    panel.setAttribute('aria-hidden', 'true');
-  }
-
-  nav.addEventListener('click', openStory);
-  close.addEventListener('click', closeStory);
-
-  panel.addEventListener('click', function (e) {
-    if (e.target === panel) closeStory();
+  (function animate(){
+    rx+=(mx-rx)*.11;ry+=(my-ry)*.11;
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    requestAnimationFrame(animate);
+  }());
+  [].slice.call(document.querySelectorAll('a,button')).forEach(function(el){
+    el.addEventListener('mouseenter',function(){document.body.classList.add('cur-hover');});
+    el.addEventListener('mouseleave',function(){document.body.classList.remove('cur-hover');});
   });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeStory();
-  });
+  document.addEventListener('mousedown',function(){document.body.classList.add('cur-press');});
+  document.addEventListener('mouseup',function(){document.body.classList.remove('cur-press');});
 })();
-
 </script>
-
 </body>
 </html>
