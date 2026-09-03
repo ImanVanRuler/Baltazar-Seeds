@@ -3776,6 +3776,107 @@ h1,h2,h3,h4,h5,h6,
 }
 </style>
 
+
+<style id="baltazar-cinematic-upgrade">
+/* =========================================================
+   CINEMATIC ARCHIVE UPGRADE / 2006 ORIGIN + INTERACTION LAYER
+   ========================================================= */
+.originScene{
+  min-height:185vh;
+  background:#070906;
+  position:relative;
+}
+.originStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:grid;
+  grid-template-columns:36% 64%;
+  align-items:center;
+  gap:34px;
+  overflow:hidden;
+}
+.originStage::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 72% 48%,rgba(198,232,90,.08),transparent 30vw),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:auto,80px 80px,80px 80px;
+  mask-image:linear-gradient(to bottom,transparent,#000 18%,#000 82%,transparent);
+  pointer-events:none;
+}
+.originMeta{position:relative;z-index:3;padding-left:5%;}
+.originCode{color:var(--acid);font:9px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase}
+.originTitle{margin-top:18px;font:800 clamp(55px,7vw,118px)/.68 Syne,sans-serif;letter-spacing:-.095em}
+.originTitle span{display:block;color:var(--acid)}
+.originText{max-width:390px;margin-top:25px;color:var(--muted);font-size:11px;line-height:1.85}
+.originFacts{margin-top:27px;border-top:1px solid var(--line);max-width:390px}
+.originFact{display:flex;justify-content:space-between;gap:20px;padding:10px 0;border-bottom:1px solid var(--line);font:8px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.09em}
+.originFact span:first-child{color:var(--muted)}
+.originFact span:last-child{color:var(--white)}
+.originVisuals{position:relative;z-index:2;height:74vh;margin-right:-5vw;display:grid;grid-template-columns:1.15fr .85fr;gap:3px}
+.originFrame{position:relative;overflow:hidden;background:#11140f;border:1px solid rgba(255,255,255,.13);cursor:pointer}
+.originFrame:first-child{height:100%;margin-top:-4vh}
+.originFrame:last-child{height:76%;align-self:end;margin-bottom:-3vh}
+.originFrame::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.62)),linear-gradient(90deg,rgba(0,0,0,.18),transparent 45%)}
+.originFrame::after{content:"";position:absolute;z-index:4;left:0;right:0;top:-2px;height:2px;background:var(--acid);box-shadow:0 0 24px rgba(198,232,90,.7);transform:translateY(-20px);transition:transform .7s var(--ease);pointer-events:none}
+.originFrame:hover::after{transform:translateY(100vh)}
+.originFrame img{width:100%;height:100%;display:block;object-fit:cover;filter:contrast(1.07) saturate(.78) brightness(.74);transform:scale(1.055);transition:transform 1.1s var(--ease),filter .7s var(--ease);}
+.originFrame:hover img{transform:scale(1.015);filter:contrast(1.08) saturate(.92) brightness(.86)}
+.originFrame.isMissing{display:grid;place-items:center;border-style:dashed;opacity:.5;cursor:default}
+.originFrame.isMissing::before{display:none}
+.originMissing{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted);font:8px/1.7 "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
+.originLabel{position:absolute;z-index:6;left:16px;top:16px;color:rgba(255,255,255,.62);font:8px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase}
+.originFrameMeta{position:absolute;z-index:6;left:16px;right:16px;bottom:15px;display:flex;justify-content:space-between;gap:15px;color:rgba(255,255,255,.5);font:7px "DM Mono",monospace;letter-spacing:.1em;text-transform:uppercase}
+
+/* Universal archive image behavior */
+.eraVisual,.journalCard,.diptychImage,.chapterCard,.worldCard,.manifestoVisuals figure,.v3AssetCard{position:relative}
+.eraVisual::before,.journalCard::before,.diptychImage::before,.chapterCard::before,.worldCard::before,.manifestoVisuals figure::before,.v3AssetCard::before{
+  content:"";position:absolute;z-index:20;left:0;right:0;top:-2px;height:2px;background:var(--acid);box-shadow:0 0 22px rgba(198,232,90,.6);transform:translateY(-18px);transition:transform .75s var(--ease);pointer-events:none
+}
+.eraVisual:hover::before,.journalCard:hover::before,.diptychImage:hover::before,.chapterCard:hover::before,.worldCard:hover::before,.manifestoVisuals figure:hover::before,.v3AssetCard:hover::before{transform:translateY(100%)}
+
+/* Archive OS command badge */
+.archiveOsHint{position:fixed;z-index:7600;left:24px;bottom:20px;padding:8px 10px;border:1px solid rgba(255,255,255,.12);background:rgba(6,7,5,.72);backdrop-filter:blur(12px);color:rgba(255,255,255,.42);font:7px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;transition:.3s var(--ease)}
+.archiveOsHint:hover{color:var(--acid);border-color:rgba(198,232,90,.5)}
+
+/* Enhanced image inspector */
+.bzInspector{position:fixed;inset:0;z-index:50000;display:grid;place-items:center;background:rgba(3,4,3,.94);backdrop-filter:blur(16px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .45s var(--ease),visibility .45s}
+.bzInspector.open{opacity:1;visibility:visible;pointer-events:auto}
+.bzInspectorFrame{position:relative;width:min(1180px,calc(100% - 34px));height:min(82vh,820px);border:1px solid rgba(255,255,255,.22);background:#0b0d0a;box-shadow:0 40px 120px rgba(0,0,0,.65);display:grid;grid-template-rows:1fr auto;overflow:hidden}
+.bzInspectorFrame::before{content:"";position:absolute;z-index:3;left:0;right:0;height:2px;top:0;background:var(--acid);box-shadow:0 0 28px rgba(198,232,90,.8);animation:bzScan 2.4s linear infinite;pointer-events:none}
+.bzInspectorVisual{position:relative;display:grid;place-items:center;min-height:0;background:#060706}
+.bzInspectorVisual::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 4px);pointer-events:none}
+.bzInspectorVisual img{width:100%;height:100%;object-fit:contain;display:block}
+.bzInspectorTop{position:absolute;z-index:5;top:16px;left:18px;right:18px;display:flex;justify-content:space-between;color:rgba(255,255,255,.5);font:7px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
+.bzInspectorClose{position:absolute;z-index:8;right:15px;top:15px;width:38px;height:38px;border:1px solid rgba(255,255,255,.22);background:rgba(0,0,0,.45);color:white;cursor:pointer;font-size:18px}
+.bzInspectorBottom{display:grid;grid-template-columns:1fr auto;gap:25px;padding:16px 18px;border-top:1px solid rgba(255,255,255,.13);font:8px "DM Mono",monospace;text-transform:uppercase;letter-spacing:.1em}
+.bzInspectorTitle{color:white}.bzInspectorInfo{color:var(--acid);text-align:right}
+@keyframes bzScan{0%{transform:translateY(0)}50%{transform:translateY(78vh)}100%{transform:translateY(0)}}
+
+@media(max-width:900px){
+  .originStage{grid-template-columns:1fr;gap:0;padding:0 20px;align-content:center}
+  .originMeta{padding-left:0;padding-top:5vh}
+  .originVisuals{height:49vh;margin:4vh 0 -2vh;width:100%}
+  .originFrame:first-child{margin-top:0}.originFrame:last-child{margin-bottom:0}
+  .archiveOsHint{left:14px;bottom:12px}
+}
+@media(max-width:620px){
+  .originScene{min-height:165vh}
+  .originTitle{font-size:17vw}
+  .originText{font-size:10px}
+  .originVisuals{height:43vh;grid-template-columns:1fr 1fr;gap:2px}
+  .originFrame:first-child,.originFrame:last-child{height:100%;align-self:stretch}
+  .originFrameMeta{font-size:6px}.originLabel{font-size:7px}
+  .bzInspectorFrame{width:calc(100% - 18px);height:76vh}
+  .bzInspectorBottom{grid-template-columns:1fr;gap:7px}.bzInspectorInfo{text-align:left}
+}
+@media(prefers-reduced-motion:reduce){.originFrame::after,.bzInspectorFrame::before{animation:none!important;transition:none!important}.originFrame img{transition:none!important}}
+</style>
+
 </head>
 
 <!--
@@ -3889,7 +3990,7 @@ h1,h2,h3,h4,h5,h6,
   <span id="progressBar"></span>
 </div>
 
-<div class="progressLabel" id="progressLabel">01 / 14</div>
+<div class="progressLabel" id="progressLabel">01 / 16</div>
 
 <div class="cursorDot" id="cursorDot"></div>
 
@@ -4075,11 +4176,48 @@ h1,h2,h3,h4,h5,h6,
 
 </section>
 
+
 <!-- =========================================================
-     SCENE 04 / 2007
+     SCENE 04 / 2006 — THE REAL BEGINNING
+     ========================================================= -->
+<section class="scene originScene" data-scene="04">
+  <div class="originStage sceneInner">
+    <div class="originMeta">
+      <div class="originCode">ORIGIN / 00 / 2006</div>
+      <h2 class="originTitle">THE<br>REAL <span>START.</span></h2>
+      <p class="originText">
+        Before the first documented grow there was already the beginning of the story.
+        First joint. First brownies. The early fascination comes before the archive has a name.
+        This is where the timeline now starts.
+      </p>
+      <div class="originFacts">
+        <div class="originFact"><span>First traces</span><span>2006</span></div>
+        <div class="originFact"><span>Archive status</span><span>Origin material</span></div>
+        <div class="originFact"><span>Next chapter</span><span>First grow / 2007</span></div>
+      </div>
+    </div>
+    <div class="originVisuals">
+      <figure class="originFrame" data-origin-candidates="FIRSTJOINT.JPG|firstjoint.jpg|FIRST_JOINT.JPG|first_joint.jpg" data-origin-label="FIRST JOINT / 2006">
+        <span class="originLabel">01 / FIRST JOINT</span>
+        <img alt="First joint — 2006 archive" loading="eager" decoding="async">
+        <span class="originFrameMeta"><span>ORIGIN / 2006</span><span>OPEN FRAME ↗</span></span>
+        <span class="originMissing" hidden>FIRST JOINT IMAGE<br>FILE NOT FOUND</span>
+      </figure>
+      <figure class="originFrame" data-origin-candidates="FIRSTBROWNIES.JPG|firstbrownies.jpg|FIRST_BROWNIES.JPG|first_brownies.jpg" data-origin-label="FIRST BROWNIES / 2006">
+        <span class="originLabel">02 / FIRST BROWNIES</span>
+        <img alt="First brownies — 2006 archive" loading="eager" decoding="async">
+        <span class="originFrameMeta"><span>ORIGIN / 2006</span><span>OPEN FRAME ↗</span></span>
+        <span class="originMissing" hidden>FIRST BROWNIES IMAGE<br>FILE NOT FOUND</span>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     SCENE 05 / 2007
      ========================================================= -->
 
-<section class="scene era" id="timeline" data-scene="04">
+<section class="scene era" id="timeline" data-scene="05">
 
   <div class="eraStage sceneInner">
 
@@ -29361,6 +29499,118 @@ body::after{
       card.style.setProperty('--my', '50%');
     });
   });
+})();
+</script>
+
+
+<script id="baltazar-cinematic-upgrade-js">
+/* =========================================================
+   CINEMATIC ARCHIVE UPGRADE / RUNTIME
+   ========================================================= */
+(()=>{
+  const $u=(s,r=document)=>r.querySelector(s);
+  const $$u=(s,r=document)=>[...r.querySelectorAll(s)];
+
+  /* 2006 assets: accept common filename variants without breaking the page. */
+  $$('.originFrame').forEach(frame=>{
+    const img=$u('img',frame);
+    const missing=$u('.originMissing',frame);
+    const candidates=(frame.dataset.originCandidates||'').split('|').filter(Boolean);
+    let index=0, loaded=false;
+    const tryNext=()=>{
+      if(index>=candidates.length){
+        frame.classList.add('isMissing');
+        if(img) img.hidden=true;
+        if(missing) missing.hidden=false;
+        return;
+      }
+      const src=candidates[index++];
+      img.onload=()=>{loaded=true;frame.classList.remove('isMissing');if(missing)missing.hidden=true};
+      img.onerror=()=>{if(!loaded)tryNext()};
+      img.src=src;
+    };
+    if(img && candidates.length) tryNext();
+  });
+
+  /* Tiny Archive OS hint. */
+  if(!document.querySelector('.archiveOsHint')){
+    const hint=document.createElement('div');
+    hint.className='archiveOsHint';
+    hint.textContent='ARCHIVE OS / PRESS /';
+    document.body.appendChild(hint);
+    hint.addEventListener('click',()=>{
+      const command=document.querySelector('#commandInput');
+      const panel=document.querySelector('#commandPanel');
+      if(command && panel){
+        panel.classList.add('open'); panel.setAttribute('aria-hidden','false');
+        document.body.style.overflow='hidden'; command.focus();
+      } else {
+        document.dispatchEvent(new KeyboardEvent('keydown',{key:'/',bubbles:true}));
+      }
+    });
+  }
+
+  /* Enhanced inspector for meaningful archive imagery. */
+  const inspector=document.createElement('div');
+  inspector.className='bzInspector';
+  inspector.innerHTML=`
+    <div class="bzInspectorFrame" role="dialog" aria-modal="true" aria-label="Archive image inspector">
+      <button class="bzInspectorClose" type="button" aria-label="Close image inspector">×</button>
+      <div class="bzInspectorVisual">
+        <div class="bzInspectorTop"><span>BALTAZAR FIELD ARCHIVE</span><span id="bzIndex">FRAME / —</span></div>
+        <img id="bzImage" src="" alt="">
+      </div>
+      <div class="bzInspectorBottom"><span class="bzInspectorTitle" id="bzTitle">—</span><span class="bzInspectorInfo" id="bzInfo">LOCAL / ARCHIVE</span></div>
+    </div>`;
+  document.body.appendChild(inspector);
+  const bzImg=$u('#bzImage',inspector), bzTitle=$u('#bzTitle',inspector), bzInfo=$u('#bzInfo',inspector), bzIndex=$u('#bzIndex',inspector);
+  const close=()=>{inspector.classList.remove('open');document.body.style.overflow=''};
+  $u('.bzInspectorClose',inspector).addEventListener('click',close);
+  inspector.addEventListener('click',e=>{if(e.target===inspector)close()});
+
+  const ignored=new Set(['#v3LightboxImage','#bzImage']);
+  const isClickableImage=img=>{
+    if(!img || ignored.has('#'+img.id)) return false;
+    if(img.closest('.logo,.brandMark')) return false;
+    const parent=img.closest('.originFrame,.eraVisual,.journalCard,.diptychImage,.chapterCard,.worldCard,.manifestoVisuals figure,.v3AssetCard');
+    return !!parent;
+  };
+  $$('.originFrame,.eraVisual,.journalCard,.diptychImage,.chapterCard,.worldCard,.manifestoVisuals figure').forEach(box=>{
+    const img=$u('img',box); if(!img || !isClickableImage(img)) return;
+    box.setAttribute('role','button');box.setAttribute('tabindex','0');
+    const open=()=>{
+      if(!img.currentSrc && !img.src)return;
+      bzImg.src=img.currentSrc||img.src;
+      bzImg.alt=img.alt||'Archive image';
+      bzTitle.textContent=(box.dataset.originLabel||img.alt||'ARCHIVE FRAME').toUpperCase();
+      const file=(img.currentSrc||img.src||'').split('/').pop();
+      bzInfo.textContent='LOCAL / '+(file||'ARCHIVE');
+      const all=$$('img').filter(isClickableImage); const pos=Math.max(0,all.indexOf(img))+1;
+      bzIndex.textContent='FRAME / '+String(pos).padStart(2,'0');
+      inspector.classList.add('open');document.body.style.overflow='hidden';
+    };
+    box.addEventListener('click',e=>{if(e.target.closest('a,button'))return;open()});
+    box.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}});
+  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&inspector.classList.contains('open'))close()});
+
+  /* Pointer parallax on desktop, completely disabled for touch/reduced motion. */
+  const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(fine && !reduced){
+    let tx=0,ty=0,cx=0,cy=0,raf=0;
+    addEventListener('pointermove',e=>{tx=(e.clientX/innerWidth-.5);ty=(e.clientY/innerHeight-.5)} ,{passive:true});
+    const loop=()=>{
+      cx+=(tx-cx)*.045;cy+=(ty-cy)*.045;
+      $$('.originFrame img,.eraVisual img,.journalCard img,.chapterCardImage img,.diptychImage img').forEach((img,i)=>{
+        const amount= i%3===0 ? 7 : 4;
+        img.style.translate=(cx*amount)+'px '+(cy*amount)+'px';
+      });
+      raf=requestAnimationFrame(loop);
+    };
+    loop();
+    addEventListener('pagehide',()=>cancelAnimationFrame(raf),{once:true});
+  }
 })();
 </script>
 
