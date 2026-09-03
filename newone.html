@@ -1,1124 +1,4817 @@
-<!doctype html>
-<html lang="de">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#060708">
-<meta name="description" content="Baltazar Seeds — living field archive. Dokumentierte Geschichte, Grower.ch Reports, Bilder, Medien und Projektseiten.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#0a0b09">
+<meta name="description" content="Baltazar Seeds — Field Archive. Documented history, old genetics, new experiments and the road between them.">
 <title>BALTAZAR SEEDS — FIELD ARCHIVE</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#060708;--bg2:#0a0c0f;--panel:#0d1014;--panel2:#11151a;--ink:#f1eee7;--dim:rgba(241,238,231,.62);--faint:rgba(241,238,231,.16);--line:rgba(241,238,231,.12);--line2:rgba(241,238,231,.22);--accent:#d4ad62;--accent2:#8c6b38;--green:#7da878;--ease:cubic-bezier(.16,1,.3,1);--display:"Cormorant Garamond",Georgia,serif;--mono:"DM Mono","JetBrains Mono",monospace;--sans:Inter,Arial,sans-serif}
-*{box-sizing:border-box}html{margin:0;background:var(--bg);scroll-behavior:smooth}body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}body::before{content:"";position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.42;background-image:radial-gradient(rgba(255,255,255,.055) .55px,transparent .55px);background-size:5px 5px;mix-blend-mode:screen}body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:8999;background:radial-gradient(circle at 50% 30%,transparent 0,rgba(0,0,0,.18) 72%,rgba(0,0,0,.55) 100%)}a{color:inherit;text-decoration:none}button{font:inherit}::selection{background:rgba(212,173,98,.28);color:#fff}.mobileMenu{display:none}
-/* ACCESS */
-#ageGate{position:fixed;inset:0;z-index:50000;display:grid;place-items:center;padding:24px;background:rgba(4,5,6,.97);backdrop-filter:blur(18px);transition:opacity .7s ease,visibility .7s ease}#ageGate.hidden{opacity:0;visibility:hidden;pointer-events:none}.ageWindow{width:min(520px,100%);border:1px solid var(--line2);border-radius:0;background:var(--bg2);box-shadow:0 35px 120px rgba(0,0,0,.55);overflow:hidden}.windowBar{height:38px;padding:0 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:#090b0e}.windowDots{display:flex;gap:6px}.windowDots i{width:6px;height:6px;border:1px solid var(--dim);border-radius:50%;display:block}.windowCode{font:8px var(--mono);letter-spacing:.2em;color:var(--dim);text-transform:uppercase}.ageBody{padding:52px 44px 44px}.ageKicker{font:9px var(--mono);letter-spacing:.28em;color:var(--accent);text-transform:uppercase;margin-bottom:18px}.ageTitle{font:300 clamp(58px,9vw,96px)/.78 var(--display);letter-spacing:-.045em;margin:0 0 22px}.ageTitle span{color:var(--accent);font-style:italic}.ageText{max-width:390px;color:var(--dim);font-size:12px;line-height:1.8;margin-bottom:30px}.ageActions{display:flex;gap:10px}.ageButton{border:1px solid var(--line2);background:transparent;color:var(--ink);border-radius:0;padding:13px 20px;cursor:pointer;font:9px var(--mono);letter-spacing:.2em;text-transform:uppercase;transition:.3s var(--ease)}.ageButton:hover{border-color:var(--accent);color:var(--accent);background:rgba(212,173,98,.06)}
-/* APP / REFERENCE-LIKE STORY */
-.app{width:100%;margin:0;border:0;border-radius:0;overflow:visible;background:transparent;box-shadow:none}.topbar{position:fixed;top:0;left:0;right:0;z-index:400;min-height:0;height:82px;padding:26px 46px;display:flex;align-items:center;justify-content:space-between;gap:24px;border:0;background:linear-gradient(180deg,rgba(6,7,8,.88),transparent);backdrop-filter:none}.brand{display:flex;align-items:center;gap:10px;min-width:auto}.brandMark{width:25px;height:25px;border:1px solid var(--accent);border-radius:50%;display:grid;place-items:center;background:transparent;color:var(--accent);font:10px var(--mono);letter-spacing:-.08em}.brandText strong{display:block;font:10px var(--mono);font-weight:300;letter-spacing:.28em;text-transform:uppercase}.brandText small{display:block;margin-top:4px;font:7px var(--mono);color:var(--dim);letter-spacing:.16em;text-transform:uppercase}.topNav{display:flex;align-items:center;justify-content:center;gap:28px}.topNav a,.topNav button{border:0;border-radius:0;padding:4px 0;background:none;color:var(--dim);cursor:pointer;font:8px var(--mono);text-transform:uppercase;letter-spacing:.22em;transition:color .3s ease;position:relative}.topNav a::after,.topNav button::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:center;transition:transform .35s var(--ease)}.topNav a:hover,.topNav button:hover{color:var(--ink)}.topNav a:hover::after,.topNav button:hover::after{transform:scaleX(1)}.topStatus{display:flex;align-items:center;gap:8px;min-width:auto;justify-content:flex-end;font:8px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.16em}.statusDot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(212,173,98,.09)}
-.workspace{display:block;min-height:0}.sidebar{display:none}.content{min-width:0;padding-top:0}.hero{min-height:100svh;padding:0 7vw 7vh;display:grid;align-items:end;position:relative;overflow:hidden;border:0;background:radial-gradient(ellipse 60% 60% at 75% 45%,rgba(125,168,120,.055),transparent 65%),radial-gradient(ellipse 55% 70% at 20% 60%,rgba(212,173,98,.045),transparent 70%)}.hero::before{content:"01";position:absolute;top:27vh;right:8vw;font:10vw var(--display);font-weight:300;color:rgba(255,255,255,.025);line-height:1;pointer-events:none}.hero::after{content:"FIELD ARCHIVE / BALTAZAR SEEDS / 2007—2026";position:absolute;left:7vw;bottom:3vh;font:7px var(--mono);letter-spacing:.22em;color:var(--dim)}.heroGrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(250px,.55fr);gap:7vw;width:100%;max-width:1500px;margin:0 auto}.eyebrow{display:flex;align-items:center;gap:9px;margin-bottom:20px;font:8px var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:.27em}.eyebrow::before{content:"";width:25px;height:1px;background:var(--accent);opacity:.8}.hero h1{max-width:1000px;font:300 clamp(72px,12vw,190px)/.76 var(--display);letter-spacing:-.045em}.hero h1 span{color:var(--accent);font-style:italic}.heroIntro{max-width:570px;margin-top:30px;color:var(--dim);font-size:13px;line-height:1.9}.heroSide{border-left:1px solid var(--line);padding:10px 0 10px 26px;align-self:end}.heroSide strong{display:block;font:300 clamp(28px,4vw,62px)/.9 var(--display);letter-spacing:-.035em;margin-bottom:14px}.heroSide p{color:var(--dim);font-size:10px;line-height:1.75;max-width:260px}.metricRow{display:grid;grid-template-columns:repeat(4,1fr);position:absolute;left:7vw;right:7vw;bottom:9vh;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(6,7,8,.22)}.metric{padding:14px 0;border-right:1px solid var(--line);padding-left:16px}.metric:first-child{padding-left:0}.metric:last-child{border-right:0}.metric b{display:block;font:300 20px var(--display);letter-spacing:-.02em}.metric span{display:block;margin-top:3px;color:var(--dim);font:7px var(--mono);text-transform:uppercase;letter-spacing:.16em}
-/* SECTIONS */
-.section{position:relative;min-height:70vh;padding:13vh 7vw 14vh;border:0;border-top:1px solid var(--line);background:var(--bg)}.section::before{content:"";position:absolute;top:0;left:50%;height:100%;width:1px;background:rgba(241,238,231,.035);pointer-events:none}.sectionHead{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:8vh;position:relative;z-index:2}.sectionTitle{font:300 clamp(46px,7vw,112px)/.78 var(--display);letter-spacing:-.045em}.sectionTitle span{color:var(--accent);font-style:italic}.sectionMeta{font:7px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.2em;text-align:right}.sectionHead p{max-width:370px;color:var(--dim);font-size:11px;line-height:1.8}
-/* TIMELINE */
-.timeline{position:relative;display:grid;gap:0;max-width:1100px;margin:0 auto}.timeline::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--line)}.timeItem{position:relative;display:grid;grid-template-columns:1fr 46px 1fr;min-height:150px;align-items:center}.timeYear{text-align:right;padding-right:25px;font:8px var(--mono);color:var(--dim);letter-spacing:.15em}.timeDot{position:relative;z-index:2;width:7px;height:7px;margin:auto;border:1px solid var(--accent);background:var(--bg);border-radius:50%;box-shadow:0 0 0 5px rgba(212,173,98,.035)}.timeCard{grid-column:3;border:0;border-top:1px solid var(--line);padding:25px 0 25px 25px;background:transparent;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;transition:.4s var(--ease)}.timeItem:nth-child(even) .timeCard{grid-column:1;grid-row:1;text-align:right;padding:25px 25px 25px 0}.timeCard:hover{transform:translateX(5px);border-color:var(--accent)}.timeItem:nth-child(even) .timeCard:hover{transform:translateX(-5px)}.timeCard h3{font:300 25px/.95 var(--display);letter-spacing:-.025em}.timeCard p{max-width:520px;margin-top:9px;color:var(--dim);font-size:10px;line-height:1.75}.timeItem:nth-child(even) .timeCard p{margin-left:auto}.timeCode{font:7px/1.6 var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:.14em;white-space:nowrap}
-/* REPORTS */
-.reportGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;max-width:1150px;margin:0 auto;border-top:1px solid var(--line);border-left:1px solid var(--line)}.report{position:relative;min-height:300px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;background:transparent;overflow:hidden;transition:.45s var(--ease)}.report:hover{background:linear-gradient(135deg,rgba(212,173,98,.045),transparent 50%)}.reportTop{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}.reportType,.reportYear{font:7px var(--mono);letter-spacing:.17em;color:var(--dim);text-transform:uppercase}.reportType{color:var(--accent)}.reportBody{padding:25px 18px 48px}.reportBody h3{font:300 clamp(25px,3vw,40px)/.88 var(--display);letter-spacing:-.035em;max-width:500px}.reportBody p{color:var(--dim);font-size:10px;line-height:1.8;max-width:560px;margin-top:14px}.reportFacts{display:flex;flex-wrap:wrap;gap:0;margin-top:20px}.fact{border:1px solid var(--line);border-radius:0;padding:7px 9px;font:7px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.09em;background:transparent}.reportLink{position:absolute;left:18px;bottom:16px;border:0;border-bottom:1px solid var(--line2);border-radius:0;padding:0 0 5px;background:transparent;color:var(--dim);font:7px var(--mono);text-transform:uppercase;letter-spacing:.16em;transition:.3s ease}.reportLink:hover{color:var(--accent);border-color:var(--accent)}
-/* JOURNAL */
-.journalGrid{display:grid;grid-template-columns:1.18fr .82fr;gap:1px;background:var(--line);max-width:1250px;margin:0 auto}.journalCard,.dualCard{border:0;border-radius:0;overflow:hidden;background:#0a0c0f}.journalCard{min-height:650px}.journalCard.small{min-height:250px}.journalCard img,.dualCard img{width:100%;height:100%;min-height:inherit;display:block;object-fit:cover;filter:grayscale(.08) contrast(1.04) brightness(.84);transition:transform 1.1s var(--ease),filter .6s ease}.journalCard:hover img,.dualCard:hover img{transform:scale(1.035);filter:grayscale(0) contrast(1.07) brightness(.95)}.journalOverlay{position:absolute;left:0;right:0;bottom:0;padding:70px 22px 20px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.85))}.journalOverlay span{display:block;font:7px var(--mono);letter-spacing:.18em;opacity:.7;margin-bottom:7px}.journalOverlay strong{font:300 27px/1 var(--display);letter-spacing:-.025em}.journalStack{display:grid;grid-template-rows:1fr 1fr;gap:1px;background:var(--line)}.dualCard{display:grid;grid-template-columns:1fr 1fr;min-height:325px}.dualCard .imageCell{min-width:0;overflow:hidden}.dualCard img{min-height:325px}.dualInfo{padding:18px;border-left:1px solid var(--line);background:var(--bg2);display:flex;flex-direction:column;justify-content:flex-end}.dualInfo small{font:7px var(--mono);color:var(--accent);text-transform:uppercase;letter-spacing:.15em}.dualInfo strong{margin-top:7px;font:300 23px/1 var(--display);letter-spacing:-.025em}.dualInfo p{margin-top:8px;color:var(--dim);font-size:9px;line-height:1.65}
-/* THEN NOW / CONTINUITY */
-.compare{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);max-width:1050px;margin:0 auto}.compareCard{border:0;border-radius:0;background:var(--bg2);overflow:hidden}.compareHead{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}.compareHead b{font:300 30px var(--display)}.compareHead span{font:7px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.17em}.compareContent{padding:26px 20px 30px}.compareContent h3{font:300 clamp(29px,4vw,52px)/.84 var(--display);letter-spacing:-.04em}.compareContent p{margin-top:14px;color:var(--dim);font-size:10px;line-height:1.8}.compareList{margin-top:22px;border-top:1px solid var(--line)}.compareList div{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font:8px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.06em}.compareList b{color:var(--ink);font-weight:300}
-.lineage{border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;background:transparent;padding:25px 0;overflow:auto}.lineagePath{display:grid;grid-template-columns:repeat(5,minmax(160px,1fr));gap:1px;min-width:850px;background:var(--line)}.lineNode{position:relative;border:0;border-radius:0;padding:20px;min-height:125px;background:var(--bg2)}.lineNode::after{content:"→";position:absolute;right:-9px;top:50%;z-index:2;color:var(--accent);font:16px var(--display)}.lineNode:last-child::after{display:none}
-/* SOURCES / WORLD */
-.sourceGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-width:1150px;margin:0 auto;border-top:1px solid var(--line);border-left:1px solid var(--line)}.sourceCard{min-height:155px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:18px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;transition:.35s var(--ease)}.sourceCard:hover{background:rgba(212,173,98,.04)}.sourceCard small{font:7px var(--mono);color:var(--accent);letter-spacing:.17em}.sourceCard strong{font:300 26px/.92 var(--display);letter-spacing:-.025em}.sourceCard span{font-size:9px;color:var(--dim);line-height:1.6}.sourceCard a{font:7px var(--mono);color:var(--dim);letter-spacing:.15em;text-transform:uppercase;border-bottom:1px solid var(--line2);padding-bottom:4px}.sourceCard a:hover{color:var(--accent);border-color:var(--accent)}.hubGrid{display:grid;grid-template-columns:repeat(3,1fr);max-width:1150px;margin:0 auto;border-top:1px solid var(--line);border-left:1px solid var(--line)}.hubCard{min-height:250px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px;display:flex;flex-direction:column;justify-content:space-between;background:transparent}.hubIcon{font:26px var(--display);color:var(--accent);margin-bottom:14px}.hubCard h3{font:300 27px/.9 var(--display)}.hubCard p{margin-top:12px;color:var(--dim);font-size:9px;line-height:1.7;max-width:300px}.hubLink{display:inline-block;align-self:flex-start;border-bottom:1px solid var(--line2);padding-bottom:5px;font:7px var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--dim);background:none;border-top:0;border-left:0;border-right:0}.hubLink:hover{color:var(--accent);border-color:var(--accent)}
-/* SUPPORT */
-.support{min-height:70vh;padding:15vh 7vw;display:grid;align-items:center;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:radial-gradient(ellipse 50% 80% at 75% 50%,rgba(212,173,98,.055),transparent 70%)}.supportGrid{width:100%;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:end;gap:50px}.support h2{font:300 clamp(56px,9vw,150px)/.72 var(--display);letter-spacing:-.05em}.support h2 span{color:var(--accent);font-style:italic}.support p{max-width:460px;margin-top:25px;color:var(--dim);font-size:11px;line-height:1.8}.supportButton{border:1px solid var(--line2);border-radius:0;padding:15px 18px;font:8px var(--mono);letter-spacing:.17em;text-transform:uppercase;white-space:nowrap;transition:.3s ease}.supportButton:hover{color:var(--accent);border-color:var(--accent);background:rgba(212,173,98,.05)}
-/* ASSET VAULT */
-.asset-vault{min-height:auto}.vaultIntro{max-width:720px;color:var(--dim);font-size:11px;line-height:1.9;margin:0 auto 50px}.assetGroups{max-width:1150px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}.assetGroup{background:var(--bg2);min-width:0}.assetGroup:nth-child(3){grid-column:1/-1}.assetGroupHead{display:flex;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line);font:7px var(--mono);letter-spacing:.17em;color:var(--accent)}.assetGroupHead span{color:var(--dim)}.assetList{display:grid;grid-template-columns:1fr 1fr}.assetItem{display:flex;justify-content:space-between;gap:10px;padding:11px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font:8px var(--mono);color:var(--dim);transition:.25s ease}.assetItem:hover{color:var(--ink);background:rgba(212,173,98,.045)}.assetItem i{font-style:normal;color:var(--accent);font-size:6px;letter-spacing:.1em}
-/* FOOTER */
-.footer{min-height:30vh;padding:10vh 7vw 7vh;display:flex;justify-content:space-between;align-items:flex-end;gap:30px;background:#040506}.footer p{max-width:450px;color:var(--dim);font:8px/1.9 var(--mono);text-transform:uppercase;letter-spacing:.1em}.footerNav{display:flex;gap:22px;flex-wrap:wrap}.footerNav a{font:7px var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.16em}.footerNav a:hover{color:var(--accent)}
-/* HUD */
-#bd-hud{position:fixed;inset:0;z-index:50;pointer-events:none;color:rgba(241,238,231,.28);font:6px var(--mono);letter-spacing:.16em;text-transform:uppercase}.hud-corner{position:absolute;width:18px;height:18px;opacity:.55}.hud-corner.tl{top:20px;left:20px;border-top:1px solid var(--accent);border-left:1px solid var(--accent)}.hud-corner.tr{top:20px;right:20px;border-top:1px solid var(--accent);border-right:1px solid var(--accent)}.hud-corner.bl{bottom:20px;left:20px;border-bottom:1px solid var(--accent);border-left:1px solid var(--accent)}.hud-corner.br{bottom:20px;right:20px;border-bottom:1px solid var(--accent);border-right:1px solid var(--accent)}.hud-top,.hud-bottom{position:absolute;left:32px;right:32px;display:flex;justify-content:space-between;gap:20px}.hud-top{top:22px}.hud-bottom{bottom:20px}.hud-left,.hud-right{display:flex;align-items:center;gap:9px}.hud-mark{width:4px;height:4px;border-radius:50%;background:var(--accent)}.hud-rule{width:24px;height:1px;background:var(--line2)}#bd-terminal{position:fixed;left:50%;bottom:48px;z-index:100;transform:translate(-50%,8px);opacity:0;pointer-events:none;border-top:1px solid var(--line);padding:7px 12px;color:var(--dim);font:7px var(--mono);letter-spacing:.12em;text-transform:uppercase;transition:.5s var(--ease)}#bd-terminal.visible{opacity:1;transform:translate(-50%,0)}
-/* RESPONSIVE */
-@media(max-width:900px){.topbar{padding:20px 24px}.topNav{gap:16px}.topNav a,.topNav button{font-size:7px;letter-spacing:.14em}.topStatus{display:none}.hero{padding:0 24px 80px}.heroGrid{grid-template-columns:1fr;gap:45px}.hero h1{font-size:clamp(64px,18vw,125px)}.heroSide{border-left:0;border-top:1px solid var(--line);padding:20px 0 0}.metricRow{left:24px;right:24px;bottom:28px}.section{padding:90px 24px 100px}.sectionHead{display:block;margin-bottom:55px}.sectionMeta{text-align:left;margin-top:18px}.timeline::before{left:10px}.timeItem{grid-template-columns:22px 1fr;min-height:0}.timeYear{grid-column:2;text-align:left;padding:22px 0 0;font-size:7px}.timeDot{grid-column:1;grid-row:1 / span 2;margin:29px auto 0}.timeCard,.timeItem:nth-child(even) .timeCard{grid-column:2;grid-row:auto;text-align:left;padding:12px 0 28px;border-top:0;border-bottom:1px solid var(--line);display:block}.timeItem:nth-child(even) .timeCard p{margin-left:0}.timeCard h3{font-size:28px}.timeCode{margin-top:14px;text-align:left}.reportGrid,.sourceGrid{grid-template-columns:1fr}.journalGrid{grid-template-columns:1fr}.journalCard{min-height:520px}.journalStack{grid-template-rows:auto auto}.dualCard{min-height:300px}.dualCard img{min-height:300px}.compare{grid-template-columns:1fr}.hubGrid{grid-template-columns:1fr 1fr}.support{padding:100px 24px}.supportGrid{display:block}.supportButton{display:inline-block;margin-top:35px}.assetGroups{grid-template-columns:1fr}.assetGroup:nth-child(3){grid-column:auto}.footer{padding:80px 24px;display:block}.footerNav{margin-top:30px}.hud-top,.hud-bottom{left:24px;right:24px}.hud-right{display:none}}
-@media(max-width:560px){.topNav{display:none}.mobileMenu{display:block;border:1px solid var(--line2);background:transparent;color:var(--ink);width:34px;height:28px;font:12px var(--mono);cursor:pointer}.brandText small{display:none}.hero{min-height:100svh}.heroIntro{font-size:11px}.metricRow{grid-template-columns:repeat(2,1fr);bottom:24px}.metric{padding:10px}.metric:nth-child(2){border-right:0}.metric:nth-child(3),.metric:nth-child(4){border-top:1px solid var(--line)}.sectionTitle{font-size:58px}.sourceGrid,.hubGrid{grid-template-columns:1fr}.assetList{grid-template-columns:1fr}.ageBody{padding:40px 25px 30px}.ageActions{flex-direction:column}.ageButton{width:100%}.journalCard{min-height:440px}.dualCard{grid-template-columns:1fr 1fr;min-height:250px}.dualCard img{min-height:250px}.dualInfo{display:none}.footerNav{gap:14px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-/* Keep original structural content intact while moving its visual system to the dark reference language. */
+<style>
+/* =========================================================
+   BALTAZAR SEEDS — FIELD ARCHIVE / CINEMATIC EDITION
+   Inspired by the spatial / editorial principles of the
+   supplied Santioni reference.
+   
+   IMPORTANT:
+   - Original local images remain local
+   - Original Grower.ch URLs remain intact
+   - Original support / Stripe URL remains intact
+   - Original game / merch routes remain intact
+   - No framework
+   - Vanilla HTML / CSS / JS
+   ========================================================= */
+
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --black:#060705;
+  --black2:#0a0b09;
+  --black3:#10120f;
+  --panel:#11140f;
+  --panel2:#151914;
+  --paper:#d9ddd0;
+  --paper2:#eef1e8;
+  --white:#f4f6ef;
+  --soft:#b4bbae;
+  --muted:#72796e;
+  --line:rgba(231,238,222,.17);
+  --line2:rgba(231,238,222,.30);
+  --acid:#c6e85a;
+  --acid2:#96bd38;
+  --green:#5f8750;
+  --green2:#87aa5e;
+  --orange:#b87946;
+  --red:#a34e42;
+  --shadow:0 30px 100px rgba(0,0,0,.45);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --ease2:cubic-bezier(.22,.61,.36,1);
+}
+
+html{
+  background:var(--black);
+  color:var(--white);
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% -10%,rgba(132,164,81,.10),transparent 35vw),
+    linear-gradient(180deg,#080907 0%,#050605 100%);
+  color:var(--white);
+  font-family:Manrope,Arial,sans-serif;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:9998;
+  pointer-events:none;
+  opacity:.08;
+  background-image:
+    radial-gradient(rgba(255,255,255,.65) .45px,transparent .45px);
+  background-size:4px 4px;
+  mix-blend-mode:screen;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:9997;
+  pointer-events:none;
+  opacity:.16;
+  background:
+    linear-gradient(90deg,transparent 49.9%,rgba(255,255,255,.035) 50%,transparent 50.1%),
+    linear-gradient(0deg,transparent 49.9%,rgba(255,255,255,.02) 50%,transparent 50.1%);
+  background-size:100% 100%,100% 100%;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button{
+  font:inherit;
+}
+
+img{
+  max-width:100%;
+}
+
+::selection{
+  background:var(--acid);
+  color:#0a0c08;
+}
+
+:focus-visible{
+  outline:2px solid var(--acid);
+  outline-offset:4px;
+}
+
+/* =========================================================
+   AGE GATE
+   ========================================================= */
+
+#ageGate{
+  position:fixed;
+  inset:0;
+  z-index:90000;
+  display:grid;
+  place-items:center;
+  background:#070806;
+  color:var(--white);
+  transition:opacity .8s var(--ease),visibility .8s;
+}
+
+#ageGate.hidden{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+
+.ageWindow{
+  width:min(900px,calc(100% - 32px));
+  min-height:min(620px,calc(100vh - 32px));
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line2);
+  background:
+    radial-gradient(circle at 50% 40%,rgba(128,162,72,.12),transparent 35%),
+    #090b08;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.ageWindow::before{
+  content:"18";
+  position:absolute;
+  right:-.05em;
+  bottom:-.22em;
+  font:800 clamp(250px,40vw,620px)/.7 Syne,sans-serif;
+  letter-spacing:-.12em;
+  color:rgba(255,255,255,.025);
+  pointer-events:none;
+}
+
+.ageTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 20px;
+  border-bottom:1px solid var(--line);
+  font:9px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  color:var(--muted);
+}
+
+.ageSignal{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.ageSignal i{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--acid);
+  box-shadow:0 0 18px rgba(198,232,90,.55);
+}
+
+.ageCenter{
+  position:relative;
+  z-index:2;
+  padding:50px clamp(24px,7vw,80px);
+}
+
+.ageKicker{
+  font:10px "DM Mono",monospace;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--acid);
+}
+
+.ageTitle{
+  margin-top:24px;
+  font:800 clamp(75px,15vw,190px)/.70 Syne,sans-serif;
+  letter-spacing:-.10em;
+}
+
+.ageTitle span{
+  display:block;
+  color:var(--soft);
+}
+
+.ageText{
+  max-width:500px;
+  margin-top:35px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+}
+
+.ageActions{
+  display:flex;
+  gap:10px;
+  margin-top:38px;
+}
+
+.ageButton{
+  min-width:150px;
+  border:1px solid var(--line2);
+  background:transparent;
+  color:var(--white);
+  padding:14px 20px;
+  cursor:pointer;
+  font:9px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+  transition:.35s var(--ease);
+}
+
+.ageButton:hover{
+  background:var(--acid);
+  border-color:var(--acid);
+  color:var(--black);
+  transform:translateY(-3px);
+}
+
+.ageButton.secondary:hover{
+  background:rgba(255,255,255,.08);
+  color:var(--white);
+}
+
+/* =========================================================
+   FIXED INTERFACE
+   ========================================================= */
+
+.uiHeader{
+  position:fixed;
+  z-index:7000;
+  top:0;
+  left:0;
+  width:100%;
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  pointer-events:none;
+  mix-blend-mode:normal;
+}
+
+.uiHeader > *{
+  pointer-events:auto;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brandMark{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.35);
+  background:rgba(6,7,5,.72);
+  backdrop-filter:blur(12px);
+  font:800 15px Syne,sans-serif;
+  color:var(--acid);
+  transition:.35s var(--ease);
+}
+
+.brand:hover .brandMark{
+  background:var(--acid);
+  color:var(--black);
+  border-color:var(--acid);
+  transform:rotate(-4deg);
+}
+
+.brandText strong{
+  display:block;
+  font:700 12px Syne,sans-serif;
+  letter-spacing:-.03em;
+}
+
+.brandText small{
+  display:block;
+  margin-top:3px;
+  font:8px "DM Mono",monospace;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.45);
+}
+
+.headerRight{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.headerButton{
+  height:38px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(6,7,5,.62);
+  backdrop-filter:blur(12px);
+  color:var(--white);
+  padding:0 13px;
+  cursor:pointer;
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  transition:.3s var(--ease);
+}
+
+.headerButton:hover{
+  border-color:var(--acid);
+  color:var(--acid);
+}
+
+.archiveStatus{
+  height:38px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:0 12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(6,7,5,.46);
+  backdrop-filter:blur(12px);
+  color:rgba(255,255,255,.5);
+  font:8px "DM Mono",monospace;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.statusDot{
+  width:5px;
+  height:5px;
+  background:var(--acid);
+  border-radius:50%;
+  box-shadow:0 0 12px rgba(198,232,90,.7);
+}
+
+.progressRail{
+  position:fixed;
+  z-index:8000;
+  top:50%;
+  right:20px;
+  width:1px;
+  height:180px;
+  transform:translateY(-50%);
+  background:rgba(255,255,255,.12);
+}
+
+.progressRail span{
+  display:block;
+  width:3px;
+  height:0;
+  margin-left:-1px;
+  background:var(--acid);
+  transition:height .15s linear;
+}
+
+.progressLabel{
+  position:fixed;
+  z-index:8000;
+  right:14px;
+  top:calc(50% + 105px);
+  font:8px "DM Mono",monospace;
+  color:rgba(255,255,255,.42);
+  writing-mode:vertical-rl;
+  letter-spacing:.12em;
+}
+
+.cursorDot{
+  position:fixed;
+  z-index:10000;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--acid);
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  opacity:0;
+  transition:opacity .25s;
+  mix-blend-mode:difference;
+}
+
+@media(hover:hover){
+  body:hover .cursorDot{
+    opacity:.85;
+  }
+}
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+.menuOverlay{
+  position:fixed;
+  inset:0;
+  z-index:20000;
+  visibility:hidden;
+  opacity:0;
+  pointer-events:none;
+  background:rgba(4,5,4,.96);
+  transition:opacity .5s var(--ease),visibility .5s;
+}
+
+.menuOverlay.open{
+  visibility:visible;
+  opacity:1;
+  pointer-events:auto;
+}
+
+.menuInner{
+  width:100%;
+  height:100%;
+  padding:100px clamp(24px,8vw,140px) 40px;
+  display:grid;
+  grid-template-columns:1fr 280px;
+  gap:60px;
+  align-items:center;
+}
+
+.menuTitle{
+  font:800 clamp(70px,13vw,190px)/.68 Syne,sans-serif;
+  letter-spacing:-.10em;
+}
+
+.menuTitle span{
+  color:var(--acid);
+}
+
+.menuLinks{
+  display:grid;
+  border-top:1px solid var(--line);
+}
+
+.menuLinks a,
+.menuLinks button{
+  border:0;
+  border-bottom:1px solid var(--line);
+  background:transparent;
+  color:var(--white);
+  text-align:left;
+  padding:14px 0;
+  cursor:pointer;
+  font:9px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+  transition:.3s var(--ease);
+}
+
+.menuLinks a:hover,
+.menuLinks button:hover{
+  color:var(--acid);
+  padding-left:12px;
+}
+
+.menuMeta{
+  align-self:end;
+  color:var(--muted);
+  font:9px/1.7 "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.menuClose{
+  position:absolute;
+  top:22px;
+  right:28px;
+  width:42px;
+  height:42px;
+  border:1px solid var(--line2);
+  background:transparent;
+  color:var(--white);
+  cursor:pointer;
+  font-size:18px;
+}
+
+/* =========================================================
+   STORY CORE
+   ========================================================= */
+
+.story{
+  position:relative;
+  width:100%;
+}
+
+.scene{
+  position:relative;
+  min-height:100vh;
+  width:100%;
+  overflow:hidden;
+}
+
+.sceneInner{
+  position:relative;
+  z-index:2;
+  width:min(1500px,calc(100% - 80px));
+  height:100%;
+  margin:0 auto;
+}
+
+/* =========================================================
+   INTRO
+   ========================================================= */
+
+.intro{
+  min-height:130vh;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(115,151,67,.13),transparent 32vw),
+    #070806;
+}
+
+.introStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.introGrid{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:90px 90px;
+  mask-image:linear-gradient(to bottom,transparent,#000 20%,#000 80%,transparent);
+  opacity:.35;
+}
+
+.introWord{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font:800 clamp(110px,22vw,340px)/.62 Syne,sans-serif;
+  letter-spacing:-.12em;
+  text-transform:uppercase;
+  color:var(--white);
+  will-change:transform,opacity;
+}
+
+.introWord.one{
+  top:31%;
+}
+
+.introWord.two{
+  top:48%;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.55);
+}
+
+.introSub{
+  position:absolute;
+  left:50%;
+  bottom:10%;
+  width:min(700px,calc(100% - 40px));
+  transform:translateX(-50%);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  color:rgba(255,255,255,.48);
+  font:9px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+
+.introLine{
+  position:absolute;
+  left:50%;
+  top:0;
+  width:1px;
+  height:100%;
+  background:linear-gradient(transparent,rgba(255,255,255,.12),transparent);
+}
+
+.scrollHint{
+  position:absolute;
+  bottom:8%;
+  right:0;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:rgba(255,255,255,.35);
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.15em;
+}
+
+.scrollHint i{
+  width:40px;
+  height:1px;
+  background:rgba(255,255,255,.3);
+}
+
+/* =========================================================
+   MANIFESTO
+   ========================================================= */
+
+.manifesto{
+  min-height:125vh;
+  background:var(--paper2);
+  color:var(--black);
+}
+
+.manifestoStage{
+  position:sticky;
+  top:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+}
+
+.manifestoGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:70px;
+  align-items:end;
+}
+
+.manifestoHeadline{
+  font:800 clamp(65px,10vw,150px)/.73 Syne,sans-serif;
+  letter-spacing:-.09em;
+}
+
+.manifestoHeadline span{
+  color:var(--green);
+}
+
+.manifestoCopy{
+  max-width:470px;
+  padding-bottom:5px;
+}
+
+.manifestoCopy .mono{
+  color:var(--green);
+  font:9px "DM Mono",monospace;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+
+.manifestoCopy p{
+  margin-top:25px;
+  font-size:14px;
+  line-height:1.9;
+  color:#5d6459;
+}
+
+.manifestoFacts{
+  margin-top:35px;
+  border-top:1px solid rgba(0,0,0,.17);
+}
+
+.manifestoFact{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:11px 0;
+  border-bottom:1px solid rgba(0,0,0,.17);
+  font:9px "DM Mono",monospace;
+  text-transform:uppercase;
+}
+
+.manifestoFact span:first-child{
+  color:#737a70;
+}
+
+.manifestoFact span:last-child{
+  color:#1c211b;
+}
+
+/* =========================================================
+   RETURN / GAP
+   ========================================================= */
+
+.gapScene{
+  min-height:160vh;
+  background:#090a08;
+}
+
+.gapStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.gapYear{
+  position:absolute;
+  font:800 clamp(160px,31vw,520px)/.65 Syne,sans-serif;
+  letter-spacing:-.13em;
+  color:rgba(255,255,255,.035);
+}
+
+.gapOld{
+  position:absolute;
+  top:15%;
+  left:7%;
+  font:9px "DM Mono",monospace;
+  color:rgba(255,255,255,.35);
+  letter-spacing:.16em;
+}
+
+.gapNew{
+  position:absolute;
+  bottom:15%;
+  right:7%;
+  font:9px "DM Mono",monospace;
+  color:var(--acid);
+  letter-spacing:.16em;
+}
+
+.gapTitle{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  font:800 clamp(65px,11vw,170px)/.70 Syne,sans-serif;
+  letter-spacing:-.10em;
+}
+
+.gapTitle span{
+  display:block;
+  color:var(--acid);
+}
+
+.gapLine{
+  position:absolute;
+  width:min(900px,70vw);
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--acid),transparent);
+}
+
+/* =========================================================
+   ERA SCENES
+   ========================================================= */
+
+.era{
+  min-height:150vh;
+  background:#080907;
+}
+
+.eraStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:grid;
+  grid-template-columns:34% 66%;
+  align-items:center;
+}
+
+.eraNumber{
+  position:absolute;
+  left:-4%;
+  bottom:0;
+  font:800 clamp(180px,32vw,520px)/.63 Syne,sans-serif;
+  letter-spacing:-.13em;
+  color:rgba(255,255,255,.035);
+  pointer-events:none;
+}
+
+.eraMeta{
+  position:relative;
+  z-index:3;
+  align-self:center;
+  padding-left:5%;
+}
+
+.eraCode{
+  color:var(--acid);
+  font:9px "DM Mono",monospace;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.eraTitle{
+  margin-top:20px;
+  max-width:440px;
+  font:800 clamp(48px,6.2vw,105px)/.76 Syne,sans-serif;
+  letter-spacing:-.08em;
+}
+
+.eraText{
+  max-width:390px;
+  margin-top:25px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+}
+
+.eraLink{
+  display:inline-flex;
+  margin-top:28px;
+  border-bottom:1px solid var(--acid);
+  padding-bottom:5px;
+  color:var(--acid);
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+
+.eraVisual{
+  position:relative;
+  height:76vh;
+  margin-right:-10vw;
+  overflow:hidden;
+  clip-path:inset(0 0 0 0);
+  background:#11140f;
+}
+
+.eraVisual img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  filter:grayscale(.15) contrast(1.08) brightness(.78);
+  transform:scale(1.08);
+  will-change:transform;
+}
+
+.eraVisual::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(90deg,#080907 0%,transparent 20%),
+    linear-gradient(0deg,rgba(0,0,0,.35),transparent 40%,rgba(0,0,0,.15));
+  pointer-events:none;
+}
+
+.eraStamp{
+  position:absolute;
+  right:25px;
+  top:25px;
+  z-index:3;
+  font:8px "DM Mono",monospace;
+  color:rgba(255,255,255,.55);
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+
+/* =========================================================
+   ARCHIVE INDEX
+   ========================================================= */
+
+.archiveScene{
+  min-height:220vh;
+  background:var(--paper2);
+  color:var(--black);
+}
+
+.archiveStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+}
+
+.archiveLayout{
+  display:grid;
+  grid-template-columns:38% 62%;
+  gap:50px;
+  align-items:center;
+}
+
+.archiveIntro .eyebrow{
+  color:var(--green);
+  font:9px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.15em;
+}
+
+.archiveIntro h2{
+  margin-top:22px;
+  font:800 clamp(70px,10vw,155px)/.68 Syne,sans-serif;
+  letter-spacing:-.10em;
+}
+
+.archiveIntro p{
+  max-width:360px;
+  margin-top:25px;
+  color:#62695f;
+  font-size:12px;
+  line-height:1.8;
+}
+
+.archiveCounter{
+  margin-top:35px;
+  display:flex;
+  align-items:baseline;
+  gap:10px;
+}
+
+.archiveCounter strong{
+  font:800 60px/.7 Syne,sans-serif;
+  letter-spacing:-.08em;
+}
+
+.archiveCounter span{
+  color:#6c7369;
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+
+.archiveList{
+  position:relative;
+  height:76vh;
+  overflow:hidden;
+  border-top:1px solid rgba(0,0,0,.18);
+  border-bottom:1px solid rgba(0,0,0,.18);
+}
+
+.archiveTrack{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  will-change:transform;
+}
+
+.archiveItem{
+  position:relative;
+  display:grid;
+  grid-template-columns:75px 1fr auto;
+  gap:20px;
+  align-items:center;
+  min-height:145px;
+  border-bottom:1px solid rgba(0,0,0,.16);
+  transition:.35s var(--ease);
+}
+
+.archiveItem::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:0;
+  background:var(--green);
+  transition:.4s var(--ease);
+}
+
+.archiveItem:hover{
+  padding-left:16px;
+}
+
+.archiveItem:hover::before{
+  width:3px;
+}
+
+.archiveItemYear{
+  color:#7a8177;
+  font:9px "DM Mono",monospace;
+}
+
+.archiveItemMain h3{
+  font:700 clamp(21px,2.3vw,38px)/.85 Syne,sans-serif;
+  letter-spacing:-.055em;
+}
+
+.archiveItemMain p{
+  max-width:560px;
+  margin-top:9px;
+  color:#72796f;
+  font-size:10px;
+  line-height:1.55;
+}
+
+.archiveItemFacts{
+  display:flex;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:5px;
+  max-width:190px;
+}
+
+.archiveItemFacts span{
+  border:1px solid rgba(0,0,0,.18);
+  padding:5px 6px;
+  color:#555c52;
+  font:7px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.archiveOpen{
+  position:absolute;
+  inset:0;
+  z-index:4;
+}
+
+/* =========================================================
+   IMAGE JOURNAL / CINEMATIC GALLERY
+   ========================================================= */
+
+.journalScene{
+  min-height:250vh;
+  background:#060706;
+}
+
+.journalStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow:hidden;
+}
+
+.journalHeading{
+  position:absolute;
+  z-index:5;
+  left:5%;
+  top:12%;
+}
+
+.journalHeading .eyebrow{
+  color:var(--acid);
+  font:9px "DM Mono",monospace;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.journalHeading h2{
+  margin-top:15px;
+  font:800 clamp(55px,9vw,145px)/.68 Syne,sans-serif;
+  letter-spacing:-.10em;
+}
+
+.journalHeading h2 span{
+  color:var(--acid);
+}
+
+.journalCounter{
+  position:absolute;
+  right:5%;
+  top:13%;
+  z-index:5;
+  color:rgba(255,255,255,.4);
+  font:9px "DM Mono",monospace;
+  letter-spacing:.15em;
+}
+
+.journalFrame{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(70vw,1050px);
+  height:min(68vh,720px);
+  transform:translate(-50%,-50%);
+}
+
+.journalCard{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  background:#11140f;
+  clip-path:inset(0);
+  will-change:transform,clip-path,opacity;
+}
+
+.journalCard img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  filter:contrast(1.08) brightness(.78) saturate(.82);
+  transform:scale(1.08);
+  will-change:transform;
+}
+
+.journalCard::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(0deg,rgba(0,0,0,.65),transparent 45%),
+    linear-gradient(90deg,rgba(0,0,0,.18),transparent);
+}
+
+.journalInfo{
+  position:absolute;
+  z-index:3;
+  left:30px;
+  right:30px;
+  bottom:28px;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:30px;
+}
+
+.journalInfo small{
+  display:block;
+  color:var(--acid);
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+}
+
+.journalInfo strong{
+  display:block;
+  margin-top:8px;
+  font:700 clamp(25px,4vw,58px)/.82 Syne,sans-serif;
+  letter-spacing:-.065em;
+}
+
+.journalInfo p{
+  max-width:250px;
+  color:rgba(255,255,255,.5);
+  font:9px/1.6 "DM Mono",monospace;
+}
+
+.journalThumbs{
+  position:absolute;
+  z-index:6;
+  bottom:7%;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:7px;
+}
+
+.journalThumb{
+  width:48px;
+  height:4px;
+  border:0;
+  background:rgba(255,255,255,.18);
+  cursor:pointer;
+  transition:.3s;
+}
+
+.journalThumb.active{
+  background:var(--acid);
+}
+
+/* =========================================================
+   DIPTYCH
+   ========================================================= */
+
+.diptychScene{
+  min-height:170vh;
+  background:var(--paper2);
+  color:var(--black);
+}
+
+.diptychStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+}
+
+.diptychLayout{
+  display:grid;
+  grid-template-columns:35% 65%;
+  gap:50px;
+  align-items:center;
+}
+
+.diptychIntro h2{
+  margin-top:20px;
+  font:800 clamp(58px,8vw,125px)/.69 Syne,sans-serif;
+  letter-spacing:-.095em;
+}
+
+.diptychIntro h2 span{
+  color:var(--green);
+}
+
+.diptychIntro p{
+  max-width:370px;
+  margin-top:25px;
+  color:#646b61;
+  font-size:11px;
+  line-height:1.8;
+}
+
+.diptychCode{
+  margin-top:28px;
+  color:#70776c;
+  font:8px/1.8 "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+.diptychVisual{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  height:75vh;
+  gap:3px;
+  background:#080907;
+}
+
+.diptychImage{
+  position:relative;
+  overflow:hidden;
+}
+
+.diptychImage img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  filter:contrast(1.05) saturate(.85);
+  transition:transform 1.2s var(--ease);
+}
+
+.diptychImage:hover img{
+  transform:scale(1.04);
+}
+
+.diptychImage::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(0deg,rgba(0,0,0,.35),transparent 50%);
+}
+
+.diptychLabel{
+  position:absolute;
+  z-index:3;
+  left:16px;
+  top:16px;
+  color:white;
+  font:8px "DM Mono",monospace;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+/* =========================================================
+   CONTINUITY
+   ========================================================= */
+
+.continuityScene{
+  min-height:180vh;
+  background:#080907;
+}
+
+.continuityStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+}
+
+.continuityHeader{
+  position:absolute;
+  left:5%;
+  top:12%;
+  z-index:4;
+}
+
+.continuityHeader small{
+  color:var(--acid);
+  font:9px "DM Mono",monospace;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.continuityHeader h2{
+  margin-top:15px;
+  font:800 clamp(55px,8vw,125px)/.7 Syne,sans-serif;
+  letter-spacing:-.09em;
+}
+
+.continuityHeader h2 span{
+  color:var(--acid);
+}
+
+.lineageCanvas{
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--line2) 8%,var(--line2) 92%,transparent);
+}
+
+.lineageNode{
+  position:absolute;
+  top:50%;
+  width:210px;
+  transform:translate(-50%,-50%);
+}
+
+.lineageNode:nth-child(1){left:10%}
+.lineageNode:nth-child(2){left:30%}
+.lineageNode:nth-child(3){left:50%}
+.lineageNode:nth-child(4){left:70%}
+.lineageNode:nth-child(5){left:90%}
+
+.nodeDot{
+  width:13px;
+  height:13px;
+  margin:auto;
+  border:2px solid var(--acid);
+  background:var(--black);
+  border-radius:50%;
+  box-shadow:0 0 0 7px rgba(198,232,90,.06);
+}
+
+.nodeCard{
+  margin-top:24px;
+  border-top:1px solid var(--line2);
+  padding-top:13px;
+}
+
+.nodeCard small{
+  color:var(--acid);
+  font:8px "DM Mono",monospace;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.nodeCard strong{
+  display:block;
+  margin-top:8px;
+  font:700 22px/.85 Syne,sans-serif;
+  letter-spacing:-.05em;
+}
+
+.nodeCard p{
+  margin-top:8px;
+  color:var(--muted);
+  font:9px/1.6 "DM Mono",monospace;
+}
+
+.continuityNote{
+  position:absolute;
+  left:5%;
+  bottom:11%;
+  max-width:570px;
+  color:rgba(255,255,255,.42);
+  font-size:11px;
+  line-height:1.8;
+}
+
+/* =========================================================
+   RECENT CHAPTERS
+   ========================================================= */
+
+.chaptersScene{
+  min-height:240vh;
+  background:var(--paper2);
+  color:var(--black);
+}
+
+.chaptersStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow:hidden;
+}
+
+.chaptersTitle{
+  position:absolute;
+  left:5%;
+  top:11%;
+  z-index:4;
+}
+
+.chaptersTitle small{
+  color:var(--green);
+  font:9px "DM Mono",monospace;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+
+.chaptersTitle h2{
+  margin-top:14px;
+  font:800 clamp(55px,8vw,125px)/.69 Syne,sans-serif;
+  letter-spacing:-.09em;
+}
+
+.chapterRail{
+  position:absolute;
+  left:0;
+  top:55%;
+  width:max-content;
+  display:flex;
+  gap:14px;
+  transform:translateY(-50%);
+  will-change:transform;
+}
+
+.chapterCard{
+  position:relative;
+  width:min(500px,40vw);
+  height:58vh;
+  min-height:400px;
+  border:1px solid rgba(0,0,0,.15);
+  overflow:hidden;
+  background:#d8ddd2;
+}
+
+.chapterCard:nth-child(even){
+  margin-top:70px;
+}
+
+.chapterCardTop{
+  position:absolute;
+  z-index:4;
+  top:18px;
+  left:18px;
+  right:18px;
+  display:flex;
+  justify-content:space-between;
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+
+.chapterCardImage{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+}
+
+.chapterCardImage img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(.72) contrast(1.05) saturate(.85);
+  transform:scale(1.05);
+  transition:transform 1s var(--ease);
+}
+
+.chapterCard:hover .chapterCardImage img{
+  transform:scale(1.01);
+}
+
+.chapterCard::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(0deg,rgba(0,0,0,.68),transparent 55%);
+}
+
+.chapterCardBottom{
+  position:absolute;
+  z-index:5;
+  left:20px;
+  right:20px;
+  bottom:22px;
+  color:white;
+}
+
+.chapterCardBottom small{
+  color:var(--acid);
+  font:8px "DM Mono",monospace;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.chapterCardBottom h3{
+  margin-top:8px;
+  font:700 clamp(29px,3vw,49px)/.78 Syne,sans-serif;
+  letter-spacing:-.065em;
+}
+
+.chapterCardBottom p{
+  max-width:330px;
+  margin-top:11px;
+  color:rgba(255,255,255,.57);
+  font:9px/1.55 "DM Mono",monospace;
+}
+
+.chapterFooter{
+  position:absolute;
+  z-index:5;
+  left:5%;
+  bottom:9%;
+  color:#70776d;
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.13em;
+}
+
+/* =========================================================
+   PART ONE NOTES
+   ========================================================= */
+
+.notesScene{
+  min-height:180vh;
+  background:#0a0c09;
+}
+
+.notesStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:grid;
+  grid-template-columns:45% 55%;
+  align-items:center;
+}
+
+.notesBig{
+  font:800 clamp(70px,11vw,165px)/.66 Syne,sans-serif;
+  letter-spacing:-.105em;
+}
+
+.notesBig span{
+  display:block;
+  color:var(--acid);
+}
+
+.notesCards{
+  display:grid;
+  gap:0;
+  border-top:1px solid var(--line);
+}
+
+.noteCard{
+  display:grid;
+  grid-template-columns:55px 1fr;
+  gap:18px;
+  padding:19px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.noteNumber{
+  color:var(--acid);
+  font:8px "DM Mono",monospace;
+}
+
+.noteCard h3{
+  font:700 23px/.85 Syne,sans-serif;
+  letter-spacing:-.05em;
+}
+
+.noteCard p{
+  margin-top:8px;
+  max-width:470px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.65;
+}
+
+/* =========================================================
+   SOURCE DATABASE
+   ========================================================= */
+
+.sourcesScene{
+  min-height:210vh;
+  background:#080907;
+}
+
+.sourcesStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+}
+
+.sourcesLayout{
+  display:grid;
+  grid-template-columns:35% 65%;
+  gap:60px;
+  align-items:center;
+}
+
+.sourcesTitle small{
+  color:var(--acid);
+  font:8px "DM Mono",monospace;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.sourcesTitle h2{
+  margin-top:18px;
+  font:800 clamp(60px,9vw,140px)/.67 Syne,sans-serif;
+  letter-spacing:-.10em;
+}
+
+.sourcesTitle p{
+  max-width:350px;
+  margin-top:25px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.8;
+}
+
+.sourceDatabase{
+  border-top:1px solid var(--line);
+}
+
+.sourceRow{
+  position:relative;
+  display:grid;
+  grid-template-columns:55px 95px 1fr auto;
+  gap:18px;
+  align-items:center;
+  min-height:83px;
+  border-bottom:1px solid var(--line);
+  transition:.3s var(--ease);
+}
+
+.sourceRow:hover{
+  padding-left:13px;
+  background:rgba(255,255,255,.025);
+}
+
+.sourceRowIndex{
+  color:var(--acid);
+  font:8px "DM Mono",monospace;
+}
+
+.sourceRowYear{
+  color:var(--muted);
+  font:8px "DM Mono",monospace;
+}
+
+.sourceRowTitle{
+  font:600 15px/.95 Syne,sans-serif;
+  letter-spacing:-.035em;
+}
+
+.sourceRowSub{
+  margin-top:4px;
+  color:#60685e;
+  font:7px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.sourceRowLink{
+  border-bottom:1px solid rgba(198,232,90,.45);
+  color:var(--acid);
+  padding-bottom:3px;
+  font:7px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+/* =========================================================
+   WORLD
+   ========================================================= */
+
+.worldScene{
+  min-height:200vh;
+  background:var(--paper2);
+  color:var(--black);
+}
+
+.worldStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+}
+
+.worldHeader{
+  position:absolute;
+  top:10%;
+  left:5%;
+  z-index:4;
+}
+
+.worldHeader small{
+  color:var(--green);
+  font:8px "DM Mono",monospace;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.worldHeader h2{
+  margin-top:15px;
+  font:800 clamp(60px,9vw,140px)/.68 Syne,sans-serif;
+  letter-spacing:-.10em;
+}
+
+.worldGrid{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:3px;
+  padding-top:80px;
+}
+
+.worldCard{
+  position:relative;
+  min-height:45vh;
+  padding:25px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  border:1px solid rgba(0,0,0,.13);
+  overflow:hidden;
+  transition:.45s var(--ease);
+}
+
+.worldCard::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(72,102,58,.13),transparent 60%);
+  transform:translateX(-100%);
+  transition:.6s var(--ease);
+}
+
+.worldCard:hover::before{
+  transform:translateX(0);
+}
+
+.worldCard:hover{
+  background:#e4e8de;
+}
+
+.worldIcon{
+  position:relative;
+  z-index:2;
+  width:43px;
+  height:43px;
+  border:1px solid rgba(0,0,0,.25);
+  display:grid;
+  place-items:center;
+  font:700 14px Syne,sans-serif;
+}
+
+.worldCard h3{
+  position:relative;
+  z-index:2;
+  font:800 clamp(35px,4vw,65px)/.72 Syne,sans-serif;
+  letter-spacing:-.075em;
+}
+
+.worldCard p{
+  position:relative;
+  z-index:2;
+  max-width:310px;
+  margin-top:13px;
+  color:#70776d;
+  font-size:10px;
+  line-height:1.7;
+}
+
+.worldLink{
+  position:relative;
+  z-index:2;
+  display:inline-block;
+  margin-top:20px;
+  color:#1d251a;
+  border-bottom:1px solid var(--green);
+  padding-bottom:4px;
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+/* =========================================================
+   SUPPORT
+   ========================================================= */
+
+.supportScene{
+  min-height:150vh;
+  background:#080a07;
+}
+
+.supportStage{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.supportGhost{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  font:800 clamp(150px,32vw,520px)/.6 Syne,sans-serif;
+  letter-spacing:-.13em;
+  color:rgba(255,255,255,.025);
+}
+
+.supportContent{
+  position:relative;
+  z-index:3;
+}
+
+.supportKicker{
+  color:var(--acid);
+  font:8px "DM Mono",monospace;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.supportTitle{
+  margin-top:25px;
+  font:800 clamp(75px,12vw,190px)/.66 Syne,sans-serif;
+  letter-spacing:-.11em;
+}
+
+.supportTitle span{
+  color:var(--acid);
+}
+
+.supportText{
+  max-width:510px;
+  margin:30px auto 0;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.8;
+}
+
+.supportButton{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:34px;
+  min-width:220px;
+  height:52px;
+  border:1px solid var(--acid);
+  color:var(--acid);
+  font:9px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  transition:.4s var(--ease);
+}
+
+.supportButton:hover{
+  background:var(--acid);
+  color:var(--black);
+  transform:translateY(-4px);
+  box-shadow:0 15px 45px rgba(198,232,90,.12);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.footerScene{
+  min-height:70vh;
+  background:#050605;
+  border-top:1px solid var(--line);
+}
+
+.footerInner{
+  width:min(1500px,calc(100% - 80px));
+  min-height:70vh;
+  margin:auto;
+  padding:60px 0 30px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.footerBrand{
+  font:800 clamp(65px,12vw,180px)/.62 Syne,sans-serif;
+  letter-spacing:-.11em;
+}
+
+.footerBrand span{
+  color:var(--acid);
+}
+
+.footerBottom{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:30px;
+  border-top:1px solid var(--line);
+  padding-top:18px;
+}
+
+.footerBottom p{
+  max-width:480px;
+  color:var(--muted);
+  font:8px/1.7 "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.footerNav{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:18px;
+}
+
+.footerNav a{
+  color:rgba(255,255,255,.55);
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  transition:.25s;
+}
+
+.footerNav a:hover{
+  color:var(--acid);
+}
+
+/* =========================================================
+   DRAWERS
+   ========================================================= */
+
+.drawer{
+  position:fixed;
+  inset:0;
+  z-index:30000;
+  visibility:hidden;
+  opacity:0;
+  pointer-events:none;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(8px);
+  transition:.35s ease;
+}
+
+.drawer.open{
+  visibility:visible;
+  opacity:1;
+  pointer-events:auto;
+}
+
+.drawerPanel{
+  position:absolute;
+  top:0;
+  right:0;
+  width:min(560px,100%);
+  height:100%;
+  padding:28px;
+  background:#0b0d0a;
+  border-left:1px solid var(--line2);
+  transform:translateX(100%);
+  transition:.55s var(--ease);
+  overflow:auto;
+}
+
+.drawer.open .drawerPanel{
+  transform:translateX(0);
+}
+
+.drawerTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--line);
+  padding-bottom:15px;
+}
+
+.drawerTop strong{
+  font:700 13px Syne,sans-serif;
+}
+
+.closeButton{
+  width:38px;
+  height:38px;
+  border:1px solid var(--line2);
+  background:transparent;
+  color:var(--white);
+  cursor:pointer;
+  font-size:18px;
+}
+
+.drawerBody{
+  padding-top:50px;
+}
+
+.drawerBody small{
+  color:var(--acid);
+  font:8px "DM Mono",monospace;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+
+.drawerBody h3{
+  margin-top:18px;
+  font:800 clamp(55px,10vw,120px)/.68 Syne,sans-serif;
+  letter-spacing:-.10em;
+}
+
+.drawerBody p{
+  max-width:440px;
+  margin-top:24px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.8;
+}
+
+.drawerRows{
+  margin-top:40px;
+  border-top:1px solid var(--line);
+}
+
+.drawerRow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:16px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.drawerRow span{
+  color:var(--muted);
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+.drawerRow a{
+  color:var(--acid);
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+.mobileOnly{
+  display:none;
+}
+
+@media(max-width:1000px){
+
+  .sceneInner,
+  .footerInner{
+    width:calc(100% - 40px);
+  }
+
+  .archiveStatus{
+    display:none;
+  }
+
+  .manifestoGrid,
+  .archiveLayout,
+  .diptychLayout,
+  .sourcesLayout{
+    grid-template-columns:1fr;
+    gap:30px;
+  }
+
+  .manifestoCopy{
+    max-width:600px;
+  }
+
+  .archiveStage{
+    align-items:flex-start;
+    padding-top:100px;
+  }
+
+  .archiveList{
+    height:62vh;
+  }
+
+  .diptychStage{
+    align-items:flex-start;
+    padding-top:90px;
+  }
+
+  .diptychVisual{
+    height:60vh;
+  }
+
+  .sourcesStage{
+    align-items:flex-start;
+    padding-top:110px;
+  }
+
+  .sourcesLayout{
+    gap:25px;
+  }
+
+  .worldGrid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .lineageNode{
+    width:160px;
+  }
+
+  .lineageNode:nth-child(1){left:8%}
+  .lineageNode:nth-child(2){left:29%}
+  .lineageNode:nth-child(3){left:50%}
+  .lineageNode:nth-child(4){left:71%}
+  .lineageNode:nth-child(5){left:92%}
+
+  .nodeCard strong{
+    font-size:17px;
+  }
+}
+
+@media(max-width:700px){
+
+  .uiHeader{
+    height:62px;
+    padding:0 14px;
+  }
+
+  .brandText{
+    display:none;
+  }
+
+  .headerButton{
+    height:34px;
+  }
+
+  .progressRail,
+  .progressLabel,
+  .cursorDot{
+    display:none;
+  }
+
+  .sceneInner,
+  .footerInner{
+    width:calc(100% - 28px);
+  }
+
+  .mobileOnly{
+    display:block;
+  }
+
+  .menuInner{
+    grid-template-columns:1fr;
+    padding:90px 25px 30px;
+    align-content:center;
+  }
+
+  .menuMeta{
+    display:none;
+  }
+
+  .intro{
+    min-height:120vh;
+  }
+
+  .introWord{
+    white-space:normal;
+    width:100%;
+    text-align:center;
+    font-size:25vw;
+  }
+
+  .introWord.one{
+    top:36%;
+  }
+
+  .introWord.two{
+    top:50%;
+  }
+
+  .introSub{
+    bottom:13%;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
+
+  .scrollHint{
+    display:none;
+  }
+
+  .manifesto{
+    min-height:135vh;
+  }
+
+  .manifestoStage{
+    padding-top:70px;
+    align-items:center;
+  }
+
+  .manifestoHeadline{
+    font-size:20vw;
+  }
+
+  .manifestoCopy p{
+    font-size:11px;
+  }
+
+  .gapScene{
+    min-height:145vh;
+  }
+
+  .gapTitle{
+    font-size:18vw;
+  }
+
+  .gapOld{
+    left:15px;
+  }
+
+  .gapNew{
+    right:15px;
+  }
+
+  .era{
+    min-height:145vh;
+  }
+
+  .eraStage{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:25px;
+    padding-top:60px;
+  }
+
+  .eraNumber{
+    left:-5%;
+    bottom:-2%;
+    font-size:55vw;
+  }
+
+  .eraMeta{
+    padding:0;
+    width:100%;
+  }
+
+  .eraTitle{
+    font-size:13vw;
+  }
+
+  .eraText{
+    font-size:10px;
+  }
+
+  .eraVisual{
+    width:100%;
+    height:48vh;
+    margin:0;
+  }
+
+  .archiveScene{
+    min-height:230vh;
+  }
+
+  .archiveStage{
+    padding-top:80px;
+  }
+
+  .archiveLayout{
+    display:block;
+  }
+
+  .archiveIntro h2{
+    font-size:20vw;
+  }
+
+  .archiveIntro p,
+  .archiveCounter{
+    display:none;
+  }
+
+  .archiveList{
+    margin-top:30px;
+    height:73vh;
+  }
+
+  .archiveItem{
+    grid-template-columns:43px 1fr;
+    min-height:130px;
+  }
+
+  .archiveItemFacts{
+    display:none;
+  }
+
+  .archiveItemMain h3{
+    font-size:24px;
+  }
+
+  .archiveItemMain p{
+    font-size:9px;
+  }
+
+  .journalScene{
+    min-height:240vh;
+  }
+
+  .journalHeading{
+    left:14px;
+    top:12%;
+  }
+
+  .journalHeading h2{
+    font-size:17vw;
+  }
+
+  .journalFrame{
+    width:calc(100vw - 28px);
+    height:62vh;
+  }
+
+  .journalInfo{
+    left:18px;
+    right:18px;
+    bottom:18px;
+  }
+
+  .journalInfo strong{
+    font-size:9vw;
+  }
+
+  .journalInfo p{
+    display:none;
+  }
+
+  .journalThumbs{
+    bottom:8%;
+  }
+
+  .diptychScene{
+    min-height:165vh;
+  }
+
+  .diptychStage{
+    padding-top:75px;
+    align-items:center;
+  }
+
+  .diptychIntro h2{
+    font-size:17vw;
+  }
+
+  .diptychVisual{
+    height:51vh;
+  }
+
+  .diptychCode{
+    font-size:7px;
+  }
+
+  .continuityScene{
+    min-height:180vh;
+  }
+
+  .continuityHeader{
+    left:14px;
+    top:10%;
+  }
+
+  .continuityHeader h2{
+    font-size:16vw;
+  }
+
+  .lineageCanvas{
+    top:52%;
+    left:14px;
+    right:14px;
+    width:auto;
+  }
+
+  .lineageNode{
+    width:105px;
+  }
+
+  .lineageNode:nth-child(1){left:5%}
+  .lineageNode:nth-child(2){left:28%}
+  .lineageNode:nth-child(3){left:50%}
+  .lineageNode:nth-child(4){left:72%}
+  .lineageNode:nth-child(5){left:95%}
+
+  .nodeDot{
+    width:9px;
+    height:9px;
+  }
+
+  .nodeCard{
+    margin-top:15px;
+  }
+
+  .nodeCard strong{
+    font-size:12px;
+  }
+
+  .nodeCard p{
+    font-size:7px;
+  }
+
+  .continuityNote{
+    left:14px;
+    right:14px;
+    bottom:8%;
+    font-size:9px;
+  }
+
+  .chaptersScene{
+    min-height:230vh;
+  }
+
+  .chaptersTitle{
+    left:14px;
+    top:9%;
+  }
+
+  .chaptersTitle h2{
+    font-size:16vw;
+  }
+
+  .chapterRail{
+    top:57%;
+    gap:9px;
+  }
+
+  .chapterCard{
+    width:76vw;
+    height:58vh;
+    min-height:390px;
+  }
+
+  .chapterCard:nth-child(even){
+    margin-top:35px;
+  }
+
+  .notesScene{
+    min-height:180vh;
+  }
+
+  .notesStage{
+    display:block;
+    padding-top:95px;
+  }
+
+  .notesBig{
+    font-size:20vw;
+  }
+
+  .notesCards{
+    margin-top:40px;
+  }
+
+  .noteCard{
+    grid-template-columns:35px 1fr;
+  }
+
+  .sourceRow{
+    grid-template-columns:35px 48px 1fr;
+    gap:8px;
+  }
+
+  .sourceRowLink{
+    display:none;
+  }
+
+  .sourceRowTitle{
+    font-size:12px;
+  }
+
+  .worldScene{
+    min-height:210vh;
+  }
+
+  .worldStage{
+    padding-top:90px;
+    align-items:flex-start;
+  }
+
+  .worldHeader{
+    left:14px;
+    top:8%;
+  }
+
+  .worldHeader h2{
+    font-size:18vw;
+  }
+
+  .worldGrid{
+    grid-template-columns:1fr;
+    padding-top:170px;
+  }
+
+  .worldCard{
+    min-height:27vh;
+  }
+
+  .worldCard h3{
+    font-size:13vw;
+  }
+
+  .supportScene{
+    min-height:140vh;
+  }
+
+  .supportTitle{
+    font-size:20vw;
+  }
+
+  .supportText{
+    padding:0 15px;
+    font-size:10px;
+  }
+
+  .footerScene,
+  .footerInner{
+    min-height:65vh;
+  }
+
+  .footerBrand{
+    font-size:21vw;
+  }
+
+  .footerBottom{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .footerNav{
+    justify-content:flex-start;
+  }
+
+  .ageWindow{
+    min-height:calc(100vh - 20px);
+    width:calc(100% - 20px);
+  }
+
+  .ageCenter{
+    padding:35px 22px;
+  }
+
+  .ageTitle{
+    font-size:25vw;
+  }
+
+  .ageActions{
+    flex-direction:column;
+  }
+
+  .ageButton{
+    width:100%;
+  }
+
+  .drawerPanel{
+    padding:20px;
+  }
+}
+
+/* =========================================================
+   MOTION FALLBACK
+   ========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    animation-duration:.001ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.001ms!important;
+  }
+
+  .journalCard,
+  .chapterRail,
+  .archiveTrack,
+  .introWord,
+  .eraVisual img{
+    transform:none!important;
+  }
+}
 </style>
 </head>
+
 <body>
-<div aria-hidden="true" id="bd-hud"><div class="hud-corner tl"></div><div class="hud-corner tr"></div><div class="hud-corner bl"></div><div class="hud-corner br"></div><div class="hud-top"><div class="hud-left"><i class="hud-mark"></i><span>ARCHIVE ONLINE</span><i class="hud-rule"></i><span id="bd-coordinates">NODE 52.00 / 7.46</span></div><div class="hud-right"><span>FIELD SYSTEM / BALTAZAR SEEDS</span><i class="hud-rule"></i><span id="bd-clock">00:00:00</span></div></div><div class="hud-bottom"><span>NO CLOUD / LOCAL IMAGE ARCHIVE / SOURCE INDEX PRESERVED</span><span id="bd-status">READY</span></div></div>
-<div aria-hidden="true" id="bd-terminal"><span id="bd-terminal-text">initializing field archive...</span></div>
-<div aria-labelledby="ageTitle" aria-modal="true" id="ageGate" role="dialog">
-<div class="ageWindow">
-<div class="windowBar">
-<div class="windowDots"><i></i><i></i><i></i></div>
-<div class="windowCode">FIELD ARCHIVE / ACCESS</div>
-</div>
-<div class="ageBody">
-<div class="ageKicker">Baltazar Seeds / documented archive</div>
-<h1 class="ageTitle" id="ageTitle">18+ <span>only.</span></h1>
-<p class="ageText">
+
+<!-- =========================================================
+     AGE GATE
+     ========================================================= -->
+
+<div id="ageGate" role="dialog" aria-modal="true" aria-labelledby="ageTitle">
+  <div class="ageWindow">
+
+    <div class="ageTop">
+      <div>BALTAZAR SEEDS / FIELD ARCHIVE</div>
+      <div class="ageSignal"><i></i> ACCESS RESTRICTED / 18+</div>
+    </div>
+
+    <div class="ageCenter">
+      <div class="ageKicker">Documented history / living archive</div>
+
+      <h1 class="ageTitle" id="ageTitle">
+        ENTER
+        <span>18+</span>
+      </h1>
+
+      <p class="ageText">
         This website contains cannabis related material and is intended for adults only.
         Enter only if you are legally permitted to view this material in your location.
       </p>
-<div class="ageActions">
-<button class="ageButton" id="ageYes">Enter archive</button>
-<button class="ageButton secondary" id="ageNo">Leave</button>
-</div>
-</div>
-</div>
+
+      <div class="ageActions">
+        <button class="ageButton" id="ageYes">Enter archive</button>
+        <button class="ageButton secondary" id="ageNo">Leave</button>
+      </div>
+    </div>
+
+    <div class="ageTop">
+      <span>ARCHIVE STATUS / OPEN</span>
+      <span>2007 — 2026</span>
+    </div>
+
+  </div>
 </div>
 
-<header class="topbar">
-<a aria-label="Baltazar Seeds home" class="brand" href="#top">
-<div class="brandMark">B</div>
-<div class="brandText">
-<strong>Baltazar Seeds</strong>
-<small>Field Archive / Living Record</small>
-</div>
-</a>
-<nav aria-label="Main navigation" class="topNav">
-<a href="#archive">Archive</a>
-<a href="#journal">Journal</a>
-<a href="#continuity">Continuity</a>
-<a href="#sources">Sources</a>
-<a href="#world">World</a>
-<button id="supportTop" type="button">Support</button>
-</nav>
-<div class="topStatus">
-<i class="statusDot"></i>
-<span>Archive online</span>
-</div>
-<button aria-expanded="false" aria-label="Open menu" class="mobileMenu" id="mobileMenu">☰</button>
+<!-- =========================================================
+     FIXED HEADER
+     ========================================================= -->
+
+<header class="uiHeader">
+
+  <a class="brand" href="#top" aria-label="Baltazar Seeds home">
+    <div class="brandMark">B</div>
+    <div class="brandText">
+      <strong>Baltazar Seeds</strong>
+      <small>Field Archive / Living Record</small>
+    </div>
+  </a>
+
+  <div class="headerRight">
+
+    <div class="archiveStatus">
+      <i class="statusDot"></i>
+      Archive online
+    </div>
+
+    <button class="headerButton" id="supportTop" type="button">
+      Support
+    </button>
+
+    <button class="headerButton" id="menuOpen" type="button">
+      Menu
+    </button>
+
+  </div>
+
 </header>
-<div class="workspace">
-<aside class="sidebar" id="sidebar">
-<div class="sideLabel">Navigate</div>
-<nav class="sideNav">
-<a href="#top"><span class="sideIcon">01</span>Index</a>
-<a href="#timeline"><span class="sideIcon">02</span>Timeline</a>
-<a href="#archive"><span class="sideIcon">03</span>Reports</a>
-<a href="#journal"><span class="sideIcon">04</span>Journal</a>
-<a href="#continuity"><span class="sideIcon">05</span>Genetics</a>
-<a href="#sources"><span class="sideIcon">06</span>Grower.ch</a>
-<a href="#world"><span class="sideIcon">07</span>World</a>
-</nav>
-<div class="sideBottom">
-<p>
-          The archive connects the old reports with the new work.
-          Nothing here needs to pretend that the story started yesterday.
+
+<div class="progressRail">
+  <span id="progressBar"></span>
+</div>
+
+<div class="progressLabel" id="progressLabel">01 / 14</div>
+
+<div class="cursorDot" id="cursorDot"></div>
+
+<!-- =========================================================
+     MENU
+     ========================================================= -->
+
+<div class="menuOverlay" id="menuOverlay">
+
+  <button class="menuClose" id="menuClose" type="button" aria-label="Close menu">×</button>
+
+  <div class="menuInner">
+
+    <div>
+      <div class="menuTitle">
+        BALT<span>AZAR</span><br>
+        SEEDS
+      </div>
+
+      <div class="menuMeta">
+        Field archive / living record<br>
+        2007 — 2026 / open
+      </div>
+    </div>
+
+    <nav class="menuLinks">
+
+      <a href="#top">01 / Index</a>
+      <a href="#timeline">02 / Timeline</a>
+      <a href="#archive">03 / Reports</a>
+      <a href="#journal">04 / Image Journal</a>
+      <a href="#continuity">05 / Genetics</a>
+      <a href="#sources">06 / Grower.ch</a>
+      <a href="#world">07 / World</a>
+
+      <button type="button" id="menuSupport">
+        08 / Support
+      </button>
+
+    </nav>
+
+  </div>
+
+</div>
+
+<!-- =========================================================
+     STORY
+     ========================================================= -->
+
+<main class="story" id="top">
+
+<!-- =========================================================
+     SCENE 01 / INTRO
+     ========================================================= -->
+
+<section class="scene intro" data-scene="01">
+
+  <div class="introStage">
+
+    <div class="introGrid"></div>
+    <div class="introLine"></div>
+
+    <div class="introWord one" data-speed="-0.06">
+      BALTAZAR
+    </div>
+
+    <div class="introWord two" data-speed="0.05">
+      SEEDS
+    </div>
+
+    <div class="introSub">
+      <span>FIELD ARCHIVE</span>
+      <span>2007 — 2026</span>
+      <span>LIVING RECORD</span>
+    </div>
+
+    <div class="scrollHint">
+      <i></i>
+      Scroll to enter
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     SCENE 02 / MANIFESTO
+     ========================================================= -->
+
+<section class="scene manifesto" id="manifesto" data-scene="02">
+
+  <div class="manifestoStage sceneInner">
+
+    <div class="manifestoGrid">
+
+      <div class="manifestoHeadline">
+        SEEDS<br>
+        ARE<br>
+        <span>A RECORD.</span>
+      </div>
+
+      <div class="manifestoCopy">
+
+        <div class="mono">Baltazar Seeds / documented path</div>
+
+        <p>
+          Baltazar Seeds is built around the documented path behind the seeds.
+          Old Grower.ch reports.
+          New experiments.
+          Different plants.
+          Different rooms.
+          Different years.
+          The archive keeps the connection visible instead of turning the history into a polished story that never happened.
         </p>
-<a href="https://www.grower.ch/" rel="noopener noreferrer" target="_blank">Open Grower.ch ↗</a>
-</div>
-</aside>
-<main class="content">
-<!-- =====================================================
-           HERO
-           ===================================================== -->
-<section class="hero">
-<div class="heroGrid">
-<div>
-<div class="eyebrow">Field archive / Baltazar Seeds</div>
-<h1>
-              Seeds are<br/>
-<span>a record.</span>
-</h1>
-<p class="heroIntro">
-              Baltazar Seeds is built around the documented path behind the seeds.
-              Old Grower.ch reports.
-              New experiments.
-              Different plants.
-              Different rooms.
-              Different years.
-              The archive keeps the connection visible instead of turning the history into a polished story that never happened.
-            </p>
-</div>
-<div class="heroSide">
-<strong>2007 → 2026</strong>
-<p>
-              The first documented reports are from the late 2000s.
-              After a long pause the work returned in 2025.
-              The current archive continues through Strain Mix Part Three.
-            </p>
-</div>
-</div>
-<div class="metricRow">
-<div class="metric">
-<b>10+</b>
-<span>Years away</span>
-</div>
-<div class="metric">
-<b>2007</b>
-<span>Old report roots</span>
-</div>
-<div class="metric">
-<b>I → II → HK → III</b>
-<span>Recent chapters</span>
-</div>
-<div class="metric">
-<b>OPEN</b>
-<span>Archive status</span>
-</div>
-</div>
+
+        <div class="manifestoFacts">
+
+          <div class="manifestoFact">
+            <span>Old report roots</span>
+            <span>2007</span>
+          </div>
+
+          <div class="manifestoFact">
+            <span>Return</span>
+            <span>2025</span>
+          </div>
+
+          <div class="manifestoFact">
+            <span>Current chapter</span>
+            <span>Part III</span>
+          </div>
+
+          <div class="manifestoFact">
+            <span>Status</span>
+            <span>Open</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </section>
-<!-- =====================================================
-           TIMELINE
-           ===================================================== -->
-<section class="section" id="timeline">
-<div class="sectionHead">
-<div>
-<div class="eyebrow">Chronology</div>
-<h2 class="sectionTitle">The long <span>thread.</span></h2>
-</div>
-<div class="sectionMeta">old roots / new chapters / one archive</div>
-</div>
-<div class="timeline">
-<article class="timeItem">
-<div class="timeYear">2007</div>
-<div class="timeDot"></div>
-<div class="timeCard">
-<div>
-<h3>First Grow / Hindu Kush</h3>
-<p>
-                  The documented beginning.
-                  A first grow with Hindu Kush.
-                  400 W and coco.
-                  The report itself is part of the history now carried forward.
-                </p>
-</div>
-<div class="timeCode">ROOT / 01</div>
-</div>
-</article>
-<article class="timeItem">
-<div class="timeYear">2008</div>
-<div class="timeDot"></div>
-<div class="timeCard">
-<div>
-<h3>Mazar &amp; Euforia</h3>
-<p>
-                  The second documented grow.
-                  Mazar and Euforia become part of the early record together with the first attempts to compare different genetics in one continuing archive.
-                </p>
-</div>
-<div class="timeCode">ROOT / 02</div>
-</div>
-</article>
-<article class="timeItem">
-<div class="timeYear">2008</div>
-<div class="timeDot"></div>
-<div class="timeCard">
-<div>
-<h3>Blueberry</h3>
-<p>
-                  The third grow.
-                  Blueberry takes its place in the sequence alongside Thai Haze Skunk and genetics carried forward from the previous run.
-                </p>
-</div>
-<div class="timeCode">ROOT / 03</div>
-</div>
-</article>
-<article class="timeItem">
-<div class="timeYear">2008</div>
-<div class="timeDot"></div>
-<div class="timeCard">
-<div>
-<h3>Jorge's Diamonds &amp; Perplex</h3>
-<p>
-                  A later 2008 report with Jorge's Diamonds No1, Perplex and additional Afghan genetics.
-                  The archive gets broader while the documentation stays personal.
-                </p>
-</div>
-<div class="timeCode">ROOT / 04</div>
-</div>
-</article>
-<article class="timeItem">
-<div class="timeYear">2008</div>
-<div class="timeDot"></div>
-<div class="timeCard">
-<div>
-<h3>Blue Moonshine &amp; Pure Afghan</h3>
-<p>
-                  Another step in the old sequence.
-                  Blue Moonshine enters the report together with Pure Afghan and genetics carried over from earlier work.
-                </p>
-</div>
-<div class="timeCode">ROOT / 05</div>
-</div>
-</article>
-<article class="timeItem">
-<div class="timeYear">2009</div>
-<div class="timeDot"></div>
-<div class="timeCard">
-<div>
-<h3>Chocolope / G13 Haze / Hawaiian Snow</h3>
-<p>
-                  The old archive continues into 2009.
-                  This report was approached as a grow protocol with the focus on the most important observations.
-                </p>
-</div>
-<div class="timeCode">ROOT / 06</div>
-</div>
-</article>
-<article class="timeItem">
-<div class="timeYear">2025</div>
-<div class="timeDot"></div>
-<div class="timeCard">
-<div>
-<h3>Strainmix Part One</h3>
-<p>
-                  After more than ten years away the work returns.
-                  The idea is deliberately open.
-                  A mixed seed experiment.
-                  Quality over quantity.
-                  Curiosity over a perfectly predictable result.
-                </p>
-</div>
-<div class="timeCode">NEW / I</div>
-</div>
-</article>
-<article class="timeItem">
-<div class="timeYear">2025</div>
-<div class="timeDot"></div>
-<div class="timeCard">
-<div>
-<h3>Strainmix Part Two</h3>
-<p>
-                  The experiment expands into a much larger documented run.
-                  More named genetics.
-                  More plants.
-                  More problems to solve.
-                  More information for the next chapter.
-                </p>
-</div>
-<div class="timeCode">NEW / II</div>
-</div>
-</article>
-<article class="timeItem">
-<div class="timeYear">2026</div>
-<div class="timeDot"></div>
-<div class="timeCard">
-<div>
-<h3>Baltazars Hell Kitchen</h3>
-<p>
-                  Three tents.
-                  A more structured environment.
-                  Automatic irrigation enters the picture and later needs to be adjusted when reality proves less tidy than the plan.
-                </p>
-</div>
-<div class="timeCode">HK / 01</div>
-</div>
-</article>
-<article class="timeItem">
-<div class="timeYear">2026</div>
-<div class="timeDot"></div>
-<div class="timeCard">
-<div>
-<h3>Strain Mix Part Three</h3>
-<p>
-                  Seeds from the previous run return.
-                  The focus moves even more toward following the genetics.
-                  Phenotype hunting becomes a real part of the process.
-                  The report is still open.
-                </p>
-</div>
-<div class="timeCode">NEW / III</div>
-</div>
-</article>
-</div>
+
+<!-- =========================================================
+     SCENE 03 / THE GAP
+     ========================================================= -->
+
+<section class="scene gapScene" data-scene="03">
+
+  <div class="gapStage">
+
+    <div class="gapYear">2009</div>
+
+    <div class="gapOld">
+      LAST OLD ARCHIVE / 2009
+    </div>
+
+    <div class="gapNew">
+      RETURN / 2025
+    </div>
+
+    <div class="gapLine"></div>
+
+    <div class="gapTitle">
+      THE
+      <span>RETURN.</span>
+    </div>
+
+  </div>
+
 </section>
-<!-- =====================================================
-           REPORT ARCHIVE
-           ===================================================== -->
-<section class="section" id="archive">
-<div class="sectionHead">
-<div>
-<div class="eyebrow">Grow reports</div>
-<h2 class="sectionTitle">The <span>archive.</span></h2>
-</div>
-<div class="sectionMeta">direct links to the original reports</div>
-</div>
-<div class="reportGrid">
-<article class="report">
-<div class="reportTop">
-<span class="reportType">ROOT REPORT</span>
-<span class="reportYear">09.08.2007</span>
-</div>
-<div class="reportBody">
-<h3>First Grow / Hindu Kush</h3>
-<p>
-                The first documented grow in the old sequence.
-                Hindu Kush.
-                400 W.
-                Coco.
-                A report that now sits at the root of everything that followed.
-              </p>
-<div class="reportFacts">
-<span class="fact">2007</span>
-<span class="fact">Hindu Kush</span>
-<span class="fact">400 W</span>
-<span class="fact">Coco</span>
-</div>
-<a class="reportLink" href="https://www.grower.ch/forum/threads/first-grow-hindu-kush-400w-coco-63-bt-beendet.33441/" rel="noopener noreferrer" target="_blank">Open report ↗</a>
-</div>
-</article>
-<article class="report">
-<div class="reportTop">
-<span class="reportType">ROOT REPORT</span>
-<span class="reportYear">03.02.2008</span>
-</div>
-<div class="reportBody">
-<h3>Mazar &amp; Euforia</h3>
-<p>
-                The second grow.
-                Mazar and Euforia are documented together with the early comparison between soil and coco.
-              </p>
-<div class="reportFacts">
-<span class="fact">Mazar</span>
-<span class="fact">Euforia</span>
-<span class="fact">2nd grow</span>
-<span class="fact">2008</span>
-</div>
-<a class="reportLink" href="https://www.grower.ch/forum/threads/mazar-euforia.30/" rel="noopener noreferrer" target="_blank">Open report ↗</a>
-</div>
-</article>
-<article class="report">
-<div class="reportTop">
-<span class="reportType">ROOT REPORT</span>
-<span class="reportYear">30.03.2008</span>
-</div>
-<div class="reportBody">
-<h3>Blueberry</h3>
-<p>
-                The third grow.
-                Blueberry becomes the center of the report with Thai Haze Skunk and Mazar F2 also present in the record.
-              </p>
-<div class="reportFacts">
-<span class="fact">Blueberry</span>
-<span class="fact">Thai Haze Skunk</span>
-<span class="fact">Mazar F2</span>
-</div>
-<a class="reportLink" href="https://www.grower.ch/forum/threads/blueberry.408/" rel="noopener noreferrer" target="_blank">Open report ↗</a>
-</div>
-</article>
-<article class="report">
-<div class="reportTop">
-<span class="reportType">ROOT REPORT</span>
-<span class="reportYear">09.07.2008</span>
-</div>
-<div class="reportBody">
-<h3>Jorge's Diamonds &amp; Perplex</h3>
-<p>
-                A fourth grow with Jorge's Diamonds No1 and Perplex plus Afghan bonus genetics.
-                The archive continues to grow.
-              </p>
-<div class="reportFacts">
-<span class="fact">Jorge's Diamonds</span>
-<span class="fact">Perplex</span>
-<span class="fact">Afghan</span>
-</div>
-<a class="reportLink" href="https://www.grower.ch/forum/threads/jorges-diamonds-perplex.955/" rel="noopener noreferrer" target="_blank">Open report ↗</a>
-</div>
-</article>
-<article class="report">
-<div class="reportTop">
-<span class="reportType">ROOT REPORT</span>
-<span class="reportYear">13.09.2008</span>
-</div>
-<div class="reportBody">
-<h3>Blue Moonshine &amp; Pure Afghan</h3>
-<p>
-                Blue Moonshine enters the old Dutch Passion focused report together with Pure Afghan and additional genetics from the previous run.
-              </p>
-<div class="reportFacts">
-<span class="fact">Blue Moonshine</span>
-<span class="fact">Pure Afghan</span>
-<span class="fact">2008</span>
-</div>
-<a class="reportLink" href="https://www.grower.ch/forum/threads/blue-moonshine-pure-afghan.1497/" rel="noopener noreferrer" target="_blank">Open report ↗</a>
-</div>
-</article>
-<article class="report">
-<div class="reportTop">
-<span class="reportType">ROOT REPORT</span>
-<span class="reportYear">07.03.2009</span>
-</div>
-<div class="reportBody">
-<h3>Chocolope / G13 Haze / Hawaiian Snow</h3>
-<p>
-                The 2009 report focuses on the most important observations and treats the grow as a protocol rather than a polished presentation.
-              </p>
-<div class="reportFacts">
-<span class="fact">Chocolope</span>
-<span class="fact">G13 Haze</span>
-<span class="fact">Hawaiian Snow</span>
-</div>
-<a class="reportLink" href="https://www.grower.ch/forum/threads/chocolope-g13-haze-hawaiian-snow.40558/" rel="noopener noreferrer" target="_blank">Open report ↗</a>
-</div>
-</article>
-<article class="report">
-<div class="reportTop">
-<span class="reportType">RETURN</span>
-<span class="reportYear">10.01.2025</span>
-</div>
-<div class="reportBody">
-<h3>Bio Erde Strainmix Part One</h3>
-<p>
-                After more than ten years away the return starts as an experiment with mixed seed origins.
-                Quality over quantity.
-                The uncertainty is part of the point.
-              </p>
-<div class="reportFacts">
-<span class="fact">Part One</span>
-<span class="fact">2025</span>
-<span class="fact">Seed mix</span>
-<span class="fact">Return</span>
-</div>
-<a class="reportLink" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" rel="noopener noreferrer" target="_blank">Open report ↗</a>
-</div>
-</article>
-<article class="report">
-<div class="reportTop">
-<span class="reportType">EXPANSION</span>
-<span class="reportYear">01.05.2025</span>
-</div>
-<div class="reportBody">
-<h3>Bio Erde Strainmix Part Two</h3>
-<p>
-                The next run expands the archive with a broad selection of named genetics and a larger documented environment.
-              </p>
-<div class="reportFacts">
-<span class="fact">Part Two</span>
-<span class="fact">2025</span>
-<span class="fact">21 strains</span>
-<span class="fact">Grow log</span>
-</div>
-<a class="reportLink" href="https://www.grower.ch/forum/threads/strainmix-part-2.179085/" rel="noopener noreferrer" target="_blank">Open report ↗</a>
-</div>
-</article>
-<article class="report">
-<div class="reportTop">
-<span class="reportType">SYSTEM TEST</span>
-<span class="reportYear">03.01.2026</span>
-</div>
-<div class="reportBody">
-<h3>Baltazars Hell Kitchen</h3>
-<p>
-                Three tents.
-                A more structured setup.
-                Automatic irrigation.
-                Then the practical problems begin and the report records the adjustment instead of hiding it.
-              </p>
-<div class="reportFacts">
-<span class="fact">Hell Kitchen</span>
-<span class="fact">2026</span>
-<span class="fact">3 tents</span>
-<span class="fact">Archive</span>
-</div>
-<a class="reportLink" href="https://www.grower.ch/forum/threads/baltazars-hell-kitchen.187410/" rel="noopener noreferrer" target="_blank">Open report ↗</a>
-</div>
-</article>
-<article class="report">
-<div class="reportTop">
-<span class="reportType">CURRENT</span>
-<span class="reportYear">02.09.2026</span>
-</div>
-<div class="reportBody">
-<h3>Bio Erde Strain Mix Part Three</h3>
-<p>
-                The current chapter.
-                Seeds from the previous run return.
-                The archive follows the genetics over time and phenotype hunting becomes a central part of the record.
-              </p>
-<div class="reportFacts">
-<span class="fact">Part Three</span>
-<span class="fact">FD 32</span>
-<span class="fact">2026</span>
-<span class="fact">Current</span>
-</div>
-<a class="reportLink" href="https://www.grower.ch/forum/threads/strain-mix-part-3.193044/" rel="noopener noreferrer" target="_blank">Open report ↗</a>
-</div>
-</article>
-</div>
+
+<!-- =========================================================
+     SCENE 04 / 2007
+     ========================================================= -->
+
+<section class="scene era" id="timeline" data-scene="04">
+
+  <div class="eraStage sceneInner">
+
+    <div class="eraNumber">07</div>
+
+    <div class="eraMeta">
+
+      <div class="eraCode">ROOT / 01 / 2007</div>
+
+      <h2 class="eraTitle">
+        FIRST GROW<br>
+        HINDU KUSH
+      </h2>
+
+      <p class="eraText">
+        The documented beginning.
+        A first grow with Hindu Kush.
+        400 W and coco.
+        The report itself is part of the history now carried forward.
+      </p>
+
+      <a class="eraLink" href="https://www.grower.ch/forum/threads/first-grow-hindu-kush-400w-coco-63-bt-beendet.33441/" target="_blank" rel="noopener noreferrer">
+        Open original report ↗
+      </a>
+
+    </div>
+
+    <div class="eraVisual parallaxImage">
+      <img src="STRAIN1.JPG" alt="Baltazar Seeds archive image" loading="lazy">
+      <div class="eraStamp">SOURCE / GROWER.CH / 01</div>
+    </div>
+
+  </div>
+
 </section>
-<!-- =====================================================
-           JOURNAL
-           ===================================================== -->
-<section class="section" id="journal">
-<div class="sectionHead">
-<div>
-<div class="eyebrow">Image journal</div>
-<h2 class="sectionTitle">What the <span>archive looks like.</span></h2>
-</div>
-<div class="sectionMeta">local image files / original sequence</div>
-</div>
-<div class="journalGrid">
-<article class="journalCard">
-<img alt="Baltazar Seeds Strainmix Part One" loading="lazy" src="STRAIN1.JPG"/>
-<div class="journalOverlay">
-<span>01 / return</span>
-<strong>Back after more than ten years.</strong>
-</div>
-</article>
-<div class="journalStack">
-<article class="dualCard">
-<div class="imageCell">
-<img alt="Baltazar Seeds original Strain 5 image" loading="lazy" src="STRAIN5.JPG"/>
-</div>
-<div class="imageCell">
-<img alt="Baltazar Seeds original Strain 5 second image" loading="lazy" src="STRAIN5A.JPG"/>
-</div>
-</article>
-<article class="dualCard">
-<div class="imageCell">
-<img alt="Baltazar Seeds original Strain 6 image" loading="lazy" src="STRAIN6.JPG"/>
-</div>
-<div class="imageCell">
-<img alt="Baltazar Seeds original Strain 6 second image" loading="lazy" src="STRAIN6A.JPG"/>
-</div>
-</article>
-</div>
-</div>
-<div style="margin-top:10px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;">
-<article class="journalCard small">
-<img alt="Baltazar Seeds seed mix" loading="lazy" src="STRAIN2.JPG"/>
-<div class="journalOverlay">
-<span>02 / mix</span>
-<strong>A box full of questions.</strong>
-</div>
-</article>
-<article class="journalCard small">
-<img alt="Baltazar Seeds early selection" loading="lazy" src="STRAIN3.JPG"/>
-<div class="journalOverlay">
-<span>03 / selection</span>
-<strong>It did not start smoothly.</strong>
-</div>
-</article>
-<article class="journalCard small">
-<img alt="Baltazar Seeds phenotype selection" loading="lazy" src="STRAIN4.JPG"/>
-<div class="journalOverlay">
-<span>04 / phenotype watch</span>
-<strong>Let the plants show themselves.</strong>
-</div>
-</article>
-</div>
+
+<!-- =========================================================
+     SCENE 05 / 2008
+     ========================================================= -->
+
+<section class="scene era" data-scene="05">
+
+  <div class="eraStage sceneInner">
+
+    <div class="eraNumber">08</div>
+
+    <div class="eraMeta">
+
+      <div class="eraCode">ROOT / 02 — 05 / 2008</div>
+
+      <h2 class="eraTitle">
+        THE<br>
+        SEQUENCE
+      </h2>
+
+      <p class="eraText">
+        Mazar and Euforia.
+        Blueberry.
+        Jorge's Diamonds.
+        Perplex.
+        Blue Moonshine.
+        Pure Afghan.
+        The archive becomes broader while the documentation stays personal.
+      </p>
+
+      <a class="eraLink" href="https://www.grower.ch/forum/threads/mazar-euforia.30/" target="_blank" rel="noopener noreferrer">
+        Enter source sequence ↗
+      </a>
+
+    </div>
+
+    <div class="eraVisual parallaxImage">
+
+      <img src="STRAIN2.JPG" alt="Baltazar Seeds early archive image" loading="lazy">
+
+      <div class="eraStamp">
+        ROOT / 02 — 05
+      </div>
+
+    </div>
+
+  </div>
+
 </section>
-<!-- =====================================================
-           ORIGINAL DUAL IMAGE RECORD
-           ===================================================== -->
-<section class="section">
-<div class="sectionHead">
-<div>
-<div class="eyebrow">Preserved source material</div>
-<h2 class="sectionTitle">Two views. <span>Both stay.</span></h2>
-</div>
-<div class="sectionMeta">STRAIN5 + STRAIN5A / STRAIN6 + STRAIN6A</div>
-</div>
-<div class="compare">
-<article class="compareCard">
-<div class="compareHead">
-<b>Record 05</b>
-<span>Flower / original pair</span>
-</div>
-<div class="dualCard" style="border:0;border-radius:0;">
-<div class="imageCell">
-<img alt="STRAIN5 original image" src="STRAIN5.JPG"/>
-</div>
-<div class="imageCell">
-<img alt="STRAIN5A original image" src="STRAIN5A.JPG"/>
-</div>
-</div>
-<div class="compareContent">
-<h3>Nothing is hidden behind a crossfade.</h3>
-<p>
-                The original two image record remains visible at the same time.
-                No automatic swap.
-                No disappearing second frame.
-                Both source files are part of the page.
-              </p>
-<div class="compareList">
-<div><span>File A</span><b>STRAIN5.JPG</b></div>
-<div><span>File B</span><b>STRAIN5A.JPG</b></div>
-<div><span>Display</span><b>Both visible</b></div>
-</div>
-</div>
-</article>
-<article class="compareCard">
-<div class="compareHead">
-<b>Record 06</b>
-<span>Finish / original pair</span>
-</div>
-<div class="dualCard" style="border:0;border-radius:0;">
-<div class="imageCell">
-<img alt="STRAIN6 original image" src="STRAIN6.JPG"/>
-</div>
-<div class="imageCell">
-<img alt="STRAIN6A original image" src="STRAIN6A.JPG"/>
-</div>
-</div>
-<div class="compareContent">
-<h3>The second image stays part of the story.</h3>
-<p>
-                The original pair is preserved as a real diptych.
-                This is deliberately different from the previous crossfade approach.
-                Both photographs can be inspected immediately.
-              </p>
-<div class="compareList">
-<div><span>File A</span><b>STRAIN6.JPG</b></div>
-<div><span>File B</span><b>STRAIN6A.JPG</b></div>
-<div><span>Display</span><b>Both visible</b></div>
-</div>
-</div>
-</article>
-</div>
+
+<!-- =========================================================
+     SCENE 06 / 2009
+     ========================================================= -->
+
+<section class="scene era" data-scene="06">
+
+  <div class="eraStage sceneInner">
+
+    <div class="eraNumber">09</div>
+
+    <div class="eraMeta">
+
+      <div class="eraCode">ROOT / 06 / 2009</div>
+
+      <h2 class="eraTitle">
+        CHOCOLOPE<br>
+        G13 HAZE
+      </h2>
+
+      <p class="eraText">
+        The old archive continues into 2009.
+        Chocolope.
+        G13 Haze.
+        Hawaiian Snow.
+        The report was approached as a grow protocol with the focus on the important observations rather than a polished presentation.
+      </p>
+
+      <a class="eraLink" href="https://www.grower.ch/forum/threads/chocolope-g13-haze-hawaiian-snow.40558/" target="_blank" rel="noopener noreferrer">
+        Open original report ↗
+      </a>
+
+    </div>
+
+    <div class="eraVisual parallaxImage">
+
+      <img src="STRAIN3.JPG" alt="Baltazar Seeds archive image" loading="lazy">
+
+      <div class="eraStamp">
+        ROOT / 06 / 2009
+      </div>
+
+    </div>
+
+  </div>
+
 </section>
-<!-- =====================================================
-           CONTINUITY
-           ===================================================== -->
-<section class="section" id="continuity">
-<div class="sectionHead">
-<div>
-<div class="eyebrow">Continuity</div>
-<h2 class="sectionTitle">From <span>memory</span> to archive.</h2>
-</div>
-<div class="sectionMeta">the structure behind the project</div>
-</div>
-<div class="lineage">
-<div class="lineagePath">
-<div class="lineNode">
-<small>ROOT</small>
-<strong>2007–09</strong>
-<p>Old Grower.ch reports and first documented work.</p>
-</div>
-<div class="lineNode">
-<small>RETURN</small>
-<strong>Part One</strong>
-<p>2025 comeback through the mixed seed experiment.</p>
-</div>
-<div class="lineNode">
-<small>EXPANSION</small>
-<strong>Part Two</strong>
-<p>More genetics and a larger documented run.</p>
-</div>
-<div class="lineNode">
-<small>SYSTEM</small>
-<strong>Hell Kitchen</strong>
-<p>More structure and a more complex environment.</p>
-</div>
-<div class="lineNode">
-<small>CURRENT</small>
-<strong>Part Three</strong>
-<p>Following the genetics and hunting phenotypes.</p>
-</div>
-</div>
-<p class="lineageNote">
-            The point of the archive is not to invent a clean origin story.
-            The useful part is that the old reports exist.
-            The new reports exist.
-            The seeds sit between those two periods as a continuation of an interest that was already there long before the name Baltazar Seeds appeared on a page.
+
+<!-- =========================================================
+     SCENE 07 / ARCHIVE
+     ========================================================= -->
+
+<section class="scene archiveScene" id="archive" data-scene="07">
+
+  <div class="archiveStage sceneInner">
+
+    <div class="archiveLayout">
+
+      <div class="archiveIntro">
+
+        <div class="eyebrow">
+          Direct source archive
+        </div>
+
+        <h2>
+          THE<br>
+          ARCHIVE.
+        </h2>
+
+        <p>
+          The original forum reports remain the detailed record.
+          This page does not replace them.
+          It connects them.
+        </p>
+
+        <div class="archiveCounter">
+          <strong>10</strong>
+          <span>primary reports</span>
+        </div>
+
+      </div>
+
+      <div class="archiveList">
+
+        <div class="archiveTrack" id="archiveTrack">
+
+          <article class="archiveItem">
+            <div class="archiveItemYear">2007</div>
+            <div class="archiveItemMain">
+              <h3>First Grow / Hindu Kush</h3>
+              <p>First documented grow / 400 W / coco</p>
+            </div>
+            <div class="archiveItemFacts">
+              <span>ROOT</span>
+              <span>HINDU KUSH</span>
+            </div>
+            <a class="archiveOpen" href="https://www.grower.ch/forum/threads/first-grow-hindu-kush-400w-coco-63-bt-beendet.33441/" target="_blank" rel="noopener noreferrer" aria-label="Open First Grow report"></a>
+          </article>
+
+          <article class="archiveItem">
+            <div class="archiveItemYear">2008</div>
+            <div class="archiveItemMain">
+              <h3>Mazar &amp; Euforia</h3>
+              <p>Second grow / Mazar / Euforia</p>
+            </div>
+            <div class="archiveItemFacts">
+              <span>ROOT</span>
+              <span>2008</span>
+            </div>
+            <a class="archiveOpen" href="https://www.grower.ch/forum/threads/mazar-euforia.30/" target="_blank" rel="noopener noreferrer" aria-label="Open Mazar Euforia report"></a>
+          </article>
+
+          <article class="archiveItem">
+            <div class="archiveItemYear">2008</div>
+            <div class="archiveItemMain">
+              <h3>Blueberry</h3>
+              <p>Blueberry / Thai Haze Skunk / Mazar F2</p>
+            </div>
+            <div class="archiveItemFacts">
+              <span>BLUEBERRY</span>
+              <span>ROOT</span>
+            </div>
+            <a class="archiveOpen" href="https://www.grower.ch/forum/threads/blueberry.408/" target="_blank" rel="noopener noreferrer" aria-label="Open Blueberry report"></a>
+          </article>
+
+          <article class="archiveItem">
+            <div class="archiveItemYear">2008</div>
+            <div class="archiveItemMain">
+              <h3>Jorge's Diamonds &amp; Perplex</h3>
+              <p>Jorge's Diamonds No1 / Perplex / Afghan genetics</p>
+            </div>
+            <div class="archiveItemFacts">
+              <span>ROOT</span>
+              <span>AFGHAN</span>
+            </div>
+            <a class="archiveOpen" href="https://www.grower.ch/forum/threads/jorges-diamonds-perplex.955/" target="_blank" rel="noopener noreferrer" aria-label="Open Jorge's Diamonds report"></a>
+          </article>
+
+          <article class="archiveItem">
+            <div class="archiveItemYear">2008</div>
+            <div class="archiveItemMain">
+              <h3>Blue Moonshine &amp; Pure Afghan</h3>
+              <p>Blue Moonshine / Pure Afghan / old genetics</p>
+            </div>
+            <div class="archiveItemFacts">
+              <span>DUTCH PASSION</span>
+              <span>ROOT</span>
+            </div>
+            <a class="archiveOpen" href="https://www.grower.ch/forum/threads/blue-moonshine-pure-afghan.1497/" target="_blank" rel="noopener noreferrer" aria-label="Open Blue Moonshine report"></a>
+          </article>
+
+          <article class="archiveItem">
+            <div class="archiveItemYear">2009</div>
+            <div class="archiveItemMain">
+              <h3>Chocolope / G13 Haze / Hawaiian Snow</h3>
+              <p>Grow protocol / key observations</p>
+            </div>
+            <div class="archiveItemFacts">
+              <span>2009</span>
+              <span>ROOT</span>
+            </div>
+            <a class="archiveOpen" href="https://www.grower.ch/forum/threads/chocolope-g13-haze-hawaiian-snow.40558/" target="_blank" rel="noopener noreferrer" aria-label="Open Chocolope report"></a>
+          </article>
+
+          <article class="archiveItem">
+            <div class="archiveItemYear">2025</div>
+            <div class="archiveItemMain">
+              <h3>Bio Erde Strainmix Part One</h3>
+              <p>Return after more than ten years / mixed seed experiment</p>
+            </div>
+            <div class="archiveItemFacts">
+              <span>RETURN</span>
+              <span>PART I</span>
+            </div>
+            <a class="archiveOpen" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener noreferrer" aria-label="Open Strainmix Part One report"></a>
+          </article>
+
+          <article class="archiveItem">
+            <div class="archiveItemYear">2025</div>
+            <div class="archiveItemMain">
+              <h3>Bio Erde Strainmix Part Two</h3>
+              <p>Expanded mixed genetics archive / 21 strains</p>
+            </div>
+            <div class="archiveItemFacts">
+              <span>EXPANSION</span>
+              <span>21 STRAINS</span>
+            </div>
+            <a class="archiveOpen" href="https://www.grower.ch/forum/threads/strainmix-part-2.179085/" target="_blank" rel="noopener noreferrer" aria-label="Open Strainmix Part Two report"></a>
+          </article>
+
+          <article class="archiveItem">
+            <div class="archiveItemYear">2026</div>
+            <div class="archiveItemMain">
+              <h3>Baltazars Hell Kitchen</h3>
+              <p>Three tents / structured environment / automatic irrigation</p>
+            </div>
+            <div class="archiveItemFacts">
+              <span>HK</span>
+              <span>3 TENTS</span>
+            </div>
+            <a class="archiveOpen" href="https://www.grower.ch/forum/threads/baltazars-hell-kitchen.187410/" target="_blank" rel="noopener noreferrer" aria-label="Open Hell Kitchen report"></a>
+          </article>
+
+          <article class="archiveItem">
+            <div class="archiveItemYear">2026</div>
+            <div class="archiveItemMain">
+              <h3>Bio Erde Strain Mix Part Three</h3>
+              <p>Current archive / FD 32 / genetics / phenotype hunting</p>
+            </div>
+            <div class="archiveItemFacts">
+              <span>CURRENT</span>
+              <span>FD 32</span>
+            </div>
+            <a class="archiveOpen" href="https://www.grower.ch/forum/threads/strain-mix-part-3.193044/" target="_blank" rel="noopener noreferrer" aria-label="Open Strain Mix Part Three report"></a>
+          </article>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     SCENE 08 / IMAGE JOURNAL
+     ========================================================= -->
+
+<section class="scene journalScene" id="journal" data-scene="08">
+
+  <div class="journalStage">
+
+    <div class="journalHeading">
+      <div class="eyebrow">Image journal / local archive</div>
+      <h2>
+        WHAT IT<br>
+        <span>LOOKS LIKE.</span>
+      </h2>
+    </div>
+
+    <div class="journalCounter">
+      <span id="journalCounter">01</span> / 06
+    </div>
+
+    <div class="journalFrame">
+
+      <article class="journalCard journalSlide active">
+        <img src="STRAIN1.JPG" alt="Baltazar Seeds Strainmix Part One" loading="lazy">
+        <div class="journalInfo">
+          <div>
+            <small>01 / RETURN</small>
+            <strong>Back after more than ten years.</strong>
+          </div>
+          <p>
+            The visual beginning of the new archive.
           </p>
-</div>
+        </div>
+      </article>
+
+      <article class="journalCard journalSlide">
+        <img src="STRAIN2.JPG" alt="Baltazar Seeds seed mix" loading="lazy">
+        <div class="journalInfo">
+          <div>
+            <small>02 / MIX</small>
+            <strong>A box full of questions.</strong>
+          </div>
+          <p>
+            Mixed origins become the starting point.
+          </p>
+        </div>
+      </article>
+
+      <article class="journalCard journalSlide">
+        <img src="STRAIN3.JPG" alt="Baltazar Seeds early selection" loading="lazy">
+        <div class="journalInfo">
+          <div>
+            <small>03 / SELECTION</small>
+            <strong>It did not start smoothly.</strong>
+          </div>
+          <p>
+            The archive keeps the difficult parts visible.
+          </p>
+        </div>
+      </article>
+
+      <article class="journalCard journalSlide">
+        <img src="STRAIN4.JPG" alt="Baltazar Seeds phenotype selection" loading="lazy">
+        <div class="journalInfo">
+          <div>
+            <small>04 / PHENOTYPE</small>
+            <strong>Let the plants show themselves.</strong>
+          </div>
+          <p>
+            Variation becomes part of the story.
+          </p>
+        </div>
+      </article>
+
+      <article class="journalCard journalSlide">
+        <img src="STRAIN5.JPG" alt="Baltazar Seeds original Strain 5 image" loading="lazy">
+        <div class="journalInfo">
+          <div>
+            <small>05 / ORIGINAL FRAME</small>
+            <strong>Nothing is hidden behind a crossfade.</strong>
+          </div>
+          <p>
+            Original source image remains part of the record.
+          </p>
+        </div>
+      </article>
+
+      <article class="journalCard journalSlide">
+        <img src="STRAIN6.JPG" alt="Baltazar Seeds original Strain 6 image" loading="lazy">
+        <div class="journalInfo">
+          <div>
+            <small>06 / FINISH</small>
+            <strong>The second image stays part of the story.</strong>
+          </div>
+          <p>
+            The archive preserves the sequence.
+          </p>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="journalThumbs">
+
+      <button class="journalThumb active" data-slide="0" aria-label="Image 1"></button>
+      <button class="journalThumb" data-slide="1" aria-label="Image 2"></button>
+      <button class="journalThumb" data-slide="2" aria-label="Image 3"></button>
+      <button class="journalThumb" data-slide="3" aria-label="Image 4"></button>
+      <button class="journalThumb" data-slide="4" aria-label="Image 5"></button>
+      <button class="journalThumb" data-slide="5" aria-label="Image 6"></button>
+
+    </div>
+
+  </div>
+
 </section>
-<!-- =====================================================
-           PART ONE NOTES
-           ===================================================== -->
-<section class="section">
-<div class="sectionHead">
-<div>
-<div class="eyebrow">Part One / 2025</div>
-<h2 class="sectionTitle">The comeback was <span>messy.</span></h2>
-</div>
-<div class="sectionMeta">the important part is that it happened</div>
-</div>
-<div class="reportGrid">
-<article class="report">
-<div class="reportTop">
-<span class="reportType">Observation</span>
-<span class="reportYear">01</span>
-</div>
-<div class="reportBody">
-<h3>Quality over quantity</h3>
-<p>
-                The return was not designed as a perfect production project.
-                The starting point was curiosity.
-                What happens when a mixed collection of seeds is allowed to show what is actually in it.
-              </p>
-<div class="reportFacts">
-<span class="fact">Experiment</span>
-<span class="fact">Mixed origins</span>
-</div>
-</div>
-</article>
-<article class="report">
-<div class="reportTop">
-<span class="reportType">Observation</span>
-<span class="reportYear">02</span>
-</div>
-<div class="reportBody">
-<h3>It did not start smoothly</h3>
-<p>
-                The first attempt began with 23 seeds and only three early plants.
-                Dry winter air and heat became part of the real conditions.
-                More seeds were prepared and the experiment continued.
-              </p>
-<div class="reportFacts">
-<span class="fact">23 first seeds</span>
-<span class="fact">3 early plants</span>
-</div>
-</div>
-</article>
-<article class="report">
-<div class="reportTop">
-<span class="reportType">Observation</span>
-<span class="reportYear">03</span>
-</div>
-<div class="reportBody">
-<h3>Selection became unavoidable</h3>
-<p>
-                As more plants appeared the differences became part of the record.
-                One unusual plant even became number 18 in the Zwergenbattle 2025.
-              </p>
-<div class="reportFacts">
-<span class="fact">Selection</span>
-<span class="fact">Zwergenbattle</span>
-</div>
-</div>
-</article>
-<article class="report">
-<div class="reportTop">
-<span class="reportType">Observation</span>
-<span class="reportYear">04</span>
-</div>
-<div class="reportBody">
-<h3>Every plant was different</h3>
-<p>
-                Possible identities were treated as possibilities rather than absolute labels.
-                Gelato.
-                Skunk.
-                Purple Tangie.
-                Cali Orange.
-                Variation remained the interesting part.
-              </p>
-<div class="reportFacts">
-<span class="fact">Variation</span>
-<span class="fact">Phenotypes</span>
-</div>
-</div>
-</article>
-</div>
+
+<!-- =========================================================
+     SCENE 09 / ORIGINAL DIPTYCH
+     ========================================================= -->
+
+<section class="scene diptychScene" data-scene="09">
+
+  <div class="diptychStage sceneInner">
+
+    <div class="diptychLayout">
+
+      <div class="diptychIntro">
+
+        <div class="eyebrow" style="color:var(--green);font:9px 'DM Mono',monospace;text-transform:uppercase;letter-spacing:.15em;">
+          Preserved source material
+        </div>
+
+        <h2>
+          TWO<br>
+          VIEWS.<br>
+          <span>BOTH STAY.</span>
+        </h2>
+
+        <p>
+          The original two image records remain visible at the same time.
+          No automatic swap.
+          No disappearing second frame.
+          Both source files are part of the page.
+        </p>
+
+        <div class="diptychCode">
+          RECORD 05 / STRAIN5.JPG + STRAIN5A.JPG<br>
+          RECORD 06 / STRAIN6.JPG + STRAIN6A.JPG
+        </div>
+
+      </div>
+
+      <div class="diptychVisual">
+
+        <div class="diptychImage">
+          <span class="diptychLabel">05 / A</span>
+          <img src="STRAIN5.JPG" alt="STRAIN5 original image" loading="lazy">
+        </div>
+
+        <div class="diptychImage">
+          <span class="diptychLabel">05 / B</span>
+          <img src="STRAIN5A.JPG" alt="STRAIN5A original image" loading="lazy">
+        </div>
+
+        <div class="diptychImage">
+          <span class="diptychLabel">06 / A</span>
+          <img src="STRAIN6.JPG" alt="STRAIN6 original image" loading="lazy">
+        </div>
+
+        <div class="diptychImage">
+          <span class="diptychLabel">06 / B</span>
+          <img src="STRAIN6A.JPG" alt="STRAIN6A original image" loading="lazy">
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </section>
-<!-- =====================================================
-           PART TWO / HELL KITCHEN / PART THREE
-           ===================================================== -->
-<section class="section">
-<div class="sectionHead">
-<div>
-<div class="eyebrow">Three recent chapters</div>
-<h2 class="sectionTitle">The project <span>keeps moving.</span></h2>
-</div>
-<div class="sectionMeta">I / II / HK / III</div>
-</div>
-<div class="compare">
-<article class="compareCard">
-<div class="compareHead">
-<b>II</b>
-<span>2025</span>
-</div>
-<div class="compareContent">
-<h3>The mix gets serious.</h3>
-<p>
-                Part Two moves into a larger documented run.
-                The report records a broad mixture of named genetics and the practical problems that appeared along the way.
-              </p>
-<div class="compareList">
-<div><span>Space</span><b>120 × 120 × 200</b></div>
-<div><span>Lighting</span><b>250 / 400 / 600 W</b></div>
-<div><span>Documentation</span><b>Growth / problems / solutions</b></div>
-</div>
-</div>
-</article>
-<article class="compareCard">
-<div class="compareHead">
-<b>HK</b>
-<span>2026</span>
-</div>
-<div class="compareContent">
-<h3>More structure.</h3>
-<p>
-                Hell Kitchen expands the environment again.
-                Three tents.
-                Larger containers.
-                Automatic watering.
-                Then the report records the reality when the automatic system needs adjustment.
-              </p>
-<div class="compareList">
-<div><span>Tents</span><b>3</b></div>
-<div><span>Containers</span><b>13 → 22 L</b></div>
-<div><span>Direction</span><b>Structured</b></div>
-</div>
-</div>
-</article>
-<article class="compareCard">
-<div class="compareHead">
-<b>III</b>
-<span>2026</span>
-</div>
-<div class="compareContent">
-<h3>The story continues.</h3>
-<p>
-                Part Three returns to the core idea of following the genetics.
-                Seeds from the previous run return.
-                The report is now explicitly interested in development over time and real phenotype hunting.
-              </p>
-<div class="compareList">
-<div><span>Flowering</span><b>FD 32</b></div>
-<div><span>Veg</span><b>Approx 4–5 weeks</b></div>
-<div><span>Plants</span><b>9</b></div>
-</div>
-</div>
-</article>
-<article class="compareCard">
-<div class="compareHead">
-<b>∞</b>
-<span>OPEN</span>
-</div>
-<div class="compareContent">
-<h3>Not a finished story.</h3>
-<p>
-                The archive is deliberately open.
-                There is no final chapter here because the reports themselves are the continuation.
-                The next entry belongs to the next run.
-              </p>
-<div class="compareList">
-<div><span>Status</span><b>Open</b></div>
-<div><span>Archive</span><b>Growing</b></div>
-<div><span>Direction</span><b>Continue</b></div>
-</div>
-</div>
-</article>
-</div>
+
+<!-- =========================================================
+     SCENE 10 / CONTINUITY
+     ========================================================= -->
+
+<section class="scene continuityScene" id="continuity" data-scene="10">
+
+  <div class="continuityStage">
+
+    <div class="continuityHeader">
+      <small>Continuity / genetics / chronology</small>
+      <h2>
+        FROM<br>
+        <span>MEMORY</span><br>
+        TO ARCHIVE.
+      </h2>
+    </div>
+
+    <div class="lineageCanvas">
+
+      <div class="lineageNode">
+        <div class="nodeDot"></div>
+        <div class="nodeCard">
+          <small>ROOT</small>
+          <strong>2007–09</strong>
+          <p>Old Grower.ch reports and first documented work.</p>
+        </div>
+      </div>
+
+      <div class="lineageNode">
+        <div class="nodeDot"></div>
+        <div class="nodeCard">
+          <small>RETURN</small>
+          <strong>Part One</strong>
+          <p>2025 comeback through the mixed seed experiment.</p>
+        </div>
+      </div>
+
+      <div class="lineageNode">
+        <div class="nodeDot"></div>
+        <div class="nodeCard">
+          <small>EXPANSION</small>
+          <strong>Part Two</strong>
+          <p>More genetics and a larger documented run.</p>
+        </div>
+      </div>
+
+      <div class="lineageNode">
+        <div class="nodeDot"></div>
+        <div class="nodeCard">
+          <small>SYSTEM</small>
+          <strong>Hell Kitchen</strong>
+          <p>More structure and a more complex environment.</p>
+        </div>
+      </div>
+
+      <div class="lineageNode">
+        <div class="nodeDot"></div>
+        <div class="nodeCard">
+          <small>CURRENT</small>
+          <strong>Part Three</strong>
+          <p>Following genetics and hunting phenotypes.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="continuityNote">
+      The point of the archive is not to invent a clean origin story.
+      The useful part is that the old reports exist.
+      The new reports exist.
+      The seeds sit between those two periods as a continuation of an interest that was already there long before the name Baltazar Seeds appeared on a page.
+    </p>
+
+  </div>
+
 </section>
-<!-- =====================================================
-           SOURCES
-           ===================================================== -->
-<section class="section" id="sources">
-<div class="sectionHead">
-<div>
-<div class="eyebrow">Primary source index</div>
-<h2 class="sectionTitle">Grower.ch is part of the <span>archive.</span></h2>
-</div>
-<div class="sectionMeta">original forum records</div>
-</div>
-<div class="sourceGrid">
-<div class="sourceCard">
-<small>2007 / ROOT</small>
-<strong>First Grow Hindu Kush</strong>
-<span>First documented grow / 400 W / coco</span>
-<a href="https://www.grower.ch/forum/threads/first-grow-hindu-kush-400w-coco-63-bt-beendet.33441/" rel="noopener noreferrer" target="_blank">Open source ↗</a>
-</div>
-<div class="sourceCard">
-<small>2008 / ROOT</small>
-<strong>Mazar &amp; Euforia</strong>
-<span>Second grow / Mazar / Euforia</span>
-<a href="https://www.grower.ch/forum/threads/mazar-euforia.30/" rel="noopener noreferrer" target="_blank">Open source ↗</a>
-</div>
-<div class="sourceCard">
-<small>2008 / ROOT</small>
-<strong>Blueberry</strong>
-<span>Third grow / Blueberry / Thai Haze Skunk</span>
-<a href="https://www.grower.ch/forum/threads/blueberry.408/" rel="noopener noreferrer" target="_blank">Open source ↗</a>
-</div>
-<div class="sourceCard">
-<small>2008 / ROOT</small>
-<strong>Jorge's Diamonds &amp; Perplex</strong>
-<span>Fourth grow / Jorge's Diamonds / Perplex</span>
-<a href="https://www.grower.ch/forum/threads/jorges-diamonds-perplex.955/" rel="noopener noreferrer" target="_blank">Open source ↗</a>
-</div>
-<div class="sourceCard">
-<small>2008 / ROOT</small>
-<strong>Blue Moonshine &amp; Pure Afghan</strong>
-<span>Blue Moonshine / Pure Afghan / old genetics</span>
-<a href="https://www.grower.ch/forum/threads/blue-moonshine-pure-afghan.1497/" rel="noopener noreferrer" target="_blank">Open source ↗</a>
-</div>
-<div class="sourceCard">
-<small>2009 / ROOT</small>
-<strong>Chocolope / G13 Haze / Hawaiian Snow</strong>
-<span>Grow protocol / key observations</span>
-<a href="https://www.grower.ch/forum/threads/chocolope-g13-haze-hawaiian-snow.40558/" rel="noopener noreferrer" target="_blank">Open source ↗</a>
-</div>
-<div class="sourceCard">
-<small>2025 / I</small>
-<strong>Strainmix Part One</strong>
-<span>Return after more than ten years</span>
-<a href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" rel="noopener noreferrer" target="_blank">Open source ↗</a>
-</div>
-<div class="sourceCard">
-<small>2025 / II</small>
-<strong>Strainmix Part Two</strong>
-<span>Expanded mixed genetics archive</span>
-<a href="https://www.grower.ch/forum/threads/strainmix-part-2.179085/" rel="noopener noreferrer" target="_blank">Open source ↗</a>
-</div>
-<div class="sourceCard">
-<small>2026 / HK</small>
-<strong>Baltazars Hell Kitchen</strong>
-<span>Three tents / structured environment</span>
-<a href="https://www.grower.ch/forum/threads/baltazars-hell-kitchen.187410/" rel="noopener noreferrer" target="_blank">Open source ↗</a>
-</div>
-<div class="sourceCard">
-<small>2026 / III</small>
-<strong>Strain Mix Part Three</strong>
-<span>Current archive / FD 32</span>
-<a href="https://www.grower.ch/forum/threads/strain-mix-part-3.193044/" rel="noopener noreferrer" target="_blank">Open source ↗</a>
-</div>
-</div>
+
+<!-- =========================================================
+     SCENE 11 / RECENT CHAPTERS
+     ========================================================= -->
+
+<section class="scene chaptersScene" data-scene="11">
+
+  <div class="chaptersStage">
+
+    <div class="chaptersTitle">
+      <small>Recent chapters / I / II / HK / III</small>
+      <h2>
+        THE PROJECT<br>
+        KEEPS MOVING.
+      </h2>
+    </div>
+
+    <div class="chapterRail" id="chapterRail">
+
+      <article class="chapterCard">
+
+        <div class="chapterCardTop">
+          <span>01 / I</span>
+          <span>2025</span>
+        </div>
+
+        <div class="chapterCardImage">
+          <img src="STRAIN1.JPG" alt="Strainmix Part One" loading="lazy">
+        </div>
+
+        <div class="chapterCardBottom">
+          <small>RETURN</small>
+          <h3>PART ONE</h3>
+          <p>
+            After more than ten years away the work returns.
+            A mixed seed experiment.
+            Quality over quantity.
+            Curiosity over a perfectly predictable result.
+          </p>
+        </div>
+
+      </article>
+
+      <article class="chapterCard">
+
+        <div class="chapterCardTop">
+          <span>02 / II</span>
+          <span>2025</span>
+        </div>
+
+        <div class="chapterCardImage">
+          <img src="STRAIN2.JPG" alt="Strainmix Part Two" loading="lazy">
+        </div>
+
+        <div class="chapterCardBottom">
+          <small>EXPANSION</small>
+          <h3>PART TWO</h3>
+          <p>
+            The next run expands the archive with a broad selection of named genetics and a larger documented environment.
+          </p>
+        </div>
+
+      </article>
+
+      <article class="chapterCard">
+
+        <div class="chapterCardTop">
+          <span>03 / HK</span>
+          <span>2026</span>
+        </div>
+
+        <div class="chapterCardImage">
+          <img src="STRAIN3.JPG" alt="Baltazars Hell Kitchen" loading="lazy">
+        </div>
+
+        <div class="chapterCardBottom">
+          <small>SYSTEM TEST</small>
+          <h3>HELL KITCHEN</h3>
+          <p>
+            Three tents.
+            A more structured setup.
+            Automatic irrigation.
+            Then the practical problems begin and the report records the adjustment.
+          </p>
+        </div>
+
+      </article>
+
+      <article class="chapterCard">
+
+        <div class="chapterCardTop">
+          <span>04 / III</span>
+          <span>2026</span>
+        </div>
+
+        <div class="chapterCardImage">
+          <img src="STRAIN4.JPG" alt="Strain Mix Part Three" loading="lazy">
+        </div>
+
+        <div class="chapterCardBottom">
+          <small>CURRENT</small>
+          <h3>PART THREE</h3>
+          <p>
+            Seeds from the previous run return.
+            The focus moves even more toward following the genetics.
+            Phenotype hunting becomes a real part of the process.
+          </p>
+        </div>
+
+      </article>
+
+      <article class="chapterCard">
+
+        <div class="chapterCardTop">
+          <span>05 / ∞</span>
+          <span>OPEN</span>
+        </div>
+
+        <div class="chapterCardImage">
+          <img src="STRAIN5.JPG" alt="Baltazar Seeds archive continuation" loading="lazy">
+        </div>
+
+        <div class="chapterCardBottom">
+          <small>CONTINUATION</small>
+          <h3>NO FINAL CHAPTER</h3>
+          <p>
+            The archive remains open.
+            The reports themselves are the continuation.
+            The next entry belongs to the next run.
+          </p>
+        </div>
+
+      </article>
+
+    </div>
+
+    <div class="chapterFooter">
+      Scroll / move through the current chapters
+    </div>
+
+  </div>
+
 </section>
-<!-- =====================================================
-           WORLD HUB
-           ===================================================== -->
-<section class="section" id="world">
-<div class="sectionHead">
-<div>
-<div class="eyebrow">Outside the archive</div>
-<h2 class="sectionTitle">The rest of the <span>world.</span></h2>
-</div>
-<div class="sectionMeta">grower / games / merch / contact</div>
-</div>
-<div class="hubGrid">
-<article class="hubCard">
-<div>
-<div class="hubIcon">G</div>
-<h3>Grower.ch</h3>
-<p>
-                The original forum environment behind the documented reports.
-                The archive links back to the actual threads instead of replacing them.
-              </p>
-</div>
-<a class="hubLink" href="https://www.grower.ch/" rel="noopener noreferrer" target="_blank">Visit Grower.ch ↗</a>
-</article>
-<article class="hubCard">
-<div>
-<div class="hubIcon">▶</div>
-<h3>Games</h3>
-<p>
-                The old Baltazar world also includes the game side of the project.
-                Keep the existing local game pages connected here.
-              </p>
-</div>
-<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:20px;">
-<a class="hubLink" href="player.html">Player</a>
-<a class="hubLink" href="baltazarsrun.html">Baltazar's Run</a>
-</div>
-</article>
-<article class="hubCard">
-<div>
-<div class="hubIcon">M</div>
-<h3>Merch</h3>
-<p>
-                The physical side of the project stays connected to the same archive instead of becoming a separate generic shop page.
-              </p>
-</div>
-<a class="hubLink" href="seite3.html">Open merch ↗</a>
-</article>
-<article class="hubCard">
-<div>
-<div class="hubIcon">S</div>
-<h3>Support</h3>
-<p>
-                If you want to support the continuation of the documentation and the wider project you can use the support link.
-              </p>
-</div>
-<a class="hubLink" href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" rel="noopener noreferrer" target="_blank">Support via Stripe ↗</a>
-</article>
-<article class="hubCard">
-<div>
-<div class="hubIcon">@</div>
-<h3>Contact</h3>
-<p>
-                Keep the direct contact route available for questions and project related communication.
-              </p>
-</div>
-<button class="hubLink" id="contactOpen" type="button">Open contact</button>
-</article>
-<article class="hubCard">
-<div>
-<div class="hubIcon">∞</div>
-<h3>Archive</h3>
-<p>
-                This page is the index.
-                The original forum reports remain the detailed record.
-                New chapters can be attached here without rebuilding the whole site.
-              </p>
-</div>
-<a class="hubLink" href="#timeline">Back to timeline ↑</a>
-</article>
-</div>
+
+<!-- =========================================================
+     SCENE 12 / PART ONE NOTES
+     ========================================================= -->
+
+<section class="scene notesScene" data-scene="12">
+
+  <div class="notesStage sceneInner">
+
+    <div class="notesBig">
+      THE<br>
+      COMEBACK<br>
+      WAS<br>
+      <span>MESSY.</span>
+    </div>
+
+    <div class="notesCards">
+
+      <article class="noteCard">
+        <div class="noteNumber">01</div>
+        <div>
+          <h3>Quality over quantity</h3>
+          <p>
+            The return was not designed as a perfect production project.
+            The starting point was curiosity.
+            What happens when a mixed collection of seeds is allowed to show what is actually in it.
+          </p>
+        </div>
+      </article>
+
+      <article class="noteCard">
+        <div class="noteNumber">02</div>
+        <div>
+          <h3>It did not start smoothly</h3>
+          <p>
+            The first attempt began with 23 seeds and only three early plants.
+            Dry winter air and heat became part of the real conditions.
+            More seeds were prepared and the experiment continued.
+          </p>
+        </div>
+      </article>
+
+      <article class="noteCard">
+        <div class="noteNumber">03</div>
+        <div>
+          <h3>Selection became unavoidable</h3>
+          <p>
+            As more plants appeared the differences became part of the record.
+            One unusual plant even became number 18 in the Zwergenbattle 2025.
+          </p>
+        </div>
+      </article>
+
+      <article class="noteCard">
+        <div class="noteNumber">04</div>
+        <div>
+          <h3>Every plant was different</h3>
+          <p>
+            Possible identities were treated as possibilities rather than absolute labels.
+            Gelato.
+            Skunk.
+            Purple Tangie.
+            Cali Orange.
+            Variation remained the interesting part.
+          </p>
+        </div>
+      </article>
+
+    </div>
+
+  </div>
+
 </section>
-<!-- =====================================================
-           SUPPORT
-           ===================================================== -->
-<section class="support" id="support">
-<div class="supportGrid">
-<div>
-<h2>Keep the archive<br/><span>alive.</span></h2>
-<p>
-              If you enjoy the reports and want to support the continuation of the project you can do so directly.
-              The support link is intentionally separate from the archive itself.
-            </p>
-</div>
-<a class="supportButton" href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" rel="noopener noreferrer" target="_blank">
+
+<!-- =========================================================
+     SCENE 13 / SOURCE DATABASE
+     ========================================================= -->
+
+<section class="scene sourcesScene" id="sources" data-scene="13">
+
+  <div class="sourcesStage sceneInner">
+
+    <div class="sourcesLayout">
+
+      <div class="sourcesTitle">
+
+        <small>Primary source index</small>
+
+        <h2>
+          GROWER.CH<br>
+          IS PART OF<br>
+          THE <span>ARCHIVE.</span>
+        </h2>
+
+        <p>
+          The original forum environment behind the documented reports.
+          The archive links back to the actual threads instead of replacing them.
+        </p>
+
+      </div>
+
+      <div class="sourceDatabase">
+
+        <div class="sourceRow">
+          <span class="sourceRowIndex">001</span>
+          <span class="sourceRowYear">2007 / ROOT</span>
+          <div>
+            <div class="sourceRowTitle">First Grow Hindu Kush</div>
+            <div class="sourceRowSub">400 W / coco / first documented grow</div>
+          </div>
+          <a class="sourceRowLink" href="https://www.grower.ch/forum/threads/first-grow-hindu-kush-400w-coco-63-bt-beendet.33441/" target="_blank" rel="noopener noreferrer">Open ↗</a>
+        </div>
+
+        <div class="sourceRow">
+          <span class="sourceRowIndex">002</span>
+          <span class="sourceRowYear">2008 / ROOT</span>
+          <div>
+            <div class="sourceRowTitle">Mazar &amp; Euforia</div>
+            <div class="sourceRowSub">second grow / Mazar / Euforia</div>
+          </div>
+          <a class="sourceRowLink" href="https://www.grower.ch/forum/threads/mazar-euforia.30/" target="_blank" rel="noopener noreferrer">Open ↗</a>
+        </div>
+
+        <div class="sourceRow">
+          <span class="sourceRowIndex">003</span>
+          <span class="sourceRowYear">2008 / ROOT</span>
+          <div>
+            <div class="sourceRowTitle">Blueberry</div>
+            <div class="sourceRowSub">Blueberry / Thai Haze Skunk / Mazar F2</div>
+          </div>
+          <a class="sourceRowLink" href="https://www.grower.ch/forum/threads/blueberry.408/" target="_blank" rel="noopener noreferrer">Open ↗</a>
+        </div>
+
+        <div class="sourceRow">
+          <span class="sourceRowIndex">004</span>
+          <span class="sourceRowYear">2008 / ROOT</span>
+          <div>
+            <div class="sourceRowTitle">Jorge's Diamonds &amp; Perplex</div>
+            <div class="sourceRowSub">Jorge's Diamonds / Perplex / Afghan</div>
+          </div>
+          <a class="sourceRowLink" href="https://www.grower.ch/forum/threads/jorges-diamonds-perplex.955/" target="_blank" rel="noopener noreferrer">Open ↗</a>
+        </div>
+
+        <div class="sourceRow">
+          <span class="sourceRowIndex">005</span>
+          <span class="sourceRowYear">2008 / ROOT</span>
+          <div>
+            <div class="sourceRowTitle">Blue Moonshine &amp; Pure Afghan</div>
+            <div class="sourceRowSub">Blue Moonshine / Pure Afghan / old genetics</div>
+          </div>
+          <a class="sourceRowLink" href="https://www.grower.ch/forum/threads/blue-moonshine-pure-afghan.1497/" target="_blank" rel="noopener noreferrer">Open ↗</a>
+        </div>
+
+        <div class="sourceRow">
+          <span class="sourceRowIndex">006</span>
+          <span class="sourceRowYear">2009 / ROOT</span>
+          <div>
+            <div class="sourceRowTitle">Chocolope / G13 Haze / Hawaiian Snow</div>
+            <div class="sourceRowSub">grow protocol / key observations</div>
+          </div>
+          <a class="sourceRowLink" href="https://www.grower.ch/forum/threads/chocolope-g13-haze-hawaiian-snow.40558/" target="_blank" rel="noopener noreferrer">Open ↗</a>
+        </div>
+
+        <div class="sourceRow">
+          <span class="sourceRowIndex">007</span>
+          <span class="sourceRowYear">2025 / I</span>
+          <div>
+            <div class="sourceRowTitle">Strainmix Part One</div>
+            <div class="sourceRowSub">return after more than ten years</div>
+          </div>
+          <a class="sourceRowLink" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener noreferrer">Open ↗</a>
+        </div>
+
+        <div class="sourceRow">
+          <span class="sourceRowIndex">008</span>
+          <span class="sourceRowYear">2025 / II</span>
+          <div>
+            <div class="sourceRowTitle">Strainmix Part Two</div>
+            <div class="sourceRowSub">expanded mixed genetics archive</div>
+          </div>
+          <a class="sourceRowLink" href="https://www.grower.ch/forum/threads/strainmix-part-2.179085/" target="_blank" rel="noopener noreferrer">Open ↗</a>
+        </div>
+
+        <div class="sourceRow">
+          <span class="sourceRowIndex">009</span>
+          <span class="sourceRowYear">2026 / HK</span>
+          <div>
+            <div class="sourceRowTitle">Baltazars Hell Kitchen</div>
+            <div class="sourceRowSub">three tents / structured environment</div>
+          </div>
+          <a class="sourceRowLink" href="https://www.grower.ch/forum/threads/baltazars-hell-kitchen.187410/" target="_blank" rel="noopener noreferrer">Open ↗</a>
+        </div>
+
+        <div class="sourceRow">
+          <span class="sourceRowIndex">010</span>
+          <span class="sourceRowYear">2026 / III</span>
+          <div>
+            <div class="sourceRowTitle">Strain Mix Part Three</div>
+            <div class="sourceRowSub">current archive / FD 32</div>
+          </div>
+          <a class="sourceRowLink" href="https://www.grower.ch/forum/threads/strain-mix-part-3.193044/" target="_blank" rel="noopener noreferrer">Open ↗</a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     SCENE 14 / WORLD
+     ========================================================= -->
+
+<section class="scene worldScene" id="world" data-scene="14">
+
+  <div class="worldStage sceneInner">
+
+    <div class="worldHeader">
+      <small>Outside the archive / connected world</small>
+      <h2>
+        THE REST<br>
+        OF THE <span>WORLD.</span>
+      </h2>
+    </div>
+
+    <div class="worldGrid">
+
+      <article class="worldCard">
+
+        <div>
+          <div class="worldIcon">G</div>
+        </div>
+
+        <div>
+          <h3>GROWER.CH</h3>
+
+          <p>
+            The original forum environment behind the documented reports.
+            The archive links back to the actual threads instead of replacing them.
+          </p>
+
+          <a class="worldLink" href="https://www.grower.ch/" target="_blank" rel="noopener noreferrer">
+            Visit Grower.ch ↗
+          </a>
+        </div>
+
+      </article>
+
+      <article class="worldCard">
+
+        <div>
+          <div class="worldIcon">▶</div>
+        </div>
+
+        <div>
+          <h3>GAMES</h3>
+
+          <p>
+            The old Baltazar world also includes the game side of the project.
+            Keep the existing local game pages connected here.
+          </p>
+
+          <div>
+            <a class="worldLink" href="player.html">Player</a>
+            <a class="worldLink" href="baltazarsrun.html">Baltazar's Run</a>
+          </div>
+        </div>
+
+      </article>
+
+      <article class="worldCard">
+
+        <div>
+          <div class="worldIcon">M</div>
+        </div>
+
+        <div>
+          <h3>MERCH</h3>
+
+          <p>
+            The physical side of the project stays connected to the same archive instead of becoming a separate generic shop page.
+          </p>
+
+          <a class="worldLink" href="seite3.html">
+            Open merch ↗
+          </a>
+        </div>
+
+      </article>
+
+      <article class="worldCard">
+
+        <div>
+          <div class="worldIcon">S</div>
+        </div>
+
+        <div>
+          <h3>SUPPORT</h3>
+
+          <p>
+            If you want to support the continuation of the documentation and the wider project you can use the support link.
+          </p>
+
+          <a class="worldLink" href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" target="_blank" rel="noopener noreferrer">
             Support via Stripe ↗
           </a>
-</div>
+        </div>
+
+      </article>
+
+      <article class="worldCard">
+
+        <div>
+          <div class="worldIcon">@</div>
+        </div>
+
+        <div>
+          <h3>CONTACT</h3>
+
+          <p>
+            Keep the direct contact route available for questions and project related communication.
+          </p>
+
+          <button class="worldLink" id="contactOpen" type="button">
+            Open contact
+          </button>
+        </div>
+
+      </article>
+
+      <article class="worldCard">
+
+        <div>
+          <div class="worldIcon">∞</div>
+        </div>
+
+        <div>
+          <h3>ARCHIVE</h3>
+
+          <p>
+            This page is the index.
+            The original forum reports remain the detailed record.
+            New chapters can be attached here without rebuilding the whole site.
+          </p>
+
+          <a class="worldLink" href="#timeline">
+            Back to timeline ↑
+          </a>
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
 </section>
-<!-- =====================================================
-           FOOTER
-           ===================================================== -->
-<footer class="footer">
-<p>
-          Baltazar Seeds / Field Archive.
-          Documented history.
-          Grower.ch roots.
-          Current chapters.
-          Archive remains open.
-        </p>
-<nav class="footerNav">
-<a href="#top">Top</a>
-<a href="#archive">Archive</a>
-<a href="#sources">Sources</a>
-<a href="#world">World</a>
-<a href="https://www.grower.ch/" rel="noopener noreferrer" target="_blank">Grower.ch ↗</a>
-</nav>
+
+<!-- =========================================================
+     SUPPORT
+     ========================================================= -->
+
+<section class="scene supportScene" id="support" data-scene="15">
+
+  <div class="supportStage">
+
+    <div class="supportGhost">SUPPORT</div>
+
+    <div class="supportContent">
+
+      <div class="supportKicker">
+        Keep the archive alive
+      </div>
+
+      <h2 class="supportTitle">
+        SUPPORT<br>
+        THE <span>CONTINUATION.</span>
+      </h2>
+
+      <p class="supportText">
+        If you enjoy the reports and want to support the continuation of the project you can do so directly.
+        The support link is intentionally separate from the archive itself.
+      </p>
+
+      <a class="supportButton" href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" target="_blank" rel="noopener noreferrer">
+        Support via Stripe ↗
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================================================
+     FOOTER
+     ========================================================= -->
+
+<footer class="footerScene">
+
+  <div class="footerInner">
+
+    <div class="footerBrand">
+      BALTAZAR<br>
+      <span>SEEDS.</span>
+    </div>
+
+    <div class="footerBottom">
+
+      <p>
+        Baltazar Seeds / Field Archive.<br>
+        Documented history.<br>
+        Grower.ch roots.<br>
+        Current chapters.<br>
+        Archive remains open.
+      </p>
+
+      <nav class="footerNav">
+        <a href="#top">Top</a>
+        <a href="#timeline">Timeline</a>
+        <a href="#archive">Archive</a>
+        <a href="#journal">Journal</a>
+        <a href="#continuity">Genetics</a>
+        <a href="#sources">Sources</a>
+        <a href="#world">World</a>
+        <a href="https://www.grower.ch/" target="_blank" rel="noopener noreferrer">Grower.ch ↗</a>
+      </nav>
+
+    </div>
+
+  </div>
+
 </footer>
 
-<section class="asset-vault section" id="vault">
- <div class="sectionHead"><div><div class="eyebrow">Local archive / asset index</div><h2 class="sectionTitle">Everything <span>stays.</span></h2></div><div class="sectionMeta">phase 01 / preserve first / refine later</div></div>
- <p class="vaultIntro">Diese Ebene ist bewusst als Rohbestand angelegt. Vor dem Aufräumen wird erst einmal so viel wie möglich mitgenommen. Bilder bleiben lokal verlinkt. Medien bleiben auffindbar. Bestehende HTML Seiten bleiben erreichbar. Später kann sortiert werden ohne den Bestand erneut zusammensuchen zu müssen.</p>
- <div class="assetGroups">
-  <div class="assetGroup"><div class="assetGroupHead"><b>IMAGE FILES</b><span>LOCAL</span></div><div class="assetList"><a href="BALTI.JPG" class="assetItem"><span>BALTI.JPG</span><i>IMG</i></a><a href="BALTI1.JPG" class="assetItem"><span>BALTI1.JPG</span><i>IMG</i></a><a href="BALTI2.JPG" class="assetItem"><span>BALTI2.JPG</span><i>IMG</i></a><a href="BALTI3.JPG" class="assetItem"><span>BALTI3.JPG</span><i>IMG</i></a><a href="BALTI4.JPG" class="assetItem"><span>BALTI4.JPG</span><i>IMG</i></a><a href="CATLOGO.JPG" class="assetItem"><span>CATLOGO.JPG</span><i>IMG</i></a><a href="CATLOGO1.JPG" class="assetItem"><span>CATLOGO1.JPG</span><i>IMG</i></a><a href="ELEFANTOG.jpg" class="assetItem"><span>ELEFANTOG.jpg</span><i>IMG</i></a><a href="F1.JPG" class="assetItem"><span>F1.JPG</span><i>IMG</i></a><a href="F2.JPG" class="assetItem"><span>F2.JPG</span><i>IMG</i></a><a href="F3.JPG" class="assetItem"><span>F3.JPG</span><i>IMG</i></a><a href="ICON.PNG" class="assetItem"><span>ICON.PNG</span><i>IMG</i></a><a href="IMG_7975.PNG" class="assetItem"><span>IMG_7975.PNG</span><i>IMG</i></a><a href="INTRO.mp4" class="assetItem"><span>INTRO.mp4</span><i>IMG</i></a><a href="HELL.mp4" class="assetItem"><span>HELL.mp4</span><i>IMG</i></a><a href="logovid.mp4" class="assetItem"><span>logovid.mp4</span><i>IMG</i></a><a href="BALTI.JPG" class="assetItem"><span>BALTI.JPG</span><i>IMG</i></a><a href="BALTI1.JPG" class="assetItem"><span>BALTI1.JPG</span><i>IMG</i></a><a href="BALTI2.JPG" class="assetItem"><span>BALTI2.JPG</span><i>IMG</i></a><a href="MERCH1.JPG" class="assetItem"><span>MERCH1.JPG</span><i>IMG</i></a><a href="MERCH1A.JPG" class="assetItem"><span>MERCH1A.JPG</span><i>IMG</i></a><a href="MERCH2.JPG" class="assetItem"><span>MERCH2.JPG</span><i>IMG</i></a><a href="MERCH3.JPG" class="assetItem"><span>MERCH3.JPG</span><i>IMG</i></a><a href="MERCH4.JPG" class="assetItem"><span>MERCH4.JPG</span><i>IMG</i></a><a href="MERCH5.JPG" class="assetItem"><span>MERCH5.JPG</span><i>IMG</i></a><a href="MERCH6A.JPG" class="assetItem"><span>MERCH6A.JPG</span><i>IMG</i></a><a href="MERCH6B.JPG" class="assetItem"><span>MERCH6B.JPG</span><i>IMG</i></a><a href="STRAIN1.JPG" class="assetItem"><span>STRAIN1.JPG</span><i>IMG</i></a><a href="STRAIN2.JPG" class="assetItem"><span>STRAIN2.JPG</span><i>IMG</i></a><a href="STRAIN3.JPG" class="assetItem"><span>STRAIN3.JPG</span><i>IMG</i></a><a href="STRAIN4.JPG" class="assetItem"><span>STRAIN4.JPG</span><i>IMG</i></a><a href="STRAIN5.JPG" class="assetItem"><span>STRAIN5.JPG</span><i>IMG</i></a><a href="STRAIN5A.JPG" class="assetItem"><span>STRAIN5A.JPG</span><i>IMG</i></a><a href="STRAIN6.JPG" class="assetItem"><span>STRAIN6.JPG</span><i>IMG</i></a><a href="STRAIN6A.JPG" class="assetItem"><span>STRAIN6A.JPG</span><i>IMG</i></a><a href="ULTRASTYLE.JPG" class="assetItem"><span>ULTRASTYLE.JPG</span><i>IMG</i></a><a href="balti run.png" class="assetItem"><span>balti run.png</span><i>IMG</i></a><a href="baltirunbackground.jpg" class="assetItem"><span>baltirunbackground.jpg</span><i>IMG</i></a><a href="enemyA.png" class="assetItem"><span>enemyA.png</span><i>IMG</i></a><a href="enemyB.png" class="assetItem"><span>enemyB.png</span><i>IMG</i></a><a href="spike.png" class="assetItem"><span>spike.png</span><i>IMG</i></a><a href="METAMASK.png" class="assetItem"><span>METAMASK.png</span><i>IMG</i></a><a href="intro-poster.jpg" class="assetItem"><span>intro-poster.jpg</span><i>IMG</i></a></div></div>
-  <div class="assetGroup"><div class="assetGroupHead"><b>AUDIO / VIDEO</b><span>LOCAL MEDIA</span></div><div class="assetList"><a href="background_music.wav" class="assetItem"><span>background_music.wav</span><i>MEDIA</i></a><a href="collect_seed.wav" class="assetItem"><span>collect_seed.wav</span><i>MEDIA</i></a><a href="death.mp3" class="assetItem"><span>death.mp3</span><i>MEDIA</i></a><a href="enemy_kill.wav" class="assetItem"><span>enemy_kill.wav</span><i>MEDIA</i></a><a href="fractal_bloom.mp3" class="assetItem"><span>fractal_bloom.mp3</span><i>MEDIA</i></a><a href="harvest.mp3" class="assetItem"><span>harvest.mp3</span><i>MEDIA</i></a><a href="jump.wav" class="assetItem"><span>jump.wav</span><i>MEDIA</i></a><a href="lucid_drift.mp3" class="assetItem"><span>lucid_drift.mp3</span><i>MEDIA</i></a><a href="neon_sandstorm.mp3" class="assetItem"><span>neon_sandstorm.mp3</span><i>MEDIA</i></a><a href="plant.mp3" class="assetItem"><span>plant.mp3</span><i>MEDIA</i></a><a href="vortex_child.mp3" class="assetItem"><span>vortex_child.mp3</span><i>MEDIA</i></a><a href="INTRO.mp4" class="assetItem"><span>INTRO.mp4</span><i>MEDIA</i></a><a href="HELL.mp4" class="assetItem"><span>HELL.mp4</span><i>MEDIA</i></a><a href="logovid.mp4" class="assetItem"><span>logovid.mp4</span><i>MEDIA</i></a></div></div>
-  <div class="assetGroup"><div class="assetGroupHead"><b>HTML / PROJECT PAGES</b><span>CONNECTED</span></div><div class="assetList"><a href="index.html" class="assetItem"><span>index.html</span><i>PAGE</i></a><a href="hauptseite.html" class="assetItem"><span>hauptseite.html</span><i>PAGE</i></a><a href="hauptseite-optimized.html" class="assetItem"><span>hauptseite-optimized.html</span><i>PAGE</i></a><a href="baltazarsrun.html" class="assetItem"><span>baltazarsrun.html</span><i>PAGE</i></a><a href="player.html" class="assetItem"><span>player.html</span><i>PAGE</i></a><a href="seite3.html" class="assetItem"><span>seite3.html</span><i>PAGE</i></a><a href="neuste.html" class="assetItem"><span>neuste.html</span><i>PAGE</i></a><a href="farm.html" class="assetItem"><span>farm.html</span><i>PAGE</i></a><a href="flow.html" class="assetItem"><span>flow.html</span><i>PAGE</i></a><a href="formular.html" class="assetItem"><span>formular.html</span><i>PAGE</i></a><a href="formular1.html" class="assetItem"><span>formular1.html</span><i>PAGE</i></a><a href="formular1a.html" class="assetItem"><span>formular1a.html</span><i>PAGE</i></a><a href="merch1.html" class="assetItem"><span>merch1.html</span><i>PAGE</i></a><a href="merch2.html" class="assetItem"><span>merch2.html</span><i>PAGE</i></a><a href="merch3.html" class="assetItem"><span>merch3.html</span><i>PAGE</i></a><a href="merch4.html" class="assetItem"><span>merch4.html</span><i>PAGE</i></a><a href="merch5.html" class="assetItem"><span>merch5.html</span><i>PAGE</i></a><a href="merch6.html" class="assetItem"><span>merch6.html</span><i>PAGE</i></a><a href="ultrastyle.html" class="assetItem"><span>ultrastyle.html</span><i>PAGE</i></a><a href="OGHOME.HTML" class="assetItem"><span>OGHOME.HTML</span><i>PAGE</i></a><a href="danke.html" class="assetItem"><span>danke.html</span><i>PAGE</i></a><a href="danke1.html" class="assetItem"><span>danke1.html</span><i>PAGE</i></a><a href="impressum.html" class="assetItem"><span>impressum.html</span><i>PAGE</i></a></div></div>
- </div>
-</section>
 </main>
+
+<!-- =========================================================
+     SUPPORT DRAWER
+     ========================================================= -->
+
+<div class="drawer" id="supportDrawer" aria-hidden="true">
+
+  <div class="drawerPanel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+
+    <div class="drawerTop">
+      <strong id="drawerTitle">SUPPORT</strong>
+      <button class="closeButton" id="drawerClose" type="button" aria-label="Close">×</button>
+    </div>
+
+    <div class="drawerBody">
+
+      <small>Archive / continuation</small>
+
+      <h3>
+        KEEP IT<br>
+        ALIVE.
+      </h3>
+
+      <p>
+        The archive is built around the reports and the work behind them.
+        If you want to support the project you can use the Stripe link below.
+      </p>
+
+      <div class="drawerRows">
+
+        <div class="drawerRow">
+          <span>Support</span>
+          <a href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" target="_blank" rel="noopener noreferrer">
+            Stripe ↗
+          </a>
+        </div>
+
+        <div class="drawerRow">
+          <span>Source archive</span>
+          <a href="https://www.grower.ch/" target="_blank" rel="noopener noreferrer">
+            Grower.ch ↗
+          </a>
+        </div>
+
+        <div class="drawerRow">
+          <span>Merch</span>
+          <a href="seite3.html">
+            Open ↗
+          </a>
+        </div>
+
+        <div class="drawerRow">
+          <span>Games</span>
+          <a href="baltazarsrun.html">
+            Baltazar's Run ↗
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
 </div>
 
+<!-- =========================================================
+     CONTACT DRAWER
+     ========================================================= -->
+
+<div class="drawer" id="contactDrawer" aria-hidden="true">
+
+  <div class="drawerPanel" role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+
+    <div class="drawerTop">
+      <strong id="contactTitle">CONTACT</strong>
+      <button class="closeButton" id="contactClose" type="button" aria-label="Close">×</button>
+    </div>
+
+    <div class="drawerBody">
+
+      <small>Direct route / Baltazar</small>
+
+      <h3>
+        TALK TO<br>
+        BALTAZAR.
+      </h3>
+
+      <p>
+        Use the contact route already connected to the project.
+      </p>
+
+      <div class="drawerRows">
+
+        <div class="drawerRow">
+          <span>Email</span>
+          <a href="mailto:contact@baltazar-seeds.com">
+            Email ↗
+          </a>
+        </div>
+
+        <div class="drawerRow">
+          <span>Forum</span>
+          <a href="https://www.grower.ch/" target="_blank" rel="noopener noreferrer">
+            Grower.ch ↗
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 
 <script>
-(function(){'use strict';
- const $=s=>document.querySelector(s); const $$=s=>Array.from(document.querySelectorAll(s));
- const age=$('#ageGate'); const yes=$('#ageYes'); const no=$('#ageNo');
- if(localStorage.getItem('baltazar-age-ok')==='1') age?.classList.add('hidden');
- yes?.addEventListener('click',()=>{localStorage.setItem('baltazar-age-ok','1');age?.classList.add('hidden');});
- no?.addEventListener('click',()=>{document.body.innerHTML='<main style="min-height:100vh;display:grid;place-items:center;background:#060708;color:#f1eee7;font:12px monospace;letter-spacing:.15em;text-transform:uppercase">Archive closed.</main>';});
- const menu=$('#mobileMenu'); const nav=$('.topNav'); menu?.addEventListener('click',()=>{if(!nav)return;nav.style.display=nav.style.display==='flex'?'none':'flex';nav.style.position='absolute';nav.style.top='60px';nav.style.right='24px';nav.style.flexDirection='column';nav.style.alignItems='flex-end';nav.style.padding='15px';nav.style.border='1px solid rgba(241,238,231,.12)';nav.style.background='rgba(6,7,8,.96)';});
- const clock=$('#bd-clock'); const status=$('#bd-status'); function pad(n){return String(n).padStart(2,'0')} function tick(){if(clock){let d=new Date();clock.textContent=pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds())}} tick();setInterval(tick,1000);
- const terminal=$('#bd-terminal'), terminalText=$('#bd-terminal-text'); const msgs=['FIELD ARCHIVE LOADED','SOURCE INDEX PRESERVED','IMAGE JOURNAL ONLINE','GENETIC CONTINUITY LINKED','GROWER.CH REFERENCES RETAINED','SUPPORT CHANNEL READY','LOCAL ASSET VAULT READY']; let mi=0; function pulse(){if(!terminalText)return;terminalText.textContent=msgs[mi++%msgs.length];terminal?.classList.add('visible');setTimeout(()=>terminal?.classList.remove('visible'),1500)} setTimeout(pulse,700);setInterval(pulse,8500);
- document.addEventListener('click',e=>{let l=e.target.closest?.('a');if(!l)return;let h=l.getAttribute('href')||'';if(status){status.textContent=h.startsWith('#')?'NAV // '+h.slice(1).toUpperCase():/^https?:/i.test(h)?'EXTERNAL // OPEN':'LOCAL // OPEN';setTimeout(()=>status.textContent='READY',1400)}} ,true);
- const progress=document.createElement('div');progress.id='story-progress';progress.style.cssText='position:fixed;top:0;left:0;height:1px;width:0;background:#d4ad62;z-index:10000;pointer-events:none;transition:width .18s linear';document.body.appendChild(progress);function prog(){let d=document.documentElement;let p=d.scrollTop/(d.scrollHeight-d.clientHeight||1);progress.style.width=(p*100)+'%'}window.addEventListener('scroll',prog,{passive:true});prog();
- const items=$$('.section,.support,.hero'); const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in-view')}),{threshold:.12});items.forEach(x=>io.observe(x));
- $$('img').forEach(img=>img.addEventListener('error',()=>img.closest('.journalCard,.dualCard')?.classList.add('asset-missing')));
- $$('a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{if(nav&&innerWidth<561)nav.style.display='none'}));
+(function(){
+
+"use strict";
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+const $ = (selector, root=document) => root.querySelector(selector);
+const $$ = (selector, root=document) => [...root.querySelectorAll(selector)];
+
+const clamp = (value,min,max) => Math.min(Math.max(value,min),max);
+
+const lerp = (a,b,t) => a + (b-a)*t;
+
+function map(value,inMin,inMax,outMin,outMax){
+  const t = clamp((value-inMin)/(inMax-inMin),0,1);
+  return lerp(outMin,outMax,t);
+}
+
+/* =========================================================
+   AGE GATE
+   ========================================================= */
+
+const ageGate = $("#ageGate");
+const ageYes = $("#ageYes");
+const ageNo = $("#ageNo");
+
+const AGE_KEY = "baltazar_archive_age_18";
+
+function hideAge(){
+
+  try{
+    localStorage.setItem(AGE_KEY,"true");
+  }catch(error){}
+
+  ageGate.classList.add("hidden");
+
+  setTimeout(()=>{
+    document.body.classList.add("entered");
+  },300);
+}
+
+if(ageYes){
+  ageYes.addEventListener("click",hideAge);
+}
+
+if(ageNo){
+  ageNo.addEventListener("click",()=>{
+    ageNo.textContent = "18+ REQUIRED";
+  });
+}
+
+try{
+
+  if(localStorage.getItem(AGE_KEY) === "true"){
+    ageGate.classList.add("hidden");
+  }
+
+}catch(error){}
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+const menuOverlay = $("#menuOverlay");
+const menuOpen = $("#menuOpen");
+const menuClose = $("#menuClose");
+const menuSupport = $("#menuSupport");
+
+function openMenu(){
+
+  menuOverlay.classList.add("open");
+  document.body.style.overflow="hidden";
+
+}
+
+function closeMenu(){
+
+  menuOverlay.classList.remove("open");
+
+  if(
+    !$("#supportDrawer").classList.contains("open") &&
+    !$("#contactDrawer").classList.contains("open")
+  ){
+    document.body.style.overflow="";
+  }
+
+}
+
+if(menuOpen){
+  menuOpen.addEventListener("click",openMenu);
+}
+
+if(menuClose){
+  menuClose.addEventListener("click",closeMenu);
+}
+
+$$(".menuLinks a").forEach(link=>{
+  link.addEventListener("click",closeMenu);
+});
+
+if(menuSupport){
+  menuSupport.addEventListener("click",()=>{
+    closeMenu();
+    openDrawer($("#supportDrawer"));
+  });
+}
+
+/* =========================================================
+   DRAWERS
+   ========================================================= */
+
+const supportDrawer = $("#supportDrawer");
+const contactDrawer = $("#contactDrawer");
+
+function openDrawer(drawer){
+
+  if(!drawer) return;
+
+  drawer.classList.add("open");
+  drawer.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+
+}
+
+function closeDrawer(drawer){
+
+  if(!drawer) return;
+
+  drawer.classList.remove("open");
+  drawer.setAttribute("aria-hidden","true");
+
+  if(
+    !supportDrawer.classList.contains("open") &&
+    !contactDrawer.classList.contains("open") &&
+    !menuOverlay.classList.contains("open")
+  ){
+    document.body.style.overflow="";
+  }
+
+}
+
+$("#supportTop")?.addEventListener("click",()=>{
+  openDrawer(supportDrawer);
+});
+
+$("#drawerClose")?.addEventListener("click",()=>{
+  closeDrawer(supportDrawer);
+});
+
+$("#contactOpen")?.addEventListener("click",()=>{
+  openDrawer(contactDrawer);
+});
+
+$("#contactClose")?.addEventListener("click",()=>{
+  closeDrawer(contactDrawer);
+});
+
+[supportDrawer,contactDrawer].forEach(drawer=>{
+
+  drawer?.addEventListener("click",event=>{
+
+    if(event.target === drawer){
+      closeDrawer(drawer);
+    }
+
+  });
+
+});
+
+document.addEventListener("keydown",event=>{
+
+  if(event.key==="Escape"){
+
+    closeDrawer(supportDrawer);
+    closeDrawer(contactDrawer);
+    closeMenu();
+
+  }
+
+});
+
+/* =========================================================
+   CURSOR
+   ========================================================= */
+
+const cursorDot = $("#cursorDot");
+
+let mouseX=0;
+let mouseY=0;
+let cursorX=0;
+let cursorY=0;
+
+window.addEventListener("mousemove",event=>{
+
+  mouseX=event.clientX;
+  mouseY=event.clientY;
+
+},{passive:true});
+
+function cursorLoop(){
+
+  cursorX += (mouseX-cursorX)*.18;
+  cursorY += (mouseY-cursorY)*.18;
+
+  if(cursorDot){
+    cursorDot.style.left=cursorX+"px";
+    cursorDot.style.top=cursorY+"px";
+  }
+
+  requestAnimationFrame(cursorLoop);
+
+}
+
+cursorLoop();
+
+/* =========================================================
+   PROGRESS
+   ========================================================= */
+
+const progressBar = $("#progressBar");
+const progressLabel = $("#progressLabel");
+
+const scenes = $$(".scene");
+
+function updateProgress(){
+
+  const scrollTop = window.scrollY;
+  const total = document.documentElement.scrollHeight-window.innerHeight;
+
+  const progress = total>0 ? clamp(scrollTop/total,0,1) : 0;
+
+  if(progressBar){
+    progressBar.style.height=(progress*100)+"%";
+  }
+
+  const current = Math.min(
+    scenes.length,
+    Math.max(
+      1,
+      Math.floor(progress*scenes.length)+1
+    )
+  );
+
+  if(progressLabel){
+    progressLabel.textContent =
+      String(current).padStart(2,"0")+
+      " / "+
+      String(scenes.length).padStart(2,"0");
+  }
+
+}
+
+window.addEventListener("scroll",updateProgress,{passive:true});
+window.addEventListener("resize",updateProgress,{passive:true});
+
+updateProgress();
+
+/* =========================================================
+   INTRO PARALLAX
+   ========================================================= */
+
+const intro = $(".intro");
+const introWords = $$(".introWord");
+
+function animateIntro(){
+
+  if(!intro) return;
+
+  const rect=intro.getBoundingClientRect();
+  const viewport=window.innerHeight;
+
+  const progress=clamp(
+    -rect.top/(rect.height-viewport),
+    0,
+    1
+  );
+
+  introWords.forEach((word,index)=>{
+
+    const speed=parseFloat(word.dataset.speed||0);
+
+    const x =
+      (index===0 ? -1 : 1) *
+      progress *
+      180;
+
+    const y =
+      speed *
+      progress *
+      800;
+
+    const rotation =
+      (index===0 ? -1 : 1) *
+      progress *
+      2;
+
+    word.style.transform=
+      "translateX(calc(-50% + "+x+"px)) translateY("+y+"px) rotate("+rotation+"deg)";
+
+    word.style.opacity =
+      String(1-progress*.8);
+
+  });
+
+}
+
+/* =========================================================
+   GENERIC PARALLAX IMAGES
+   ========================================================= */
+
+const parallaxImages = $$(".parallaxImage img");
+
+function animateParallax(){
+
+  parallaxImages.forEach(img=>{
+
+    const parent=img.parentElement;
+    const rect=parent.getBoundingClientRect();
+
+    const center=window.innerHeight/2;
+
+    const distance=(rect.top+rect.height/2-center)/window.innerHeight;
+
+    const y=clamp(distance*60,-70,70);
+
+    img.style.transform=
+      "scale(1.08) translateY("+y+"px)";
+
+  });
+
+}
+
+/* =========================================================
+   ARCHIVE TRACK
+   ========================================================= */
+
+const archiveScene = $(".archiveScene");
+const archiveTrack = $("#archiveTrack");
+
+function animateArchive(){
+
+  if(!archiveScene || !archiveTrack) return;
+
+  if(window.innerWidth<=700){
+    archiveTrack.style.transform="translateY(0)";
+    return;
+  }
+
+  const rect=archiveScene.getBoundingClientRect();
+
+  const travel=archiveScene.offsetHeight-window.innerHeight;
+
+  const progress=clamp(
+    -rect.top/travel,
+    0,
+    1
+  );
+
+  const maxMove=
+    archiveTrack.scrollHeight-
+    $(".archiveList").clientHeight;
+
+  archiveTrack.style.transform=
+    "translateY("+(-maxMove*progress)+"px)";
+
+}
+
+/* =========================================================
+   JOURNAL
+   ========================================================= */
+
+const journalScene = $(".journalScene");
+const journalSlides = $$(".journalSlide");
+const journalThumbs = $$(".journalThumb");
+const journalCounter = $("#journalCounter");
+
+let selectedJournal=0;
+let journalManual=false;
+
+function showJournal(index){
+
+  selectedJournal=clamp(
+    index,
+    0,
+    journalSlides.length-1
+  );
+
+  journalSlides.forEach((slide,i)=>{
+
+    const distance=i-selectedJournal;
+
+    slide.style.opacity =
+      Math.abs(distance)>1 ? "0" : "1";
+
+    slide.style.zIndex =
+      String(20-Math.abs(distance));
+
+    slide.style.transform =
+      "translateX("+distance*105+"%) scale("+
+      (1-Math.min(Math.abs(distance),1)*.06)+")";
+
+    slide.style.clipPath =
+      Math.abs(distance)>1
+        ? "inset(0 100% 0 0)"
+        : "inset(0)";
+
+  });
+
+  journalThumbs.forEach((thumb,i)=>{
+    thumb.classList.toggle(
+      "active",
+      i===selectedJournal
+    );
+  });
+
+  if(journalCounter){
+    journalCounter.textContent=
+      String(selectedJournal+1).padStart(2,"0");
+  }
+
+}
+
+journalThumbs.forEach((thumb,index)=>{
+
+  thumb.addEventListener("click",()=>{
+
+    journalManual=true;
+    showJournal(index);
+
+  });
+
+});
+
+showJournal(0);
+
+/* =========================================================
+   CHAPTER HORIZONTAL SCROLL
+   ========================================================= */
+
+const chaptersScene = $(".chaptersScene");
+const chapterRail = $("#chapterRail");
+
+function animateChapters(){
+
+  if(!chaptersScene || !chapterRail) return;
+
+  if(window.innerWidth<=700){
+
+    const rect=chaptersScene.getBoundingClientRect();
+
+    const travel=chaptersScene.offsetHeight-window.innerHeight;
+
+    const progress=clamp(
+      -rect.top/travel,
+      0,
+      1
+    );
+
+    const maxMove=
+      chapterRail.scrollWidth-
+      window.innerWidth+
+      20;
+
+    chapterRail.style.transform=
+      "translateX("+(-maxMove*progress)+"px) translateY(-50%)";
+
+    return;
+
+  }
+
+  const rect=chaptersScene.getBoundingClientRect();
+
+  const travel=chaptersScene.offsetHeight-window.innerHeight;
+
+  const progress=clamp(
+    -rect.top/travel,
+    0,
+    1
+  );
+
+  const maxMove=
+    chapterRail.scrollWidth-
+    window.innerWidth+
+    80;
+
+  chapterRail.style.transform=
+    "translateX("+(-maxMove*progress)+"px) translateY(-50%)";
+
+}
+
+/* =========================================================
+   SCROLL ANIMATION ENGINE
+   ========================================================= */
+
+let ticking=false;
+
+function updateAll(){
+
+  ticking=false;
+
+  animateIntro();
+  animateParallax();
+  animateArchive();
+  animateChapters();
+
+  /* -------------------------------------------------------
+     Journal driven by scene progress
+     ------------------------------------------------------- */
+
+  if(journalScene && !journalManual){
+
+    const rect=journalScene.getBoundingClientRect();
+
+    const travel=journalScene.offsetHeight-window.innerHeight;
+
+    const progress=clamp(
+      -rect.top/travel,
+      0,
+      1
+    );
+
+    const index=Math.min(
+      journalSlides.length-1,
+      Math.floor(
+        progress*
+        journalSlides.length
+      )
+    );
+
+    if(index!==selectedJournal){
+      showJournal(index);
+    }
+
+  }
+
+}
+
+function requestUpdate(){
+
+  if(!ticking){
+
+    ticking=true;
+
+    requestAnimationFrame(updateAll);
+
+  }
+
+}
+
+window.addEventListener(
+  "scroll",
+  requestUpdate,
+  {passive:true}
+);
+
+window.addEventListener(
+  "resize",
+  ()=>{
+    journalManual=false;
+    requestUpdate();
+  },
+  {passive:true}
+);
+
+requestUpdate();
+
+/* =========================================================
+   INTERSECTION OBSERVER
+   ========================================================= */
+
+const observer = new IntersectionObserver(
+  entries=>{
+
+    entries.forEach(entry=>{
+
+      if(entry.isIntersecting){
+
+        entry.target.classList.add("seen");
+
+      }
+
+    });
+
+  },
+  {
+    root:null,
+    threshold:.08
+  }
+);
+
+scenes.forEach(scene=>{
+  observer.observe(scene);
+});
+
+/* =========================================================
+   IMAGE ERROR FALLBACK
+   ========================================================= */
+
+$$("img").forEach(img=>{
+
+  img.addEventListener("error",()=>{
+
+    const holder=img.parentElement;
+
+    if(holder){
+
+      holder.style.background=
+        "linear-gradient(135deg,#151914,#080907)";
+
+    }
+
+    img.style.opacity="0";
+
+  });
+
+});
+
+/* =========================================================
+   SMOOTH INTERNAL LINKS
+   ========================================================= */
+
+$$('a[href^="#"]').forEach(link=>{
+
+  link.addEventListener("click",event=>{
+
+    const targetId=link.getAttribute("href");
+
+    if(!targetId || targetId==="#") return;
+
+    const target=document.querySelector(targetId);
+
+    if(!target) return;
+
+    event.preventDefault();
+
+    target.scrollIntoView({
+      behavior:
+        window.matchMedia(
+          "(prefers-reduced-motion: reduce)"
+        ).matches
+          ? "auto"
+          : "smooth"
+    });
+
+  });
+
+});
+
+/* =========================================================
+   KEYBOARD SHORTCUTS
+   ========================================================= */
+
+document.addEventListener("keydown",event=>{
+
+  if(event.key==="m" || event.key==="M"){
+
+    if(menuOverlay.classList.contains("open")){
+      closeMenu();
+    }else{
+      openMenu();
+    }
+
+  }
+
+});
+
+/* =========================================================
+   INITIAL STATE
+   ========================================================= */
+
+document.documentElement.style.setProperty(
+  "--viewport-height",
+  window.innerHeight+"px"
+);
+
+window.addEventListener("resize",()=>{
+
+  document.documentElement.style.setProperty(
+    "--viewport-height",
+    window.innerHeight+"px"
+  );
+
+},{passive:true});
+
 })();
 </script>
 
-</body></html>
+</body>
+</html>
