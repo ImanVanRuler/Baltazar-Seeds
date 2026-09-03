@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <meta name="theme-color" content="#0a0b09">
-<meta name="description" content="Baltazar Seeds — Field Archive. Documented history, old genetics, new experiments and the road between them.">
+<meta name="description" content="Baltazar Seeds — Field Archive. Documented history, source links and a filename-accurate visual asset matrix.">
 <title>BALTAZAR SEEDS — FIELD ARCHIVE</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2596,6 +2596,536 @@ img{
   }
 }
 </style>
+<style>
+
+/* =========================================================
+   V3 / IMAGE ANALYSIS LAYER
+   The visual language is built around the actual asset list:
+   BALTI / CATALOG / F / MERCH / STRAIN / ULTRASTYLE
+   plus the numbered archive/game frames visible in the
+   supplied directory screenshots.
+   ========================================================= */
+
+:root{
+  --v3-cyan:#38e4ff;
+  --v3-blue:#477dff;
+  --v3-violet:#9a65ff;
+  --v3-pink:#ff4fa3;
+  --v3-orange:#ff9d4d;
+  --v3-lime:#c8ef59;
+  --v3-green:#56d68a;
+  --v3-yellow:#e9d65c;
+  --v3-ink:#07090b;
+  --v3-grid:rgba(255,255,255,.065);
+}
+
+body{
+  background:
+    radial-gradient(circle at 12% 9%,rgba(56,228,255,.055),transparent 28vw),
+    radial-gradient(circle at 89% 24%,rgba(154,101,255,.055),transparent 31vw),
+    radial-gradient(circle at 42% 92%,rgba(255,79,163,.035),transparent 30vw),
+    linear-gradient(180deg,#07090b 0%,#050607 52%,#070809 100%);
+}
+
+body::after{
+  background:
+    linear-gradient(90deg,transparent 49.95%,rgba(56,228,255,.045) 50%,transparent 50.05%),
+    linear-gradient(0deg,transparent 49.95%,rgba(255,255,255,.018) 50%,transparent 50.05%);
+  opacity:.20;
+}
+
+.v3ImageArchive{
+  position:relative;
+  isolation:isolate;
+  padding:clamp(55px,8vw,110px) clamp(18px,5vw,72px);
+  overflow:hidden;
+  background:
+    linear-gradient(90deg,transparent 0 6%,var(--v3-grid) 6.05% 6.12%,transparent 6.18% 93.8%,var(--v3-grid) 93.86% 93.94%,transparent 94%),
+    linear-gradient(180deg,rgba(255,255,255,.018),transparent 28%,rgba(255,255,255,.012));
+}
+
+.v3ImageArchive::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background:
+    repeating-linear-gradient(0deg,transparent 0 38px,rgba(255,255,255,.018) 39px,transparent 40px);
+  opacity:.35;
+}
+
+.v3ImageArchive::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:55vw;
+  height:55vw;
+  right:-22vw;
+  top:8%;
+  border:1px solid rgba(56,228,255,.12);
+  transform:rotate(21deg);
+  box-shadow:
+    0 0 0 20px rgba(154,101,255,.018),
+    0 0 0 40px rgba(255,79,163,.012);
+  pointer-events:none;
+}
+
+.v3ArchiveHead{
+  width:min(1220px,100%);
+  margin:0 auto 34px;
+  display:grid;
+  grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);
+  gap:34px;
+  align-items:end;
+}
+
+.v3ArchiveKicker{
+  font:500 9px/1.2 "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.19em;
+  color:var(--v3-cyan);
+}
+
+.v3ArchiveTitle{
+  margin-top:12px;
+  max-width:900px;
+  font:700 clamp(46px,7vw,104px)/.88 Syne,sans-serif;
+  letter-spacing:-.075em;
+  text-transform:uppercase;
+}
+
+.v3ArchiveTitle span{
+  color:var(--v3-pink);
+}
+
+.v3ArchiveLead{
+  max-width:510px;
+  color:rgba(244,246,239,.62);
+  font-size:12px;
+  line-height:1.8;
+}
+
+.v3ArchiveStats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  border-top:1px solid rgba(255,255,255,.16);
+  border-bottom:1px solid rgba(255,255,255,.16);
+}
+
+.v3ArchiveStat{
+  min-height:70px;
+  padding:13px 12px;
+  border-right:1px solid rgba(255,255,255,.10);
+}
+
+.v3ArchiveStat:last-child{border-right:0}
+
+.v3ArchiveStat small{
+  display:block;
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  color:rgba(255,255,255,.40);
+}
+
+.v3ArchiveStat strong{
+  display:block;
+  margin-top:7px;
+  font:600 17px/1 Syne,sans-serif;
+  color:var(--v3-lime);
+}
+
+.v3AssetControls{
+  width:min(1220px,100%);
+  margin:0 auto 18px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  align-items:center;
+}
+
+.v3Filter{
+  appearance:none;
+  border:1px solid rgba(255,255,255,.15);
+  background:#0b0e10;
+  color:rgba(255,255,255,.62);
+  padding:9px 11px;
+  cursor:pointer;
+  font:8px "DM Mono",monospace;
+  letter-spacing:.11em;
+  text-transform:uppercase;
+  transition:
+    border-color .25s ease,
+    color .25s ease,
+    background .25s ease,
+    transform .25s ease;
+}
+
+.v3Filter:hover{
+  border-color:var(--v3-cyan);
+  color:var(--v3-cyan);
+  transform:translateY(-1px);
+}
+
+.v3Filter.active{
+  color:#050708;
+  border-color:var(--v3-cyan);
+  background:var(--v3-cyan);
+}
+
+.v3Filter[data-filter="BALTAZAR"]{--filter-accent:var(--v3-lime)}
+.v3Filter[data-filter="MERCH"]{--filter-accent:var(--v3-pink)}
+.v3Filter[data-filter="STRAIN"]{--filter-accent:var(--v3-green)}
+.v3Filter[data-filter="CATALOG"]{--filter-accent:var(--v3-orange)}
+.v3Filter[data-filter="GAME"]{--filter-accent:var(--v3-violet)}
+.v3Filter[data-filter="NUMBERED"]{--filter-accent:var(--v3-blue)}
+.v3Filter[data-filter="OTHER"]{--filter-accent:var(--v3-yellow)}
+
+.v3AssetGrid{
+  width:min(1220px,100%);
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  grid-auto-rows:clamp(112px,12vw,172px);
+  gap:8px;
+}
+
+.v3AssetCard{
+  --accent:var(--v3-cyan);
+  position:relative;
+  min-width:0;
+  min-height:0;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.11);
+  background:#0b0e10;
+  cursor:pointer;
+  transform:translateZ(0);
+  transition:
+    transform .42s cubic-bezier(.16,1,.3,1),
+    border-color .3s ease,
+    box-shadow .42s ease,
+    opacity .3s ease;
+}
+
+.v3AssetCard:nth-child(5n+2){--accent:var(--v3-violet)}
+.v3AssetCard:nth-child(5n+3){--accent:var(--v3-pink)}
+.v3AssetCard:nth-child(5n+4){--accent:var(--v3-orange)}
+.v3AssetCard:nth-child(5n+5){--accent:var(--v3-lime)}
+
+.v3AssetCard.wide{grid-column:span 4}
+.v3AssetCard.medium{grid-column:span 3}
+.v3AssetCard.small{grid-column:span 2}
+.v3AssetCard.tall{grid-row:span 2}
+
+.v3AssetCard::before{
+  content:"";
+  position:absolute;
+  z-index:2;
+  inset:0;
+  background:
+    linear-gradient(180deg,transparent 45%,rgba(3,5,6,.92) 100%),
+    linear-gradient(135deg,transparent 0 65%,color-mix(in srgb,var(--accent) 18%,transparent) 100%);
+  pointer-events:none;
+}
+
+.v3AssetCard::after{
+  content:"";
+  position:absolute;
+  z-index:3;
+  left:0;
+  top:0;
+  width:0;
+  height:2px;
+  background:var(--accent);
+  box-shadow:0 0 16px color-mix(in srgb,var(--accent) 65%,transparent);
+  transition:width .55s cubic-bezier(.16,1,.3,1);
+}
+
+.v3AssetCard:hover{
+  z-index:8;
+  transform:translateY(-5px) scale(1.012);
+  border-color:var(--accent);
+  box-shadow:
+    0 18px 50px rgba(0,0,0,.46),
+    0 0 0 1px color-mix(in srgb,var(--accent) 14%,transparent);
+}
+
+.v3AssetCard:hover::after{width:100%}
+
+.v3AssetCard.isHidden{
+  display:none;
+}
+
+.v3AssetImage{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  filter:saturate(.88) contrast(1.03) brightness(.78);
+  transform:scale(1.015);
+  transition:
+    transform .75s cubic-bezier(.16,1,.3,1),
+    filter .45s ease;
+}
+
+.v3AssetCard:hover .v3AssetImage{
+  transform:scale(1.075);
+  filter:saturate(1.15) contrast(1.07) brightness(.94);
+}
+
+.v3AssetImage.isBroken{
+  opacity:0;
+}
+
+.v3Missing{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  color:rgba(255,255,255,.28);
+  font:9px "DM Mono",monospace;
+  letter-spacing:.08em;
+  text-align:center;
+  text-transform:uppercase;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.025),transparent),
+    repeating-linear-gradient(135deg,transparent 0 12px,rgba(255,255,255,.025) 13px 14px);
+}
+
+.v3AssetMeta{
+  position:absolute;
+  z-index:5;
+  left:10px;
+  right:10px;
+  bottom:9px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:end;
+}
+
+.v3AssetName{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#fff;
+  font:500 9px "DM Mono",monospace;
+  letter-spacing:.04em;
+}
+
+.v3AssetCat{
+  flex:none;
+  color:var(--accent);
+  font:500 7px "DM Mono",monospace;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.v3AssetIndex{
+  position:absolute;
+  z-index:5;
+  right:9px;
+  top:8px;
+  color:rgba(255,255,255,.38);
+  font:8px "DM Mono",monospace;
+}
+
+.v3AssetLine{
+  width:min(1220px,100%);
+  margin:18px auto 0;
+  padding-top:13px;
+  border-top:1px solid rgba(255,255,255,.10);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  color:rgba(255,255,255,.32);
+  font:8px "DM Mono",monospace;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+
+.v3Lightbox{
+  position:fixed;
+  inset:0;
+  z-index:120000;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:rgba(2,4,5,.94);
+  backdrop-filter:blur(18px);
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .35s ease,visibility .35s ease;
+}
+
+.v3Lightbox.open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+
+.v3LightboxFrame{
+  width:min(1180px,96vw);
+  height:min(86vh,900px);
+  position:relative;
+  display:grid;
+  grid-template-rows:1fr auto;
+  border:1px solid rgba(255,255,255,.18);
+  background:#080a0c;
+  box-shadow:0 40px 100px rgba(0,0,0,.65);
+}
+
+.v3LightboxVisual{
+  min-height:0;
+  position:relative;
+  display:grid;
+  place-items:center;
+  padding:26px;
+  background:
+    radial-gradient(circle at center,rgba(56,228,255,.045),transparent 55%),
+    #080a0c;
+}
+
+.v3LightboxVisual img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.v3LightboxBottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding:13px 15px;
+  border-top:1px solid rgba(255,255,255,.12);
+  font:9px "DM Mono",monospace;
+}
+
+.v3LightboxTitle{
+  color:#fff;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.v3LightboxInfo{
+  color:var(--v3-cyan);
+  text-transform:uppercase;
+  letter-spacing:.10em;
+}
+
+.v3LightboxClose{
+  position:absolute;
+  z-index:4;
+  top:10px;
+  right:10px;
+  width:36px;
+  height:36px;
+  border:1px solid rgba(255,255,255,.20);
+  background:rgba(5,7,8,.78);
+  color:#fff;
+  cursor:pointer;
+  font:14px "DM Mono",monospace;
+}
+
+.v3LightboxClose:hover{
+  border-color:var(--v3-pink);
+  color:var(--v3-pink);
+}
+
+.v3AssetCard[data-cat="MERCH"]{--accent:var(--v3-pink)}
+.v3AssetCard[data-cat="STRAIN"]{--accent:var(--v3-green)}
+.v3AssetCard[data-cat="CATALOG"]{--accent:var(--v3-orange)}
+.v3AssetCard[data-cat="GAME"]{--accent:var(--v3-violet)}
+.v3AssetCard[data-cat="NUMBERED"]{--accent:var(--v3-blue)}
+.v3AssetCard[data-cat="BALTAZAR"]{--accent:var(--v3-lime)}
+.v3AssetCard[data-cat="OTHER"]{--accent:var(--v3-yellow)}
+
+@media(max-width:900px){
+  .v3ArchiveHead{
+    grid-template-columns:1fr;
+    gap:22px;
+  }
+
+  .v3AssetGrid{
+    grid-template-columns:repeat(6,minmax(0,1fr));
+    grid-auto-rows:140px;
+  }
+
+  .v3AssetCard.wide{grid-column:span 3}
+  .v3AssetCard.medium{grid-column:span 2}
+  .v3AssetCard.small{grid-column:span 2}
+}
+
+@media(max-width:620px){
+  .v3ImageArchive{
+    padding-left:12px;
+    padding-right:12px;
+  }
+
+  .v3ArchiveTitle{
+    font-size:clamp(42px,15vw,76px);
+  }
+
+  .v3AssetGrid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-auto-rows:145px;
+    gap:6px;
+  }
+
+  .v3AssetCard.wide,
+  .v3AssetCard.medium,
+  .v3AssetCard.small{
+    grid-column:span 1;
+  }
+
+  .v3AssetCard.tall{
+    grid-row:span 2;
+  }
+
+  .v3ArchiveStats{
+    grid-template-columns:1fr;
+  }
+
+  .v3ArchiveStat{
+    border-right:0;
+    border-bottom:1px solid rgba(255,255,255,.10);
+  }
+
+  .v3ArchiveStat:last-child{
+    border-bottom:0;
+  }
+
+  .v3Lightbox{
+    padding:8px;
+  }
+
+  .v3LightboxFrame{
+    width:100%;
+    height:88vh;
+  }
+
+  .v3LightboxVisual{
+    padding:10px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .v3AssetCard,
+  .v3AssetImage,
+  .v3AssetCard::after,
+  .v3Lightbox{
+    transition:none !important;
+  }
+}
+
+</style>
 </head>
 
 <body>
@@ -3286,122 +3816,1550 @@ img{
 </section>
 
 
-<!-- =========================================================
-     SCENE 08B / VISUAL ATLAS
-     Uses the existing local archive image set without
-     replacing or removing the original journal.
-     ========================================================= -->
-<section class="scene visualAtlasScene" id="visual-atlas" data-scene="08B">
-  <div class="visualAtlasStage">
 
-    <div class="visualAtlasHeader">
-      <small>Visual atlas / preserved local frames</small>
-      <h2>THE ARCHIVE<br><span>HAS A FACE.</span></h2>
-      <p>
-        The existing local image sequence is presented again as a real visual wall.
-        No old labels are used as image identities here.
-        The filenames remain the technical source reference.
+<!-- =========================================================
+     V3 / IMAGE ANALYZED SOURCE MATRIX
+     ========================================================= -->
+<section class="scene v3ImageArchive" id="image-source-matrix" data-scene="08C">
+
+  <div class="v3ArchiveHead">
+    <div>
+      <div class="v3ArchiveKicker">Source matrix / image inventory / no invented identities</div>
+      <h2 class="v3ArchiveTitle">THE FILE LIST<br><span>BECOMES THE VISUAL.</span></h2>
+      <p class="v3ArchiveLead">
+        This wall is built from the filenames visible in the supplied directory screenshots
+        together with the image references already present in the archive.
+        The technical filenames stay visible on purpose.
+        Nothing is relabeled as a strain merely because an old caption once suggested it.
       </p>
     </div>
 
-    <div class="visualAtlasGrid">
-
-      <article class="visualTile">
-        <img src="STRAIN1.JPG" alt="Archive frame 01" loading="lazy">
-        <div class="visualTileMeta">
-          <div>
-            <small>FRAME 01</small>
-            <strong>RETURN</strong>
-          </div>
-          <small>LOCAL</small>
-        </div>
-      </article>
-
-      <article class="visualTile">
-        <img src="STRAIN2.JPG" alt="Archive frame 02" loading="lazy">
-        <div class="visualTileMeta">
-          <div>
-            <small>FRAME 02</small>
-            <strong>MIX</strong>
-          </div>
-          <small>LOCAL</small>
-        </div>
-      </article>
-
-      <article class="visualTile">
-        <img src="STRAIN3.JPG" alt="Archive frame 03" loading="lazy">
-        <div class="visualTileMeta">
-          <div>
-            <small>FRAME 03</small>
-            <strong>SELECTION</strong>
-          </div>
-          <small>LOCAL</small>
-        </div>
-      </article>
-
-      <article class="visualTile">
-        <img src="STRAIN4.JPG" alt="Archive frame 04" loading="lazy">
-        <div class="visualTileMeta">
-          <div>
-            <small>FRAME 04</small>
-            <strong>PHENOTYPE</strong>
-          </div>
-          <small>LOCAL</small>
-        </div>
-      </article>
-
-      <article class="visualTile">
-        <img src="STRAIN5.JPG" alt="Archive frame 05" loading="lazy">
-        <div class="visualTileMeta">
-          <div>
-            <small>FRAME 05</small>
-            <strong>ORIGINAL</strong>
-          </div>
-          <small>LOCAL</small>
-        </div>
-      </article>
-
-      <article class="visualTile">
-        <img src="STRAIN6.JPG" alt="Archive frame 06" loading="lazy">
-        <div class="visualTileMeta">
-          <div>
-            <small>FRAME 06</small>
-            <strong>CONTINUATION</strong>
-          </div>
-          <small>LOCAL</small>
-        </div>
-      </article>
-
-      <article class="visualTile">
-        <img src="STRAIN5A.JPG" alt="Archive frame 05 alternate" loading="lazy">
-        <div class="visualTileMeta">
-          <div>
-            <small>FRAME 05A</small>
-            <strong>SECOND VIEW</strong>
-          </div>
-          <small>LOCAL</small>
-        </div>
-      </article>
-
-      <article class="visualTile">
-        <img src="STRAIN6A.JPG" alt="Archive frame 06 alternate" loading="lazy">
-        <div class="visualTileMeta">
-          <div>
-            <small>FRAME 06A</small>
-            <strong>SECOND VIEW</strong>
-          </div>
-          <small>LOCAL</small>
-        </div>
-      </article>
-
+    <div class="v3ArchiveStats" aria-label="Archive image statistics">
+      <div class="v3ArchiveStat">
+        <small>Indexed</small>
+        <strong>82</strong>
+      </div>
+      <div class="v3ArchiveStat">
+        <small>Groups</small>
+        <strong>07</strong>
+      </div>
+      <div class="v3ArchiveStat">
+        <small>Mode</small>
+        <strong>LOCAL</strong>
+      </div>
     </div>
+  </div>
 
-    <div class="visualAtlasFooter">
-      08B / image wall / local archive / original files retained
-    </div>
+  <div class="v3AssetControls" role="toolbar" aria-label="Image filters">
+    <button class="v3Filter active" data-filter="ALL" type="button">ALL / 82</button>
+    <button class="v3Filter" data-filter="BALTAZAR" type="button">BALTI</button>
+    <button class="v3Filter" data-filter="STRAIN" type="button">STRAIN</button>
+    <button class="v3Filter" data-filter="MERCH" type="button">MERCH</button>
+    <button class="v3Filter" data-filter="CATALOG" type="button">CATALOG</button>
+    <button class="v3Filter" data-filter="GAME" type="button">GAME</button>
+    <button class="v3Filter" data-filter="NUMBERED" type="button">NUMBERED</button>
+    <button class="v3Filter" data-filter="OTHER" type="button">OTHER</button>
+  </div>
+
+  <div class="v3AssetGrid" id="v3AssetGrid">
+    
+      <button class="v3AssetCard wide" type="button"
+              data-cat="BALTAZAR"
+              data-name="BALTI.JPG"
+              data-index="1"
+              aria-label="Open BALTI.JPG">
+        <span class="v3AssetIndex">01</span>
+        <img class="v3AssetImage" src="BALTI.JPG"
+             alt="BALTI.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>BALTI.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">BALTI.JPG</span>
+          <span class="v3AssetCat">BALTAZAR</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="BALTAZAR"
+              data-name="BALTI1.JPG"
+              data-index="2"
+              aria-label="Open BALTI1.JPG">
+        <span class="v3AssetIndex">02</span>
+        <img class="v3AssetImage" src="BALTI1.JPG"
+             alt="BALTI1.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>BALTI1.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">BALTI1.JPG</span>
+          <span class="v3AssetCat">BALTAZAR</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="BALTAZAR"
+              data-name="BALTI2.JPG"
+              data-index="3"
+              aria-label="Open BALTI2.JPG">
+        <span class="v3AssetIndex">03</span>
+        <img class="v3AssetImage" src="BALTI2.JPG"
+             alt="BALTI2.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>BALTI2.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">BALTI2.JPG</span>
+          <span class="v3AssetCat">BALTAZAR</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="BALTAZAR"
+              data-name="BALTI3.JPG"
+              data-index="4"
+              aria-label="Open BALTI3.JPG">
+        <span class="v3AssetIndex">04</span>
+        <img class="v3AssetImage" src="BALTI3.JPG"
+             alt="BALTI3.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>BALTI3.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">BALTI3.JPG</span>
+          <span class="v3AssetCat">BALTAZAR</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard wide" type="button"
+              data-cat="BALTAZAR"
+              data-name="BALTI4.JPG"
+              data-index="5"
+              aria-label="Open BALTI4.JPG">
+        <span class="v3AssetIndex">05</span>
+        <img class="v3AssetImage" src="BALTI4.JPG"
+             alt="BALTI4.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>BALTI4.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">BALTI4.JPG</span>
+          <span class="v3AssetCat">BALTAZAR</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="CATALOG"
+              data-name="CATLOGO.JPG"
+              data-index="6"
+              aria-label="Open CATLOGO.JPG">
+        <span class="v3AssetIndex">06</span>
+        <img class="v3AssetImage" src="CATLOGO.JPG"
+             alt="CATLOGO.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>CATLOGO.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">CATLOGO.JPG</span>
+          <span class="v3AssetCat">CATALOG</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="CATALOG"
+              data-name="CATLOGO1.JPG"
+              data-index="7"
+              aria-label="Open CATLOGO1.JPG">
+        <span class="v3AssetIndex">07</span>
+        <img class="v3AssetImage" src="CATLOGO1.JPG"
+             alt="CATLOGO1.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>CATLOGO1.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">CATLOGO1.JPG</span>
+          <span class="v3AssetCat">CATALOG</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard tall" type="button"
+              data-cat="CATALOG"
+              data-name="ELEFANTOG.jpg"
+              data-index="8"
+              aria-label="Open ELEFANTOG.jpg">
+        <span class="v3AssetIndex">08</span>
+        <img class="v3AssetImage" src="ELEFANTOG.jpg"
+             alt="ELEFANTOG.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>ELEFANTOG.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">ELEFANTOG.jpg</span>
+          <span class="v3AssetCat">CATALOG</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="CATALOG"
+              data-name="F1.JPG"
+              data-index="9"
+              aria-label="Open F1.JPG">
+        <span class="v3AssetIndex">09</span>
+        <img class="v3AssetImage" src="F1.JPG"
+             alt="F1.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>F1.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">F1.JPG</span>
+          <span class="v3AssetCat">CATALOG</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="CATALOG"
+              data-name="F2.JPG"
+              data-index="10"
+              aria-label="Open F2.JPG">
+        <span class="v3AssetIndex">10</span>
+        <img class="v3AssetImage" src="F2.JPG"
+             alt="F2.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>F2.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">F2.JPG</span>
+          <span class="v3AssetCat">CATALOG</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="CATALOG"
+              data-name="F3.JPG"
+              data-index="11"
+              aria-label="Open F3.JPG">
+        <span class="v3AssetIndex">11</span>
+        <img class="v3AssetImage" src="F3.JPG"
+             alt="F3.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>F3.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">F3.JPG</span>
+          <span class="v3AssetCat">CATALOG</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="OTHER"
+              data-name="IMG_7975.PNG"
+              data-index="12"
+              aria-label="Open IMG_7975.PNG">
+        <span class="v3AssetIndex">12</span>
+        <img class="v3AssetImage" src="IMG_7975.PNG"
+             alt="IMG_7975.PNG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>IMG_7975.PNG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">IMG_7975.PNG</span>
+          <span class="v3AssetCat">OTHER</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="MERCH"
+              data-name="MERCH1.JPG"
+              data-index="13"
+              aria-label="Open MERCH1.JPG">
+        <span class="v3AssetIndex">13</span>
+        <img class="v3AssetImage" src="MERCH1.JPG"
+             alt="MERCH1.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>MERCH1.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">MERCH1.JPG</span>
+          <span class="v3AssetCat">MERCH</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="MERCH"
+              data-name="MERCH1A.JPG"
+              data-index="14"
+              aria-label="Open MERCH1A.JPG">
+        <span class="v3AssetIndex">14</span>
+        <img class="v3AssetImage" src="MERCH1A.JPG"
+             alt="MERCH1A.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>MERCH1A.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">MERCH1A.JPG</span>
+          <span class="v3AssetCat">MERCH</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="MERCH"
+              data-name="MERCH2.JPG"
+              data-index="15"
+              aria-label="Open MERCH2.JPG">
+        <span class="v3AssetIndex">15</span>
+        <img class="v3AssetImage" src="MERCH2.JPG"
+             alt="MERCH2.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>MERCH2.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">MERCH2.JPG</span>
+          <span class="v3AssetCat">MERCH</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="MERCH"
+              data-name="MERCH3.JPG"
+              data-index="16"
+              aria-label="Open MERCH3.JPG">
+        <span class="v3AssetIndex">16</span>
+        <img class="v3AssetImage" src="MERCH3.JPG"
+             alt="MERCH3.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>MERCH3.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">MERCH3.JPG</span>
+          <span class="v3AssetCat">MERCH</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="MERCH"
+              data-name="MERCH4.JPG"
+              data-index="17"
+              aria-label="Open MERCH4.JPG">
+        <span class="v3AssetIndex">17</span>
+        <img class="v3AssetImage" src="MERCH4.JPG"
+             alt="MERCH4.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>MERCH4.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">MERCH4.JPG</span>
+          <span class="v3AssetCat">MERCH</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="MERCH"
+              data-name="MERCH5.JPG"
+              data-index="18"
+              aria-label="Open MERCH5.JPG">
+        <span class="v3AssetIndex">18</span>
+        <img class="v3AssetImage" src="MERCH5.JPG"
+             alt="MERCH5.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>MERCH5.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">MERCH5.JPG</span>
+          <span class="v3AssetCat">MERCH</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="MERCH"
+              data-name="MERCH6.JPG"
+              data-index="19"
+              aria-label="Open MERCH6.JPG">
+        <span class="v3AssetIndex">19</span>
+        <img class="v3AssetImage" src="MERCH6.JPG"
+             alt="MERCH6.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>MERCH6.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">MERCH6.JPG</span>
+          <span class="v3AssetCat">MERCH</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="MERCH"
+              data-name="MERCH6A.JPG"
+              data-index="20"
+              aria-label="Open MERCH6A.JPG">
+        <span class="v3AssetIndex">20</span>
+        <img class="v3AssetImage" src="MERCH6A.JPG"
+             alt="MERCH6A.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>MERCH6A.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">MERCH6A.JPG</span>
+          <span class="v3AssetCat">MERCH</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="MERCH"
+              data-name="MERCH6B.JPG"
+              data-index="21"
+              aria-label="Open MERCH6B.JPG">
+        <span class="v3AssetIndex">21</span>
+        <img class="v3AssetImage" src="MERCH6B.JPG"
+             alt="MERCH6B.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>MERCH6B.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">MERCH6B.JPG</span>
+          <span class="v3AssetCat">MERCH</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard wide" type="button"
+              data-cat="STRAIN"
+              data-name="STRAIN1.JPG"
+              data-index="22"
+              aria-label="Open STRAIN1.JPG">
+        <span class="v3AssetIndex">22</span>
+        <img class="v3AssetImage" src="STRAIN1.JPG"
+             alt="STRAIN1.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>STRAIN1.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">STRAIN1.JPG</span>
+          <span class="v3AssetCat">STRAIN</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="STRAIN"
+              data-name="STRAIN2.JPG"
+              data-index="23"
+              aria-label="Open STRAIN2.JPG">
+        <span class="v3AssetIndex">23</span>
+        <img class="v3AssetImage" src="STRAIN2.JPG"
+             alt="STRAIN2.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>STRAIN2.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">STRAIN2.JPG</span>
+          <span class="v3AssetCat">STRAIN</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="STRAIN"
+              data-name="STRAIN3.JPG"
+              data-index="24"
+              aria-label="Open STRAIN3.JPG">
+        <span class="v3AssetIndex">24</span>
+        <img class="v3AssetImage" src="STRAIN3.JPG"
+             alt="STRAIN3.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>STRAIN3.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">STRAIN3.JPG</span>
+          <span class="v3AssetCat">STRAIN</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="STRAIN"
+              data-name="STRAIN4.JPG"
+              data-index="25"
+              aria-label="Open STRAIN4.JPG">
+        <span class="v3AssetIndex">25</span>
+        <img class="v3AssetImage" src="STRAIN4.JPG"
+             alt="STRAIN4.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>STRAIN4.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">STRAIN4.JPG</span>
+          <span class="v3AssetCat">STRAIN</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard wide" type="button"
+              data-cat="STRAIN"
+              data-name="STRAIN5.JPG"
+              data-index="26"
+              aria-label="Open STRAIN5.JPG">
+        <span class="v3AssetIndex">26</span>
+        <img class="v3AssetImage" src="STRAIN5.JPG"
+             alt="STRAIN5.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>STRAIN5.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">STRAIN5.JPG</span>
+          <span class="v3AssetCat">STRAIN</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="STRAIN"
+              data-name="STRAIN5A.JPG"
+              data-index="27"
+              aria-label="Open STRAIN5A.JPG">
+        <span class="v3AssetIndex">27</span>
+        <img class="v3AssetImage" src="STRAIN5A.JPG"
+             alt="STRAIN5A.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>STRAIN5A.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">STRAIN5A.JPG</span>
+          <span class="v3AssetCat">STRAIN</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard wide" type="button"
+              data-cat="STRAIN"
+              data-name="STRAIN6.JPG"
+              data-index="28"
+              aria-label="Open STRAIN6.JPG">
+        <span class="v3AssetIndex">28</span>
+        <img class="v3AssetImage" src="STRAIN6.JPG"
+             alt="STRAIN6.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>STRAIN6.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">STRAIN6.JPG</span>
+          <span class="v3AssetCat">STRAIN</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="STRAIN"
+              data-name="STRAIN6A.JPG"
+              data-index="29"
+              aria-label="Open STRAIN6A.JPG">
+        <span class="v3AssetIndex">29</span>
+        <img class="v3AssetImage" src="STRAIN6A.JPG"
+             alt="STRAIN6A.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>STRAIN6A.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">STRAIN6A.JPG</span>
+          <span class="v3AssetCat">STRAIN</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard wide" type="button"
+              data-cat="OTHER"
+              data-name="ULTRASTYLE.JPG"
+              data-index="30"
+              aria-label="Open ULTRASTYLE.JPG">
+        <span class="v3AssetIndex">30</span>
+        <img class="v3AssetImage" src="ULTRASTYLE.JPG"
+             alt="ULTRASTYLE.JPG"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>ULTRASTYLE.JPG</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">ULTRASTYLE.JPG</span>
+          <span class="v3AssetCat">OTHER</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard wide" type="button"
+              data-cat="OTHER"
+              data-name="intro-poster.jpg"
+              data-index="31"
+              aria-label="Open intro-poster.jpg">
+        <span class="v3AssetIndex">31</span>
+        <img class="v3AssetImage" src="intro-poster.jpg"
+             alt="intro-poster.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>intro-poster.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">intro-poster.jpg</span>
+          <span class="v3AssetCat">OTHER</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="GAME"
+              data-name="spike.png"
+              data-index="32"
+              aria-label="Open spike.png">
+        <span class="v3AssetIndex">32</span>
+        <img class="v3AssetImage" src="spike.png"
+             alt="spike.png"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>spike.png</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">spike.png</span>
+          <span class="v3AssetCat">GAME</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="GAME"
+              data-name="baltirun.png"
+              data-index="33"
+              aria-label="Open baltirun.png">
+        <span class="v3AssetIndex">33</span>
+        <img class="v3AssetImage" src="baltirun.png"
+             alt="baltirun.png"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>baltirun.png</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">baltirun.png</span>
+          <span class="v3AssetCat">GAME</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard wide" type="button"
+              data-cat="GAME"
+              data-name="baltirunbackground.jpg"
+              data-index="34"
+              aria-label="Open baltirunbackground.jpg">
+        <span class="v3AssetIndex">34</span>
+        <img class="v3AssetImage" src="baltirunbackground.jpg"
+             alt="baltirunbackground.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>baltirunbackground.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">baltirunbackground.jpg</span>
+          <span class="v3AssetCat">GAME</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="1.jpg"
+              data-index="35"
+              aria-label="Open 1.jpg">
+        <span class="v3AssetIndex">35</span>
+        <img class="v3AssetImage" src="1.jpg"
+             alt="1.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>1.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">1.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="1-1.jpg"
+              data-index="36"
+              aria-label="Open 1-1.jpg">
+        <span class="v3AssetIndex">36</span>
+        <img class="v3AssetImage" src="1-1.jpg"
+             alt="1-1.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>1-1.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">1-1.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="1-2.jpg"
+              data-index="37"
+              aria-label="Open 1-2.jpg">
+        <span class="v3AssetIndex">37</span>
+        <img class="v3AssetImage" src="1-2.jpg"
+             alt="1-2.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>1-2.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">1-2.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="1-3.jpg"
+              data-index="38"
+              aria-label="Open 1-3.jpg">
+        <span class="v3AssetIndex">38</span>
+        <img class="v3AssetImage" src="1-3.jpg"
+             alt="1-3.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>1-3.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">1-3.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="1-4.jpg"
+              data-index="39"
+              aria-label="Open 1-4.jpg">
+        <span class="v3AssetIndex">39</span>
+        <img class="v3AssetImage" src="1-4.jpg"
+             alt="1-4.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>1-4.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">1-4.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="1-5.jpg"
+              data-index="40"
+              aria-label="Open 1-5.jpg">
+        <span class="v3AssetIndex">40</span>
+        <img class="v3AssetImage" src="1-5.jpg"
+             alt="1-5.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>1-5.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">1-5.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="1-6.jpg"
+              data-index="41"
+              aria-label="Open 1-6.jpg">
+        <span class="v3AssetIndex">41</span>
+        <img class="v3AssetImage" src="1-6.jpg"
+             alt="1-6.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>1-6.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">1-6.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="2.jpg"
+              data-index="42"
+              aria-label="Open 2.jpg">
+        <span class="v3AssetIndex">42</span>
+        <img class="v3AssetImage" src="2.jpg"
+             alt="2.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>2.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">2.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="2-1.jpg"
+              data-index="43"
+              aria-label="Open 2-1.jpg">
+        <span class="v3AssetIndex">43</span>
+        <img class="v3AssetImage" src="2-1.jpg"
+             alt="2-1.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>2-1.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">2-1.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="2-2.jpg"
+              data-index="44"
+              aria-label="Open 2-2.jpg">
+        <span class="v3AssetIndex">44</span>
+        <img class="v3AssetImage" src="2-2.jpg"
+             alt="2-2.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>2-2.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">2-2.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="3.jpg"
+              data-index="45"
+              aria-label="Open 3.jpg">
+        <span class="v3AssetIndex">45</span>
+        <img class="v3AssetImage" src="3.jpg"
+             alt="3.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>3.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">3.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="3-1.jpg"
+              data-index="46"
+              aria-label="Open 3-1.jpg">
+        <span class="v3AssetIndex">46</span>
+        <img class="v3AssetImage" src="3-1.jpg"
+             alt="3-1.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>3-1.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">3-1.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="3-2.jpg"
+              data-index="47"
+              aria-label="Open 3-2.jpg">
+        <span class="v3AssetIndex">47</span>
+        <img class="v3AssetImage" src="3-2.jpg"
+             alt="3-2.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>3-2.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">3-2.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="3-3.jpg"
+              data-index="48"
+              aria-label="Open 3-3.jpg">
+        <span class="v3AssetIndex">48</span>
+        <img class="v3AssetImage" src="3-3.jpg"
+             alt="3-3.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>3-3.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">3-3.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="3-4.jpg"
+              data-index="49"
+              aria-label="Open 3-4.jpg">
+        <span class="v3AssetIndex">49</span>
+        <img class="v3AssetImage" src="3-4.jpg"
+             alt="3-4.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>3-4.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">3-4.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="3-5.jpg"
+              data-index="50"
+              aria-label="Open 3-5.jpg">
+        <span class="v3AssetIndex">50</span>
+        <img class="v3AssetImage" src="3-5.jpg"
+             alt="3-5.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>3-5.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">3-5.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="4.jpg"
+              data-index="51"
+              aria-label="Open 4.jpg">
+        <span class="v3AssetIndex">51</span>
+        <img class="v3AssetImage" src="4.jpg"
+             alt="4.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>4.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">4.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="4-1.jpg"
+              data-index="52"
+              aria-label="Open 4-1.jpg">
+        <span class="v3AssetIndex">52</span>
+        <img class="v3AssetImage" src="4-1.jpg"
+             alt="4-1.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>4-1.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">4-1.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="4-2.jpg"
+              data-index="53"
+              aria-label="Open 4-2.jpg">
+        <span class="v3AssetIndex">53</span>
+        <img class="v3AssetImage" src="4-2.jpg"
+             alt="4-2.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>4-2.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">4-2.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="4-3.jpg"
+              data-index="54"
+              aria-label="Open 4-3.jpg">
+        <span class="v3AssetIndex">54</span>
+        <img class="v3AssetImage" src="4-3.jpg"
+             alt="4-3.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>4-3.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">4-3.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="4-4.jpg"
+              data-index="55"
+              aria-label="Open 4-4.jpg">
+        <span class="v3AssetIndex">55</span>
+        <img class="v3AssetImage" src="4-4.jpg"
+             alt="4-4.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>4-4.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">4-4.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="5.jpg"
+              data-index="56"
+              aria-label="Open 5.jpg">
+        <span class="v3AssetIndex">56</span>
+        <img class="v3AssetImage" src="5.jpg"
+             alt="5.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>5.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">5.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="5-1.jpg"
+              data-index="57"
+              aria-label="Open 5-1.jpg">
+        <span class="v3AssetIndex">57</span>
+        <img class="v3AssetImage" src="5-1.jpg"
+             alt="5-1.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>5-1.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">5-1.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="5-2.jpg"
+              data-index="58"
+              aria-label="Open 5-2.jpg">
+        <span class="v3AssetIndex">58</span>
+        <img class="v3AssetImage" src="5-2.jpg"
+             alt="5-2.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>5-2.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">5-2.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="5-3.jpg"
+              data-index="59"
+              aria-label="Open 5-3.jpg">
+        <span class="v3AssetIndex">59</span>
+        <img class="v3AssetImage" src="5-3.jpg"
+             alt="5-3.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>5-3.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">5-3.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="5-4.jpg"
+              data-index="60"
+              aria-label="Open 5-4.jpg">
+        <span class="v3AssetIndex">60</span>
+        <img class="v3AssetImage" src="5-4.jpg"
+             alt="5-4.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>5-4.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">5-4.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="5-5.jpg"
+              data-index="61"
+              aria-label="Open 5-5.jpg">
+        <span class="v3AssetIndex">61</span>
+        <img class="v3AssetImage" src="5-5.jpg"
+             alt="5-5.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>5-5.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">5-5.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="6.jpg"
+              data-index="62"
+              aria-label="Open 6.jpg">
+        <span class="v3AssetIndex">62</span>
+        <img class="v3AssetImage" src="6.jpg"
+             alt="6.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>6.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">6.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="6-1.jpg"
+              data-index="63"
+              aria-label="Open 6-1.jpg">
+        <span class="v3AssetIndex">63</span>
+        <img class="v3AssetImage" src="6-1.jpg"
+             alt="6-1.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>6-1.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">6-1.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="6-2.jpg"
+              data-index="64"
+              aria-label="Open 6-2.jpg">
+        <span class="v3AssetIndex">64</span>
+        <img class="v3AssetImage" src="6-2.jpg"
+             alt="6-2.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>6-2.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">6-2.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="7.jpg"
+              data-index="65"
+              aria-label="Open 7.jpg">
+        <span class="v3AssetIndex">65</span>
+        <img class="v3AssetImage" src="7.jpg"
+             alt="7.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>7.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">7.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="7-1.jpg"
+              data-index="66"
+              aria-label="Open 7-1.jpg">
+        <span class="v3AssetIndex">66</span>
+        <img class="v3AssetImage" src="7-1.jpg"
+             alt="7-1.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>7-1.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">7-1.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="7-2.jpg"
+              data-index="67"
+              aria-label="Open 7-2.jpg">
+        <span class="v3AssetIndex">67</span>
+        <img class="v3AssetImage" src="7-2.jpg"
+             alt="7-2.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>7-2.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">7-2.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="7-3.jpg"
+              data-index="68"
+              aria-label="Open 7-3.jpg">
+        <span class="v3AssetIndex">68</span>
+        <img class="v3AssetImage" src="7-3.jpg"
+             alt="7-3.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>7-3.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">7-3.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="8.jpg"
+              data-index="69"
+              aria-label="Open 8.jpg">
+        <span class="v3AssetIndex">69</span>
+        <img class="v3AssetImage" src="8.jpg"
+             alt="8.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>8.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">8.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="8-1.jpg"
+              data-index="70"
+              aria-label="Open 8-1.jpg">
+        <span class="v3AssetIndex">70</span>
+        <img class="v3AssetImage" src="8-1.jpg"
+             alt="8-1.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>8-1.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">8-1.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="8-2.jpg"
+              data-index="71"
+              aria-label="Open 8-2.jpg">
+        <span class="v3AssetIndex">71</span>
+        <img class="v3AssetImage" src="8-2.jpg"
+             alt="8-2.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>8-2.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">8-2.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="9.jpg"
+              data-index="72"
+              aria-label="Open 9.jpg">
+        <span class="v3AssetIndex">72</span>
+        <img class="v3AssetImage" src="9.jpg"
+             alt="9.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>9.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">9.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="9-1.jpg"
+              data-index="73"
+              aria-label="Open 9-1.jpg">
+        <span class="v3AssetIndex">73</span>
+        <img class="v3AssetImage" src="9-1.jpg"
+             alt="9-1.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>9-1.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">9-1.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="9-2.jpg"
+              data-index="74"
+              aria-label="Open 9-2.jpg">
+        <span class="v3AssetIndex">74</span>
+        <img class="v3AssetImage" src="9-2.jpg"
+             alt="9-2.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>9-2.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">9-2.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="9-3.jpg"
+              data-index="75"
+              aria-label="Open 9-3.jpg">
+        <span class="v3AssetIndex">75</span>
+        <img class="v3AssetImage" src="9-3.jpg"
+             alt="9-3.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>9-3.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">9-3.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="10.jpg"
+              data-index="76"
+              aria-label="Open 10.jpg">
+        <span class="v3AssetIndex">76</span>
+        <img class="v3AssetImage" src="10.jpg"
+             alt="10.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>10.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">10.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="10-1.jpg"
+              data-index="77"
+              aria-label="Open 10-1.jpg">
+        <span class="v3AssetIndex">77</span>
+        <img class="v3AssetImage" src="10-1.jpg"
+             alt="10-1.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>10-1.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">10-1.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="11.jpg"
+              data-index="78"
+              aria-label="Open 11.jpg">
+        <span class="v3AssetIndex">78</span>
+        <img class="v3AssetImage" src="11.jpg"
+             alt="11.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>11.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">11.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="12.jpg"
+              data-index="79"
+              aria-label="Open 12.jpg">
+        <span class="v3AssetIndex">79</span>
+        <img class="v3AssetImage" src="12.jpg"
+             alt="12.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>12.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">12.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="13.jpg"
+              data-index="80"
+              aria-label="Open 13.jpg">
+        <span class="v3AssetIndex">80</span>
+        <img class="v3AssetImage" src="13.jpg"
+             alt="13.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>13.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">13.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard small" type="button"
+              data-cat="NUMBERED"
+              data-name="13-1.jpg"
+              data-index="81"
+              aria-label="Open 13-1.jpg">
+        <span class="v3AssetIndex">81</span>
+        <img class="v3AssetImage" src="13-1.jpg"
+             alt="13-1.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>13-1.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">13-1.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
+
+      <button class="v3AssetCard medium" type="button"
+              data-cat="NUMBERED"
+              data-name="20.jpg"
+              data-index="82"
+              aria-label="Open 20.jpg">
+        <span class="v3AssetIndex">82</span>
+        <img class="v3AssetImage" src="20.jpg"
+             alt="20.jpg"
+             loading="lazy"
+             decoding="async"
+             onerror="this.classList.add('isBroken');this.nextElementSibling.hidden=false;">
+        <span class="v3Missing" hidden>FILE NOT AVAILABLE IN CURRENT FOLDER<br>20.jpg</span>
+        <span class="v3AssetMeta">
+          <span class="v3AssetName">20.jpg</span>
+          <span class="v3AssetCat">NUMBERED</span>
+        </span>
+      </button>
 
   </div>
+
+  <div class="v3AssetLine">
+    <span>technical source names retained</span>
+    <span>click any frame for inspection</span>
+  </div>
+
 </section>
+
+<div class="v3Lightbox" id="v3Lightbox" aria-hidden="true">
+  <div class="v3LightboxFrame" role="dialog" aria-modal="true" aria-label="Image inspector">
+    <button class="v3LightboxClose" id="v3LightboxClose" type="button" aria-label="Close">×</button>
+    <div class="v3LightboxVisual">
+      <img id="v3LightboxImage" src="" alt="">
+    </div>
+    <div class="v3LightboxBottom">
+      <span class="v3LightboxTitle" id="v3LightboxTitle">—</span>
+      <span class="v3LightboxInfo" id="v3LightboxInfo">LOCAL / —</span>
+    </div>
+  </div>
+</div>
 
 
 <!-- =========================================================
@@ -26413,6 +28371,98 @@ body::after{
       });
     });
   }
+})();
+
+</script>
+<script>
+
+/* =========================================================
+   V3 / IMAGE MATRIX INTERACTION
+   ========================================================= */
+(function(){
+  "use strict";
+
+  const matrix = document.getElementById("v3AssetGrid");
+  const filters = Array.from(document.querySelectorAll(".v3Filter"));
+  const lightbox = document.getElementById("v3Lightbox");
+  const lightboxImage = document.getElementById("v3LightboxImage");
+  const lightboxTitle = document.getElementById("v3LightboxTitle");
+  const lightboxInfo = document.getElementById("v3LightboxInfo");
+  const lightboxClose = document.getElementById("v3LightboxClose");
+
+  if(!matrix) return;
+
+  const cards = Array.from(matrix.querySelectorAll(".v3AssetCard"));
+
+  filters.forEach(filter=>{
+    filter.addEventListener("click",()=>{
+      const wanted = filter.dataset.filter || "ALL";
+
+      filters.forEach(btn=>btn.classList.toggle("active",btn===filter));
+
+      cards.forEach(card=>{
+        const show = wanted === "ALL" || card.dataset.cat === wanted;
+        card.classList.toggle("isHidden",!show);
+        card.setAttribute("aria-hidden",String(!show));
+      });
+    });
+  });
+
+  cards.forEach(card=>{
+    const image = card.querySelector(".v3AssetImage");
+
+    card.addEventListener("pointermove",event=>{
+      if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if(window.innerWidth < 700) return;
+
+      const r = card.getBoundingClientRect();
+      const x = (event.clientX-r.left)/r.width-.5;
+      const y = (event.clientY-r.top)/r.height-.5;
+
+      card.style.transform =
+        "perspective(900px) translateY(-5px) scale(1.012) rotateX("+
+        (-y*2.1)+"deg) rotateY("+(x*2.1)+"deg)";
+    });
+
+    card.addEventListener("pointerleave",()=>{
+      card.style.transform="";
+    });
+
+    card.addEventListener("click",()=>{
+      if(!image || image.classList.contains("isBroken")) return;
+
+      lightboxImage.src = image.currentSrc || image.src;
+      lightboxImage.alt = image.alt || card.dataset.name || "";
+      lightboxTitle.textContent = card.dataset.name || "LOCAL ASSET";
+      lightboxInfo.textContent =
+        (card.dataset.cat || "LOCAL") + " / FRAME " +
+        String(card.dataset.index || "").padStart(2,"0");
+
+      lightbox.classList.add("open");
+      lightbox.setAttribute("aria-hidden","false");
+      document.body.style.overflow="hidden";
+      lightboxClose.focus();
+    });
+  });
+
+  function closeLightbox(){
+    lightbox.classList.remove("open");
+    lightbox.setAttribute("aria-hidden","true");
+    document.body.style.overflow="";
+    lightboxImage.removeAttribute("src");
+  }
+
+  lightboxClose.addEventListener("click",closeLightbox);
+
+  lightbox.addEventListener("click",event=>{
+    if(event.target===lightbox) closeLightbox();
+  });
+
+  document.addEventListener("keydown",event=>{
+    if(event.key==="Escape" && lightbox.classList.contains("open")){
+      closeLightbox();
+    }
+  });
 })();
 
 </script>
