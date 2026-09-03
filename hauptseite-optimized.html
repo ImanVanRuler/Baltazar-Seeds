@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Baltazar Seeds — The Archive</title>
-<meta name="description" content="Baltazar Seeds — documented Grow Reports from the early archive through Strainmix Part Three.">
+<meta name="description" content="Baltazar Seeds — dokumentierte Grow-Reports von Strainmix Part One bis Part Three.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
@@ -69,34 +69,14 @@ header{
 #track{position:fixed;inset:0;display:flex;transition:transform 1s var(--ease);will-change:transform}
 .slide{min-width:100vw;height:100vh;display:grid;grid-template-columns:50% 50%;position:relative}
 .visual{position:relative;overflow:hidden;background:#080d08}
-.image-pair{
-  position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;gap:2px;
-  background:#050605;
-}
-.image-cell{position:relative;min-width:0;overflow:hidden;background:#080d08}
-.image-cell img{
-  width:100%;height:100%;display:block;object-fit:cover;
-  opacity:1;transform:scale(1.04);
-  transition:transform 1.8s var(--ease);
-}
-.slide.active .image-cell img{transform:scale(1)}
-.image-cell:after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(0deg,rgba(5,6,5,.22),transparent 48%);
-  pointer-events:none
-}
-.image-mark{
-  position:absolute;z-index:5;left:14px;top:14px;width:22px;height:22px;
-  border:1px solid rgba(233,228,217,.18);display:grid;place-items:center;
-  background:rgba(5,6,5,.28);font:8px "DM Mono",monospace;
-  color:rgba(233,228,217,.52)
-}
 .visual:after{
-  content:"";position:absolute;inset:0;z-index:3;
+  content:"";position:absolute;inset:0;
   background:linear-gradient(90deg,transparent 45%,rgba(5,6,5,.92) 100%),
              linear-gradient(0deg,rgba(5,6,5,.72),transparent 28%,rgba(5,6,5,.3));
   pointer-events:none
 }
+.visual img{width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity .8s,transform 2s var(--ease)}
+.slide.active .visual img{opacity:1;transform:scale(1)}
 .visual-label{position:absolute;z-index:4;left:28px;top:112px;writing-mode:vertical-rl;transform:rotate(180deg);font:8px "DM Mono",monospace;letter-spacing:.28em;color:rgba(233,228,217,.42)}
 .visual-meta{position:absolute;z-index:4;left:28px;right:28px;bottom:30px;display:flex;justify-content:space-between;font:8px "DM Mono",monospace;letter-spacing:.16em;color:rgba(233,228,217,.4)}
 .placeholder{position:absolute;inset:0;display:grid;place-items:center;color:rgba(233,228,217,.2);font:9px "DM Mono",monospace;letter-spacing:.25em;text-transform:uppercase}
@@ -202,186 +182,155 @@ body.hover #ring{width:50px;height:50px;border-color:rgba(201,154,82,.6)}
 <div id="rail"></div><div id="chapter">DOCUMENTED GROW ARCHIVE</div><div id="counter">01 / 10</div>
 
 <main id="track">
+ <!-- PART ONE -->
+ <section class="slide active">
+  <div class="visual">
+   <div class="placeholder">The Return</div>
+   <img src="STRAIN1.JPG" alt="Baltazar Seeds — Strainmix Part One" loading="eager">
+   <div class="visual-label">01 · STRAINMIX PART ONE</div>
+   <div class="visual-meta"><span>10+ YEARS AWAY</span><span>01 / 10</span></div>
+  </div>
+  <div class="copy"><div class="ghost">01</div>
+   <div class="eyebrow mono">10.01.2025 · THE RETURN</div>
+   <h2>Back after<br><em>more than ten years.</em></h2>
+   <p class="lead">The comeback starts with a simple idea: <strong>quality over quantity</strong> and the curiosity to see what an unpredictable seed mix becomes. No polished breeding program. No production line. Just the return.</p>
+   <div class="tags"><span class="tag"><b>01</b> comeback</span><span class="tag"><b>50+</b> seeds planned</span><span class="tag"><b>01</b> experiment</span></div>
+   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+ </section>
 
-  <section class="slide archive">
-   <div class="visual">
-    <div class="image-pair">
-     <div class="image-cell"><img src="ARCHIVE01.JPG" alt="01 · FIRST GROW · HINDU KUSH — image one" loading="eager" decoding="async"><span class="image-mark">A</span></div>
-     <div class="image-cell"><img src="ARCHIVE01A.JPG" alt="01 · FIRST GROW · HINDU KUSH — image two" loading="lazy" decoding="async"><span class="image-mark">B</span></div>
-    </div>
-    <div class="visual-label">01 · FIRST GROW · HINDU KUSH</div>
-    <div class="visual-meta"><span>09.08.2007</span><span>01 / 10</span></div>
-   </div>
-   <div class="copy"><div class="ghost">01</div>
-    <div class="eyebrow mono">EARLY ARCHIVE · 09.08.2007</div>
-    <h2>The first<br><em>chapter.</em></h2>
-    <p class="lead">The archive begins with the Hindu Kush first grow documented on Grower.ch. It marks the earliest chapter in this long-running record.</p>
-    <div class="tags"><span class="tag"><b>2007</b></span><span class="tag"><b>FIRST</b> GROW</span><span class="tag"><b>HINDU</b> KUSH</span></div>
-    <a class="source mono" href="https://www.grower.ch/forum/threads/first-grow-hindu-kush-400w-coco-63-bt-beendet.33441/" target="_blank" rel="noopener noreferrer">First Grow · Hindu Kush · Grower.ch ↗</a>
-   </div>
-  </section>
+ <section class="slide">
+  <div class="visual">
+   <div class="placeholder">The Mix</div><img src="STRAIN2.JPG" alt="Baltazar Seeds — seed mix" loading="lazy">
+   <div class="visual-label">02 · UNKNOWN BY DESIGN</div><div class="visual-meta"><span>MIXED ORIGINS</span><span>02 / 10</span></div>
+  </div>
+  <div class="copy"><div class="ghost">02</div>
+   <div class="eyebrow mono">THE MIX · UNKNOWN BY DESIGN</div>
+   <h2>A box full of<br><em>questions.</em></h2>
+   <p class="lead">Seeds collected over <strong>three years or longer</strong> meet named varieties such as Gelato, Cali Orange and Purple Tangie. The point was never perfect lineage. The uncertainty was part of the experiment.</p>
+   <div class="tags"><span class="tag"><b>3+ YRS</b> collected</span><span class="tag"><b>Gelato</b> main source</span><span class="tag"><b>€2</b> some seeds</span></div>
+   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+ </section>
 
-  <section class="slide archive">
-   <div class="visual">
-    <div class="image-pair">
-     <div class="image-cell"><img src="ARCHIVE02.JPG" alt="02 · MAZAR & EUFORIA — image one" loading="lazy" decoding="async"><span class="image-mark">A</span></div>
-     <div class="image-cell"><img src="ARCHIVE02A.JPG" alt="02 · MAZAR & EUFORIA — image two" loading="lazy" decoding="async"><span class="image-mark">B</span></div>
-    </div>
-    <div class="visual-label">02 · MAZAR & EUFORIA</div>
-    <div class="visual-meta"><span>03.02.2008</span><span>02 / 10</span></div>
-   </div>
-   <div class="copy"><div class="ghost">02</div>
-    <div class="eyebrow mono">EARLY ARCHIVE · 03.02.2008</div>
-    <h2>A second chapter.<br><em>New genetics.</em></h2>
-    <p class="lead">Mazar & Euforia follows as the next documented grow. The original Grower.ch thread was opened in February 2008 and continues the early archive.</p>
-    <div class="tags"><span class="tag"><b>2008</b></span><span class="tag"><b>MAZAR</b></span><span class="tag"><b>EUFORIA</b></span></div>
-    <a class="source mono" href="https://www.grower.ch/forum/threads/mazar-euforia.30/" target="_blank" rel="noopener noreferrer">Mazar & Euforia · Grower.ch ↗</a>
-   </div>
-  </section>
+ <section class="slide">
+  <div class="visual">
+   <div class="placeholder">Selection</div><img src="STRAIN3.JPG" alt="Baltazar Seeds — early selection" loading="lazy">
+   <div class="visual-label">03 · SELECTION</div><div class="visual-meta"><span>23 → 3 → 50+</span><span>03 / 10</span></div>
+  </div>
+  <div class="copy"><div class="ghost">03</div>
+   <div class="eyebrow mono">JANUARY · THE STRUGGLE</div>
+   <h2>It didn't start<br><em>smoothly.</em></h2>
+   <p class="lead"><strong>23 seeds</strong> went into the first attempt and only three small plants had emerged at first. Dry winter air, heating and lamp heat became part of the story. More seeds followed and the experiment kept moving.</p>
+   <div class="tags"><span class="tag"><b>23</b> first seeds</span><span class="tag"><b>3</b> early survivors</span><span class="tag"><b>50+</b> total mix</span></div>
+   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+ </section>
 
-  <section class="slide archive">
-   <div class="visual">
-    <div class="image-pair">
-     <div class="image-cell"><img src="ARCHIVE03.JPG" alt="03 · BLUEBERRY — image one" loading="lazy" decoding="async"><span class="image-mark">A</span></div>
-     <div class="image-cell"><img src="ARCHIVE03A.JPG" alt="03 · BLUEBERRY — image two" loading="lazy" decoding="async"><span class="image-mark">B</span></div>
-    </div>
-    <div class="visual-label">03 · BLUEBERRY</div>
-    <div class="visual-meta"><span>30.03.2008</span><span>03 / 10</span></div>
-   </div>
-   <div class="copy"><div class="ghost">03</div>
-    <div class="eyebrow mono">EARLY ARCHIVE · 30.03.2008</div>
-    <h2>Another season.<br><em>Blueberry.</em></h2>
-    <p class="lead">The Blueberry report continues the sequence of early documented grows and adds another distinct genetic line to the archive.</p>
-    <div class="tags"><span class="tag"><b>2008</b></span><span class="tag"><b>BLUEBERRY</b></span><span class="tag"><b>GROW</b> REPORT</span></div>
-    <a class="source mono" href="https://www.grower.ch/forum/threads/blueberry.408/" target="_blank" rel="noopener noreferrer">Blueberry · Grower.ch ↗</a>
-   </div>
-  </section>
+ <section class="slide">
+  <div class="visual">
+   <div class="placeholder">Phenotype Watch</div><img src="STRAIN4.JPG" alt="Baltazar Seeds — selection" loading="lazy">
+   <div class="visual-label">04 · PHENOTYPE WATCH</div><div class="visual-meta"><span>SELECTION</span><span>04 / 10</span></div>
+  </div>
+  <div class="copy"><div class="ghost">04</div>
+   <div class="eyebrow mono">22. VEG · SELECTION</div>
+   <h2>Let the plants<br><em>show themselves.</em></h2>
+   <p class="lead">As the number of plants grew, selection became unavoidable. One unusual plant even became <strong>#18 in the Zwergenbattle 2025</strong> — a trifoliate with three cotyledons.</p>
+   <div class="tags"><span class="tag"><b>22. VEG</b> selection</span><span class="tag"><b>#18</b> Zwergenbattle</span><span class="tag"><b>3</b> cotyledons</span></div>
+   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+ </section>
 
-  <section class="slide archive">
-   <div class="visual">
-    <div class="image-pair">
-     <div class="image-cell"><img src="ARCHIVE04.JPG" alt="04 · JORGE'S DIAMONDS & PERPLEX — image one" loading="lazy" decoding="async"><span class="image-mark">A</span></div>
-     <div class="image-cell"><img src="ARCHIVE04A.JPG" alt="04 · JORGE'S DIAMONDS & PERPLEX — image two" loading="lazy" decoding="async"><span class="image-mark">B</span></div>
-    </div>
-    <div class="visual-label">04 · JORGE'S DIAMONDS & PERPLEX</div>
-    <div class="visual-meta"><span>09.07.2008</span><span>04 / 10</span></div>
-   </div>
-   <div class="copy"><div class="ghost">04</div>
-    <div class="eyebrow mono">EARLY ARCHIVE · 09.07.2008</div>
-    <h2>The archive<br><em>keeps moving.</em></h2>
-    <p class="lead">Jorge's Diamonds & Perplex becomes another chapter in the early record with the same personal grow-journal character that defines the archive.</p>
-    <div class="tags"><span class="tag"><b>2008</b></span><span class="tag"><b>JORGE'S</b> DIAMONDS</span><span class="tag"><b>PERPLEX</b></span></div>
-    <a class="source mono" href="https://www.grower.ch/forum/threads/jorges-diamonds-perplex.955/" target="_blank" rel="noopener noreferrer">Jorge's Diamonds & Perplex · Grower.ch ↗</a>
-   </div>
-  </section>
+ <section class="slide">
+  <div class="visual">
+   <div class="placeholder">Flower</div><img src="STRAIN5.JPG" alt="Baltazar Seeds — flower" loading="lazy">
+   <div class="visual-label">05 · FLOWER</div><div class="visual-meta"><span>BT. 37 → 53</span><span>05 / 10</span></div>
+  </div>
+  <div class="copy"><div class="ghost">05</div>
+   <div class="eyebrow mono">BT. 37 → BT. 53 · FLOWER</div>
+   <h2>Different plants.<br><em>Different stories.</em></h2>
+   <p class="lead">The mix becomes a catalogue of variation. Possible Gelato, Skunk, Purple Tangie and Cali Orange appear as tentative identifications. Later the report simply says: <strong>every plant was different.</strong></p>
+   <div class="tags"><span class="tag"><b>BT. 37</b> first IDs</span><span class="tag"><b>BT. 42</b> 600W NDL</span><span class="tag"><b>BT. 53</b> all different</span></div>
+   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+ </section>
 
-  <section class="slide archive">
-   <div class="visual">
-    <div class="image-pair">
-     <div class="image-cell"><img src="ARCHIVE05.JPG" alt="05 · BLUE MOONSHINE & PURE AFGHAN — image one" loading="lazy" decoding="async"><span class="image-mark">A</span></div>
-     <div class="image-cell"><img src="ARCHIVE05A.JPG" alt="05 · BLUE MOONSHINE & PURE AFGHAN — image two" loading="lazy" decoding="async"><span class="image-mark">B</span></div>
-    </div>
-    <div class="visual-label">05 · BLUE MOONSHINE & PURE AFGHAN</div>
-    <div class="visual-meta"><span>13.09.2008</span><span>05 / 10</span></div>
-   </div>
-   <div class="copy"><div class="ghost">05</div>
-    <div class="eyebrow mono">EARLY ARCHIVE · 13.09.2008</div>
-    <h2>More genetics.<br><em>More curiosity.</em></h2>
-    <p class="lead">Blue Moonshine & Pure Afghan follows in September 2008 and extends the early archive with another combination of genetics and observations.</p>
-    <div class="tags"><span class="tag"><b>2008</b></span><span class="tag"><b>BLUE</b> MOONSHINE</span><span class="tag"><b>PURE</b> AFGHAN</span></div>
-    <a class="source mono" href="https://www.grower.ch/forum/threads/blue-moonshine-pure-afghan.1497/" target="_blank" rel="noopener noreferrer">Blue Moonshine & Pure Afghan · Grower.ch ↗</a>
-   </div>
-  </section>
+ <section class="slide">
+  <div class="visual">
+   <div class="placeholder">The Finish</div><img src="STRAIN6.JPG" alt="Baltazar Seeds — final flower" loading="lazy">
+   <div class="visual-label">06 · THE FINISH</div><div class="visual-meta"><span>BT. 57 · HARVEST</span><span>06 / 10</span></div>
+  </div>
+  <div class="copy"><div class="ghost">06</div>
+   <div class="eyebrow mono">15.04.2025 · BT. 57 · FINALE</div>
+   <h2>Not the end.<br><em>The next experiment.</em></h2>
+   <p class="lead">The first run closes at <strong>BT. 57</strong>. The result is treated as a learning run and the unstable genetics make the outcome unpredictable. The important part is what comes next.</p>
+   <div class="tags"><span class="tag"><b>BT. 57</b> harvest</span><span class="tag"><b>~120g</b> later estimate</span><span class="tag"><b>NEXT</b> seed mix</span></div>
+   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+ </section>
 
-  <section class="slide archive">
-   <div class="visual">
-    <div class="image-pair">
-     <div class="image-cell"><img src="ARCHIVE06.JPG" alt="06 · CHOCOLOPE · G13 HAZE · HAWAIIAN SNOW — image one" loading="lazy" decoding="async"><span class="image-mark">A</span></div>
-     <div class="image-cell"><img src="ARCHIVE06A.JPG" alt="06 · CHOCOLOPE · G13 HAZE · HAWAIIAN SNOW — image two" loading="lazy" decoding="async"><span class="image-mark">B</span></div>
-    </div>
-    <div class="visual-label">06 · CHOCOLOPE · G13 HAZE · HAWAIIAN SNOW</div>
-    <div class="visual-meta"><span>07.03.2009</span><span>06 / 10</span></div>
+ <!-- PART TWO -->
+ <section class="slide archive">
+  <div class="visual"><div class="archive-graphic"></div><div class="chapter-number">II</div><div class="visual-label">07 · STRAINMIX PART TWO</div><div class="visual-meta"><span>01.05.2025</span><span>07 / 10</span></div></div>
+  <div class="copy"><div class="ghost">II</div>
+   <div class="eyebrow mono">01.05.2025 · THE SECOND RUN</div>
+   <h2>The mix<br><em>gets serious.</em></h2>
+   <p class="lead">Part Two moves from the comeback into a much larger documented run: a <strong>120 × 120 × 200</strong> tent, multiple lighting stages and a broad mix of named genetics. After heavy losses, two cuts from Farmbros are added to keep the space under the lamp filled.</p>
+   <div class="chapter-list">
+    <div><span>Setup</span><b>120 × 120 × 200</b></div>
+    <div><span>Light</span><b>250 / 400 / 600 W</b></div>
+    <div><span>Containers</span><b>1 L → 5 L · 15–20 L</b></div>
+    <div><span>Documented</span><b>Growth · Problems · Solutions</b></div>
    </div>
-   <div class="copy"><div class="ghost">06</div>
-    <div class="eyebrow mono">EARLY ARCHIVE · 07.03.2009</div>
-    <h2>The thread<br><em>continues.</em></h2>
-    <p class="lead">Chocolope, G13 Haze and Hawaiian Snow carry the documented archive into 2009 before the long break that eventually leads back to the Strainmix era.</p>
-    <div class="tags"><span class="tag"><b>2009</b></span><span class="tag"><b>CHOCOLOPE</b></span><span class="tag"><b>G13</b> HAZE · HAWAIIAN SNOW</span></div>
-    <a class="source mono" href="https://www.grower.ch/forum/threads/chocolope-g13-haze-hawaiian-snow.40558/" target="_blank" rel="noopener noreferrer">Chocolope, G13 Haze & Hawaiian Snow · Grower.ch ↗</a>
-   </div>
-  </section>
+   <div class="source mono">Source · Grower.ch · Bio-Erde Strainmix Part 2</div>
+  </div>
+ </section>
 
-  <section class="slide ">
-   <div class="visual">
-    <div class="image-pair">
-     <div class="image-cell"><img src="STRAIN1.JPG" alt="07 · STRAINMIX PART ONE — image one" loading="lazy" decoding="async"><span class="image-mark">A</span></div>
-     <div class="image-cell"><img src="STRAIN1A.JPG" alt="07 · STRAINMIX PART ONE — image two" loading="lazy" decoding="async"><span class="image-mark">B</span></div>
-    </div>
-    <div class="visual-label">07 · STRAINMIX PART ONE</div>
-    <div class="visual-meta"><span>10.01.2025</span><span>07 / 10</span></div>
+ <!-- HELL KITCHEN -->
+ <section class="slide archive">
+  <div class="visual"><div class="archive-graphic"></div><div class="chapter-number">HK</div><div class="visual-label">08 · BALTAZARS HELL KITCHEN</div><div class="visual-meta"><span>03.01.2026</span><span>08 / 10</span></div></div>
+  <div class="copy"><div class="ghost">HK</div>
+   <div class="eyebrow mono">03.01.2026 · NEXT ROUND</div>
+   <h2>More tents.<br><em>More structure.</em></h2>
+   <p class="lead">The setup gets pushed another level: <strong>three tents</strong>, self-mixed soil, 13–22 litre containers and automatic irrigation. The report describes it as less like a simple grow box and more like a kitchen — hence <em>Hell Kitchen</em>.</p>
+   <div class="chapter-list">
+    <div><span>Tents</span><b>03</b></div>
+    <div><span>Containers</span><b>13 → 22 L</b></div>
+    <div><span>Irrigation</span><b>Automatic</b></div>
+    <div><span>Direction</span><b>Structured · Constant</b></div>
    </div>
-   <div class="copy"><div class="ghost">07</div>
-    <div class="eyebrow mono">STRAINMIX I · 10.01.2025</div>
-    <h2>Back after<br><em>more than ten years.</em></h2>
-    <p class="lead">After the long break the documented archive returns with Strainmix Part One. The focus shifts from a single named variety to following an unpredictable mix and recording what actually develops.</p>
-    <div class="tags"><span class="tag"><b>2025</b></span><span class="tag"><b>THE</b> RETURN</span><span class="tag"><b>STRAINMIX</b> I</span></div>
-    <a class="source mono" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener noreferrer">Strainmix Part One · Grower.ch ↗</a>
-   </div>
-  </section>
+   <div class="source mono">Source · Grower.ch · Baltazars Hell Kitchen</div>
+  </div>
+ </section>
 
-  <section class="slide ">
-   <div class="visual">
-    <div class="image-pair">
-     <div class="image-cell"><img src="STRAIN2.JPG" alt="08 · STRAINMIX PART TWO — image one" loading="lazy" decoding="async"><span class="image-mark">A</span></div>
-     <div class="image-cell"><img src="STRAIN2A.JPG" alt="08 · STRAINMIX PART TWO — image two" loading="lazy" decoding="async"><span class="image-mark">B</span></div>
-    </div>
-    <div class="visual-label">08 · STRAINMIX PART TWO</div>
-    <div class="visual-meta"><span>01.05.2025</span><span>08 / 10</span></div>
+ <!-- PART THREE -->
+ <section class="slide archive">
+  <div class="visual"><div class="archive-graphic"></div><div class="chapter-number">III</div><div class="visual-label">09 · STRAIN MIX PART THREE</div><div class="visual-meta"><span>02.09.2026 · BT. 32</span><span>09 / 10</span></div></div>
+  <div class="copy"><div class="ghost">III</div>
+   <div class="eyebrow mono">BT. 32 · 02.09.2026 · THE NEXT ROUND</div>
+   <h2>The story<br><em>continues.</em></h2>
+   <p class="lead">Part Three returns to the core idea: <strong>follow the genetics</strong>, preserve the development and keep the tradition alive. Seeds from the previous run are back in the mix and the first real phenotype hunting is underway.</p>
+   <div class="chapter-list">
+    <div><span>Flower</span><b>Day 32</b></div>
+    <div><span>Vegi</span><b>≈ 4–5 weeks</b></div>
+    <div><span>Seeds</span><b>≈ 50 from previous run</b></div>
+    <div><span>Plants</span><b>09 · under 600 W NDL</b></div>
    </div>
-   <div class="copy"><div class="ghost">08</div>
-    <div class="eyebrow mono">STRAINMIX II · 01.05.2025</div>
-    <h2>The mix<br><em>gets bigger.</em></h2>
-    <p class="lead">Part Two continues the experiment and expands the documented run. The report records the development, setbacks and changing direction of the project.</p>
-    <div class="tags"><span class="tag"><b>2025</b></span><span class="tag"><b>STRAINMIX</b> II</span><span class="tag"><b>CONTINUATION</b></span></div>
-    <a class="source mono" href="https://www.grower.ch/forum/threads/strainmix-part-2.179085/" target="_blank" rel="noopener noreferrer">Strainmix Part Two · Grower.ch ↗</a>
-   </div>
-  </section>
+   <div class="source mono">Source · Grower.ch · Bio-Erde Strain Mix Part 3</div>
+  </div>
+ </section>
 
-  <section class="slide ">
-   <div class="visual">
-    <div class="image-pair">
-     <div class="image-cell"><img src="STRAIN3.JPG" alt="09 · BALTAZAR'S HELL KITCHEN — image one" loading="lazy" decoding="async"><span class="image-mark">A</span></div>
-     <div class="image-cell"><img src="STRAIN3A.JPG" alt="09 · BALTAZAR'S HELL KITCHEN — image two" loading="lazy" decoding="async"><span class="image-mark">B</span></div>
-    </div>
-    <div class="visual-label">09 · BALTAZAR'S HELL KITCHEN</div>
-    <div class="visual-meta"><span>03.01.2026</span><span>09 / 10</span></div>
-   </div>
-   <div class="copy"><div class="ghost">09</div>
-    <div class="eyebrow mono">HELL KITCHEN · 03.01.2026</div>
-    <h2>Another round.<br><em>More structure.</em></h2>
-    <p class="lead">Hell Kitchen becomes the next major chapter of the archive. The project keeps evolving while the Grower.ch report remains part of the continuous documentation.</p>
-    <div class="tags"><span class="tag"><b>2026</b></span><span class="tag"><b>HELL</b> KITCHEN</span><span class="tag"><b>NEXT</b> ROUND</span></div>
-    <a class="source mono" href="https://www.grower.ch/forum/threads/baltazars-hell-kitchen.187410/" target="_blank" rel="noopener noreferrer">Baltazars Hell Kitchen · Grower.ch ↗</a>
-   </div>
-  </section>
-
-  <section class="slide ">
-   <div class="visual">
-    <div class="image-pair">
-     <div class="image-cell"><img src="STRAIN4.JPG" alt="10 · STRAIN MIX PART THREE — image one" loading="lazy" decoding="async"><span class="image-mark">A</span></div>
-     <div class="image-cell"><img src="STRAIN4A.JPG" alt="10 · STRAIN MIX PART THREE — image two" loading="lazy" decoding="async"><span class="image-mark">B</span></div>
-    </div>
-    <div class="visual-label">10 · STRAIN MIX PART THREE</div>
-    <div class="visual-meta"><span>02.09.2026</span><span>10 / 10</span></div>
-   </div>
-   <div class="copy"><div class="ghost">10</div>
-    <div class="eyebrow mono">STRAINMIX III · 02.09.2026</div>
-    <h2>The story<br><em>continues.</em></h2>
-    <p class="lead">Part Three brings the archive into the present chapter. The idea remains the same: document the development, preserve the history and follow where the genetics lead.</p>
-    <div class="tags"><span class="tag"><b>2026</b></span><span class="tag"><b>STRAINMIX</b> III</span><span class="tag"><b>CONTINUING</b> ARCHIVE</span></div>
-    <a class="source mono" href="https://www.grower.ch/forum/threads/strain-mix-part-3.193044/" target="_blank" rel="noopener noreferrer">Strain Mix Part Three · Grower.ch ↗</a>
-   </div>
-  </section>
+ <section class="slide archive">
+  <div class="visual"><div class="archive-graphic"></div><div class="chapter-number">∞</div><div class="visual-label">10 · THE ARCHIVE</div><div class="visual-meta"><span>KEEP GROWING</span><span>10 / 10</span></div></div>
+  <div class="copy"><div class="ghost">∞</div>
+   <div class="eyebrow mono">THE THREAD IS STILL OPEN</div>
+   <h2>Not a finished<br><em>story.</em></h2>
+   <p class="lead">From the first comeback to the second mix, from <strong>Hell Kitchen</strong> to Part Three: the reports become a continuous record of plants, ideas and changing genetics. The archive stays open because the experiment does.</p>
+   <div class="tags"><span class="tag"><b>I</b> comeback</span><span class="tag"><b>II</b> expansion</span><span class="tag"><b>HK</b> structure</span><span class="tag"><b>III</b> continuation</span></div>
+   <a class="cta" href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" target="_blank" rel="noopener noreferrer">Support the project <span>↗</span></a>
+   <div class="source mono">Baltazar Seeds · documented archive · continued experimentation</div>
+  </div>
+ </section>
 </main>
 
 <div id="controls">
