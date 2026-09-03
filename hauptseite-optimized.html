@@ -1,416 +1,829 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Baltazar Seeds — The Archive</title>
-<meta name="description" content="Baltazar Seeds — dokumentierte Grow-Reports von Strainmix Part One bis Part Three.">
+<title>Baltazar Seeds — Archive</title>
+<meta name="description" content="Baltazar Seeds archive from the first documented grow to Strain Mix Part Three.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Syne:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#050605;--paper:#e9e4d9;--muted:rgba(233,228,217,.57);
-  --faint:rgba(233,228,217,.10);--gold:#c99a52;--gold2:#8c6936;
-  --green:#61765a;--ease:cubic-bezier(.16,1,.3,1);
+  --bg:#070807;
+  --panel:#0c100d;
+  --panel2:#101510;
+  --paper:#eee9de;
+  --muted:rgba(238,233,222,.58);
+  --faint:rgba(238,233,222,.10);
+  --gold:#c9a15b;
+  --green:#758b6d;
+  --ease:cubic-bezier(.16,1,.3,1);
 }
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--paper)}
-body{font-family:Inter,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;cursor:none}
-button,a{font:inherit;color:inherit}button{border:0;background:none}
+body{font-family:Manrope,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;cursor:none}
+button,a{font:inherit;color:inherit}
+button{border:0;background:none}
 a{text-decoration:none}
-::selection{background:rgba(201,154,82,.18);color:var(--paper)}
+::selection{background:rgba(201,161,91,.18);color:var(--paper)}
 
 body:before{
-  content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.24;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+  content:"";position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.16;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
   mix-blend-mode:soft-light
 }
 #ambient{position:fixed;inset:0;z-index:0;pointer-events:none;background:
-  radial-gradient(circle at 18% 48%,rgba(68,92,62,.12),transparent 34%),
-  radial-gradient(circle at 82% 20%,rgba(201,154,82,.06),transparent 32%),
-  radial-gradient(circle at 70% 90%,rgba(47,68,50,.09),transparent 38%)}
+  radial-gradient(circle at 16% 50%,rgba(72,98,67,.11),transparent 31%),
+  radial-gradient(circle at 84% 18%,rgba(201,161,91,.055),transparent 28%),
+  radial-gradient(circle at 75% 88%,rgba(44,67,48,.08),transparent 36%)}
+
 #age{
   position:fixed;inset:0;z-index:50000;display:grid;place-items:center;
-  background:#050605;transition:.7s var(--ease)
+  background:#070807;transition:.65s var(--ease)
 }
 #age.hide{opacity:0;visibility:hidden;pointer-events:none}
-.age-card{width:min(480px,calc(100% - 36px));padding:52px 46px;text-align:center;border:1px solid rgba(201,154,82,.32);background:rgba(8,11,8,.94);box-shadow:0 30px 100px #000}
-.mono{font:10px/1.4 "DM Mono",monospace;letter-spacing:.25em;text-transform:uppercase}
-.gold{color:var(--gold)}
-.age-card h1{font:300 clamp(46px,8vw,68px)/.88 "Cormorant Garamond",serif;margin:20px 0}
-.age-card h1 em{color:var(--gold)}
-.age-card p{max-width:350px;margin:0 auto 30px;color:var(--muted);font-size:12px;line-height:1.8}
-.age-actions{display:flex;gap:10px;justify-content:center}
-.btn{border:1px solid rgba(201,154,82,.32);padding:13px 20px;letter-spacing:.18em;text-transform:uppercase;font:9px "DM Mono",monospace;cursor:none;transition:.3s}
-.btn:hover{border-color:var(--gold);background:rgba(201,154,82,.09);color:var(--gold)}
+.age-card{
+  width:min(430px,calc(100% - 36px));padding:42px;
+  background:rgba(10,14,10,.96);border:1px solid rgba(201,161,91,.28);
+  box-shadow:0 30px 90px #000;text-align:center
+}
+.kicker{font:10px/1.4 "DM Mono",monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.age-card h1{font:600 clamp(42px,7vw,64px)/.9 Syne,sans-serif;margin:18px 0}
+.age-card h1 span{color:var(--gold)}
+.age-card p{color:var(--muted);font-size:12px;line-height:1.75;margin-bottom:26px}
+.age-actions{display:flex;gap:8px;justify-content:center}
+.small-btn{
+  padding:12px 17px;border:1px solid var(--faint);
+  font:9px "DM Mono",monospace;letter-spacing:.16em;text-transform:uppercase;
+  cursor:none;transition:.25s
+}
+.small-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,161,91,.06)}
 
 header{
-  position:fixed;z-index:2000;top:0;left:0;right:0;height:92px;padding:0 42px;
-  display:flex;align-items:center;justify-content:space-between;
-  background:linear-gradient(#050605 0%,rgba(5,6,5,.72) 55%,transparent)
+  position:fixed;z-index:2000;top:0;left:0;right:0;height:76px;
+  padding:0 30px;display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(#070807 0%,rgba(7,8,7,.74) 55%,transparent)
 }
-.brand{display:flex;gap:11px;align-items:center}
-.brand-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px rgba(201,154,82,.08)}
-.brand span:last-child{font:10px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
-.nav{display:flex;align-items:center;gap:24px}
-.nav button,.nav a{font:9px "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:none}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px rgba(201,161,91,.07)}
+.brand-name{font:500 10px "DM Mono",monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.nav{display:flex;gap:20px}
+.nav button,.nav a{
+  font:9px "DM Mono",monospace;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);cursor:none
+}
 .nav button:hover,.nav a:hover{color:var(--gold)}
 
-#progress{position:fixed;z-index:3000;top:0;left:0;height:1px;width:0;background:var(--gold);transition:width .9s var(--ease)}
-#rail{position:fixed;z-index:100;top:92px;bottom:0;left:50%;width:1px;background:var(--faint)}
-#chapter{
-  position:fixed;z-index:1900;left:42px;bottom:34px;
-  font:9px "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(233,228,217,.35)
-}
-#counter{position:fixed;z-index:1900;right:42px;bottom:34px;font:9px "DM Mono",monospace;color:var(--muted);letter-spacing:.18em}
+#progress{position:fixed;z-index:3000;top:0;left:0;height:2px;width:0;background:var(--gold);transition:width .75s var(--ease)}
+#chapter{position:fixed;z-index:1900;left:30px;bottom:25px;font:8px "DM Mono",monospace;letter-spacing:.17em;text-transform:uppercase;color:rgba(238,233,222,.30)}
+#counter{position:fixed;z-index:1900;right:30px;bottom:25px;font:8px "DM Mono",monospace;letter-spacing:.15em;color:var(--muted)}
 
-#track{position:fixed;inset:0;display:flex;transition:transform 1s var(--ease);will-change:transform}
-.slide{min-width:100vw;height:100vh;display:grid;grid-template-columns:50% 50%;position:relative}
-.visual{position:relative;overflow:hidden;background:#080d08}
+#track{position:fixed;inset:0;display:flex;transition:transform .85s var(--ease);will-change:transform}
+.slide{
+  min-width:100vw;height:100vh;display:grid;grid-template-columns:42% 58%;
+  position:relative
+}
+.visual{position:relative;overflow:hidden;background:#0a0e0a}
 .visual:after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(90deg,transparent 45%,rgba(5,6,5,.92) 100%),
-             linear-gradient(0deg,rgba(5,6,5,.72),transparent 28%,rgba(5,6,5,.3));
-  pointer-events:none
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent 45%,rgba(7,8,7,.92) 100%),
+             linear-gradient(0deg,rgba(7,8,7,.78),transparent 30%,rgba(7,8,7,.18))
 }
-.visual img{width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity .8s,transform 2s var(--ease)}
+.visual img{width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.035);transition:opacity .7s,transform 1.8s var(--ease)}
 .slide.active .visual img{opacity:1;transform:scale(1)}
-.visual-label{position:absolute;z-index:4;left:28px;top:112px;writing-mode:vertical-rl;transform:rotate(180deg);font:8px "DM Mono",monospace;letter-spacing:.28em;color:rgba(233,228,217,.42)}
-.visual-meta{position:absolute;z-index:4;left:28px;right:28px;bottom:30px;display:flex;justify-content:space-between;font:8px "DM Mono",monospace;letter-spacing:.16em;color:rgba(233,228,217,.4)}
-.placeholder{position:absolute;inset:0;display:grid;place-items:center;color:rgba(233,228,217,.2);font:9px "DM Mono",monospace;letter-spacing:.25em;text-transform:uppercase}
-
-.copy{position:relative;display:flex;flex-direction:column;justify-content:center;padding:120px clamp(42px,7vw,100px) 110px 7vw;overflow:hidden}
-.copy:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 48%,rgba(201,154,82,.055),transparent 38%)}
-.ghost{position:absolute;right:-18px;top:50%;transform:translateY(-50%);font:300 24vw/.8 "Cormorant Garamond",serif;color:transparent;-webkit-text-stroke:1px rgba(233,228,217,.035);pointer-events:none}
-.eyebrow{position:relative;color:var(--gold);margin-bottom:15px}
-h2{position:relative;max-width:760px;font:300 clamp(48px,6vw,88px)/.84 "Cormorant Garamond",serif;letter-spacing:-.01em}
-h2 em{color:var(--gold);font-style:italic}
-.lead{position:relative;margin:23px 0 28px;max-width:610px;color:var(--muted);font-size:14px;line-height:1.85}
-.lead strong{color:var(--paper);font-weight:400}
-.tags{position:relative;display:flex;flex-wrap:wrap;gap:7px;margin-bottom:30px}
-.tag{border:1px solid var(--faint);padding:8px 10px;font:8px "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase;color:rgba(233,228,217,.55)}
-.tag b{color:var(--gold);font-weight:400}
-.cta{position:relative;align-self:flex-start;display:inline-flex;gap:13px;align-items:center;border:1px solid rgba(201,154,82,.34);padding:14px 19px;font:9px "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase;transition:.35s var(--ease)}
-.cta:hover{border-color:var(--gold);background:rgba(201,154,82,.09);color:var(--gold)}
-.source{position:absolute;left:7vw;bottom:34px;color:rgba(233,228,217,.25);font:8px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
-
-/* Archive chapter cards */
-.archive{background:
-  linear-gradient(135deg,#070907,#0b100b 45%,#070807);
+.visual-label{
+  position:absolute;z-index:4;left:22px;top:94px;
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  font:8px "DM Mono",monospace;letter-spacing:.22em;color:rgba(238,233,222,.38)
 }
-.archive .copy{grid-column:2}
-.archive .visual{grid-column:1;grid-row:1}
-.archive-graphic{position:absolute;inset:0;overflow:hidden}
-.archive-graphic:before{
-  content:"";position:absolute;width:70vw;height:70vw;border:1px solid rgba(201,154,82,.08);
-  border-radius:50%;left:-30vw;top:12vh;box-shadow:0 0 0 70px rgba(201,154,82,.015),0 0 0 140px rgba(201,154,82,.012)
+.visual-meta{
+  position:absolute;z-index:4;left:22px;right:22px;bottom:23px;
+  display:flex;justify-content:space-between;
+  font:8px "DM Mono",monospace;letter-spacing:.13em;color:rgba(238,233,222,.38)
 }
-.archive-graphic:after{
-  content:"";position:absolute;left:12%;right:12%;top:50%;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:.35
+.visual-note{
+  position:absolute;z-index:4;left:22px;bottom:53px;
+  font:8px "DM Mono",monospace;letter-spacing:.12em;color:rgba(238,233,222,.25)
 }
-.chapter-number{font:300 clamp(130px,19vw,280px)/.7 "Cormorant Garamond",serif;color:rgba(233,228,217,.035)}
-.chapter-list{position:relative;margin:24px 0 30px;border-top:1px solid var(--faint);max-width:610px}
-.chapter-list div{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--faint);font:9px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.chapter-list b{font-weight:400;color:var(--gold)}
+.placeholder{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font:8px "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(238,233,222,.18)
+}
 
-#controls{position:fixed;z-index:2200;left:50%;bottom:24px;transform:translateX(-50%);display:flex;align-items:center;gap:14px}
-.arrow{width:36px;height:36px;border:1px solid var(--faint);border-radius:50%;display:grid;place-items:center;color:var(--muted);cursor:none;transition:.3s}
-.arrow:hover:not(:disabled){border-color:rgba(201,154,82,.45);color:var(--gold)}
-.arrow:disabled{opacity:.2}
-#dots{display:flex;gap:7px}
-.dot{width:5px;height:5px;border-radius:50%;background:rgba(233,228,217,.15);cursor:none;transition:.3s}
-.dot.active{background:var(--gold);transform:scale(1.6)}
+.copy{
+  position:relative;display:flex;flex-direction:column;justify-content:center;
+  padding:88px clamp(34px,6vw,88px) 82px 5vw;overflow:hidden
+}
+.copy:before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(circle at 82% 46%,rgba(201,161,91,.045),transparent 36%)
+}
+.index{
+  position:absolute;right:-8px;top:50%;transform:translateY(-50%);
+  font:600 25vw/.75 Syne,sans-serif;color:transparent;
+  -webkit-text-stroke:1px rgba(238,233,222,.035);pointer-events:none
+}
+.eyebrow{position:relative;color:var(--gold);margin-bottom:13px}
+h2{
+  position:relative;max-width:720px;
+  font:600 clamp(42px,5.2vw,78px)/.88 Syne,sans-serif;
+  letter-spacing:-.035em
+}
+h2 span{color:var(--gold)}
+.lead{
+  position:relative;margin:20px 0 22px;max-width:590px;
+  color:var(--muted);font-size:13px;line-height:1.75
+}
+.lead strong{color:var(--paper);font-weight:500}
+.tags{position:relative;display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px}
+.tag{
+  padding:7px 9px;border:1px solid var(--faint);
+  font:8px "DM Mono",monospace;letter-spacing:.10em;text-transform:uppercase;
+  color:rgba(238,233,222,.54)
+}
+.tag b{color:var(--gold);font-weight:500}
+.actions{position:relative;display:flex;flex-wrap:wrap;gap:8px}
+.cta{
+  display:inline-flex;align-items:center;gap:10px;padding:11px 14px;
+  border:1px solid rgba(201,161,91,.30);
+  font:8px "DM Mono",monospace;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);transition:.25s
+}
+.cta:hover{border-color:var(--gold);background:rgba(201,161,91,.07)}
+.source{
+  position:absolute;left:5vw;bottom:24px;
+  font:8px "DM Mono",monospace;letter-spacing:.10em;
+  color:rgba(238,233,222,.22)
+}
+
+.archive-card{background:
+  linear-gradient(135deg,#090c09,#101510 50%,#090b09)
+}
+.archive-card .visual{background:#0b100b}
+.archive-card .visual:before{
+  content:"";position:absolute;width:65vw;height:65vw;left:-28vw;top:16vh;
+  border:1px solid rgba(201,161,91,.09);border-radius:50%;
+  box-shadow:0 0 0 70px rgba(201,161,91,.014),0 0 0 140px rgba(201,161,91,.010)
+}
+.archive-card .visual:after{background:linear-gradient(90deg,transparent 35%,rgba(7,8,7,.92) 100%)}
+.archive-symbol{
+  position:absolute;z-index:2;left:8%;top:50%;transform:translateY(-50%);
+  font:600 clamp(130px,17vw,250px)/.7 Syne,sans-serif;
+  color:rgba(238,233,222,.035)
+}
+.data-grid{position:relative;max-width:620px;border-top:1px solid var(--faint);margin:4px 0 22px}
+.data-row{
+  display:grid;grid-template-columns:1fr auto;gap:18px;
+  padding:10px 0;border-bottom:1px solid var(--faint);
+  font:8px "DM Mono",monospace;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted)
+}
+.data-row b{font-weight:500;color:var(--gold);text-align:right}
+
+.history-grid{
+  position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;max-width:620px;margin:4px 0 22px
+}
+.history-item{
+  padding:13px 14px;border:1px solid var(--faint);background:rgba(255,255,255,.012);
+  transition:.25s
+}
+.history-item:hover{border-color:rgba(201,161,91,.28);transform:translateY(-2px)}
+.history-item small{display:block;font:7px "DM Mono",monospace;letter-spacing:.12em;color:var(--gold);margin-bottom:7px}
+.history-item b{display:block;font:600 14px Syne,sans-serif;letter-spacing:-.02em;margin-bottom:4px}
+.history-item span{display:block;font-size:10px;line-height:1.55;color:var(--muted)}
+
+.dual-visual{display:grid;grid-template-columns:1fr 1fr;gap:4px;height:100%}
+.dual-visual figure{position:relative;min-width:0;overflow:hidden;background:#0b0f0b}
+.dual-visual img{width:100%;height:100%;object-fit:cover}
+.dual-visual figure:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(7,8,7,.65),transparent 35%)
+}
+.dual-label{
+  position:absolute;z-index:3;left:12px;bottom:12px;
+  font:7px "DM Mono",monospace;letter-spacing:.12em;color:rgba(238,233,222,.55)
+}
+
+#controls{
+  position:fixed;z-index:2200;left:50%;bottom:16px;transform:translateX(-50%);
+  display:flex;align-items:center;gap:11px
+}
+.arrow{
+  width:31px;height:31px;border:1px solid var(--faint);border-radius:50%;
+  display:grid;place-items:center;color:var(--muted);cursor:none;transition:.2s
+}
+.arrow:hover:not(:disabled){border-color:rgba(201,161,91,.5);color:var(--gold)}
+.arrow:disabled{opacity:.18}
+#dots{display:flex;gap:6px;max-width:240px;overflow:hidden}
+.dot{
+  width:4px;height:4px;flex:none;border-radius:50%;
+  background:rgba(238,233,222,.14);cursor:none;transition:.25s
+}
+.dot.active{background:var(--gold);transform:scale(1.7)}
 
 #support{
- position:fixed;z-index:4000;inset:0;display:grid;place-items:center;padding:25px;
- background:rgba(5,6,5,.91);backdrop-filter:blur(18px);opacity:0;visibility:hidden;transition:.35s
+  position:fixed;z-index:4000;inset:0;display:grid;place-items:center;padding:22px;
+  background:rgba(7,8,7,.88);backdrop-filter:blur(15px);
+  opacity:0;visibility:hidden;transition:.3s
 }
 #support.open{opacity:1;visibility:visible}
-.support-card{position:relative;width:min(560px,100%);padding:55px 48px;background:#091009;border:1px solid rgba(201,154,82,.32);box-shadow:0 40px 120px #000}
-.support-card h3{font:300 54px/.85 "Cormorant Garamond",serif;margin:16px 0 20px}
-.support-card h3 em{color:var(--gold)}
-.support-card p{color:var(--muted);font-size:12px;line-height:1.85;max-width:430px;margin-bottom:28px}
-.close{position:absolute;right:20px;top:18px;color:var(--muted);font-size:20px;cursor:none}
-.support-link{display:inline-flex;border:1px solid rgba(201,154,82,.4);padding:14px 18px;font:9px "DM Mono",monospace;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);transition:.3s}
-.support-link:hover{background:rgba(201,154,82,.09);border-color:var(--gold)}
+.support-card{
+  position:relative;width:min(500px,100%);padding:38px;
+  background:#0c110d;border:1px solid rgba(201,161,91,.28);
+  box-shadow:0 35px 100px #000
+}
+.support-card h3{font:600 46px/.9 Syne,sans-serif;letter-spacing:-.04em;margin:15px 0}
+.support-card h3 span{color:var(--gold)}
+.support-card p{max-width:410px;color:var(--muted);font-size:12px;line-height:1.75;margin-bottom:22px}
+.close{
+  position:absolute;right:16px;top:13px;font-size:20px;color:var(--muted);cursor:none
+}
 
 #cursor,#ring{position:fixed;z-index:10000;pointer-events:none;transform:translate(-50%,-50%)}
-#cursor{width:14px;height:14px}
+#cursor{width:12px;height:12px}
 #cursor:before,#cursor:after{content:"";position:absolute;background:var(--gold)}
-#cursor:before{width:1px;height:14px;left:7px}
-#cursor:after{height:1px;width:14px;top:7px}
-#ring{width:34px;height:34px;border:1px solid rgba(201,154,82,.3);border-radius:50%;transition:.35s var(--ease)}
-body.hover #ring{width:50px;height:50px;border-color:rgba(201,154,82,.6)}
+#cursor:before{width:1px;height:12px;left:6px}
+#cursor:after{height:1px;width:12px;top:6px}
+#ring{width:30px;height:30px;border:1px solid rgba(201,161,91,.28);border-radius:50%;transition:.3s var(--ease)}
+body.hover #ring{width:44px;height:44px;border-color:rgba(201,161,91,.55)}
 
-@media(max-width:800px){
- body{cursor:auto}
- header{height:72px;padding:0 20px}.nav{gap:12px}.nav a{font-size:7px}
- .slide{display:block;overflow-y:auto}.visual{height:42vh}.copy{min-height:58vh;padding:30px 24px 110px}
- .visual-label{top:86px}.source{left:24px;bottom:24px}
- #rail{display:none}#chapter{left:20px;bottom:18px}#counter{right:20px;bottom:18px}
- #controls{bottom:13px}.ghost{font-size:170px}
- h2{font-size:46px}.lead{font-size:12px;line-height:1.75}
- .archive .visual,.archive .copy{display:block}.archive .visual{height:34vh}.archive .copy{min-height:66vh}
- .age-card{padding:42px 25px}.age-actions{flex-direction:column}.age-actions .btn{width:100%}
- #cursor,#ring{display:none}
+@media(max-width:820px){
+  body{cursor:auto}
+  header{height:62px;padding:0 17px}.nav{gap:12px}
+  .nav button,.nav a{font-size:7px}
+  .slide{display:block;overflow-y:auto}
+  .visual{height:37vh;min-height:220px}
+  .copy{min-height:63vh;padding:28px 22px 88px}
+  .visual-label{top:75px;left:17px}.visual-meta{left:17px;right:17px;bottom:17px}
+  .visual-note{left:17px;bottom:43px}
+  .source{left:22px;bottom:20px}
+  .index{font-size:160px}
+  h2{font-size:42px}.lead{font-size:11px;line-height:1.7}
+  .history-grid{grid-template-columns:1fr}
+  .data-row{padding:9px 0}
+  #chapter{left:17px;bottom:14px}#counter{right:17px;bottom:14px}
+  #controls{bottom:9px}
+  .dual-visual{height:37vh;min-height:220px}
+  .dual-visual img{opacity:1;transform:none}
+  #cursor,#ring{display:none}
+  .age-card{padding:32px 24px}
+  .age-actions{flex-direction:column}.age-actions .small-btn{width:100%}
 }
-@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+}
 </style>
 </head>
 
 <body>
 <div id="age">
- <div class="age-card">
-  <div class="mono gold">Baltazar Seeds · Archive</div>
-  <h1>Are you <em>18+</em>?</h1>
-  <p>This archive contains cannabis-related documentation and is intended for adults aged 18 and over.</p>
-  <div class="age-actions"><button class="btn" id="yes">Yes, enter</button><button class="btn" id="no">No, leave</button></div>
- </div>
+  <div class="age-card">
+    <div class="kicker">Baltazar Seeds · Archive</div>
+    <h1>Are you <span>18+</span>?</h1>
+    <p>This archive contains cannabis related documentation and is intended for adults aged 18 and over.</p>
+    <div class="age-actions">
+      <button class="small-btn" id="yes">Enter archive</button>
+      <button class="small-btn" id="no">Leave</button>
+    </div>
+  </div>
 </div>
 
-<div id="ambient"></div><div id="progress"></div>
+<div id="ambient"></div>
+<div id="progress"></div>
+
 <header>
- <div class="brand"><i class="brand-dot"></i><span>Baltazar Seeds</span></div>
- <nav class="nav">
-  <button id="story">Archive</button>
-  <button id="supportBtn">Support</button>
- </nav>
+  <div class="brand"><i class="brand-mark"></i><span class="brand-name">Baltazar Seeds</span></div>
+  <nav class="nav">
+    <button id="story">Archive</button>
+    <button id="supportBtn">Support</button>
+  </nav>
 </header>
 
-<div id="rail"></div><div id="chapter">DOCUMENTED GROW ARCHIVE</div><div id="counter">01 / 10</div>
+<div id="chapter">DOCUMENTED GROW ARCHIVE</div>
+<div id="counter">01 / 15</div>
 
 <main id="track">
- <!-- PART ONE -->
- <section class="slide active">
+
+<!-- 01 ORIGIN -->
+<section class="slide archive-card active">
   <div class="visual">
-   <div class="placeholder">The Return</div>
-   <img src="STRAIN1.JPG" alt="Baltazar Seeds — Strainmix Part One" loading="eager">
-   <div class="visual-label">01 · STRAINMIX PART ONE</div>
-   <div class="visual-meta"><span>10+ YEARS AWAY</span><span>01 / 10</span></div>
+    <div class="archive-symbol">01</div>
+    <div class="visual-label">01 · ORIGIN</div>
+    <div class="visual-meta"><span>2007 → 2026</span><span>01 / 15</span></div>
   </div>
-  <div class="copy"><div class="ghost">01</div>
-   <div class="eyebrow mono">10.01.2025 · THE RETURN</div>
-   <h2>Back after<br><em>more than ten years.</em></h2>
-   <p class="lead">The comeback starts with a simple idea: <strong>quality over quantity</strong> and the curiosity to see what an unpredictable seed mix becomes. No polished breeding program. No production line. Just the return.</p>
-   <div class="tags"><span class="tag"><b>01</b> comeback</span><span class="tag"><b>50+</b> seeds planned</span><span class="tag"><b>01</b> experiment</span></div>
-   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  <div class="copy">
+    <div class="index">01</div>
+    <div class="eyebrow kicker">THE LONG THREAD</div>
+    <h2>Before the mix<br><span>there was curiosity.</span></h2>
+    <p class="lead">The archive does not really begin in 2025. It reaches back to the first documented grow in 2007 and follows the same person through a long series of reports. The subject changes. The habit of documenting stays.</p>
+    <div class="history-grid">
+      <div class="history-item"><small>2007 · GROW 01</small><b>Hindu Kush</b><span>The first report and the beginning of the documented path.</span></div>
+      <div class="history-item"><small>2008 · GROW 02</small><b>Mazar & Euforia</b><span>The second grow with two different mediums.</span></div>
+      <div class="history-item"><small>2008 · GROW 03</small><b>Blueberry</b><span>The third grow and the first seeds carried forward from an earlier run.</span></div>
+      <div class="history-item"><small>2008 · GROW 04</small><b>Jorge's Diamonds</b><span>A larger setup and another step in the sequence.</span></div>
+      <div class="history-item"><small>2008 · NEXT</small><b>Blue Moonshine</b><span>A wider Dutch Passion focused report with more genetics in the room.</span></div>
+      <div class="history-item"><small>2009 · PROTOCOL</small><b>Chocolope · G13 Haze · Hawaiian Snow</b><span>The report becomes more concise and protocol like.</span></div>
+    </div>
+    <div class="actions">
+      <a class="cta" href="https://www.grower.ch/forum/threads/first-grow-hindu-kush-400w-coco-63-bt-beendet.33441" target="_blank" rel="noopener">Open archive source ↗</a>
+    </div>
+    <div class="source">Grower.ch · documented history</div>
   </div>
- </section>
+</section>
 
- <section class="slide">
+<!-- 02 FIRST GROW -->
+<section class="slide">
   <div class="visual">
-   <div class="placeholder">The Mix</div><img src="STRAIN2.JPG" alt="Baltazar Seeds — seed mix" loading="lazy">
-   <div class="visual-label">02 · UNKNOWN BY DESIGN</div><div class="visual-meta"><span>MIXED ORIGINS</span><span>02 / 10</span></div>
+    <div class="placeholder">Archive source</div>
+    <div class="visual-label">02 · FIRST GROW</div>
+    <div class="visual-meta"><span>09.08.2007</span><span>02 / 15</span></div>
   </div>
-  <div class="copy"><div class="ghost">02</div>
-   <div class="eyebrow mono">THE MIX · UNKNOWN BY DESIGN</div>
-   <h2>A box full of<br><em>questions.</em></h2>
-   <p class="lead">Seeds collected over <strong>three years or longer</strong> meet named varieties such as Gelato, Cali Orange and Purple Tangie. The point was never perfect lineage. The uncertainty was part of the experiment.</p>
-   <div class="tags"><span class="tag"><b>3+ YRS</b> collected</span><span class="tag"><b>Gelato</b> main source</span><span class="tag"><b>€2</b> some seeds</span></div>
-   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  <div class="copy">
+    <div class="index">02</div>
+    <div class="eyebrow kicker">FIRST GROW · 2007</div>
+    <h2>The beginning<br><span>was simple.</span></h2>
+    <p class="lead">The first report starts with Hindu Kush from Nirvana. It was an actual first attempt and the equipment was built around a small box with a 400 W NDL and Coco with Canna nutrients. The report also shows the learning process in real time.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>Plants planned</span><b>3</b></div>
+      <div class="data-row"><span>Light</span><b>400 W NDL</b></div>
+      <div class="data-row"><span>Medium</span><b>Coco</b></div>
+      <div class="data-row"><span>Report style</span><b>Open learning</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>01</b> documented grow</span><span class="tag"><b>2007</b> starting point</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/first-grow-hindu-kush-400w-coco-63-bt-beendet.33441" target="_blank" rel="noopener">Grower.ch source ↗</a></div>
+    <div class="source">Source · Grower.ch · First Grow · Hindu Kush</div>
   </div>
- </section>
+</section>
 
- <section class="slide">
+<!-- 03 MAZAR -->
+<section class="slide">
   <div class="visual">
-   <div class="placeholder">Selection</div><img src="STRAIN3.JPG" alt="Baltazar Seeds — early selection" loading="lazy">
-   <div class="visual-label">03 · SELECTION</div><div class="visual-meta"><span>23 → 3 → 50+</span><span>03 / 10</span></div>
+    <div class="placeholder">Mazar & Euforia</div>
+    <div class="visual-label">03 · SECOND GROW</div>
+    <div class="visual-meta"><span>03.02.2008</span><span>03 / 15</span></div>
   </div>
-  <div class="copy"><div class="ghost">03</div>
-   <div class="eyebrow mono">JANUARY · THE STRUGGLE</div>
-   <h2>It didn't start<br><em>smoothly.</em></h2>
-   <p class="lead"><strong>23 seeds</strong> went into the first attempt and only three small plants had emerged at first. Dry winter air, heating and lamp heat became part of the story. More seeds followed and the experiment kept moving.</p>
-   <div class="tags"><span class="tag"><b>23</b> first seeds</span><span class="tag"><b>3</b> early survivors</span><span class="tag"><b>50+</b> total mix</span></div>
-   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  <div class="copy">
+    <div class="index">03</div>
+    <div class="eyebrow kicker">SECOND GROW · 2008</div>
+    <h2>Mazar & Euforia<br><span>the method expands.</span></h2>
+    <p class="lead">The second report moves to a larger and more deliberate setup. Five feminized Mazar and five feminized Euforia were documented alongside Pak Roc bonus seeds. The grow used both Bio Bizz soil and Coco.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>Area</span><b>≈ 1 m²</b></div>
+      <div class="data-row"><span>Plants</span><b>10 main plants</b></div>
+      <div class="data-row"><span>Light</span><b>400 W</b></div>
+      <div class="data-row"><span>Mediums</span><b>Soil + Coco</b></div>
+      <div class="data-row"><span>Vegi</span><b>35 days</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>5</b> Mazar</span><span class="tag"><b>5</b> Euforia</span><span class="tag"><b>01</b> Pak Roc survivor</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/mazar-euforia.30" target="_blank" rel="noopener">Grower.ch source ↗</a></div>
+    <div class="source">Source · Grower.ch · Mazar & Euforia</div>
   </div>
- </section>
+</section>
 
- <section class="slide">
+<!-- 04 BLUEBERRY -->
+<section class="slide">
   <div class="visual">
-   <div class="placeholder">Phenotype Watch</div><img src="STRAIN4.JPG" alt="Baltazar Seeds — selection" loading="lazy">
-   <div class="visual-label">04 · PHENOTYPE WATCH</div><div class="visual-meta"><span>SELECTION</span><span>04 / 10</span></div>
+    <div class="placeholder">Blueberry</div>
+    <div class="visual-label">04 · THIRD GROW</div>
+    <div class="visual-meta"><span>30.03.2008</span><span>04 / 15</span></div>
   </div>
-  <div class="copy"><div class="ghost">04</div>
-   <div class="eyebrow mono">22. VEG · SELECTION</div>
-   <h2>Let the plants<br><em>show themselves.</em></h2>
-   <p class="lead">As the number of plants grew, selection became unavoidable. One unusual plant even became <strong>#18 in the Zwergenbattle 2025</strong> — a trifoliate with three cotyledons.</p>
-   <div class="tags"><span class="tag"><b>22. VEG</b> selection</span><span class="tag"><b>#18</b> Zwergenbattle</span><span class="tag"><b>3</b> cotyledons</span></div>
-   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  <div class="copy">
+    <div class="index">04</div>
+    <div class="eyebrow kicker">THIRD GROW · 2008</div>
+    <h2>Blueberry<br><span>and the genetics start travelling.</span></h2>
+    <p class="lead">The third grow features five feminized Blueberry from Dutch Passion and four Thai Haze Skunk bonus seeds. Two Mazar seeds from the previous grow were also carried forward. The archive begins to show a clear idea of continuity.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>Blueberry</span><b>5 seeds</b></div>
+      <div class="data-row"><span>Thai Haze Skunk</span><b>4 seeds</b></div>
+      <div class="data-row"><span>Mazar F2</span><b>2 seeds</b></div>
+      <div class="data-row"><span>Light</span><b>400 W</b></div>
+      <div class="data-row"><span>Climate</span><b>19–25 °C</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>03</b> grow number</span><span class="tag"><b>02</b> Mazar carried forward</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/blueberry.408" target="_blank" rel="noopener">Grower.ch source ↗</a></div>
+    <div class="source">Source · Grower.ch · Blueberry</div>
   </div>
- </section>
+</section>
 
- <section class="slide">
+<!-- 05 JORGES -->
+<section class="slide">
   <div class="visual">
-   <div class="placeholder">Flower</div><img src="STRAIN5.JPG" alt="Baltazar Seeds — flower" loading="lazy">
-   <div class="visual-label">05 · FLOWER</div><div class="visual-meta"><span>BT. 37 → 53</span><span>05 / 10</span></div>
+    <div class="placeholder">Jorge's Diamonds</div>
+    <div class="visual-label">05 · FOURTH GROW</div>
+    <div class="visual-meta"><span>09.07.2008</span><span>05 / 15</span></div>
   </div>
-  <div class="copy"><div class="ghost">05</div>
-   <div class="eyebrow mono">BT. 37 → BT. 53 · FLOWER</div>
-   <h2>Different plants.<br><em>Different stories.</em></h2>
-   <p class="lead">The mix becomes a catalogue of variation. Possible Gelato, Skunk, Purple Tangie and Cali Orange appear as tentative identifications. Later the report simply says: <strong>every plant was different.</strong></p>
-   <div class="tags"><span class="tag"><b>BT. 37</b> first IDs</span><span class="tag"><b>BT. 42</b> 600W NDL</span><span class="tag"><b>BT. 53</b> all different</span></div>
-   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  <div class="copy">
+    <div class="index">05</div>
+    <div class="eyebrow kicker">FOURTH GROW · 2008</div>
+    <h2>Jorge's Diamonds<br><span>push the scale.</span></h2>
+    <p class="lead">The fourth grow uses a 600 W setup with additional fluorescent light during growth. Five feminized Jorge's Diamonds and five feminized Perplex are joined by four regular Afgaan bonus seeds.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>Light</span><b>600 W</b></div>
+      <div class="data-row"><span>Jorge's Diamonds</span><b>5 seeds</b></div>
+      <div class="data-row"><span>Perplex</span><b>5 seeds</b></div>
+      <div class="data-row"><span>Afgaan</span><b>4 seeds</b></div>
+      <div class="data-row"><span>Camera</span><b>Canon Ixus 75</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>04</b> grow number</span><span class="tag"><b>600 W</b> larger scale</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/jorges-diamonds-perplex.955" target="_blank" rel="noopener">Grower.ch source ↗</a></div>
+    <div class="source">Source · Grower.ch · Jorge's Diamonds & Perplex</div>
   </div>
- </section>
+</section>
 
- <section class="slide">
+<!-- 06 BLUE MOONSHINE -->
+<section class="slide">
   <div class="visual">
-   <div class="placeholder">The Finish</div><img src="STRAIN6.JPG" alt="Baltazar Seeds — final flower" loading="lazy">
-   <div class="visual-label">06 · THE FINISH</div><div class="visual-meta"><span>BT. 57 · HARVEST</span><span>06 / 10</span></div>
+    <div class="placeholder">Blue Moonshine</div>
+    <div class="visual-label">06 · FIFTH CHAPTER</div>
+    <div class="visual-meta"><span>13.09.2008</span><span>06 / 15</span></div>
   </div>
-  <div class="copy"><div class="ghost">06</div>
-   <div class="eyebrow mono">15.04.2025 · BT. 57 · FINALE</div>
-   <h2>Not the end.<br><em>The next experiment.</em></h2>
-   <p class="lead">The first run closes at <strong>BT. 57</strong>. The result is treated as a learning run and the unstable genetics make the outcome unpredictable. The important part is what comes next.</p>
-   <div class="tags"><span class="tag"><b>BT. 57</b> harvest</span><span class="tag"><b>~120g</b> later estimate</span><span class="tag"><b>NEXT</b> seed mix</span></div>
-   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  <div class="copy">
+    <div class="index">06</div>
+    <div class="eyebrow kicker">BLUE MOONSHINE · 2008</div>
+    <h2>A wider selection<br><span>keeps the story moving.</span></h2>
+    <p class="lead">The next report focuses on Blue Moonshine and Pure Afghan while also bringing in Swiss Mix and Afgaan bonus seeds. A Thai Haze from the previous grow remains part of the experiment.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>Blue Moonshine</span><b>10 regular</b></div>
+      <div class="data-row"><span>Pure Afghan</span><b>6 regular</b></div>
+      <div class="data-row"><span>Swiss Mix</span><b>2 survivors planned</b></div>
+      <div class="data-row"><span>Afgaan</span><b>2 regular</b></div>
+      <div class="data-row"><span>Light</span><b>400 W</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>2008</b> continuation</span><span class="tag"><b>Thai Haze</b> carried forward</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/blue-moonshine-pure-afghan.1497" target="_blank" rel="noopener">Grower.ch source ↗</a></div>
+    <div class="source">Source · Grower.ch · Blue Moonshine & Pure Afghan</div>
   </div>
- </section>
+</section>
 
- <!-- PART TWO -->
- <section class="slide archive">
-  <div class="visual"><div class="archive-graphic"></div><div class="chapter-number">II</div><div class="visual-label">07 · STRAINMIX PART TWO</div><div class="visual-meta"><span>01.05.2025</span><span>07 / 10</span></div></div>
-  <div class="copy"><div class="ghost">II</div>
-   <div class="eyebrow mono">01.05.2025 · THE SECOND RUN</div>
-   <h2>The mix<br><em>gets serious.</em></h2>
-   <p class="lead">Part Two moves from the comeback into a much larger documented run: a <strong>120 × 120 × 200</strong> tent, multiple lighting stages and a broad mix of named genetics. After heavy losses, two cuts from Farmbros are added to keep the space under the lamp filled.</p>
-   <div class="chapter-list">
-    <div><span>Setup</span><b>120 × 120 × 200</b></div>
-    <div><span>Light</span><b>250 / 400 / 600 W</b></div>
-    <div><span>Containers</span><b>1 L → 5 L · 15–20 L</b></div>
-    <div><span>Documented</span><b>Growth · Problems · Solutions</b></div>
-   </div>
-   <div class="source mono">Source · Grower.ch · Bio-Erde Strainmix Part 2</div>
+<!-- 07 CHOCOLOPE -->
+<section class="slide">
+  <div class="visual">
+    <div class="placeholder">Chocolope · G13 Haze · Hawaiian Snow</div>
+    <div class="visual-label">07 · PROTOCOL</div>
+    <div class="visual-meta"><span>07.03.2009</span><span>07 / 15</span></div>
   </div>
- </section>
+  <div class="copy">
+    <div class="index">07</div>
+    <div class="eyebrow kicker">THE PROTOCOL ERA · 2009</div>
+    <h2>Less noise<br><span>more record.</span></h2>
+    <p class="lead">The 2009 report explicitly shifts toward a simple grow protocol. Chocolope joins G13 Haze and Hawaiian Snow. The writing becomes more concise while the documentation remains continuous.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>Chocolope</span><b>6 of 6 emerged</b></div>
+      <div class="data-row"><span>Hawaiian Snow</span><b>4 of 5 emerged</b></div>
+      <div class="data-row"><span>G13 Haze</span><b>Seeds pending</b></div>
+      <div class="data-row"><span>Light</span><b>600 W</b></div>
+      <div class="data-row"><span>Medium</span><b>Canna Terra</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>2009</b> protocol</span><span class="tag"><b>Canon Ixus 75</b> documentation</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/chocolope-g13-haze-hawaiian-snow.40558" target="_blank" rel="noopener">Grower.ch source ↗</a></div>
+    <div class="source">Source · Grower.ch · Chocolope · G13 Haze · Hawaiian Snow</div>
+  </div>
+</section>
 
- <!-- HELL KITCHEN -->
- <section class="slide archive">
-  <div class="visual"><div class="archive-graphic"></div><div class="chapter-number">HK</div><div class="visual-label">08 · BALTAZARS HELL KITCHEN</div><div class="visual-meta"><span>03.01.2026</span><span>08 / 10</span></div></div>
-  <div class="copy"><div class="ghost">HK</div>
-   <div class="eyebrow mono">03.01.2026 · NEXT ROUND</div>
-   <h2>More tents.<br><em>More structure.</em></h2>
-   <p class="lead">The setup gets pushed another level: <strong>three tents</strong>, self-mixed soil, 13–22 litre containers and automatic irrigation. The report describes it as less like a simple grow box and more like a kitchen — hence <em>Hell Kitchen</em>.</p>
-   <div class="chapter-list">
-    <div><span>Tents</span><b>03</b></div>
-    <div><span>Containers</span><b>13 → 22 L</b></div>
-    <div><span>Irrigation</span><b>Automatic</b></div>
-    <div><span>Direction</span><b>Structured · Constant</b></div>
-   </div>
-   <div class="source mono">Source · Grower.ch · Baltazars Hell Kitchen</div>
+<!-- 08 PART ONE RETURN -->
+<section class="slide archive-card">
+  <div class="visual">
+    <div class="archive-symbol">I</div>
+    <div class="visual-label">08 · STRAINMIX PART ONE</div>
+    <div class="visual-meta"><span>10.01.2025</span><span>08 / 15</span></div>
   </div>
- </section>
+  <div class="copy">
+    <div class="index">08</div>
+    <div class="eyebrow kicker">THE RETURN · 2025</div>
+    <h2>More than ten years later<br><span>the thread returns.</span></h2>
+    <p class="lead">Strainmix Part One marks the return after more than ten years. The central idea is not a polished breeding program. It is the curiosity of seeing what an unpredictable mix becomes and documenting the result.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>Seeds planned</span><b>50+</b></div>
+      <div class="data-row"><span>Core idea</span><b>Variation</b></div>
+      <div class="data-row"><span>Style</span><b>Documented experiment</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>I</b> comeback</span><span class="tag"><b>50+</b> seed mix</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener">Part One source ↗</a></div>
+    <div class="source">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+</section>
 
- <!-- PART THREE -->
- <section class="slide archive">
-  <div class="visual"><div class="archive-graphic"></div><div class="chapter-number">III</div><div class="visual-label">09 · STRAIN MIX PART THREE</div><div class="visual-meta"><span>02.09.2026 · BT. 32</span><span>09 / 10</span></div></div>
-  <div class="copy"><div class="ghost">III</div>
-   <div class="eyebrow mono">BT. 32 · 02.09.2026 · THE NEXT ROUND</div>
-   <h2>The story<br><em>continues.</em></h2>
-   <p class="lead">Part Three returns to the core idea: <strong>follow the genetics</strong>, preserve the development and keep the tradition alive. Seeds from the previous run are back in the mix and the first real phenotype hunting is underway.</p>
-   <div class="chapter-list">
-    <div><span>Flower</span><b>Day 32</b></div>
-    <div><span>Vegi</span><b>≈ 4–5 weeks</b></div>
-    <div><span>Seeds</span><b>≈ 50 from previous run</b></div>
-    <div><span>Plants</span><b>09 · under 600 W NDL</b></div>
-   </div>
-   <div class="source mono">Source · Grower.ch · Bio-Erde Strain Mix Part 3</div>
+<!-- 09 PART ONE SELECTION -->
+<section class="slide">
+  <div class="visual">
+    <div class="placeholder">Selection</div>
+    <div class="visual-label">09 · SELECTION</div>
+    <div class="visual-meta"><span>PART ONE</span><span>09 / 15</span></div>
   </div>
- </section>
+  <div class="copy">
+    <div class="index">09</div>
+    <div class="eyebrow kicker">PART ONE · DEVELOPMENT</div>
+    <h2>The mix becomes<br><span>a catalogue of variation.</span></h2>
+    <p class="lead">The first attempt starts with 23 seeds and only a few early survivors. More seeds follow. As the plants develop the report becomes less about predicting the outcome and more about watching what each plant reveals.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>First seeds</span><b>23</b></div>
+      <div class="data-row"><span>Early survivors</span><b>3</b></div>
+      <div class="data-row"><span>Total mix</span><b>50+</b></div>
+      <div class="data-row"><span>Selection</span><b>Phenotype variation</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>22</b> Vegi</span><span class="tag"><b>#18</b> Zwergenbattle</span><span class="tag"><b>3</b> cotyledons</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener">Part One source ↗</a></div>
+    <div class="source">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+</section>
 
- <section class="slide archive">
-  <div class="visual"><div class="archive-graphic"></div><div class="chapter-number">∞</div><div class="visual-label">10 · THE ARCHIVE</div><div class="visual-meta"><span>KEEP GROWING</span><span>10 / 10</span></div></div>
-  <div class="copy"><div class="ghost">∞</div>
-   <div class="eyebrow mono">THE THREAD IS STILL OPEN</div>
-   <h2>Not a finished<br><em>story.</em></h2>
-   <p class="lead">From the first comeback to the second mix, from <strong>Hell Kitchen</strong> to Part Three: the reports become a continuous record of plants, ideas and changing genetics. The archive stays open because the experiment does.</p>
-   <div class="tags"><span class="tag"><b>I</b> comeback</span><span class="tag"><b>II</b> expansion</span><span class="tag"><b>HK</b> structure</span><span class="tag"><b>III</b> continuation</span></div>
-   <a class="cta" href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" target="_blank" rel="noopener noreferrer">Support the project <span>↗</span></a>
-   <div class="source mono">Baltazar Seeds · documented archive · continued experimentation</div>
+<!-- 10 PART ONE FLOWER TWO IMAGES -->
+<section class="slide">
+  <div class="visual dual-visual">
+    <figure id="img5a">
+      <img src="STRAIN5.JPG" alt="Strainmix Part One flowering stage">
+      <div class="dual-label">01 · FLOWER</div>
+    </figure>
+    <figure id="img5b" class="optional">
+      <img src="STRAIN5_2.JPG" alt="Strainmix Part One second flowering image">
+      <div class="dual-label">02 · FLOWER</div>
+    </figure>
   </div>
- </section>
+  <div class="copy">
+    <div class="index">10</div>
+    <div class="eyebrow kicker">PART ONE · FLOWER</div>
+    <h2>Different plants<br><span>different stories.</span></h2>
+    <p class="lead">By the flowering stage the mix shows clear variation. Possible identities are treated as tentative rather than certain. The report eventually reaches the simple conclusion that every plant was different.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>Flowering day</span><b>FD 37 → FD 53</b></div>
+      <div class="data-row"><span>Possible IDs</span><b>Gelato · Skunk · Purple Tangie</b></div>
+      <div class="data-row"><span>Lighting</span><b>600 W NDL</b></div>
+      <div class="data-row"><span>Observation</span><b>Every plant different</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>FD 37</b> first IDs</span><span class="tag"><b>FD 53</b> full variation</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener">Part One source ↗</a></div>
+    <div class="source">Two image slots restored · second slot auto hides if the file is absent</div>
+  </div>
+</section>
+
+<!-- 11 PART ONE FINISH TWO IMAGES -->
+<section class="slide">
+  <div class="visual dual-visual">
+    <figure id="img6a">
+      <img src="STRAIN6.JPG" alt="Strainmix Part One final stage">
+      <div class="dual-label">01 · FINISH</div>
+    </figure>
+    <figure id="img6b" class="optional">
+      <img src="STRAIN6_2.JPG" alt="Strainmix Part One second final image">
+      <div class="dual-label">02 · FINISH</div>
+    </figure>
+  </div>
+  <div class="copy">
+    <div class="index">11</div>
+    <div class="eyebrow kicker">PART ONE · FINALE</div>
+    <h2>Not the end<br><span>the next experiment.</span></h2>
+    <p class="lead">The first run closes at flowering day 57. The result is treated as a learning run. The unstable genetics are part of the point. The archive moves forward instead of stopping here.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>Flowering day</span><b>FD 57</b></div>
+      <div class="data-row"><span>Harvest</span><b>Final stage</b></div>
+      <div class="data-row"><span>Later estimate</span><b>≈ 120 g</b></div>
+      <div class="data-row"><span>Next</span><b>Seed mix continuation</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>FD 57</b> finish</span><span class="tag"><b>NEXT</b> continuation</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener">Part One source ↗</a></div>
+    <div class="source">Two image slots restored · second slot auto hides if the file is absent</div>
+  </div>
+</section>
+
+<!-- 12 PART TWO -->
+<section class="slide archive-card">
+  <div class="visual">
+    <div class="archive-symbol">II</div>
+    <div class="visual-label">12 · STRAINMIX PART TWO</div>
+    <div class="visual-meta"><span>01.05.2025</span><span>12 / 15</span></div>
+  </div>
+  <div class="copy">
+    <div class="index">12</div>
+    <div class="eyebrow kicker">SECOND RUN · 2025</div>
+    <h2>The mix gets larger<br><span>and more structured.</span></h2>
+    <p class="lead">Part Two expands the project into a larger documented run. The report records growth and problems as well as solutions. The setup reaches 120 × 120 × 200 and later moves through several lighting stages.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>Setup</span><b>120 × 120 × 200</b></div>
+      <div class="data-row"><span>Light</span><b>250 / 400 / 600 W</b></div>
+      <div class="data-row"><span>Containers</span><b>1 L → 5 L → 15–20 L</b></div>
+      <div class="data-row"><span>Documented</span><b>Growth · problems · solutions</b></div>
+      <div class="data-row"><span>Vegi marker</span><b>VT 15</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>II</b> expansion</span><span class="tag"><b>600 W</b> later stage</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/strainmix-part-2.179085/" target="_blank" rel="noopener">Part Two source ↗</a></div>
+    <div class="source">Source · Grower.ch · Strainmix Part 2</div>
+  </div>
+</section>
+
+<!-- 13 HELL KITCHEN -->
+<section class="slide archive-card">
+  <div class="visual">
+    <div class="archive-symbol">HK</div>
+    <div class="visual-label">13 · HELL KITCHEN</div>
+    <div class="visual-meta"><span>03.01.2026</span><span>13 / 15</span></div>
+  </div>
+  <div class="copy">
+    <div class="index">13</div>
+    <div class="eyebrow kicker">BALTAZARS HELL KITCHEN</div>
+    <h2>More rooms<br><span>more structure.</span></h2>
+    <p class="lead">Hell Kitchen pushes the setup further with three tents and automatic irrigation. The soil is mixed by hand and the containers reach 22 litres. The report describes the whole thing less like a simple grow box and more like a kitchen.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>Tents</span><b>3</b></div>
+      <div class="data-row"><span>Containers</span><b>13 L → 22 L</b></div>
+      <div class="data-row"><span>Irrigation</span><b>Automatic</b></div>
+      <div class="data-row"><span>Light</span><b>250 W metal halide + NDL</b></div>
+      <div class="data-row"><span>Direction</span><b>Structured · constant</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>HK</b> structure</span><span class="tag"><b>3</b> tents</span><span class="tag"><b>22 L</b> larger containers</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/baltazars-hell-kitchen.187410/" target="_blank" rel="noopener">Hell Kitchen source ↗</a></div>
+    <div class="source">Source · Grower.ch · Baltazars Hell Kitchen</div>
+  </div>
+</section>
+
+<!-- 14 PART THREE -->
+<section class="slide archive-card">
+  <div class="visual">
+    <div class="archive-symbol">III</div>
+    <div class="visual-label">14 · STRAIN MIX PART THREE</div>
+    <div class="visual-meta"><span>02.09.2026 · FD 32</span><span>14 / 15</span></div>
+  </div>
+  <div class="copy">
+    <div class="index">14</div>
+    <div class="eyebrow kicker">THE NEXT ROUND · 2026</div>
+    <h2>The story continues<br><span>and the genetics are saved.</span></h2>
+    <p class="lead">Part Three returns to the core idea of following the genetics. Seeds from the previous grow are back in the mix. This time the report also records real phenotype hunting and preserves selected genetics for the first time.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>Flowering day</span><b>FD 32</b></div>
+      <div class="data-row"><span>Vegi</span><b>4–5 weeks</b></div>
+      <div class="data-row"><span>Seeds</span><b>≈ 50 from previous grow</b></div>
+      <div class="data-row"><span>Plants</span><b>9 under 600 W NDL</b></div>
+      <div class="data-row"><span>New step</span><b>Real phenotype hunting</b></div>
+    </div>
+    <div class="tags"><span class="tag"><b>FD 32</b> current stage</span><span class="tag"><b>50</b> previous seeds</span><span class="tag"><b>09</b> plants</span></div>
+    <div class="actions"><a class="cta" href="https://www.grower.ch/forum/threads/strain-mix-part-3.193044/" target="_blank" rel="noopener">Part Three source ↗</a></div>
+    <div class="source">Source · Grower.ch · Strain Mix Part 3</div>
+  </div>
+</section>
+
+<!-- 15 META ARCHIVE -->
+<section class="slide archive-card">
+  <div class="visual">
+    <div class="archive-symbol">∞</div>
+    <div class="visual-label">15 · THE ARCHIVE</div>
+    <div class="visual-meta"><span>OPEN THREAD</span><span>15 / 15</span></div>
+  </div>
+  <div class="copy">
+    <div class="index">∞</div>
+    <div class="eyebrow kicker">THE META LEVEL</div>
+    <h2>It is not one grow<br><span>it is a continuity.</span></h2>
+    <p class="lead">The deeper story is the repetition itself. First comes learning. Then comes comparison. Then genetics from earlier runs return. The reports become a long memory system where every new run gives the old ones another meaning.</p>
+    <div class="data-grid">
+      <div class="data-row"><span>2007</span><b>First documented grow</b></div>
+      <div class="data-row"><span>2008–2009</span><b>Early sequence</b></div>
+      <div class="data-row"><span>2025</span><b>Strainmix returns</b></div>
+      <div class="data-row"><span>2026</span><b>Hell Kitchen → Part Three</b></div>
+      <div class="data-row"><span>Now</span><b>Archive remains open</b></div>
+    </div>
+    <p class="lead">The point is not to create a perfect final chapter. The point is to preserve the development and keep the thread visible.</p>
+    <div class="actions">
+      <a class="cta" href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" target="_blank" rel="noopener">Support the archive ↗</a>
+      <button class="cta" id="supportInline">Open support panel ↗</button>
+    </div>
+    <div class="source">Baltazar Seeds · documented archive · 2007 → 2026</div>
+  </div>
+</section>
+
 </main>
 
 <div id="controls">
- <button class="arrow" id="prev" aria-label="Previous">‹</button><div id="dots"></div><button class="arrow" id="next" aria-label="Next">›</button>
+  <button class="arrow" id="prev" aria-label="Previous slide">‹</button>
+  <div id="dots"></div>
+  <button class="arrow" id="next" aria-label="Next slide">›</button>
 </div>
 
 <div id="support">
- <div class="support-card">
-  <button class="close" id="close" aria-label="Close">×</button>
-  <div class="mono gold">Baltazar Seeds · Support</div>
-  <h3>Keep the archive<br><em>alive.</em></h3>
-  <p>If you enjoy the documentation and want to support the continuation of the project, you can do so here.</p>
-  <a class="support-link" href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" target="_blank" rel="noopener noreferrer">Support via Stripe ↗</a>
- </div>
+  <div class="support-card">
+    <button class="close" id="close" aria-label="Close">×</button>
+    <div class="kicker">Baltazar Seeds · Support</div>
+    <h3>Keep the archive<br><span>alive.</span></h3>
+    <p>If you enjoy the documentation and want to support the continuation of the project you can do so through the support page.</p>
+    <a class="cta" href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" target="_blank" rel="noopener">Support via Stripe ↗</a>
+  </div>
 </div>
 
-<div id="cursor"></div><div id="ring"></div>
+<div id="cursor"></div>
+<div id="ring"></div>
 
 <script>
 (function(){
-'use strict';
-const age=document.getElementById('age');
-const yes=document.getElementById('yes'),no=document.getElementById('no');
-const key='baltazar_age_verified';
-function enter(){try{localStorage.setItem(key,'true')}catch(e){}age.classList.add('hide')}
-yes.onclick=enter;
-no.onclick=()=>{no.textContent='18+ required'};
-try{if(localStorage.getItem(key)==='true')age.classList.add('hide')}catch(e){}
+  'use strict';
 
-const track=document.getElementById('track');
-const slides=[...document.querySelectorAll('.slide')];
-const dots=document.getElementById('dots');
-const counter=document.getElementById('counter');
-const progress=document.getElementById('progress');
-let current=0,busy=false;
+  const age=document.getElementById('age');
+  const yes=document.getElementById('yes');
+  const no=document.getElementById('no');
+  const ageKey='baltazar_age_verified';
 
-slides.forEach((_,i)=>{
- const d=document.createElement('button');d.className='dot'+(!i?' active':'');
- d.setAttribute('aria-label','Go to chapter '+(i+1));d.onclick=()=>go(i);dots.appendChild(d);
-});
-function update(){
- track.style.transform=`translateX(-${current*100}vw)`;
- slides.forEach((s,i)=>s.classList.toggle('active',i===current));
- [...dots.children].forEach((d,i)=>d.classList.toggle('active',i===current));
- counter.textContent=String(current+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
- progress.style.width=((current+1)/slides.length*100)+'%';
- document.getElementById('prev').disabled=current===0;
- document.getElementById('next').disabled=current===slides.length-1;
-}
-function go(i){if(busy||i<0||i>=slides.length||i===current)return;busy=true;current=i;update();setTimeout(()=>busy=false,950)}
-document.getElementById('prev').onclick=()=>go(current-1);
-document.getElementById('next').onclick=()=>go(current+1);
-document.getElementById('story').onclick=()=>go(0);
+  function enter(){
+    try{localStorage.setItem(ageKey,'true')}catch(e){}
+    age.classList.add('hide');
+  }
+  yes.onclick=enter;
+  no.onclick=function(){no.textContent='18+ required'};
+  try{if(localStorage.getItem(ageKey)==='true')age.classList.add('hide')}catch(e){}
 
-document.addEventListener('keydown',e=>{
- if(e.key==='ArrowRight'||e.key==='ArrowDown')go(current+1);
- if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(current-1);
- if(e.key==='Escape'){document.getElementById('support').classList.remove('open')}
-});
-let sx=0,sy=0;
-track.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
-track.addEventListener('touchend',e=>{
- const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
- if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>45)go(dx<0?current+1:current-1);
-},{passive:true});
+  const track=document.getElementById('track');
+  const slides=[...document.querySelectorAll('.slide')];
+  const dots=document.getElementById('dots');
+  const counter=document.getElementById('counter');
+  const progress=document.getElementById('progress');
+  let current=0;
+  let busy=false;
 
-const support=document.getElementById('support');
-document.getElementById('supportBtn').onclick=()=>support.classList.add('open');
-document.getElementById('close').onclick=()=>support.classList.remove('open');
-support.onclick=e=>{if(e.target===support)support.classList.remove('open')};
+  slides.forEach((slide,i)=>{
+    const dot=document.createElement('button');
+    dot.className='dot'+(i===0?' active':'');
+    dot.setAttribute('aria-label','Go to slide '+(i+1));
+    dot.onclick=()=>go(i);
+    dots.appendChild(dot);
+  });
 
-const cur=document.getElementById('cursor'),ring=document.getElementById('ring');
-let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('a,button').forEach(el=>{
- el.addEventListener('mouseenter',()=>document.body.classList.add('hover'));
- el.addEventListener('mouseleave',()=>document.body.classList.remove('hover'));
-});
-update();
+  function update(){
+    track.style.transform=`translateX(-${current*100}vw)`;
+    slides.forEach((s,i)=>s.classList.toggle('active',i===current));
+    [...dots.children].forEach((d,i)=>d.classList.toggle('active',i===current));
+    counter.textContent=String(current+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+    progress.style.width=((current+1)/slides.length*100)+'%';
+    document.getElementById('prev').disabled=current===0;
+    document.getElementById('next').disabled=current===slides.length-1;
+  }
+
+  function go(i){
+    if(busy||i<0||i>=slides.length||i===current)return;
+    busy=true;
+    current=i;
+    update();
+    setTimeout(()=>busy=false,850);
+  }
+
+  document.getElementById('prev').onclick=()=>go(current-1);
+  document.getElementById('next').onclick=()=>go(current+1);
+  document.getElementById('story').onclick=()=>go(0);
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key==='PageDown')go(current+1);
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'||e.key==='PageUp')go(current-1);
+    if(e.key==='Home')go(0);
+    if(e.key==='End')go(slides.length-1);
+    if(e.key==='Escape')document.getElementById('support').classList.remove('open');
+  });
+
+  let sx=0,sy=0;
+  track.addEventListener('touchstart',e=>{
+    sx=e.touches[0].clientX;
+    sy=e.touches[0].clientY;
+  },{passive:true});
+
+  track.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-sx;
+    const dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>45)go(dx<0?current+1:current-1);
+  },{passive:true});
+
+  const support=document.getElementById('support');
+  document.getElementById('supportBtn').onclick=()=>support.classList.add('open');
+  document.getElementById('supportInline').onclick=()=>support.classList.add('open');
+  document.getElementById('close').onclick=()=>support.classList.remove('open');
+  support.onclick=e=>{if(e.target===support)support.classList.remove('open')};
+
+  function optionalImage(id){
+    const figure=document.getElementById(id);
+    if(!figure)return;
+    const img=figure.querySelector('img');
+    img.addEventListener('error',()=>figure.remove());
+  }
+  optionalImage('img5b');
+  optionalImage('img6b');
+
+  const cur=document.getElementById('cursor');
+  const ring=document.getElementById('ring');
+  let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX;my=e.clientY;
+    cur.style.left=mx+'px';cur.style.top=my+'px';
+  });
+
+  (function loop(){
+    rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+    ring.style.left=rx+'px';ring.style.top=ry+'px';
+    requestAnimationFrame(loop);
+  })();
+
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('hover'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('hover'));
+  });
+
+  update();
 })();
 </script>
 </body>
