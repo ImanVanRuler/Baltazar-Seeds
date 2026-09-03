@@ -2,743 +2,415 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Baltazar Seeds — The Comeback Run</title>
-<meta name="description" content="Baltazar Seeds — dokumentierter Comeback Grow, Strainmix Part One.">
-<meta name="theme-color" content="#050806">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Baltazar Seeds — The Archive</title>
+<meta name="description" content="Baltazar Seeds — dokumentierte Grow-Reports von Strainmix Part One bis Part Three.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@200;300;400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
 
 <style>
-*,
-*::before,
-*::after { box-sizing:border-box; margin:0; padding:0; }
-
+*{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#050806;
-  --panel:#09100a;
-  --ink:#eeeae1;
-  --dim:rgba(238,234,225,.62);
-  --faint:rgba(238,234,225,.12);
-  --gold:#c4913e;
-  --gold-soft:rgba(196,145,62,.11);
-  --gold-line:rgba(196,145,62,.28);
-  --line:rgba(238,234,225,.075);
-  --ease:cubic-bezier(.16,1,.3,1);
+  --bg:#050605;--paper:#e9e4d9;--muted:rgba(233,228,217,.57);
+  --faint:rgba(233,228,217,.10);--gold:#c99a52;--gold2:#8c6936;
+  --green:#61765a;--ease:cubic-bezier(.16,1,.3,1);
 }
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--paper)}
+body{font-family:Inter,sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;cursor:none}
+button,a{font:inherit;color:inherit}button{border:0;background:none}
+a{text-decoration:none}
+::selection{background:rgba(201,154,82,.18);color:var(--paper)}
 
-html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);}
-body{
-  font-family:Inter,sans-serif;
-  font-weight:300;
-  -webkit-font-smoothing:antialiased;
-  cursor:none;
+body:before{
+  content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.24;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+  mix-blend-mode:soft-light
 }
-body::before{
-  content:""; position:fixed; inset:0; z-index:900; pointer-events:none;
-  opacity:.45; mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><g fill='white' opacity='.05'><rect x='8' y='14' width='1' height='1'/><rect x='37' y='61' width='1' height='1'/><rect x='74' y='27' width='1' height='1'/><rect x='119' y='88' width='1' height='1'/><rect x='153' y='41' width='1' height='1'/><rect x='23' y='130' width='1' height='1'/><rect x='91' y='151' width='1' height='1'/><rect x='162' y='126' width='1' height='1'/></g></svg>");
+#ambient{position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(circle at 18% 48%,rgba(68,92,62,.12),transparent 34%),
+  radial-gradient(circle at 82% 20%,rgba(201,154,82,.06),transparent 32%),
+  radial-gradient(circle at 70% 90%,rgba(47,68,50,.09),transparent 38%)}
+#age{
+  position:fixed;inset:0;z-index:50000;display:grid;place-items:center;
+  background:#050605;transition:.7s var(--ease)
 }
-::selection{background:var(--gold-soft);color:var(--ink);}
-a,button{font:inherit;color:inherit;}
-a:focus-visible,button:focus-visible{outline:1px solid var(--gold);outline-offset:4px;}
-button{border:0;background:none;}
+#age.hide{opacity:0;visibility:hidden;pointer-events:none}
+.age-card{width:min(480px,calc(100% - 36px));padding:52px 46px;text-align:center;border:1px solid rgba(201,154,82,.32);background:rgba(8,11,8,.94);box-shadow:0 30px 100px #000}
+.mono{font:10px/1.4 "DM Mono",monospace;letter-spacing:.25em;text-transform:uppercase}
+.gold{color:var(--gold)}
+.age-card h1{font:300 clamp(46px,8vw,68px)/.88 "Cormorant Garamond",serif;margin:20px 0}
+.age-card h1 em{color:var(--gold)}
+.age-card p{max-width:350px;margin:0 auto 30px;color:var(--muted);font-size:12px;line-height:1.8}
+.age-actions{display:flex;gap:10px;justify-content:center}
+.btn{border:1px solid rgba(201,154,82,.32);padding:13px 20px;letter-spacing:.18em;text-transform:uppercase;font:9px "DM Mono",monospace;cursor:none;transition:.3s}
+.btn:hover{border-color:var(--gold);background:rgba(201,154,82,.09);color:var(--gold)}
 
-#age-gate{
-  position:fixed;inset:0;z-index:20000;display:grid;place-items:center;padding:24px;
-  background:rgba(5,8,6,.975);backdrop-filter:blur(20px);
-  transition:opacity .5s ease,visibility .5s ease;
+header{
+  position:fixed;z-index:2000;top:0;left:0;right:0;height:92px;padding:0 42px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(#050605 0%,rgba(5,6,5,.72) 55%,transparent)
 }
-#age-gate.hidden{opacity:0;visibility:hidden;pointer-events:none;}
-.age-card{
-  width:min(440px,100%);padding:48px 42px 42px;text-align:center;
-  background:linear-gradient(145deg,rgba(12,20,13,.98),rgba(6,11,7,.98));
-  border:1px solid var(--gold-line);
-  box-shadow:0 35px 100px rgba(0,0,0,.55);
-}
-.age-mark{
-  width:44px;height:44px;margin:0 auto 24px;border:1px solid var(--gold-line);
-  border-radius:50%;display:grid;place-items:center;
-  color:var(--gold);font:10px 'JetBrains Mono',monospace;letter-spacing:.08em;
-}
-.eyebrow,.micro{
-  font:9px 'JetBrains Mono',monospace;letter-spacing:.32em;text-transform:uppercase;
-}
-.age-eyebrow{color:var(--gold);margin-bottom:12px;}
-.age-title{
-  font:300 clamp(38px,7vw,54px)/.95 'Cormorant Garamond',serif;margin-bottom:18px;
-}
-.age-title em{color:var(--gold);}
-.age-copy{color:var(--dim);font-size:12px;line-height:1.75;max-width:330px;margin:0 auto 28px;}
-.age-actions{display:flex;gap:10px;justify-content:center;}
-.age-btn{
-  min-width:130px;padding:13px 18px;border:1px solid var(--gold-line);
-  color:var(--ink);font:10px 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;
-  cursor:none;transition:.3s ease;
-}
-.age-btn:hover{border-color:var(--gold);background:var(--gold-soft);color:var(--gold);}
-.age-btn--no{border-color:var(--line);color:var(--dim);}
+.brand{display:flex;gap:11px;align-items:center}
+.brand-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px rgba(201,154,82,.08)}
+.brand span:last-child{font:10px "DM Mono",monospace;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+.nav{display:flex;align-items:center;gap:24px}
+.nav button,.nav a{font:9px "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:none}
+.nav button:hover,.nav a:hover{color:var(--gold)}
 
-#intro{
-  position:fixed;inset:0;z-index:800;display:grid;place-items:center;
-  background:var(--bg);transition:opacity .9s ease,visibility .9s ease;
+#progress{position:fixed;z-index:3000;top:0;left:0;height:1px;width:0;background:var(--gold);transition:width .9s var(--ease)}
+#rail{position:fixed;z-index:100;top:92px;bottom:0;left:50%;width:1px;background:var(--faint)}
+#chapter{
+  position:fixed;z-index:1900;left:42px;bottom:34px;
+  font:9px "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase;color:rgba(233,228,217,.35)
 }
-#intro.gone{opacity:0;visibility:hidden;pointer-events:none;}
-.intro-inner{text-align:center;}
-.intro-brand{color:var(--gold);margin-bottom:20px;opacity:0;animation:fadeUp .6s ease .15s forwards;}
-.intro-word{display:flex;justify-content:center;line-height:.9;}
-.intro-word span{
-  font:300 clamp(58px,10vw,110px) 'Cormorant Garamond',serif;
-  letter-spacing:.13em;opacity:0;display:inline-block;
-}
-#iw2 span{color:var(--gold);}
-#iw1 span{animation:rise .5s var(--ease) forwards;}
-#iw2 span{animation:drop .45s var(--ease) forwards;}
-.intro-sub{margin-top:22px;color:var(--dim);opacity:0;animation:fadeUp .5s ease 1.5s forwards;}
-@keyframes rise{from{opacity:0;transform:translateY(16px) skewY(2deg)}to{opacity:1;transform:none}}
-@keyframes drop{from{opacity:0;transform:translateY(-12px) scale(1.05);filter:blur(2px)}to{opacity:1;transform:none;filter:blur(0)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#counter{position:fixed;z-index:1900;right:42px;bottom:34px;font:9px "DM Mono",monospace;color:var(--muted);letter-spacing:.18em}
 
-#progress{position:fixed;top:0;left:0;height:1px;width:0;background:var(--gold);z-index:1000;opacity:.8;transition:width .9s var(--ease);}
-#ambient{
-  position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:
-    radial-gradient(ellipse 55% 75% at 22% 50%,rgba(63,91,58,.08),transparent 70%),
-    radial-gradient(ellipse 45% 70% at 82% 45%,rgba(196,145,62,.055),transparent 72%);
+#track{position:fixed;inset:0;display:flex;transition:transform 1s var(--ease);will-change:transform}
+.slide{min-width:100vw;height:100vh;display:grid;grid-template-columns:50% 50%;position:relative}
+.visual{position:relative;overflow:hidden;background:#080d08}
+.visual:after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 45%,rgba(5,6,5,.92) 100%),
+             linear-gradient(0deg,rgba(5,6,5,.72),transparent 28%,rgba(5,6,5,.3));
+  pointer-events:none
 }
-#corners{position:fixed;inset:0;z-index:950;pointer-events:none;}
-.corner{position:absolute;width:18px;height:18px;opacity:.5;}
-.corner.tl{top:20px;left:20px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);}
-.corner.tr{top:20px;right:20px;border-top:1px solid var(--gold);border-right:1px solid var(--gold);}
-.corner.bl{bottom:20px;left:20px;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold);}
-.corner.br{bottom:20px;right:20px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);}
+.visual img{width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity .8s,transform 2s var(--ease)}
+.slide.active .visual img{opacity:1;transform:scale(1)}
+.visual-label{position:absolute;z-index:4;left:28px;top:112px;writing-mode:vertical-rl;transform:rotate(180deg);font:8px "DM Mono",monospace;letter-spacing:.28em;color:rgba(233,228,217,.42)}
+.visual-meta{position:absolute;z-index:4;left:28px;right:28px;bottom:30px;display:flex;justify-content:space-between;font:8px "DM Mono",monospace;letter-spacing:.16em;color:rgba(233,228,217,.4)}
+.placeholder{position:absolute;inset:0;display:grid;place-items:center;color:rgba(233,228,217,.2);font:9px "DM Mono",monospace;letter-spacing:.25em;text-transform:uppercase}
 
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:1200;
-  height:84px;padding:0 42px;display:flex;align-items:center;justify-content:space-between;
-  background:linear-gradient(to bottom,rgba(5,8,6,.86),rgba(5,8,6,0));
-  pointer-events:none;
-}
-.nav-logo,.nav-links{pointer-events:auto;}
-.nav-logo{
-  display:flex;align-items:center;gap:10px;color:var(--dim);
-  font:10px 'JetBrains Mono',monospace;letter-spacing:.27em;text-transform:uppercase;
-}
-.nav-pulse{width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px rgba(196,145,62,.08);}
-.nav-links{display:flex;align-items:center;gap:22px;}
-.nav-link{
-  position:relative;padding:5px 0;color:var(--dim);text-decoration:none;cursor:none;
-  font:9px 'JetBrains Mono',monospace;letter-spacing:.23em;text-transform:uppercase;
-  transition:color .25s ease;
-}
-.nav-link::after{
-  content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--gold);
-  transition:right .35s var(--ease);
-}
-.nav-link:hover{color:var(--ink);}
-.nav-link:hover::after{right:0;}
-.nav-link--game{color:rgba(196,145,62,.52);}
-.nav-link--game:hover{color:var(--gold);}
-.nav-link--game::before{content:"▶";font-size:5px;margin-right:5px;vertical-align:1px;}
+.copy{position:relative;display:flex;flex-direction:column;justify-content:center;padding:120px clamp(42px,7vw,100px) 110px 7vw;overflow:hidden}
+.copy:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 48%,rgba(201,154,82,.055),transparent 38%)}
+.ghost{position:absolute;right:-18px;top:50%;transform:translateY(-50%);font:300 24vw/.8 "Cormorant Garamond",serif;color:transparent;-webkit-text-stroke:1px rgba(233,228,217,.035);pointer-events:none}
+.eyebrow{position:relative;color:var(--gold);margin-bottom:15px}
+h2{position:relative;max-width:760px;font:300 clamp(48px,6vw,88px)/.84 "Cormorant Garamond",serif;letter-spacing:-.01em}
+h2 em{color:var(--gold);font-style:italic}
+.lead{position:relative;margin:23px 0 28px;max-width:610px;color:var(--muted);font-size:14px;line-height:1.85}
+.lead strong{color:var(--paper);font-weight:400}
+.tags{position:relative;display:flex;flex-wrap:wrap;gap:7px;margin-bottom:30px}
+.tag{border:1px solid var(--faint);padding:8px 10px;font:8px "DM Mono",monospace;letter-spacing:.13em;text-transform:uppercase;color:rgba(233,228,217,.55)}
+.tag b{color:var(--gold);font-weight:400}
+.cta{position:relative;align-self:flex-start;display:inline-flex;gap:13px;align-items:center;border:1px solid rgba(201,154,82,.34);padding:14px 19px;font:9px "DM Mono",monospace;letter-spacing:.18em;text-transform:uppercase;transition:.35s var(--ease)}
+.cta:hover{border-color:var(--gold);background:rgba(201,154,82,.09);color:var(--gold)}
+.source{position:absolute;left:7vw;bottom:34px;color:rgba(233,228,217,.25);font:8px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase}
 
-#divider{position:fixed;top:84px;bottom:0;left:48%;width:1px;background:var(--line);z-index:80;pointer-events:none;}
+/* Archive chapter cards */
+.archive{background:
+  linear-gradient(135deg,#070907,#0b100b 45%,#070807);
+}
+.archive .copy{grid-column:2}
+.archive .visual{grid-column:1;grid-row:1}
+.archive-graphic{position:absolute;inset:0;overflow:hidden}
+.archive-graphic:before{
+  content:"";position:absolute;width:70vw;height:70vw;border:1px solid rgba(201,154,82,.08);
+  border-radius:50%;left:-30vw;top:12vh;box-shadow:0 0 0 70px rgba(201,154,82,.015),0 0 0 140px rgba(201,154,82,.012)
+}
+.archive-graphic:after{
+  content:"";position:absolute;left:12%;right:12%;top:50%;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:.35
+}
+.chapter-number{font:300 clamp(130px,19vw,280px)/.7 "Cormorant Garamond",serif;color:rgba(233,228,217,.035)}
+.chapter-list{position:relative;margin:24px 0 30px;border-top:1px solid var(--faint);max-width:610px}
+.chapter-list div{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--faint);font:9px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.chapter-list b{font-weight:400;color:var(--gold)}
 
-#slider-track{
-  position:fixed;inset:0;display:flex;z-index:10;
-  transition:transform .95s var(--ease);will-change:transform;
-}
-.slide{
-  min-width:100vw;height:100vh;position:relative;display:flex;overflow:hidden;
-  background:var(--bg);
-}
-.slide-img{
-  width:48%;height:100%;position:relative;overflow:hidden;flex-shrink:0;background:#071008;
-}
-.slide-img::before{
-  content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
-  background:
-    linear-gradient(90deg,rgba(5,8,6,0) 50%,rgba(5,8,6,.98) 100%),
-    linear-gradient(180deg,rgba(5,8,6,.48),transparent 25%,transparent 72%,rgba(5,8,6,.72));
-}
-.slide-img::after{
-  content:"";position:absolute;left:0;right:0;top:0;height:1px;z-index:5;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;
-}
-.slide.active .slide-img::after{animation:scan 1.15s ease .15s forwards;}
-@keyframes scan{from{opacity:.7;transform:translateY(0)}to{opacity:0;transform:translateY(100vh)}}
-.slide-img img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:0;visibility:hidden;transform:scale(1.055);
-  transition:opacity .65s ease,transform 1.8s var(--ease);
-}
-.slide-img img.loaded{opacity:1;visibility:visible;}
-.slide.active .slide-img img{transform:scale(1);}
-.img-ph{
-  position:absolute;inset:0;z-index:2;display:grid;place-items:center;
-  color:var(--dim);font:10px 'JetBrains Mono',monospace;letter-spacing:.24em;text-transform:uppercase;
-}
-.slide-meta{
-  position:absolute;z-index:7;left:28px;right:28px;bottom:28px;
-  display:flex;justify-content:space-between;align-items:end;
-}
-.slide-genetics{color:var(--gold);opacity:.78;}
-.slide-num{color:rgba(238,234,225,.38);}
-.slide-meta span{font:8px 'JetBrains Mono',monospace;letter-spacing:.23em;text-transform:uppercase;}
-.slide-index{
-  position:absolute;left:24px;top:105px;z-index:7;
-  writing-mode:vertical-rl;transform:rotate(180deg);
-  color:rgba(238,234,225,.32);font:8px 'JetBrains Mono',monospace;letter-spacing:.28em;
-}
+#controls{position:fixed;z-index:2200;left:50%;bottom:24px;transform:translateX(-50%);display:flex;align-items:center;gap:14px}
+.arrow{width:36px;height:36px;border:1px solid var(--faint);border-radius:50%;display:grid;place-items:center;color:var(--muted);cursor:none;transition:.3s}
+.arrow:hover:not(:disabled){border-color:rgba(201,154,82,.45);color:var(--gold)}
+.arrow:disabled{opacity:.2}
+#dots{display:flex;gap:7px}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(233,228,217,.15);cursor:none;transition:.3s}
+.dot.active{background:var(--gold);transform:scale(1.6)}
 
-.slide-info{
-  flex:1;min-width:0;position:relative;z-index:20;
-  display:flex;flex-direction:column;justify-content:center;
-  padding:105px clamp(34px,5vw,82px) 92px clamp(46px,5vw,76px);
-  overflow:hidden;
+#support{
+ position:fixed;z-index:4000;inset:0;display:grid;place-items:center;padding:25px;
+ background:rgba(5,6,5,.91);backdrop-filter:blur(18px);opacity:0;visibility:hidden;transition:.35s
 }
-.slide-info::before{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(circle at 78% 46%,rgba(196,145,62,.045),transparent 34%),
-    linear-gradient(135deg,rgba(255,255,255,.012),transparent 35%);
-}
-.ghost-num{
-  position:absolute;right:-10px;top:50%;transform:translateY(-50%);
-  color:transparent;-webkit-text-stroke:1px rgba(238,234,225,.035);
-  font:300 clamp(150px,18vw,250px)/1 'Cormorant Garamond',serif;pointer-events:none;
-}
-.story-kicker{position:relative;color:var(--gold);margin-bottom:15px;}
-.story-title{
-  position:relative;max-width:700px;margin-bottom:16px;
-  font:300 clamp(39px,5vw,70px)/.92 'Cormorant Garamond',serif;
-  letter-spacing:.005em;
-}
-.story-title em{color:var(--gold);font-style:italic;}
-.story-line{
-  position:relative;display:flex;align-items:center;gap:10px;
-  color:var(--dim);margin-bottom:26px;
-}
-.story-line::before{content:"";width:28px;height:1px;background:var(--gold-line);}
-.story-copy{
-  position:relative;max-width:590px;color:var(--dim);
-  font-size:14px;line-height:1.85;margin-bottom:27px;
-}
-.story-copy strong{color:var(--ink);font-weight:400;}
-.fact-row{
-  position:relative;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;
-}
-.fact{
-  padding:9px 12px;border:1px solid var(--line);
-  color:rgba(238,234,225,.55);font:8px 'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;
-  background:rgba(255,255,255,.012);
-}
-.fact b{color:var(--gold);font-weight:400;}
-.story-cta{
-  position:relative;align-self:flex-start;display:inline-flex;align-items:center;gap:12px;
-  padding:13px 20px;border:1px solid var(--gold-line);text-decoration:none;
-  font:9px 'JetBrains Mono',monospace;letter-spacing:.23em;text-transform:uppercase;
-  transition:.35s var(--ease);overflow:hidden;
-}
-.story-cta::before{
-  content:"";position:absolute;inset:0;background:var(--gold-soft);
-  transform:translateX(-101%);transition:transform .45s var(--ease);
-}
-.story-cta:hover{border-color:var(--gold);color:var(--gold);}
-.story-cta:hover::before{transform:none;}
-.story-cta span,.story-cta svg{position:relative;z-index:1;}
-.source-note{
-  position:absolute;left:clamp(46px,5vw,76px);bottom:30px;
-  color:rgba(238,234,225,.25);font:8px 'JetBrains Mono',monospace;letter-spacing:.16em;text-transform:uppercase;
-}
+#support.open{opacity:1;visibility:visible}
+.support-card{position:relative;width:min(560px,100%);padding:55px 48px;background:#091009;border:1px solid rgba(201,154,82,.32);box-shadow:0 40px 120px #000}
+.support-card h3{font:300 54px/.85 "Cormorant Garamond",serif;margin:16px 0 20px}
+.support-card h3 em{color:var(--gold)}
+.support-card p{color:var(--muted);font-size:12px;line-height:1.85;max-width:430px;margin-bottom:28px}
+.close{position:absolute;right:20px;top:18px;color:var(--muted);font-size:20px;cursor:none}
+.support-link{display:inline-flex;border:1px solid rgba(201,154,82,.4);padding:14px 18px;font:9px "DM Mono",monospace;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);transition:.3s}
+.support-link:hover{background:rgba(201,154,82,.09);border-color:var(--gold)}
 
-#controls{
-  position:fixed;left:48%;bottom:28px;transform:translateX(-50%);
-  z-index:1300;display:flex;align-items:center;gap:15px;
-}
-.dot{width:5px;height:5px;border-radius:50%;background:rgba(238,234,225,.16);padding:0;cursor:none;transition:.3s;}
-.dot.active{background:var(--gold);transform:scale(1.65);}
-.arrow{
-  width:34px;height:34px;border:1px solid var(--faint);border-radius:50%;
-  display:grid;place-items:center;color:var(--dim);cursor:none;transition:.3s;
-}
-.arrow:hover:not(:disabled){border-color:var(--gold-line);color:var(--gold);}
-.arrow:disabled{opacity:.2;}
-#counter{min-width:45px;text-align:center;color:var(--dim);font:9px 'JetBrains Mono',monospace;letter-spacing:.18em;}
+#cursor,#ring{position:fixed;z-index:10000;pointer-events:none;transform:translate(-50%,-50%)}
+#cursor{width:14px;height:14px}
+#cursor:before,#cursor:after{content:"";position:absolute;background:var(--gold)}
+#cursor:before{width:1px;height:14px;left:7px}
+#cursor:after{height:1px;width:14px;top:7px}
+#ring{width:34px;height:34px;border:1px solid rgba(201,154,82,.3);border-radius:50%;transition:.35s var(--ease)}
+body.hover #ring{width:50px;height:50px;border-color:rgba(201,154,82,.6)}
 
-#modal-overlay{
-  position:fixed;inset:0;z-index:5000;display:grid;place-items:center;padding:24px;
-  background:rgba(5,8,6,.92);backdrop-filter:blur(16px);
-  opacity:0;visibility:hidden;transition:.35s ease;
+@media(max-width:800px){
+ body{cursor:auto}
+ header{height:72px;padding:0 20px}.nav{gap:12px}.nav a{font-size:7px}
+ .slide{display:block;overflow-y:auto}.visual{height:42vh}.copy{min-height:58vh;padding:30px 24px 110px}
+ .visual-label{top:86px}.source{left:24px;bottom:24px}
+ #rail{display:none}#chapter{left:20px;bottom:18px}#counter{right:20px;bottom:18px}
+ #controls{bottom:13px}.ghost{font-size:170px}
+ h2{font-size:46px}.lead{font-size:12px;line-height:1.75}
+ .archive .visual,.archive .copy{display:block}.archive .visual{height:34vh}.archive .copy{min-height:66vh}
+ .age-card{padding:42px 25px}.age-actions{flex-direction:column}.age-actions .btn{width:100%}
+ #cursor,#ring{display:none}
 }
-#modal-overlay.open{opacity:1;visibility:visible;}
-#modal{
-  width:min(460px,100%);padding:48px 44px;background:var(--panel);
-  border:1px solid var(--gold-line);transform:translateY(18px);transition:.45s var(--ease);
-}
-#modal-overlay.open #modal{transform:none;}
-.modal-title{font:300 42px/.95 'Cormorant Garamond',serif;margin:10px 0 30px;}
-.modal-title em{color:var(--gold);}
-#modal-close{
-  position:absolute;top:20px;right:20px;width:32px;height:32px;color:var(--dim);
-  cursor:none;font-size:14px;
-}
-.modal-row{
-  display:flex;gap:14px;align-items:center;padding:15px 0;
-  border-top:1px solid var(--line);text-decoration:none;
-}
-.modal-row:last-of-type{border-bottom:1px solid var(--line);}
-.modal-row:hover .modal-row-val{color:var(--gold);}
-.modal-icon{
-  width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--gold-line);color:var(--gold);
-}
-.modal-row-label{color:var(--dim);font:8px 'JetBrains Mono',monospace;letter-spacing:.25em;text-transform:uppercase;margin-bottom:3px;}
-.modal-row-val{font-size:13px;transition:.25s;}
-.modal-note{margin-top:20px;color:var(--dim);font-size:10px;line-height:1.75;}
-
-#cursor{
-  position:fixed;z-index:10001;pointer-events:none;transform:translate(-50%,-50%);
-}
-.c-bar{position:absolute;background:var(--gold);opacity:.72;}
-.c-top,.c-bottom{width:1px;left:50%;transform:translateX(-50%);}
-.c-top{height:9px;bottom:calc(50% + 4px);}
-.c-bottom{height:9px;top:calc(50% + 4px);}
-.c-left,.c-right{height:1px;top:50%;transform:translateY(-50%);}
-.c-left{width:9px;right:calc(50% + 4px);}
-.c-right{width:9px;left:calc(50% + 4px);}
-.c-center{position:absolute;width:2px;height:2px;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:var(--gold);}
-#cursor-ring{
-  position:fixed;z-index:10000;pointer-events:none;width:34px;height:34px;
-  border:1px solid rgba(196,145,62,.3);border-radius:50%;transform:translate(-50%,-50%);
-  transition:width .38s var(--ease),height .38s var(--ease),border-color .3s,opacity .3s;
-}
-body.cur-hover #cursor-ring{width:50px;height:50px;border-color:rgba(196,145,62,.62);}
-body.cur-hover .c-top,body.cur-hover .c-bottom{height:14px;}
-body.cur-hover .c-left,body.cur-hover .c-right{width:14px;}
-body.cur-press #cursor-ring{width:20px;height:20px;border-color:var(--gold);}
-
-.logo-spark{
-  position:fixed;z-index:9999;border-radius:50%;background:var(--gold);pointer-events:none;
-  transform:translate(-50%,-50%);animation:spark .85s ease-out forwards;
-}
-@keyframes spark{
-  from{opacity:1;transform:translate(-50%,-50%) scale(1)}
-  to{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.15)}
-}
-
-#swipe-hint{display:none;}
-
-@media (max-width:900px){
-  nav{padding:0 22px;}
-  .nav-links{gap:15px;}
-  .nav-link{font-size:8px;letter-spacing:.17em;}
-  #divider{left:45%;}
-  .slide-img{width:45%;}
-  .slide-info{padding-left:42px;padding-right:28px;}
-  .story-copy{font-size:13px;line-height:1.72;}
-  #controls{left:45%;}
-}
-@media (max-width:720px){
-  body{cursor:auto;}
-  nav{height:70px;background:linear-gradient(to bottom,rgba(5,8,6,.95),rgba(5,8,6,.5));}
-  .nav-logo{font-size:9px;}
-  .nav-links{gap:11px;}
-  .nav-link{font-size:7px;letter-spacing:.13em;}
-  .nav-link--game{display:none;}
-  .slide{display:block;overflow:auto;overflow-x:hidden;}
-  .slide-img{width:100%;height:43vh;}
-  .slide-img::before{
-    background:linear-gradient(180deg,rgba(5,8,6,.2),transparent 45%,rgba(5,8,6,.98) 100%);
-  }
-  .slide-info{
-    min-height:57vh;padding:25px 24px 100px;justify-content:flex-start;overflow:visible;
-  }
-  .ghost-num{font-size:140px;top:20%;right:-10px;}
-  .story-title{font-size:38px;max-width:95%;}
-  .story-copy{font-size:12px;}
-  .source-note{left:24px;bottom:18px;}
-  #divider{display:none;}
-  #controls{left:50%;bottom:18px;}
-  #cursor,#cursor-ring{display:none;}
-  .slide-index{top:83px;}
-}
-@media (max-width:480px){
-  .nav-logo{max-width:120px;}
-  .nav-links{gap:8px;}
-  .nav-link{font-size:6.5px;}
-  .age-actions{flex-direction:column;}
-  .age-btn{width:100%;}
-  .age-card{padding:40px 24px 34px;}
-}
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;}
-}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 </style>
 </head>
 
 <body>
-<div id="age-gate" role="dialog" aria-modal="true" aria-labelledby="age-heading">
-  <div class="age-card">
-    <div class="age-mark">18+</div>
-    <div class="age-eyebrow eyebrow">Baltazar Seeds</div>
-    <h1 class="age-title" id="age-heading">Are you <em>18+</em>?</h1>
-    <p class="age-copy">This site contains cannabis-related documentation and is intended for adults aged 18 and over.</p>
-    <div class="age-actions">
-      <button class="age-btn" id="age-yes" type="button">Yes, enter</button>
-      <button class="age-btn age-btn--no" id="age-no" type="button">No, leave</button>
-    </div>
+<div id="age">
+ <div class="age-card">
+  <div class="mono gold">Baltazar Seeds · Archive</div>
+  <h1>Are you <em>18+</em>?</h1>
+  <p>This archive contains cannabis-related documentation and is intended for adults aged 18 and over.</p>
+  <div class="age-actions"><button class="btn" id="yes">Yes, enter</button><button class="btn" id="no">No, leave</button></div>
+ </div>
+</div>
+
+<div id="ambient"></div><div id="progress"></div>
+<header>
+ <div class="brand"><i class="brand-dot"></i><span>Baltazar Seeds</span></div>
+ <nav class="nav">
+  <button id="story">Archive</button>
+  <button id="supportBtn">Support</button>
+ </nav>
+</header>
+
+<div id="rail"></div><div id="chapter">DOCUMENTED GROW ARCHIVE</div><div id="counter">01 / 10</div>
+
+<main id="track">
+ <!-- PART ONE -->
+ <section class="slide active">
+  <div class="visual">
+   <div class="placeholder">The Return</div>
+   <img src="STRAIN1.JPG" alt="Baltazar Seeds — Strainmix Part One" loading="eager">
+   <div class="visual-label">01 · STRAINMIX PART ONE</div>
+   <div class="visual-meta"><span>10+ YEARS AWAY</span><span>01 / 10</span></div>
   </div>
-</div>
-
-<div id="intro">
-  <div class="intro-inner">
-    <div class="intro-brand eyebrow">Baltazar Seeds</div>
-    <div class="intro-word" id="iw1"></div>
-    <div class="intro-word" id="iw2"></div>
-    <div class="intro-sub micro">The Comeback Run · Strainmix Part One</div>
+  <div class="copy"><div class="ghost">01</div>
+   <div class="eyebrow mono">10.01.2025 · THE RETURN</div>
+   <h2>Back after<br><em>more than ten years.</em></h2>
+   <p class="lead">The comeback starts with a simple idea: <strong>quality over quantity</strong> and the curiosity to see what an unpredictable seed mix becomes. No polished breeding program. No production line. Just the return.</p>
+   <div class="tags"><span class="tag"><b>01</b> comeback</span><span class="tag"><b>50+</b> seeds planned</span><span class="tag"><b>01</b> experiment</span></div>
+   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
   </div>
-</div>
+ </section>
 
-<div id="ambient"></div>
-<div id="progress"></div>
-<div id="corners">
-  <div class="corner tl"></div><div class="corner tr"></div>
-  <div class="corner bl"></div><div class="corner br"></div>
-</div>
-
-<nav>
-  <div class="nav-logo"><span class="nav-pulse"></span>Baltazar Seeds</div>
-  <div class="nav-links">
-    <button class="nav-link" id="nav-story" type="button">The Story</button>
-    <a class="nav-link" href="seite3.html">Merch</a>
-    <a class="nav-link" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener noreferrer">Grower.ch</a>
-    <a class="nav-link nav-link--game" href="player.html">Neon Escape</a>
-    <a class="nav-link nav-link--game" href="baltazarsrun.html">Baltazar's Run</a>
-    <button class="nav-link" id="nav-contact" type="button">Contact</button>
+ <section class="slide">
+  <div class="visual">
+   <div class="placeholder">The Mix</div><img src="STRAIN2.JPG" alt="Baltazar Seeds — seed mix" loading="lazy">
+   <div class="visual-label">02 · UNKNOWN BY DESIGN</div><div class="visual-meta"><span>MIXED ORIGINS</span><span>02 / 10</span></div>
   </div>
-</nav>
+  <div class="copy"><div class="ghost">02</div>
+   <div class="eyebrow mono">THE MIX · UNKNOWN BY DESIGN</div>
+   <h2>A box full of<br><em>questions.</em></h2>
+   <p class="lead">Seeds collected over <strong>three years or longer</strong> meet named varieties such as Gelato, Cali Orange and Purple Tangie. The point was never perfect lineage. The uncertainty was part of the experiment.</p>
+   <div class="tags"><span class="tag"><b>3+ YRS</b> collected</span><span class="tag"><b>Gelato</b> main source</span><span class="tag"><b>€2</b> some seeds</span></div>
+   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+ </section>
 
-<div id="divider"></div>
+ <section class="slide">
+  <div class="visual">
+   <div class="placeholder">Selection</div><img src="STRAIN3.JPG" alt="Baltazar Seeds — early selection" loading="lazy">
+   <div class="visual-label">03 · SELECTION</div><div class="visual-meta"><span>23 → 3 → 50+</span><span>03 / 10</span></div>
+  </div>
+  <div class="copy"><div class="ghost">03</div>
+   <div class="eyebrow mono">JANUARY · THE STRUGGLE</div>
+   <h2>It didn't start<br><em>smoothly.</em></h2>
+   <p class="lead"><strong>23 seeds</strong> went into the first attempt and only three small plants had emerged at first. Dry winter air, heating and lamp heat became part of the story. More seeds followed and the experiment kept moving.</p>
+   <div class="tags"><span class="tag"><b>23</b> first seeds</span><span class="tag"><b>3</b> early survivors</span><span class="tag"><b>50+</b> total mix</span></div>
+   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+ </section>
 
-<div id="slider-track" role="region" aria-roledescription="carousel" aria-label="Baltazar Seeds — The Comeback Run">
+ <section class="slide">
+  <div class="visual">
+   <div class="placeholder">Phenotype Watch</div><img src="STRAIN4.JPG" alt="Baltazar Seeds — selection" loading="lazy">
+   <div class="visual-label">04 · PHENOTYPE WATCH</div><div class="visual-meta"><span>SELECTION</span><span>04 / 10</span></div>
+  </div>
+  <div class="copy"><div class="ghost">04</div>
+   <div class="eyebrow mono">22. VEG · SELECTION</div>
+   <h2>Let the plants<br><em>show themselves.</em></h2>
+   <p class="lead">As the number of plants grew, selection became unavoidable. One unusual plant even became <strong>#18 in the Zwergenbattle 2025</strong> — a trifoliate with three cotyledons.</p>
+   <div class="tags"><span class="tag"><b>22. VEG</b> selection</span><span class="tag"><b>#18</b> Zwergenbattle</span><span class="tag"><b>3</b> cotyledons</span></div>
+   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+ </section>
 
-  <section class="slide active" data-index="0" aria-label="1 of 6 — The Return">
-    <div class="slide-img">
-      <div class="img-ph">The Return</div>
-      <img src="STRAIN1.JPG" alt="Baltazar Seeds — documented grow image" loading="eager" fetchpriority="high" decoding="async"
-           onload="this.classList.add('loaded');this.previousElementSibling.style.display='none';"
-           onerror="this.remove();">
-      <div class="slide-index">01 / DOCUMENTED ORIGIN</div>
-      <div class="slide-meta"><span class="slide-genetics">10+ YEARS AWAY · COMEBACK RUN</span><span class="slide-num">01 / 06</span></div>
-    </div>
-    <div class="slide-info">
-      <div class="ghost-num">01</div>
-      <div class="story-kicker eyebrow">10.01.2025 · THE RETURN</div>
-      <h2 class="story-title">Back after<br><em>more than ten years.</em></h2>
-      <div class="story-line micro">Strainmix Part One</div>
-      <p class="story-copy">After more than a decade away from growing, the project begins again. Not as a polished breeding program and not as a high-end production run — but as a <strong>comeback</strong>. The stated goal from the start was simple: <strong>quality over quantity</strong> and the curiosity to see what an unpredictable seed mix would become.</p>
-      <div class="fact-row">
-        <div class="fact"><b>01</b> Comeback</div>
-        <div class="fact"><b>50+</b> seeds planned</div>
-        <div class="fact"><b>01</b> experiment</div>
-      </div>
-      <a class="story-cta" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener"><span>Read the original report</span><span>↗</span></a>
-      <div class="source-note">Source · Grower.ch · Strainmix Part One</div>
-    </div>
-  </section>
+ <section class="slide">
+  <div class="visual">
+   <div class="placeholder">Flower</div><img src="STRAIN5.JPG" alt="Baltazar Seeds — flower" loading="lazy">
+   <div class="visual-label">05 · FLOWER</div><div class="visual-meta"><span>BT. 37 → 53</span><span>05 / 10</span></div>
+  </div>
+  <div class="copy"><div class="ghost">05</div>
+   <div class="eyebrow mono">BT. 37 → BT. 53 · FLOWER</div>
+   <h2>Different plants.<br><em>Different stories.</em></h2>
+   <p class="lead">The mix becomes a catalogue of variation. Possible Gelato, Skunk, Purple Tangie and Cali Orange appear as tentative identifications. Later the report simply says: <strong>every plant was different.</strong></p>
+   <div class="tags"><span class="tag"><b>BT. 37</b> first IDs</span><span class="tag"><b>BT. 42</b> 600W NDL</span><span class="tag"><b>BT. 53</b> all different</span></div>
+   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+ </section>
 
-  <section class="slide" data-index="1" aria-label="2 of 6 — The Mix">
-    <div class="slide-img">
-      <div class="img-ph">The Mix</div>
-      <img src="STRAIN2.JPG" alt="Baltazar Seeds — documented grow image" loading="lazy" decoding="async"
-           onload="this.classList.add('loaded');this.previousElementSibling.style.display='none';"
-           onerror="this.remove();">
-      <div class="slide-index">02 / DOCUMENTED ORIGIN</div>
-      <div class="slide-meta"><span class="slide-genetics">BAGSEEDS · MIXED ORIGINS</span><span class="slide-num">02 / 06</span></div>
-    </div>
-    <div class="slide-info">
-      <div class="ghost-num">02</div>
-      <div class="story-kicker eyebrow">THE MIX · UNKNOWN BY DESIGN</div>
-      <h2 class="story-title">A box full of<br><em>questions.</em></h2>
-      <div class="story-line micro">Seed origin was part of the experiment</div>
-      <p class="story-copy">The mix was built from seeds collected over <strong>three years or longer</strong>. Most were older seeds from flowers — mainly Gelato — alongside seeds from a coffee-shop seed vending machine. The report also names <strong>Cali Orange, Gelato and Purple Tangie</strong>. Some seeds were free or cost about two euros.</p>
-      <div class="fact-row">
-        <div class="fact"><b>3+ YRS</b> collected</div>
-        <div class="fact"><b>Gelato</b> main source</div>
-        <div class="fact"><b>€2</b> some seeds</div>
-      </div>
-      <div class="source-note">Documented origin · no invented lineage</div>
-    </div>
-  </section>
+ <section class="slide">
+  <div class="visual">
+   <div class="placeholder">The Finish</div><img src="STRAIN6.JPG" alt="Baltazar Seeds — final flower" loading="lazy">
+   <div class="visual-label">06 · THE FINISH</div><div class="visual-meta"><span>BT. 57 · HARVEST</span><span>06 / 10</span></div>
+  </div>
+  <div class="copy"><div class="ghost">06</div>
+   <div class="eyebrow mono">15.04.2025 · BT. 57 · FINALE</div>
+   <h2>Not the end.<br><em>The next experiment.</em></h2>
+   <p class="lead">The first run closes at <strong>BT. 57</strong>. The result is treated as a learning run and the unstable genetics make the outcome unpredictable. The important part is what comes next.</p>
+   <div class="tags"><span class="tag"><b>BT. 57</b> harvest</span><span class="tag"><b>~120g</b> later estimate</span><span class="tag"><b>NEXT</b> seed mix</span></div>
+   <div class="source mono">Source · Grower.ch · Strainmix Part One</div>
+  </div>
+ </section>
 
-  <section class="slide" data-index="2" aria-label="3 of 6 — The Struggle">
-    <div class="slide-img">
-      <div class="img-ph">The Struggle</div>
-      <img src="STRAIN3.JPG" alt="Baltazar Seeds — documented grow image" loading="lazy" decoding="async"
-           onload="this.classList.add('loaded');this.previousElementSibling.style.display='none';"
-           onerror="this.remove();">
-      <div class="slide-index">03 / DOCUMENTED ORIGIN</div>
-      <div class="slide-meta"><span class="slide-genetics">OLD SEED · WINTER · DRY AIR</span><span class="slide-num">03 / 06</span></div>
-    </div>
-    <div class="slide-info">
-      <div class="ghost-num">03</div>
-      <div class="story-kicker eyebrow">JANUARY · THE STRUGGLE</div>
-      <h2 class="story-title">It didn't start<br><em>smoothly.</em></h2>
-      <div class="story-line micro">23 planted · only 3 initially emerged</div>
-      <p class="story-copy">The first attempt used <strong>23 seeds</strong> and only three small plants had emerged at first. Around thirty more seeds were then prepared. The report describes dry winter air, heating, lamp heat and suboptimal climate as part of the challenge. More than fifty seeds had been put through the process overall.</p>
-      <div class="fact-row">
-        <div class="fact"><b>23</b> first seeds</div>
-        <div class="fact"><b>3</b> early survivors</div>
-        <div class="fact"><b>50+</b> total mix</div>
-      </div>
-      <div class="source-note">Personal grow observation · not presented as a general rule</div>
-    </div>
-  </section>
+ <!-- PART TWO -->
+ <section class="slide archive">
+  <div class="visual"><div class="archive-graphic"></div><div class="chapter-number">II</div><div class="visual-label">07 · STRAINMIX PART TWO</div><div class="visual-meta"><span>01.05.2025</span><span>07 / 10</span></div></div>
+  <div class="copy"><div class="ghost">II</div>
+   <div class="eyebrow mono">01.05.2025 · THE SECOND RUN</div>
+   <h2>The mix<br><em>gets serious.</em></h2>
+   <p class="lead">Part Two moves from the comeback into a much larger documented run: a <strong>120 × 120 × 200</strong> tent, multiple lighting stages and a broad mix of named genetics. After heavy losses, two cuts from Farmbros are added to keep the space under the lamp filled.</p>
+   <div class="chapter-list">
+    <div><span>Setup</span><b>120 × 120 × 200</b></div>
+    <div><span>Light</span><b>250 / 400 / 600 W</b></div>
+    <div><span>Containers</span><b>1 L → 5 L · 15–20 L</b></div>
+    <div><span>Documented</span><b>Growth · Problems · Solutions</b></div>
+   </div>
+   <div class="source mono">Source · Grower.ch · Bio-Erde Strainmix Part 2</div>
+  </div>
+ </section>
 
-  <section class="slide" data-index="3" aria-label="4 of 6 — Selection">
-    <div class="slide-img">
-      <div class="img-ph">Selection</div>
-      <img src="STRAIN4.JPG" alt="Baltazar Seeds — documented grow image" loading="lazy" decoding="async"
-           onload="this.classList.add('loaded');this.previousElementSibling.style.display='none';"
-           onerror="this.remove();">
-      <div class="slide-index">04 / DOCUMENTED ORIGIN</div>
-      <div class="slide-meta"><span class="slide-genetics">SELECTION · PHENOTYPE WATCH</span><span class="slide-num">04 / 06</span></div>
-    </div>
-    <div class="slide-info">
-      <div class="ghost-num">04</div>
-      <div class="story-kicker eyebrow">22. VEG · SELECTION</div>
-      <h2 class="story-title">Let the plants<br><em>show themselves.</em></h2>
-      <div class="story-line micro">Strong · fast · interesting</div>
-      <p class="story-copy">As the number of plants grew, selection became unavoidable. The aim was to keep the plants that developed best and to watch how differently the unknown genetics expressed themselves. One unusual plant became <strong>number 18 in the Zwergenbattle 2025</strong> — a trifoliate with three cotyledons.</p>
-      <div class="fact-row">
-        <div class="fact"><b>22. VEG</b> selection</div>
-        <div class="fact"><b>#18</b> Zwergenbattle</div>
-        <div class="fact"><b>3</b> cotyledons</div>
-      </div>
-      <div class="source-note">Selection documented in the original thread</div>
-    </div>
-  </section>
+ <!-- HELL KITCHEN -->
+ <section class="slide archive">
+  <div class="visual"><div class="archive-graphic"></div><div class="chapter-number">HK</div><div class="visual-label">08 · BALTAZARS HELL KITCHEN</div><div class="visual-meta"><span>03.01.2026</span><span>08 / 10</span></div></div>
+  <div class="copy"><div class="ghost">HK</div>
+   <div class="eyebrow mono">03.01.2026 · NEXT ROUND</div>
+   <h2>More tents.<br><em>More structure.</em></h2>
+   <p class="lead">The setup gets pushed another level: <strong>three tents</strong>, self-mixed soil, 13–22 litre containers and automatic irrigation. The report describes it as less like a simple grow box and more like a kitchen — hence <em>Hell Kitchen</em>.</p>
+   <div class="chapter-list">
+    <div><span>Tents</span><b>03</b></div>
+    <div><span>Containers</span><b>13 → 22 L</b></div>
+    <div><span>Irrigation</span><b>Automatic</b></div>
+    <div><span>Direction</span><b>Structured · Constant</b></div>
+   </div>
+   <div class="source mono">Source · Grower.ch · Baltazars Hell Kitchen</div>
+  </div>
+ </section>
 
-  <section class="slide" data-index="4" aria-label="5 of 6 — Flower">
-    <div class="slide-img">
-      <div class="img-ph">Flower</div>
-      <img src="STRAIN5.JPG" class="img-a" alt="Baltazar Seeds — documented flower image" loading="lazy" decoding="async"
-           onload="this.classList.add('loaded');this.previousElementSibling.style.display='none';"
-           onerror="this.remove();">
-      <img src="STRAIN5A.JPG" class="img-b" alt="Baltazar Seeds — documented flower image, second view" loading="lazy" decoding="async"
-           onload="this.classList.add('loaded');" onerror="this.remove();">
-      <div class="slide-index">05 / DOCUMENTED ORIGIN</div>
-      <div class="slide-meta"><span class="slide-genetics">BT. 37 · DIFFERENT SCENTS</span><span class="slide-num">05 / 06</span></div>
-    </div>
-    <div class="slide-info">
-      <div class="ghost-num">05</div>
-      <div class="story-kicker eyebrow">BT. 37 → BT. 53 · FLOWER</div>
-      <h2 class="story-title">Different plants.<br><em>Different stories.</em></h2>
-      <div class="story-line micro">The mix became a catalogue of variation</div>
-      <p class="story-copy">By day 37 the plants were being tentatively identified by smell and appearance: possible Gelato, Skunk, Purple Tangie and Cali Orange among them. Later the report notes that <strong>every plant was different</strong>. The aromas ranged from sweet and herbal to intensely pungent, citrus and lemon.</p>
-      <div class="fact-row">
-        <div class="fact"><b>BT. 37</b> first IDs</div>
-        <div class="fact"><b>BT. 42</b> 600W NDL</div>
-        <div class="fact"><b>BT. 53</b> all different</div>
-      </div>
-      <div class="source-note">Strain names remain hypotheses where the original report says “wahrscheinlich” or “ich tippe”</div>
-    </div>
-  </section>
+ <!-- PART THREE -->
+ <section class="slide archive">
+  <div class="visual"><div class="archive-graphic"></div><div class="chapter-number">III</div><div class="visual-label">09 · STRAIN MIX PART THREE</div><div class="visual-meta"><span>02.09.2026 · BT. 32</span><span>09 / 10</span></div></div>
+  <div class="copy"><div class="ghost">III</div>
+   <div class="eyebrow mono">BT. 32 · 02.09.2026 · THE NEXT ROUND</div>
+   <h2>The story<br><em>continues.</em></h2>
+   <p class="lead">Part Three returns to the core idea: <strong>follow the genetics</strong>, preserve the development and keep the tradition alive. Seeds from the previous run are back in the mix and the first real phenotype hunting is underway.</p>
+   <div class="chapter-list">
+    <div><span>Flower</span><b>Day 32</b></div>
+    <div><span>Vegi</span><b>≈ 4–5 weeks</b></div>
+    <div><span>Seeds</span><b>≈ 50 from previous run</b></div>
+    <div><span>Plants</span><b>09 · under 600 W NDL</b></div>
+   </div>
+   <div class="source mono">Source · Grower.ch · Bio-Erde Strain Mix Part 3</div>
+  </div>
+ </section>
 
-  <section class="slide" data-index="5" aria-label="6 of 6 — The Finish">
-    <div class="slide-img">
-      <div class="img-ph">The Finish</div>
-      <img src="STRAIN6.JPG" class="img-a" alt="Baltazar Seeds — documented final flower image" loading="lazy" decoding="async"
-           onload="this.classList.add('loaded');this.previousElementSibling.style.display='none';"
-           onerror="this.remove();">
-      <img src="STRAIN6A.JPG" class="img-b" alt="Baltazar Seeds — documented final flower image, second view" loading="lazy" decoding="async"
-           onload="this.classList.add('loaded');" onerror="this.remove();">
-      <div class="slide-index">06 / DOCUMENTED ORIGIN</div>
-      <div class="slide-meta"><span class="slide-genetics">BT. 57 · HARVEST · NEXT RUN</span><span class="slide-num">06 / 06</span></div>
-    </div>
-    <div class="slide-info">
-      <div class="ghost-num">06</div>
-      <div class="story-kicker eyebrow">15.04.2025 · BT. 57 · FINALE</div>
-      <h2 class="story-title">Not the end.<br><em>The next experiment.</em></h2>
-      <div class="story-line micro">A comeback run becomes a direction</div>
-      <p class="story-copy">The harvest came at BT. 57. Some plants could have stood longer but the run was intentionally brought to a close. The conclusion was clear: this was a <strong>learning run</strong> and the unstable genetics made the outcome unpredictable. The next seed mix was planned with ordered seeds from official breeders — followed later by a focused single-strain run and eventually the long-term goal of developing something of its own.</p>
-      <div class="fact-row">
-        <div class="fact"><b>BT. 57</b> harvest</div>
-        <div class="fact"><b>~120g</b> later estimate</div>
-        <div class="fact"><b>NEXT</b> seed mix</div>
-      </div>
-      <a class="story-cta" href="https://www.grower.ch/forum/threads/strainmix-part-1.174488/" target="_blank" rel="noopener"><span>Follow the full documentation</span><span>↗</span></a>
-      <div class="source-note">Grower.ch · original report · continued experimentation</div>
-    </div>
-  </section>
-
-</div>
+ <section class="slide archive">
+  <div class="visual"><div class="archive-graphic"></div><div class="chapter-number">∞</div><div class="visual-label">10 · THE ARCHIVE</div><div class="visual-meta"><span>KEEP GROWING</span><span>10 / 10</span></div></div>
+  <div class="copy"><div class="ghost">∞</div>
+   <div class="eyebrow mono">THE THREAD IS STILL OPEN</div>
+   <h2>Not a finished<br><em>story.</em></h2>
+   <p class="lead">From the first comeback to the second mix, from <strong>Hell Kitchen</strong> to Part Three: the reports become a continuous record of plants, ideas and changing genetics. The archive stays open because the experiment does.</p>
+   <div class="tags"><span class="tag"><b>I</b> comeback</span><span class="tag"><b>II</b> expansion</span><span class="tag"><b>HK</b> structure</span><span class="tag"><b>III</b> continuation</span></div>
+   <a class="cta" href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" target="_blank" rel="noopener noreferrer">Support the project <span>↗</span></a>
+   <div class="source mono">Baltazar Seeds · documented archive · continued experimentation</div>
+  </div>
+ </section>
+</main>
 
 <div id="controls">
-  <button class="arrow" id="btn-prev" aria-label="Previous" disabled>
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="15 18 9 12 15 6"/></svg>
-  </button>
-  <div id="dots" aria-label="Story navigation"></div>
-  <button class="arrow" id="btn-next" aria-label="Next">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="9 18 15 12 9 6"/></svg>
-  </button>
-  <div id="counter">01 / 06</div>
+ <button class="arrow" id="prev" aria-label="Previous">‹</button><div id="dots"></div><button class="arrow" id="next" aria-label="Next">›</button>
 </div>
 
-<div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
-  <div id="modal" style="position:relative;">
-    <button id="modal-close" aria-label="Close">×</button>
-    <div class="eyebrow" style="color:var(--gold);">Get in Touch</div>
-    <div class="modal-title" id="modal-heading">Reach<br><em>Baltazar</em></div>
-    <a class="modal-row" href="mailto:imanvanruler@freenet.de">
-      <div class="modal-icon">✉</div>
-      <div><div class="modal-row-label">Email</div><div class="modal-row-val">imanvanruler@freenet.de</div></div>
-    </a>
-    <a class="modal-row" href="https://www.instagram.com/real_jack_james" target="_blank" rel="noopener noreferrer">
-      <div class="modal-icon">◎</div>
-      <div><div class="modal-row-label">Instagram</div><div class="modal-row-val">@real_jack_james</div></div>
-    </a>
-    <p class="modal-note">For questions, collaborations or general inquiries reach out directly.</p>
-  </div>
+<div id="support">
+ <div class="support-card">
+  <button class="close" id="close" aria-label="Close">×</button>
+  <div class="mono gold">Baltazar Seeds · Support</div>
+  <h3>Keep the archive<br><em>alive.</em></h3>
+  <p>If you enjoy the documentation and want to support the continuation of the project, you can do so here.</p>
+  <a class="support-link" href="https://buy.stripe.com/dRmaF04DMdMD6f61bHgw00I" target="_blank" rel="noopener noreferrer">Support via Stripe ↗</a>
+ </div>
 </div>
 
-<div id="cursor">
-  <div class="c-bar c-top"></div><div class="c-bar c-bottom"></div>
-  <div class="c-bar c-left"></div><div class="c-bar c-right"></div><div class="c-center"></div>
-</div>
-<div id="cursor-ring"></div>
+<div id="cursor"></div><div id="ring"></div>
 
 <script>
 (function(){
-  'use strict';
+'use strict';
+const age=document.getElementById('age');
+const yes=document.getElementById('yes'),no=document.getElementById('no');
+const key='baltazar_age_verified';
+function enter(){try{localStorage.setItem(key,'true')}catch(e){}age.classList.add('hide')}
+yes.onclick=enter;
+no.onclick=()=>{no.textContent='18+ required'};
+try{if(localStorage.getItem(key)==='true')age.classList.add('hide')}catch(e){}
 
-  var intro=document.getElementById('intro');
-  ['GENETIC','HUNTER'].forEach(function(word,wi){
-    var target=document.getElementById(wi===0?'iw1':'iw2');
-    word.split('').forEach(function(ch,i){
-      var s=document.createElement('span');
-      s.textContent=ch;
-      s.style.animationDelay=((wi===0?.18:.92)+i*(wi===0?.11:.10))+'s';
-      target.appendChild(s);
-    });
-  });
+const track=document.getElementById('track');
+const slides=[...document.querySelectorAll('.slide')];
+const dots=document.getElementById('dots');
+const counter=document.getElementById('counter');
+const progress=document.getElementById('progress');
+let current=0,busy=false;
 
-  var ageGate=document.getElementById('age-gate');
-  var yes=document.getElementById('age-yes');
-  var no=document.getElementById('age-no');
-  var AGE_KEY='baltazar_age_verified';
+slides.forEach((_,i)=>{
+ const d=document.createElement('button');d.className='dot'+(!i?' active':'');
+ d.setAttribute('aria-label','Go to chapter '+(i+1));d.onclick=()=>go(i);dots.appendChild(d);
+});
+function update(){
+ track.style.transform=`translateX(-${current*100}vw)`;
+ slides.forEach((s,i)=>s.classList.toggle('active',i===current));
+ [...dots.children].forEach((d,i)=>d.classList.toggle('active',i===current));
+ counter.textContent=String(current+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+ progress.style.width=((current+1)/slides.length*100)+'%';
+ document.getElementById('prev').disabled=current===0;
+ document.getElementById('next').disabled=current===slides.length-1;
+}
+function go(i){if(busy||i<0||i>=slides.length||i===current)return;busy=true;current=i;update();setTimeout(()=>busy=false,950)}
+document.getElementById('prev').onclick=()=>go(current-1);
+document.getElementById('next').onclick=()=>go(current+1);
+document.getElementById('story').onclick=()=>go(0);
 
-  function enterSite(){
-    try{localStorage.setItem(AGE_KEY,'true');}catch(e){}
-    ageGate.classList.add('hidden');
-    setTimeout(function(){intro.classList.add('gone');},2500);
-  }
-  yes.addEventListener('click',enterSite);
-  no.addEventListener('click',function(){no.textContent='18+ required';no.blur();});
-  var verified=false;
-  try{verified=localStorage.getItem(AGE_KEY)==='true';}catch(e){}
-  if(verified){
-    ageGate.classList.add('hidden');
-    setTimeout(function(){intro.classList.add('gone');},2500);
-  }else yes.focus();
+document.addEventListener('keydown',e=>{
+ if(e.key==='ArrowRight'||e.key==='ArrowDown')go(current+1);
+ if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(current-1);
+ if(e.key==='Escape'){document.getElementById('support').classList.remove('open')}
+});
+let sx=0,sy=0;
+track.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+track.addEventListener('touchend',e=>{
+ const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+ if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>45)go(dx<0?current+1:current-1);
+},{passive:true});
 
-  var track=document.getElementById('slider-track');
-  var slides=[].slice.call(document.querySelectorAll('.slide'));
-  var dotsEl=document.getElementById('dots');
-  var prev=document.getElementById('btn-prev');
-  var next=document.getElementById('btn-next');
-  var counter=document.getElementById('counter');
-  var progress=document.getElementById('progress');
-  var current=0,locked=false,total=slides.length;
+const support=document.getElementById('support');
+document.getElementById('supportBtn').onclick=()=>support.classList.add('open');
+document.getElementById('close').onclick=()=>support.classList.remove('open');
+support.onclick=e=>{if(e.target===support)support.classList.remove('open')};
 
-  slides.forEach(function(_,i){
-    var d=document.createElement('button');
-    d.className='dot'+(i===0?' active':'');
-    d.setAttribute('aria-label','Go to slide '+(i+1));
-    d.addEventListener('click',function(){goTo(i);});
-    dotsEl.appendChild(d);
-  });
-  function dots(){return dotsEl.querySelectorAll('.dot');}
-  function fmt(n){return String(n+1).padStart(2,'0');}
-  function inert(){
-    slides.forEach(function(s,i){
-      if(i===current){s.removeAttribute('inert');s.removeAttribute('aria-hidden');}
-      else{s.setAttribute('inert','');s.setAttribute('aria-hidden','true');}
-    });
-  }
-  function goTo(i){
-    if(locked||i<0||i>=total||i===current)return;
-    locked=true;
-    dots()[current].classList.remove('active');
-    slides[current].classList.remove('active');
-    current=i;
-    slides[current].classList.add('active');
-    dots()[current].classList.add('active');
-    track.style.transform='translateX(-'+(current*100)+'vw)';
-    counter.textContent=fmt(current)+' / '+fmt(total-1);
-    progress.style.width=((current+1)/total*100)+'%';
-    prev.disabled=current===0;
-    next.disabled=current===total-1;
-    inert();
-    setTimeout(function(){locked=false;},950);
-  }
-  inert();
-  progress.style.width=(100/total)+'%';
-  prev.addEventListener('click',function(){goTo(current-1);});
-  next.addEventListener('click',function(){goTo(current+1);});
-  document.getElementById('nav-story').addEventListener('click',function(){goTo(0);});
-
-  document.addEventListener('keydown',function(e){
-    if(e.key==='ArrowRight'||e.key==='ArrowDown')goTo(current+1);
-    if(e.key==='ArrowLeft'||e.key==='ArrowUp')goTo(current-1);
-    if(e.key==='Escape')closeModal();
-  });
-
-  var tx=0,ty=0;
-  track.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
-  track.addEventListener('touchend',function(e){
-    var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
-    if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>44)goTo(dx<0?current+1:current-1);
-  },{passive:true});
-
-  var dragX=0,dragging=false;
-  track.addEventListener('mousedown',function(e){
-    if(e.target.closest('a,button'))return;
-    dragX=e.clientX;dragging=true;
-  });
-  document.addEventListener('mouseup',function(e){
-    if(!dragging)return;
-    dragging=false;
-    var dx=e.clientX-dragX;
-    if(Math.abs(dx)>60)goTo(dx<0?current+1:current-1);
-  });
-
-  var overlay=document.getElementById('modal-overlay');
-  var close=document.getElementById('modal-close');
-  var contact=document.getElementById('nav-contact');
-  var lastFocus=null;
-  function openModal(){lastFocus=document.activeElement;overlay.classList.add('open');close.focus();}
-  function closeModal(){overlay.classList.remove('open');if(lastFocus)lastFocus.focus();}
-  contact.addEventListener('click',openModal);
-  close.addEventListener('click',closeModal);
-  overlay.addEventListener('click',function(e){if(e.target===overlay)closeModal();});
-
-  var cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
-  var mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-  document.addEventListener('mousemove',function(e){
-    mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';
-  });
-  (function animate(){
-    rx+=(mx-rx)*.11;ry+=(my-ry)*.11;
-    ring.style.left=rx+'px';ring.style.top=ry+'px';
-    requestAnimationFrame(animate);
-  }());
-  [].slice.call(document.querySelectorAll('a,button')).forEach(function(el){
-    el.addEventListener('mouseenter',function(){document.body.classList.add('cur-hover');});
-    el.addEventListener('mouseleave',function(){document.body.classList.remove('cur-hover');});
-  });
-  document.addEventListener('mousedown',function(){document.body.classList.add('cur-press');});
-  document.addEventListener('mouseup',function(){document.body.classList.remove('cur-press');});
+const cur=document.getElementById('cursor'),ring=document.getElementById('ring');
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button').forEach(el=>{
+ el.addEventListener('mouseenter',()=>document.body.classList.add('hover'));
+ el.addEventListener('mouseleave',()=>document.body.classList.remove('hover'));
+});
+update();
 })();
 </script>
 </body>
