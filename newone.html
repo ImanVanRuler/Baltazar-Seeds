@@ -3126,8 +3126,518 @@ body::after{
 }
 
 </style>
+
+<style id="baltazar-master-cleanup">
+/* =========================================================
+   BALTAZAR SEEDS — MASTER VISUAL PASS
+   One system. One typeface. One visual rhythm.
+   The original content/routes remain connected.
+   ========================================================= */
+
+:root{
+  --clean-bg:#070907;
+  --clean-bg-2:#0b0e0b;
+  --clean-panel:#0e120e;
+  --clean-paper:#dfe4da;
+  --clean-ink:#11150f;
+  --clean-white:#eef2e9;
+  --clean-soft:#aab3a5;
+  --clean-muted:#687164;
+  --clean-line:rgba(225,235,218,.14);
+  --clean-line-strong:rgba(225,235,218,.28);
+  --clean-green:#a9d34f;
+  --clean-green-2:#769b3b;
+  --clean-warm:#b08b58;
+  --clean-ease:cubic-bezier(.16,1,.3,1);
+}
+
+/* ---------- Type: deliberately computer / terminal ---------- */
+html,body,
+button,input,textarea,select{
+  font-family:"DM Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,
+    Consolas,"Liberation Mono","Courier New",monospace !important;
+}
+
+body{
+  background:
+    radial-gradient(circle at 50% 0%,rgba(120,155,70,.075),transparent 38vw),
+    linear-gradient(180deg,#080a08 0%,#060806 100%) !important;
+  color:var(--clean-white);
+}
+
+h1,h2,h3,h4,h5,h6,
+.ageTitle,.menuTitle,.introWord,.manifestoHeadline,.gapTitle,
+.eraTitle,.archiveIntro h2,.journalHeading h2,.diptychIntro h2,
+.continuityHeader h2,.chaptersTitle h2,.notesBig,.sourcesTitle h2,
+.worldHeader h2,.worldCard h3,.supportTitle,.footerBrand,.drawerBody h3,
+.archiveItemMain h3,.chapterCardBottom h3,.journalInfo strong,
+.nodeCard strong{
+  font-family:"DM Mono",ui-monospace,SFMono-Regular,Menlo,Monaco,
+    Consolas,"Liberation Mono","Courier New",monospace !important;
+  font-weight:500 !important;
+  letter-spacing:-.055em !important;
+}
+
+/* ---------- No giant billboard typography ---------- */
+.ageTitle{font-size:clamp(58px,10vw,130px) !important;line-height:.78 !important}
+.menuTitle{font-size:clamp(48px,8vw,112px) !important;line-height:.82 !important}
+.introWord{font-size:clamp(64px,13vw,190px) !important;line-height:.78 !important}
+.manifestoHeadline{font-size:clamp(48px,7vw,100px) !important;line-height:.82 !important}
+.gapTitle{font-size:clamp(48px,7vw,105px) !important;line-height:.82 !important}
+.eraTitle{font-size:clamp(36px,4.8vw,72px) !important;line-height:.86 !important}
+.archiveIntro h2,
+.journalHeading h2,
+.diptychIntro h2,
+.continuityHeader h2,
+.chaptersTitle h2,
+.sourcesTitle h2,
+.worldHeader h2{font-size:clamp(42px,6.2vw,90px) !important;line-height:.84 !important}
+.notesBig{font-size:clamp(48px,7vw,100px) !important;line-height:.82 !important}
+.worldCard h3{font-size:clamp(27px,3vw,48px) !important;line-height:.86 !important}
+.supportTitle{font-size:clamp(54px,8vw,115px) !important;line-height:.82 !important}
+.footerBrand{font-size:clamp(50px,8vw,115px) !important;line-height:.82 !important}
+.drawerBody h3{font-size:clamp(42px,6.5vw,82px) !important;line-height:.82 !important}
+
+/* ---------- Continuous vertical rhythm: no dead-air scroll ---------- */
+.scene{
+  min-height:100vh !important;
+}
+
+.sceneInner,
+.footerInner{
+  width:min(1320px,calc(100% - 72px)) !important;
+}
+
+.intro{min-height:112vh !important}
+.manifesto{min-height:104vh !important}
+.gapScene{min-height:104vh !important}
+.era{min-height:112vh !important}
+.archiveScene{min-height:118vh !important}
+.journalScene{min-height:116vh !important}
+.diptychScene{min-height:108vh !important}
+.continuityScene{min-height:112vh !important}
+.chaptersScene{min-height:122vh !important}
+.notesScene{min-height:108vh !important}
+.sourcesScene{min-height:112vh !important}
+.worldScene{min-height:108vh !important}
+.supportScene{min-height:88vh !important}
+.footerScene{min-height:62vh !important}
+.footerInner{min-height:62vh !important}
+
+/* Sticky stages keep motion but never create a huge empty runway. */
+.introStage,
+.manifestoStage,
+.gapStage,
+.eraStage,
+.archiveStage,
+.journalStage,
+.diptychStage,
+.continuityStage,
+.chaptersStage,
+.notesStage,
+.sourcesStage,
+.worldStage,
+.supportStage{
+  min-height:100vh !important;
+}
+
+/* ---------- Clean section transitions ---------- */
+.story > .scene{
+  position:relative;
+  border-top:1px solid rgba(225,235,218,.045);
+}
+
+.story > .scene::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-1px;
+  height:90px;
+  z-index:1;
+  pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(7,9,7,.35));
+}
+
+.intro,
+.gapScene,
+.era,
+.journalScene,
+.continuityScene,
+.notesScene,
+.sourcesScene,
+.supportScene,
+.footerScene{
+  background:
+    radial-gradient(circle at 82% 22%,rgba(169,211,79,.035),transparent 28vw),
+    linear-gradient(180deg,#080a08 0%,#070907 100%) !important;
+}
+
+.manifesto,
+.archiveScene,
+.diptychScene,
+.chaptersScene,
+.worldScene{
+  background:
+    linear-gradient(180deg,#e2e6dd 0%,#dce1d8 100%) !important;
+  color:var(--clean-ink) !important;
+}
+
+/* Light sections remain part of the same system rather than looking
+   like unrelated website templates. */
+.manifestoStage,
+.archiveStage,
+.diptychStage,
+.chaptersStage,
+.worldStage{
+  border-top:1px solid rgba(17,21,15,.08);
+}
+
+/* ---------- Header: quiet, stable, never oversized ---------- */
+.uiHeader{
+  height:64px !important;
+  padding:0 24px !important;
+}
+
+.brandMark{
+  width:34px !important;
+  height:34px !important;
+  font-size:13px !important;
+}
+
+.brandText strong{font-size:10px !important}
+.brandText small{font-size:7px !important}
+.headerButton,.archiveStatus{
+  height:34px !important;
+  font-size:7px !important;
+  padding:0 11px !important;
+}
+
+/* ---------- Intro ---------- */
+.introStage{
+  background:
+    linear-gradient(90deg,transparent 49.95%,rgba(169,211,79,.055) 50%,transparent 50.05%);
+}
+
+.introWord{
+  text-shadow:0 0 40px rgba(169,211,79,.055);
+}
+
+.introSub{
+  bottom:7% !important;
+  font-size:7px !important;
+}
+
+.scrollHint{font-size:7px !important}
+
+/* ---------- Text blocks: readable instead of decorative ---------- */
+.manifestoGrid,
+.diptychLayout,
+.sourcesLayout{
+  gap:54px !important;
+}
+
+.manifestoCopy p,
+.eraText,
+.archiveIntro p,
+.diptychIntro p,
+.continuityNote,
+.sourcesTitle p,
+.supportText,
+.worldCard p,
+.noteCard p{
+  font-size:10px !important;
+  line-height:1.75 !important;
+}
+
+.manifestoCopy{
+  max-width:510px !important;
+}
+
+.manifestoFact,
+.archiveItemYear,
+.archiveItemFacts span,
+.sourceRow,
+.sourceRowTitle,
+.sourceRowSub,
+.eraCode,
+.eraLink,
+.diptychCode,
+.nodeCard p,
+.chapterCardTop,
+.chapterCardBottom p,
+.chapterCardBottom small,
+.footerBottom p,
+.footerNav a{
+  font-family:"DM Mono",ui-monospace,monospace !important;
+}
+
+/* ---------- Timeline imagery: integrated editorial frames ---------- */
+.eraStage{
+  grid-template-columns:38% 62% !important;
+}
+
+.eraVisual{
+  height:70vh !important;
+  margin-right:-5vw !important;
+  border:1px solid var(--clean-line-strong) !important;
+  box-shadow:0 28px 70px rgba(0,0,0,.24) !important;
+}
+
+.eraVisual img{
+  filter:contrast(1.04) saturate(.86) brightness(.79) !important;
+  transform:scale(1.035) !important;
+}
+
+.eraVisual::after{
+  background:
+    linear-gradient(90deg,#080a08 0%,transparent 24%),
+    linear-gradient(0deg,rgba(0,0,0,.36),transparent 48%) !important;
+}
+
+/* ---------- Archive: tighter and calmer ---------- */
+.archiveLayout{
+  grid-template-columns:32% 68% !important;
+  gap:44px !important;
+}
+
+.archiveList{
+  height:68vh !important;
+}
+
+.archiveItem{
+  min-height:112px !important;
+  grid-template-columns:58px 1fr auto !important;
+}
+
+.archiveItemMain h3{
+  font-size:clamp(17px,1.7vw,27px) !important;
+  line-height:.9 !important;
+}
+
+.archiveItemMain p{
+  font-size:8px !important;
+  line-height:1.55 !important;
+}
+
+/* ---------- Journal: one cinematic frame, not a photo album ---------- */
+.journalScene{
+  min-height:112vh !important;
+}
+
+.journalHeading{
+  top:10% !important;
+}
+
+.journalHeading h2{
+  font-size:clamp(42px,6.2vw,88px) !important;
+}
+
+.journalFrame{
+  width:min(66vw,940px) !important;
+  height:min(64vh,650px) !important;
+}
+
+.journalInfo strong{
+  font-size:clamp(19px,2.7vw,38px) !important;
+  line-height:.9 !important;
+}
+
+.journalThumbs{
+  bottom:5% !important;
+}
+
+.journalThumb{
+  width:34px !important;
+}
+
+/* ---------- IMPORTANT: remove the separate asset/photo matrix ----------
+   The source markup stays preserved but it is no longer part of the
+   visible story. Images are shown where they belong contextually. */
+#image-source-matrix,
+#v3Lightbox,
+.v3ImageArchive,
+.v3Lightbox{
+  display:none !important;
+}
+
+/* ---------- Contextual world links: games + merch remain explicit ---------- */
+.worldGrid{
+  grid-template-columns:repeat(3,1fr) !important;
+  gap:1px !important;
+  padding-top:62px !important;
+}
+
+.worldCard{
+  min-height:38vh !important;
+  padding:22px !important;
+  background:rgba(255,255,255,.18) !important;
+  box-shadow:none !important;
+  border:1px solid rgba(17,21,15,.12) !important;
+}
+
+.worldCard:hover{
+  background:rgba(255,255,255,.44) !important;
+  transform:translateY(-3px) !important;
+}
+
+.worldIcon{
+  width:38px !important;
+  height:38px !important;
+}
+
+.worldLink{
+  margin-top:13px !important;
+  margin-right:14px !important;
+  font-size:7px !important;
+}
+
+/* Make the games card feel like part of the project rather than a
+   buried afterthought. */
+.worldCard:nth-child(2){
+  background:
+    linear-gradient(135deg,rgba(118,155,59,.10),transparent 60%),
+    rgba(255,255,255,.18) !important;
+}
+
+.worldCard:nth-child(3){
+  background:
+    linear-gradient(135deg,rgba(176,139,88,.08),transparent 60%),
+    rgba(255,255,255,.18) !important;
+}
+
+/* ---------- Support stays quiet and non-commercial ---------- */
+.supportButton{
+  min-width:190px !important;
+  height:46px !important;
+  font-size:8px !important;
+  margin-top:27px !important;
+}
+
+/* ---------- Footer ---------- */
+.footerInner{
+  padding:44px 0 24px !important;
+}
+
+.footerBottom{
+  padding-top:14px !important;
+}
+
+.footerNav{
+  gap:13px !important;
+}
+
+/* ---------- Remove the extra diagnostic/control layer from the visual
+   surface. The original archive functionality remains in source but the
+   visitor gets one clean interface rather than stacked interfaces. ---------- */
+#axControl,
+#axPanel,
+#axCommandPanel,
+#axNotice{
+  display:none !important;
+}
+
+/* ---------- Responsive ---------- */
+@media(max-width:900px){
+  .sceneInner,.footerInner{
+    width:calc(100% - 34px) !important;
+  }
+
+  .uiHeader{padding:0 14px !important}
+  .archiveStatus{display:none !important}
+
+  .manifestoGrid,
+  .diptychLayout,
+  .sourcesLayout,
+  .notesStage{
+    grid-template-columns:1fr !important;
+    gap:28px !important;
+  }
+
+  .manifestoStage,
+  .diptychStage,
+  .sourcesStage,
+  .notesStage{
+    padding:92px 0 55px !important;
+  }
+
+  .eraStage{
+    grid-template-columns:1fr !important;
+    padding:90px 0 45px !important;
+    gap:26px !important;
+  }
+
+  .eraMeta{padding-left:0 !important}
+  .eraVisual{
+    height:48vh !important;
+    margin-right:0 !important;
+  }
+
+  .archiveLayout{
+    grid-template-columns:1fr !important;
+    gap:24px !important;
+  }
+
+  .archiveList{height:57vh !important}
+
+  .worldGrid{
+    grid-template-columns:1fr 1fr !important;
+    padding-top:70px !important;
+  }
+
+  .worldCard{min-height:30vh !important}
+
+  .journalFrame{
+    width:calc(100vw - 34px) !important;
+    height:56vh !important;
+  }
+}
+
+@media(max-width:620px){
+  .introWord{font-size:17vw !important}
+  .ageTitle{font-size:18vw !important}
+
+  .worldGrid{grid-template-columns:1fr !important}
+  .worldCard{min-height:24vh !important}
+
+  .archiveItem{
+    grid-template-columns:42px 1fr !important;
+  }
+
+  .archiveItemFacts{display:none !important}
+
+  .footerBottom{
+    flex-direction:column !important;
+    align-items:flex-start !important;
+  }
+
+  .footerNav{justify-content:flex-start !important}
+}
+
+/* ---------- Respect reduced-motion users ---------- */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    scroll-behavior:auto !important;
+    transition-duration:0.01ms !important;
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+  }
+}
+</style>
+
 </head>
 
+<!--
+  MASTER CLEANUP PASS:
+  - no separate photo gallery shown
+  - original local asset matrix preserved in source
+  - Grower.ch routes preserved
+  - support/Stripe route preserved
+  - games: player.html + baltazarsrun.html preserved and surfaced
+  - merch: seite3.html preserved and surfaced
+  - one computer/terminal type system
+  - shorter scene runways to eliminate dead-air scrolling
+-->
 <body>
 
 <!-- =========================================================
@@ -3241,6 +3751,9 @@ body::after{
       <a href="#continuity">05 / Genetics</a>
       <a href="#sources">06 / Grower.ch</a>
       <a href="#world">07 / World</a>
+      <a href="player.html">08 / Player</a>
+      <a href="baltazarsrun.html">09 / Baltazar's Run</a>
+      <a href="seite3.html">10 / Merch</a>
 
       <button type="button" id="menuSupport">
         08 / Support
@@ -5912,8 +6425,8 @@ body::after{
           </p>
 
           <div>
-            <a class="worldLink" href="player.html">Player</a>
-            <a class="worldLink" href="baltazarsrun.html">Baltazar's Run</a>
+            <a class="worldLink" href="player.html">Player ↗</a>
+            <a class="worldLink" href="baltazarsrun.html">Baltazar's Run ↗</a>
           </div>
         </div>
 
@@ -6071,7 +6584,6 @@ body::after{
         <a href="#timeline">Timeline</a>
         <a href="#archive">Archive</a>
         <a href="#journal">Journal</a>
-        <a href="#visual-atlas">Visual Atlas</a>
         <a href="#continuity">Genetics</a>
         <a href="#sources">Sources</a>
         <a href="#world">World</a>
