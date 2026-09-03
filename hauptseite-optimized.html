@@ -45,6 +45,101 @@
   --ease2:cubic-bezier(.22,.61,.36,1);
 }
 
+/* =========================================================
+   PREMIUM LOADER
+   ========================================================= */
+#siteLoader{
+  position:fixed;
+  inset:0;
+  z-index:100000;
+  display:grid;
+  place-items:center;
+  background:
+    radial-gradient(circle at 50% 48%,rgba(143,177,77,.14),transparent 32vw),
+    #050604;
+  color:var(--white);
+  opacity:1;
+  visibility:visible;
+  transition:opacity .9s var(--ease),visibility .9s;
+  overflow:hidden;
+}
+#siteLoader.loaded{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+.loaderNoise{
+  position:absolute;
+  inset:0;
+  opacity:.07;
+  background-image:radial-gradient(rgba(255,255,255,.8) .5px,transparent .5px);
+  background-size:4px 4px;
+}
+.loaderCore{
+  position:relative;
+  width:min(720px,calc(100% - 44px));
+  padding:32px 0;
+}
+.loaderBrand{
+  font:800 clamp(52px,10vw,118px)/.72 Syne,sans-serif;
+  letter-spacing:-.105em;
+  text-transform:uppercase;
+}
+.loaderBrand span{
+  color:var(--acid);
+}
+.loaderMeta,
+.loaderFoot{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+}
+.loaderMeta{
+  margin-top:38px;
+  color:rgba(255,255,255,.48);
+}
+.loaderBar{
+  position:relative;
+  width:100%;
+  height:2px;
+  margin-top:13px;
+  background:rgba(255,255,255,.12);
+  overflow:hidden;
+}
+.loaderBar::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(198,232,90,.18),transparent);
+  animation:loaderSweep 1.2s linear infinite;
+}
+#loaderFill{
+  position:relative;
+  z-index:2;
+  display:block;
+  width:0;
+  height:100%;
+  background:var(--acid);
+  box-shadow:0 0 22px rgba(198,232,90,.55);
+  transition:width .12s linear;
+}
+.loaderFoot{
+  margin-top:14px;
+  color:rgba(255,255,255,.24);
+}
+@keyframes loaderSweep{
+  from{transform:translateX(-100%)}
+  to{transform:translateX(100%)}
+}
+@media(max-width:650px){
+  .loaderMeta,.loaderFoot{font-size:7px}
+  .loaderFoot span:last-child{display:none}
+}
+
+
 html{
   background:var(--black);
   color:var(--white);
@@ -3695,6 +3790,28 @@ h1,h2,h3,h4,h5,h6,
   - shorter scene runways to eliminate dead-air scrolling
 -->
 <body>
+
+
+<!-- =========================================================
+     PREMIUM LOADER
+     ========================================================= -->
+<div id="siteLoader" aria-hidden="true">
+  <div class="loaderNoise"></div>
+  <div class="loaderCore">
+    <div class="loaderBrand">BALTAZAR<span>SEEDS</span></div>
+    <div class="loaderMeta">
+      <span id="loaderStatus">INITIALIZING FIELD ARCHIVE</span>
+      <span id="loaderPercent">00%</span>
+    </div>
+    <div class="loaderBar">
+      <span id="loaderFill"></span>
+    </div>
+    <div class="loaderFoot">
+      <span>FIELD ARCHIVE / 2026</span>
+      <span>LOADING VISUAL SYSTEM</span>
+    </div>
+  </div>
+</div>
 
 <!-- =========================================================
      AGE GATE
@@ -17887,6 +18004,120 @@ body::after{
   }
 }
 
+
+/* =========================================================
+   PREMIUM WORLD / MERCH HOVER LAYER
+   Keeps the archive aesthetic but makes the cards feel alive.
+   ========================================================= */
+.worldCard{
+  isolation:isolate;
+  transform:translateZ(0);
+  will-change:transform,box-shadow,background;
+}
+.worldCard::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  opacity:0;
+  background:
+    radial-gradient(circle at var(--mx,50%) var(--my,50%),
+      rgba(198,232,90,.28),
+      rgba(112,173,91,.12) 18%,
+      transparent 52%),
+    linear-gradient(135deg,rgba(255,255,255,.16),transparent 42%);
+  transition:opacity .45s var(--ease);
+}
+.worldCard:hover::after{
+  opacity:1;
+}
+.worldCardVisual{
+  transition:opacity .55s var(--ease),filter .55s var(--ease);
+}
+.worldCard:hover .worldCardVisual{
+  opacity:.48;
+}
+.worldCard:hover .worldCardVisual img{
+  filter:grayscale(.05) contrast(1.12) saturate(1.3);
+  transform:scale(1.10);
+}
+.worldCard .worldIcon{
+  transition:
+    transform .5s var(--ease),
+    background .35s ease,
+    color .35s ease,
+    border-color .35s ease,
+    box-shadow .5s var(--ease);
+}
+.worldCard:hover .worldIcon{
+  transform:translateY(-3px) rotate(-5deg);
+  background:var(--acid);
+  color:var(--black);
+  border-color:var(--acid);
+  box-shadow:0 0 0 7px rgba(198,232,90,.08),0 0 35px rgba(198,232,90,.20);
+}
+.worldCard h3{
+  transition:transform .5s var(--ease),color .35s ease;
+}
+.worldCard:hover h3{
+  transform:translateX(5px);
+  color:#162012;
+}
+.worldCard p{
+  transition:color .35s ease;
+}
+.worldCard:hover p{
+  color:#4f594b;
+}
+.worldLink{
+  position:relative;
+  overflow:hidden;
+  transition:
+    color .3s ease,
+    border-color .3s ease,
+    padding-left .35s var(--ease);
+}
+.worldLink::before{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-1px;
+  width:100%;
+  height:100%;
+  z-index:-1;
+  transform:translateY(105%);
+  background:var(--acid);
+  transition:transform .35s var(--ease);
+}
+.worldLink:hover{
+  color:var(--black) !important;
+  border-color:var(--acid) !important;
+  padding-left:9px;
+  padding-right:5px;
+}
+.worldLink:hover::before{
+  transform:translateY(0);
+}
+/* Merch gets the strongest treatment without changing the layout. */
+.worldCard:nth-child(3)::after{
+  background:
+    radial-gradient(circle at var(--mx,50%) var(--my,50%),
+      rgba(229,171,91,.34),
+      rgba(198,232,90,.13) 22%,
+      transparent 58%),
+    linear-gradient(135deg,rgba(255,255,255,.18),transparent 45%);
+}
+.worldCard:nth-child(3):hover{
+  box-shadow:
+    inset 0 0 0 1px rgba(198,232,90,.22),
+    0 22px 60px rgba(0,0,0,.12),
+    0 0 55px rgba(198,232,90,.09);
+}
+.worldCard:nth-child(3):hover .worldIcon{
+  transform:translateY(-4px) rotate(7deg) scale(1.04);
+}
+
 </style>
 
 <!-- =========================================================
@@ -29073,5 +29304,65 @@ body::after{
 })();
 
 </script>
+
+<script>
+(() => {
+  const loader = document.getElementById('siteLoader');
+  const fill = document.getElementById('loaderFill');
+  const percent = document.getElementById('loaderPercent');
+  const status = document.getElementById('loaderStatus');
+  if (!loader || !fill || !percent) return;
+
+  const messages = [
+    'INITIALIZING FIELD ARCHIVE',
+    'READING SOURCE INDEX',
+    'LOADING VISUAL SYSTEM',
+    'CONNECTING THE CHAPTERS',
+    'ARCHIVE READY'
+  ];
+
+  const start = performance.now();
+  const minimum = 1050;
+
+  function tick(now){
+    const elapsed = now - start;
+    const raw = Math.min(100, Math.round((elapsed / 1450) * 100));
+    const eased = Math.min(100, Math.round(100 * (1 - Math.pow(1 - raw / 100, 1.8))));
+    fill.style.width = eased + '%';
+    percent.textContent = String(eased).padStart(2,'0') + '%';
+    status.textContent = messages[Math.min(messages.length - 1, Math.floor(eased / 25))];
+
+    if (eased < 100 || elapsed < minimum) {
+      requestAnimationFrame(tick);
+    } else {
+      setTimeout(() => {
+        loader.classList.add('loaded');
+        setTimeout(() => loader.remove(), 1000);
+      }, 180);
+    }
+  }
+  requestAnimationFrame(tick);
+})();
+
+(() => {
+  const cards = document.querySelectorAll('.worldCard');
+  if (!cards.length || !window.matchMedia('(hover:hover)').matches) return;
+
+  cards.forEach(card => {
+    card.addEventListener('pointermove', event => {
+      const rect = card.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.setProperty('--mx', '50%');
+      card.style.setProperty('--my', '50%');
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
