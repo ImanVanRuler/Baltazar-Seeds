@@ -3285,6 +3285,125 @@ img{
 
 </section>
 
+
+<!-- =========================================================
+     SCENE 08B / VISUAL ATLAS
+     Uses the existing local archive image set without
+     replacing or removing the original journal.
+     ========================================================= -->
+<section class="scene visualAtlasScene" id="visual-atlas" data-scene="08B">
+  <div class="visualAtlasStage">
+
+    <div class="visualAtlasHeader">
+      <small>Visual atlas / preserved local frames</small>
+      <h2>THE ARCHIVE<br><span>HAS A FACE.</span></h2>
+      <p>
+        The existing local image sequence is presented again as a real visual wall.
+        No old labels are used as image identities here.
+        The filenames remain the technical source reference.
+      </p>
+    </div>
+
+    <div class="visualAtlasGrid">
+
+      <article class="visualTile">
+        <img src="STRAIN1.JPG" alt="Archive frame 01" loading="lazy">
+        <div class="visualTileMeta">
+          <div>
+            <small>FRAME 01</small>
+            <strong>RETURN</strong>
+          </div>
+          <small>LOCAL</small>
+        </div>
+      </article>
+
+      <article class="visualTile">
+        <img src="STRAIN2.JPG" alt="Archive frame 02" loading="lazy">
+        <div class="visualTileMeta">
+          <div>
+            <small>FRAME 02</small>
+            <strong>MIX</strong>
+          </div>
+          <small>LOCAL</small>
+        </div>
+      </article>
+
+      <article class="visualTile">
+        <img src="STRAIN3.JPG" alt="Archive frame 03" loading="lazy">
+        <div class="visualTileMeta">
+          <div>
+            <small>FRAME 03</small>
+            <strong>SELECTION</strong>
+          </div>
+          <small>LOCAL</small>
+        </div>
+      </article>
+
+      <article class="visualTile">
+        <img src="STRAIN4.JPG" alt="Archive frame 04" loading="lazy">
+        <div class="visualTileMeta">
+          <div>
+            <small>FRAME 04</small>
+            <strong>PHENOTYPE</strong>
+          </div>
+          <small>LOCAL</small>
+        </div>
+      </article>
+
+      <article class="visualTile">
+        <img src="STRAIN5.JPG" alt="Archive frame 05" loading="lazy">
+        <div class="visualTileMeta">
+          <div>
+            <small>FRAME 05</small>
+            <strong>ORIGINAL</strong>
+          </div>
+          <small>LOCAL</small>
+        </div>
+      </article>
+
+      <article class="visualTile">
+        <img src="STRAIN6.JPG" alt="Archive frame 06" loading="lazy">
+        <div class="visualTileMeta">
+          <div>
+            <small>FRAME 06</small>
+            <strong>CONTINUATION</strong>
+          </div>
+          <small>LOCAL</small>
+        </div>
+      </article>
+
+      <article class="visualTile">
+        <img src="STRAIN5A.JPG" alt="Archive frame 05 alternate" loading="lazy">
+        <div class="visualTileMeta">
+          <div>
+            <small>FRAME 05A</small>
+            <strong>SECOND VIEW</strong>
+          </div>
+          <small>LOCAL</small>
+        </div>
+      </article>
+
+      <article class="visualTile">
+        <img src="STRAIN6A.JPG" alt="Archive frame 06 alternate" loading="lazy">
+        <div class="visualTileMeta">
+          <div>
+            <small>FRAME 06A</small>
+            <strong>SECOND VIEW</strong>
+          </div>
+          <small>LOCAL</small>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="visualAtlasFooter">
+      08B / image wall / local archive / original files retained
+    </div>
+
+  </div>
+</section>
+
+
 <!-- =========================================================
      SCENE 09 / ORIGINAL DIPTYCH
      ========================================================= -->
@@ -3994,6 +4113,7 @@ img{
         <a href="#timeline">Timeline</a>
         <a href="#archive">Archive</a>
         <a href="#journal">Journal</a>
+        <a href="#visual-atlas">Visual Atlas</a>
         <a href="#continuity">Genetics</a>
         <a href="#sources">Sources</a>
         <a href="#world">World</a>
@@ -14562,6 +14682,646 @@ window.addEventListener("resize",()=>{
 100%{transform:translate3d(0,0,0);opacity:.72;}
 }
 .ax-motion-shear{animation:ax-shear 5.19s ease-in-out infinite;}
+
+
+/* =========================================================
+   BALTAZAR V2 — VISUAL REFINEMENT LAYER
+   Purpose:
+   - smaller, readable typography
+   - stronger color system
+   - richer image presentation
+   - modern transitions / depth
+   - preserve all original sections, links and assets
+   ========================================================= */
+
+:root{
+  --v2-lime:#d6f36a;
+  --v2-cyan:#55e6dc;
+  --v2-blue:#6b8cff;
+  --v2-violet:#9b78ff;
+  --v2-orange:#ff9b5c;
+  --v2-pink:#ff6f9f;
+  --v2-green:#6fb56a;
+  --v2-ink:#050705;
+  --v2-glass:rgba(10,13,10,.72);
+  --v2-glass2:rgba(255,255,255,.045);
+  --v2-border:rgba(235,244,228,.16);
+  --v2-border-strong:rgba(235,244,228,.28);
+}
+
+html{
+  scroll-padding-top:80px;
+}
+
+body{
+  background:
+    radial-gradient(900px 600px at 8% 8%,rgba(85,230,220,.055),transparent 65%),
+    radial-gradient(900px 650px at 92% 20%,rgba(155,120,255,.055),transparent 65%),
+    radial-gradient(1000px 700px at 50% 85%,rgba(255,155,92,.035),transparent 65%),
+    linear-gradient(180deg,#070906 0%,#050605 100%);
+}
+
+body::after{
+  opacity:.11;
+  background:
+    linear-gradient(90deg,transparent 49.95%,rgba(85,230,220,.055) 50%,transparent 50.05%),
+    linear-gradient(0deg,transparent 49.95%,rgba(155,120,255,.035) 50%,transparent 50.05%);
+}
+
+.uiHeader{
+  height:68px;
+}
+
+.brandMark{
+  border-color:rgba(214,243,106,.42);
+  box-shadow:0 0 30px rgba(214,243,106,.04);
+}
+
+.headerButton,
+.archiveStatus{
+  background:rgba(5,7,5,.70);
+  border-color:rgba(235,244,228,.18);
+}
+
+.headerButton:hover{
+  color:var(--v2-cyan);
+  border-color:var(--v2-cyan);
+  box-shadow:0 0 28px rgba(85,230,220,.08);
+}
+
+.sceneInner,
+.footerInner{
+  width:min(1440px,calc(100% - 64px));
+}
+
+/* ---------- Typography: controlled, never giant enough to clip ---------- */
+
+.introWord{
+  font-size:clamp(74px,15.5vw,245px);
+  line-height:.78;
+  letter-spacing:-.085em;
+}
+
+.ageTitle{
+  font-size:clamp(62px,11vw,145px);
+  line-height:.78;
+  letter-spacing:-.075em;
+}
+
+.menuTitle{
+  font-size:clamp(60px,10vw,145px);
+  line-height:.76;
+  letter-spacing:-.075em;
+}
+
+.manifestoHeadline{
+  font-size:clamp(54px,7.5vw,112px);
+  line-height:.80;
+  letter-spacing:-.075em;
+}
+
+.gapYear{
+  font-size:clamp(130px,24vw,390px);
+  line-height:.72;
+}
+
+.gapTitle{
+  font-size:clamp(54px,8.5vw,125px);
+  line-height:.78;
+  letter-spacing:-.075em;
+}
+
+.eraNumber{
+  font-size:clamp(150px,25vw,390px);
+  line-height:.70;
+}
+
+.eraTitle{
+  font-size:clamp(42px,5vw,78px);
+  line-height:.82;
+  letter-spacing:-.065em;
+}
+
+.archiveIntro h2{
+  font-size:clamp(58px,8vw,120px);
+  line-height:.76;
+}
+
+.journalHeading h2{
+  font-size:clamp(48px,7vw,105px);
+  line-height:.78;
+}
+
+.journalInfo strong{
+  font-size:clamp(24px,3.1vw,46px);
+  line-height:.88;
+}
+
+.diptychIntro h2{
+  font-size:clamp(52px,7vw,105px);
+  line-height:.76;
+}
+
+.continuityHeader h2{
+  font-size:clamp(48px,7vw,105px);
+  line-height:.77;
+}
+
+.chaptersTitle h2{
+  font-size:clamp(48px,7vw,105px);
+  line-height:.77;
+}
+
+.notesBig{
+  font-size:clamp(58px,8.5vw,125px);
+  line-height:.72;
+}
+
+.sourcesTitle h2{
+  font-size:clamp(52px,7.5vw,112px);
+  line-height:.75;
+}
+
+.worldHeader h2{
+  font-size:clamp(52px,7.5vw,112px);
+  line-height:.76;
+}
+
+.worldCard h3{
+  font-size:clamp(30px,3.2vw,52px);
+  line-height:.78;
+}
+
+.supportGhost{
+  font-size:clamp(130px,25vw,390px);
+  line-height:.70;
+}
+
+.supportTitle{
+  font-size:clamp(62px,9vw,140px);
+  line-height:.74;
+}
+
+.footerBrand{
+  font-size:clamp(58px,9vw,140px);
+  line-height:.70;
+}
+
+.drawerBody h3{
+  font-size:clamp(48px,7vw,92px);
+  line-height:.76;
+}
+
+/* ---------- Colored atmosphere ---------- */
+
+.intro{
+  background:
+    radial-gradient(circle at 18% 32%,rgba(85,230,220,.09),transparent 26vw),
+    radial-gradient(circle at 82% 62%,rgba(155,120,255,.09),transparent 30vw),
+    radial-gradient(circle at 50% 50%,rgba(115,151,67,.10),transparent 34vw),
+    #070806;
+}
+
+.manifesto{
+  background:
+    radial-gradient(circle at 10% 20%,rgba(111,181,106,.10),transparent 30vw),
+    radial-gradient(circle at 90% 80%,rgba(255,155,92,.07),transparent 28vw),
+    var(--paper2);
+}
+
+.gapScene{
+  background:
+    radial-gradient(circle at 20% 50%,rgba(85,230,220,.065),transparent 30vw),
+    radial-gradient(circle at 80% 50%,rgba(255,111,159,.055),transparent 30vw),
+    #090a08;
+}
+
+.era:nth-of-type(odd){
+  background:
+    radial-gradient(circle at 85% 25%,rgba(107,140,255,.055),transparent 28vw),
+    #080907;
+}
+
+.era:nth-of-type(even){
+  background:
+    radial-gradient(circle at 15% 70%,rgba(255,155,92,.045),transparent 28vw),
+    #080907;
+}
+
+.sourcesScene{
+  background:
+    radial-gradient(circle at 12% 22%,rgba(85,230,220,.055),transparent 28vw),
+    radial-gradient(circle at 88% 76%,rgba(155,120,255,.055),transparent 28vw),
+    #080907;
+}
+
+.supportScene{
+  background:
+    radial-gradient(circle at 50% 35%,rgba(214,243,106,.09),transparent 26vw),
+    radial-gradient(circle at 20% 80%,rgba(255,111,159,.045),transparent 25vw),
+    #080a07;
+}
+
+/* ---------- Images: richer, sharper, more dimensional ---------- */
+
+.eraVisual,
+.journalCard,
+.diptychVisual,
+.chapterCard{
+  border:1px solid rgba(235,244,228,.14);
+  box-shadow:
+    0 35px 90px rgba(0,0,0,.28),
+    0 0 0 1px rgba(255,255,255,.015) inset;
+}
+
+.eraVisual::before,
+.journalCard::before,
+.chapterCard::before,
+.diptychImage::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  background:
+    linear-gradient(135deg,rgba(85,230,220,.10),transparent 25%,transparent 70%,rgba(155,120,255,.09)),
+    linear-gradient(0deg,rgba(0,0,0,.18),transparent 35%);
+  mix-blend-mode:screen;
+  opacity:.72;
+}
+
+.eraVisual img,
+.journalCard img,
+.chapterCardImage img,
+.diptychImage img{
+  filter:contrast(1.06) saturate(.96) brightness(.84);
+  transition:
+    transform 1.15s cubic-bezier(.16,1,.3,1),
+    filter .65s ease;
+}
+
+.eraVisual:hover img,
+.journalCard:hover img,
+.chapterCard:hover .chapterCardImage img,
+.diptychImage:hover img{
+  transform:scale(1.035);
+  filter:contrast(1.08) saturate(1.08) brightness(.91);
+}
+
+/* ---------- Existing cards get subtle color identity ---------- */
+
+.worldCard:nth-child(1){--card-accent:var(--v2-cyan)}
+.worldCard:nth-child(2){--card-accent:var(--v2-blue)}
+.worldCard:nth-child(3){--card-accent:var(--v2-orange)}
+.worldCard:nth-child(4){--card-accent:var(--v2-lime)}
+.worldCard:nth-child(5){--card-accent:var(--v2-pink)}
+.worldCard:nth-child(6){--card-accent:var(--v2-violet)}
+
+.worldCard{
+  box-shadow:inset 0 3px 0 var(--card-accent);
+  transition:
+    transform .45s var(--ease),
+    background .45s var(--ease),
+    box-shadow .45s var(--ease);
+}
+
+.worldCard:hover{
+  transform:translateY(-5px);
+  box-shadow:
+    inset 0 3px 0 var(--card-accent),
+    0 22px 50px rgba(0,0,0,.08);
+}
+
+.worldCard .worldIcon{
+  color:var(--card-accent);
+  border-color:color-mix(in srgb,var(--card-accent) 45%,transparent);
+}
+
+/* ---------- New image atlas ---------- */
+
+.visualAtlasScene{
+  position:relative;
+  min-height:210vh;
+  background:
+    radial-gradient(circle at 15% 20%,rgba(85,230,220,.08),transparent 28vw),
+    radial-gradient(circle at 86% 30%,rgba(155,120,255,.08),transparent 30vw),
+    radial-gradient(circle at 48% 88%,rgba(255,155,92,.06),transparent 32vw),
+    #070907;
+  overflow:hidden;
+}
+
+.visualAtlasStage{
+  position:sticky;
+  top:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+}
+
+.visualAtlasHeader{
+  position:absolute;
+  left:4.5%;
+  top:10%;
+  z-index:8;
+  pointer-events:none;
+}
+
+.visualAtlasHeader small{
+  display:block;
+  color:var(--v2-cyan);
+  font:9px "DM Mono",monospace;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+}
+
+.visualAtlasHeader h2{
+  margin-top:14px;
+  max-width:720px;
+  font:800 clamp(48px,7.2vw,112px)/.77 Syne,sans-serif;
+  letter-spacing:-.075em;
+}
+
+.visualAtlasHeader h2 span{
+  color:var(--v2-lime);
+}
+
+.visualAtlasHeader p{
+  max-width:430px;
+  margin-top:18px;
+  color:rgba(255,255,255,.48);
+  font:10px/1.7 "DM Mono",monospace;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+
+.visualAtlasGrid{
+  width:min(1180px,calc(100% - 70px));
+  margin:0 auto;
+  padding-top:135px;
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  grid-auto-rows:minmax(95px,7.5vh);
+  gap:10px;
+}
+
+.visualTile{
+  position:relative;
+  overflow:hidden;
+  min-width:0;
+  border:1px solid rgba(235,244,228,.16);
+  background:#0d110d;
+  box-shadow:0 25px 65px rgba(0,0,0,.26);
+  isolation:isolate;
+}
+
+.visualTile:nth-child(1){grid-column:1 / span 5;grid-row:1 / span 5}
+.visualTile:nth-child(2){grid-column:6 / span 3;grid-row:1 / span 4}
+.visualTile:nth-child(3){grid-column:9 / span 4;grid-row:1 / span 5}
+.visualTile:nth-child(4){grid-column:6 / span 4;grid-row:5 / span 4}
+.visualTile:nth-child(5){grid-column:10 / span 3;grid-row:6 / span 3}
+.visualTile:nth-child(6){grid-column:1 / span 4;grid-row:6 / span 4}
+.visualTile:nth-child(7){grid-column:5 / span 5;grid-row:9 / span 4}
+.visualTile:nth-child(8){grid-column:10 / span 3;grid-row:9 / span 4}
+
+.visualTile img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  filter:contrast(1.07) saturate(.94) brightness(.82);
+  transform:scale(1.035);
+  transition:
+    transform 1.1s var(--ease),
+    filter .55s ease;
+}
+
+.visualTile::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  background:
+    linear-gradient(0deg,rgba(0,0,0,.72),transparent 48%),
+    linear-gradient(135deg,rgba(85,230,220,.10),transparent 38%,rgba(155,120,255,.09));
+  pointer-events:none;
+}
+
+.visualTile:hover img{
+  transform:scale(1.075);
+  filter:contrast(1.08) saturate(1.08) brightness(.94);
+}
+
+.visualTileMeta{
+  position:absolute;
+  left:15px;
+  right:15px;
+  bottom:13px;
+  z-index:4;
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.visualTileMeta strong{
+  display:block;
+  color:#fff;
+  font:700 clamp(16px,1.5vw,25px)/.9 Syne,sans-serif;
+  letter-spacing:-.04em;
+}
+
+.visualTileMeta small{
+  color:var(--v2-lime);
+  font:7px "DM Mono",monospace;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.visualTile:nth-child(2) .visualTileMeta small{color:var(--v2-cyan)}
+.visualTile:nth-child(3) .visualTileMeta small{color:var(--v2-violet)}
+.visualTile:nth-child(4) .visualTileMeta small{color:var(--v2-orange)}
+.visualTile:nth-child(5) .visualTileMeta small{color:var(--v2-pink)}
+.visualTile:nth-child(6) .visualTileMeta small{color:var(--v2-blue)}
+
+.visualAtlasFooter{
+  position:absolute;
+  left:4.5%;
+  bottom:8%;
+  z-index:8;
+  color:rgba(255,255,255,.34);
+  font:8px "DM Mono",monospace;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+/* ---------- Modern reveal / light sweep ---------- */
+
+.visualAtlasScene::before{
+  content:"";
+  position:absolute;
+  left:-25%;
+  top:0;
+  width:45%;
+  height:100%;
+  background:linear-gradient(90deg,transparent,rgba(85,230,220,.025),transparent);
+  transform:skewX(-12deg);
+  animation:v2Sweep 11s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes v2Sweep{
+  0%,55%{transform:translateX(0) skewX(-12deg);opacity:0}
+  65%{opacity:1}
+  100%{transform:translateX(330%) skewX(-12deg);opacity:0}
+}
+
+/* ---------- Better mobile behavior ---------- */
+
+@media(max-width:1000px){
+  .sceneInner,
+  .footerInner{
+    width:calc(100% - 40px);
+  }
+
+  .visualAtlasGrid{
+    width:calc(100% - 40px);
+    padding-top:150px;
+    grid-template-columns:repeat(6,1fr);
+    grid-auto-rows:12vw;
+  }
+
+  .visualTile:nth-child(1){grid-column:1 / span 4;grid-row:1 / span 6}
+  .visualTile:nth-child(2){grid-column:5 / span 2;grid-row:1 / span 5}
+  .visualTile:nth-child(3){grid-column:1 / span 3;grid-row:7 / span 5}
+  .visualTile:nth-child(4){grid-column:4 / span 3;grid-row:6 / span 6}
+  .visualTile:nth-child(5){grid-column:1 / span 3;grid-row:12 / span 4}
+  .visualTile:nth-child(6){grid-column:4 / span 3;grid-row:12 / span 5}
+  .visualTile:nth-child(7){grid-column:1 / span 4;grid-row:17 / span 6}
+  .visualTile:nth-child(8){grid-column:5 / span 2;grid-row:17 / span 6}
+}
+
+@media(max-width:700px){
+  .sceneInner,
+  .footerInner{
+    width:calc(100% - 28px);
+  }
+
+  .introWord{
+    font-size:20vw;
+    line-height:.82;
+  }
+
+  .ageTitle{
+    font-size:20vw;
+  }
+
+  .manifestoHeadline{
+    font-size:17vw;
+  }
+
+  .gapTitle{
+    font-size:16vw;
+  }
+
+  .eraTitle{
+    font-size:11vw;
+  }
+
+  .archiveIntro h2,
+  .journalHeading h2,
+  .diptychIntro h2,
+  .continuityHeader h2,
+  .chaptersTitle h2,
+  .notesBig,
+  .sourcesTitle h2,
+  .worldHeader h2{
+    font-size:14vw;
+  }
+
+  .supportTitle{
+    font-size:16vw;
+  }
+
+  .footerBrand{
+    font-size:17vw;
+  }
+
+  .visualAtlasScene{
+    min-height:240vh;
+  }
+
+  .visualAtlasStage{
+    align-items:flex-start;
+  }
+
+  .visualAtlasHeader{
+    left:14px;
+    top:9%;
+  }
+
+  .visualAtlasHeader h2{
+    max-width:calc(100vw - 28px);
+    font-size:13.5vw;
+  }
+
+  .visualAtlasHeader p{
+    max-width:calc(100vw - 42px);
+    font-size:8px;
+  }
+
+  .visualAtlasGrid{
+    width:calc(100% - 28px);
+    margin-top:20px;
+    padding-top:175px;
+    grid-template-columns:repeat(2,1fr);
+    grid-auto-rows:36vw;
+    gap:7px;
+  }
+
+  .visualTile:nth-child(n){
+    grid-column:auto;
+    grid-row:auto;
+  }
+
+  .visualTile:nth-child(1){grid-column:1 / span 2;grid-row:span 5}
+  .visualTile:nth-child(2){grid-row:span 4}
+  .visualTile:nth-child(3){grid-row:span 4}
+  .visualTile:nth-child(4){grid-column:1 / span 2;grid-row:span 5}
+  .visualTile:nth-child(5){grid-row:span 4}
+  .visualTile:nth-child(6){grid-row:span 4}
+  .visualTile:nth-child(7){grid-column:1 / span 2;grid-row:span 5}
+  .visualTile:nth-child(8){grid-column:1 / span 2;grid-row:span 5}
+
+  .visualTileMeta{
+    left:11px;
+    right:11px;
+    bottom:10px;
+  }
+
+  .visualTileMeta strong{
+    font-size:18px;
+  }
+
+  .visualAtlasFooter{
+    left:14px;
+    bottom:5%;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .visualAtlasScene::before{
+    animation:none;
+  }
+
+  .visualTile img,
+  .eraVisual img,
+  .journalCard img,
+  .chapterCardImage img,
+  .diptychImage img{
+    transition:none;
+  }
+}
+
 </style>
 
 <!-- =========================================================
@@ -25599,6 +26359,62 @@ window.addEventListener("resize",()=>{
     version:'2026.09 / additive archive layer'
   };
 })();
+
+
+/* =========================================================
+   V2 INTERACTION LAYER
+   ========================================================= */
+(function(){
+  'use strict';
+
+  const atlas = document.querySelector('#visual-atlas');
+  if(!atlas) return;
+
+  const tiles = Array.from(atlas.querySelectorAll('.visualTile'));
+
+  tiles.forEach((tile, index) => {
+    tile.dataset.frame = String(index + 1).padStart(2,'0');
+
+    tile.addEventListener('pointermove', (event) => {
+      if(!matchMedia('(hover:hover)').matches) return;
+
+      const rect = tile.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width;
+      const y = (event.clientY - rect.top) / rect.height;
+      const rx = (0.5 - y) * 3.5;
+      const ry = (x - 0.5) * 3.5;
+
+      tile.style.transform =
+        'perspective(900px) rotateX(' + rx.toFixed(2) +
+        'deg) rotateY(' + ry.toFixed(2) + 'deg) translateY(-3px)';
+    });
+
+    tile.addEventListener('pointerleave', () => {
+      tile.style.transform = '';
+    });
+  });
+
+  const reveal = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('is-visible');
+      }
+    });
+  }, {threshold:.12});
+
+  tiles.forEach(tile => reveal.observe(tile));
+
+  const atlasLink = document.querySelector('a[href="#visual-atlas"]');
+  if(atlasLink){
+    atlasLink.addEventListener('click', () => {
+      requestAnimationFrame(() => {
+        const target = document.querySelector('#visual-atlas');
+        target?.scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    });
+  }
+})();
+
 </script>
 </body>
 </html>
