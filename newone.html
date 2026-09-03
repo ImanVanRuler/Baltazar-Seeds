@@ -2597,1210 +2597,637 @@ img{
 }
 
 /* =========================================================
-   IMMERSIVE COLOR / VISUAL SYSTEM — ADDITIVE
+   FIELD ARCHIVE — COLOR + IMAGE ENHANCEMENT
    ========================================================= */
 
 :root{
-  --chroma:#c6e85a;
-  --chroma-rgb:198,232,90;
-  --chroma2:#82ffb7;
-  --hot:#ff7a45;
-  --violet:#b79cff;
-  --ice:#70dfff;
-  --amber:#ffb84d;
-  --lab-bg:#050705;
-  --motion-scale:1;
-  --grain-alpha:.08;
-  --cursor-opacity:1;
-  --scan-opacity:.14;
+  --accent:#c6e85a;
+  --accent-rgb:198,232,90;
+  --accent-soft:rgba(198,232,90,.12);
+  --violet:#ad8cff;
+  --amber:#ffb34f;
+  --ice:#72ddff;
 }
 
 body{
-  --mx:50%;
-  --my:50%;
+  --pointer-x:50%;
+  --pointer-y:50%;
   background:
-    radial-gradient(
-      900px circle at var(--mx) var(--my),
-      rgba(var(--chroma-rgb),.10),
-      transparent 48%
-    ),
-    radial-gradient(
-      600px circle at 82% 12%,
-      rgba(255,90,60,.045),
-      transparent 55%
-    ),
-    radial-gradient(
-      700px circle at 12% 80%,
-      rgba(120,90,255,.04),
-      transparent 55%
-    ),
+    radial-gradient(650px circle at var(--pointer-x) var(--pointer-y),
+      rgba(var(--accent-rgb),.055),
+      transparent 65%),
     linear-gradient(180deg,#080907 0%,#050605 100%);
-  transition:background .7s ease;
-}
-
-body::before{
-  opacity:var(--grain-alpha);
-}
-
-body::after{
-  opacity:calc(.16 + var(--scan-opacity));
-  background:
-    linear-gradient(90deg,transparent 49.9%,rgba(255,255,255,.035) 50%,transparent 50.1%),
-    repeating-linear-gradient(
-      0deg,
-      transparent 0px,
-      transparent 3px,
-      rgba(255,255,255,.022) 4px,
-      transparent 5px
-    );
-  background-size:100% 100%,100% 5px;
 }
 
 .uiHeader{
-  isolation:isolate;
+  border-bottom:1px solid rgba(255,255,255,.035);
 }
 
-.uiHeader::before{
+.colorControl{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 7px;
+  border:1px solid rgba(255,255,255,.13);
+  background:rgba(6,7,5,.62);
+  backdrop-filter:blur(12px);
+}
+
+.colorDot{
+  width:12px;
+  height:12px;
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:50%;
+  padding:0;
+  cursor:pointer;
+  opacity:.48;
+  transition:transform .25s var(--ease),opacity .25s,border-color .25s;
+}
+
+.colorDot:hover,
+.colorDot.active{
+  opacity:1;
+  transform:scale(1.22);
+  border-color:#fff;
+}
+
+.colorDot[data-tone="acid"]{background:#c6e85a}
+.colorDot[data-tone="amber"]{background:#ffb34f}
+.colorDot[data-tone="violet"]{background:#ad8cff}
+.colorDot[data-tone="ice"]{background:#72ddff}
+
+body[data-tone="amber"]{
+  --accent:#ffb34f;
+  --accent-rgb:255,179,79;
+}
+body[data-tone="violet"]{
+  --accent:#ad8cff;
+  --accent-rgb:173,140,255;
+}
+body[data-tone="ice"]{
+  --accent:#72ddff;
+  --accent-rgb:114,221,255;
+}
+
+.statusDot{
+  background:var(--accent)!important;
+  box-shadow:0 0 14px rgba(var(--accent-rgb),.65)!important;
+}
+
+.eraLink,
+.worldLink,
+.supportButton,
+.journalInfo small,
+.eraCode,
+.archiveIntro .eyebrow,
+.sourcesTitle small,
+.continuityHeader small,
+.notesBig span{
+  color:var(--accent)!important;
+}
+
+.progressRail span{
+  background:var(--accent)!important;
+}
+
+.brandMark{
+  color:var(--accent)!important;
+}
+
+.introGrid{
+  background:
+    linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+}
+
+.introGrid::after{
   content:"";
   position:absolute;
   left:0;
   right:0;
-  top:0;
   height:1px;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    rgba(var(--chroma-rgb),.8),
-    rgba(255,255,255,.16),
-    transparent
-  );
-  opacity:.8;
-  pointer-events:none;
+  top:var(--scan-y,50%);
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+  opacity:.18;
 }
 
-.headerButton{
-  position:relative;
-  overflow:hidden;
+body::before{
+  opacity:.055;
 }
 
-.headerButton::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  transform:translateX(-110%);
-  background:linear-gradient(90deg,transparent,rgba(var(--chroma-rgb),.14),transparent);
-  transition:transform .6s var(--ease);
-}
-
-.headerButton:hover::after{
-  transform:translateX(110%);
-}
-
-.soundButton .soundState{
-  margin-left:5px;
-  color:var(--chroma);
-}
-
-.soundButton.is-on{
-  border-color:rgba(var(--chroma-rgb),.8);
-  color:var(--chroma);
-}
-
-.soundButton.is-on .soundState{
-  animation:signalPulse 1.2s ease-in-out infinite;
-}
-
-@keyframes signalPulse{
-  0%,100%{opacity:.45}
-  50%{opacity:1}
-}
-
-.brandMark{
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,.04),
-    0 0 0 rgba(var(--chroma-rgb),0);
-}
-
-.brand:hover .brandMark{
-  box-shadow:
-    0 0 28px rgba(var(--chroma-rgb),.22),
-    0 0 60px rgba(var(--chroma-rgb),.08);
-}
-
-.scene{
-  isolation:isolate;
-}
-
-.scene::selection{
-  background:var(--chroma);
+body::after{
+  opacity:.12;
 }
 
 /* ---------------------------------------------------------
-   Ambient color rails on existing scenes
+   FIELD CONTACT SHEET
    --------------------------------------------------------- */
 
-.intro::after,
-.era::after,
-.journalScene::after,
-.continuityScene::after,
-.sourcesScene::after,
-.supportScene::after{
-  content:"";
-  position:absolute;
-  z-index:0;
-  width:55vw;
-  height:55vw;
-  border-radius:50%;
-  pointer-events:none;
-  filter:blur(100px);
-  opacity:.075;
-  background:
-    conic-gradient(
-      from 0deg,
-      var(--chroma),
-      var(--violet),
-      var(--hot),
-      var(--chroma)
-    );
-  animation:ambientOrbit 24s linear infinite;
-}
-
-.intro::after{
-  left:-20vw;
-  top:10vh;
-}
-
-.era:nth-of-type(2n)::after{
-  right:-22vw;
-  top:20vh;
-}
-
-.journalScene::after{
-  right:-24vw;
-  bottom:-18vw;
-}
-
-.continuityScene::after{
-  left:-20vw;
-  bottom:-15vw;
-}
-
-.sourcesScene::after{
-  right:-20vw;
-  top:-15vw;
-}
-
-.supportScene::after{
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  width:70vw;
-  height:70vw;
-}
-
-@keyframes ambientOrbit{
-  from{transform:rotate(0deg) scale(1)}
-  50%{transform:rotate(180deg) scale(1.08)}
-  to{transform:rotate(360deg) scale(1)}
-}
-
-/* ---------------------------------------------------------
-   Existing images get richer interaction
-   --------------------------------------------------------- */
-
-.eraVisual,
-.journalCard,
-.diptychImage,
-.chapterCard,
-.worldCard{
-  cursor:crosshair;
-}
-
-.eraVisual::before,
-.journalCard::before,
-.chapterCard::before,
-.diptychImage::before{
-  content:"";
-  position:absolute;
-  z-index:2;
-  inset:0;
-  pointer-events:none;
-  opacity:0;
-  background:
-    linear-gradient(
-      115deg,
-      transparent 0%,
-      rgba(var(--chroma-rgb),.08) 43%,
-      rgba(255,255,255,.10) 50%,
-      transparent 58%
-    );
-  transform:translateX(-80%);
-  transition:opacity .35s ease;
-}
-
-.eraVisual:hover::before,
-.journalCard:hover::before,
-.chapterCard:hover::before,
-.diptychImage:hover::before{
-  opacity:1;
-  animation:sweepLight 1.2s var(--ease);
-}
-
-@keyframes sweepLight{
-  from{transform:translateX(-90%)}
-  to{transform:translateX(90%)}
-}
-
-.eraVisual img,
-.journalCard img,
-.chapterCardImage img,
-.diptychImage img{
-  transition:
-    transform 1.1s var(--ease),
-    filter .7s ease;
-}
-
-.eraVisual:hover img,
-.journalCard:hover img,
-.chapterCard:hover img,
-.diptychImage:hover img{
-  filter:
-    contrast(1.12)
-    saturate(1.12)
-    brightness(.88)
-    hue-rotate(-3deg);
-}
-
-/* ---------------------------------------------------------
-   VISUAL LAB
-   --------------------------------------------------------- */
-
-.visualLabScene{
+.fieldArchiveScene{
   min-height:260vh;
+  background:#070806;
   position:relative;
-  background:
-    radial-gradient(circle at 50% 50%,rgba(var(--chroma-rgb),.08),transparent 32vw),
-    #040504;
-  overflow:hidden;
 }
 
-.visualLabStage{
+.fieldArchiveStage{
   position:sticky;
   top:0;
   height:100vh;
   overflow:hidden;
-  perspective:1400px;
-  display:block;
+  padding:8vh 5vw 4vh;
 }
 
-.labAura{
-  position:absolute;
-  width:55vw;
-  height:55vw;
-  border-radius:50%;
-  pointer-events:none;
-  filter:blur(90px);
-  mix-blend-mode:screen;
-  opacity:.10;
-  will-change:transform;
-}
-
-.labAuraA{
-  left:-18vw;
-  top:-20vw;
-  background:
-    radial-gradient(circle,#b7ff62 0%,rgba(183,255,98,.2) 35%,transparent 70%);
-  animation:labAuraA 18s ease-in-out infinite alternate;
-}
-
-.labAuraB{
-  right:-20vw;
-  bottom:-20vw;
-  background:
-    radial-gradient(circle,#a56dff 0%,rgba(165,109,255,.18) 38%,transparent 70%);
-  animation:labAuraB 22s ease-in-out infinite alternate;
-}
-
-@keyframes labAuraA{
-  from{transform:translate3d(-3vw,-2vh,0) scale(.92)}
-  to{transform:translate3d(10vw,9vh,0) scale(1.12)}
-}
-
-@keyframes labAuraB{
-  from{transform:translate3d(3vw,2vh,0) scale(.95)}
-  to{transform:translate3d(-12vw,-10vh,0) scale(1.15)}
-}
-
-.labNoise{
-  position:absolute;
-  inset:-50%;
-  pointer-events:none;
-  opacity:.035;
-  background-image:
-    radial-gradient(rgba(255,255,255,.9) .5px,transparent .5px);
-  background-size:5px 5px;
-  transform:rotate(8deg);
-  animation:noiseDrift 1.7s steps(2) infinite;
-}
-
-@keyframes noiseDrift{
-  0%{transform:translate(0,0) rotate(8deg)}
-  25%{transform:translate(1.5%,1%) rotate(8deg)}
-  50%{transform:translate(-1%,2%) rotate(8deg)}
-  75%{transform:translate(2%,-1%) rotate(8deg)}
-  100%{transform:translate(0,0) rotate(8deg)}
-}
-
-.labHeader{
-  position:absolute;
-  z-index:10;
-  left:5vw;
-  top:10vh;
-  max-width:470px;
-  pointer-events:none;
-}
-
-.labEyebrow{
-  color:var(--chroma);
-  font:9px "DM Mono",monospace;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-}
-
-.labHeader h2{
-  margin-top:15px;
-  font:800 clamp(60px,9vw,150px)/.65 Syne,sans-serif;
-  letter-spacing:-.11em;
-}
-
-.labHeader h2 span{
-  color:var(--chroma);
-  text-shadow:
-    0 0 35px rgba(var(--chroma-rgb),.16);
-}
-
-.labHeader p{
-  max-width:390px;
-  margin-top:25px;
-  color:rgba(255,255,255,.43);
-  font:10px/1.8 "DM Mono",monospace;
-}
-
-.labReadout{
-  position:absolute;
-  z-index:12;
-  right:5vw;
-  top:11vh;
+.fieldArchiveHeader{
   display:flex;
-  flex-direction:column;
+  justify-content:space-between;
   align-items:flex-end;
-  gap:7px;
-  color:rgba(255,255,255,.38);
+  gap:40px;
+  position:relative;
+  z-index:5;
+}
+
+.fieldArchiveHeader small{
+  color:var(--accent);
   font:8px "DM Mono",monospace;
-  letter-spacing:.13em;
+  letter-spacing:.16em;
   text-transform:uppercase;
-  pointer-events:none;
 }
 
-.labReadout span:first-child{
-  color:var(--chroma);
+.fieldArchiveHeader h2{
+  margin-top:12px;
+  font:800 clamp(55px,8vw,125px)/.68 Syne,sans-serif;
+  letter-spacing:-.1em;
 }
 
-.labGallery{
-  position:absolute;
-  z-index:4;
-  inset:0;
-  transform-style:preserve-3d;
-  will-change:transform;
+.fieldArchiveHeader h2 span{
+  color:var(--accent);
 }
 
-.labTile{
-  position:absolute;
-  display:block;
+.fieldArchiveIntro{
+  width:min(360px,30vw);
+}
+
+.fieldArchiveIntro p{
+  color:rgba(255,255,255,.42);
+  font:9px/1.75 "DM Mono",monospace;
+}
+
+.fieldCount{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  margin-top:15px;
+  color:rgba(255,255,255,.3);
+  font:8px "DM Mono",monospace;
+  text-transform:uppercase;
+}
+
+.fieldCount strong{
+  color:var(--accent);
+  font:700 26px Syne,sans-serif;
+}
+
+.fieldFilters{
+  display:flex;
+  gap:4px;
+  margin:24px 0 14px;
+  position:relative;
+  z-index:6;
+}
+
+.fieldFilter{
+  border:1px solid rgba(255,255,255,.13);
+  background:rgba(5,6,5,.55);
+  color:rgba(255,255,255,.4);
+  padding:8px 11px;
+  cursor:pointer;
+  font:7px "DM Mono",monospace;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  transition:.25s var(--ease);
+}
+
+.fieldFilter:hover{
+  color:#fff;
+  border-color:rgba(255,255,255,.3);
+}
+
+.fieldFilter.active{
+  color:#050605;
+  background:var(--accent);
+  border-color:var(--accent);
+}
+
+.fieldGrid{
+  height:66vh;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  grid-auto-rows:1fr;
+  gap:5px;
+  position:relative;
+  z-index:3;
+  mask-image:linear-gradient(to bottom,#000 0%,#000 87%,transparent 100%);
+}
+
+.fieldCard{
+  position:relative;
+  min-width:0;
+  min-height:0;
   padding:0;
-  border:1px solid rgba(255,255,255,.16);
-  background:#0d100c;
+  border:1px solid rgba(255,255,255,.09);
+  background:#11130f;
   overflow:hidden;
   cursor:zoom-in;
-  box-shadow:
-    0 25px 80px rgba(0,0,0,.35),
-    0 0 0 1px rgba(255,255,255,.015);
-  transform-style:preserve-3d;
+  opacity:1;
+  transform:translateZ(0);
   transition:
-    transform .8s var(--ease),
-    border-color .35s ease,
-    box-shadow .5s ease,
-    filter .5s ease;
-  will-change:transform;
+    opacity .3s ease,
+    transform .45s var(--ease),
+    border-color .3s ease;
 }
 
-.labTile img{
-  display:block;
+.fieldCard.hidden{
+  display:none;
+}
+
+.fieldCard:hover{
+  z-index:10;
+  border-color:rgba(var(--accent-rgb),.65);
+  transform:scale(1.025);
+}
+
+.fieldCardImage{
+  position:absolute;
+  inset:0;
+}
+
+.fieldCardImage img{
   width:100%;
   height:100%;
+  display:block;
   object-fit:cover;
-  filter:
-    contrast(1.08)
-    saturate(.85)
-    brightness(.72);
-  transform:scale(1.06);
+  filter:brightness(.66) contrast(1.08) saturate(.82);
+  transform:scale(1.035);
   transition:
-    transform 1.2s var(--ease),
-    filter .8s ease;
+    transform .8s var(--ease),
+    filter .5s ease;
 }
 
-.labTile::after{
+.fieldCard:hover .fieldCardImage img{
+  transform:scale(1);
+  filter:brightness(.86) contrast(1.1) saturate(1.08);
+}
+
+.fieldCard::after{
   content:"";
   position:absolute;
   inset:0;
   background:
-    linear-gradient(135deg,rgba(var(--chroma-rgb),.09),transparent 45%),
-    linear-gradient(0deg,rgba(0,0,0,.58),transparent 48%);
+    linear-gradient(0deg,rgba(0,0,0,.68),transparent 52%),
+    linear-gradient(135deg,rgba(var(--accent-rgb),.08),transparent 45%);
   pointer-events:none;
 }
 
-.labTile:hover{
-  z-index:30;
-  border-color:rgba(var(--chroma-rgb),.8);
-  box-shadow:
-    0 35px 100px rgba(0,0,0,.55),
-    0 0 45px rgba(var(--chroma-rgb),.10);
-  filter:saturate(1.1);
-}
-
-.labTile:hover img{
-  transform:scale(1.01);
-  filter:
-    contrast(1.12)
-    saturate(1.16)
-    brightness(.86);
-}
-
-.labTileTag{
+.fieldCardMeta{
   position:absolute;
-  z-index:4;
-  left:12px;
-  bottom:10px;
-  color:rgba(255,255,255,.72);
-  font:7px "DM Mono",monospace;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-
-.tileA{left:7%;top:45%;width:18vw;height:28vh;transform:rotate(-7deg)}
-.tileB{left:23%;top:34%;width:16vw;height:24vh;transform:rotate(5deg)}
-.tileC{left:38%;top:49%;width:20vw;height:30vh;transform:rotate(-2deg)}
-.tileD{left:57%;top:29%;width:17vw;height:26vh;transform:rotate(7deg)}
-.tileE{left:74%;top:45%;width:19vw;height:29vh;transform:rotate(-5deg)}
-.tileF{left:84%;top:24%;width:12vw;height:22vh;transform:rotate(8deg)}
-.tileG{left:13%;top:72%;width:14vw;height:19vh;transform:rotate(4deg)}
-.tileH{left:31%;top:76%;width:15vw;height:19vh;transform:rotate(-5deg)}
-.tileI{left:51%;top:76%;width:12vw;height:18vh;transform:rotate(5deg)}
-.tileJ{left:66%;top:68%;width:14vw;height:19vh;transform:rotate(-8deg)}
-.tileK{left:3%;top:19%;width:12vw;height:18vh;transform:rotate(6deg)}
-.tileL{left:76%;top:70%;width:14vw;height:20vh;transform:rotate(3deg)}
-
-.labControls{
-  position:absolute;
-  z-index:15;
-  left:50%;
-  bottom:8vh;
-  transform:translateX(-50%);
+  left:8px;
+  right:8px;
+  bottom:7px;
+  z-index:2;
   display:flex;
-  gap:5px;
-  padding:5px;
-  border:1px solid rgba(255,255,255,.12);
-  background:rgba(5,6,5,.62);
-  backdrop-filter:blur(14px);
-  box-shadow:0 15px 60px rgba(0,0,0,.28);
-}
-
-.labControl{
-  min-width:108px;
-  height:32px;
-  padding:0 11px;
-  border:1px solid transparent;
-  background:transparent;
-  color:rgba(255,255,255,.42);
-  cursor:pointer;
-  font:7px "DM Mono",monospace;
-  letter-spacing:.11em;
+  justify-content:space-between;
+  gap:8px;
+  color:rgba(255,255,255,.6);
+  font:6px "DM Mono",monospace;
+  letter-spacing:.08em;
   text-transform:uppercase;
-  transition:.35s var(--ease);
 }
 
-.labControl:hover{
-  color:white;
-  border-color:rgba(255,255,255,.18);
+.fieldCardMeta b{
+  color:var(--accent);
+  font-weight:400;
 }
 
-.labControl.active{
-  color:#050605;
-  background:var(--chroma);
-  border-color:var(--chroma);
-  box-shadow:0 0 30px rgba(var(--chroma-rgb),.16);
-}
-
-.labFooter{
+.fieldBottom{
   position:absolute;
-  z-index:15;
+  z-index:7;
   left:5vw;
   right:5vw;
   bottom:3vh;
   display:flex;
   justify-content:space-between;
+  align-items:center;
+  gap:20px;
   color:rgba(255,255,255,.25);
   font:7px "DM Mono",monospace;
-  letter-spacing:.12em;
+  letter-spacing:.11em;
   text-transform:uppercase;
-  pointer-events:none;
 }
 
-.visualLabScene.lab-amber{
-  --chroma:#ffb84d;
-  --chroma-rgb:255,184,77;
+#fieldMore{
+  border:0;
+  border-bottom:1px solid rgba(var(--accent-rgb),.55);
+  background:transparent;
+  color:var(--accent);
+  padding:0 0 4px;
+  cursor:pointer;
+  font:7px "DM Mono",monospace;
+  letter-spacing:.11em;
 }
 
-.visualLabScene.lab-violet{
-  --chroma:#b79cff;
-  --chroma-rgb:183,156,255;
-}
-
-.visualLabScene.lab-ice{
-  --chroma:#70dfff;
-  --chroma-rgb:112,223,255;
-}
-
-.visualLabScene.lab-mono{
-  --chroma:#e9eee4;
-  --chroma-rgb:233,238,228;
-}
-
-.visualLabScene.lab-violet .labAuraA{
-  background:radial-gradient(circle,#b79cff,rgba(183,156,255,.16) 40%,transparent 70%);
-}
-
-.visualLabScene.lab-amber .labAuraB{
-  background:radial-gradient(circle,#ffb84d,rgba(255,184,77,.15) 40%,transparent 70%);
-}
-
-.visualLabScene.lab-ice .labAuraA{
-  background:radial-gradient(circle,#70dfff,rgba(112,223,255,.15) 40%,transparent 70%);
-}
-
-.visualLabScene.lab-mono .labTile img{
-  filter:grayscale(1) contrast(1.05) brightness(.74);
+#fieldMore:hover{
+  border-color:var(--accent);
 }
 
 /* ---------------------------------------------------------
-   IMAGE VIEWER
+   Fullscreen viewer
    --------------------------------------------------------- */
 
-.imageViewer{
+.fieldViewer{
   position:fixed;
-  z-index:95000;
   inset:0;
+  z-index:60000;
   display:grid;
   place-items:center;
   visibility:hidden;
   opacity:0;
   pointer-events:none;
-  transition:opacity .45s var(--ease),visibility .45s;
+  transition:opacity .35s ease,visibility .35s;
 }
 
-.imageViewer.open{
+.fieldViewer.open{
   visibility:visible;
   opacity:1;
   pointer-events:auto;
 }
 
-.imageViewerBackdrop{
+.fieldViewerBackdrop{
   position:absolute;
   inset:0;
-  background:
-    radial-gradient(circle at 50% 50%,rgba(var(--chroma-rgb),.08),transparent 38%),
-    rgba(1,2,1,.92);
-  backdrop-filter:blur(18px);
+  background:rgba(2,3,2,.91);
+  backdrop-filter:blur(12px);
 }
 
-.imageViewerFrame{
+.fieldViewerPanel{
   position:relative;
   z-index:2;
-  width:min(1200px,calc(100% - 50px));
-  height:min(850px,calc(100% - 70px));
+  width:min(1180px,calc(100% - 36px));
+  height:min(850px,calc(100% - 44px));
   display:grid;
-  grid-template-rows:auto 1fr auto;
-  border:1px solid rgba(255,255,255,.17);
+  grid-template-rows:48px 1fr 62px;
+  border:1px solid rgba(255,255,255,.16);
   background:#080a08;
-  box-shadow:
-    0 45px 140px rgba(0,0,0,.75),
-    0 0 80px rgba(var(--chroma-rgb),.05);
-  transform:translateY(18px) scale(.98);
-  transition:transform .65s var(--ease);
+  box-shadow:0 35px 120px rgba(0,0,0,.7);
+  transform:translateY(14px) scale(.985);
+  transition:transform .55s var(--ease);
 }
 
-.imageViewer.open .imageViewerFrame{
+.fieldViewer.open .fieldViewerPanel{
   transform:translateY(0) scale(1);
 }
 
-.viewerTopline{
-  min-height:54px;
-  padding:0 18px;
+.fieldViewerTop{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  border-bottom:1px solid rgba(255,255,255,.12);
-  color:rgba(255,255,255,.42);
-  font:8px "DM Mono",monospace;
-  letter-spacing:.14em;
-  text-transform:uppercase;
+  padding:0 15px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.35);
+  font:7px "DM Mono",monospace;
+  letter-spacing:.13em;
 }
 
-.viewerClose{
-  width:34px;
-  height:34px;
-  border:1px solid rgba(255,255,255,.2);
+#fieldViewerClose{
+  width:32px;
+  height:32px;
+  border:1px solid rgba(255,255,255,.17);
   background:transparent;
-  color:white;
+  color:#fff;
   cursor:pointer;
   font-size:18px;
-  transition:.3s var(--ease);
 }
 
-.viewerClose:hover{
+#fieldViewerClose:hover{
+  background:var(--accent);
   color:#050605;
-  background:var(--chroma);
-  border-color:var(--chroma);
+  border-color:var(--accent);
 }
 
-.viewerImageWrap{
+.fieldViewerImage{
   position:relative;
   min-height:0;
-  overflow:hidden;
   display:grid;
   place-items:center;
+  overflow:hidden;
   background:
-    radial-gradient(circle at center,rgba(var(--chroma-rgb),.055),transparent 55%),
+    radial-gradient(circle,rgba(var(--accent-rgb),.055),transparent 50%),
     #050605;
 }
 
-.viewerImageWrap img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  padding:24px;
-  filter:contrast(1.08) saturate(1.04);
-}
-
-.viewerScan{
+.fieldViewerImage::after{
+  content:"";
   position:absolute;
   inset:0;
   pointer-events:none;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0px,
-      transparent 4px,
-      rgba(255,255,255,.025) 5px
-    );
-  mix-blend-mode:screen;
-  opacity:var(--scan-opacity);
+  background:repeating-linear-gradient(
+    0deg,
+    transparent 0 4px,
+    rgba(255,255,255,.025) 5px
+  );
 }
 
-.viewerCrosshair{
+.fieldViewerImage img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:20px;
+  filter:contrast(1.06) saturate(1.02);
+}
+
+.viewerCorner{
   position:absolute;
-  width:22px;
-  height:22px;
-  border:1px solid rgba(var(--chroma-rgb),.55);
+  width:25px;
+  height:25px;
+  border:1px solid rgba(var(--accent-rgb),.55);
   pointer-events:none;
 }
 
-.viewerCrosshairA{
-  left:22px;
-  top:22px;
+.viewerCornerA{
+  left:15px;
+  top:15px;
   border-right:0;
   border-bottom:0;
 }
 
-.viewerCrosshairB{
-  right:22px;
-  bottom:22px;
+.viewerCornerB{
+  right:15px;
+  bottom:15px;
   border-left:0;
   border-top:0;
 }
 
-.viewerInfo{
-  min-height:90px;
-  padding:17px 20px;
+.fieldViewerBottom{
   display:flex;
+  align-items:center;
   justify-content:space-between;
-  align-items:flex-end;
-  gap:25px;
-  border-top:1px solid rgba(255,255,255,.12);
+  gap:20px;
+  padding:0 17px;
+  border-top:1px solid rgba(255,255,255,.1);
 }
 
-.viewerInfo small{
-  color:var(--chroma);
-  font:7px "DM Mono",monospace;
-  letter-spacing:.15em;
+#fieldViewerName{
+  color:var(--accent);
+  font:700 clamp(18px,3vw,30px)/1 Syne,sans-serif;
+  letter-spacing:-.04em;
 }
 
-.viewerInfo h3{
-  margin-top:7px;
-  font:700 clamp(24px,4vw,48px)/.8 Syne,sans-serif;
-  letter-spacing:-.06em;
-}
-
-.viewerMeta{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-  align-items:flex-end;
-  color:rgba(255,255,255,.3);
+.fieldViewerBottom button{
+  border:1px solid rgba(255,255,255,.15);
+  background:transparent;
+  color:rgba(255,255,255,.5);
+  padding:8px 10px;
+  cursor:pointer;
   font:7px "DM Mono",monospace;
   letter-spacing:.1em;
-  text-transform:uppercase;
+}
+
+.fieldViewerBottom button:hover{
+  color:var(--accent);
+  border-color:var(--accent);
 }
 
 /* ---------------------------------------------------------
-   CHROMA CONSOLE
+   Small reactive details on existing visuals
    --------------------------------------------------------- */
 
-.chromaConsole{
-  position:fixed;
-  z-index:90000;
-  inset:0;
-  visibility:hidden;
-  opacity:0;
-  pointer-events:none;
-  background:rgba(0,0,0,.48);
-  backdrop-filter:blur(5px);
-  transition:opacity .35s ease,visibility .35s;
+.eraVisual,
+.journalCard,
+.diptychImage,
+.chapterCard{
+  transition:border-color .35s ease,box-shadow .5s ease;
 }
 
-.chromaConsole.open{
-  visibility:visible;
+.eraVisual:hover,
+.journalCard:hover,
+.diptychImage:hover,
+.chapterCard:hover{
+  box-shadow:0 25px 80px rgba(0,0,0,.35),0 0 35px rgba(var(--accent-rgb),.055);
+}
+
+.eraVisual::before,
+.journalCard::before,
+.diptychImage::before,
+.chapterCard::before{
+  content:"";
+  position:absolute;
+  z-index:4;
+  inset:0;
+  pointer-events:none;
+  opacity:0;
+  background:linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(var(--accent-rgb),.13) 49%,
+    transparent 62%
+  );
+  transform:translateX(-100%);
+}
+
+.eraVisual:hover::before,
+.journalCard:hover::before,
+.diptychImage:hover::before,
+.chapterCard:hover::before{
   opacity:1;
-  pointer-events:auto;
+  animation:archiveSweep 1s var(--ease);
 }
 
-.chromaConsoleInner{
-  position:absolute;
-  top:0;
-  right:0;
-  width:min(410px,100%);
-  height:100%;
-  padding:24px;
-  overflow:auto;
-  border-left:1px solid rgba(255,255,255,.16);
-  background:
-    radial-gradient(circle at 70% 15%,rgba(var(--chroma-rgb),.09),transparent 35%),
-    #080a08;
-  box-shadow:-30px 0 100px rgba(0,0,0,.45);
-  transform:translateX(100%);
-  transition:transform .55s var(--ease);
+@keyframes archiveSweep{
+  from{transform:translateX(-100%)}
+  to{transform:translateX(100%)}
 }
-
-.chromaConsole.open .chromaConsoleInner{
-  transform:translateX(0);
-}
-
-.chromaTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  padding-bottom:20px;
-  border-bottom:1px solid rgba(255,255,255,.13);
-}
-
-.chromaTop small{
-  display:block;
-  color:var(--chroma);
-  font:7px "DM Mono",monospace;
-  letter-spacing:.15em;
-}
-
-.chromaTop strong{
-  display:block;
-  margin-top:7px;
-  font:700 21px Syne,sans-serif;
-}
-
-.chromaClose{
-  width:38px;
-  height:38px;
-  border:1px solid rgba(255,255,255,.18);
-  background:transparent;
-  color:white;
-  cursor:pointer;
-  font-size:18px;
-  transition:.3s var(--ease);
-}
-
-.chromaClose:hover{
-  color:#050605;
-  background:var(--chroma);
-  border-color:var(--chroma);
-}
-
-.chromaSection{
-  padding:24px 0;
-  border-bottom:1px solid rgba(255,255,255,.11);
-}
-
-.chromaLabel,
-.consoleToggleRow{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-  color:rgba(255,255,255,.4);
-  font:7px "DM Mono",monospace;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-
-.chromaLabel span:last-child{
-  color:var(--chroma);
-}
-
-.chromaPalette{
-  display:flex;
-  gap:12px;
-  margin-top:18px;
-}
-
-.paletteDot{
-  width:48px;
-  height:48px;
-  border:1px solid rgba(255,255,255,.16);
-  border-radius:50%;
-  cursor:pointer;
-  transition:.35s var(--ease);
-}
-
-.paletteDot:hover,
-.paletteDot.active{
-  transform:scale(1.12);
-  border-color:white;
-  box-shadow:0 0 25px rgba(255,255,255,.10);
-}
-
-.paletteAcid{background:#c6e85a}
-.paletteAmber{background:#ffb84d}
-.paletteViolet{background:#b79cff}
-.paletteIce{background:#70dfff}
-.paletteMono{background:#e9eee4}
-
-.motionSlider,
-.grainSlider{
-  width:100%;
-  margin-top:20px;
-  accent-color:var(--chroma);
-}
-
-.consoleToggleRow + .consoleToggleRow{
-  margin-top:20px;
-}
-
-.consoleToggle{
-  position:relative;
-  width:42px;
-  height:22px;
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:0;
-  background:rgba(255,255,255,.05);
-  cursor:pointer;
-}
-
-.consoleToggle i{
-  position:absolute;
-  width:14px;
-  height:14px;
-  top:3px;
-  left:3px;
-  background:rgba(255,255,255,.35);
-  transition:.3s var(--ease);
-}
-
-.consoleToggle.active{
-  border-color:var(--chroma);
-}
-
-.consoleToggle.active i{
-  left:23px;
-  background:var(--chroma);
-  box-shadow:0 0 15px rgba(var(--chroma-rgb),.45);
-}
-
-.consoleHint{
-  padding-top:24px;
-  color:rgba(255,255,255,.22);
-  font:7px/1.9 "DM Mono",monospace;
-  letter-spacing:.13em;
-}
-
-.pointerField{
-  position:fixed;
-  z-index:99999;
-  width:72px;
-  height:72px;
-  left:0;
-  top:0;
-  transform:translate(-50%,-50%);
-  pointer-events:none;
-  opacity:0;
-  transition:opacity .25s ease;
-  mix-blend-mode:screen;
-}
-
-.pointerField.visible{
-  opacity:var(--cursor-opacity);
-}
-
-.pointerRing{
-  position:absolute;
-  inset:0;
-  border:1px solid rgba(var(--chroma-rgb),.45);
-  border-radius:50%;
-  transition:
-    transform .4s var(--ease),
-    border-color .3s ease,
-    opacity .3s ease;
-}
-
-.pointerCore{
-  position:absolute;
-  width:5px;
-  height:5px;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  background:var(--chroma);
-  box-shadow:0 0 20px rgba(var(--chroma-rgb),.65);
-}
-
-.pointerCross{
-  position:absolute;
-  background:rgba(var(--chroma-rgb),.28);
-}
-
-.pointerCrossX{
-  left:0;
-  right:0;
-  top:50%;
-  height:1px;
-}
-
-.pointerCrossY{
-  top:0;
-  bottom:0;
-  left:50%;
-  width:1px;
-}
-
-.pointerField.hovering .pointerRing{
-  transform:scale(1.65);
-  border-color:var(--chroma);
-}
-
-.pointerField.hovering .pointerCore{
-  transform:translate(-50%,-50%) scale(1.5);
-}
-
-body[data-lab-mode="amber"]{
-  --chroma:#ffb84d;
-  --chroma-rgb:255,184,77;
-}
-
-body[data-lab-mode="violet"]{
-  --chroma:#b79cff;
-  --chroma-rgb:183,156,255;
-}
-
-body[data-lab-mode="ice"]{
-  --chroma:#70dfff;
-  --chroma-rgb:112,223,255;
-}
-
-body[data-lab-mode="mono"]{
-  --chroma:#e9eee4;
-  --chroma-rgb:233,238,228;
-}
-
-body[data-lab-mode="mono"] .eraVisual img,
-body[data-lab-mode="mono"] .journalCard img,
-body[data-lab-mode="mono"] .chapterCardImage img,
-body[data-lab-mode="mono"] .diptychImage img{
-  filter:grayscale(1) contrast(1.08) brightness(.82);
-}
-
-/* ---------------------------------------------------------
-   Magnetic / active interaction states
-   --------------------------------------------------------- */
-
-[data-magnetic]{
-  will-change:transform;
-}
-
-.link-active{
-  color:var(--chroma)!important;
-  border-color:var(--chroma)!important;
-}
-
-.scene.seen .eraMeta,
-.scene.seen .archiveIntro,
-.scene.seen .notesBig,
-.scene.seen .sourcesTitle,
-.scene.seen .worldHeader{
-  animation:contentReveal .9s var(--ease) both;
-}
-
-@keyframes contentReveal{
-  from{
-    opacity:0;
-    transform:translateY(18px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-/* ---------------------------------------------------------
-   Mobile
-   --------------------------------------------------------- */
 
 @media(max-width:1000px){
-  .labTile{
-    transform:rotate(0deg)!important;
-  }
-
-  .tileA{left:3%;top:43%;width:28vw;height:22vh}
-  .tileB{left:31%;top:35%;width:28vw;height:21vh}
-  .tileC{left:59%;top:43%;width:31vw;height:23vh}
-  .tileD{left:8%;top:66%;width:27vw;height:20vh}
-  .tileE{left:37%;top:68%;width:28vw;height:20vh}
-  .tileF{left:67%;top:65%;width:27vw;height:20vh}
-  .tileG,.tileH,.tileI,.tileJ,.tileK,.tileL{
+  .colorControl{
     display:none;
   }
 
-  .labControls{
-    width:calc(100% - 30px);
-    overflow:auto;
-    justify-content:flex-start;
-    transform:translateX(-50%);
+  .fieldGrid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
   }
 
-  .labControl{
-    min-width:96px;
+  .fieldArchiveHeader{
+    align-items:flex-start;
   }
 
-  .labHeader{
-    left:15px;
-    top:9vh;
-  }
-
-  .labReadout{
-    right:15px;
-    top:9vh;
+  .fieldArchiveIntro{
+    width:min(320px,38vw);
   }
 }
 
 @media(max-width:700px){
-  .chromaButton{
-    display:none;
-  }
-
-  .soundButton{
-    display:none;
-  }
-
-  .visualLabScene{
+  .fieldArchiveScene{
     min-height:220vh;
   }
 
-  .visualLabStage{
-    height:100vh;
+  .fieldArchiveStage{
+    padding:9vh 15px 3vh;
   }
 
-  .labHeader{
-    max-width:calc(100% - 30px);
+  .fieldArchiveHeader{
+    display:block;
   }
 
-  .labHeader h2{
-    font-size:18vw;
+  .fieldArchiveHeader h2{
+    font-size:19vw;
   }
 
-  .labHeader p{
+  .fieldArchiveIntro{
+    width:auto;
     max-width:300px;
-    font-size:8px;
+    margin-top:15px;
   }
 
-  .labReadout{
-    display:none;
+  .fieldFilters{
+    overflow:auto;
+    padding-bottom:2px;
   }
 
-  .labControls{
-    bottom:9vh;
-    padding:4px;
+  .fieldFilter{
+    white-space:nowrap;
   }
 
-  .labControl{
-    height:29px;
-    min-width:86px;
-    font-size:6px;
+  .fieldGrid{
+    height:61vh;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:3px;
   }
 
-  .labFooter{
+  .fieldBottom{
     left:15px;
     right:15px;
-    bottom:3vh;
-    font-size:6px;
   }
 
-  .imageViewerFrame{
-    width:calc(100% - 20px);
-    height:calc(100% - 25px);
-  }
-
-  .viewerImageWrap img{
-    padding:10px;
-  }
-
-  .viewerInfo{
-    min-height:78px;
-    padding:12px;
-  }
-
-  .viewerMeta{
+  .fieldBottom > span:first-child{
     display:none;
   }
 
-  .viewerInfo h3{
-    font-size:24px;
+  .fieldViewerPanel{
+    width:calc(100% - 14px);
+    height:calc(100% - 18px);
   }
 
-  .chromaConsoleInner{
-    width:100%;
-    padding:20px;
-  }
-
-  .pointerField{
-    display:none;
+  .fieldViewerImage img{
+    padding:8px;
   }
 }
 
 @media(prefers-reduced-motion:reduce){
-  .labAura,
-  .labNoise,
-  .soundButton.is-on .soundState{
-    animation:none!important;
-  }
-
-  .pointerField{
-    display:none!important;
+  .eraVisual:hover::before,
+  .journalCard:hover::before,
+  .diptychImage:hover::before,
+  .chapterCard:hover::before{
+    animation:none;
   }
 }
 
@@ -3869,13 +3296,12 @@ body[data-lab-mode="mono"] .diptychImage img{
       Archive online
     </div>
 
-    <button class="headerButton chromaButton" id="chromaOpen" type="button" aria-label="Open visual controls">
-      Chroma
-    </button>
-
-    <button class="headerButton soundButton" id="soundToggle" type="button" aria-label="Toggle archive ambience">
-      Sound <span class="soundState">OFF</span>
-    </button>
+    <div class="colorControl" aria-label="Visual atmosphere">
+      <button class="colorDot active" data-tone="acid" aria-label="Acid"></button>
+      <button class="colorDot" data-tone="amber" aria-label="Amber"></button>
+      <button class="colorDot" data-tone="violet" aria-label="Violet"></button>
+      <button class="colorDot" data-tone="ice" aria-label="Ice"></button>
+    </div>
 
     <button class="headerButton" id="supportTop" type="button">
       Support
@@ -3893,7 +3319,7 @@ body[data-lab-mode="mono"] .diptychImage img{
   <span id="progressBar"></span>
 </div>
 
-<div class="progressLabel" id="progressLabel">01 / 14</div>
+<div class="progressLabel" id="progressLabel">01 / 15</div>
 
 <div class="cursorDot" id="cursorDot"></div>
 
@@ -5147,129 +4573,11 @@ body[data-lab-mode="mono"] .diptychImage img{
 
 </section>
 
-
-<!-- =========================================================
-     SCENE 15 / VISUAL LABORATORY
-     ADDITIVE IMMERSIVE LAYER
-     ========================================================= -->
-
-<section class="scene visualLabScene" id="visual-lab" data-scene="15">
-
-  <div class="visualLabStage" aria-label="Interactive visual archive laboratory">
-
-    <div class="labAura labAuraA"></div>
-    <div class="labAura labAuraB"></div>
-    <div class="labNoise"></div>
-
-    <div class="labHeader">
-      <div class="labEyebrow">VISUAL LAB / LOCAL IMAGE ARCHIVE / LIVE</div>
-      <h2>
-        SEE THE<br>
-        <span>RECORD.</span>
-      </h2>
-      <p>
-        A reactive layer over the archive.
-        Move.
-        Hover.
-        Click.
-        Change the visual atmosphere without leaving the documented material.
-      </p>
-    </div>
-
-    <div class="labReadout">
-      <span id="labReadoutMode">FIELD / CHROMA 01</span>
-      <span id="labReadoutCoords">X 000 / Y 000</span>
-    </div>
-
-    <div class="labGallery" id="labGallery">
-
-      <button class="labTile tileA" data-full="STRAIN1.JPG" data-label="STRAIN 01 / RETURN">
-        <img src="STRAIN1.JPG" alt="Baltazar Seeds archive image 1" loading="lazy">
-        <span class="labTileTag">01 / ROOT</span>
-      </button>
-
-      <button class="labTile tileB" data-full="STRAIN2.JPG" data-label="STRAIN 02 / MIX">
-        <img src="STRAIN2.JPG" alt="Baltazar Seeds archive image 2" loading="lazy">
-        <span class="labTileTag">02 / MIX</span>
-      </button>
-
-      <button class="labTile tileC" data-full="STRAIN3.JPG" data-label="STRAIN 03 / SELECTION">
-        <img src="STRAIN3.JPG" alt="Baltazar Seeds archive image 3" loading="lazy">
-        <span class="labTileTag">03 / SELECT</span>
-      </button>
-
-      <button class="labTile tileD" data-full="STRAIN4.JPG" data-label="STRAIN 04 / PHENOTYPE">
-        <img src="STRAIN4.JPG" alt="Baltazar Seeds archive image 4" loading="lazy">
-        <span class="labTileTag">04 / PHENO</span>
-      </button>
-
-      <button class="labTile tileE" data-full="STRAIN5.JPG" data-label="STRAIN 05 / ORIGINAL">
-        <img src="STRAIN5.JPG" alt="Baltazar Seeds archive image 5" loading="lazy">
-        <span class="labTileTag">05 / FRAME</span>
-      </button>
-
-      <button class="labTile tileF" data-full="STRAIN6.JPG" data-label="STRAIN 06 / FINISH">
-        <img src="STRAIN6.JPG" alt="Baltazar Seeds archive image 6" loading="lazy">
-        <span class="labTileTag">06 / FINISH</span>
-      </button>
-
-      <button class="labTile tileG" data-full="STRAIN5A.JPG" data-label="STRAIN 05A / DETAIL">
-        <img src="STRAIN5A.JPG" alt="Baltazar Seeds archive detail" loading="lazy">
-        <span class="labTileTag">05A / DETAIL</span>
-      </button>
-
-      <button class="labTile tileH" data-full="STRAIN6A.JPG" data-label="STRAIN 06A / DETAIL">
-        <img src="STRAIN6A.JPG" alt="Baltazar Seeds archive detail" loading="lazy">
-        <span class="labTileTag">06A / DETAIL</span>
-      </button>
-
-      <button class="labTile tileI" data-full="MERCH1.JPG" data-label="MERCH 01 / OBJECT">
-        <img src="MERCH1.JPG" alt="Baltazar Seeds merch archive image" loading="lazy">
-        <span class="labTileTag">MERCH / 01</span>
-      </button>
-
-      <button class="labTile tileJ" data-full="MERCH2.JPG" data-label="MERCH 02 / OBJECT">
-        <img src="MERCH2.JPG" alt="Baltazar Seeds merch archive image" loading="lazy">
-        <span class="labTileTag">MERCH / 02</span>
-      </button>
-
-      <button class="labTile tileK" data-full="BALT1.JPG" data-label="BALT 01 / WORLD">
-        <img src="BALT1.JPG" alt="Baltazar Seeds world archive image" loading="lazy">
-        <span class="labTileTag">BALT / 01</span>
-      </button>
-
-      <button class="labTile tileL" data-full="BALT12.JPG" data-label="BALT 12 / WORLD">
-        <img src="BALT12.JPG" alt="Baltazar Seeds world archive image" loading="lazy">
-        <span class="labTileTag">BALT / 12</span>
-      </button>
-
-    </div>
-
-    <div class="labControls">
-      <button class="labControl active" data-lab-mode="acid">ACID FIELD</button>
-      <button class="labControl" data-lab-mode="amber">AMBER SIGNAL</button>
-      <button class="labControl" data-lab-mode="violet">VIOLET NIGHT</button>
-      <button class="labControl" data-lab-mode="ice">ICE RECORD</button>
-      <button class="labControl" data-lab-mode="mono">MONO ARCHIVE</button>
-    </div>
-
-    <div class="labFooter">
-      <span>LOCAL ASSETS / REACTIVE SURFACE</span>
-      <span>CLICK AN IMAGE TO ENTER</span>
-    </div>
-
-  </div>
-
-</section>
-
-<!-- =========================================================
-     SCENE 16 / SUPPORT
-     ========================================================= -->
 <!-- =========================================================
      SUPPORT
      ========================================================= -->
 
-<section class="scene supportScene" id="support" data-scene="16">
+<section class="scene supportScene" id="support" data-scene="15">
 
   <div class="supportStage">
 
@@ -5345,134 +4653,32 @@ body[data-lab-mode="mono"] .diptychImage img{
 
 
 <!-- =========================================================
-     IMMERSIVE IMAGE VIEWER
+     FIELD IMAGE VIEWER
      ========================================================= -->
 
-<div class="imageViewer" id="imageViewer" aria-hidden="true">
+<div class="fieldViewer" id="fieldViewer" aria-hidden="true">
+  <div class="fieldViewerBackdrop" data-field-close></div>
 
-  <div class="imageViewerBackdrop" data-viewer-close></div>
-
-  <div class="imageViewerFrame" role="dialog" aria-modal="true" aria-labelledby="viewerTitle">
-
-    <div class="viewerTopline">
-      <span id="viewerIndex">ARCHIVE / 01</span>
-      <button class="viewerClose" id="viewerClose" type="button" aria-label="Close image viewer">×</button>
+  <div class="fieldViewerPanel" role="dialog" aria-modal="true" aria-label="Archive image viewer">
+    <div class="fieldViewerTop">
+      <span id="fieldViewerCounter">FRAME 01</span>
+      <button id="fieldViewerClose" type="button" aria-label="Close image viewer">×</button>
     </div>
 
-    <div class="viewerImageWrap">
-      <img id="viewerImage" src="" alt="">
-      <div class="viewerScan"></div>
-      <div class="viewerCrosshair viewerCrosshairA"></div>
-      <div class="viewerCrosshair viewerCrosshairB"></div>
+    <div class="fieldViewerImage">
+      <img id="fieldViewerImg" src="" alt="">
+      <span class="viewerCorner viewerCornerA"></span>
+      <span class="viewerCorner viewerCornerB"></span>
     </div>
 
-    <div class="viewerInfo">
+    <div class="fieldViewerBottom">
+      <strong id="fieldViewerName">ARCHIVE</strong>
       <div>
-        <small>LOCAL ARCHIVE IMAGE</small>
-        <h3 id="viewerTitle">ARCHIVE IMAGE</h3>
-      </div>
-      <div class="viewerMeta">
-        <span id="viewerMetaFile">SOURCE / LOCAL</span>
-        <span id="viewerMetaMode">MODE / CHROMA</span>
+        <button id="fieldPrev" type="button">← PREV</button>
+        <button id="fieldNext" type="button">NEXT →</button>
       </div>
     </div>
-
   </div>
-
-</div>
-
-<!-- =========================================================
-     CHROMA CONTROL CONSOLE
-     ========================================================= -->
-
-<aside class="chromaConsole" id="chromaConsole" aria-hidden="true">
-
-  <div class="chromaConsoleInner">
-
-    <div class="chromaTop">
-      <div>
-        <small>VISUAL SYSTEM</small>
-        <strong>CHROMA CONSOLE</strong>
-      </div>
-      <button class="chromaClose" id="chromaClose" type="button" aria-label="Close visual controls">×</button>
-    </div>
-
-    <div class="chromaSection">
-      <div class="chromaLabel">
-        <span>01 / ATMOSPHERE</span>
-        <span id="consoleModeName">ACID FIELD</span>
-      </div>
-
-      <div class="chromaPalette">
-        <button class="paletteDot paletteAcid active" data-lab-mode="acid" aria-label="Acid field"></button>
-        <button class="paletteDot paletteAmber" data-lab-mode="amber" aria-label="Amber signal"></button>
-        <button class="paletteDot paletteViolet" data-lab-mode="violet" aria-label="Violet night"></button>
-        <button class="paletteDot paletteIce" data-lab-mode="ice" aria-label="Ice record"></button>
-        <button class="paletteDot paletteMono" data-lab-mode="mono" aria-label="Mono archive"></button>
-      </div>
-    </div>
-
-    <div class="chromaSection">
-      <div class="chromaLabel">
-        <span>02 / MOTION</span>
-        <span id="motionValue">100%</span>
-      </div>
-
-      <input class="motionSlider" id="motionSlider" type="range" min="0" max="140" value="100" aria-label="Motion intensity">
-    </div>
-
-    <div class="chromaSection">
-      <div class="chromaLabel">
-        <span>03 / GRAIN</span>
-        <span id="grainValue">08%</span>
-      </div>
-
-      <input class="grainSlider" id="grainSlider" type="range" min="0" max="20" value="8" aria-label="Film grain intensity">
-    </div>
-
-    <div class="chromaSection">
-      <div class="consoleToggleRow">
-        <span>CURSOR FIELD</span>
-        <button class="consoleToggle active" id="cursorFieldToggle" type="button" aria-pressed="true">
-          <i></i>
-        </button>
-      </div>
-
-      <div class="consoleToggleRow">
-        <span>PARALLAX</span>
-        <button class="consoleToggle active" id="parallaxToggle" type="button" aria-pressed="true">
-          <i></i>
-        </button>
-      </div>
-
-      <div class="consoleToggleRow">
-        <span>SCANLINES</span>
-        <button class="consoleToggle active" id="scanToggle" type="button" aria-pressed="true">
-          <i></i>
-        </button>
-      </div>
-    </div>
-
-    <div class="consoleHint">
-      MOUSE / MOVE<br>
-      CLICK / ENTER<br>
-      M / MENU<br>
-      ESC / CLOSE
-    </div>
-
-  </div>
-
-</aside>
-
-<!-- =========================================================
-     POINTER FIELD
-     ========================================================= -->
-
-<div class="pointerField" id="pointerField" aria-hidden="true">
-  <span class="pointerRing"></span>
-  <span class="pointerCross pointerCrossX"></span>
-  <span class="pointerCross pointerCrossY"></span>
-  <span class="pointerCore"></span>
 </div>
 
 <!-- =========================================================
@@ -6277,1037 +5483,246 @@ window.addEventListener("resize",()=>{
 
 },{passive:true});
 
+})();
+</script>
 
+
+<script>
 /* =========================================================
-   IMMERSIVE INTERACTION ENGINE — ADDITIVE
+   FIELD ARCHIVE — SMALL INTERACTION LAYER
    ========================================================= */
+(() => {
 
-const immersive = {
+  const qs = (s, root=document) => root.querySelector(s);
+  const qsa = (s, root=document) => [...root.querySelectorAll(s)];
 
-  modeNames:{
-    acid:"ACID FIELD",
-    amber:"AMBER SIGNAL",
-    violet:"VIOLET NIGHT",
-    ice:"ICE RECORD",
-    mono:"MONO ARCHIVE"
-  },
+  /* -------------------------------------------------------
+     Color tone
+     ------------------------------------------------------- */
 
-  modeClasses:{
-    acid:"",
-    amber:"lab-amber",
-    violet:"lab-violet",
-    ice:"lab-ice",
-    mono:"lab-mono"
-  },
+  const toneButtons = qsa(".colorDot");
+  const savedTone = localStorage.getItem("baltazar-tone") || "acid";
 
-  modeColors:{
-    acid:"#c6e85a",
-    amber:"#ffb84d",
-    violet:"#b79cff",
-    ice:"#70dfff",
-    mono:"#e9eee4"
-  }
+  function setTone(tone){
+    const allowed = ["acid","amber","violet","ice"];
+    if(!allowed.includes(tone)) tone = "acid";
 
-};
+    document.body.dataset.tone = tone;
 
-/* ---------------------------------------------------------
-   Dynamic pointer / cursor field
-   --------------------------------------------------------- */
-
-const pointerField = $("#pointerField");
-
-let pointerTargetX=window.innerWidth/2;
-let pointerTargetY=window.innerHeight/2;
-let pointerCurrentX=pointerTargetX;
-let pointerCurrentY=pointerTargetY;
-let pointerEnabled=true;
-
-window.addEventListener("mousemove",event=>{
-
-  pointerTargetX=event.clientX;
-  pointerTargetY=event.clientY;
-
-  document.body.style.setProperty(
-    "--mx",
-    (event.clientX/window.innerWidth*100)+"%"
-  );
-
-  document.body.style.setProperty(
-    "--my",
-    (event.clientY/window.innerHeight*100)+"%"
-  );
-
-  const labCoords=$("#labReadoutCoords");
-
-  if(labCoords){
-
-    labCoords.textContent=
-      "X "+
-      String(Math.round(event.clientX)).padStart(3,"0")+
-      " / Y "+
-      String(Math.round(event.clientY)).padStart(3,"0");
-
-  }
-
-  if(pointerField && pointerEnabled){
-
-    pointerField.classList.add("visible");
-
-  }
-
-},{passive:true});
-
-window.addEventListener("mouseleave",()=>{
-
-  pointerField?.classList.remove("visible");
-
-});
-
-function pointerLoop(){
-
-  pointerCurrentX +=
-    (pointerTargetX-pointerCurrentX)*.18;
-
-  pointerCurrentY +=
-    (pointerTargetY-pointerCurrentY)*.18;
-
-  if(pointerField){
-
-    pointerField.style.left=pointerCurrentX+"px";
-    pointerField.style.top=pointerCurrentY+"px";
-
-  }
-
-  requestAnimationFrame(pointerLoop);
-
-}
-
-pointerLoop();
-
-/* ---------------------------------------------------------
-   Pointer hover intelligence
-   --------------------------------------------------------- */
-
-const interactiveTargets=[
-  ...$$("a"),
-  ...$$("button"),
-  ...$$(".labTile"),
-  ...$$(".worldCard"),
-  ...$$(".chapterCard"),
-  ...$$(".archiveItem")
-];
-
-interactiveTargets.forEach(element=>{
-
-  element.addEventListener("mouseenter",()=>{
-
-    pointerField?.classList.add("hovering");
-
-  });
-
-  element.addEventListener("mouseleave",()=>{
-
-    pointerField?.classList.remove("hovering");
-
-  });
-
-});
-
-/* ---------------------------------------------------------
-   Magnetic buttons
-   --------------------------------------------------------- */
-
-function addMagnetic(element,strength=.16){
-
-  if(!element) return;
-
-  element.dataset.magnetic="true";
-
-  element.addEventListener("mousemove",event=>{
-
-    const rect=element.getBoundingClientRect();
-
-    const x=(event.clientX-(rect.left+rect.width/2));
-    const y=(event.clientY-(rect.top+rect.height/2));
-
-    element.style.transform=
-      "translate("+
-      x*strength+
-      "px,"+
-      y*strength+
-      "px)";
-
-  });
-
-  element.addEventListener("mouseleave",()=>{
-
-    element.style.transform="";
-
-  });
-
-}
-
-$$(".headerButton").forEach(button=>addMagnetic(button,.10));
-$$(".supportButton").forEach(button=>addMagnetic(button,.08));
-$$(".eraLink").forEach(button=>addMagnetic(button,.06));
-$$(".worldLink").forEach(button=>addMagnetic(button,.06));
-
-/* ---------------------------------------------------------
-   Chroma console
-   --------------------------------------------------------- */
-
-const chromaOpen=$("#chromaOpen");
-const chromaClose=$("#chromaClose");
-const chromaConsole=$("#chromaConsole");
-
-function openChroma(){
-
-  if(!chromaConsole) return;
-
-  chromaConsole.classList.add("open");
-  chromaConsole.setAttribute("aria-hidden","false");
-  document.body.style.overflow="hidden";
-
-}
-
-function closeChroma(){
-
-  if(!chromaConsole) return;
-
-  chromaConsole.classList.remove("open");
-  chromaConsole.setAttribute("aria-hidden","true");
-
-  if(
-    !menuOverlay.classList.contains("open") &&
-    !supportDrawer.classList.contains("open") &&
-    !contactDrawer.classList.contains("open") &&
-    !imageViewer.classList.contains("open")
-  ){
-    document.body.style.overflow="";
-  }
-
-}
-
-chromaOpen?.addEventListener("click",openChroma);
-chromaClose?.addEventListener("click",closeChroma);
-
-chromaConsole?.addEventListener("click",event=>{
-
-  if(event.target===chromaConsole){
-
-    closeChroma();
-
-  }
-
-});
-
-/* ---------------------------------------------------------
-   Color mode system
-   --------------------------------------------------------- */
-
-const visualLab=$(".visualLabScene");
-const modeButtons=$$("[data-lab-mode]");
-const consoleModeName=$("#consoleModeName");
-const labReadoutMode=$("#labReadoutMode");
-
-function setLabMode(mode){
-
-  const valid=
-    Object.prototype.hasOwnProperty.call(
-      immersive.modeNames,
-      mode
-    )
-      ? mode
-      : "acid";
-
-  document.body.dataset.labMode=valid;
-
-  if(visualLab){
-
-    visualLab.classList.remove(
-      "lab-amber",
-      "lab-violet",
-      "lab-ice",
-      "lab-mono"
-    );
-
-    if(immersive.modeClasses[valid]){
-
-      visualLab.classList.add(
-        immersive.modeClasses[valid]
-      );
-
-    }
-
-  }
-
-  modeButtons.forEach(button=>{
-
-    button.classList.toggle(
-      "active",
-      button.dataset.labMode===valid
-    );
-
-  });
-
-  if(consoleModeName){
-
-    consoleModeName.textContent=
-      immersive.modeNames[valid];
-
-  }
-
-  if(labReadoutMode){
-
-    labReadoutMode.textContent=
-      "FIELD / "+
-      immersive.modeNames[valid];
-
-  }
-
-  localStorage.setItem(
-    "baltazarChromaMode",
-    valid
-  );
-
-}
-
-modeButtons.forEach(button=>{
-
-  button.addEventListener("click",()=>{
-
-    setLabMode(button.dataset.labMode);
-
-  });
-
-});
-
-let savedMode="acid";
-
-try{
-
-  savedMode=
-    localStorage.getItem("baltazarChromaMode") ||
-    "acid";
-
-}catch(error){}
-
-setLabMode(savedMode);
-
-/* ---------------------------------------------------------
-   Motion + grain controls
-   --------------------------------------------------------- */
-
-const motionSlider=$("#motionSlider");
-const grainSlider=$("#grainSlider");
-const motionValue=$("#motionValue");
-const grainValue=$("#grainValue");
-
-motionSlider?.addEventListener("input",()=>{
-
-  const value=Number(motionSlider.value);
-
-  document.documentElement.style.setProperty(
-    "--motion-scale",
-    String(value/100)
-  );
-
-  if(motionValue){
-
-    motionValue.textContent=
-      String(value).padStart(3,"0")+"%";
-
-  }
-
-});
-
-grainSlider?.addEventListener("input",()=>{
-
-  const value=Number(grainSlider.value);
-
-  document.documentElement.style.setProperty(
-    "--grain-alpha",
-    String(value/100)
-  );
-
-  if(grainValue){
-
-    grainValue.textContent=
-      String(value).padStart(2,"0")+"%";
-
-  }
-
-});
-
-/* ---------------------------------------------------------
-   Console toggles
-   --------------------------------------------------------- */
-
-function setupConsoleToggle(button,callback){
-
-  if(!button) return;
-
-  button.addEventListener("click",()=>{
-
-    const active=
-      !button.classList.contains("active");
-
-    button.classList.toggle("active",active);
-    button.setAttribute("aria-pressed",String(active));
-
-    callback(active);
-
-  });
-
-}
-
-setupConsoleToggle(
-  $("#cursorFieldToggle"),
-  active=>{
-
-    pointerEnabled=active;
-
-    if(!active){
-
-      pointerField?.classList.remove("visible");
-
-    }
-
-    document.documentElement.style.setProperty(
-      "--cursor-opacity",
-      active ? "1" : "0"
-    );
-
-  }
-);
-
-setupConsoleToggle(
-  $("#parallaxToggle"),
-  active=>{
-
-    document.body.classList.toggle(
-      "parallax-disabled",
-      !active
-    );
-
-  }
-);
-
-setupConsoleToggle(
-  $("#scanToggle"),
-  active=>{
-
-    document.documentElement.style.setProperty(
-      "--scan-opacity",
-      active ? ".14" : "0"
-    );
-
-  }
-);
-
-/* ---------------------------------------------------------
-   Reactive laboratory image tilt
-   --------------------------------------------------------- */
-
-const labTiles=$$(".labTile");
-
-labTiles.forEach(tile=>{
-
-  tile.addEventListener("mousemove",event=>{
-
-    const rect=tile.getBoundingClientRect();
-
-    const px=
-      (event.clientX-rect.left)/rect.width-.5;
-
-    const py=
-      (event.clientY-rect.top)/rect.height-.5;
-
-    const baseTransform=
-      getComputedStyle(tile).transform;
-
-    tile.style.transform=
-      "perspective(900px) rotateX("+
-      (-py*7)+"deg) rotateY("+
-      (px*7)+"deg) translateZ(18px) scale(1.025)";
-
-    tile.dataset.baseTransform=baseTransform;
-
-  });
-
-  tile.addEventListener("mouseleave",()=>{
-
-    tile.style.transform="";
-
-  });
-
-});
-
-/* ---------------------------------------------------------
-   Laboratory responds to page scroll
-   --------------------------------------------------------- */
-
-const labScene=$(".visualLabScene");
-
-function animateLab(){
-
-  if(!labScene) return;
-
-  const rect=labScene.getBoundingClientRect();
-  const travel=
-    Math.max(
-      1,
-      labScene.offsetHeight-window.innerHeight
-    );
-
-  const progress=
-    clamp(
-      -rect.top/travel,
-      0,
-      1
-    );
-
-  const gallery=$("#labGallery");
-
-  if(gallery){
-
-    const move=
-      (progress-.5)*
-      2*
-      35*
-      Number(
-        getComputedStyle(document.documentElement)
-          .getPropertyValue("--motion-scale") || 1
-      );
-
-    gallery.style.transform=
-      "translate3d("+
-      move+"px,"+
-      (progress*18-9)+"px,0)";
-
-  }
-
-  labTiles.forEach((tile,index)=>{
-
-    if(window.innerWidth<=700) return;
-
-    const phase=
-      progress*4+
-      index*.37;
-
-    const driftX=
-      Math.sin(phase)*6;
-
-    const driftY=
-      Math.cos(phase*.9)*5;
-
-    tile.style.marginLeft=driftX+"px";
-    tile.style.marginTop=driftY+"px";
-
-  });
-
-}
-
-/* Add laboratory animation to the existing RAF update loop. */
-const originalUpdateAll=updateAll;
-
-updateAll=function(){
-
-  originalUpdateAll();
-  animateLab();
-
-};
-
-/* ---------------------------------------------------------
-   Full-screen image viewer
-   --------------------------------------------------------- */
-
-const imageViewer=$("#imageViewer");
-const viewerImage=$("#viewerImage");
-const viewerTitle=$("#viewerTitle");
-const viewerIndex=$("#viewerIndex");
-const viewerMetaFile=$("#viewerMetaFile");
-const viewerMetaMode=$("#viewerMetaMode");
-const viewerClose=$("#viewerClose");
-
-let viewerItems=[];
-let viewerCurrent=0;
-
-function collectViewerItems(){
-
-  viewerItems=labTiles.map(tile=>({
-
-    src:tile.dataset.full || tile.querySelector("img")?.src || "",
-    label:tile.dataset.label || "ARCHIVE IMAGE",
-    alt:tile.querySelector("img")?.alt || "Archive image"
-
-  }));
-
-}
-
-collectViewerItems();
-
-function openViewer(index){
-
-  if(!imageViewer || !viewerItems.length) return;
-
-  viewerCurrent=
-    ((index%viewerItems.length)+viewerItems.length)%
-    viewerItems.length;
-
-  const item=viewerItems[viewerCurrent];
-
-  if(viewerImage){
-
-    viewerImage.src=item.src;
-    viewerImage.alt=item.alt;
-
-  }
-
-  if(viewerTitle){
-
-    viewerTitle.textContent=item.label;
-
-  }
-
-  if(viewerIndex){
-
-    viewerIndex.textContent=
-      "ARCHIVE / "+
-      String(viewerCurrent+1).padStart(2,"0");
-
-  }
-
-  if(viewerMetaFile){
-
-    viewerMetaFile.textContent=
-      "SOURCE / "+
-      item.src.split("/").pop();
-
-  }
-
-  if(viewerMetaMode){
-
-    viewerMetaMode.textContent=
-      "MODE / "+
-      (immersive.modeNames[document.body.dataset.labMode] || "CHROMA");
-
-  }
-
-  imageViewer.classList.add("open");
-  imageViewer.setAttribute("aria-hidden","false");
-  document.body.style.overflow="hidden";
-
-}
-
-function closeViewer(){
-
-  if(!imageViewer) return;
-
-  imageViewer.classList.remove("open");
-  imageViewer.setAttribute("aria-hidden","true");
-
-  if(
-    !chromaConsole.classList.contains("open") &&
-    !menuOverlay.classList.contains("open") &&
-    !supportDrawer.classList.contains("open") &&
-    !contactDrawer.classList.contains("open")
-  ){
-    document.body.style.overflow="";
-  }
-
-}
-
-labTiles.forEach((tile,index)=>{
-
-  tile.addEventListener("click",()=>{
-
-    openViewer(index);
-
-  });
-
-});
-
-viewerClose?.addEventListener("click",closeViewer);
-
-$$("[data-viewer-close]").forEach(element=>{
-
-  element.addEventListener("click",closeViewer);
-
-});
-
-/* Viewer keyboard navigation */
-document.addEventListener("keydown",event=>{
-
-  if(!imageViewer?.classList.contains("open")) return;
-
-  if(event.key==="ArrowRight"){
-
-    openViewer(viewerCurrent+1);
-
-  }
-
-  if(event.key==="ArrowLeft"){
-
-    openViewer(viewerCurrent-1);
-
-  }
-
-});
-
-/* ---------------------------------------------------------
-   Existing journal gets click-to-enter behavior
-   --------------------------------------------------------- */
-
-journalSlides.forEach((slide,index)=>{
-
-  slide.style.cursor="zoom-in";
-
-  slide.addEventListener("click",event=>{
-
-    if(event.target.closest("a,button")) return;
-
-    const image=slide.querySelector("img");
-
-    if(!image) return;
-
-    const found=
-      viewerItems.findIndex(item=>
-        item.src.endsWith(
-          image.getAttribute("src") || ""
-        )
-      );
-
-    openViewer(found>=0 ? found : index);
-
-  });
-
-});
-
-/* ---------------------------------------------------------
-   World / chapter / archive micro interactions
-   --------------------------------------------------------- */
-
-$$(".worldCard,.chapterCard,.archiveItem,.sourceRow,.noteCard").forEach(card=>{
-
-  card.addEventListener("mousemove",event=>{
-
-    const rect=card.getBoundingClientRect();
-
-    const x=
-      (event.clientX-rect.left)/rect.width-.5;
-
-    const y=
-      (event.clientY-rect.top)/rect.height-.5;
-
-    card.style.setProperty(
-      "--hover-x",
-      (x*100)+"%"
-    );
-
-    card.style.setProperty(
-      "--hover-y",
-      (y*100)+"%"
-    );
-
-  });
-
-});
-
-$$(".worldCard").forEach(card=>{
-
-  card.style.setProperty(
-    "background-image",
-    "radial-gradient(circle at var(--hover-x,50%) var(--hover-y,50%),rgba(var(--chroma-rgb),.09),transparent 34%)"
-  );
-
-});
-
-/* ---------------------------------------------------------
-   Audio ambience — opt-in only
-   --------------------------------------------------------- */
-
-const soundToggle=$("#soundToggle");
-const soundState=soundToggle?.querySelector(".soundState");
-
-let ambienceAudio=null;
-let ambienceOn=false;
-
-function createAmbience(){
-
-  if(ambienceAudio) return ambienceAudio;
-
-  ambienceAudio=new Audio("background_music.wav");
-  ambienceAudio.loop=true;
-  ambienceAudio.preload="auto";
-  ambienceAudio.volume=.12;
-
-  return ambienceAudio;
-
-}
-
-async function toggleAmbience(){
-
-  const audio=createAmbience();
-
-  if(!audio) return;
-
-  if(!ambienceOn){
-
-    try{
-
-      await audio.play();
-
-      ambienceOn=true;
-
-      soundToggle?.classList.add("is-on");
-
-      if(soundState){
-
-        soundState.textContent="ON";
-
-      }
-
-    }catch(error){
-
-      ambienceOn=false;
-
-    }
-
-  }else{
-
-    audio.pause();
-    ambienceOn=false;
-
-    soundToggle?.classList.remove("is-on");
-
-    if(soundState){
-
-      soundState.textContent="OFF";
-
-    }
-
-  }
-
-}
-
-soundToggle?.addEventListener("click",toggleAmbience);
-
-/* Stop audio when leaving the page */
-document.addEventListener("visibilitychange",()=>{
-
-  if(
-    document.hidden &&
-    ambienceAudio &&
-    ambienceOn
-  ){
-
-    ambienceAudio.pause();
-
-  }
-
-});
-
-/* ---------------------------------------------------------
-   Keyboard control layer
-   --------------------------------------------------------- */
-
-document.addEventListener("keydown",event=>{
-
-  if(
-    event.target &&
-    ["INPUT","TEXTAREA","SELECT"].includes(
-      event.target.tagName
-    )
-  ){
-    return;
-  }
-
-  if(event.key==="c" || event.key==="C"){
-
-    if(chromaConsole.classList.contains("open")){
-
-      closeChroma();
-
-    }else{
-
-      openChroma();
-
-    }
-
-  }
-
-  if(event.key==="v" || event.key==="V"){
-
-    if(imageViewer.classList.contains("open")){
-
-      closeViewer();
-
-    }else if(viewerItems.length){
-
-      openViewer(viewerCurrent);
-
-    }
-
-  }
-
-  if(event.key==="s" || event.key==="S"){
-
-    toggleAmbience();
-
-  }
-
-});
-
-/* ---------------------------------------------------------
-   Make existing section links glow when their section is active
-   --------------------------------------------------------- */
-
-const sectionLinks=
-  $$('a[href^="#"]').filter(link=>{
-    const id=link.getAttribute("href");
-    return id && id.length>1;
-  });
-
-const sectionMap=new Map();
-
-sectionLinks.forEach(link=>{
-
-  const id=link.getAttribute("href");
-  const target=document.querySelector(id);
-
-  if(!target) return;
-
-  if(!sectionMap.has(target)){
-
-    sectionMap.set(target,[]);
-
-  }
-
-  sectionMap.get(target).push(link);
-
-});
-
-const activeSectionObserver=new IntersectionObserver(
-  entries=>{
-
-    entries.forEach(entry=>{
-
-      const links=sectionMap.get(entry.target);
-
-      if(!links) return;
-
-      links.forEach(link=>{
-
-        link.classList.toggle(
-          "link-active",
-          entry.isIntersecting
-        );
-
-      });
-
+    toneButtons.forEach(btn => {
+      btn.classList.toggle("active", btn.dataset.tone === tone);
     });
 
-  },
-  {
-    threshold:.35
-  }
-);
-
-sectionMap.forEach((links,target)=>{
-
-  activeSectionObserver.observe(target);
-
-});
-
-/* ---------------------------------------------------------
-   Easter-egg: click the brand mark 3x for a color burst
-   --------------------------------------------------------- */
-
-const brandMark=$("#top .brandMark");
-
-let brandClicks=0;
-let brandClickTimer=null;
-
-brandMark?.addEventListener("click",event=>{
-
-  event.preventDefault();
-
-  brandClicks++;
-
-  clearTimeout(brandClickTimer);
-
-  brandClickTimer=setTimeout(()=>{
-
-    brandClicks=0;
-
-  },900);
-
-  if(brandClicks>=3){
-
-    brandClicks=0;
-
-    document.body.classList.add("archiveBurst");
-
-    setTimeout(()=>{
-
-      document.body.classList.remove("archiveBurst");
-
-    },900);
-
+    localStorage.setItem("baltazar-tone", tone);
   }
 
-});
+  toneButtons.forEach(btn => {
+    btn.addEventListener("click", () => setTone(btn.dataset.tone));
+  });
 
-/* ---------------------------------------------------------
-   Burst effect
-   --------------------------------------------------------- */
+  setTone(savedTone);
 
-const burstStyle=document.createElement("style");
+  /* -------------------------------------------------------
+     Mouse field
+     ------------------------------------------------------- */
 
-burstStyle.textContent=`
-  body.archiveBurst::after{
-    opacity:.5!important;
-    background:
-      radial-gradient(circle at 50% 50%,rgba(var(--chroma-rgb),.32),transparent 28%),
-      repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.08) 4px);
-    animation:archiveBurst .9s var(--ease);
+  window.addEventListener("mousemove", e => {
+    document.body.style.setProperty("--pointer-x", e.clientX + "px");
+    document.body.style.setProperty("--pointer-y", e.clientY + "px");
+
+    const y = (e.clientY / window.innerHeight) * 100;
+    document.documentElement.style.setProperty("--scan-y", y + "%");
+  }, {passive:true});
+
+  /* -------------------------------------------------------
+     Contact sheet
+     ------------------------------------------------------- */
+
+  const grid = qs("#fieldGrid");
+  const cards = qsa(".fieldCard", grid);
+  const filters = qsa(".fieldFilter");
+  const more = qs("#fieldMore");
+  const visibleCount = qs("#fieldVisibleCount");
+
+  let activeFilter = "all";
+  let visibleLimit = 18;
+
+  function filteredCards(){
+    return cards.filter(card =>
+      activeFilter === "all" ||
+      card.dataset.category === activeFilter
+    );
   }
 
-  @keyframes archiveBurst{
-    0%{transform:scale(1);filter:brightness(1)}
-    45%{transform:scale(1.025);filter:brightness(1.5)}
-    100%{transform:scale(1);filter:brightness(1)}
+  function renderGrid(){
+
+    const matching = filteredCards();
+
+    cards.forEach(card => {
+      const isMatching = matching.includes(card);
+      const index = matching.indexOf(card);
+
+      card.classList.toggle(
+        "hidden",
+        !isMatching || index >= visibleLimit
+      );
+    });
+
+    if(visibleCount){
+      visibleCount.textContent =
+        String(Math.min(visibleLimit, matching.length)).padStart(2,"0");
+    }
+
+    if(more){
+      const remaining = Math.max(0, matching.length - visibleLimit);
+      more.querySelector("b").textContent = remaining;
+      more.style.display = remaining ? "block" : "none";
+    }
   }
 
-  .parallax-disabled .parallaxImage img{
-    transform:scale(1.08)!important;
+  filters.forEach(filter => {
+    filter.addEventListener("click", () => {
+
+      activeFilter = filter.dataset.filter;
+      visibleLimit = 18;
+
+      filters.forEach(btn =>
+        btn.classList.toggle("active", btn === filter)
+      );
+
+      renderGrid();
+    });
+  });
+
+  more?.addEventListener("click", () => {
+    visibleLimit += 18;
+    renderGrid();
+  });
+
+  renderGrid();
+
+  /* -------------------------------------------------------
+     Fullscreen image viewer
+     ------------------------------------------------------- */
+
+  const viewer = qs("#fieldViewer");
+  const viewerImg = qs("#fieldViewerImg");
+  const viewerName = qs("#fieldViewerName");
+  const viewerCounter = qs("#fieldViewerCounter");
+  const viewerClose = qs("#fieldViewerClose");
+  const prev = qs("#fieldPrev");
+  const next = qs("#fieldNext");
+
+  let viewerPool = [];
+  let viewerPosition = 0;
+
+  function refreshPool(){
+    viewerPool = filteredCards().slice(0, visibleLimit);
   }
 
-  .parallax-disabled .eraVisual:hover img{
-    transform:scale(1.08)!important;
+  function openViewer(card){
+    refreshPool();
+
+    const position = viewerPool.indexOf(card);
+    viewerPosition = position >= 0 ? position : 0;
+
+    showViewer();
   }
-`;
 
-document.head.appendChild(burstStyle);
+  function showViewer(){
 
-/* ---------------------------------------------------------
-   Keep viewport CSS variable fresh
-   --------------------------------------------------------- */
+    const card = viewerPool[viewerPosition];
+    if(!card || !viewer) return;
 
-document.documentElement.style.setProperty(
-  "--viewport-height",
-  window.innerHeight+"px"
-);
+    const src = card.dataset.src;
+    const img = card.querySelector("img");
 
-window.addEventListener("resize",()=>{
+    viewerImg.src = src;
+    viewerImg.alt = img?.alt || "Archive image";
+    viewerName.textContent = card.dataset.src.replace(/\.[^.]+$/,"").toUpperCase();
 
-  document.documentElement.style.setProperty(
-    "--viewport-height",
-    window.innerHeight+"px"
-  );
+    viewerCounter.textContent =
+      "FRAME " +
+      String(viewerPosition + 1).padStart(2,"0") +
+      " / " +
+      String(viewerPool.length).padStart(2,"0");
 
-},{passive:true});
+    viewer.classList.add("open");
+    viewer.setAttribute("aria-hidden","false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeViewer(){
+
+    viewer?.classList.remove("open");
+    viewer?.setAttribute("aria-hidden","true");
+
+    if(!document.querySelector(".menuOverlay.open") &&
+       !document.querySelector(".drawer.open")){
+      document.body.style.overflow = "";
+    }
+  }
+
+  function moveViewer(direction){
+
+    if(!viewerPool.length) return;
+
+    viewerPosition =
+      (viewerPosition + direction + viewerPool.length) %
+      viewerPool.length;
+
+    showViewer();
+  }
+
+  cards.forEach(card => {
+    card.addEventListener("click", () => openViewer(card));
+  });
+
+  viewerClose?.addEventListener("click", closeViewer);
+  prev?.addEventListener("click", () => moveViewer(-1));
+  next?.addEventListener("click", () => moveViewer(1));
+
+  qsa("[data-field-close]").forEach(el => {
+    el.addEventListener("click", closeViewer);
+  });
+
+  document.addEventListener("keydown", event => {
+
+    if(!viewer?.classList.contains("open")) return;
+
+    if(event.key === "Escape") closeViewer();
+    if(event.key === "ArrowLeft") moveViewer(-1);
+    if(event.key === "ArrowRight") moveViewer(1);
+
+  });
+
+  /* -------------------------------------------------------
+     Subtle tilt only on the contact sheet.
+     ------------------------------------------------------- */
+
+  cards.forEach(card => {
+
+    card.addEventListener("mousemove", e => {
+
+      if(window.innerWidth < 800) return;
+
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - .5;
+      const y = (e.clientY - rect.top) / rect.height - .5;
+
+      card.style.transform =
+        "perspective(700px) rotateX(" +
+        (-y * 3) +
+        "deg) rotateY(" +
+        (x * 3) +
+        "deg) scale(1.025)";
+    });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transform = "";
+    });
+
+  });
 
 })();
 </script>
