@@ -1,0 +1,429 @@
+```html
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KI Agenten Simulation</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        background: #111;
+        color: #eee;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+    }
+
+    #game {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        background:
+            linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+            #171717;
+        background-size: 40px 40px;
+        overflow: hidden;
+    }
+
+    .title {
+        position: absolute;
+        top: 20px;
+        left: 25px;
+        font-size: 22px;
+        font-weight: bold;
+        z-index: 10;
+    }
+
+    .subtitle {
+        position: absolute;
+        top: 50px;
+        left: 25px;
+        color: #888;
+        font-size: 13px;
+        z-index: 10;
+    }
+
+    .agent {
+        position: absolute;
+        width: 70px;
+        height: 90px;
+        transition: left 1.5s ease, top 1.5s ease;
+        z-index: 5;
+    }
+
+    .head {
+        position: absolute;
+        width: 42px;
+        height: 42px;
+        left: 14px;
+        top: 0;
+        border-radius: 50%;
+        background: #ddd;
+        border: 3px solid #333;
+    }
+
+    .body {
+        position: absolute;
+        width: 50px;
+        height: 42px;
+        left: 10px;
+        top: 42px;
+        border-radius: 12px 12px 5px 5px;
+        background: #555;
+    }
+
+    .agent-name {
+        position: absolute;
+        width: 150px;
+        left: -40px;
+        top: 94px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    #agent1 .head {
+        background: #8bb8ff;
+    }
+
+    #agent1 .body {
+        background: #315a91;
+    }
+
+    #agent2 .head {
+        background: #ffb7d5;
+    }
+
+    #agent2 .body {
+        background: #963f67;
+    }
+
+    .speech {
+        position: absolute;
+        min-width: 180px;
+        max-width: 300px;
+        padding: 12px 15px;
+        background: #fff;
+        color: #111;
+        border-radius: 12px;
+        font-size: 14px;
+        line-height: 1.4;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.35);
+        opacity: 0;
+        transform: translateY(5px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        z-index: 20;
+    }
+
+    .speech.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    #conversation {
+        position: absolute;
+        left: 25px;
+        bottom: 25px;
+        width: min(650px, calc(100vw - 50px));
+        max-height: 280px;
+        overflow-y: auto;
+        background: rgba(10,10,10,0.88);
+        border: 1px solid #333;
+        border-radius: 12px;
+        padding: 15px;
+        z-index: 30;
+    }
+
+    .message {
+        margin-bottom: 10px;
+        line-height: 1.45;
+        font-size: 14px;
+    }
+
+    .message strong {
+        color: #fff;
+    }
+
+    #controls {
+        position: absolute;
+        right: 25px;
+        bottom: 25px;
+        display: flex;
+        gap: 10px;
+        z-index: 40;
+    }
+
+    button {
+        border: 0;
+        border-radius: 8px;
+        padding: 12px 18px;
+        background: #eee;
+        color: #111;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background: #ccc;
+    }
+
+    #status {
+        position: absolute;
+        right: 25px;
+        top: 25px;
+        color: #888;
+        font-size: 13px;
+        z-index: 10;
+    }
+
+    .table {
+        position: absolute;
+        width: 180px;
+        height: 80px;
+        left: 50%;
+        top: 45%;
+        transform: translate(-50%, -50%);
+        background: #292929;
+        border: 2px solid #444;
+        border-radius: 12px;
+    }
+
+    .table-label {
+        text-align: center;
+        margin-top: 28px;
+        color: #666;
+        font-size: 12px;
+    }
+</style>
+</head>
+
+<body>
+
+<div id="game">
+
+    <div class="title">KI Agenten Simulation</div>
+    <div class="subtitle">Experiment 001 · Zwei autonome Charaktere</div>
+
+    <div id="status">Simulation bereit</div>
+
+    <div class="table">
+        <div class="table-label">Business Meeting</div>
+    </div>
+
+    <div id="agent1" class="agent" style="left: 30%; top: 35%;">
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="agent-name">Alex · Agent 1</div>
+    </div>
+
+    <div id="agent2" class="agent" style="left: 60%; top: 55%;">
+        <div class="head"></div>
+        <div class="body"></div>
+        <div class="agent-name">Maya · Agentin 2</div>
+    </div>
+
+    <div id="speech" class="speech"></div>
+
+    <div id="conversation"></div>
+
+    <div id="controls">
+        <button onclick="startSimulation()">Start</button>
+        <button onclick="pauseSimulation()">Pause</button>
+        <button onclick="resetSimulation()">Reset</button>
+    </div>
+
+</div>
+
+<script>
+
+const agent1 = document.getElementById("agent1");
+const agent2 = document.getElementById("agent2");
+const speech = document.getElementById("speech");
+const conversation = document.getElementById("conversation");
+const statusText = document.getElementById("status");
+
+let running = false;
+let currentMessage = 0;
+let timer = null;
+
+const dialogue = [
+
+    {
+        agent: "Alex",
+        text: "Ich habe eine Idee. Wir könnten einen kleinen Online-Service für lokale Geschäfte entwickeln."
+    },
+
+    {
+        agent: "Maya",
+        text: "Interessant. Was genau würde dieser Service für die Geschäfte machen?"
+    },
+
+    {
+        agent: "Alex",
+        text: "Zum Beispiel könnte eine KI automatisch Social-Media-Inhalte für kleine Unternehmen erstellen."
+    },
+
+    {
+        agent: "Maya",
+        text: "Das gibt es bereits. Wir müssten also einen Grund finden, warum jemand gerade unseren Service benutzt."
+    },
+
+    {
+        agent: "Alex",
+        text: "Vielleicht konzentrieren wir uns nur auf kleine Restaurants und Cafés."
+    },
+
+    {
+        agent: "Maya",
+        text: "Das macht die Zielgruppe kleiner. Gleichzeitig könnten wir ihre tatsächlichen Probleme viel genauer verstehen."
+    },
+
+    {
+        agent: "Alex",
+        text: "Dann könnten wir ihnen nicht nur Posts erstellen sondern auch auf Bewertungen reagieren und Angebote planen."
+    },
+
+    {
+        agent: "Maya",
+        text: "Jetzt wird es interessanter. Wir verkaufen also nicht einfach KI sondern erledigen einen konkreten Teil ihrer Arbeit."
+    },
+
+    {
+        agent: "Alex",
+        text: "Genau. Lass uns überlegen, wie wir damit Geld verdienen könnten."
+    },
+
+    {
+        agent: "Maya",
+        text: "Ich würde zuerst verschiedene Geschäftsmodelle vergleichen und herausfinden, welches für kleine Betriebe realistisch ist."
+    }
+
+];
+
+
+function addMessage(agent, text) {
+
+    const message = document.createElement("div");
+    message.className = "message";
+
+    message.innerHTML =
+        "<strong>" + agent + ":</strong> " + text;
+
+    conversation.appendChild(message);
+
+    conversation.scrollTop = conversation.scrollHeight;
+}
+
+
+function showSpeech(agent, text) {
+
+    speech.textContent = text;
+
+    const element = agent === "Alex" ? agent1 : agent2;
+
+    const rect = element.getBoundingClientRect();
+
+    speech.style.left = (rect.left + 60) + "px";
+    speech.style.top = (rect.top - 90) + "px";
+
+    speech.classList.remove("visible");
+
+    setTimeout(() => {
+        speech.classList.add("visible");
+    }, 50);
+}
+
+
+function moveAgents() {
+
+    agent1.style.left = "43%";
+    agent1.style.top = "37%";
+
+    agent2.style.left = "55%";
+    agent2.style.top = "48%";
+}
+
+
+function nextMessage() {
+
+    if (!running) return;
+
+    if (currentMessage >= dialogue.length) {
+
+        statusText.textContent = "Gespräch beendet";
+
+        speech.classList.remove("visible");
+
+        running = false;
+
+        return;
+    }
+
+    const message = dialogue[currentMessage];
+
+    addMessage(message.agent, message.text);
+
+    showSpeech(message.agent, message.text);
+
+    currentMessage++;
+
+    timer = setTimeout(nextMessage, 3500);
+}
+
+
+function startSimulation() {
+
+    if (running) return;
+
+    running = true;
+
+    statusText.textContent = "Agenten diskutieren ...";
+
+    moveAgents();
+
+    nextMessage();
+}
+
+
+function pauseSimulation() {
+
+    running = false;
+
+    clearTimeout(timer);
+
+    statusText.textContent = "Simulation pausiert";
+}
+
+
+function resetSimulation() {
+
+    running = false;
+
+    clearTimeout(timer);
+
+    currentMessage = 0;
+
+    conversation.innerHTML = "";
+
+    speech.classList.remove("visible");
+
+    agent1.style.left = "30%";
+    agent1.style.top = "35%";
+
+    agent2.style.left = "60%";
+    agent2.style.top = "55%";
+
+    statusText.textContent = "Simulation bereit";
+}
+
+</script>
+
+</body>
+</html>
+```
