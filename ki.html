@@ -1,257 +1,346 @@
 <!DOCTYPE html>
+
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>KI Spielwelt</title>
+```
+<title>KI Spielwelt – API Test</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+    * {
+        box-sizing: border-box;
+    }
 
-        body {
-            margin: 0;
-            background: #111;
-            color: #eee;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+    body {
+        margin: 0;
+        background: #111;
+        color: #eee;
+        font-family: Arial, Helvetica, sans-serif;
+    }
 
-        #game {
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+    #game {
+        min-height: 100vh;
+    }
 
-        header {
-            background: #181818;
-            border-bottom: 1px solid #333;
-            padding: 18px 24px;
-        }
+    header {
+        background: #181818;
+        border-bottom: 1px solid #333;
+        padding: 20px 24px;
+    }
 
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-            font-weight: normal;
-        }
+    header h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: normal;
+    }
 
-        header p {
-            margin: 6px 0 0;
-            color: #999;
-            font-size: 14px;
-        }
+    header p {
+        margin: 6px 0 0;
+        color: #999;
+        font-size: 14px;
+    }
 
-        main {
-            flex: 1;
-            padding: 24px;
-            max-width: 900px;
-            width: 100%;
-            margin: 0 auto;
-        }
+    main {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 24px;
+    }
 
-        .panel {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+    .panel {
+        background: #1a1a1a;
+        border: 1px solid #333;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
 
-        .panel h2 {
-            margin-top: 0;
-            font-size: 18px;
-            font-weight: normal;
-        }
+    .panel h2 {
+        margin: 0 0 16px 0;
+        font-size: 18px;
+        font-weight: normal;
+    }
 
-        #status {
-            padding: 14px;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 6px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            line-height: 1.6;
-            min-height: 120px;
-        }
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #bbb;
+        font-size: 14px;
+    }
 
-        .test-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 0;
-            border-bottom: 1px solid #292929;
-        }
+    input,
+    textarea {
+        width: 100%;
+        background: #0d0d0d;
+        color: #eee;
+        border: 1px solid #444;
+        border-radius: 6px;
+        padding: 12px;
+        font-family: monospace;
+        font-size: 14px;
+        outline: none;
+    }
 
-        .test-row:last-child {
-            border-bottom: none;
-        }
+    input:focus,
+    textarea:focus {
+        border-color: #777;
+    }
 
-        .test-name {
-            flex: 1;
-        }
+    textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
 
-        .result {
-            font-family: monospace;
-            font-size: 14px;
-        }
+    .field {
+        margin-bottom: 18px;
+    }
 
-        .ok {
-            color: #55d66b;
-        }
+    button {
+        background: #2a2a2a;
+        color: white;
+        border: 1px solid #444;
+        border-radius: 6px;
+        padding: 11px 18px;
+        font-size: 14px;
+        cursor: pointer;
+        margin-right: 8px;
+        margin-bottom: 8px;
+    }
 
-        .error {
-            color: #ff6666;
-        }
+    button:hover {
+        background: #333;
+    }
 
-        .warning {
-            color: #e6c65c;
-        }
+    button:disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
 
-        .unknown {
-            color: #999;
-        }
+    #status {
+        background: #0b0b0b;
+        border: 1px solid #333;
+        border-radius: 6px;
+        padding: 15px;
+        min-height: 100px;
+        white-space: pre-wrap;
+        line-height: 1.6;
+    }
 
-        button {
-            background: #2a2a2a;
-            color: #fff;
-            border: 1px solid #444;
-            border-radius: 6px;
-            padding: 11px 18px;
-            font-size: 14px;
-            cursor: pointer;
-        }
+    #response {
+        background: #0b0b0b;
+        border: 1px solid #333;
+        border-radius: 6px;
+        padding: 15px;
+        min-height: 100px;
+        white-space: pre-wrap;
+        line-height: 1.6;
+        font-family: monospace;
+        overflow-wrap: anywhere;
+    }
 
-        button:hover {
-            background: #333;
-        }
+    #log {
+        background: #080808;
+        border: 1px solid #333;
+        border-radius: 6px;
+        padding: 15px;
+        height: 320px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        font-family: monospace;
+        font-size: 13px;
+        line-height: 1.5;
+    }
 
-        button:active {
-            background: #222;
-        }
+    .ok {
+        color: #55d66b;
+    }
 
-        #log {
-            background: #0b0b0b;
-            border: 1px solid #333;
-            border-radius: 6px;
-            padding: 14px;
-            height: 260px;
-            overflow-y: auto;
-            font-family: monospace;
-            font-size: 13px;
-            line-height: 1.5;
-            white-space: pre-wrap;
-        }
+    .error {
+        color: #ff6666;
+    }
 
-        .important {
-            border-color: #6b5420;
-            background: #1d1a12;
-        }
+    .warning {
+        color: #e6c65c;
+    }
 
-        .important h2 {
-            color: #e6c65c;
-        }
+    .small {
+        color: #888;
+        font-size: 13px;
+        line-height: 1.5;
+    }
 
-        .small {
-            color: #888;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-    </style>
+    .result-box {
+        padding: 15px;
+        border-radius: 6px;
+        background: #111;
+        border: 1px solid #333;
+    }
+
+    .security {
+        border-color: #5c4d20;
+        background: #1c1910;
+    }
+
+    .security h2 {
+        color: #e6c65c;
+    }
+
+    .status-line {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #292929;
+        padding: 9px 0;
+    }
+
+    .status-line:last-child {
+        border-bottom: none;
+    }
+
+    .status-value {
+        font-family: monospace;
+    }
+</style>
+```
+
 </head>
 
 <body>
 
 <div id="game">
 
-    <header>
-        <h1>KI Spielwelt</h1>
-        <p>Verbindungstest</p>
-    </header>
+```
+<header>
+    <h1>KI Spielwelt</h1>
+    <p>OpenAI API Verbindungstest</p>
+</header>
 
-    <main>
+<main>
 
-        <div class="panel">
-            <h2>Browser Diagnose</h2>
+    <div class="panel security">
+        <h2>API Schlüssel</h2>
 
-            <div class="test-row">
-                <div class="test-name">JavaScript</div>
-                <div id="jsResult" class="result unknown">wird getestet...</div>
+        <p class="small">
+            Der Schlüssel wird nur für den aktuellen Test verwendet.
+            Er wird nicht gespeichert und nicht an einen anderen Server gesendet.
+        </p>
+
+        <div class="field">
+            <label for="apiKey">OpenAI API Key</label>
+
+            <input
+                id="apiKey"
+                type="password"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="sk-..."
+            >
+        </div>
+    </div>
+
+
+    <div class="panel">
+
+        <h2>Testnachricht</h2>
+
+        <div class="field">
+
+            <label for="userMessage">
+                Nachricht an die KI
+            </label>
+
+            <textarea id="userMessage">Sag einfach: Verbindung funktioniert.</textarea>
+
+        </div>
+
+        <button id="testButton">
+            Echte KI Anfrage senden
+        </button>
+
+        <button id="clearButton">
+            Log löschen
+        </button>
+
+    </div>
+
+
+    <div class="panel">
+
+        <h2>Status</h2>
+
+        <div id="status">
+```
+
+Bereit.
+
+Gib deinen API Key ein und starte den Test. </div>
+
+```
+    </div>
+
+
+    <div class="panel">
+
+        <h2>Antwort der KI</h2>
+
+        <div id="response">
+```
+
+Noch keine Antwort. </div>
+
+```
+    </div>
+
+
+    <div class="panel">
+
+        <h2>Technischer Status</h2>
+
+        <div class="result-box">
+
+            <div class="status-line">
+                <span>Browser</span>
+                <span id="browserStatus" class="status-value">OK</span>
             </div>
 
-            <div class="test-row">
-                <div class="test-name">Fetch API</div>
-                <div id="fetchResult" class="result unknown">wird getestet...</div>
+            <div class="status-line">
+                <span>Fetch API</span>
+                <span id="fetchStatus" class="status-value">wird geprüft</span>
             </div>
 
-            <div class="test-row">
-                <div class="test-name">Internet Verbindung</div>
-                <div id="internetResult" class="result unknown">wird getestet...</div>
+            <div class="status-line">
+                <span>OpenAI Server</span>
+                <span id="serverStatus" class="status-value">noch nicht getestet</span>
             </div>
 
-            <div class="test-row">
-                <div class="test-name">OpenAI Verbindung</div>
-                <div id="openaiResult" class="result unknown">noch nicht getestet</div>
+            <div class="status-line">
+                <span>API Authentifizierung</span>
+                <span id="authStatus" class="status-value">noch nicht getestet</span>
+            </div>
+
+            <div class="status-line">
+                <span>KI Anfrage</span>
+                <span id="aiStatus" class="status-value">noch nicht getestet</span>
             </div>
 
         </div>
 
-
-        <div class="panel">
-            <h2>Verbindungstest</h2>
-
-            <p class="small">
-                Dieser Test ruft OpenAI nicht automatisch beim Laden der Seite auf.
-                Erst wenn du den Button drückst wird ein einzelner Test ausgeführt.
-            </p>
-
-            <button id="testButton">
-                OpenAI Verbindung testen
-            </button>
-
-            <button id="clearButton">
-                Log löschen
-            </button>
-        </div>
+    </div>
 
 
-        <div class="panel">
-            <h2>Status</h2>
+    <div class="panel">
 
-            <div id="status">
-                Warte auf Test...
-            </div>
-        </div>
+        <h2>Technischer Log</h2>
 
+        <div id="log"></div>
 
-        <div class="panel">
-            <h2>Technischer Log</h2>
+    </div>
 
-            <div id="log"></div>
-        </div>
-
-
-        <div class="panel important">
-            <h2>Wichtig</h2>
-
-            <p class="small">
-                Diese Datei sendet keinen geheimen API Schlüssel automatisch.
-                Der Test prüft lediglich, ob dein Browser überhaupt eine
-                Verbindung zur OpenAI API herstellen kann.
-            </p>
-
-            <p class="small">
-                Wenn der Browser die Verbindung blockiert, schreiben wir
-                anschließend eine andere Lösung für das Spiel ohne direkten
-                Browser Zugriff auf die API.
-            </p>
-        </div>
-
-    </main>
+</main>
+```
 
 </div>
-
 
 <script>
 
@@ -259,55 +348,60 @@
 
 
 /*
-    ============================================================
-    KI SPIELWELT
-    BROWSER VERBINDUNGSTEST
-    ============================================================
+============================================================
+KI SPIELWELT
+ECHTER OPENAI API TEST
+============================================================
 
-    Wichtig:
+Dieser Test macht jetzt eine echte Anfrage an OpenAI.
 
-    Diese Datei ruft OpenAI NICHT automatisch auf.
+Wichtig:
 
-    Erst der Button "OpenAI Verbindung testen" startet
-    den eigentlichen Verbindungstest.
+Der API Key wird nicht automatisch gespeichert.
 
-    Dadurch können wir herausfinden, was der Browser
-    tatsächlich zulässt.
+Er wird ausschließlich für den fetch() Request verwendet.
 */
 
 
-const statusElement = document.getElementById("status");
-const logElement = document.getElementById("log");
-
-const jsResult = document.getElementById("jsResult");
-const fetchResult = document.getElementById("fetchResult");
-const internetResult = document.getElementById("internetResult");
-const openaiResult = document.getElementById("openaiResult");
+const apiKeyInput = document.getElementById("apiKey");
+const userMessageInput = document.getElementById("userMessage");
 
 const testButton = document.getElementById("testButton");
 const clearButton = document.getElementById("clearButton");
 
+const statusElement = document.getElementById("status");
+const responseElement = document.getElementById("response");
+const logElement = document.getElementById("log");
+
+const browserStatus = document.getElementById("browserStatus");
+const fetchStatus = document.getElementById("fetchStatus");
+const serverStatus = document.getElementById("serverStatus");
+const authStatus = document.getElementById("authStatus");
+const aiStatus = document.getElementById("aiStatus");
+
 
 /*
-    ------------------------------------------------------------
-    LOG
-    ------------------------------------------------------------
+============================================================
+LOG
+============================================================
 */
 
 function log(message) {
 
     const time = new Date().toLocaleTimeString();
 
-    logElement.textContent += "[" + time + "] " + message + "\n";
+    logElement.textContent +=
+        "[" + time + "] " + message + "\n";
 
-    logElement.scrollTop = logElement.scrollHeight;
+    logElement.scrollTop =
+        logElement.scrollHeight;
 }
 
 
 /*
-    ------------------------------------------------------------
-    STATUS
-    ------------------------------------------------------------
+============================================================
+STATUS
+============================================================
 */
 
 function setStatus(message) {
@@ -318,240 +412,268 @@ function setStatus(message) {
 
 
 /*
-    ------------------------------------------------------------
-    RESULT
-    ------------------------------------------------------------
+============================================================
+TECHNISCHE STATUS
+============================================================
 */
 
-function setResult(element, text, type) {
+function setTech(element, text, type) {
 
     element.textContent = text;
 
-    element.className = "result " + type;
+    element.className =
+        "status-value " + type;
 
 }
 
 
 /*
-    ------------------------------------------------------------
-    JAVASCRIPT TEST
-    ------------------------------------------------------------
+============================================================
+INITIALER BROWSER TEST
+============================================================
 */
 
-function testJavaScript() {
+function initialize() {
 
-    try {
+    log("KI Spielwelt geladen.");
 
-        setResult(
-            jsResult,
-            "OK",
-            "ok"
-        );
+    log("OpenAI API Test bereit.");
 
-        log("JavaScript funktioniert.");
+    log("Automatische API Anfrage ist deaktiviert.");
 
-        return true;
+    browserStatus.textContent = "OK";
+    browserStatus.className = "status-value ok";
 
-    } catch (error) {
-
-        setResult(
-            jsResult,
-            "FEHLER",
-            "error"
-        );
-
-        log("JavaScript Fehler: " + error.message);
-
-        return false;
-    }
-}
-
-
-/*
-    ------------------------------------------------------------
-    FETCH TEST
-    ------------------------------------------------------------
-*/
-
-function testFetchAPI() {
 
     if (typeof fetch === "function") {
 
-        setResult(
-            fetchResult,
-            "OK",
-            "ok"
-        );
+        fetchStatus.textContent = "OK";
+        fetchStatus.className = "status-value ok";
 
-        log("Fetch API ist vorhanden.");
+        log("Fetch API vorhanden.");
 
-        return true;
+    } else {
+
+        fetchStatus.textContent = "FEHLER";
+        fetchStatus.className = "status-value error";
+
+        log("Fetch API nicht verfügbar.");
 
     }
 
-    setResult(
-        fetchResult,
-        "NICHT VERFÜGBAR",
-        "error"
-    );
-
-    log("Fetch API ist in diesem Browser nicht verfügbar.");
-
-    return false;
 }
 
 
 /*
-    ------------------------------------------------------------
-    INTERNET TEST
-    ------------------------------------------------------------
-
-    Wir benutzen hier eine einfache Anfrage.
-
-    Die Anfrage dient nur dazu festzustellen,
-    ob der Browser grundsätzlich Netzwerkzugriff
-    über fetch durchführen kann.
-*/
-
-async function testInternet() {
-
-    log("Teste allgemeine Internet Verbindung...");
-
-    setResult(
-        internetResult,
-        "TEST LÄUFT...",
-        "warning"
-    );
-
-    try {
-
-        const start = performance.now();
-
-        const response = await fetch(
-            "https://www.google.com/generate_204",
-            {
-                method: "GET",
-                cache: "no-store",
-                mode: "no-cors"
-            }
-        );
-
-        const duration = Math.round(
-            performance.now() - start
-        );
-
-        setResult(
-            internetResult,
-            "ERREICHBAR (" + duration + " ms)",
-            "ok"
-        );
-
-        log(
-            "Allgemeine Netzwerk Anfrage wurde vom Browser ausgeführt."
-        );
-
-        return true;
-
-    } catch (error) {
-
-        setResult(
-            internetResult,
-            "FEHLER",
-            "error"
-        );
-
-        log(
-            "Internet Test Fehler: " +
-            error.name +
-            " - " +
-            error.message
-        );
-
-        return false;
-    }
-}
-
-
-/*
-    ------------------------------------------------------------
-    OPENAI TEST
-    ------------------------------------------------------------
-
-    ACHTUNG:
-
-    Hier wird absichtlich KEIN API KEY eingebaut.
-
-    Wir testen nur, ob der Browser den OpenAI Endpunkt
-    überhaupt erreichen bzw. ansprechen kann.
-
-    Eine Antwort wie 401 oder 404 ist für diesen Test
-    sogar interessant.
-
-    Denn das bedeutet:
-
-        Der Browser konnte den Server erreichen.
-
-    Ein echter Netzwerkfehler wie:
-
-        Failed to fetch
-        Load failed
-        NetworkError
-
-    kann dagegen auf eine Browser/CORS/Netzwerkblockade
-    hindeuten.
+============================================================
+ECHTER KI TEST
+============================================================
 */
 
 async function testOpenAI() {
 
-    log("----------------------------------------");
+    const apiKey =
+        apiKeyInput.value.trim();
 
-    log("Starte OpenAI Verbindungstest...");
+    const userMessage =
+        userMessageInput.value.trim();
 
-    setResult(
-        openaiResult,
-        "TEST LÄUFT...",
+
+    /*
+    --------------------------------------------------------
+    Eingaben prüfen
+    --------------------------------------------------------
+    */
+
+    if (!apiKey) {
+
+        setStatus(
+            "Kein API Key eingegeben."
+        );
+
+        log(
+            "FEHLER: API Key fehlt."
+        );
+
+        setTech(
+            authStatus,
+            "FEHLER",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if (!userMessage) {
+
+        setStatus(
+            "Keine Testnachricht eingegeben."
+        );
+
+        log(
+            "FEHLER: Testnachricht fehlt."
+        );
+
+        return;
+
+    }
+
+
+    /*
+    --------------------------------------------------------
+    Vorbereitung
+    --------------------------------------------------------
+    */
+
+    testButton.disabled = true;
+
+    testButton.textContent =
+        "KI Anfrage läuft...";
+
+
+    responseElement.textContent =
+        "Warte auf Antwort...";
+
+
+    setStatus(
+        "Echte OpenAI Anfrage wird gesendet..."
+    );
+
+
+    setTech(
+        serverStatus,
+        "wird getestet...",
         "warning"
     );
 
-    setStatus(
-        "OpenAI Verbindung wird getestet...\n\n" +
-        "Bitte einen Moment warten."
+
+    setTech(
+        authStatus,
+        "wird getestet...",
+        "warning"
     );
 
 
-    const url = "https://api.openai.com/v1/models";
+    setTech(
+        aiStatus,
+        "wird getestet...",
+        "warning"
+    );
+
+
+    log("----------------------------------------");
+
+    log("ECHTER KI TEST START");
+
+    log("OpenAI Endpoint:");
+
+    log(
+        "https://api.openai.com/v1/responses"
+    );
+
+    log("Methode: POST");
+
+    log("API Key vorhanden: JA");
+
+    log(
+        "API Key Länge: " +
+        apiKey.length
+    );
+
+    log(
+        "Testnachricht: " +
+        userMessage
+    );
+
+
+    /*
+    --------------------------------------------------------
+    Request Daten
+    --------------------------------------------------------
+    */
+
+    const requestBody = {
+
+        model: "gpt-5.6",
+
+        input: [
+            {
+                role: "user",
+                content: [
+                    {
+                        type: "input_text",
+                        text: userMessage
+                    }
+                ]
+            }
+        ]
+
+    };
+
+
+    log("Request Body wird erstellt.");
+
+    log(
+        JSON.stringify(
+            requestBody,
+            null,
+            2
+        )
+    );
+
+
+    /*
+    --------------------------------------------------------
+    ECHTER FETCH
+    --------------------------------------------------------
+    */
+
+    const startTime =
+        performance.now();
 
 
     try {
 
-        log("Ziel: " + url);
-
-        log("Methode: GET");
-
-        log("Es wird kein API Schlüssel übertragen.");
+        log("Sende Anfrage an OpenAI...");
 
 
-        const start = performance.now();
+        const response =
+            await fetch(
+                "https://api.openai.com/v1/responses",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + apiKey
+                    },
+
+                    body: JSON.stringify(
+                        requestBody
+                    ),
+
+                    mode: "cors",
+
+                    cache: "no-store"
+                }
+            );
 
 
-        const response = await fetch(
-            url,
-            {
-                method: "GET",
-                mode: "cors",
-                cache: "no-store"
-            }
-        );
+        const duration =
+            Math.round(
+                performance.now() - startTime
+            );
 
 
-        const duration = Math.round(
-            performance.now() - start
-        );
+        /*
+        ----------------------------------------------------
+        HTTP INFORMATIONEN
+        ----------------------------------------------------
+        */
 
-
-        log(
-            "HTTP Anfrage wurde beantwortet."
-        );
+        log("HTTP Antwort erhalten.");
 
         log(
             "HTTP Status: " +
@@ -570,139 +692,370 @@ async function testOpenAI() {
         );
 
 
-        /*
-            Wir versuchen die Antwort auszulesen.
-        */
-
-        let responseText = "";
-
-        try {
-
-            responseText = await response.text();
-
-        } catch (readError) {
-
-            responseText =
-                "Antwort konnte nicht gelesen werden: " +
-                readError.message;
-
-        }
-
-
-        if (responseText) {
-
-            log(
-                "Antwort vom Server:"
-            );
-
-            log(
-                responseText.substring(0, 1000)
-            );
-
-        }
-
-
-        /*
-            ----------------------------------------------------
-            INTERPRETATION
-            ----------------------------------------------------
-        */
-
-
-        if (response.status === 401) {
-
-            setResult(
-                openaiResult,
-                "ERREICHBAR",
-                "ok"
-            );
-
-            setStatus(
-                "OPENAI SERVER ERREICHBAR\n\n" +
-                "Der Browser konnte api.openai.com erreichen.\n\n" +
-                "HTTP 401 bedeutet hier sehr wahrscheinlich:\n" +
-                "Der Server erwartet eine Authentifizierung.\n\n" +
-                "Das ist für unseren Verbindungstest ein gutes Zeichen."
-            );
-
-            log(
-                "ERGEBNIS: OpenAI Server erreichbar."
-            );
-
-            log(
-                "HTTP 401 ist hier erwartbar, da kein API Schlüssel übertragen wurde."
-            );
-
-            return;
-
-        }
-
-
-        if (response.ok) {
-
-            setResult(
-                openaiResult,
-                "ERREICHBAR",
-                "ok"
-            );
-
-            setStatus(
-                "OPENAI SERVER ERREICHBAR\n\n" +
-                "Der Browser konnte eine gültige Antwort von OpenAI erhalten.\n\n" +
-                "HTTP Status: " +
-                response.status
-            );
-
-            log(
-                "ERGEBNIS: OpenAI Server erreichbar."
-            );
-
-            return;
-
-        }
-
-
-        /*
-            Jeder andere HTTP Status bedeutet ebenfalls,
-            dass der Server grundsätzlich erreicht wurde.
-        */
-
-        setResult(
-            openaiResult,
+        setTech(
+            serverStatus,
             "ERREICHBAR",
             "ok"
         );
 
-        setStatus(
-            "OPENAI SERVER ERREICHBAR\n\n" +
-            "Der Browser konnte den OpenAI Server erreichen.\n\n" +
-            "HTTP Status: " +
-            response.status +
-            "\n\n" +
-            "Das ist kein Netzwerkfehler."
+
+        /*
+        ----------------------------------------------------
+        RESPONSE LESEN
+        ----------------------------------------------------
+        */
+
+        const rawText =
+            await response.text();
+
+
+        log("Antwort gelesen.");
+
+        log("Server Antwort:");
+
+        log(rawText);
+
+
+        /*
+        ----------------------------------------------------
+        JSON PARSEN
+        ----------------------------------------------------
+        */
+
+        let data = null;
+
+
+        try {
+
+            data =
+                JSON.parse(rawText);
+
+        } catch (jsonError) {
+
+            log(
+                "Antwort ist kein gültiges JSON."
+            );
+
+        }
+
+
+        /*
+        ----------------------------------------------------
+        HTTP FEHLER
+        ----------------------------------------------------
+        */
+
+        if (!response.ok) {
+
+            setTech(
+                aiStatus,
+                "FEHLER",
+                "error"
+            );
+
+
+            /*
+                401
+            */
+
+            if (response.status === 401) {
+
+                setTech(
+                    authStatus,
+                    "FEHLER",
+                    "error"
+                );
+
+
+                setStatus(
+                    "OpenAI ist erreichbar aber die Authentifizierung wurde abgelehnt.\n\n" +
+                    "HTTP 401\n\n" +
+                    "Bitte prüfe den API Key."
+                );
+
+
+                responseElement.textContent =
+                    rawText || "Keine Antwort.";
+
+                log(
+                    "ERGEBNIS: HTTP 401."
+                );
+
+                return;
+
+            }
+
+
+            /*
+                403
+            */
+
+            if (response.status === 403) {
+
+                setTech(
+                    authStatus,
+                    "ABGELEHNT",
+                    "error"
+                );
+
+
+                setStatus(
+                    "OpenAI ist erreichbar aber der Zugriff wurde abgelehnt.\n\n" +
+                    "HTTP 403"
+                );
+
+
+                responseElement.textContent =
+                    rawText || "Keine Antwort.";
+
+                log(
+                    "ERGEBNIS: HTTP 403."
+                );
+
+                return;
+
+            }
+
+
+            /*
+                429
+            */
+
+            if (response.status === 429) {
+
+                setTech(
+                    authStatus,
+                    "OK",
+                    "ok"
+                );
+
+
+                setStatus(
+                    "OpenAI ist erreichbar.\n\n" +
+                    "Die Anfrage wurde wegen eines Limits oder " +
+                    "Kontingents abgelehnt.\n\n" +
+                    "HTTP 429"
+                );
+
+
+                responseElement.textContent =
+                    rawText || "Keine Antwort.";
+
+                log(
+                    "ERGEBNIS: HTTP 429."
+                );
+
+                return;
+
+            }
+
+
+            /*
+                Andere Fehler
+            */
+
+            setStatus(
+                "OpenAI ist erreichbar aber die KI Anfrage wurde abgelehnt.\n\n" +
+                "HTTP Status: " +
+                response.status
+            );
+
+
+            responseElement.textContent =
+                rawText || "Keine Antwort.";
+
+
+            log(
+                "ERGEBNIS: HTTP Fehler " +
+                response.status
+            );
+
+
+            return;
+
+        }
+
+
+        /*
+        ----------------------------------------------------
+        AUTH ERFOLGREICH
+        ----------------------------------------------------
+        */
+
+        setTech(
+            authStatus,
+            "OK",
+            "ok"
         );
 
-        log(
-            "ERGEBNIS: Server erreichbar."
-        );
 
-        log(
-            "Der HTTP Status war " +
-            response.status +
-            "."
-        );
+        /*
+        ----------------------------------------------------
+        KI ANTWORT EXTRAHIEREN
+        ----------------------------------------------------
+        */
+
+        let aiText = "";
+
+
+        /*
+            Responses API liefert normalerweise
+            output[].content[].text
+        */
+
+        if (
+            data &&
+            Array.isArray(data.output)
+        ) {
+
+            for (
+                const outputItem
+                of data.output
+            ) {
+
+                if (
+                    outputItem &&
+                    Array.isArray(
+                        outputItem.content
+                    )
+                ) {
+
+                    for (
+                        const contentItem
+                        of outputItem.content
+                    ) {
+
+                        if (
+                            contentItem &&
+                            typeof contentItem.text === "string"
+                        ) {
+
+                            aiText +=
+                                contentItem.text;
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+
+        /*
+        ----------------------------------------------------
+        ALTERNATIVE TEXT FELDER
+        ----------------------------------------------------
+        */
+
+        if (
+            !aiText &&
+            data &&
+            typeof data.output_text === "string"
+        ) {
+
+            aiText =
+                data.output_text;
+
+        }
+
+
+        /*
+        ----------------------------------------------------
+        ERGEBNIS
+        ----------------------------------------------------
+        */
+
+        if (aiText) {
+
+            setTech(
+                aiStatus,
+                "OK",
+                "ok"
+            );
+
+
+            setStatus(
+                "ECHTE KI ANTWORT ERHALTEN\n\n" +
+                "OpenAI ist erreichbar.\n" +
+                "Authentifizierung funktioniert.\n" +
+                "Die API Anfrage funktioniert.\n\n" +
+                "Antwortzeit: " +
+                duration +
+                " ms"
+            );
+
+
+            responseElement.textContent =
+                aiText;
+
+
+            log("----------------------------------------");
+
+            log(
+                "ERFOLG!"
+            );
+
+            log(
+                "Die KI hat geantwortet."
+            );
+
+            log(
+                "KI Antwort:"
+            );
+
+            log(
+                aiText
+            );
+
+
+        } else {
+
+            setTech(
+                aiStatus,
+                "UNBEKANNTE ANTWORT",
+                "warning"
+            );
+
+
+            setStatus(
+                "OpenAI hat erfolgreich geantwortet aber " +
+                "der Text konnte aus der Antwort nicht automatisch " +
+                "extrahiert werden."
+            );
+
+
+            responseElement.textContent =
+                rawText;
+
+
+            log(
+                "OpenAI Antwort erhalten aber kein Textfeld gefunden."
+            );
+
+        }
 
 
     } catch (error) {
 
+
         /*
-            ----------------------------------------------------
-            ECHTER FEHLER
-            ----------------------------------------------------
+        ----------------------------------------------------
+        NETZWERK / BROWSER FEHLER
+        ----------------------------------------------------
         */
 
-        setResult(
-            openaiResult,
+        setTech(
+            serverStatus,
+            "FEHLER",
+            "error"
+        );
+
+
+        setTech(
+            aiStatus,
             "FEHLER",
             "error"
         );
@@ -711,96 +1064,71 @@ async function testOpenAI() {
         log("----------------------------------------");
 
         log(
-            "OPENAI TEST FEHLGESCHLAGEN"
+            "FETCH FEHLER"
         );
 
         log(
-            "Fehlertyp: " +
+            "Name: " +
             error.name
         );
 
         log(
-            "Fehlermeldung: " +
+            "Message: " +
             error.message
         );
 
 
-        /*
-            Browser können bei Netzwerkfehlern
-            extrem wenig Informationen liefern.
-
-            Deshalb zeigen wir mehrere mögliche
-            Informationen an.
-        */
-
-        let detailedMessage =
-            "OpenAI Verbindung fehlgeschlagen.\n\n" +
-            "Fehlertyp:\n" +
-            error.name +
-            "\n\n" +
-            "Fehlermeldung:\n" +
-            error.message +
-            "\n\n";
-
-
-        if (
-            error.message &&
-            (
-                error.message.toLowerCase().includes("load failed") ||
-                error.message.toLowerCase().includes("failed to fetch") ||
-                error.message.toLowerCase().includes("networkerror")
-            )
-        ) {
-
-            detailedMessage +=
-                "Der Browser meldet einen Netzwerkfehler.\n\n" +
-                "Das kann unter anderem bedeuten:\n" +
-                "• CORS oder Browser Sicherheitsregeln\n" +
-                "• Netzwerkfilter\n" +
-                "• DNS oder Verbindung\n" +
-                "• Blockierung des direkten API Zugriffs\n\n" +
-                "Der genaue Grund steht möglicherweise zusätzlich " +
-                "in der Browser Konsole.";
-        }
-
-
-        setStatus(
-            detailedMessage
-        );
-
-
         log(
-            "Vollständiger Fehler:"
-        );
-
-        log(
-            String(error)
-        );
-
-
-        /*
-            Zusätzliche Browser Informationen
-        */
-
-        log(
-            "Browser: " +
-            navigator.userAgent
-        );
-
-        log(
-            "Online Status: " +
+            "Online: " +
             navigator.onLine
         );
 
-        log(
-            "Seite: " +
-            window.location.href
-        );
 
         log(
             "Protocol: " +
             window.location.protocol
         );
+
+
+        log(
+            "Browser:"
+        );
+
+        log(
+            navigator.userAgent
+        );
+
+
+        setStatus(
+            "Die Anfrage konnte nicht als normale HTTP Antwort " +
+            "empfangen werden.\n\n" +
+            "Fehlertyp:\n" +
+            error.name +
+            "\n\n" +
+            "Fehlermeldung:\n" +
+            error.message +
+            "\n\n" +
+            "Das ist jetzt besonders wichtig: " +
+            "Wenn hier wieder „Load failed“ erscheint dann " +
+            "wissen wir dass genau der echte POST Request " +
+            "anders behandelt wird als unser vorheriger GET Test."
+        );
+
+
+        responseElement.textContent =
+            "Keine normale HTTP Antwort erhalten.\n\n" +
+            "Fehler:\n" +
+            error.name +
+            "\n" +
+            error.message;
+
+
+    } finally {
+
+        testButton.disabled = false;
+
+        testButton.textContent =
+            "Echte KI Anfrage senden";
 
     }
 
@@ -808,60 +1136,21 @@ async function testOpenAI() {
 
 
 /*
-    ------------------------------------------------------------
-    BUTTON
-    ------------------------------------------------------------
+============================================================
+BUTTON
+============================================================
 */
 
 testButton.addEventListener(
     "click",
-    async function() {
-
-        testButton.disabled = true;
-
-        testButton.textContent =
-            "Test läuft...";
-
-
-        try {
-
-            const jsOK = testJavaScript();
-
-            const fetchOK = testFetchAPI();
-
-            if (!jsOK || !fetchOK) {
-
-                setStatus(
-                    "Browser Test fehlgeschlagen.\n\n" +
-                    "Bitte siehe den technischen Log."
-                );
-
-                return;
-            }
-
-
-            await testInternet();
-
-            await testOpenAI();
-
-
-        } finally {
-
-            testButton.disabled = false;
-
-            testButton.textContent =
-                "OpenAI Verbindung testen";
-
-        }
-
-    }
+    testOpenAI
 );
 
 
 /*
-    ------------------------------------------------------------
-    LOG LÖSCHEN
-    ------------------------------------------------------------
+============================================================
+LOG LÖSCHEN
+============================================================
 */
 
 clearButton.addEventListener(
@@ -870,43 +1159,28 @@ clearButton.addEventListener(
 
         logElement.textContent = "";
 
+        responseElement.textContent =
+            "Noch keine Antwort.";
+
         setStatus(
-            "Log gelöscht.\n\n" +
             "Bereit für einen neuen Test."
         );
 
-        log("Log wurde gelöscht.");
+        log(
+            "Log gelöscht."
+        );
 
     }
 );
 
 
 /*
-    ------------------------------------------------------------
-    INITIALISIERUNG
-    ------------------------------------------------------------
+============================================================
+INITIALISIERUNG
+============================================================
 */
 
-setResult(
-    jsResult,
-    "OK",
-    "ok"
-);
-
-log("KI Spielwelt geladen.");
-
-log(
-    "Automatischer OpenAI API Aufruf ist deaktiviert."
-);
-
-log(
-    "Die Seite wartet auf den manuellen Verbindungstest."
-);
-
-setStatus(
-    "Bereit.\n\n" +
-    "Klicke auf „OpenAI Verbindung testen“."
-);
+initialize();
 
 </script>
 
