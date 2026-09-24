@@ -191,6 +191,13 @@ button:hover {
     background: #353940;
 }
 
+button:disabled {
+
+    opacity: 0.5;
+
+    cursor: wait;
+}
+
 #thinking {
 
     position: absolute;
@@ -217,16 +224,61 @@ button:hover {
     font-size: 13px;
 }
 
+#chat {
+
+    position: absolute;
+
+    left: 20px;
+    bottom: 20px;
+
+    z-index: 50;
+
+    width: 420px;
+
+    max-width: calc(100vw - 40px);
+
+    display: none;
+
+    background: rgba(10,11,13,0.97);
+
+    border: 1px solid #555;
+
+    border-radius: 7px;
+
+    padding: 12px;
+}
+
+#chatInput {
+
+    width: 100%;
+
+    background: #15171a;
+
+    color: white;
+
+    border: 1px solid #555;
+
+    padding: 10px;
+
+    outline: none;
+
+    font-size: 14px;
+}
+
+#chatSend {
+
+    margin-top: 8px;
+
+    width: 100%;
+}
+
 </style>
 
 </head>
 
-
 <body>
 
-
 <div id="game">
-
 
 <canvas
 id="world"
@@ -264,6 +316,23 @@ KI denkt ...
 </div>
 
 
+<div id="chat">
+
+<input
+id="chatInput"
+type="text"
+placeholder="Sprich mit der KI..."
+autocomplete="off">
+
+<button
+id="chatSend"
+onclick="sendChat()">
+Senden
+</button>
+
+</div>
+
+
 <div id="controls">
 
 <button onclick="startSimulation()">
@@ -278,6 +347,10 @@ Pause
 KI Gespräch
 </button>
 
+<button onclick="toggleChat()">
+KI Chat
+</button>
+
 <button onclick="resetWorld()">
 Reset
 </button>
@@ -290,10 +363,32 @@ Reset
 
 <script>
 
+/* =========================================================
+   OPENAI API
+   ========================================================= */
+
+/*
+   HIER DEINEN API SCHLÜSSEL EINTRAGEN
+
+   Beispiel:
+
+   const OPENAI_API_KEY = "sk-xxxxxxxxxxxxxxxx";
+
+*/
+
+const OPENAI_API_KEY = "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";
+
+
+/* =========================================================
+   OPENAI EINSTELLUNGEN
+   ========================================================= */
+
+const OPENAI_MODEL = "gpt-5";
+
 
 /* =========================================================
    GRUNDWERTE
-========================================================= */
+   ========================================================= */
 
 const canvas =
 document.getElementById("world");
@@ -319,6 +414,15 @@ document.getElementById("dialogueText");
 const thinking =
 document.getElementById("thinking");
 
+const chat =
+document.getElementById("chat");
+
+const chatInput =
+document.getElementById("chatInput");
+
+const chatSend =
+document.getElementById("chatSend");
+
 
 const WORLD_WIDTH = 960;
 
@@ -334,7 +438,7 @@ let conversationBusy = false;
 
 /* =========================================================
    AGENTEN
-========================================================= */
+   ========================================================= */
 
 let agent1 = {
 
@@ -392,7 +496,7 @@ let agent2 = {
 
 /* =========================================================
    WELT
-========================================================= */
+   ========================================================= */
 
 function drawFloor() {
 
@@ -430,6 +534,7 @@ function drawFloor() {
             } else {
 
                 ctx.fillStyle = "#25272a";
+
             }
 
 
@@ -444,20 +549,24 @@ function drawFloor() {
             ctx.strokeStyle =
                 "rgba(0,0,0,0.15)";
 
+
             ctx.strokeRect(
                 x,
                 y,
                 tileSize,
                 tileSize
             );
+
         }
+
     }
+
 }
 
 
 /* =========================================================
    WÄNDE
-========================================================= */
+   ========================================================= */
 
 function drawWalls() {
 
@@ -503,12 +612,13 @@ function drawWalls() {
         WORLD_WIDTH - 60,
         8
     );
+
 }
 
 
 /* =========================================================
    COMPUTER
-========================================================= */
+   ========================================================= */
 
 function drawComputer(x, y) {
 
@@ -561,6 +671,7 @@ function drawComputer(x, y) {
 
             2
         );
+
     }
 
 
@@ -573,19 +684,19 @@ function drawComputer(x, y) {
         12
     );
 
-
     ctx.fillRect(
         x + 20,
         y + 58,
         32,
         5
     );
+
 }
 
 
 /* =========================================================
    TISCH
-========================================================= */
+   ========================================================= */
 
 function drawDesk(x, y) {
 
@@ -627,7 +738,6 @@ function drawDesk(x, y) {
 
     ctx.fillStyle = "#111214";
 
-
     ctx.fillRect(
         x + 12,
         y + 65,
@@ -635,19 +745,19 @@ function drawDesk(x, y) {
         20
     );
 
-
     ctx.fillRect(
         x + 110,
         y + 65,
         8,
         20
     );
+
 }
 
 
 /* =========================================================
    BANK
-========================================================= */
+   ========================================================= */
 
 function drawBench(x, y) {
 
@@ -686,12 +796,13 @@ function drawBench(x, y) {
         8,
         25
     );
+
 }
 
 
 /* =========================================================
    PFLANZE
-========================================================= */
+   ========================================================= */
 
 function drawPlant(x, y) {
 
@@ -735,12 +846,13 @@ function drawPlant(x, y) {
     );
 
     ctx.fill();
+
 }
 
 
 /* =========================================================
    TERMINAL
-========================================================= */
+   ========================================================= */
 
 function drawTerminal(x, y) {
 
@@ -782,12 +894,13 @@ function drawTerminal(x, y) {
         8,
         15
     );
+
 }
 
 
 /* =========================================================
    OBJEKTE
-========================================================= */
+   ========================================================= */
 
 function drawObjects() {
 
@@ -836,12 +949,13 @@ function drawObjects() {
         470,
         65
     );
+
 }
 
 
 /* =========================================================
    AGENT ZEICHNEN
-========================================================= */
+   ========================================================= */
 
 function drawAgent(agent) {
 
@@ -1001,12 +1115,13 @@ function drawAgent(agent) {
 
 
     ctx.restore();
+
 }
 
 
 /* =========================================================
    BEWEGUNG
-========================================================= */
+   ========================================================= */
 
 function updateAgent(agent) {
 
@@ -1033,12 +1148,13 @@ function updateAgent(agent) {
             dy / distance * 1.4;
 
     }
+
 }
 
 
 /* =========================================================
    WELT ZEICHNEN
-========================================================= */
+   ========================================================= */
 
 function drawWorld() {
 
@@ -1073,12 +1189,13 @@ function drawWorld() {
         requestAnimationFrame(
             drawWorld
         );
+
 }
 
 
 /* =========================================================
    DIALOG
-========================================================= */
+   ========================================================= */
 
 function showDialogue(
     name,
@@ -1093,18 +1210,128 @@ function showDialogue(
 
     dialogue.style.display =
         "block";
+
 }
 
 
 /* =========================================================
-   ECHTE KI ANFRAGE
-========================================================= */
+   OPENAI ANFRAGE
+   ========================================================= */
+
+async function callOpenAI(message) {
+
+    if (
+        !OPENAI_API_KEY ||
+        OPENAI_API_KEY === "DEIN_API_KEY_HIER"
+    ) {
+
+        throw new Error(
+            "API Schlüssel fehlt. Trage deinen OpenAI API Schlüssel oben in OPENAI_API_KEY ein."
+        );
+
+    }
+
+
+    const response =
+        await fetch(
+            "https://api.openai.com/v1/responses",
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json",
+
+                    "Authorization":
+                        "Bearer " +
+                        OPENAI_API_KEY
+
+                },
+
+                body:
+                    JSON.stringify({
+
+                        model:
+                            OPENAI_MODEL,
+
+                        instructions:
+                            `
+Du bist die künstliche Intelligenz
+innerhalb einer interaktiven Spielwelt.
+
+Du steuerst keine Spielengine direkt.
+Du bist eine intelligente Figur und
+entscheidest aufgrund des Weltzustands,
+was gesagt oder als nächste Handlung
+vorgeschlagen werden soll.
+
+Antworte auf Deutsch.
+
+Die Spielwelt enthält zwei Agenten:
+
+Alex:
+Persönlichkeit:
+${agent1.personality}
+
+Ziel:
+${agent1.goal}
+
+Gedächtnis:
+${JSON.stringify(agent1.memory)}
+
+Maya:
+Persönlichkeit:
+${agent2.personality}
+
+Ziel:
+${agent2.goal}
+
+Gedächtnis:
+${JSON.stringify(agent2.memory)}
+                            `,
+
+                        input:
+                            message
+
+                    })
+
+            }
+        );
+
+
+    const data =
+        await response.json();
+
+
+    if (!response.ok) {
+
+        throw new Error(
+
+            data.error?.message ||
+            "OpenAI API Fehler"
+
+        );
+
+    }
+
+
+    return data.output_text || "";
+
+}
+
+
+/* =========================================================
+   KI GESPRÄCH
+   ========================================================= */
 
 async function askAI() {
 
     if (conversationBusy) {
 
         return;
+
     }
 
 
@@ -1119,155 +1346,49 @@ async function askAI() {
         "Die KI denkt ...";
 
 
-    const context = {
-
-        alex: {
-
-            name: agent1.name,
-
-            personality:
-                agent1.personality,
-
-            goal:
-                agent1.goal,
-
-            memory:
-                agent1.memory
-
-        },
-
-        maya: {
-
-            name: agent2.name,
-
-            personality:
-                agent2.personality,
-
-            goal:
-                agent2.goal,
-
-            memory:
-                agent2.memory
-
-        }
-
-    };
-
-
     try {
 
-        const response =
-            await fetch(
-                "/api/ai",
-                {
+        const message = `
 
-                    method: "POST",
+Die Welt ist gerade aktiv.
 
-                    headers: {
+Alex befindet sich bei
+X=${Math.round(agent1.x)}
+Y=${Math.round(agent1.y)}.
 
-                        "Content-Type":
-                            "application/json"
+Maya befindet sich bei
+X=${Math.round(agent2.x)}
+Y=${Math.round(agent2.y)}.
 
-                    },
+Alex soll jetzt selbst entscheiden,
+was er tun oder sagen möchte.
 
-                    body:
-                        JSON.stringify({
+Erzeuge eine kurze natürliche Szene
+oder einen Dialog.
 
-                            context:
-                                context
-
-                        })
-
-                }
-            );
+        `;
 
 
-        if (!response.ok) {
-
-            throw new Error(
-                "KI Server nicht erreichbar"
-            );
-        }
+        const reply =
+            await callOpenAI(message);
 
 
-        const data =
-            await response.json();
+        showDialogue(
+            "KI",
+            reply
+        );
 
 
-        if (data.name &&
-            data.text) {
-
-
-            showDialogue(
-
-                data.name,
-
-                data.text
-
-            );
-
-
-            if (
-                data.name === "Alex"
-            ) {
-
-                agent1.memory.push(
-                    data.text
-                );
-
-            } else {
-
-                agent2.memory.push(
-                    data.text
-                );
-            }
-
-
-            if (data.target) {
-
-                if (
-                    data.target === "computer"
-                ) {
-
-                    agent1.targetX =
-                        430;
-
-                    agent1.targetY =
-                        340;
-
-                }
-
-                if (
-                    data.target === "maya"
-                ) {
-
-                    agent1.targetX =
-                        agent2.x - 60;
-
-                    agent1.targetY =
-                        agent2.y;
-
-                }
-
-                if (
-                    data.target === "alex"
-                ) {
-
-                    agent2.targetX =
-                        agent1.x + 60;
-
-                    agent2.targetY =
-                        agent1.y;
-
-                }
-
-            }
-
-        }
+        agent1.memory.push(
+            reply
+        );
 
 
         statusElement.textContent =
             "KI Antwort erhalten.";
+
+        agentStatus.textContent =
+            "Die KI hat auf die Welt reagiert.";
 
 
     } catch (error) {
@@ -1276,16 +1397,13 @@ async function askAI() {
 
 
         showDialogue(
-
             "SYSTEM",
-
-            "Die echte KI ist noch nicht verbunden. Der nächste Schritt ist der kleine KI Server."
-
+            error.message
         );
 
 
         statusElement.textContent =
-            "KI Server fehlt.";
+            "KI Fehler.";
 
     }
 
@@ -1296,18 +1414,128 @@ async function askAI() {
 
     conversationBusy =
         false;
+
 }
 
 
 /* =========================================================
+   CHAT
+   ========================================================= */
+
+function toggleChat() {
+
+    if (
+        chat.style.display === "block"
+    ) {
+
+        chat.style.display =
+            "none";
+
+    } else {
+
+        chat.style.display =
+            "block";
+
+        chatInput.focus();
+
+    }
+
+}
+
+
+async function sendChat() {
+
+    const message =
+        chatInput.value.trim();
+
+
+    if (!message) {
+
+        return;
+
+    }
+
+
+    chatInput.value = "";
+
+    chatSend.disabled = true;
+
+    thinking.style.display =
+        "block";
+
+
+    try {
+
+        const reply =
+            await callOpenAI(message);
+
+
+        showDialogue(
+            "KI",
+            reply
+        );
+
+
+        agent1.memory.push(
+            "Spieler: " + message
+        );
+
+        agent1.memory.push(
+            "KI: " + reply
+        );
+
+
+        statusElement.textContent =
+            "KI Antwort erhalten.";
+
+
+    } catch (error) {
+
+        showDialogue(
+            "SYSTEM",
+            error.message
+        );
+
+
+        statusElement.textContent =
+            "KI Fehler.";
+
+    }
+
+
+    thinking.style.display =
+        "none";
+
+    chatSend.disabled =
+        false;
+
+}
+
+
+chatInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            sendChat();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
    SIMULATION START
-========================================================= */
+   ========================================================= */
 
 function startSimulation() {
 
     if (running) {
 
         return;
+
     }
 
 
@@ -1340,15 +1568,16 @@ function startSimulation() {
 
         "SYSTEM",
 
-        "Die Welt wurde gestartet. Drücke KI Gespräch für eine echte KI Anfrage."
+        "Die Welt wurde gestartet. Die echte KI ist verbunden."
 
     );
+
 }
 
 
 /* =========================================================
    PAUSE
-========================================================= */
+   ========================================================= */
 
 function pauseSimulation() {
 
@@ -1357,12 +1586,13 @@ function pauseSimulation() {
 
     statusElement.textContent =
         "Simulation pausiert.";
+
 }
 
 
 /* =========================================================
    RESET
-========================================================= */
+   ========================================================= */
 
 function resetWorld() {
 
@@ -1416,18 +1646,17 @@ function resetWorld() {
 
     agentStatus.textContent =
         "Alex und Maya warten.";
+
 }
 
 
 /* =========================================================
-   START ZEICHNUNG
-========================================================= */
+   START
+   ========================================================= */
 
 drawWorld();
 
-
 </script>
-
 
 </body>
 
