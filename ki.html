@@ -1,429 +1,1434 @@
-```html
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KI Agenten Simulation</title>
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>KI Welt</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
 
-    body {
-        margin: 0;
-        background: #111;
-        color: #eee;
-        font-family: Arial, sans-serif;
-        overflow: hidden;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    #game {
-        position: relative;
-        width: 100vw;
-        height: 100vh;
-        background:
-            linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
-            #171717;
-        background-size: 40px 40px;
-        overflow: hidden;
-    }
+html,
+body {
 
-    .title {
-        position: absolute;
-        top: 20px;
-        left: 25px;
-        font-size: 22px;
-        font-weight: bold;
-        z-index: 10;
-    }
+    margin: 0;
 
-    .subtitle {
-        position: absolute;
-        top: 50px;
-        left: 25px;
-        color: #888;
-        font-size: 13px;
-        z-index: 10;
-    }
+    width: 100%;
+    height: 100%;
 
-    .agent {
-        position: absolute;
-        width: 70px;
-        height: 90px;
-        transition: left 1.5s ease, top 1.5s ease;
-        z-index: 5;
-    }
+    overflow: hidden;
 
-    .head {
-        position: absolute;
-        width: 42px;
-        height: 42px;
-        left: 14px;
-        top: 0;
-        border-radius: 50%;
-        background: #ddd;
-        border: 3px solid #333;
-    }
+    background: #08090b;
 
-    .body {
-        position: absolute;
-        width: 50px;
-        height: 42px;
-        left: 10px;
-        top: 42px;
-        border-radius: 12px 12px 5px 5px;
-        background: #555;
-    }
+    font-family: Arial, sans-serif;
+}
 
-    .agent-name {
-        position: absolute;
-        width: 150px;
-        left: -40px;
-        top: 94px;
-        text-align: center;
-        font-size: 13px;
-        font-weight: bold;
-    }
+body {
 
-    #agent1 .head {
-        background: #8bb8ff;
-    }
+    display: flex;
 
-    #agent1 .body {
-        background: #315a91;
-    }
+    justify-content: center;
 
-    #agent2 .head {
-        background: #ffb7d5;
-    }
+    align-items: center;
+}
 
-    #agent2 .body {
-        background: #963f67;
-    }
+#game {
 
-    .speech {
-        position: absolute;
-        min-width: 180px;
-        max-width: 300px;
-        padding: 12px 15px;
-        background: #fff;
-        color: #111;
-        border-radius: 12px;
-        font-size: 14px;
-        line-height: 1.4;
-        box-shadow: 0 5px 25px rgba(0,0,0,0.35);
-        opacity: 0;
-        transform: translateY(5px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        z-index: 20;
-    }
+    position: relative;
 
-    .speech.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    width: 100vw;
+    height: 100vh;
 
-    #conversation {
-        position: absolute;
-        left: 25px;
-        bottom: 25px;
-        width: min(650px, calc(100vw - 50px));
-        max-height: 280px;
-        overflow-y: auto;
-        background: rgba(10,10,10,0.88);
-        border: 1px solid #333;
-        border-radius: 12px;
-        padding: 15px;
-        z-index: 30;
-    }
+    overflow: hidden;
 
-    .message {
-        margin-bottom: 10px;
-        line-height: 1.45;
-        font-size: 14px;
-    }
+    background: #08090b;
+}
 
-    .message strong {
-        color: #fff;
-    }
+canvas {
 
-    #controls {
-        position: absolute;
-        right: 25px;
-        bottom: 25px;
-        display: flex;
-        gap: 10px;
-        z-index: 40;
-    }
+    position: absolute;
 
-    button {
-        border: 0;
-        border-radius: 8px;
-        padding: 12px 18px;
-        background: #eee;
-        color: #111;
-        cursor: pointer;
-        font-weight: bold;
-    }
+    left: 50%;
+    top: 50%;
 
-    button:hover {
-        background: #ccc;
-    }
+    transform: translate(-50%, -50%);
 
-    #status {
-        position: absolute;
-        right: 25px;
-        top: 25px;
-        color: #888;
-        font-size: 13px;
-        z-index: 10;
-    }
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
 
-    .table {
-        position: absolute;
-        width: 180px;
-        height: 80px;
-        left: 50%;
-        top: 45%;
-        transform: translate(-50%, -50%);
-        background: #292929;
-        border: 2px solid #444;
-        border-radius: 12px;
-    }
+#ui {
 
-    .table-label {
-        text-align: center;
-        margin-top: 28px;
-        color: #666;
-        font-size: 12px;
-    }
+    position: absolute;
+
+    left: 20px;
+    top: 20px;
+
+    z-index: 20;
+
+    color: white;
+
+    background: rgba(8, 9, 11, 0.92);
+
+    border: 1px solid #454545;
+
+    padding: 12px 16px;
+
+    border-radius: 6px;
+
+    font-size: 14px;
+
+    min-width: 220px;
+}
+
+#ui strong {
+
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 17px;
+}
+
+#agentStatus {
+
+    margin-top: 8px;
+
+    color: #8ee6ad;
+
+    font-size: 12px;
+}
+
+#dialogue {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 90px;
+
+    transform: translateX(-50%);
+
+    width: min(650px, calc(100vw - 40px));
+
+    min-height: 90px;
+
+    z-index: 30;
+
+    background: rgba(10, 11, 13, 0.96);
+
+    border: 1px solid #555;
+
+    border-radius: 7px;
+
+    padding: 16px 20px;
+
+    color: white;
+
+    display: none;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+#dialogueName {
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+
+    font-size: 16px;
+}
+
+#dialogueText {
+
+    color: #ddd;
+
+    line-height: 1.5;
+
+    font-size: 15px;
+}
+
+#controls {
+
+    position: absolute;
+
+    right: 20px;
+    bottom: 20px;
+
+    z-index: 20;
+
+    display: flex;
+
+    gap: 8px;
+}
+
+button {
+
+    background: #24272b;
+
+    color: white;
+
+    border: 1px solid #555;
+
+    padding: 10px 16px;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+}
+
+button:hover {
+
+    background: #353940;
+}
+
+#thinking {
+
+    position: absolute;
+
+    left: 50%;
+    top: 20px;
+
+    transform: translateX(-50%);
+
+    z-index: 40;
+
+    display: none;
+
+    color: #aaa;
+
+    background: rgba(10,10,10,0.9);
+
+    border: 1px solid #444;
+
+    padding: 8px 14px;
+
+    border-radius: 5px;
+
+    font-size: 13px;
+}
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div id="game">
 
-    <div class="title">KI Agenten Simulation</div>
-    <div class="subtitle">Experiment 001 · Zwei autonome Charaktere</div>
 
-    <div id="status">Simulation bereit</div>
+<canvas
+id="world"
+width="960"
+height="600">
+</canvas>
 
-    <div class="table">
-        <div class="table-label">Business Meeting</div>
-    </div>
 
-    <div id="agent1" class="agent" style="left: 30%; top: 35%;">
-        <div class="head"></div>
-        <div class="body"></div>
-        <div class="agent-name">Alex · Agent 1</div>
-    </div>
+<div id="ui">
 
-    <div id="agent2" class="agent" style="left: 60%; top: 55%;">
-        <div class="head"></div>
-        <div class="body"></div>
-        <div class="agent-name">Maya · Agentin 2</div>
-    </div>
+<strong>KI WORLD</strong>
 
-    <div id="speech" class="speech"></div>
+<div id="status">
+Simulation bereit
+</div>
 
-    <div id="conversation"></div>
-
-    <div id="controls">
-        <button onclick="startSimulation()">Start</button>
-        <button onclick="pauseSimulation()">Pause</button>
-        <button onclick="resetSimulation()">Reset</button>
-    </div>
+<div id="agentStatus">
+Alex und Maya warten.
+</div>
 
 </div>
 
+
+<div id="thinking">
+KI denkt ...
+</div>
+
+
+<div id="dialogue">
+
+<div id="dialogueName"></div>
+
+<div id="dialogueText"></div>
+
+</div>
+
+
+<div id="controls">
+
+<button onclick="startSimulation()">
+Start
+</button>
+
+<button onclick="pauseSimulation()">
+Pause
+</button>
+
+<button onclick="askAI()">
+KI Gespräch
+</button>
+
+<button onclick="resetWorld()">
+Reset
+</button>
+
+</div>
+
+
+</div>
+
+
 <script>
 
-const agent1 = document.getElementById("agent1");
-const agent2 = document.getElementById("agent2");
-const speech = document.getElementById("speech");
-const conversation = document.getElementById("conversation");
-const statusText = document.getElementById("status");
+
+/* =========================================================
+   GRUNDWERTE
+========================================================= */
+
+const canvas =
+document.getElementById("world");
+
+const ctx =
+canvas.getContext("2d");
+
+const statusElement =
+document.getElementById("status");
+
+const agentStatus =
+document.getElementById("agentStatus");
+
+const dialogue =
+document.getElementById("dialogue");
+
+const dialogueName =
+document.getElementById("dialogueName");
+
+const dialogueText =
+document.getElementById("dialogueText");
+
+const thinking =
+document.getElementById("thinking");
+
+
+const WORLD_WIDTH = 960;
+
+const WORLD_HEIGHT = 600;
+
 
 let running = false;
-let currentMessage = 0;
-let timer = null;
 
-const dialogue = [
+let animationFrame = null;
 
-    {
-        agent: "Alex",
-        text: "Ich habe eine Idee. Wir könnten einen kleinen Online-Service für lokale Geschäfte entwickeln."
-    },
+let conversationBusy = false;
 
-    {
-        agent: "Maya",
-        text: "Interessant. Was genau würde dieser Service für die Geschäfte machen?"
-    },
 
-    {
-        agent: "Alex",
-        text: "Zum Beispiel könnte eine KI automatisch Social-Media-Inhalte für kleine Unternehmen erstellen."
-    },
+/* =========================================================
+   AGENTEN
+========================================================= */
 
-    {
-        agent: "Maya",
-        text: "Das gibt es bereits. Wir müssten also einen Grund finden, warum jemand gerade unseren Service benutzt."
-    },
+let agent1 = {
 
-    {
-        agent: "Alex",
-        text: "Vielleicht konzentrieren wir uns nur auf kleine Restaurants und Cafés."
-    },
+    name: "Alex",
 
-    {
-        agent: "Maya",
-        text: "Das macht die Zielgruppe kleiner. Gleichzeitig könnten wir ihre tatsächlichen Probleme viel genauer verstehen."
-    },
+    x: 300,
+    y: 330,
 
-    {
-        agent: "Alex",
-        text: "Dann könnten wir ihnen nicht nur Posts erstellen sondern auch auf Bewertungen reagieren und Angebote planen."
-    },
+    targetX: 300,
+    targetY: 330,
 
-    {
-        agent: "Maya",
-        text: "Jetzt wird es interessanter. Wir verkaufen also nicht einfach KI sondern erledigen einen konkreten Teil ihrer Arbeit."
-    },
+    color: "#4fa9e8",
 
-    {
-        agent: "Alex",
-        text: "Genau. Lass uns überlegen, wie wir damit Geld verdienen könnten."
-    },
+    skin: "#d7b18b",
 
-    {
-        agent: "Maya",
-        text: "Ich würde zuerst verschiedene Geschäftsmodelle vergleichen und herausfinden, welches für kleine Betriebe realistisch ist."
+    state: "idle",
+
+    personality:
+        "Alex ist neugierig, kreativ und risikofreudig. Er denkt gerne über neue Ideen nach.",
+
+    goal:
+        "Alex möchte herausfinden, wie man mit einer interessanten digitalen Idee Geld verdienen kann.",
+
+    memory: []
+
+};
+
+
+let agent2 = {
+
+    name: "Maya",
+
+    x: 650,
+    y: 350,
+
+    targetX: 650,
+    targetY: 350,
+
+    color: "#d85d91",
+
+    skin: "#d7a47d",
+
+    state: "idle",
+
+    personality:
+        "Maya ist analytisch, vorsichtig und interessiert sich dafür, wie Dinge funktionieren.",
+
+    goal:
+        "Maya möchte Probleme verstehen und gemeinsam mit anderen sinnvolle Lösungen entwickeln.",
+
+    memory: []
+
+};
+
+
+/* =========================================================
+   WELT
+========================================================= */
+
+function drawFloor() {
+
+    ctx.fillStyle = "#25272a";
+
+    ctx.fillRect(
+        0,
+        0,
+        WORLD_WIDTH,
+        WORLD_HEIGHT
+    );
+
+
+    const tileSize = 32;
+
+
+    for (
+        let y = 0;
+        y < WORLD_HEIGHT;
+        y += tileSize
+    ) {
+
+        for (
+            let x = 0;
+            x < WORLD_WIDTH;
+            x += tileSize
+        ) {
+
+            if (
+                (x / tileSize + y / tileSize) % 2 === 0
+            ) {
+
+                ctx.fillStyle = "#292b2e";
+
+            } else {
+
+                ctx.fillStyle = "#25272a";
+            }
+
+
+            ctx.fillRect(
+                x,
+                y,
+                tileSize,
+                tileSize
+            );
+
+
+            ctx.strokeStyle =
+                "rgba(0,0,0,0.15)";
+
+            ctx.strokeRect(
+                x,
+                y,
+                tileSize,
+                tileSize
+            );
+        }
+    }
+}
+
+
+/* =========================================================
+   WÄNDE
+========================================================= */
+
+function drawWalls() {
+
+    ctx.fillStyle = "#17191c";
+
+    ctx.fillRect(
+        0,
+        0,
+        WORLD_WIDTH,
+        30
+    );
+
+    ctx.fillRect(
+        0,
+        0,
+        30,
+        WORLD_HEIGHT
+    );
+
+    ctx.fillRect(
+        WORLD_WIDTH - 30,
+        0,
+        30,
+        WORLD_HEIGHT
+    );
+
+
+    ctx.fillStyle = "#3a3d40";
+
+    ctx.fillRect(
+        30,
+        30,
+        WORLD_WIDTH - 60,
+        8
+    );
+
+
+    ctx.fillStyle = "#101214";
+
+    ctx.fillRect(
+        30,
+        WORLD_HEIGHT - 38,
+        WORLD_WIDTH - 60,
+        8
+    );
+}
+
+
+/* =========================================================
+   COMPUTER
+========================================================= */
+
+function drawComputer(x, y) {
+
+    ctx.fillStyle = "#17191c";
+
+    ctx.fillRect(
+        x,
+        y,
+        72,
+        48
+    );
+
+
+    ctx.fillStyle = "#050607";
+
+    ctx.fillRect(
+        x + 5,
+        y + 5,
+        62,
+        35
+    );
+
+
+    ctx.fillStyle = "#39c77a";
+
+    ctx.fillRect(
+        x + 11,
+        y + 11,
+        50,
+        23
+    );
+
+
+    ctx.fillStyle = "#194f36";
+
+
+    for (
+        let i = 0;
+        i < 5;
+        i++
+    ) {
+
+        ctx.fillRect(
+
+            x + 15,
+
+            y + 14 + i * 4,
+
+            35 - i * 4,
+
+            2
+        );
     }
 
-];
+
+    ctx.fillStyle = "#090a0c";
+
+    ctx.fillRect(
+        x + 32,
+        y + 48,
+        8,
+        12
+    );
 
 
-function addMessage(agent, text) {
-
-    const message = document.createElement("div");
-    message.className = "message";
-
-    message.innerHTML =
-        "<strong>" + agent + ":</strong> " + text;
-
-    conversation.appendChild(message);
-
-    conversation.scrollTop = conversation.scrollHeight;
+    ctx.fillRect(
+        x + 20,
+        y + 58,
+        32,
+        5
+    );
 }
 
 
-function showSpeech(agent, text) {
+/* =========================================================
+   TISCH
+========================================================= */
 
-    speech.textContent = text;
+function drawDesk(x, y) {
 
-    const element = agent === "Alex" ? agent1 : agent2;
+    ctx.fillStyle = "#17181a";
 
-    const rect = element.getBoundingClientRect();
+    ctx.fillRect(
+        x,
+        y,
+        130,
+        65
+    );
 
-    speech.style.left = (rect.left + 60) + "px";
-    speech.style.top = (rect.top - 90) + "px";
 
-    speech.classList.remove("visible");
+    ctx.fillStyle = "#3d4044";
 
-    setTimeout(() => {
-        speech.classList.add("visible");
-    }, 50);
+    ctx.fillRect(
+        x + 6,
+        y + 6,
+        118,
+        53
+    );
+
+
+    ctx.fillStyle = "#202225";
+
+    ctx.fillRect(
+        x + 12,
+        y + 12,
+        106,
+        41
+    );
+
+
+    drawComputer(
+        x + 30,
+        y - 25
+    );
+
+
+    ctx.fillStyle = "#111214";
+
+
+    ctx.fillRect(
+        x + 12,
+        y + 65,
+        8,
+        20
+    );
+
+
+    ctx.fillRect(
+        x + 110,
+        y + 65,
+        8,
+        20
+    );
 }
 
 
-function moveAgents() {
+/* =========================================================
+   BANK
+========================================================= */
 
-    agent1.style.left = "43%";
-    agent1.style.top = "37%";
+function drawBench(x, y) {
 
-    agent2.style.left = "55%";
-    agent2.style.top = "48%";
+    ctx.fillStyle = "#111214";
+
+    ctx.fillRect(
+        x,
+        y,
+        150,
+        25
+    );
+
+
+    ctx.fillStyle = "#55585c";
+
+    ctx.fillRect(
+        x + 5,
+        y + 5,
+        140,
+        15
+    );
+
+
+    ctx.fillStyle = "#161719";
+
+    ctx.fillRect(
+        x + 10,
+        y + 25,
+        8,
+        25
+    );
+
+    ctx.fillRect(
+        x + 132,
+        y + 25,
+        8,
+        25
+    );
 }
 
 
-function nextMessage() {
+/* =========================================================
+   PFLANZE
+========================================================= */
 
-    if (!running) return;
+function drawPlant(x, y) {
 
-    if (currentMessage >= dialogue.length) {
+    ctx.fillStyle = "#171819";
 
-        statusText.textContent = "Gespräch beendet";
+    ctx.fillRect(
+        x - 12,
+        y + 15,
+        24,
+        15
+    );
 
-        speech.classList.remove("visible");
 
-        running = false;
+    ctx.fillStyle = "#27824b";
+
+
+    ctx.beginPath();
+
+    ctx.arc(
+        x - 10,
+        y + 8,
+        10,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.arc(
+        x + 2,
+        y,
+        12,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.arc(
+        x + 12,
+        y + 10,
+        9,
+        0,
+        Math.PI * 2
+    );
+
+    ctx.fill();
+}
+
+
+/* =========================================================
+   TERMINAL
+========================================================= */
+
+function drawTerminal(x, y) {
+
+    ctx.fillStyle = "#111315";
+
+    ctx.fillRect(
+        x,
+        y,
+        80,
+        65
+    );
+
+
+    ctx.fillStyle = "#34383c";
+
+    ctx.fillRect(
+        x + 8,
+        y + 8,
+        64,
+        42
+    );
+
+
+    ctx.fillStyle = "#50d68a";
+
+    ctx.fillRect(
+        x + 15,
+        y + 15,
+        50,
+        25
+    );
+
+
+    ctx.fillStyle = "#101214";
+
+    ctx.fillRect(
+        x + 36,
+        y + 50,
+        8,
+        15
+    );
+}
+
+
+/* =========================================================
+   OBJEKTE
+========================================================= */
+
+function drawObjects() {
+
+    drawDesk(100, 130);
+
+    drawDesk(410, 115);
+
+    drawDesk(700, 135);
+
+
+    drawDesk(110, 400);
+
+    drawDesk(410, 420);
+
+    drawDesk(700, 400);
+
+
+    drawBench(
+        390,
+        275
+    );
+
+
+    drawPlant(
+        70,
+        80
+    );
+
+    drawPlant(
+        885,
+        80
+    );
+
+    drawPlant(
+        70,
+        510
+    );
+
+    drawPlant(
+        885,
+        510
+    );
+
+
+    drawTerminal(
+        470,
+        65
+    );
+}
+
+
+/* =========================================================
+   AGENT ZEICHNEN
+========================================================= */
+
+function drawAgent(agent) {
+
+    const x = agent.x;
+
+    const y = agent.y;
+
+
+    ctx.save();
+
+
+    ctx.fillStyle =
+        "rgba(0,0,0,0.35)";
+
+
+    ctx.beginPath();
+
+
+    ctx.ellipse(
+
+        x,
+
+        y + 19,
+
+        20,
+
+        8,
+
+        0,
+
+        0,
+
+        Math.PI * 2
+
+    );
+
+
+    ctx.fill();
+
+
+    ctx.fillStyle =
+        agent.color;
+
+
+    ctx.fillRect(
+
+        x - 14,
+
+        y - 2,
+
+        28,
+
+        27
+
+    );
+
+
+    ctx.fillStyle =
+        agent.skin;
+
+
+    ctx.beginPath();
+
+
+    ctx.arc(
+
+        x,
+
+        y - 13,
+
+        12,
+
+        0,
+
+        Math.PI * 2
+
+    );
+
+
+    ctx.fill();
+
+
+    ctx.fillStyle =
+        "#25201d";
+
+
+    ctx.fillRect(
+
+        x - 12,
+
+        y - 25,
+
+        24,
+
+        6
+
+    );
+
+
+    ctx.fillStyle =
+        "#111";
+
+
+    ctx.fillRect(
+        x - 6,
+        y - 14,
+        3,
+        3
+    );
+
+    ctx.fillRect(
+        x + 3,
+        y - 14,
+        3,
+        3
+    );
+
+
+    ctx.fillStyle =
+        "#202226";
+
+
+    ctx.fillRect(
+        x - 11,
+        y + 25,
+        8,
+        13
+    );
+
+    ctx.fillRect(
+        x + 3,
+        y + 25,
+        8,
+        13
+    );
+
+
+    ctx.font =
+        "12px Arial";
+
+    ctx.textAlign =
+        "center";
+
+    ctx.fillStyle =
+        "#ffffff";
+
+
+    ctx.fillText(
+
+        agent.name,
+
+        x,
+
+        y + 55
+
+    );
+
+
+    ctx.restore();
+}
+
+
+/* =========================================================
+   BEWEGUNG
+========================================================= */
+
+function updateAgent(agent) {
+
+    const dx =
+        agent.targetX - agent.x;
+
+    const dy =
+        agent.targetY - agent.y;
+
+
+    const distance =
+        Math.sqrt(
+            dx * dx +
+            dy * dy
+        );
+
+
+    if (distance > 2) {
+
+        agent.x +=
+            dx / distance * 1.4;
+
+        agent.y +=
+            dy / distance * 1.4;
+
+    }
+}
+
+
+/* =========================================================
+   WELT ZEICHNEN
+========================================================= */
+
+function drawWorld() {
+
+    ctx.clearRect(
+
+        0,
+        0,
+        WORLD_WIDTH,
+        WORLD_HEIGHT
+
+    );
+
+
+    drawFloor();
+
+    drawWalls();
+
+    drawObjects();
+
+
+    updateAgent(agent1);
+
+    updateAgent(agent2);
+
+
+    drawAgent(agent1);
+
+    drawAgent(agent2);
+
+
+    animationFrame =
+        requestAnimationFrame(
+            drawWorld
+        );
+}
+
+
+/* =========================================================
+   DIALOG
+========================================================= */
+
+function showDialogue(
+    name,
+    text
+) {
+
+    dialogueName.textContent =
+        name;
+
+    dialogueText.textContent =
+        text;
+
+    dialogue.style.display =
+        "block";
+}
+
+
+/* =========================================================
+   ECHTE KI ANFRAGE
+========================================================= */
+
+async function askAI() {
+
+    if (conversationBusy) {
 
         return;
     }
 
-    const message = dialogue[currentMessage];
 
-    addMessage(message.agent, message.text);
+    conversationBusy = true;
 
-    showSpeech(message.agent, message.text);
 
-    currentMessage++;
+    thinking.style.display =
+        "block";
 
-    timer = setTimeout(nextMessage, 3500);
+
+    statusElement.textContent =
+        "Die KI denkt ...";
+
+
+    const context = {
+
+        alex: {
+
+            name: agent1.name,
+
+            personality:
+                agent1.personality,
+
+            goal:
+                agent1.goal,
+
+            memory:
+                agent1.memory
+
+        },
+
+        maya: {
+
+            name: agent2.name,
+
+            personality:
+                agent2.personality,
+
+            goal:
+                agent2.goal,
+
+            memory:
+                agent2.memory
+
+        }
+
+    };
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/ai",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            context:
+                                context
+
+                        })
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "KI Server nicht erreichbar"
+            );
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (data.name &&
+            data.text) {
+
+
+            showDialogue(
+
+                data.name,
+
+                data.text
+
+            );
+
+
+            if (
+                data.name === "Alex"
+            ) {
+
+                agent1.memory.push(
+                    data.text
+                );
+
+            } else {
+
+                agent2.memory.push(
+                    data.text
+                );
+            }
+
+
+            if (data.target) {
+
+                if (
+                    data.target === "computer"
+                ) {
+
+                    agent1.targetX =
+                        430;
+
+                    agent1.targetY =
+                        340;
+
+                }
+
+                if (
+                    data.target === "maya"
+                ) {
+
+                    agent1.targetX =
+                        agent2.x - 60;
+
+                    agent1.targetY =
+                        agent2.y;
+
+                }
+
+                if (
+                    data.target === "alex"
+                ) {
+
+                    agent2.targetX =
+                        agent1.x + 60;
+
+                    agent2.targetY =
+                        agent1.y;
+
+                }
+
+            }
+
+        }
+
+
+        statusElement.textContent =
+            "KI Antwort erhalten.";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        showDialogue(
+
+            "SYSTEM",
+
+            "Die echte KI ist noch nicht verbunden. Der nächste Schritt ist der kleine KI Server."
+
+        );
+
+
+        statusElement.textContent =
+            "KI Server fehlt.";
+
+    }
+
+
+    thinking.style.display =
+        "none";
+
+
+    conversationBusy =
+        false;
 }
 
+
+/* =========================================================
+   SIMULATION START
+========================================================= */
 
 function startSimulation() {
 
-    if (running) return;
+    if (running) {
+
+        return;
+    }
+
 
     running = true;
 
-    statusText.textContent = "Agenten diskutieren ...";
 
-    moveAgents();
+    statusElement.textContent =
+        "Alex und Maya sind aktiv.";
 
-    nextMessage();
+
+    agentStatus.textContent =
+        "Die Agenten können Entscheidungen treffen.";
+
+
+    agent1.targetX =
+        440;
+
+    agent1.targetY =
+        340;
+
+
+    agent2.targetX =
+        520;
+
+    agent2.targetY =
+        340;
+
+
+    showDialogue(
+
+        "SYSTEM",
+
+        "Die Welt wurde gestartet. Drücke KI Gespräch für eine echte KI Anfrage."
+
+    );
 }
 
+
+/* =========================================================
+   PAUSE
+========================================================= */
 
 function pauseSimulation() {
 
     running = false;
 
-    clearTimeout(timer);
 
-    statusText.textContent = "Simulation pausiert";
+    statusElement.textContent =
+        "Simulation pausiert.";
 }
 
 
-function resetSimulation() {
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetWorld() {
 
     running = false;
 
-    clearTimeout(timer);
+    conversationBusy = false;
 
-    currentMessage = 0;
 
-    conversation.innerHTML = "";
+    dialogue.style.display =
+        "none";
 
-    speech.classList.remove("visible");
 
-    agent1.style.left = "30%";
-    agent1.style.top = "35%";
+    thinking.style.display =
+        "none";
 
-    agent2.style.left = "60%";
-    agent2.style.top = "55%";
 
-    statusText.textContent = "Simulation bereit";
+    agent1.x =
+        300;
+
+    agent1.y =
+        330;
+
+    agent1.targetX =
+        300;
+
+    agent1.targetY =
+        330;
+
+
+    agent2.x =
+        650;
+
+    agent2.y =
+        350;
+
+    agent2.targetX =
+        650;
+
+    agent2.targetY =
+        350;
+
+
+    agent1.memory = [];
+
+    agent2.memory = [];
+
+
+    statusElement.textContent =
+        "Simulation bereit.";
+
+
+    agentStatus.textContent =
+        "Alex und Maya warten.";
 }
+
+
+/* =========================================================
+   START ZEICHNUNG
+========================================================= */
+
+drawWorld();
+
 
 </script>
 
+
 </body>
+
 </html>
-```
