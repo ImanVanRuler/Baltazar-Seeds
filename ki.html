@@ -1,1031 +1,671 @@
 <!DOCTYPE html>
+
 <html lang="de">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>STARSHIP COMMAND</title>
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>KI Agenten System</title>
+
 
 <style>
+
 * {
     box-sizing: border-box;
+}
+
+body {
+
     margin: 0;
-    padding: 0;
-}
 
-html,
-body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #020307;
-    color: #e9eeee;
-    font-family: "Courier New", monospace;
-}
-
-body {
-    image-rendering: pixelated;
-}
-
-/* =========================================================
-   WELTRAUM
-   ========================================================= */
-
-#space {
-    position: fixed;
-    inset: 0;
-    overflow: hidden;
     background:
-        radial-gradient(circle at 50% 50%, #101722 0%, #05080e 48%, #010204 100%);
+        radial-gradient(
+            circle at top,
+            #182238 0%,
+            #090d16 45%,
+            #05070b 100%
+        );
+
+    color: #e8edf7;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    min-height: 100vh;
 }
 
-.star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: #ffffff;
-    opacity: .65;
-    box-shadow: 0 0 5px #ffffff;
+
+.container {
+
+    width: min(1200px, 94%);
+
+    margin: 40px auto;
+
 }
 
-.star.small {
-    width: 1px;
-    height: 1px;
-    opacity: .45;
-    box-shadow: none;
+
+h1 {
+
+    margin: 0;
+
+    font-size: 30px;
+
+    font-weight: 600;
+
 }
 
-.star.blue {
-    background: #79bfff;
-    box-shadow: 0 0 5px #79bfff;
+
+.subtitle {
+
+    margin-top: 8px;
+
+    color: #8995aa;
+
 }
 
-.star.red {
-    background: #ff6363;
-    box-shadow: 0 0 5px #ff6363;
-}
-
-/* =========================================================
-   GESAMTE KONSOLE
-   ========================================================= */
-
-#console {
-    position: absolute;
-    inset: 14px;
-    border: 2px solid #ff2028;
-    box-shadow:
-        0 0 0 1px #4b090c,
-        0 0 20px rgba(255, 20, 30, .22),
-        inset 0 0 25px rgba(255, 0, 0, .04);
-    background: rgba(2, 4, 7, .78);
-    display: grid;
-    grid-template-columns: 245px 1fr;
-    grid-template-rows: 58px 1fr 48px;
-}
-
-/* =========================================================
-   TOP BAR
-   ========================================================= */
-
-#topbar {
-    grid-column: 1 / 3;
-    border-bottom: 2px solid #ff2028;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    color: #ff343a;
-    background: rgba(10, 3, 5, .9);
-    letter-spacing: 1px;
-    font-weight: bold;
-}
-
-.top-left,
-.top-right {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-}
-
-.logo {
-    color: #ffffff;
-    font-size: 18px;
-}
-
-.red {
-    color: #ff343a;
-}
-
-.green {
-    color: #4dff70;
-}
-
-.yellow {
-    color: #ffe24a;
-}
-
-.blue {
-    color: #42aaff;
-}
-
-/* =========================================================
-   LINKES PANEL
-   ========================================================= */
-
-#sidebar {
-    border-right: 2px solid #ff2028;
-    background: rgba(5, 5, 8, .94);
-    overflow: hidden;
-}
 
 .panel {
-    border-bottom: 2px solid #ff2028;
-}
 
-.panel-title {
-    height: 40px;
-    display: flex;
-    align-items: center;
-    padding: 0 13px;
-    color: #ffffff;
-    background: #8d0b12;
-    border-bottom: 1px solid #ff3037;
-    font-weight: bold;
-    letter-spacing: 1px;
-}
+    margin-top: 25px;
 
-.crew-row {
-    height: 47px;
-    display: grid;
-    grid-template-columns: 34px 1fr 38px;
-    align-items: center;
-    padding: 0 12px;
-    border-bottom: 1px solid #321014;
-    color: #c9c9c9;
-}
+    padding: 22px;
 
-.crew-row:hover {
-    background: rgba(255, 20, 30, .09);
-}
+    border: 1px solid #273247;
 
-.agent-number {
-    color: #ff3037;
-}
+    border-radius: 14px;
 
-.agent-status {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    display: inline-block;
-    background: #42ff67;
-    box-shadow: 0 0 8px #42ff67;
-}
+    background: rgba(13, 18, 29, 0.88);
 
-.agent-status.yellow {
-    background: #ffe03b;
-    box-shadow: 0 0 8px #ffe03b;
-}
-
-.agent-status.blue {
-    background: #32aaff;
-    box-shadow: 0 0 8px #32aaff;
-}
-
-.agent-name {
-    margin-left: 8px;
-}
-
-.agent-room {
-    color: #ff343a;
-    text-align: right;
-}
-
-/* =========================================================
-   RESSOURCEN
-   ========================================================= */
-
-.resource {
-    padding: 13px 14px 9px;
-}
-
-.resource-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 6px;
-}
-
-.resource-name {
-    color: #bbbbbb;
-}
-
-.resource-value {
-    color: #ffffff;
-}
-
-.bar {
-    height: 8px;
-    border: 1px solid #3b3b3b;
-    background: #090b0e;
-}
-
-.bar-inner {
-    height: 100%;
-}
-
-.oxygen {
-    width: 78%;
-    background: #37d85b;
-}
-
-.power {
-    width: 62%;
-    background: #ffd32a;
-}
-
-.data {
-    width: 64%;
-    background: #39aaff;
-}
-
-.material {
-    width: 34%;
-    background: #ff713f;
-}
-
-/* =========================================================
-   HAUPTBEREICH
-   ========================================================= */
-
-#main {
-    position: relative;
-    overflow: hidden;
-    background:
-        radial-gradient(circle at 50% 48%, rgba(24, 33, 45, .35), transparent 55%);
-}
-
-/* feine Scanlines */
-
-#main::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-        0deg,
-        transparent 0px,
-        transparent 3px,
-        rgba(255,255,255,.012) 4px
-    );
-}
-
-/* =========================================================
-   RAUMSCHIFF
-   ========================================================= */
-
-#ship {
-    position: absolute;
-    width: min(850px, 72%);
-    height: min(620px, 78%);
-    min-width: 650px;
-    min-height: 500px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -48%);
-}
-
-/* Außenhülle */
-
-.ship-shell {
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(135deg, #131a21, #080c11 55%, #111820);
-    border: 8px solid #59656d;
-    clip-path: polygon(
-        4% 0,
-        96% 0,
-        100% 7%,
-        100% 88%,
-        92% 100%,
-        8% 100%,
-        0 88%,
-        0 7%
-    );
     box-shadow:
-        0 0 0 3px #252d34,
-        0 0 45px rgba(100,130,160,.12);
+        0 20px 60px rgba(0,0,0,0.35);
+
 }
 
-.ship-inner {
-    position: absolute;
-    inset: 18px;
-    overflow: hidden;
-    background:
-        linear-gradient(#202831 1px, transparent 1px),
-        linear-gradient(90deg, #202831 1px, transparent 1px),
-        #151b21;
-    background-size: 32px 32px;
-    border: 2px solid #707c84;
-}
 
-/* =========================================================
-   BODEN
-   ========================================================= */
+label {
 
-.floor-line {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: #303941;
-    box-shadow: 0 1px #090c10;
-}
+    display: block;
 
-.f1 { top: 24%; }
-.f2 { top: 48%; }
-.f3 { top: 72%; }
+    margin-bottom: 8px;
 
-/* =========================================================
-   CONVEYOR
-   ========================================================= */
+    color: #aab5c8;
 
-.conveyor {
-    position: absolute;
-    height: 28px;
-    background:
-        repeating-linear-gradient(
-            90deg,
-            #0c1115 0px,
-            #0c1115 22px,
-            #414b51 23px,
-            #414b51 25px
-        );
-    border-top: 2px solid #4f5b61;
-    border-bottom: 2px solid #080b0e;
-}
-
-.c1 {
-    width: 46%;
-    left: 7%;
-    top: 28%;
-}
-
-.c2 {
-    width: 42%;
-    right: 6%;
-    top: 28%;
-}
-
-.c3 {
-    width: 55%;
-    left: 22%;
-    top: 51%;
-}
-
-.c4 {
-    width: 46%;
-    left: 7%;
-    top: 75%;
-}
-
-/* =========================================================
-   GRÜNE MATERIALTÜRME
-   ========================================================= */
-
-.stack {
-    position: absolute;
-    width: 28px;
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 2px;
-}
-
-.stack span {
-    height: 21px;
-    background: linear-gradient(
-        90deg,
-        #16a85b,
-        #5aff9b,
-        #17a95d
-    );
-    border: 1px solid #7dffb1;
-    box-shadow: 0 0 8px rgba(40,255,120,.35);
-}
-
-.stack-a {
-    left: 26%;
-    top: 8%;
-}
-
-.stack-b {
-    left: 46%;
-    top: 45%;
-}
-
-.stack-c {
-    left: 76%;
-    top: 9%;
-}
-
-/* =========================================================
-   STATIONEN
-   ========================================================= */
-
-.station {
-    position: absolute;
-    width: 105px;
-    height: 82px;
-    background: linear-gradient(#172026, #080d11);
-    border: 2px solid #4f5d65;
-    box-shadow: inset 0 0 15px rgba(0,0,0,.7);
-}
-
-.station-screen {
-    position: absolute;
-    left: 14px;
-    top: 11px;
-    width: 77px;
-    height: 39px;
-    border: 3px solid #263238;
-    background: #07120e;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #58ffb0;
-    font-weight: bold;
     font-size: 14px;
-    text-shadow: 0 0 7px #43ff9c;
+
 }
 
-.station-base {
-    position: absolute;
-    bottom: 0;
-    left: 20px;
-    right: 20px;
-    height: 17px;
-    background: #303a40;
-    border-top: 2px solid #617079;
+
+input,
+textarea,
+select {
+
+    width: 100%;
+
+    padding: 13px 14px;
+
+    margin-bottom: 18px;
+
+    border: 1px solid #303b51;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    background: #090e18;
+
+    color: #eef3fb;
+
+    font-size: 15px;
+
 }
 
-.station.a { left: 8%; top: 8%; }
-.station.b { left: 43%; top: 8%; }
-.station.c { right: 8%; top: 8%; }
-.station.d { left: 9%; top: 57%; }
-.station.e { right: 9%; top: 57%; }
-.station.f { left: 43%; top: 57%; }
 
-/* =========================================================
-   AGENT
-   ========================================================= */
+textarea {
+
+    min-height: 110px;
+
+    resize: vertical;
+
+}
+
+
+input:focus,
+textarea:focus,
+select:focus {
+
+    border-color: #607aa8;
+
+}
+
+
+.agents {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+
+}
+
 
 .agent {
-    position: absolute;
-    width: 32px;
-    height: 46px;
-    z-index: 5;
+
+    padding: 18px;
+
+    border: 1px solid #29354a;
+
+    border-radius: 12px;
+
+    background: #0b101a;
+
+}
+
+
+.agent h2 {
+
+    margin-top: 0;
+
+    font-size: 19px;
+
+    font-weight: 500;
+
+}
+
+
+button {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #e8edf7;
+
+    color: #070a10;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
     cursor: pointer;
+
 }
 
-.agent-head {
-    width: 18px;
-    height: 18px;
-    margin: auto;
-    border-radius: 4px;
-    background: #d7d7d7;
-    border: 2px solid #555;
+
+button:hover {
+
+    background: #ffffff;
+
 }
 
-.agent-body {
-    width: 25px;
-    height: 25px;
-    margin: 1px auto;
-    background: #303a43;
-    border: 2px solid #111;
+
+button:disabled {
+
+    opacity: 0.5;
+
+    cursor: wait;
+
 }
 
-.agent.blue-agent .agent-head {
-    background: #4bb9ff;
+
+.status {
+
+    margin-top: 15px;
+
+    color: #8995aa;
+
+    font-size: 14px;
+
 }
 
-.agent.blue-agent .agent-body {
-    background: #087bb9;
+
+.results {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+
+    margin-top: 25px;
+
 }
 
-.agent.red-agent .agent-head {
-    background: #ff6565;
+
+.result {
+
+    min-height: 260px;
+
+    padding: 20px;
+
+    border: 1px solid #29354a;
+
+    border-radius: 12px;
+
+    background: #080d15;
+
 }
 
-.agent.red-agent .agent-body {
-    background: #8e2026;
+
+.result h3 {
+
+    margin-top: 0;
+
+    font-size: 17px;
+
 }
 
-.agent.yellow-agent .agent-head {
-    background: #ffe15a;
+
+.output {
+
+    white-space: pre-wrap;
+
+    line-height: 1.6;
+
+    color: #cbd4e3;
+
 }
 
-.agent.yellow-agent .agent-body {
-    background: #9a7110;
-}
 
-.agent-label {
-    position: absolute;
-    top: -19px;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    color: #ffffff;
-    font-size: 10px;
-    text-shadow: 0 0 4px #000;
-}
+@media (max-width: 800px) {
 
-/* Positionen */
+    .agents,
+    .results {
 
-.agent-1 {
-    left: 21%;
-    top: 39%;
-}
+        grid-template-columns: 1fr;
 
-.agent-2 {
-    left: 54%;
-    top: 37%;
-}
-
-.agent-3 {
-    left: 69%;
-    top: 67%;
-}
-
-/* =========================================================
-   DOCK
-   ========================================================= */
-
-.dock {
-    position: absolute;
-    bottom: -1px;
-    left: 39%;
-    width: 150px;
-    height: 90px;
-    background: #090e12;
-    border: 5px solid #7b8589;
-    border-bottom: 0;
-}
-
-.dock-light {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 45px;
-    height: 7px;
-    background: #ffd638;
-    box-shadow: 0 0 12px #ffd638;
-}
-
-/* =========================================================
-   STATUS
-   ========================================================= */
-
-#status {
-    grid-column: 1 / 3;
-    border-top: 2px solid #ff2028;
-    background: rgba(7, 3, 5, .95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 45px;
-    color: #a7a7a7;
-    font-size: 13px;
-}
-
-.status-item strong {
-    color: #ff343a;
-}
-
-/* =========================================================
-   KLEINE MARKIERUNG
-   ========================================================= */
-
-.cam {
-    position: absolute;
-    right: 20px;
-    top: 18px;
-    z-index: 10;
-    color: #ff343a;
-    font-size: 12px;
-}
-
-.live {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background: #ff2028;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #ff2028;
-    margin-right: 5px;
-}
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 900px) {
-    #console {
-        grid-template-columns: 190px 1fr;
     }
 
-    #ship {
-        min-width: 520px;
-    }
-
-    #status {
-        gap: 15px;
-        font-size: 10px;
-    }
 }
+
 </style>
+
 </head>
+
 
 <body>
 
-<div id="space"></div>
 
-<div id="console">
-
-    <!-- =====================================================
-         TOP
-         ===================================================== -->
-
-    <header id="topbar">
-
-        <div class="top-left">
-            <div class="logo">STARSHIP COMMAND</div>
-            <div>SHIP: <span class="red">MERCURY</span></div>
-            <div>DECK: <span class="red">B1</span></div>
-            <div>CREW: <span class="red">03</span></div>
-        </div>
-
-        <div class="top-right">
-            <div>TIME: <span class="red" id="clock">14:28</span></div>
-            <div>CYCLE: <span class="red">0001</span></div>
-        </div>
-
-    </header>
+<div class="container">
 
 
-    <!-- =====================================================
-         SIDEBAR
-         ===================================================== -->
+    <h1>KI Agenten System</h1>
 
-    <aside id="sidebar">
+    <div class="subtitle">
+        Zwei KI Agenten kommunizieren über deinen Vermittlungsserver.
+    </div>
 
-        <section class="panel">
 
-            <div class="panel-title">
-                CREW / AI AGENTS
+    <div class="panel">
+
+
+        <label for="topic">
+            Thema
+        </label>
+
+        <textarea
+            id="topic"
+            placeholder="Gib ein Thema ein..."
+        ></textarea>
+
+
+        <div class="agents">
+
+
+            <!-- AGENT 1 -->
+
+            <div class="agent">
+
+                <h2>Agent 1</h2>
+
+                <label for="agent1Name">
+                    Name
+                </label>
+
+                <input
+                    id="agent1Name"
+                    value="Analyst"
+                >
+
+
+                <label for="agent1System">
+                    Aufgabe
+                </label>
+
+                <textarea
+                    id="agent1System"
+                >Analysiere das Thema gründlich. Entwickle Argumente, Zusammenhänge und mögliche Lösungen.</textarea>
+
             </div>
 
-            <div class="crew-row">
-                <span class="agent-number">01</span>
-                <span class="agent-name">
-                    <span class="agent-status"></span>
-                    COMMAND
-                </span>
-                <span class="agent-room">B1</span>
+
+            <!-- AGENT 2 -->
+
+            <div class="agent">
+
+                <h2>Agent 2</h2>
+
+                <label for="agent2Name">
+                    Name
+                </label>
+
+                <input
+                    id="agent2Name"
+                    value="Kritiker"
+                >
+
+
+                <label for="agent2System">
+                    Aufgabe
+                </label>
+
+                <textarea
+                    id="agent2System"
+                >Prüfe die Analyse des ersten Agenten. Suche nach Fehlern, ergänze fehlende Aspekte und entwickle eine eigene Antwort.</textarea>
+
             </div>
 
-            <div class="crew-row">
-                <span class="agent-number">02</span>
-                <span class="agent-name">
-                    <span class="agent-status blue"></span>
-                    RESEARCH
-                </span>
-                <span class="agent-room">B1</span>
-            </div>
 
-            <div class="crew-row">
-                <span class="agent-number">03</span>
-                <span class="agent-name">
-                    <span class="agent-status yellow"></span>
-                    SYSTEM
-                </span>
-                <span class="agent-room">B1</span>
-            </div>
-
-        </section>
-
-
-        <section class="panel">
-
-            <div class="panel-title">
-                SHIP STATUS
-            </div>
-
-            <div class="resource">
-                <div class="resource-header">
-                    <span class="resource-name">OXYGEN</span>
-                    <span class="resource-value">78%</span>
-                </div>
-                <div class="bar">
-                    <div class="bar-inner oxygen"></div>
-                </div>
-            </div>
-
-            <div class="resource">
-                <div class="resource-header">
-                    <span class="resource-name">POWER</span>
-                    <span class="resource-value">62%</span>
-                </div>
-                <div class="bar">
-                    <div class="bar-inner power"></div>
-                </div>
-            </div>
-
-            <div class="resource">
-                <div class="resource-header">
-                    <span class="resource-name">DATA</span>
-                    <span class="resource-value">64%</span>
-                </div>
-                <div class="bar">
-                    <div class="bar-inner data"></div>
-                </div>
-            </div>
-
-            <div class="resource">
-                <div class="resource-header">
-                    <span class="resource-name">MATERIAL</span>
-                    <span class="resource-value">34%</span>
-                </div>
-                <div class="bar">
-                    <div class="bar-inner material"></div>
-                </div>
-            </div>
-
-        </section>
-
-    </aside>
-
-
-    <!-- =====================================================
-         HAUPTBEREICH
-         ===================================================== -->
-
-    <main id="main">
-
-        <div class="cam">
-            <span class="live"></span>
-            CAMERA: B1
         </div>
 
 
-        <div id="ship">
+        <label for="model">
+            Modell
+        </label>
 
-            <div class="ship-shell"></div>
+        <select id="model">
 
-            <div class="ship-inner">
+            <option value="gpt-5.6-luna">
+                GPT 5.6 Luna
+            </option>
 
-                <div class="floor-line f1"></div>
-                <div class="floor-line f2"></div>
-                <div class="floor-line f3"></div>
+            <option value="gpt-5.6-terra">
+                GPT 5.6 Terra
+            </option>
 
-                <div class="conveyor c1"></div>
-                <div class="conveyor c2"></div>
-                <div class="conveyor c3"></div>
-                <div class="conveyor c4"></div>
+            <option value="gpt-5.6-sol">
+                GPT 5.6 Sol
+            </option>
 
-
-                <!-- MATERIAL -->
-
-                <div class="stack stack-a">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-                <div class="stack stack-b">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-                <div class="stack stack-c">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+        </select>
 
 
-                <!-- STATIONEN -->
-
-                <div class="station a">
-                    <div class="station-screen">RESEARCH</div>
-                    <div class="station-base"></div>
-                </div>
-
-                <div class="station b">
-                    <div class="station-screen">DATA</div>
-                    <div class="station-base"></div>
-                </div>
-
-                <div class="station c">
-                    <div class="station-screen">SYSTEM</div>
-                    <div class="station-base"></div>
-                </div>
-
-                <div class="station d">
-                    <div class="station-screen">COMMAND</div>
-                    <div class="station-base"></div>
-                </div>
-
-                <div class="station e">
-                    <div class="station-screen">MARKET</div>
-                    <div class="station-base"></div>
-                </div>
-
-                <div class="station f">
-                    <div class="station-screen">AI CORE</div>
-                    <div class="station-base"></div>
-                </div>
+        <button id="startButton">
+            AGENTEN KOMMUNIZIEREN LASSEN
+        </button>
 
 
-                <!-- AGENTEN -->
-
-                <div class="agent agent-1 blue-agent">
-                    <div class="agent-label">RESEARCH</div>
-                    <div class="agent-head"></div>
-                    <div class="agent-body"></div>
-                </div>
-
-                <div class="agent agent-2 red-agent">
-                    <div class="agent-label">COMMAND</div>
-                    <div class="agent-head"></div>
-                    <div class="agent-body"></div>
-                </div>
-
-                <div class="agent agent-3 yellow-agent">
-                    <div class="agent-label">SYSTEM</div>
-                    <div class="agent-head"></div>
-                    <div class="agent-body"></div>
-                </div>
+        <div
+            class="status"
+            id="status"
+        >
+            Bereit.
+        </div>
 
 
-                <!-- DOCK -->
+    </div>
 
-                <div class="dock">
-                    <div class="dock-light"></div>
-                </div>
 
+    <!-- ERGEBNISSE -->
+
+    <div class="results">
+
+
+        <div class="result">
+
+            <h3 id="agent1Title">
+                Agent 1
+            </h3>
+
+            <div
+                class="output"
+                id="agent1Output"
+            >
+                Noch keine Antwort.
             </div>
 
         </div>
 
-    </main>
 
+        <div class="result">
 
-    <!-- =====================================================
-         BOTTOM
-         ===================================================== -->
+            <h3 id="agent2Title">
+                Agent 2
+            </h3>
 
-    <footer id="status">
+            <div
+                class="output"
+                id="agent2Output"
+            >
+                Noch keine Antwort.
+            </div>
 
-        <div class="status-item">
-            SYSTEMS:
-            <strong class="green">NOMINAL</strong>
         </div>
 
-        <div class="status-item">
-            CREW:
-            <strong>03</strong>
-        </div>
 
-        <div class="status-item">
-            POWER:
-            <strong>62%</strong>
-        </div>
+    </div>
 
-        <div class="status-item">
-            OXYGEN:
-            <strong>78%</strong>
-        </div>
-
-        <div class="status-item">
-            DATA:
-            <strong>64%</strong>
-        </div>
-
-    </footer>
 
 </div>
 
 
 <script>
 
-/* =========================================================
-   STERNE
-   ========================================================= */
+const startButton =
+    document.getElementById("startButton");
 
-const space = document.getElementById("space");
 
-for (let i = 0; i < 180; i++) {
+const status =
+    document.getElementById("status");
 
-    const star = document.createElement("div");
 
-    star.className = "star";
+const topic =
+    document.getElementById("topic");
 
-    if (i % 5 === 0) {
-        star.classList.add("small");
+
+const agent1Name =
+    document.getElementById("agent1Name");
+
+
+const agent1System =
+    document.getElementById("agent1System");
+
+
+const agent2Name =
+    document.getElementById("agent2Name");
+
+
+const agent2System =
+    document.getElementById("agent2System");
+
+
+const model =
+    document.getElementById("model");
+
+
+const agent1Title =
+    document.getElementById("agent1Title");
+
+
+const agent2Title =
+    document.getElementById("agent2Title");
+
+
+const agent1Output =
+    document.getElementById("agent1Output");
+
+
+const agent2Output =
+    document.getElementById("agent2Output");
+
+
+
+startButton.addEventListener(
+    "click",
+    startConversation
+);
+
+
+
+async function startConversation() {
+
+    const topicText =
+        topic.value.trim();
+
+
+    if (!topicText) {
+
+        status.textContent =
+            "Bitte zuerst ein Thema eingeben.";
+
+        return;
     }
 
-    if (i % 31 === 0) {
-        star.classList.add("blue");
+
+    startButton.disabled = true;
+
+
+    status.textContent =
+        "Agent 1 denkt...";
+
+
+    agent1Output.textContent =
+        "Antwort wird erzeugt...";
+
+
+    agent2Output.textContent =
+        "Warte auf Agent 1...";
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                "/api/agents/talk",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        topic:
+                            topicText,
+
+                        model:
+                            model.value,
+
+                        agent1: {
+
+                            name:
+                                agent1Name.value,
+
+                            system:
+                                agent1System.value
+
+                        },
+
+                        agent2: {
+
+                            name:
+                                agent2Name.value,
+
+                            system:
+                                agent2System.value
+
+                        }
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.error ||
+                "Serverfehler."
+            );
+
+        }
+
+
+        agent1Title.textContent =
+            data.agent1.name;
+
+
+        agent2Title.textContent =
+            data.agent2.name;
+
+
+        agent1Output.textContent =
+            data.agent1.response;
+
+
+        status.textContent =
+            "Agent 1 hat geantwortet. Agent 2 antwortet...";
+
+
+        agent2Output.textContent =
+            data.agent2.response;
+
+
+        status.textContent =
+            "Kommunikation abgeschlossen.";
+
+
+    } catch (error) {
+
+
+        console.error(error);
+
+
+        status.textContent =
+            "Fehler: " +
+            error.message;
+
+
+        agent1Output.textContent =
+            "Keine Antwort.";
+
+
+        agent2Output.textContent =
+            "Keine Antwort.";
+
     }
 
-    if (i % 47 === 0) {
-        star.classList.add("red");
-    }
 
-    star.style.left = Math.random() * 100 + "%";
-    star.style.top = Math.random() * 100 + "%";
+    startButton.disabled = false;
 
-    star.style.opacity =
-        0.25 + Math.random() * 0.75;
-
-    space.appendChild(star);
 }
-
-
-/* =========================================================
-   UHR
-   ========================================================= */
-
-function updateClock() {
-
-    const now = new Date();
-
-    const hours =
-        String(now.getHours()).padStart(2, "0");
-
-    const minutes =
-        String(now.getMinutes()).padStart(2, "0");
-
-    document.getElementById("clock").textContent =
-        hours + ":" + minutes;
-}
-
-updateClock();
-
-setInterval(updateClock, 1000);
-
-
-/* =========================================================
-   AGENTEN KLICKBAR
-   ========================================================= */
-
-document.querySelectorAll(".agent").forEach(agent => {
-
-    agent.addEventListener("click", () => {
-
-        document
-            .querySelectorAll(".agent")
-            .forEach(a => {
-                a.style.filter = "";
-            });
-
-        agent.style.filter =
-            "drop-shadow(0 0 12px #ffffff)";
-
-    });
-
-});
-
-
-/* =========================================================
-   LEICHTE STERNE BEWEGUNG
-   ========================================================= */
-
-let starOffset = 0;
-
-setInterval(() => {
-
-    starOffset += 0.15;
-
-    document.querySelectorAll(".star").forEach((star, index) => {
-
-        const current =
-            parseFloat(star.style.transform
-                .replace("translateY(", "")
-                .replace("px)", "")) || 0;
-
-        star.style.transform =
-            "translateY(" +
-            ((current + 0.15) % 6) +
-            "px)";
-
-    });
-
-}, 100);
 
 </script>
 
+
 </body>
+
 </html>
