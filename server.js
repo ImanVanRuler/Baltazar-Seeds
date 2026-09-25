@@ -1,0 +1,59 @@
+const express = require("express");
+const path = require("path");
+require("dotenv").config();
+
+const Groq = require("groq-sdk");
+
+const app = express();
+const PORT = 3000;
+
+const groq = new Groq({
+    apiKey: process.env.GROQ_API_KEY
+});
+
+app.use(express.json());
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "ki.html"));
+});
+
+app.post("/api/chat", async (req, res) => {
+    try {
+        const message = req.body.message;
+
+        if (!message) {
+            return res.status(400).json({
+                error: "Keine Nachricht erhalten."
+            });
+        }
+
+        const completion = await groq.chat.completions.create({
+            messages: [
+                {
+                    role: "user",
+                    content: message
+                }
+            ],
+            model: "openai/gpt-oss-20b"
+        });
+
+        const reply =
+            completion.choices[0]?.message?.content ||
+            "Keine Antwort erhalten.";
+
+        res.json({
+            reply: reply
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            error: error.message
+        });
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`KI Agent läuft auf Port ${PORT}`);
+});

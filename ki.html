@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>KI Agent</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            background: #090d16;
+
+            color: #ffffff;
+
+            font-family: Arial, sans-serif;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+        .container {
+
+            width: min(900px, 92%);
+
+        }
+
+        .panel {
+
+            background: #111827;
+
+            border: 1px solid #263248;
+
+            border-radius: 16px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(0, 0, 0, 0.45);
+
+        }
+
+        h1 {
+
+            margin: 0 0 8px 0;
+
+            font-size: 32px;
+
+        }
+
+        .status {
+
+            color: #8fa3bf;
+
+            margin-bottom: 25px;
+
+        }
+
+        .chat {
+
+            height: 400px;
+
+            overflow-y: auto;
+
+            background: #090d16;
+
+            border: 1px solid #263248;
+
+            border-radius: 12px;
+
+            padding: 20px;
+
+            margin-bottom: 18px;
+
+        }
+
+        .message {
+
+            padding: 12px 15px;
+
+            border-radius: 10px;
+
+            margin-bottom: 12px;
+
+            line-height: 1.5;
+
+        }
+
+        .agent {
+
+            background: #182238;
+
+        }
+
+        .user {
+
+            background: #243149;
+
+            text-align: right;
+
+        }
+
+        .input-area {
+
+            display: flex;
+
+            gap: 10px;
+
+        }
+
+        input {
+
+            flex: 1;
+
+            background: #090d16;
+
+            color: #ffffff;
+
+            border: 1px solid #263248;
+
+            border-radius: 10px;
+
+            padding: 14px;
+
+            font-size: 16px;
+
+            outline: none;
+
+        }
+
+        button {
+
+            border: none;
+
+            border-radius: 10px;
+
+            padding: 14px 22px;
+
+            background: #315efb;
+
+            color: #ffffff;
+
+            font-size: 16px;
+
+            cursor: pointer;
+
+        }
+
+        button:hover {
+
+            background: #264edb;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="panel">
+
+        <h1>KI Agent</h1>
+
+        <div class="status">
+
+            System bereit
+
+        </div>
+
+        <div
+            class="chat"
+            id="chat"
+        >
+
+            <div class="message agent">
+
+                Hallo. Ich bin dein KI Agent.
+
+            </div>
+
+        </div>
+
+        <div class="input-area">
+
+            <input
+                id="messageInput"
+                type="text"
+                placeholder="Nachricht eingeben..."
+            >
+
+            <button
+                id="sendButton"
+            >
+
+                Senden
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    const input =
+        document.getElementById("messageInput");
+
+    const button =
+        document.getElementById("sendButton");
+
+    const chat =
+        document.getElementById("chat");
+
+
+    function addMessage(text, type) {
+
+        const message =
+            document.createElement("div");
+
+        message.className =
+            "message " + type;
+
+        message.textContent = text;
+
+        chat.appendChild(message);
+
+        chat.scrollTop =
+            chat.scrollHeight;
+
+    }
+
+
+    async function sendMessage() {
+
+        const message =
+            input.value.trim();
+
+        if (!message) {
+
+            return;
+
+        }
+
+        addMessage(message, "user");
+
+        input.value = "";
+
+        button.disabled = true;
+
+        button.textContent = "Sende...";
+
+
+        try {
+
+            const response =
+                await fetch("/api/chat", {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        message: message
+
+                    })
+
+                });
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    data.error ||
+                    "Serverfehler"
+                );
+
+            }
+
+
+            addMessage(
+                data.reply,
+                "agent"
+            );
+
+
+        } catch (error) {
+
+            addMessage(
+                "Fehler: " +
+                error.message,
+                "agent"
+            );
+
+        }
+
+
+        button.disabled = false;
+
+        button.textContent = "Senden";
+
+    }
+
+
+    button.addEventListener(
+        "click",
+        sendMessage
+    );
+
+
+    input.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                sendMessage();
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>
