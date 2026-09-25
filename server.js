@@ -1,237 +1,671 @@
-const express = require("express");
-const OpenAI = require("openai");
-const path = require("path");
+<!DOCTYPE html>
 
-const app = express();
+<html lang="de">
 
-const PORT = process.env.PORT || 3000;
+<head>
 
-const client = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-});
+<meta charset="UTF-8">
 
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-app.use(express.json());
-
-app.use(express.static(__dirname));
+<title>KI Agenten System</title>
 
 
-/* =========================================================
-   KI AGENTEN
-========================================================= */
+<style>
 
-const agents = {
+* {
+    box-sizing: border-box;
+}
 
-    Alex: {
+body {
 
-        name: "Alex",
+    margin: 0;
 
-        personality:
-            "Du bist Alex. Du bist neugierig, kreativ und risikofreudig. Du hast gerne neue Ideen und denkst gerne über ungewöhnliche Möglichkeiten nach.",
+    background:
+        radial-gradient(
+            circle at top,
+            #182238 0%,
+            #090d16 45%,
+            #05070b 100%
+        );
 
-        goal:
-            "Du möchtest herausfinden, wie man mit einer interessanten digitalen Idee Geld verdienen kann."
+    color: #e8edf7;
 
-    },
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    min-height: 100vh;
+}
 
 
-    Maya: {
+.container {
 
-        name: "Maya",
+    width: min(1200px, 94%);
 
-        personality:
-            "Du bist Maya. Du bist analytisch, vorsichtig und neugierig. Du möchtest verstehen, wie Dinge funktionieren und stellst viele Fragen.",
+    margin: 40px auto;
 
-        goal:
-            "Du möchtest Probleme verstehen und gemeinsam mit anderen sinnvolle Lösungen entwickeln."
+}
+
+
+h1 {
+
+    margin: 0;
+
+    font-size: 30px;
+
+    font-weight: 600;
+
+}
+
+
+.subtitle {
+
+    margin-top: 8px;
+
+    color: #8995aa;
+
+}
+
+
+.panel {
+
+    margin-top: 25px;
+
+    padding: 22px;
+
+    border: 1px solid #273247;
+
+    border-radius: 14px;
+
+    background: rgba(13, 18, 29, 0.88);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,0.35);
+
+}
+
+
+label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #aab5c8;
+
+    font-size: 14px;
+
+}
+
+
+input,
+textarea,
+select {
+
+    width: 100%;
+
+    padding: 13px 14px;
+
+    margin-bottom: 18px;
+
+    border: 1px solid #303b51;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    background: #090e18;
+
+    color: #eef3fb;
+
+    font-size: 15px;
+
+}
+
+
+textarea {
+
+    min-height: 110px;
+
+    resize: vertical;
+
+}
+
+
+input:focus,
+textarea:focus,
+select:focus {
+
+    border-color: #607aa8;
+
+}
+
+
+.agents {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+
+}
+
+
+.agent {
+
+    padding: 18px;
+
+    border: 1px solid #29354a;
+
+    border-radius: 12px;
+
+    background: #0b101a;
+
+}
+
+
+.agent h2 {
+
+    margin-top: 0;
+
+    font-size: 19px;
+
+    font-weight: 500;
+
+}
+
+
+button {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: #e8edf7;
+
+    color: #070a10;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+button:hover {
+
+    background: #ffffff;
+
+}
+
+
+button:disabled {
+
+    opacity: 0.5;
+
+    cursor: wait;
+
+}
+
+
+.status {
+
+    margin-top: 15px;
+
+    color: #8995aa;
+
+    font-size: 14px;
+
+}
+
+
+.results {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 20px;
+
+    margin-top: 25px;
+
+}
+
+
+.result {
+
+    min-height: 260px;
+
+    padding: 20px;
+
+    border: 1px solid #29354a;
+
+    border-radius: 12px;
+
+    background: #080d15;
+
+}
+
+
+.result h3 {
+
+    margin-top: 0;
+
+    font-size: 17px;
+
+}
+
+
+.output {
+
+    white-space: pre-wrap;
+
+    line-height: 1.6;
+
+    color: #cbd4e3;
+
+}
+
+
+@media (max-width: 800px) {
+
+    .agents,
+    .results {
+
+        grid-template-columns: 1fr;
 
     }
 
-};
+}
+
+</style>
+
+</head>
 
 
-/* =========================================================
-   KI ENDPOINT
-========================================================= */
+<body>
 
-app.post("/api/ai", async (req, res) => {
+
+<div class="container">
+
+
+    <h1>KI Agenten System</h1>
+
+    <div class="subtitle">
+        Zwei KI Agenten kommunizieren über deinen Vermittlungsserver.
+    </div>
+
+
+    <div class="panel">
+
+
+        <label for="topic">
+            Thema
+        </label>
+
+        <textarea
+            id="topic"
+            placeholder="Gib ein Thema ein..."
+        ></textarea>
+
+
+        <div class="agents">
+
+
+            <!-- AGENT 1 -->
+
+            <div class="agent">
+
+                <h2>Agent 1</h2>
+
+                <label for="agent1Name">
+                    Name
+                </label>
+
+                <input
+                    id="agent1Name"
+                    value="Analyst"
+                >
+
+
+                <label for="agent1System">
+                    Aufgabe
+                </label>
+
+                <textarea
+                    id="agent1System"
+                >Analysiere das Thema gründlich. Entwickle Argumente, Zusammenhänge und mögliche Lösungen.</textarea>
+
+            </div>
+
+
+            <!-- AGENT 2 -->
+
+            <div class="agent">
+
+                <h2>Agent 2</h2>
+
+                <label for="agent2Name">
+                    Name
+                </label>
+
+                <input
+                    id="agent2Name"
+                    value="Kritiker"
+                >
+
+
+                <label for="agent2System">
+                    Aufgabe
+                </label>
+
+                <textarea
+                    id="agent2System"
+                >Prüfe die Analyse des ersten Agenten. Suche nach Fehlern, ergänze fehlende Aspekte und entwickle eine eigene Antwort.</textarea>
+
+            </div>
+
+
+        </div>
+
+
+        <label for="model">
+            Modell
+        </label>
+
+        <select id="model">
+
+            <option value="gpt-5.6-luna">
+                GPT 5.6 Luna
+            </option>
+
+            <option value="gpt-5.6-terra">
+                GPT 5.6 Terra
+            </option>
+
+            <option value="gpt-5.6-sol">
+                GPT 5.6 Sol
+            </option>
+
+        </select>
+
+
+        <button id="startButton">
+            AGENTEN KOMMUNIZIEREN LASSEN
+        </button>
+
+
+        <div
+            class="status"
+            id="status"
+        >
+            Bereit.
+        </div>
+
+
+    </div>
+
+
+    <!-- ERGEBNISSE -->
+
+    <div class="results">
+
+
+        <div class="result">
+
+            <h3 id="agent1Title">
+                Agent 1
+            </h3>
+
+            <div
+                class="output"
+                id="agent1Output"
+            >
+                Noch keine Antwort.
+            </div>
+
+        </div>
+
+
+        <div class="result">
+
+            <h3 id="agent2Title">
+                Agent 2
+            </h3>
+
+            <div
+                class="output"
+                id="agent2Output"
+            >
+                Noch keine Antwort.
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+const startButton =
+    document.getElementById("startButton");
+
+
+const status =
+    document.getElementById("status");
+
+
+const topic =
+    document.getElementById("topic");
+
+
+const agent1Name =
+    document.getElementById("agent1Name");
+
+
+const agent1System =
+    document.getElementById("agent1System");
+
+
+const agent2Name =
+    document.getElementById("agent2Name");
+
+
+const agent2System =
+    document.getElementById("agent2System");
+
+
+const model =
+    document.getElementById("model");
+
+
+const agent1Title =
+    document.getElementById("agent1Title");
+
+
+const agent2Title =
+    document.getElementById("agent2Title");
+
+
+const agent1Output =
+    document.getElementById("agent1Output");
+
+
+const agent2Output =
+    document.getElementById("agent2Output");
+
+
+
+startButton.addEventListener(
+    "click",
+    startConversation
+);
+
+
+
+async function startConversation() {
+
+    const topicText =
+        topic.value.trim();
+
+
+    if (!topicText) {
+
+        status.textContent =
+            "Bitte zuerst ein Thema eingeben.";
+
+        return;
+    }
+
+
+    startButton.disabled = true;
+
+
+    status.textContent =
+        "Agent 1 denkt...";
+
+
+    agent1Output.textContent =
+        "Antwort wird erzeugt...";
+
+
+    agent2Output.textContent =
+        "Warte auf Agent 1...";
+
 
     try {
 
-        const context =
-            req.body.context || {};
-
-
-        const alex =
-            context.alex || {};
-
-        const maya =
-            context.maya || {};
-
-
-        const conversation = `
-
-Du bist eine KI in einer kleinen simulierten Welt.
-
-In dieser Welt existieren zwei autonome Charaktere:
-
-ALEX
-Persönlichkeit:
-${alex.personality || agents.Alex.personality}
-
-Ziel:
-${alex.goal || agents.Alex.goal}
-
-Erinnerungen:
-${JSON.stringify(alex.memory || [])}
-
-
-MAYA
-Persönlichkeit:
-${maya.personality || agents.Maya.personality}
-
-Ziel:
-${maya.goal || agents.Maya.goal}
-
-Erinnerungen:
-${JSON.stringify(maya.memory || [])}
-
-
-Die Welt soll sich wie eine echte Simulation anfühlen.
-
-Die Charaktere dürfen eigene Gedanken entwickeln.
-
-Sie dürfen Fragen stellen.
-
-Sie dürfen widersprechen.
-
-Sie dürfen ihre Meinung ändern.
-
-Sie dürfen eigene Entscheidungen treffen.
-
-Sie sollen nicht immer einer Meinung sein.
-
-Antworte immer nur mit einer Aktion bzw. einem gesprochenen Satz eines Charakters.
-
-Wähle entweder Alex oder Maya.
-
-Antworte ausschließlich als JSON.
-
-Format:
-
-{
-    "name": "Alex",
-    "text": "Der gesprochene Satz",
-    "target": "maya"
-}
-
-Für "target" sind erlaubt:
-
-"alex"
-"maya"
-"computer"
-"none"
-
-Der Text soll natürlich klingen und nicht erklären, dass du eine KI bist.
-
-`;
-
 
         const response =
-            await client.responses.create({
+            await fetch(
+                "/api/agents/talk",
+                {
 
-                model: "gpt-5.6-luna",
+                    method: "POST",
 
-                input: conversation,
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                max_output_tokens: 180
+                    body: JSON.stringify({
 
-            });
+                        topic:
+                            topicText,
+
+                        model:
+                            model.value,
+
+                        agent1: {
+
+                            name:
+                                agent1Name.value,
+
+                            system:
+                                agent1System.value
+
+                        },
+
+                        agent2: {
+
+                            name:
+                                agent2Name.value,
+
+                            system:
+                                agent2System.value
+
+                        }
+
+                    })
+
+                }
+            );
 
 
-        const raw =
-            response.output_text.trim();
+        const data =
+            await response.json();
 
 
-        let result;
+        if (!response.ok) {
 
-
-        try {
-
-            result =
-                JSON.parse(raw);
-
-        } catch {
-
-            result = {
-
-                name: "Alex",
-
-                text: raw,
-
-                target: "none"
-
-            };
+            throw new Error(
+                data.error ||
+                "Serverfehler."
+            );
 
         }
 
 
-        if (!result.name) {
-
-            result.name = "Alex";
-
-        }
+        agent1Title.textContent =
+            data.agent1.name;
 
 
-        if (!result.text) {
-
-            result.text =
-                "Ich muss darüber nachdenken.";
-
-        }
+        agent2Title.textContent =
+            data.agent2.name;
 
 
-        if (!result.target) {
-
-            result.target = "none";
-
-        }
+        agent1Output.textContent =
+            data.agent1.response;
 
 
-        res.json(result);
+        status.textContent =
+            "Agent 1 hat geantwortet. Agent 2 antwortet...";
+
+
+        agent2Output.textContent =
+            data.agent2.response;
+
+
+        status.textContent =
+            "Kommunikation abgeschlossen.";
 
 
     } catch (error) {
 
-        console.error(
-            "KI Fehler:",
-            error
-        );
+
+        console.error(error);
 
 
-        res.status(500).json({
-
-            error:
-                "Die KI konnte nicht erreicht werden."
-
-        });
-
-    }
-
-});
+        status.textContent =
+            "Fehler: " +
+            error.message;
 
 
-/* =========================================================
-   SERVER START
-========================================================= */
+        agent1Output.textContent =
+            "Keine Antwort.";
 
-app.listen(
-    PORT,
-    () => {
 
-        console.log(
-            `KI Welt läuft auf Port ${PORT}`
-        );
+        agent2Output.textContent =
+            "Keine Antwort.";
 
     }
-);
+
+
+    startButton.disabled = false;
+
+}
+
+</script>
+
+
+</body>
+
+</html>
