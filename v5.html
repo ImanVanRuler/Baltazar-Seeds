@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BALTAZAR SEEDS – 420 Universe</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a120a;
+      color: #e8f0e0;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* ========== LOADER / LOGO ANIMATION ========== */
+    .loader {
+      position: fixed;
+      inset: 0;
+      background: #0a120a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: opacity 0.8s ease, visibility 0.8s;
+    }
+
+    .loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .logo-svg {
+      width: min(90vw, 520px);
+      height: auto;
+    }
+
+    .logo-svg .cell {
+      fill: #c8f06a;
+      opacity: 0;
+    }
+
+    .logo-svg .stroke {
+      fill: none;
+      stroke: #c8f06a;
+      stroke-width: 1.5;
+      stroke-linecap: square;
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+    }
+
+    /* Animation states */
+    .logo-svg.animating .cell {
+      animation: showCell 0.6s cubic-bezier(0.2, 0, 0, 1) forwards;
+    }
+
+    .logo-svg.animating .stroke {
+      animation: drawStroke 1s cubic-bezier(0.2, 0, 0, 1) forwards;
+    }
+
+    @keyframes showCell {
+      to { opacity: 1; }
+    }
+
+    @keyframes drawStroke {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .progress-text {
+      margin-top: 28px;
+      font-family: monospace;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #c8f06a;
+      opacity: 0.7;
+    }
+
+    .loading-label {
+      margin-top: 8px;
+      font-family: monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #8a9a7a;
+    }
+
+    /* ========== MAIN CONTENT ========== */
+    .main {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .main.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .brand {
+      font-size: clamp(2.8rem, 8vw, 5.5rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 0.95;
+      color: #f0f8e8;
+    }
+
+    .brand span {
+      color: #c8f06a;
+    }
+
+    .tagline {
+      margin-top: 18px;
+      font-size: 13px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: #8a9a7a;
+    }
+
+    .subtitle {
+      margin-top: 12px;
+      font-size: 14px;
+      color: #a8b89a;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.5;
+    }
+
+    /* ========== BEVELED BUTTONS ========== */
+    .buttons {
+      display: flex;
+      gap: 16px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .beveled {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 18px 32px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: #c8f06a;
+      overflow: hidden;
+      transition: color 0.3s;
+    }
+
+    /* Border via SVG for perfect bevel look */
+    .beveled svg.border {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .beveled svg.border path {
+      fill: none;
+      stroke: rgba(200, 240, 106, 0.25);
+      stroke-width: 1.5;
+      transition: stroke 0.3s;
+    }
+
+    .beveled:hover svg.border path {
+      stroke: rgba(200, 240, 106, 0.7);
+    }
+
+    /* Solid variant */
+    .beveled.solid {
+      background: #c8f06a;
+      color: #0a120a;
+    }
+
+    .beveled.solid svg.border path {
+      stroke: transparent;
+    }
+
+    .beveled.solid:hover {
+      background: #d4f88a;
+    }
+
+    /* Transparent variant */
+    .beveled.transparent {
+      background: rgba(200, 240, 106, 0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    /* Small icon dots */
+    .icon-dots {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      width: 12px;
+      height: 12px;
+    }
+
+    .icon-dots span {
+      width: 4px;
+      height: 4px;
+      background: currentColor;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div class="loader" id="loader">
+    <svg class="logo-svg" id="logoSvg" viewBox="0 0 420 60" xmlns="http://www.w3.org/2000/svg">
+      <!-- Simplified block letters for BALTAZAR -->
+      <!-- B -->
+      <rect class="cell" x="0" y="10" width="8" height="40" style="animation-delay:0.05s"/>
+      <rect class="cell" x="0" y="10" width="28" height="8" style="animation-delay:0.1s"/>
+      <rect class="cell" x="0" y="26" width="24" height="8" style="animation-delay:0.15s"/>
+      <rect class="cell" x="0" y="42" width="28" height="8" style="animation-delay:0.2s"/>
+      <rect class="cell" x="28" y="18" width="8" height="8" style="animation-delay:0.25s"/>
+      <rect class="cell" x="28" y="34" width="8" height="8" style="animation-delay:0.3s"/>
+
+      <!-- A -->
+      <rect class="cell" x="50" y="10" width="8" height="40" style="animation-delay:0.15s"/>
+      <rect class="cell" x="78" y="10" width="8" height="40" style="animation-delay:0.2s"/>
+      <rect class="cell" x="50" y="10" width="36" height="8" style="animation-delay:0.25s"/>
+      <rect class="cell" x="50" y="28" width="36" height="8" style="animation-delay:0.3s"/>
+
+      <!-- L -->
+      <rect class="cell" x="100" y="10" width="8" height="40" style="animation-delay:0.25s"/>
+      <rect class="cell" x="100" y="42" width="28" height="8" style="animation-delay:0.35s"/>
+
+      <!-- T -->
+      <rect class="cell" x="142" y="10" width="36" height="8" style="animation-delay:0.3s"/>
+      <rect class="cell" x="156" y="10" width="8" height="40" style="animation-delay:0.4s"/>
+
+      <!-- A -->
+      <rect class="cell" x="192" y="10" width="8" height="40" style="animation-delay:0.35s"/>
+      <rect class="cell" x="220" y="10" width="8" height="40" style="animation-delay:0.4s"/>
+      <rect class="cell" x="192" y="10" width="36" height="8" style="animation-delay:0.45s"/>
+      <rect class="cell" x="192" y="28" width="36" height="8" style="animation-delay:0.5s"/>
+
+      <!-- Z -->
+      <rect class="cell" x="242" y="10" width="36" height="8" style="animation-delay:0.4s"/>
+      <path class="stroke" d="M278 18 L242 42" pathLength="1" style="animation-delay:0.55s"/>
+      <rect class="cell" x="242" y="42" width="36" height="8" style="animation-delay:0.6s"/>
+
+      <!-- A -->
+      <rect class="cell" x="292" y="10" width="8" height="40" style="animation-delay:0.5s"/>
+      <rect class="cell" x="320" y="10" width="8" height="40" style="animation-delay:0.55s"/>
+      <rect class="cell" x="292" y="10" width="36" height="8" style="animation-delay:0.6s"/>
+      <rect class="cell" x="292" y="28" width="36" height="8" style="animation-delay:0.65s"/>
+
+      <!-- R -->
+      <rect class="cell" x="342" y="10" width="8" height="40" style="animation-delay:0.55s"/>
+      <rect class="cell" x="342" y="10" width="28" height="8" style="animation-delay:0.6s"/>
+      <rect class="cell" x="342" y="26" width="24" height="8" style="animation-delay:0.65s"/>
+      <rect class="cell" x="370" y="18" width="8" height="8" style="animation-delay:0.7s"/>
+      <path class="stroke" d="M366 34 L378 50" pathLength="1" style="animation-delay:0.75s"/>
+    </svg>
+
+    <div class="progress-text" id="progress">0%</div>
+    <div class="loading-label">INITIALIZING FIELD ARCHIVE</div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main" id="main">
+    <div class="brand">BALTAZAR <span>SEEDS</span></div>
+    <div class="tagline">ENTER THE 420 UNIVERSE</div>
+    <div class="subtitle">BADFARMERS GENETICS · Premium Cannabis Seeds</div>
+
+    <div class="buttons">
+      <!-- Transparent Beveled Button -->
+      <a href="#" class="beveled transparent">
+        <svg class="border" viewBox="0 0 200 60" preserveAspectRatio="none">
+          <path d="M4,2 H196 L196,58 H4 Z"/>
+        </svg>
+        <div class="icon-dots">
+          <span></span><span></span>
+          <span></span><span></span>
+        </div>
+        Explore Genetics
+      </a>
+
+      <!-- Solid Beveled Button -->
+      <a href="#" class="beveled solid">
+        <svg class="border" viewBox="0 0 200 60" preserveAspectRatio="none">
+          <path d="M4,2 H196 L196,58 H4 Z"/>
+        </svg>
+        Shop Seeds
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Simple loader simulation
+    const loader = document.getElementById('loader');
+    const logoSvg = document.getElementById('logoSvg');
+    const progress = document.getElementById('progress');
+    const main = document.getElementById('main');
+
+    let pct = 0;
+    const interval = setInterval(() => {
+      pct += Math.random() * 12 + 4;
+      if (pct >= 100) {
+        pct = 100;
+        clearInterval(interval);
+        progress.textContent = '100%';
+        
+        // Start logo animation
+        logoSvg.classList.add('animating');
+
+        // Hide loader after animation
+        setTimeout(() => {
+          loader.classList.add('hidden');
+          main.classList.add('visible');
+        }, 1400);
+      } else {
+        progress.textContent = Math.floor(pct) + '%';
+      }
+    }, 180);
+  </script>
+</body>
+</html>
