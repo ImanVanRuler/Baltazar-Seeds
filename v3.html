@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a0f14">
+<title>Crystara: Last Outpost</title>
+<style>
+:root{
+  --bg:#0a0f14;--panel:#121a20;--line:#3a4a52;--lime:#a8f0c0;--red:#ff7a8a;
+  --text:#eef2e8;--muted:#9aa8a0;--gold:#e8c87a;--jade:#7de8c8;--prism:#b8a0ff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;background:radial-gradient(ellipse at 60% -20%,#2a3a30 0%,#152028 40%,#0a0f14 100%);
+  color:var(--text);font:14px/1.4 "Segoe UI",system-ui,sans-serif;display:flex;justify-content:center;
+}
+.app{width:100%;max-width:1720px;padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:10px;border-bottom:1px solid #ffffff12}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{
+  width:42px;height:42px;display:grid;place-items:center;border-radius:8px;
+  background:linear-gradient(145deg,#a8f0c0,#5ec8a0 50%,#9070d0);color:#0a1a12;font-weight:900;font-size:20px;
+  box-shadow:0 0 20px #7de8c833;
+}
+h1{font-size:18px;letter-spacing:.12em;font-weight:700}
+.subtitle{display:block;font-size:10px;color:var(--muted);letter-spacing:.2em;margin-top:2px}
+.top-actions{display:flex;gap:8px;align-items:center}
+.badge,.iconbtn{
+  border:1px solid #4a5a60;background:#152028;border-radius:8px;padding:8px 12px;
+  color:#c0d0c8;font-size:11px;letter-spacing:.06em;cursor:pointer;
+}
+.badge b{color:var(--lime)}
+.iconbtn:hover{border-color:var(--jade);background:#1e2a30}
+.layout{display:grid;grid-template-columns:1fr 300px;gap:14px;flex:1;min-height:0}
+.arena{position:relative;border:1px solid #5a7a6040;border-radius:8px;background:#0d1418;overflow:hidden;box-shadow:0 20px 60px #0008}
+.gamebar{
+  height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;
+  background:linear-gradient(90deg,#1a2820,#1e2428 50%,#281c24);border-bottom:1px solid #5a7a6040;
+}
+.team{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.1em}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--jade);box-shadow:0 0 10px currentColor}
+.team.enemy .dot{background:var(--red)}
+.clock{font:700 13px ui-monospace,monospace;color:#e0f0d8}
+.canvas-wrap{position:relative;line-height:0}
+canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;touch-action:none;cursor:crosshair}
+.toast{
+  position:absolute;z-index:5;left:50%;top:12px;transform:translateX(-50%);opacity:0;pointer-events:none;
+  padding:8px 14px;border:1px solid #8fd090;border-radius:6px;background:#101e1ae0;color:#e0ffe0;
+  font-size:12px;font-weight:600;transition:.25s;
+}
+.toast.show{opacity:1}
+.overlay{position:absolute;inset:0;z-index:10;display:grid;place-items:center;background:#0a1010d0;backdrop-filter:blur(3px)}
+.overlay.hidden{display:none}
+.modal{
+  width:min(480px,92%);padding:28px;border:1px solid #8ab08060;border-radius:10px;
+  background:linear-gradient(145deg,#1a2824,#121820);text-align:center;box-shadow:0 30px 80px #000a;
+}
+.eyebrow{color:var(--jade);font-size:10px;letter-spacing:.25em;font-weight:700}
+.modal h2{margin:10px 0 8px;font-size:32px;letter-spacing:.08em;line-height:1.1}
+.modal p{color:#b8c8b8;font-size:13px;line-height:1.6;margin-bottom:18px}
+.button{
+  border:1px solid #8ac080;border-radius:8px;background:linear-gradient(135deg,#3a6048,#2a4038);
+  padding:11px 18px;color:#f0ffe0;font-size:13px;font-weight:700;letter-spacing:.06em;cursor:pointer;
+}
+.button:hover{filter:brightness(1.12)}
+.button.ghost{border-color:#4a5a58;background:#1a2428;color:#c0d0c8}
+.panel{display:flex;flex-direction:column;border:1px solid #4a5a6060;border-radius:8px;background:linear-gradient(160deg,#152028,#10161c);overflow:hidden}
+.panel-head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #ffffff10}
+.panel-head strong{font-size:12px;letter-spacing:.12em}
+.live{color:var(--jade);font-size:10px;font-weight:700}
+.section{padding:12px;border-bottom:1px solid #ffffff08}
+.section-title{display:flex;justify-content:space-between;font-size:9px;color:var(--muted);letter-spacing:.14em;margin-bottom:8px;font-weight:700}
+.resource-row{display:flex;justify-content:space-between;align-items:center}
+.credits{font:800 24px ui-monospace,monospace;color:var(--lime);text-shadow:0 0 12px #a8f0c040}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.card{
+  min-height:58px;padding:8px;text-align:left;border:1px solid #4a5a5060;border-radius:6px;
+  background:linear-gradient(135deg,#1e2a28,#161e24);cursor:pointer;transition:.15s;position:relative;
+}
+.card:hover:not(:disabled){border-color:var(--jade);transform:translateY(-1px)}
+.card:disabled{opacity:.4;cursor:not-allowed}
+.card.active{border-color:var(--jade);box-shadow:0 0 12px #7de8c830}
+.card .icon{font-size:16px;margin-bottom:2px}
+.card strong{display:block;font-size:11px}
+.card small{display:block;margin-top:3px;color:#a0c090;font-size:10px}
+.progress{height:3px;margin-top:4px;background:#2a3a30;border-radius:2px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,#60d090,#c0f080);transition:width .1s}
+.status{min-height:40px;font-size:11px;color:#a8b8a8;line-height:1.5}
+.status b{color:#e0f0d8}
+.footer{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted);padding-top:4px}
+.footer strong{color:#c0d0c0}
+.level-select{display:flex;gap:8px;justify-content:center;margin:12px 0}
+.level-btn{padding:8px 14px;border-radius:6px;border:1px solid #4a5a58;background:#1a2428;cursor:pointer;font-size:12px}
+.level-btn:hover,.level-btn.selected{border-color:var(--jade);background:#243038}
+@media(max-width:1100px){.layout{grid-template-columns:1fr}.panel{max-height:320px;overflow-y:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark">C</div>
+      <div>
+        <h1>CRYSTARA <span style="color:var(--jade)">/</span> LAST OUTPOST</h1>
+        <span class="subtitle">EIN SEKTOR. EINE CHANCE.</span>
+      </div>
+    </div>
+    <div class="top-actions">
+      <div class="badge">LEVEL <b id="levelLabel">1</b> · <span id="diffLabel">EINFACH</span></div>
+      <button class="iconbtn" id="soundBtn">♫ SOUND AUS</button>
+      <button class="iconbtn" id="pauseBtn">Ⅱ PAUSE</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="arena">
+      <div class="gamebar">
+        <div class="team"><i class="dot"></i> SOLARI <em style="font-style:normal;color:var(--muted);font-weight:500">/ DU</em></div>
+        <div class="clock"><span id="timer">00:00</span> <small id="clockState" style="color:var(--muted)">— BEREIT</small></div>
+        <div class="team enemy"><em style="font-style:normal;color:var(--muted);font-weight:500">UMBRAN /</em> UMBRAN <i class="dot"></i></div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="game" width="1600" height="900"></canvas>
+        <div class="toast" id="toast"></div>
+        <div class="overlay" id="overlay">
+          <div class="modal">
+            <div class="eyebrow" id="modalEyebrow">SEKTOR-BERICHT</div>
+            <h2 id="modalTitle">LAST<br>OUTPOST</h2>
+            <p id="modalText">Sichere die Crystara-Felder, baue deine Basis auf und zerstöre das feindliche Hauptquartier.</p>
+            <div class="level-select" id="levelSelect">
+              <button class="level-btn selected" data-level="1">Level 1</button>
+              <button class="level-btn" data-level="2">Level 2</button>
+              <button class="level-btn" data-level="3">Boss</button>
+            </div>
+            <button class="button" id="startBtn">GEFECHT STARTEN →</button>
+            <p class="hint" id="modalHint" style="margin-top:14px;font-size:11px;color:#889888">Nur Maus. Buttons zum Produzieren und Bauen. Alles andere läuft automatisch.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <div class="panel-head"><strong>KOMMANDO</strong><span class="live" id="liveState">● BEREIT</span></div>
+
+      <section class="section">
+        <div class="section-title"><span>RESSOURCEN</span><span>CRYSTARA</span></div>
+        <div class="resource-row">
+          <div>
+            <div style="font-size:12px">Vorrat</div>
+            <div style="font-size:10px;color:var(--muted)" id="income">0 Sammler</div>
+          </div>
+          <div class="credits" id="credits">600</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title"><span>EINHEITEN</span><span>PRODUKTION</span></div>
+        <div class="cards">
+          <button class="card" id="makeRifle"><div class="icon">🔫</div><strong>Infanterie</strong><small>◆ 80 · 2.8s</small><div class="progress"><i id="rifleBar"></i></div></button>
+          <button class="card" id="makeScout"><div class="icon">🦅</div><strong>Aufklärer</strong><small>◆ 110 · 3.2s</small><div class="progress"><i id="scoutBar"></i></div></button>
+          <button class="card" id="makeTank"><div class="icon">🛡️</div><strong>Panzer</strong><small>◆ 220 · 5s</small><div class="progress"><i id="tankBar"></i></div></button>
+          <button class="card" id="makeHarv"><div class="icon">⛏️</div><strong>Sammler</strong><small>◆ 140 · 4s</small><div class="progress"><i id="harvBar"></i></div></button>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title"><span>GEBÄUDE</span><span>KLICKEN → PLATZIEREN</span></div>
+        <div class="cards">
+          <button class="card" id="buildFactory"><div class="icon">🏭</div><strong>Fabrik</strong><small>◆ 240</small></button>
+          <button class="card" id="buildRefinery"><div class="icon">⚗️</div><strong>Raffinerie</strong><small>◆ 160</small></button>
+          <button class="card" id="buildTurret"><div class="icon">🎯</div><strong>Turm</strong><small>◆ 170</small></button>
+          <button class="card" id="cancelMode"><div class="icon">✕</div><strong>Abbrechen</strong><small>Modus aus</small></button>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title"><span>STATUS</span><span id="unitCount">—</span></div>
+        <div class="status" id="status"><b>Bereit.</b> Wähle ein Level und starte das Gefecht.</div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <span><strong>SOLARI OPS</strong> · Crystara-Sektor</span>
+    <div style="display:flex;gap:10px;align-items:center">
+      <span id="objective">Ziel: Umbran-HQ zerstören</span>
+      <button class="button ghost" id="restartBtn" style="padding:6px 12px;font-size:11px">NEUSTART</button>
+    </div>
+  </footer>
+</div>
+
+<script>
+(() => {
+'use strict';
+
+const $ = id => document.getElementById(id);
+const canvas = $('game');
+const ctx = canvas.getContext('2d');
+const W = 1600, H = 900;
+const TAU = Math.PI * 2;
+const GRID = 40;
+
+// === Daten ===
+const teams = {
+  p: { label: 'SOLARI', edge: '#a8f0c0', light: '#70c890', dark: '#2a4a38' },
+  e: { label: 'UMBRAN', edge: '#ff8a90', light: '#c05058', dark: '#4a2828' },
+  n: { label: 'NATUR', edge: '#c0a060', light: '#a08040', dark: '#3a3020' }
+};
+
+const U = {
+  rifle: { label: 'Infanterie', hp: 130, speed: 70, range: 130, damage: 14, rate: 0.7, r: 12, cost: 80, time: 2.8 },
+  scout: { label: 'Aufklärer', hp: 90, speed: 95, range: 160, damage: 11, rate: 0.55, r: 11, cost: 110, time: 3.2 },
+  tank:  { label: 'Panzer', hp: 380, speed: 42, range: 190, damage: 42, rate: 1.2, r: 18, cost: 220, time: 5.0 },
+  harv:  { label: 'Sammler', hp: 320, speed: 34, r: 18, cost: 140, time: 4.0 }
+};
+
+const B = {
+  hq:       { label: 'Hauptquartier', hp: 2000, r: 48 },
+  barracks: { label: 'Kaserne', hp: 900, r: 30 },
+  factory:  { label: 'Fabrik', hp: 1100, r: 36 },
+  refinery: { label: 'Raffinerie', hp: 850, r: 32 },
+  turret:   { label: 'Geschützturm', hp: 700, r: 20, range: 230, damage: 28, rate: 0.75 }
+};
+
+// Level-Definitionen
+const LEVELS = {
+  1: { name: 'Einführung', difficulty: 'EINFACH', playerStart: 650, enemyStart: 380, aiAgro: 0.35, enemyProd: 0.7, neutrals: 3, boss: false },
+  2: { name: 'Vorstoß', difficulty: 'STANDARD', playerStart: 550, enemyStart: 480, aiAgro: 0.55, enemyProd: 0.9, neutrals: 5, boss: false },
+  3: { name: 'Boss', difficulty: 'SCHWER', playerStart: 500, enemyStart: 620, aiAgro: 0.75, enemyProd: 1.1, neutrals: 7, boss: true }
+};
+
+let currentLevel = 1;
+let levelCfg = LEVELS[1];
+
+// Spielzustand
+const units = [], buildings = [], crystals = [], obstacles = [], bullets = [], particles = [], texts = [], neutrals = [];
+let id = 0, credits = 650, enemyCredits = 380, gameTime = 0, last = 0;
+let started = false, paused = false, ended = false, buildMode = '';
+let mouse = { x: 0, y: 0 }, aiClock = 6, enemyTimer = 14, noticeTimer = 0, shake = 0;
+let soundOn = false, audio = null, ambientTimer = 0;
+const playerQueue = [], enemyQueue = [];
+
+const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+const snap = v => Math.round(v / GRID) * GRID;
+
+// Sound
+function sound(freq = 360, duration = 0.07, type = 'square', volume = 0.03, slide = 0) {
+  if (!soundOn) return;
+  try {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    if (audio.state === 'suspended') audio.resume();
+    const o = audio.createOscillator();
+    const g = audio.createGain();
+    const now = audio.currentTime;
+    o.type = type;
+    o.frequency.setValueAtTime(freq, now);
+    if (slide) o.frequency.exponentialRampToValueAtTime(Math.max(40, freq + slide), now + duration);
+    g.gain.setValueAtTime(volume, now);
+    g.gain.exponentialRampToValueAtTime(0.001, now + duration);
+    o.connect(g); g.connect(audio.destination);
+    o.start(now); o.stop(now + duration);
+  } catch (e) {}
+}
+
+function toast(s) {
+  const e = $('toast');
+  e.textContent = s;
+  e.classList.add('show');
+  clearTimeout(noticeTimer);
+  noticeTimer = setTimeout(() => e.classList.remove('show'), 1800);
+}
+
+function building(team, type, x, y) {
+  const d = B[type];
+  const o = { id: ++id, kind: 'building', team, type, x, y, hp: d.hp, max: d.hp, fire: Math.random(), flash: 0 };
+  buildings.push(o);
+  return o;
+}
+
+function unit(team, type, x, y) {
+  const d = U[type];
+  const o = {
+    id: ++id, kind: 'unit', team, type, x, y, hp: d.hp, max: d.hp, r: d.r,
+    cool: Math.random() * 0.4, order: null, carry: 0, harvestTarget: null, harvestTimer: 0,
+    angle: team === 'p' ? 0 : Math.PI, flash: 0
+  };
+  units.push(o);
+  return o;
+}
+
+function addNeutral(x, y) {
+  neutrals.push({
+    id: ++id, kind: 'neutral', x, y, hp: 180, max: 180, r: 16,
+    cool: Math.random(), angle: Math.random() * TAU, flash: 0, range: 140, damage: 18, rate: 1.1
+  });
+}
+
+function reset() {
+  id = 0; credits = levelCfg.playerStart; enemyCredits = levelCfg.enemyStart;
+  gameTime = 0; started = false; paused = false; ended = false; buildMode = '';
+  mouse = { x: 0, y: 0 }; aiClock = 6; enemyTimer = 14; shake = 0; ambientTimer = 0;
+  playerQueue.length = 0; enemyQueue.length = 0;
+  units.length = 0; buildings.length = 0; crystals.length = 0; obstacles.length = 0;
+  bullets.length = 0; particles.length = 0; texts.length = 0; neutrals.length = 0;
+
+  // Hindernisse
+  const obsPos = [[480, 220], [720, 180], [900, 280], [520, 620], [780, 680], [1100, 520], [350, 480], [1250, 400]];
+  obsPos.forEach(([x, y]) => obstacles.push({ x, y, r: 28 + Math.random() * 12 }));
+
+  // Kristalle
+  const crystPos = [[380, 200], [520, 340], [420, 580], [680, 140], [760, 640], [920, 200], [1040, 360], [960, 580], [1180, 180], [1220, 560], [700, 420], [340, 400], [1120, 420], [580, 500]];
+  crystPos.forEach(([x, y], i) => crystals.push({ x, y, r: 24 + (i % 3) * 6, amount: 850 + Math.random() * 200, phase: Math.random() * TAU }));
+
+  // Spieler-Basis
+  building('p', 'hq', 140, 450);
+  building('p', 'barracks', 250, 560);
+  building('p', 'refinery', 250, 340);
+  unit('p', 'harv', 310, 360);
+  unit('p', 'harv', 300, 440);
+  unit('p', 'rifle', 340, 500);
+  unit('p', 'rifle', 330, 560);
+  unit('p', 'scout', 360, 480);
+
+  // Gegner-Basis
+  building('e', 'hq', 1460, 450);
+  building('e', 'barracks', 1350, 560);
+  building('e', 'factory', 1350, 340);
+  building('e', 'refinery', 1350, 640);
+  unit('e', 'harv', 1280, 380);
+  unit('e', 'harv', 1290, 460);
+  unit('e', 'rifle', 1240, 500);
+  unit('e', 'rifle', 1230, 560);
+  if (levelCfg.boss) {
+    unit('e', 'tank', 1200, 480);
+    unit('e', 'tank', 1180, 540);
+    unit('e', 'scout', 1220, 420);
+  } else {
+    unit('e', 'tank', 1210, 520);
+  }
+
+  // Neutrale Bestien
+  for (let i = 0; i < levelCfg.neutrals; i++) {
+    const x = 500 + Math.random() * 600;
+    const y = 200 + Math.random() * 500;
+    if (!obstacles.some(o => dist(o, { x, y }) < 50)) addNeutral(x, y);
+  }
+
+  updateUI();
+  syncOverlay();
+  draw();
+}
+
+function ownBuilding(type, team = 'p') {
+  return buildings.find(b => b.team === team && b.type === type && b.hp > 0);
+}
+
+function liveEnemies(team) {
+  return [...units, ...buildings].filter(o => o.team !== team && o.hp > 0 && o.type !== 'harv');
+}
+
+function allTargets(forTeam) {
+  // Neutrale greifen beide an; Fraktionen greifen Neutrale + Gegner an
+  const list = [];
+  if (forTeam === 'n') {
+    units.filter(u => u.hp > 0 && u.type !== 'harv').forEach(u => list.push(u));
+    buildings.filter(b => b.hp > 0).forEach(b => list.push(b));
+  } else {
+    liveEnemies(forTeam).forEach(t => list.push(t));
+    neutrals.filter(n => n.hp > 0).forEach(n => list.push(n));
+  }
+  return list;
+}
+
+function moveToward(o, x, y, dt, speed) {
+  // Hindernis-Vermeidung (einfach)
+  let dx = x - o.x, dy = y - o.y;
+  let d = Math.hypot(dx, dy);
+  if (d < 1) return d;
+
+  // leichte Abstoßung von Hindernissen
+  for (const obs of obstacles) {
+    const od = dist(o, obs);
+    if (od < obs.r + o.r + 8) {
+      const ax = o.x - obs.x, ay = o.y - obs.y;
+      const al = Math.hypot(ax, ay) || 1;
+      dx += (ax / al) * 40;
+      dy += (ay / al) * 40;
+    }
+  }
+  d = Math.hypot(dx, dy) || 1;
+  const step = Math.min(d, speed * dt);
+  o.x += dx / d * step;
+  o.y += dy / d * step;
+  o.angle = Math.atan2(dy, dx);
+  return d - step;
+}
+
+function nearest(list, o, range = Infinity) {
+  let best = null, bd = range;
+  for (const t of list) {
+    if (!t || t.hp <= 0) continue;
+    const d = dist(o, t);
+    if (d < bd) { bd = d; best = t; }
+  }
+  return best;
+}
+
+function emit(x, y, color, n = 8, power = 70) {
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * TAU, s = power * (0.25 + Math.random() * 0.75);
+    particles.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, t: 0.3 + Math.random() * 0.5, max: 0.8, color, r: 1 + Math.random() * 2.5 });
+  }
+}
+
+function say(x, y, text, color = '#e0f0c0') {
+  texts.push({ x, y, text, color, t: 1 });
+}
+
+function hit(target, amount, attackerTeam) {
+  if (!target || target.hp <= 0) return;
+  target.hp -= amount;
+  target.flash = 0.12;
+  if (Math.random() < 0.2) say(target.x, target.y - 14, '−' + Math.ceil(amount), attackerTeam === 'p' ? '#c0ff90' : '#ffb0a0');
+  emit(target.x, target.y, attackerTeam === 'p' ? '#d0ff90' : '#ff9080', 3, 40);
+  if (target.hp <= 0) {
+    target.hp = 0;
+    if (target.kind === 'unit') {
+      const idx = units.indexOf(target);
+      if (idx >= 0) units.splice(idx, 1);
+    } else if (target.kind === 'building') {
+      const idx = buildings.indexOf(target);
+      if (idx >= 0) buildings.splice(idx, 1);
+    } else if (target.kind === 'neutral') {
+      const idx = neutrals.indexOf(target);
+      if (idx >= 0) neutrals.splice(idx, 1);
+    }
+    emit(target.x, target.y, target.team === 'e' ? '#ff7060' : '#c0f080', 18, 120);
+    shake = 0.14;
+    sound(110, 0.22, 'sawtooth', 0.03, -50);
+    if (target.type === 'hq') finish(target.team === 'e');
+  }
+}
+
+function shoot(attacker, target, dt, range, damage, rate) {
+  attacker.cool -= dt;
+  if (!target) return;
+  const radius = target.kind === 'building' ? B[target.type].r : (target.r || 16);
+  const d = dist(attacker, target) - radius;
+  if (d > range) {
+    if (attacker.kind === 'unit') {
+      const reach = radius + range * 0.7;
+      if (d > reach) moveToward(attacker, target.x, target.y, dt, U[attacker.type]?.speed || 50);
+    }
+    return;
+  }
+  if (attacker.cool <= 0) {
+    attacker.cool = rate;
+    bullets.push({
+      x: attacker.x, y: attacker.y, target, team: attacker.team || 'n',
+      damage, speed: attacker.type === 'tank' ? 460 : 380, life: 1.6
+    });
+    attacker.angle = Math.atan2(target.y - attacker.y, target.x - attacker.x);
+    if (Math.random() < 0.35) sound(attacker.type === 'tank' ? 130 : 280, 0.04, 'square', 0.012, -60);
+  }
+}
+
+function gather(u, dt) {
+  u.harvestTimer -= dt;
+  const home = ownBuilding('refinery', u.team) || ownBuilding('hq', u.team);
+  if (!home) return;
+  if (u.carry >= 55) {
+    moveToward(u, home.x, home.y, dt, U.harv.speed);
+    if (dist(u, home) < B[home.type].r + 16) {
+      const amount = u.carry;
+      if (u.team === 'p') credits += amount; else enemyCredits += amount;
+      u.carry = 0;
+      u.harvestTarget = null;
+      say(home.x, home.y - 36, '+' + amount, u.team === 'p' ? '#c0ff80' : '#ffb080');
+    }
+    return;
+  }
+  if (!u.harvestTarget || u.harvestTarget.amount < 5) {
+    u.harvestTarget = nearest(crystals.filter(c => c.amount > 0), u);
+  }
+  const c = u.harvestTarget;
+  if (c) {
+    moveToward(u, c.x, c.y, dt, U.harv.speed);
+    if (dist(u, c) < c.r + 14 && u.harvestTimer <= 0) {
+      u.harvestTimer = 0.75;
+      c.amount = Math.max(0, c.amount - 9);
+      u.carry = Math.min(55, u.carry + 9);
+      emit(c.x, c.y, '#b0ff70', 2, 20);
+    }
+  }
+}
+
+function enqueue(team, type) {
+  const d = U[type];
+  if (!d) return;
+  let house = 'barracks';
+  if (type === 'tank') house = 'factory';
+  if (type === 'harv') house = 'refinery'; // Sammler an Raffinerie
+
+  if (team === 'p') {
+    if (!ownBuilding(house) && type !== 'harv') {
+      toast(type === 'tank' ? 'Baue zuerst eine Fabrik.' : 'Deine Kaserne fehlt.');
+      return;
+    }
+    if (type === 'harv' && !ownBuilding('refinery') && !ownBuilding('hq')) {
+      toast('Keine Raffinerie vorhanden.');
+      return;
+    }
+    if (credits < d.cost) { toast('Nicht genug Crystara.'); return; }
+    credits -= d.cost;
+    playerQueue.push({ type, t: d.time });
+    sound(400, 0.07, 'triangle', 0.025, 80);
+    toast(d.label + ' wird ausgebildet.');
+  } else {
+    if (enemyCredits < d.cost || (type === 'tank' && !ownBuilding('factory', 'e'))) return;
+    if (type !== 'tank' && type !== 'harv' && !ownBuilding('barracks', 'e')) return;
+    enemyCredits -= d.cost;
+    enemyQueue.push({ type, t: d.time * (0.9 + Math.random() * 0.15) });
+  }
+  updateUI();
+}
+
+const costs = { factory: 240, refinery: 160, turret: 170 };
+
+function orderBuild(type) {
+  if (!started || ended) return;
+  if (!costs[type]) return;
+  if (type === 'factory' && ownBuilding(type)) { toast('Fabrik bereits gebaut.'); return; }
+  if (credits < costs[type]) { toast('Nicht genug Crystara.'); return; }
+  buildMode = type;
+  updateUI();
+  toast('Klicke auf freies Rasterfeld.');
+}
+
+function placeBuild(mx, my) {
+  const type = buildMode;
+  if (!type) return;
+  const x = snap(mx), y = snap(my);
+  const r = B[type].r;
+  if (x < r + 20 || x > W - r - 20 || y < r + 30 || y > H - r - 20) {
+    toast('Zu nah am Rand.'); return;
+  }
+  if (buildings.some(b => dist(b, { x, y }) < r + B[b.type].r + 12) ||
+      units.some(u => dist(u, { x, y }) < r + u.r + 8) ||
+      crystals.some(c => dist(c, { x, y }) < r + c.r + 6) ||
+      obstacles.some(o => dist(o, { x, y }) < r + o.r + 8) ||
+      neutrals.some(n => dist(n, { x, y }) < r + 20)) {
+    toast('Platz belegt.'); return;
+  }
+  if (credits < costs[type]) { toast('Nicht genug Crystara.'); buildMode = ''; updateUI(); return; }
+  credits -= costs[type];
+  building('p', type, x, y);
+  buildMode = '';
+  emit(x, y, '#c0ff90', 16, 80);
+  sound(180, 0.18, 'triangle', 0.028, 280);
+  toast(B[type].label + ' fertig.');
+  updateUI();
+}
+
+function updateUI() {
+  $('credits').textContent = Math.floor(credits).toLocaleString('de-DE');
+  const pUnits = units.filter(u => u.team === 'p');
+  const fighters = pUnits.filter(u => u.type !== 'harv').length;
+  const harvesters = pUnits.filter(u => u.type === 'harv').length;
+  $('income').textContent = harvesters + ' Sammler · ' + fighters + ' Kämpfer';
+  $('unitCount').textContent = fighters + ' IM FELD';
+
+  $('makeRifle').disabled = !started || !ownBuilding('barracks') || credits < U.rifle.cost;
+  $('makeScout').disabled = !started || !ownBuilding('barracks') || credits < U.scout.cost;
+  $('makeTank').disabled = !started || !ownBuilding('factory') || credits < U.tank.cost;
+  $('makeHarv').disabled = !started || credits < U.harv.cost || (!ownBuilding('refinery') && !ownBuilding('hq'));
+
+  $('buildFactory').disabled = !started || credits < costs.factory || !!ownBuilding('factory');
+  $('buildRefinery').disabled = !started || credits < costs.refinery;
+  $('buildTurret').disabled = !started || credits < costs.turret;
+
+  for (const t of ['factory', 'refinery', 'turret']) {
+    const el = $('build' + t[0].toUpperCase() + t.slice(1));
+    if (el) el.classList.toggle('active', buildMode === t);
+  }
+  canvas.style.cursor = buildMode ? 'crosshair' : 'default';
+
+  let msg = '';
+  if (!started) msg = '<b>Einsatz bereit.</b> Wähle Level und starte.';
+  else if (ended) msg = '<b>Einsatz beendet.</b>';
+  else if (buildMode) msg = '<b>' + B[buildMode].label + ':</b> Klicke auf freies Rasterfeld.';
+  else msg = '<b>Automatische Front.</b> Produziere Einheiten & baue. Sammler und Kämpfer handeln selbst.';
+  $('status').innerHTML = msg;
+}
+
+function syncOverlay() {
+  const show = !started || ended;
+  $('overlay').classList.toggle('hidden', !show);
+  if (!show) return;
+  if (ended) {
+    const won = !ownBuilding('hq', 'e');
+    $('modalEyebrow').textContent = 'EINSATZ BEENDET · ' + $('timer').textContent;
+    $('modalTitle').innerHTML = won ? 'SEKTOR<br>GESICHERT' : 'BASIS<br>GEFALLEN';
+    $('modalText').textContent = won
+      ? 'Das Umbran-Hauptquartier ist ausgeschaltet. Der Sektor gehört dir.'
+      : 'Dein Hauptquartier wurde zerstört. Versuche es erneut.';
+    $('startBtn').textContent = 'NOCH EINE RUNDE ↻';
+    $('levelSelect').style.display = 'flex';
+  } else {
+    $('modalEyebrow').textContent = 'SEKTOR-BERICHT · LEVEL ' + currentLevel;
+    $('modalTitle').innerHTML = 'LAST<br>OUTPOST';
+    $('modalText').textContent = 'Sammle Crystara, baue deine Wirtschaft und produziere Truppen. Bewegung und Kämpfe laufen automatisch. Neutrale Bestien greifen beide Seiten an.';
+    $('startBtn').textContent = 'GEFECHT STARTEN →';
+    $('levelSelect').style.display = 'flex';
+  }
+}
+
+function finish(win) {
+  ended = true;
+  paused = true;
+  $('liveState').textContent = win ? '● SIEG' : '● NIEDERLAGE';
+  $('liveState').style.color = win ? 'var(--lime)' : 'var(--red)';
+  $('clockState').textContent = '— BEENDET';
+  syncOverlay();
+  sound(win ? 620 : 100, 0.5, 'triangle', 0.04, win ? 250 : -40);
+}
+
+function startGame() {
+  if (ended) reset();
+  started = true;
+  paused = false;
+  last = performance.now();
+  $('overlay').classList.add('hidden');
+  $('liveState').textContent = '● IM EINSATZ';
+  updateUI();
+  toast('Level ' + currentLevel + ': Front rückt vor.');
+  sound(480, 0.14, 'triangle', 0.028, 160);
+}
+
+function update(dt) {
+  gameTime += dt;
+  for (const c of crystals) c.phase += dt * 0.7;
+
+  // Einheiten
+  for (const u of units) {
+    u.flash = Math.max(0, u.flash - dt);
+    if (u.type === 'harv') { gather(u, dt); continue; }
+
+    const foes = allTargets(u.team);
+    let target = u.order?.target && u.order.target.hp > 0 ? u.order.target : null;
+    if (!target) target = nearest(foes, u, u.type === 'tank' ? 260 : 200);
+    if (target) {
+      shoot(u, target, dt, U[u.type].range, U[u.type].damage, U[u.type].rate);
+      if (u.order?.target && u.order.target.hp <= 0) u.order = null;
+    } else if (u.order && Number.isFinite(u.order.x)) {
+      const rem = moveToward(u, u.order.x, u.order.y, dt, U[u.type].speed);
+      if (rem < 6) u.order = null;
+    } else {
+      const hq = ownBuilding('hq', u.team === 'p' ? 'e' : 'p');
+      if (hq) moveToward(u, hq.x + (Math.random() - 0.5) * 40, hq.y + (Math.random() - 0.5) * 40, dt, U[u.type].speed * 0.5);
+    }
+  }
+
+  // Gebäude-Türme
+  for (const b of buildings) {
+    b.flash = Math.max(0, b.flash - dt);
+    if (b.type === 'turret') {
+      const target = nearest(allTargets(b.team), b, B.turret.range);
+      shoot(b, target, dt, B.turret.range, B.turret.damage, B.turret.rate);
+    }
+  }
+
+  // Neutrale Bestien
+  for (const n of neutrals) {
+    n.flash = Math.max(0, n.flash - dt);
+    n.cool -= dt;
+    const target = nearest(allTargets('n'), n, n.range);
+    if (target) {
+      const d = dist(n, target);
+      if (d > n.range * 0.7) {
+        moveToward(n, target.x, target.y, dt, 28);
+      } else if (n.cool <= 0) {
+        n.cool = n.rate;
+        bullets.push({ x: n.x, y: n.y, target, team: 'n', damage: n.damage, speed: 320, life: 1.4 });
+        n.angle = Math.atan2(target.y - n.y, target.x - n.x);
+      }
+    }
+  }
+
+  // Produktions-Queues
+  for (const q of [playerQueue, enemyQueue]) {
+    for (let i = q.length - 1; i >= 0; i--) {
+      q[i].t -= dt;
+      if (q[i].t <= 0) {
+        const team = q === playerQueue ? 'p' : 'e';
+        const type = q[i].type;
+        let prod = null;
+        if (type === 'tank') prod = ownBuilding('factory', team);
+        else if (type === 'harv') prod = ownBuilding('refinery', team) || ownBuilding('hq', team);
+        else prod = ownBuilding('barracks', team);
+        if (prod) {
+          unit(team, type, prod.x + (Math.random() - 0.5) * 30, prod.y + 50);
+          if (team === 'p') {
+            say(prod.x, prod.y + 40, U[type].label + ' bereit', '#d0ff90');
+            toast(U[type].label + ' bereit.');
+          }
+        }
+        q.splice(i, 1);
+      }
+    }
+  }
+
+  // KI (mit Zufall und Level-Skalierung)
+  aiClock -= dt;
+  if (aiClock <= 0) {
+    aiClock = 5 + Math.random() * 3.5;
+    const eFighters = units.filter(u => u.team === 'e' && u.type !== 'harv').length;
+    const agro = levelCfg.aiAgro;
+
+    if (eFighters < 4 + currentLevel && enemyCredits >= U.rifle.cost && Math.random() < 0.7 * levelCfg.enemyProd) {
+      enqueue('e', 'rifle');
+    }
+    if (ownBuilding('factory', 'e') && eFighters < 5 + currentLevel && enemyCredits >= U.tank.cost && Math.random() < 0.5 * levelCfg.enemyProd) {
+      enqueue('e', 'tank');
+    }
+    if (enemyCredits >= U.scout.cost && Math.random() < 0.4) enqueue('e', 'scout');
+    if (enemyCredits >= U.harv.cost && units.filter(u => u.team === 'e' && u.type === 'harv').length < 3 && Math.random() < 0.3) {
+      enqueue('e', 'harv');
+    }
+
+    // Angriffsbefehl mit Zufall
+    if (eFighters >= 2 && Math.random() < agro) {
+      const hq = ownBuilding('hq', 'p');
+      if (hq) {
+        units.filter(u => u.team === 'e' && u.type !== 'harv').forEach(u => {
+          if (Math.random() < 0.6) u.order = { x: hq.x + (Math.random() - 0.5) * 120, y: hq.y + (Math.random() - 0.5) * 100 };
+        });
+      }
+    }
+  }
+
+  // Passives Einkommen für KI
+  enemyTimer -= dt;
+  if (enemyTimer <= 0) {
+    enemyTimer = 16 + Math.random() * 8;
+    enemyCredits += 50 + currentLevel * 15;
+  }
+
+  // Geschosse
+  for (const b of bullets) {
+    b.life -= dt;
+    if (b.life <= 0 || !b.target || b.target.hp <= 0) { b.dead = true; continue; }
+    const dx = b.target.x - b.x, dy = b.target.y - b.y;
+    const d = Math.hypot(dx, dy);
+    const step = b.speed * dt;
+    if (d < step + 6) {
+      hit(b.target, b.damage, b.team);
+      b.dead = true;
+    } else {
+      b.x += dx / d * step;
+      b.y += dy / d * step;
+    }
+  }
+  for (let i = bullets.length - 1; i >= 0; i--) if (bullets[i].dead) bullets.splice(i, 1);
+
+  // Partikel & Texte
+  for (const p of particles) { p.t -= dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= 0.96; p.vy *= 0.96; }
+  for (let i = particles.length - 1; i >= 0; i--) if (particles[i].t <= 0) particles.splice(i, 1);
+  for (const t of texts) { t.t -= dt; t.y -= 18 * dt; }
+  for (let i = texts.length - 1; i >= 0; i--) if (texts[i].t <= 0) texts.splice(i, 1);
+
+  shake = Math.max(0, shake - dt);
+
+  // Passives Einkommen Spieler
+  ambientTimer -= dt;
+  if (ambientTimer <= 0) {
+    ambientTimer = 1.1;
+    const harvs = units.filter(u => u.team === 'p' && u.type === 'harv').length;
+    const refs = buildings.filter(b => b.team === 'p' && b.type === 'refinery').length;
+    credits += harvs * 1.4 + Math.max(0, refs - 1) * 1.1;
+  }
+
+  if (!ownBuilding('hq', 'p') && !ended) finish(false);
+  if (!ownBuilding('hq', 'e') && !ended) finish(true);
+  updateUI();
+}
+
+// === Zeichnen ===
+function drawTerrain() {
+  // Boden
+  const g = ctx.createLinearGradient(0, 0, W, H);
+  g.addColorStop(0, '#3a4a38');
+  g.addColorStop(0.5, '#2a3a30');
+  g.addColorStop(1, '#1e2a28');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, W, H);
+
+  // Raster
+  ctx.strokeStyle = '#ffffff08';
+  ctx.lineWidth = 1;
+  for (let x = 0; x <= W; x += GRID) {
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = 0; y <= H; y += GRID) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // Pfad
+  ctx.beginPath();
+  ctx.moveTo(-30, 440);
+  ctx.bezierCurveTo(300, 380, 500, 520, 800, 430);
+  ctx.bezierCurveTo(1050, 360, 1300, 520, 1630, 420);
+  ctx.lineTo(1630, 510);
+  ctx.bezierCurveTo(1280, 600, 1050, 460, 800, 530);
+  ctx.bezierCurveTo(500, 610, 280, 480, -30, 540);
+  ctx.closePath();
+  ctx.fillStyle = '#222e2a';
+  ctx.fill();
+
+  // Hindernisse
+  for (const o of obstacles) {
+    ctx.fillStyle = '#0006';
+    ctx.beginPath(); ctx.ellipse(o.x + 4, o.y + 8, o.r * 1.2, o.r * 0.6, 0, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#5a6050';
+    ctx.beginPath();
+    ctx.moveTo(o.x - o.r, o.y);
+    ctx.lineTo(o.x - o.r * 0.4, o.y - o.r * 0.8);
+    ctx.lineTo(o.x + o.r * 0.5, o.y - o.r * 0.7);
+    ctx.lineTo(o.x + o.r, o.y + o.r * 0.2);
+    ctx.lineTo(o.x + o.r * 0.2, o.y + o.r * 0.6);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#8a907080';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  // Kristalle
+  for (const c of crystals) {
+    if (c.amount <= 0) continue;
+    const pulse = 0.85 + 0.15 * Math.sin(c.phase * 1.4);
+    const r = c.r * pulse;
+    const glow = ctx.createRadialGradient(c.x, c.y, 1, c.x, c.y, r * 2.2);
+    glow.addColorStop(0, '#b0ff8090');
+    glow.addColorStop(0.4, '#70e07050');
+    glow.addColorStop(1, '#40c05000');
+    ctx.fillStyle = glow;
+    ctx.beginPath(); ctx.arc(c.x, c.y, r * 2.2, 0, TAU); ctx.fill();
+
+    for (let i = 0; i < 6; i++) {
+      const a = i * TAU / 6 + c.phase * 0.06;
+      const rr = r * (0.3 + (i % 2) * 0.1);
+      const h = r * (0.45 + (i % 2) * 0.2);
+      const tipX = c.x + Math.cos(a) * rr;
+      const tipY = c.y + Math.sin(a) * rr - h;
+      ctx.beginPath();
+      ctx.moveTo(c.x + Math.cos(a) * rr * 0.6, c.y + Math.sin(a) * rr * 0.6);
+      ctx.lineTo(tipX - Math.sin(a) * r * 0.1, tipY);
+      ctx.lineTo(tipX + Math.sin(a) * r * 0.1, tipY);
+      ctx.closePath();
+      ctx.fillStyle = i % 2 ? '#c0ff90' : '#60d070';
+      ctx.globalAlpha = 0.85;
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  // Vignette
+  const vig = ctx.createRadialGradient(W * 0.5, H * 0.5, H * 0.2, W * 0.5, H * 0.5, H * 0.8);
+  vig.addColorStop(0, '#0000');
+  vig.addColorStop(1, '#0a101080');
+  ctx.fillStyle = vig;
+  ctx.fillRect(0, 0, W, H);
+}
+
+function hpbar(o, w) {
+  w *= 0.8;
+  const y = o.y - (o.kind === 'building' ? B[o.type].r * 0.8 + 12 : (o.r || 16) * 0.8 + 10);
+  ctx.fillStyle = '#0a1010e0';
+  ctx.fillRect(o.x - w / 2, y, w, 4);
+  const col = o.team === 'p' ? '#90f0a0' : (o.team === 'e' ? '#ff7080' : '#e0c060');
+  ctx.fillStyle = col;
+  ctx.fillRect(o.x - w / 2, y, w * clamp(o.hp / o.max, 0, 1), 4);
+}
+
+function drawBuilding(b) {
+  const r = B[b.type].r * 0.8;
+  const c = teams[b.team];
+  ctx.save();
+  ctx.translate(b.x, b.y);
+
+  // Schatten
+  ctx.fillStyle = '#0007';
+  ctx.beginPath(); ctx.ellipse(3, r * 0.6, r * 1.2, r * 0.45, 0, 0, TAU); ctx.fill();
+
+  if (b.type === 'hq') {
+    ctx.fillStyle = b.team === 'p' ? '#4a6a48' : '#6a3838';
+    ctx.strokeStyle = c.edge;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(-r, -r * 0.3); ctx.lineTo(-r * 0.6, -r * 0.75); ctx.lineTo(0, -r * 0.95);
+    ctx.lineTo(r * 0.7, -r * 0.6); ctx.lineTo(r, r * 0.2); ctx.lineTo(r * 0.4, r * 0.7);
+    ctx.lineTo(-r * 0.7, r * 0.6); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle = c.light;
+    ctx.fillRect(-8, -r * 0.6, 16, 18);
+    ctx.fillStyle = '#e0f0d0';
+    ctx.font = 'bold 9px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText(c.label, 0, 12);
+  } else if (b.type === 'barracks' || b.type === 'factory') {
+    ctx.fillStyle = b.team === 'p' ? '#4a6448' : '#6a3a38';
+    ctx.strokeStyle = c.edge;
+    ctx.lineWidth = 2;
+    ctx.fillRect(-r, -r * 0.5, r * 2, r * 1.1);
+    ctx.strokeRect(-r, -r * 0.5, r * 2, r * 1.1);
+    ctx.fillStyle = '#a0b890';
+    ctx.fillRect(-r * 0.6, -r * 0.15, r * 0.45, r * 0.55);
+    ctx.fillRect(r * 0.15, -r * 0.15, r * 0.45, r * 0.55);
+  } else if (b.type === 'refinery') {
+    ctx.fillStyle = b.team === 'p' ? '#486848' : '#6a3838';
+    ctx.strokeStyle = c.edge;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(-r, -r * 0.45); ctx.lineTo(-r * 0.4, -r * 0.75); ctx.lineTo(r * 0.6, -r * 0.75);
+    ctx.lineTo(r, -r * 0.25); ctx.lineTo(r, r * 0.5); ctx.lineTo(-r, r * 0.5);
+    ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#90ff70';
+    ctx.globalAlpha = 0.8;
+    ctx.beginPath(); ctx.arc(0, 0, r * 0.28, 0, TAU); ctx.fill();
+    ctx.globalAlpha = 1;
+  } else { // turret
+    ctx.fillStyle = b.team === 'p' ? '#506848' : '#6a3838';
+    ctx.strokeStyle = c.edge;
+    ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.arc(0, 0, r, 0, TAU); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#d0d0b0';
+    ctx.fillRect(0, -4, r + 16, 8);
+  }
+
+  if (b.flash > 0) {
+    ctx.globalAlpha = b.flash * 3.5;
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(-r, -r, r * 2, r * 2);
+  }
+  ctx.restore();
+  hpbar(b, b.type === 'hq' ? 70 : 50);
+}
+
+function drawUnit(u) {
+  const r = u.r * 0.75;
+  const c = teams[u.team];
+  const angle = u.angle || 0;
+  ctx.save();
+  ctx.translate(u.x, u.y);
+  ctx.rotate(angle);
+
+  // Schatten
+  ctx.fillStyle = '#0006';
+  ctx.beginPath(); ctx.ellipse(2, r * 0.65, r * 1.2, r * 0.45, 0, 0, TAU); ctx.fill();
+
+  if (u.type === 'harv') {
+    ctx.fillStyle = u.team === 'p' ? '#80a060' : '#a05048';
+    ctx.strokeStyle = c.edge;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(-r, -r * 0.5); ctx.lineTo(r * 0.5, -r * 0.55); ctx.lineTo(r, 0);
+    ctx.lineTo(r * 0.5, r * 0.55); ctx.lineTo(-r * 0.7, r * 0.5); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    if (u.carry) {
+      ctx.fillStyle = '#a0ff60';
+      ctx.globalAlpha = 0.7;
+      ctx.beginPath(); ctx.arc(0, -r * 0.7, 3 + u.carry / 20, 0, TAU); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+  } else if (u.type === 'tank') {
+    ctx.fillStyle = '#1a2218';
+    ctx.fillRect(-r, -r * 0.7, r * 1.9, r * 0.22);
+    ctx.fillRect(-r, r * 0.48, r * 1.9, r * 0.22);
+    ctx.fillStyle = u.team === 'p' ? '#486848' : '#6a3838';
+    ctx.strokeStyle = c.edge;
+    ctx.lineWidth = 1.4;
+    ctx.fillRect(-r * 0.85, -r * 0.55, r * 1.7, r * 1.1);
+    ctx.strokeRect(-r * 0.85, -r * 0.55, r * 1.7, r * 1.1);
+    ctx.strokeStyle = '#d0d0b0';
+    ctx.lineWidth = 3.5;
+    ctx.beginPath(); ctx.moveTo(r * 0.1, 0); ctx.lineTo(r * 1.05, 0); ctx.stroke();
+  } else if (u.type === 'scout') {
+    ctx.fillStyle = u.team === 'p' ? '#70a070' : '#a04848';
+    ctx.strokeStyle = c.edge;
+    ctx.lineWidth = 1.3;
+    ctx.beginPath(); ctx.ellipse(0, 0, r * 0.7, r * 0.45, 0, 0, TAU); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#e0d0a0';
+    ctx.beginPath(); ctx.arc(r * 0.35, -r * 0.15, r * 0.22, 0, TAU); ctx.fill();
+    // Flügel-Andeutung
+    ctx.strokeStyle = c.edge;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(-r * 0.3, 0); ctx.lineTo(-r * 0.9, -r * 0.4); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-r * 0.3, 0); ctx.lineTo(-r * 0.9, r * 0.4); ctx.stroke();
+  } else { // rifle
+    ctx.fillStyle = u.team === 'p' ? '#80a060' : '#a05048';
+    ctx.strokeStyle = c.edge;
+    ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.ellipse(0, 0, r * 0.55, r * 0.45, 0, 0, TAU); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#d0c0a0';
+    ctx.beginPath(); ctx.arc(r * 0.3, -r * 0.2, r * 0.22, 0, TAU); ctx.fill();
+    ctx.strokeStyle = '#222';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(r * 0.15, 0); ctx.lineTo(r * 1.05, -r * 0.1); ctx.stroke();
+  }
+
+  if (u.flash > 0) {
+    ctx.globalAlpha = u.flash * 3.5;
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(0, 0, r + 4, 0, TAU); ctx.fill();
+  }
+  ctx.restore();
+  hpbar(u, u.type === 'tank' ? 38 : 30);
+}
+
+function drawNeutral(n) {
+  ctx.save();
+  ctx.translate(n.x, n.y);
+  ctx.rotate(n.angle || 0);
+  ctx.fillStyle = '#0006';
+  ctx.beginPath(); ctx.ellipse(2, 10, 18, 8, 0, 0, TAU); ctx.fill();
+  // Kristallbestie
+  ctx.fillStyle = '#6a5a30';
+  ctx.strokeStyle = '#c0a060';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(-14, 0); ctx.lineTo(-6, -16); ctx.lineTo(8, -12); ctx.lineTo(14, 4); ctx.lineTo(4, 14); ctx.lineTo(-10, 10);
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#e0c060';
+  ctx.beginPath(); ctx.arc(4, -4, 5, 0, TAU); ctx.fill();
+  if (n.flash > 0) {
+    ctx.globalAlpha = n.flash * 3;
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.arc(0, 0, 18, 0, TAU); ctx.fill();
+  }
+  ctx.restore();
+  hpbar(n, 28);
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+  ctx.save();
+  if (shake > 0) ctx.translate((Math.random() - 0.5) * 5, (Math.random() - 0.5) * 5);
+
+  drawTerrain();
+
+  for (const b of buildings) drawBuilding(b);
+  for (const u of units) drawUnit(u);
+  for (const n of neutrals) drawNeutral(n);
+
+  // Geschosse
+  for (const b of bullets) {
+    if (!b.target) continue;
+    ctx.strokeStyle = b.team === 'p' ? '#c0ff90' : (b.team === 'e' ? '#ff9080' : '#e0c060');
+    ctx.lineWidth = 2.2;
+    ctx.beginPath();
+    ctx.moveTo(b.x, b.y);
+    ctx.lineTo(b.x - (b.target.x - b.x) * 0.05, b.y - (b.target.y - b.y) * 0.05);
+    ctx.stroke();
+    ctx.fillStyle = '#fff8c0';
+    ctx.beginPath(); ctx.arc(b.x, b.y, 2, 0, TAU); ctx.fill();
+  }
+
+  // Partikel
+  for (const p of particles) {
+    ctx.globalAlpha = clamp(p.t / (p.max || 0.8), 0, 1);
+    ctx.fillStyle = p.color;
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.r || 2, 0, TAU); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  // Texte
+  for (const t of texts) {
+    ctx.globalAlpha = clamp(t.t, 0, 1);
+    ctx.fillStyle = t.color;
+    ctx.font = 'bold 12px ui-monospace, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(t.text, t.x, t.y);
+  }
+  ctx.globalAlpha = 1;
+
+  // Bau-Vorschau + Raster-Highlight
+  if (buildMode) {
+    const x = snap(mouse.x), y = snap(mouse.y);
+    const r = B[buildMode].r;
+    const ok = x > r + 20 && y > r + 30 && x < W - r - 20 && y < H - r - 20 &&
+      !buildings.some(b => dist(b, { x, y }) < r + B[b.type].r + 12) &&
+      !units.some(u => dist(u, { x, y }) < r + u.r + 8) &&
+      !crystals.some(c => dist(c, { x, y }) < r + c.r + 6) &&
+      !obstacles.some(o => dist(o, { x, y }) < r + o.r + 8);
+
+    // Rasterzelle
+    ctx.fillStyle = ok ? '#80ff8020' : '#ff606020';
+    ctx.fillRect(x - GRID / 2, y - GRID / 2, GRID, GRID);
+    ctx.strokeStyle = ok ? '#90ff90' : '#ff8080';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 4]);
+    ctx.beginPath(); ctx.arc(x, y, r + 6, 0, TAU); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  ctx.restore();
+}
+
+// Events
+function pos(e) {
+  const r = canvas.getBoundingClientRect();
+  return { x: (e.clientX - r.left) / r.width * W, y: (e.clientY - r.top) / r.height * H };
+}
+
+canvas.addEventListener('pointermove', e => { mouse = pos(e); });
+canvas.addEventListener('pointerdown', e => {
+  if (!started || paused || ended || !buildMode || e.button !== 0) return;
+  mouse = pos(e);
+  placeBuild(mouse.x, mouse.y);
+});
+canvas.addEventListener('contextmenu', e => { if (buildMode) e.preventDefault(); });
+
+$('makeRifle').onclick = () => enqueue('p', 'rifle');
+$('makeScout').onclick = () => enqueue('p', 'scout');
+$('makeTank').onclick = () => enqueue('p', 'tank');
+$('makeHarv').onclick = () => enqueue('p', 'harv');
+$('buildFactory').onclick = () => orderBuild('factory');
+$('buildRefinery').onclick = () => orderBuild('refinery');
+$('buildTurret').onclick = () => orderBuild('turret');
+$('cancelMode').onclick = () => { buildMode = ''; updateUI(); };
+$('startBtn').onclick = startGame;
+$('restartBtn').onclick = () => { reset(); };
+$('pauseBtn').onclick = () => {
+  if (!started || ended) return;
+  paused = !paused;
+  $('pauseBtn').textContent = paused ? '▶ WEITER' : 'Ⅱ PAUSE';
+  $('clockState').textContent = paused ? '— PAUSE' : '— GEFECHT LÄUFT';
+  $('liveState').textContent = paused ? '● PAUSE' : '● IM EINSATZ';
+  last = performance.now();
+  sound(paused ? 240 : 420, 0.05, 'triangle', 0.02, paused ? -60 : 80);
+};
+$('soundBtn').onclick = () => {
+  soundOn = !soundOn;
+  $('soundBtn').textContent = soundOn ? '♫ SOUND AN' : '♫ SOUND AUS';
+  if (soundOn) {
+    try {
+      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+      if (audio.state === 'suspended') audio.resume();
+    } catch (e) {}
+    sound(500, 0.1, 'triangle', 0.025, 150);
+  }
+};
+
+// Level-Auswahl
+document.querySelectorAll('.level-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    currentLevel = +btn.dataset.level;
+    levelCfg = LEVELS[currentLevel];
+    $('levelLabel').textContent = currentLevel;
+    $('diffLabel').textContent = levelCfg.difficulty;
+    reset();
+  };
+});
+
+function loop(now) {
+  const dt = Math.min((now - last) / 1000 || 0, 0.04);
+  last = now;
+  if (started && !paused && !ended) update(dt);
+  draw();
+
+  const m = Math.floor(gameTime / 60).toString().padStart(2, '0');
+  const s = Math.floor(gameTime % 60).toString().padStart(2, '0');
+  $('timer').textContent = m + ':' + s;
+  if (started && !ended && !paused) $('clockState').textContent = '— GEFECHT LÄUFT';
+
+  // Progress bars
+  const rq = playerQueue.find(q => q.type === 'rifle');
+  const sq = playerQueue.find(q => q.type === 'scout');
+  const tq = playerQueue.find(q => q.type === 'tank');
+  const hq = playerQueue.find(q => q.type === 'harv');
+  $('rifleBar').style.width = rq ? clamp((1 - rq.t / U.rifle.time) * 100, 0, 100) + '%' : '0%';
+  $('scoutBar').style.width = sq ? clamp((1 - sq.t / U.scout.time) * 100, 0, 100) + '%' : '0%';
+  $('tankBar').style.width = tq ? clamp((1 - tq.t / U.tank.time) * 100, 0, 100) + '%' : '0%';
+  $('harvBar').style.width = hq ? clamp((1 - hq.t / U.harv.time) * 100, 0, 100) + '%' : '0%';
+
+  requestAnimationFrame(loop);
+}
+
+reset();
+requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
