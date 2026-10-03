@@ -126,23 +126,32 @@ $("tasks").innerHTML=tasks.map(t=>`<div class="task${t[2]?" act":""}"><span><i c
 $("slog").innerHTML=[["14:27","Agent 1 online"],["14:27","Agent 2 online"],["14:28","Systeme nominal"],["14:28","Verbindung stabil"],["14:28","Deck B2 betreten"],["14:28","Bereit für Befehle"]].map(l=>`<p><s>${l[0]}</s>${l[1]}</p>`).join("");
 setInterval(()=>{$("clock").textContent=new Date().toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"})},10000);
 
-function setup(n){
- const input=$("in"+n),btn=$("b"+n),log=$("log"+n);
- const add=(who,text)=>{const p=document.createElement("p"),b=document.createElement("b");b.textContent=who+": ";p.append(b,text);log.appendChild(p);log.scrollTop=log.scrollHeight};
- async function send(){
-  const message=input.value.trim();if(!message)return;
-  add("User",message);input.value="";btn.disabled=true;
-  try{
-   const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message,agent:n})});
-   const d=await r.json();if(!r.ok)throw new Error(d.error||"Serverfehler");
-   add("Agent "+n,d.reply);
-  }catch(e){add("Agent "+n,"Fehler: "+e.message)}
-  btn.disabled=false;
- }
- btn.addEventListener("click",send);
- input.addEventListener("keydown",e=>{if(e.key==="Enter")send()});
+const logs={1:$("log1"),2:$("log2")};
+function add(n,who,text){const p=document.createElement("p"),b=document.createElement("b");b.textContent=who+": ";p.append(b,text);logs[n].appendChild(p);logs[n].scrollTop=logs[n].scrollHeight}
+function busy(v){["b1","b2"].forEach(i=>$(i).disabled=v)}
+async function post(url,message){
+ const r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message})});
+ const d=await r.json();if(!r.ok)throw new Error(d.error||"Serverfehler");return d;
 }
-setup(1);setup(2);
+// Agent 1: server.js antwortet mit Agent 1 und leitet die Antwort automatisch an Agent 2 weiter
+async function send1(){
+ const m=$("in1").value.trim();if(!m)return;
+ add(1,"User",m);$("in1").value="";busy(true);
+ try{const d=await post("/api/chat",m);add(1,"Agent 1",d.agent1);add(2,"Agent 2 (auf Agent 1)",d.agent2)}
+ catch(e){add(1,"Fehler",e.message)}
+ busy(false);
+}
+// Agent 2: ueber server.js weitergeleitet (Browser braucht nur Port 3000)
+async function send2(){
+ const m=$("in2").value.trim();if(!m)return;
+ add(2,"User",m);$("in2").value="";busy(true);
+ try{const d=await post("/api/agent2",m);add(2,"Agent 2",d.response)}
+ catch(e){add(2,"Fehler",e.message)}
+ busy(false);
+}
+$("b1").addEventListener("click",send1);$("b2").addEventListener("click",send2);
+$("in1").addEventListener("keydown",e=>{if(e.key==="Enter")send1()});
+$("in2").addEventListener("keydown",e=>{if(e.key==="Enter")send2()});
 </script>
 </body>
 </html>

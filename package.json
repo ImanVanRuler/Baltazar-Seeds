@@ -1,18 +1,19 @@
 {
-  "name": "ki-agent",
+  "name": "ki-agenten",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Zwei KI-Agenten mit Space-Station-Oberfläche (Groq)",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently \"node server.js\" \"node agent2.js\"",
+    "server": "node server.js",
+    "agent2": "node agent2.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-"dependencies": {
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^9.0.0",
     "cors": "^2.8.5",
-    "dotenv": "^18.0.4",
-    "express": "^5.2.1",
-    "groq-sdk": "^1.6.0"
-}
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "groq-sdk": "^0.7.0"
+  }
 }
